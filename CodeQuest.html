@@ -7845,11 +7845,7 @@ const Game = {
     const P = Progress.P;
     const cid = lv.course || 'js';
     if (P.course !== cid) { P.course = cid; Progress.save(); }
-    if (mode === 'level' && !lv.course && !P.seen['w' + lv.world]) {
-      P.seen['w' + lv.world] = 1; Progress.save();
-      Scene.play(lv.world, () => this.setup(lv, mode));
-      return;
-    }
+    // სამყაროს სცენა ავტომატურად აღარ ჩნდება — ნახვა შეიძლება სამყაროს პანელის ღილაკით „სცენა“
     this.setup(lv, mode);
   },
   openSandbox(code) {

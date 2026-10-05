@@ -79,6 +79,7 @@ select{background:var(--panel);border:1px solid var(--border);border-radius:8px;
 .topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--border);flex-wrap:wrap}
 .topbar h2{margin:0;font-size:1.1rem;flex:1;min-width:140px}
 .page{max-width:960px;margin:0 auto;padding:18px 16px 60px}
+@media (max-width:520px){.topbar .tl{display:none}}
 
 /* ---------- მთავარი მენიუ ---------- */
 #scr-menu.active{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:center;padding:24px 16px}
@@ -109,52 +110,106 @@ select{background:var(--panel);border:1px solid var(--border);border-radius:8px;
 .wday.today i{box-shadow:0 0 0 2px var(--panel),0 0 0 3px var(--accent)}
 
 /* ---------- სამყაროების რუკა ---------- */
+#scr-map.active{background:linear-gradient(180deg,#e2f1ff 0%,#eaf7e4 45%,#f5f0e3 100%)}
+html[data-theme="dark"] #scr-map.active{background:linear-gradient(180deg,#172231 0%,#18211b 50%,#16191d 100%)}
+#scr-map .topbar{background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(6px)}
 .map-wrap{position:relative;max-width:820px;margin:0 auto;padding:10px 16px 60px}
 .map-svg{position:absolute;left:0;top:0;pointer-events:none;overflow:visible}
-.island{position:absolute;width:min(220px,46%);transform:translateX(-50%)}
+.map-road{stroke:color-mix(in srgb,#c9a96e 55%,var(--panel));stroke-width:14}
+.map-road-line{stroke:var(--panel);stroke-width:3;stroke-dasharray:2 12;opacity:.9}
+.island{position:absolute;width:min(230px,48%);transform:translateX(-50%)}
 .island-btn{width:100%;border:none;background:none;padding:0;text-align:center}
-.island-blob{height:86px;border-radius:14px;background:color-mix(in srgb,var(--ia) 14%,var(--panel));border:1px solid color-mix(in srgb,var(--ia) 45%,var(--border));display:grid;place-items:center;font-size:2.1rem;transition:border-color .15s}
-.island-btn:hover .island-blob,.island-btn:focus-visible .island-blob{border-color:var(--accent)}
-.island.locked .island-blob{filter:grayscale(1);opacity:.5}
-.island-name{font-weight:700;margin-top:8px}
+.island-blob{position:relative;width:94px;height:94px;margin:0 auto;border-radius:50%;display:grid;place-items:center;font-size:2.6rem;
+  background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--ia) 14%,#fff),color-mix(in srgb,var(--ia) 42%,#fff));
+  border:4px solid #fff;box-shadow:0 0 0 3px var(--ia),0 8px 0 3px color-mix(in srgb,var(--ia) 70%,#000),0 14px 24px rgba(0,0,0,.16);transition:transform .15s}
+html[data-theme="dark"] .island-blob{border-color:var(--panel);background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--ia) 45%,#2a3038),color-mix(in srgb,var(--ia) 70%,#1e2227))}
+.island-btn:hover .island-blob,.island-btn:focus-visible .island-blob{transform:translateY(-3px) scale(1.04)}
+.island.locked .island-blob{filter:grayscale(1) contrast(.8);font-size:2rem}
+.island.locked .island-name,.island.locked .island-sub,.island.locked .dots{opacity:.6}
+.island.current .island-blob::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:3px solid var(--ia);animation:ring 1.8s ease-out infinite;pointer-events:none}
+@keyframes ring{0%{transform:scale(.85);opacity:.8}100%{transform:scale(1.25);opacity:0}}
+.island-blob .ok{position:absolute;right:-6px;bottom:-4px;width:28px;height:28px;border-radius:50%;background:var(--ok);color:#fff;font-size:.95rem;font-weight:800;display:grid;place-items:center;border:3px solid #fff}
+.island-name{font-weight:800;margin-top:14px;font-size:1.02rem}
 .island-sub{font-size:.82rem;color:var(--muted)}
-.here{display:inline-block;margin-top:2px;font-size:.75rem;font-weight:700;color:var(--accent)}
-.dots{display:flex;gap:5px;justify-content:center;margin-top:5px}
-.dot{width:10px;height:10px;border-radius:3px;background:var(--border)}
-.dot.done{background:var(--ok)}
-.dot.boss{border-radius:50%}
+.here{display:inline-flex;align-items:center;gap:5px;margin-top:6px;padding:2px 12px 2px 4px;border-radius:999px;background:var(--accent);color:#fff;font-size:.78rem;font-weight:700;box-shadow:0 3px 0 color-mix(in srgb,var(--accent) 60%,#000)}
+.here .bitsvg{width:18px;height:24px;animation:idle 1.6s ease-in-out infinite}
+.dots{display:flex;gap:5px;justify-content:center;margin-top:6px}
+.proj-chip{display:inline-block;margin:6px 0 0 4px;padding:1px 10px;border-radius:999px;border:2px dashed var(--ia);background:var(--panel);font-size:.75rem;font-weight:700}
+.dot{width:12px;height:12px;border-radius:50%;background:color-mix(in srgb,var(--ia,var(--ok)) 16%,var(--border))}
+.dot.done{background:var(--ia,var(--ok))}
+.dot.boss{border-radius:3px;transform:rotate(45deg) scale(.86)}
+.wp-head{display:flex;gap:16px;align-items:center;margin:4px 0 14px}
+.wp-head h2{margin:0}
+.wp-head p{margin:.1em 0 0}
+.island-blob.sm{width:64px;height:64px;font-size:1.8rem;margin:3px;flex:none;box-shadow:0 0 0 3px var(--ia),0 5px 0 3px color-mix(in srgb,var(--ia) 70%,#000)}
 .lvl-list{display:grid;gap:8px;margin-top:10px}
-.lvl-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:var(--panel);text-align:left;width:100%}
-.lvl-item:hover:not(:disabled){border-color:var(--accent)}
-.lvl-num{width:32px;height:32px;flex:none;border-radius:8px;display:grid;place-items:center;font-weight:800;background:var(--wa);color:#fff}
+.lvl-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;border:1px solid var(--border);background:var(--panel);text-align:left;width:100%;box-shadow:0 3px 0 var(--border);transition:transform .12s,border-color .12s}
+.lvl-item:hover:not(:disabled){border-color:var(--wa);transform:translateY(-1px)}
+.lvl-item.done{background:color-mix(in srgb,var(--wa) 6%,var(--panel))}
+.lvl-item.next{border:2px solid var(--wa)}
+.lvl-num{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--wa);color:#fff;box-shadow:0 3px 0 color-mix(in srgb,var(--wa) 62%,#000)}
+.lvl-item:disabled .lvl-num{background:var(--border);box-shadow:none;color:var(--muted)}
 .lvl-item .t{flex:1;min-width:0}
 .lvl-item .t b{display:block}
 .lvl-item .t small{color:var(--muted)}
 
 /* ---------- თამაშის ეკრანი ---------- */
-.gbar{display:flex;align-items:center;gap:10px;padding:8px 16px;background:var(--panel);border-bottom:1px solid var(--border);border-top:3px solid var(--wa);flex-wrap:wrap;position:sticky;top:0;z-index:15}
-.gtitle{flex:1;min-width:170px;font-weight:700;font-size:1.02rem}
+/* სამყაროს თემა: --t1/--t2 უჯრები, --tw კედელი, --wic კედლის ნახატი, --edge ჩარჩო, --sky ფონი, --d1/--d2 დეკორაცია (JS აყენებს) */
+#scr-game{--t1:#d4efb8;--t2:#c7e8a8;--tw:#8fc46e;--wic:"🌳";--edge:#5f9e45;--sky:#dff1ff;--d1:"🌼";--d2:"🦋";
+  --c1:var(--t1);--c2:var(--t2);--cw:var(--tw);--sk:var(--sky)}
+html[data-theme="dark"] #scr-game{--c1:color-mix(in srgb,var(--t1) 24%,#1b1f24);--c2:color-mix(in srgb,var(--t2) 19%,#1b1f24);--cw:color-mix(in srgb,var(--tw) 50%,#1b1f24);--sk:color-mix(in srgb,var(--sky) 9%,#16191d)}
+.gbar{display:flex;align-items:center;gap:10px;padding:8px 16px;background:linear-gradient(100deg,color-mix(in srgb,var(--wa) 16%,var(--panel)),var(--panel) 65%);border-bottom:3px solid var(--wa);flex-wrap:wrap;position:sticky;top:0;z-index:15}
+.gicon{width:42px;height:42px;flex:none;border-radius:13px;display:grid;place-items:center;font-size:1.45rem;background:var(--panel);border:2px solid color-mix(in srgb,var(--wa) 55%,var(--border));box-shadow:0 3px 0 color-mix(in srgb,var(--wa) 30%,var(--border))}
+.gtitle{flex:1;min-width:170px;font-weight:800;font-size:1.08rem;line-height:1.3}
 .gtitle small{display:block;font-weight:600;font-size:.78rem;color:var(--muted)}
+.qpips{display:flex;gap:4px;margin-top:4px}
+.qpips i{width:16px;height:6px;border-radius:3px;background:color-mix(in srgb,var(--wa) 16%,var(--border))}
+.qpips i.done{background:var(--wa)}
+.qpips i.cur{background:var(--panel);box-shadow:inset 0 0 0 2px var(--wa);width:24px}
 .gmeta{display:flex;gap:6px;flex-wrap:wrap}
+.gmeta .chip{background:var(--panel)}
+.starchip .stars{font-size:.8rem;letter-spacing:0}
 .gmain{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;padding:14px 16px 40px;max-width:1500px;margin:0 auto}
 .gcol{display:flex;flex-direction:column;gap:12px;min-width:0}
-@media (max-width:900px){.gmain{grid-template-columns:1fr}.gcol.right{order:-1}}
-@media (min-width:901px){.gcol.right{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 72px);overflow:auto;padding-bottom:6px}}
+/* ტელეფონზე: მისია → დაფა → კოდი → ღილაკები */
+@media (max-width:900px){
+  .gmain{display:flex;flex-direction:column;gap:12px}
+  .gcol{display:contents}
+  .mission{order:1}#g-learn{order:1}#g-tests{order:2}#board-wrap{order:3}#g-app{order:3}.board-bar{order:4}#g-web{order:5}#g-sandbox{order:6}#g-html-box{order:7}#g-data{order:8}
+  .editor-card{order:9}#g-palette{order:10}.controls{order:11}#g-checks{order:12}#g-console{order:13}#g-vars{order:14}
+}
+@media (min-width:901px){.gcol.right{position:sticky;top:72px;align-self:start;max-height:calc(100vh - 80px);overflow:auto;padding-bottom:10px}}
 .prof{display:flex;gap:10px;align-items:flex-start}
 .prof .avatar{width:42px;height:42px;font-size:1.5rem}
 .prof .bubble{max-width:none;flex:1}
 .prof .bubble.bad{border-color:color-mix(in srgb,var(--bad) 55%,var(--border));background:color-mix(in srgb,var(--bad) 6%,var(--panel))}
 .prof .bubble.good{border-color:color-mix(in srgb,var(--ok) 55%,var(--border));background:color-mix(in srgb,var(--ok) 6%,var(--panel))}
+/* მისიის ბარათი: პერსონაჟი + დავალება + „როგორ?“ */
+.mission{padding:0;overflow:hidden;border:2px solid color-mix(in srgb,var(--wa) 32%,var(--border));border-radius:16px}
+.mission .prof{padding:12px 14px;background:color-mix(in srgb,var(--wa) 9%,var(--panel));align-items:center}
+.mission .prof .avatar{width:48px;height:48px;border-radius:50%;font-size:1.65rem;background:var(--panel);border:2px solid color-mix(in srgb,var(--wa) 45%,var(--border))}
+.mission .bubble{position:relative;background:var(--panel);border-radius:14px;padding:9px 13px}
+.mission .bubble::before{content:"";position:absolute;left:-7px;top:50%;margin-top:-6px;width:11px;height:11px;background:inherit;border:solid;border-color:inherit;border-width:0 0 1px 1px;transform:rotate(45deg)}
+.mission .task{padding:12px 16px 14px}
+.task-h{font-size:.78rem;font-weight:800;letter-spacing:.03em;color:color-mix(in srgb,var(--wa) 70%,var(--text));margin-bottom:2px}
+#g-task{font-size:1.05rem;line-height:1.55}
+.goals{margin:.6em 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.mission .goals .chip{background:color-mix(in srgb,var(--wa) 8%,var(--panel));border-color:color-mix(in srgb,var(--wa) 30%,var(--border))}
+.tip{border-top:1px dashed var(--border);padding:0 16px}
+.tip[open]{padding-bottom:14px}
+.tip>summary{cursor:pointer;font-weight:700;list-style:none;display:flex;align-items:center;gap:.4em;padding:10px 0;font-size:.95rem}
+.tip>summary::-webkit-details-marker{display:none}
+.tip>summary::after{content:"▾";margin-left:auto;color:var(--muted)}
+.tip:not([open])>summary::after{content:"▸"}
+.tip .theory-text{margin:0 0 .4em;font-size:.95rem}
 details.card>summary{cursor:pointer;font-weight:700;list-style:none;display:flex;align-items:center;gap:.4em}
 details.card>summary::-webkit-details-marker{display:none}
 details.card>summary::after{content:"▾";margin-left:auto;color:var(--muted)}
 details.card:not([open])>summary::after{content:"▸"}
 .theory-text{margin:.5em 0}
-pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:var(--mono);font-size:.9rem;white-space:pre-wrap;overflow:auto}
-.task h3{margin:0 0 .3em;font-size:1rem}
-.goals{margin:.5em 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
-.editor-card{padding:0;overflow:hidden}
-.editor-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 10px;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--muted);flex-wrap:wrap}
+pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-family:var(--mono);font-size:.9rem;white-space:pre-wrap;overflow:auto}
+.editor-card{padding:0;overflow:hidden;border-radius:14px}
+.editor-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 10px 5px 14px;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--muted);flex-wrap:wrap;font-weight:600}
 #editor .CodeMirror{height:auto;font-family:var(--mono);font-size:var(--fs);background:var(--code-bg);color:var(--code-text);line-height:1.55}
 #editor .CodeMirror-scroll{min-height:200px;max-height:460px}
 .cm-s-cq .CodeMirror-gutters{background:var(--panel2);border-right:1px solid var(--border)}
@@ -185,41 +240,65 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .ta-gutter .e{color:var(--bad);font-weight:700}
 .ta-gutter .r{color:var(--accent);font-weight:700}
 .ta-wrap textarea{flex:1;border:0;outline:0;resize:none;background:transparent;color:var(--code-text);font:inherit;line-height:inherit;padding:8px;white-space:pre;overflow:hidden;min-height:200px;tab-size:2}
-.controls{display:flex;flex-wrap:wrap;gap:8px}
-.controls .btn{flex:1 1 auto}
-.palette{display:flex;flex-wrap:wrap;gap:6px}
-.palette button{font-family:var(--mono);font-size:.8rem;padding:.3em .6em;border-radius:8px;border:1px solid var(--border);background:var(--panel)}
-.palette button:hover{border-color:var(--accent)}
+/* ღილაკები: დიდი მწვანე „გაშვება“ + პატარა ხელსაწყოები */
+.controls{display:flex;gap:8px}
+.controls .btn{flex:1 1 0;min-width:0}
+.btn.run{flex:2.2 1 0;font-size:1.08rem;font-weight:800;border-radius:14px;padding:.7em 1em;background:#1f9d55;border-color:#1f9d55;color:#fff;box-shadow:0 4px 0 #15723d;transition:transform .08s,box-shadow .08s,background .15s}
+.btn.run:hover:not(:disabled){background:#1b8c4b;border-color:#1b8c4b}
+.btn.run:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 #15723d}
+.btn.tool{flex-direction:column;gap:0;font-size:.74rem;padding:.35em .2em;border-radius:14px;box-shadow:0 3px 0 var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn.tool .ic{font-size:1.15rem;line-height:1.25}
+.btn.tool:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 var(--border)}
+@media (max-width:520px){.controls{flex-wrap:wrap}.btn.run{flex:1 1 100%}}
+.palette{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.palette button{font-family:var(--mono);font-size:.8rem;padding:.32em .7em;border-radius:999px;border:1px solid color-mix(in srgb,var(--wa) 30%,var(--border));background:var(--panel)}
+.palette button:hover{border-color:var(--wa);background:color-mix(in srgb,var(--wa) 8%,var(--panel))}
 .palette .lbl{font-size:.78rem;color:var(--muted);align-self:center;margin-right:2px}
-/* დამწყებთათვის: დიდი ბრძანების ღილაკები */
-.palette .cmd-big{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:86px;padding:8px 10px;border-radius:10px;font-family:var(--font);font-size:.92rem;font-weight:700}
-.palette .cmd-big .ic{font-size:1.25rem;line-height:1.1}
-.palette .cmd-big code{font-size:.72rem;color:var(--muted);font-weight:400}
-.palette .cmd-big.undo{font-weight:600;color:var(--muted)}
-.palette-help{width:100%;font-size:.8rem;color:var(--muted)}
-.console{background:#1b1f24;color:#d6dbe0;font-family:var(--mono);font-size:.86rem;border-radius:10px;padding:10px 12px;min-height:90px;max-height:220px;overflow:auto;border:1px solid var(--border)}
+/* „შენით“: სიმბოლოების კლავიატურა (ტელეფონზე ფრჩხილების აკრეფა ძნელია) და ბრძანებების სია */
+.keys{display:flex;flex-wrap:wrap;gap:5px;width:100%}
+.key{min-width:38px;height:38px;padding:0 9px;border-radius:10px;border:1px solid var(--border);background:var(--panel);font:600 1rem var(--mono);box-shadow:0 3px 0 var(--border);transition:transform .06s,box-shadow .06s}
+.key:active{transform:translateY(2px);box-shadow:0 1px 0 var(--border)}
+.key:hover{border-color:var(--wa)}
+@media (max-width:520px){.key{flex:1 0 34px;min-width:34px;max-width:56px;padding:0 4px}}
+.cmd-ref{width:100%;font-size:.82rem;color:var(--muted)}
+.cmd-ref summary{cursor:pointer;font-weight:600}
+.cmd-ref code{display:inline-block;margin:3px 3px 0 0;padding:1px 7px;border-radius:6px;background:var(--panel2);border:1px solid var(--border);color:var(--text);font-size:.78rem}
+.console{background:#1b1f24;color:#d6dbe0;font-family:var(--mono);font-size:.86rem;border-radius:14px;padding:10px 14px;min-height:70px;max-height:220px;overflow:auto;border:1px solid var(--border)}
 .console .ln{white-space:pre-wrap;word-break:break-word;padding:1px 0}
 .console .err{color:#ff9b9b}.console .warn{color:#f2c46d}.console .okc{color:#8fd9a8}.console .sys{color:#9aa8b8}
 .console .tag{opacity:.55;font-size:.78em;margin-right:.6em}
 .tests{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .tests .btn.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--panel))}
-.board-wrap{display:flex;justify-content:center;align-items:center;padding:14px;border-radius:var(--radius);border:1px solid var(--border);min-height:240px;position:relative;overflow:hidden;background:color-mix(in srgb,var(--wa) 7%,var(--panel2))}
-#board{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--cell);touch-action:manipulation}
+.board-wrap{display:flex;justify-content:center;align-items:center;padding:18px 14px 22px;border-radius:18px;border:1px solid color-mix(in srgb,var(--edge) 22%,var(--border));min-height:240px;position:relative;overflow:hidden;background:linear-gradient(180deg,var(--sk),color-mix(in srgb,var(--sk) 30%,var(--panel)))}
+.board-wrap::before,.board-wrap::after{position:absolute;font-size:1.6rem;line-height:1;opacity:.6;pointer-events:none}
+.board-wrap::before{content:var(--d1);left:10px;bottom:8px}
+.board-wrap.tight::before,.board-wrap.tight::after{display:none}
+.demo-tag{position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:3;padding:3px 12px;border-radius:999px;background:#1b1f24;color:#fff;font-size:.8rem;font-weight:700;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.board-wrap::after{content:var(--d2);right:12px;top:8px}
+#board{position:relative;z-index:1;border-radius:14px;overflow:hidden;border:4px solid var(--edge);background:var(--c1);touch-action:manipulation;box-shadow:0 5px 0 color-mix(in srgb,var(--edge) 72%,#000),0 14px 26px rgba(15,35,20,.16)}
 .cellgrid{display:grid;grid-template-columns:repeat(var(--cols),var(--cell));grid-template-rows:repeat(var(--rows),var(--cell))}
-.cell{position:relative;display:flex;align-items:center;justify-content:center;font-size:calc(var(--cell) * .54);line-height:1;user-select:none}
-.cell.alt{background:var(--cell2)}
-.cell.wall{background:var(--wall)}
+.cell{position:relative;display:flex;align-items:center;justify-content:center;font-size:calc(var(--cell) * .54);line-height:1;user-select:none;background:var(--c1)}
+.cell.alt{background:var(--c2)}
+.cell.wall{background:var(--cw);box-shadow:inset 0 -3px 0 rgba(0,0,0,.13)}
+.cell.wall::before{content:var(--wic);font-size:.86em;filter:drop-shadow(0 2px 1px rgba(0,0,0,.2))}
 .cell.edit{cursor:crosshair}
 .cell.edit:hover{outline:2px dashed var(--accent);outline-offset:-3px}
 .cell .it{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
 .cell .it.small{inset:auto 1px 1px auto;font-size:.48em}
 .cell .it.tl{inset:1px auto auto 1px;font-size:.45em}
-.gemw{display:inline-block}
+.gemw{display:inline-block;animation:gem 2.4s ease-in-out infinite;filter:drop-shadow(0 0 5px rgba(110,190,255,.75))}
+@keyframes gem{50%{transform:translateY(-7%) scale(1.07)}}
+.it .flag{display:inline-block;transform-origin:22% 92%;animation:wave 2.2s ease-in-out infinite}
+@keyframes wave{50%{transform:rotate(-9deg)}}
+.it .bob{display:inline-block;animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8%)}}
+.it .spin{display:inline-block;animation:spin 5s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .c-red{filter:hue-rotate(150deg) saturate(1.4)}.c-green{filter:hue-rotate(-90deg) saturate(1.3)}.c-yellow{filter:hue-rotate(200deg) saturate(1.8)}.c-purple{filter:hue-rotate(50deg) saturate(1.3)}
 .keydot{position:absolute;bottom:3px;right:3px;width:30%;height:30%;border-radius:50%;border:2px solid #fff}
 .cell.door{box-shadow:inset 0 0 0 2px var(--dcol,#b07a3a)}
 .cell.door.open .it{opacity:.3;transition:opacity .3s}
-.cell.trap{background:color-mix(in srgb,var(--bad) 12%,var(--cell))}
+.cell.trap{background:color-mix(in srgb,var(--bad) 14%,var(--c1))}
 .cell.light-green{box-shadow:inset 0 0 0 3px #2b8a3e}
 .cell.light-red{box-shadow:inset 0 0 0 3px #c92a2a}
 .cell.flash{animation:flash .6s}
@@ -228,7 +307,9 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 @keyframes poof{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.35)}}
 .sprite{position:absolute;left:0;top:0;width:var(--cell);height:var(--cell);transition:transform var(--anim) ease-in-out;z-index:3;pointer-events:none}
 .sprite .inner{width:100%;height:100%;position:relative}
-.sprite .bitsvg{width:84%;height:84%;margin:8%;display:block;overflow:visible}
+.sprite .bitsvg{position:relative;width:84%;height:84%;margin:8%;display:block;overflow:visible;animation:idle 2.6s ease-in-out infinite}
+@keyframes idle{50%{transform:translateY(-4%)}}
+.sprite .inner::before{content:"";position:absolute;left:24%;right:24%;bottom:5%;height:10%;border-radius:50%;background:rgba(0,0,0,.22)}
 .sprite .arrow{position:absolute;inset:0;transition:transform var(--anim) ease-in-out}
 .sprite .arrow::after{content:"";position:absolute;right:-2px;top:50%;margin-top:-5px;border:5px solid transparent;border-left:8px solid var(--accent)}
 .sprite.clone{filter:hue-rotate(160deg) saturate(.7);opacity:.75}
@@ -238,6 +319,10 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .sprite.noanim,.sprite.noanim .arrow,.sprite.noanim .eyes{transition:none!important}
 .sprite.bump .inner{animation:shake .35s}
 @keyframes shake{0%,100%{transform:translateX(0)}30%{transform:translateX(-3px)}60%{transform:translateX(3px)}}
+.sprite.happy .inner{animation:hop .5s ease-out 2}
+@keyframes hop{0%,100%{transform:translateY(0)}45%{transform:translateY(-24%)}}
+.sprite.sad .inner{animation:sad .9s}
+@keyframes sad{25%,75%{transform:rotate(-9deg) translateY(4%)}}
 .bars{display:flex;align-items:flex-end;gap:8px;height:240px;padding:16px 16px 30px;min-width:min(420px,80vw)}
 .bar{flex:1;min-width:26px;background:var(--wa);border-radius:6px 6px 2px 2px;display:flex;align-items:flex-start;justify-content:center;color:#fff;font-weight:700;padding-top:4px;transition:height var(--anim);position:relative}
 .bar.sw{outline:2px solid var(--warn);outline-offset:2px}
@@ -250,7 +335,8 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .ruler-lbl{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted)}
 .board-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between}
 .speed{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted);flex-wrap:wrap}
-.speed input{accent-color:var(--accent)}
+.speed input{accent-color:var(--wa)}
+.speed>span{font-size:1.1rem}
 .status{display:flex;gap:6px;flex-wrap:wrap}
 .vars table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.85rem}
 .vars td{padding:3px 6px;border-bottom:1px dashed var(--border);vertical-align:top;word-break:break-word}
@@ -285,6 +371,89 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .toast small{color:var(--muted)}
 @keyframes fadeout{to{opacity:0}}
 .big-stars{font-size:2rem;text-align:center;letter-spacing:6px}
+/* სწავლის ნაბიჯები: 👀 ნახე → ✍️ გაიმეორე → 🚀 შენით */
+.steps{display:flex;gap:4px;padding:8px 10px 0;background:color-mix(in srgb,var(--wa) 9%,var(--panel))}
+.steps button{flex:1;min-width:0;border:0;border-radius:12px 12px 0 0;padding:7px 4px;background:transparent;font-weight:700;font-size:.86rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.steps button b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--border);color:var(--panel);font-size:.72rem;margin-right:3px}
+.steps button.done b{background:var(--ok)}
+.steps button.on{background:var(--panel);color:var(--text)}
+.steps button.on b{background:var(--wa)}
+.steps button:disabled{opacity:.45}
+.steps button i{font-style:normal}
+@media (max-width:520px){.steps button i{display:none}}
+.learn{border:2px solid color-mix(in srgb,var(--wa) 32%,var(--border));border-radius:16px;display:flex;flex-direction:column;gap:10px}
+.learn-h{font-size:1.05rem}
+.learn-pts{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.learn-pts li{position:relative;padding:7px 12px 7px 34px;border-radius:12px;background:color-mix(in srgb,var(--wa) 7%,var(--panel));line-height:1.5;font-size:.95rem}
+.learn-pts li::before{content:"💡";position:absolute;left:9px;top:7px;font-size:.9rem}
+.learn-pts li.tip::before{content:"👉"}
+.demo{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#1b1f24}
+.demo-bar{display:flex;justify-content:space-between;align-items:center;padding:4px 6px 4px 12px;background:#262b31;color:#aeb6bf;font-size:.8rem}
+.demo-bar .btn{color:#d6dbe0}
+.demo-code,.typer-ghost{margin:0;padding:12px 14px;font:var(--fs)/1.6 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;color:#e6e9ec;min-height:60px}
+.hl-c{color:#8b949e;font-style:italic}.hl-s{color:#a5d6a7}.hl-n{color:#f5b37a}.hl-k{color:#c9a2ff;font-weight:600}.hl-f{color:#8ab4f8}.hl-t{color:#ff8fa3}.hl-a{color:#ffd580}
+.tw-cur{display:inline-block;width:2px;height:1.1em;background:#3ddc97;vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.demo-out{border-top:1px dashed #3a4048;padding:8px 14px;font:.9rem/1.5 var(--mono);color:#8fd9a8;white-space:pre-wrap}
+.demo-out b{display:block;color:#aeb6bf;font:600 .78rem var(--font);margin-bottom:2px}
+.demo-web{display:block;width:100%;height:180px;border:0;border-top:1px solid #3a4048;background:#fff}
+.typer{position:relative;border-radius:14px;background:#1b1f24;border:2px solid #3a4048;cursor:text}
+.typer.focus{border-color:var(--wa);box-shadow:0 0 0 3px color-mix(in srgb,var(--wa) 30%,transparent)}
+.typer-ghost .g{color:#5c6672}
+.typer-ghost .ok{color:#7ee2a8}
+.typer-ghost .auto{color:#8b949e}
+.typer-ghost .bad{background:#ff5c5c;color:#fff;border-radius:3px}
+.typer-ghost .cur{box-shadow:inset 0 -3px 0 #ffd43b;color:#fff;background:rgba(255,212,59,.15);border-radius:2px;animation:blink 1.1s steps(1) infinite}
+.typer-ghost .nl::after{content:"↵";opacity:.55}
+.typer-in{position:absolute;inset:0;width:100%;height:100%;opacity:0;resize:none;border:0;font-size:16px;cursor:text}
+.typer-bar{display:flex;align-items:center;gap:10px}
+.typer-bar .progress{flex:1}
+.typer-bar .progress>div{background:var(--ok)}
+.combo{font-weight:800;min-width:64px;text-align:right;color:var(--flame)}
+.combo.pop{animation:pop .3s}
+.typer-stats{text-align:center;padding:10px;border-radius:12px;background:color-mix(in srgb,var(--ok) 10%,var(--panel));border:1px solid color-mix(in srgb,var(--ok) 35%,var(--border));font-weight:600}
+.typer-stats big{display:block;font-size:1.15rem;margin-bottom:2px}
+.learn-actions{display:flex}
+.learn-actions .btn{flex:1}
+/* რეალური პროექტი: ტელეფონის აპი */
+.app{display:flex;justify-content:center;padding:6px 0}
+.phone{width:min(340px,100%);border-radius:34px;padding:12px;background:#1b1f24;box-shadow:0 0 0 2px #3a4048,0 18px 40px rgba(0,0,0,.25)}
+.phone-top{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:22px 22px 0 0;background:var(--wa);color:#fff}
+.phone-top b{flex:1}
+.phone-ic{font-size:1.4rem}
+.phone-dots{font-size:.5rem;letter-spacing:2px;opacity:.7}
+.phone-body{min-height:300px;max-height:420px;overflow:auto;padding:14px;border-radius:0 0 22px 22px;background:var(--panel);display:flex;flex-direction:column;gap:8px}
+.app-hint{font-size:.82rem;color:var(--muted);text-align:center}
+.app-line{padding:9px 13px;border-radius:14px;background:var(--panel2);border:1px solid var(--border);font-weight:600;animation:fade .25s both;word-break:break-word}
+.app-line.ghost{opacity:.55;border-style:dashed;font-weight:500}
+.app-line.ok{background:color-mix(in srgb,var(--ok) 10%,var(--panel));border-color:color-mix(in srgb,var(--ok) 40%,var(--border))}
+.app-line.bad{background:color-mix(in srgb,var(--bad) 9%,var(--panel));border-color:color-mix(in srgb,var(--bad) 45%,var(--border))}
+.app-line.miss{opacity:.5;border-style:dashed;text-decoration:line-through}
+.app-ok{text-align:center;font-weight:800;color:var(--ok);padding:6px;border-radius:12px;background:color-mix(in srgb,var(--ok) 12%,var(--panel))}
+.proj-card{display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:12px 14px;border-radius:16px;text-align:left;border:2px dashed color-mix(in srgb,var(--wa) 55%,var(--border));background:color-mix(in srgb,var(--wa) 8%,var(--panel))}
+.proj-card:hover:not(:disabled){border-style:solid}
+.proj-card .pi{font-size:2rem}
+.proj-card .t{flex:1;min-width:0}
+.proj-card b{display:block}
+.proj-card small{display:block;color:var(--muted);font-size:.8rem;line-height:1.35}
+/* გამარჯვების ფანჯარა */
+.win{text-align:center}
+.win-badge{width:82px;height:82px;margin:0 auto 4px;border-radius:50%;display:grid;place-items:center;font-size:2.7rem;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b);box-shadow:0 5px 0 #d9a600,0 10px 24px rgba(217,166,0,.3);animation:pop .55s cubic-bezier(.2,1.6,.4,1) both}
+.win-stars{font-size:2.5rem;letter-spacing:10px;margin:.1em 0 .2em}
+.win-stars span{display:inline-block;animation:pop .5s cubic-bezier(.2,1.6,.4,1) both;animation-delay:calc(var(--i) * .18s + .15s)}
+.win-stars .off{opacity:.18;filter:grayscale(1)}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.win-xp{display:inline-flex;flex-direction:column;align-items:center;padding:5px 20px;border-radius:999px;background:color-mix(in srgb,var(--accent) 12%,var(--panel));color:var(--accent);font-weight:800;font-size:1.3rem;line-height:1.3}
+.win-xp small{font-size:.72rem;font-weight:600;color:var(--muted)}
+.win-stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0 2px}
+.win-stats span{padding:4px 12px;border-radius:999px;background:var(--panel2);border:1px solid var(--border);font-weight:600;font-size:.9rem}
+.win-tip{margin-top:10px;font-size:.88rem;color:var(--muted)}
+.win-actions{justify-content:center}
+.win-actions .btn.primary{padding:.7em 1.4em;font-size:1.02rem;border-radius:12px;box-shadow:0 4px 0 color-mix(in srgb,var(--accent) 62%,#000)}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.backdrop>.modal{position:relative;z-index:1}
+.confetti i{position:absolute;top:-16px;width:8px;height:14px;border-radius:2px;opacity:0;animation:fall var(--d) ease-in var(--dl) forwards}
+@keyframes fall{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:.9;transform:translate(var(--x),105vh) rotate(var(--r))}}
 .result-title{text-align:center;margin:.2em 0 .3em}
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
 .stat{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:8px 10px;text-align:center}
@@ -352,7 +521,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
 .checks li.bad::before{content:'✘';color:var(--bad)}
 #g-html{max-height:220px;overflow:auto}
 @media (max-width:520px){#toast-root{left:10px;right:10px;top:10px}.toast{max-width:none}.modal{padding:16px}.gbar{padding:8px 12px}.gmain{padding:12px 10px 30px}}
-@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -389,9 +558,9 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
       <span class="chip flame" id="map-streak" title="დღიანი სერია"></span>
       <span class="chip" id="map-xp"></span>
       <span class="chip" id="map-stars"></span>
-      <button class="btn small" id="map-dict">ლექსიკონი</button>
-      <button class="btn small" data-go="courses">🌐 ენები</button>
-      <button class="btn small" data-go="profile">პროფილი</button>
+      <button class="btn small" id="map-dict" title="ლექსიკონი">📖<span class="tl"> ლექსიკონი</span></button>
+      <button class="btn small" data-go="courses" title="ენები">🌐<span class="tl"> ენები</span></button>
+      <button class="btn small" data-go="profile" title="პროფილი">👤<span class="tl"> პროფილი</span></button>
     </div>
     <div class="map-wrap" id="map-wrap"></div>
   </section>
@@ -419,57 +588,83 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
   <section id="scr-game" class="screen" aria-label="თამაში">
     <header class="gbar">
       <button class="btn small" id="g-back">← რუკა</button>
-      <div class="gtitle"><small id="g-world"></small><span id="g-name"></span> <span id="g-phase" class="chip hidden"></span></div>
+      <span class="gicon" id="g-icon" aria-hidden="true">🌱</span>
+      <div class="gtitle"><small id="g-world"></small><span id="g-name"></span> <span id="g-phase" class="chip hidden"></span><span class="qpips" id="g-pips" aria-hidden="true"></span></div>
       <div class="gmeta">
         <span class="chip flame" id="g-streak" title="დღიანი სერია"></span>
-        <span class="chip" id="g-timer" title="დრო">0:00</span>
-        <span class="chip" id="g-attempts" title="წარუმატებელი ცდები">ცდა: 0</span>
+        <span class="chip hidden" id="g-timer" title="დრო">0:00</span>
+        <span class="chip starchip" id="g-attempts" title="რამდენი ვარსკვლავის მიღება შეგიძლია ახლა"></span>
         <span class="chip" id="g-xp"></span>
       </div>
     </header>
     <div class="gmain">
       <div class="gcol left">
-        <div class="prof">
-          <div class="avatar" aria-hidden="true">🦉</div>
-          <div class="bubble" id="g-prof" role="status" aria-live="polite"></div>
+        <div class="card mission">
+          <div class="steps hidden" id="g-steps" role="tablist" aria-label="სწავლის ნაბიჯები">
+            <button data-s="1" role="tab"><b>1</b><i>👀 </i>ნახე</button><button data-s="2" role="tab"><b>2</b><i>✍️ </i>გაიმეორე</button><button data-s="3" role="tab"><b>3</b><i>🚀 </i>შენით</button>
+          </div>
+          <div class="prof">
+            <div class="avatar" id="g-avatar" aria-hidden="true">🦉</div>
+            <div class="bubble" id="g-prof" role="status" aria-live="polite"></div>
+          </div>
+          <div class="task">
+            <div class="task-h">🎯 მისია</div>
+            <div id="g-task"></div>
+            <ul class="goals" id="g-goals"></ul>
+          </div>
+          <details class="tip" id="g-theory-box" open>
+            <summary>💡 როგორ გავაკეთო?</summary>
+            <div class="theory-text" id="g-theory"></div>
+            <pre class="example" id="g-example"></pre>
+          </details>
         </div>
-        <details class="card" id="g-theory-box" open>
-          <summary>თეორია</summary>
-          <div class="theory-text" id="g-theory"></div>
-          <pre class="example" id="g-example"></pre>
-        </details>
+        <div class="card learn hidden" id="g-learn">
+          <div class="learn-h" id="g-learn-h"></div>
+          <ul class="learn-pts" id="g-learn-pts"></ul>
+          <div class="demo" id="g-demo-box">
+            <div class="demo-bar"><span>💻 კოდი იწერება...</span><button class="btn small ghost" id="g-demo-skip">⏩ სწრაფად</button></div>
+            <pre class="demo-code" id="g-demo"></pre>
+            <div class="demo-out hidden" id="g-demo-out"></div>
+            <iframe class="demo-web hidden" id="g-demo-web" sandbox="allow-same-origin" title="მაგალითის შედეგი"></iframe>
+          </div>
+          <div class="typer hidden" id="g-typer">
+            <pre class="typer-ghost" id="g-typer-ghost" aria-hidden="true"></pre>
+            <textarea class="typer-in" id="g-typer-in" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="აქ აკრიფე კოდი"></textarea>
+          </div>
+          <div class="typer-bar hidden" id="g-typer-bar"><div class="progress"><div id="g-typer-prog"></div></div><span class="combo" id="g-typer-combo"></span></div>
+          <div class="typer-stats hidden" id="g-typer-stats"></div>
+          <div class="learn-actions"><button class="btn run" id="g-learn-next"></button></div>
+        </div>
         <details class="card hidden" id="g-html-box" open>
           <summary>HTML (ეს ნაწილი უცვლელია)</summary>
           <pre class="example" id="g-html"></pre>
         </details>
-        <div class="card task">
-          <h3>დავალება</h3>
-          <div id="g-task"></div>
-          <ul class="goals" id="g-goals"></ul>
-        </div>
         <div class="card editor-card">
           <div class="editor-head">
-            <span>კოდი <span class="muted" id="g-lines"></span></span>
+            <span>📝 შენი კოდი <span class="muted" id="g-lines"></span></span>
             <span><button class="btn small ghost" id="g-restore" title="საწყისი კოდის დაბრუნება">↺ საწყისი კოდი</button></span>
           </div>
           <div id="editor"></div>
         </div>
         <div class="palette" id="g-palette" aria-label="ბრძანებების ჩასმა"></div>
         <div class="controls">
-          <button class="btn primary" id="g-run" title="Ctrl+Enter">▶ გაშვება</button>
-          <button class="btn" id="g-step" title="Ctrl+Shift+Enter">ნაბიჯ-ნაბიჯ</button>
-          <button class="btn" id="g-reset">⟲ თავიდან</button>
-          <button class="btn" id="g-hint">მინიშნება</button>
-          <button class="btn" id="g-dict">ლექსიკონი</button>
+          <button class="btn run" id="g-run" title="Ctrl+Enter">▶ გაშვება</button>
+          <button class="btn tool" id="g-step" title="ნაბიჯ-ნაბიჯ (Ctrl+Shift+Enter)"><span class="ic">⏯</span>ნაბიჯი</button>
+          <button class="btn tool" id="g-reset" title="ბიტი თავის ადგილზე დაბრუნდება"><span class="ic">⟲</span>თავიდან</button>
+          <button class="btn tool" id="g-hint" title="მინიშნება"><span class="ic">💡</span>მინიშნება</button>
+          <button class="btn tool" id="g-dict" title="ლექსიკონი"><span class="ic">📖</span>ლექსიკონი</button>
         </div>
         <div class="console" id="g-console" aria-live="polite" aria-label="კონსოლი"></div>
       </div>
       <div class="gcol right">
         <div class="tests" id="g-tests"></div>
-        <div class="board-wrap" id="board-wrap"><div id="board"></div></div>
+        <div class="board-wrap" id="board-wrap"><div class="demo-tag hidden" id="g-demo-tag">👀 დემო: ბიტი მაგალითს ასრულებს</div><div id="board"></div></div>
         <div class="board-bar">
           <div class="status" id="g-status"></div>
-          <label class="speed">ნელა <input type="range" min="1" max="3" step="1" id="g-speed" aria-label="ანიმაციის სიჩქარე"> სწრაფად <span id="g-speed-lbl"></span></label>
+          <label class="speed" title="ანიმაციის სიჩქარე"><span aria-hidden="true">🐢</span><input type="range" min="1" max="3" step="1" id="g-speed" aria-label="ანიმაციის სიჩქარე"><span aria-hidden="true">🐇</span><span class="hidden" id="g-speed-lbl"></span></label>
+        </div>
+        <div class="app hidden" id="g-app">
+          <div class="phone"><div class="phone-top"><span class="phone-ic" id="g-app-ic"></span><b id="g-app-title"></b><span class="phone-dots">● ● ●</span></div><div class="phone-body" id="g-app-body"></div></div>
         </div>
         <div class="card web hidden" id="g-web">
           <div class="web-bar"><span aria-hidden="true"><i></i><i></i><i></i></span><span class="url" id="g-url">ბიტის-გვერდი.html</span></div>
@@ -1884,6 +2079,13 @@ function evaluateRun(level, def, map, res, code) {
     const last = logs[logs.length - 1];
     if (last !== String(def.output)) miss.push(last === undefined ? 'დაბეჭდე შედეგი ' + (typeof LANGS !== 'undefined' && LANGS[level.lang] ? LANGS[level.lang].print : 'console.log()') + '-ით' : 'ბოლოს დაიბეჭდა „' + last + '“ — ეს სწორი პასუხი არ არის');
   }
+  // რეალური პროექტი: აპის ეკრანზე ზუსტად ის ხაზები უნდა გამოჩნდეს, რაც საჭიროა
+  if (def.lines) {
+    const bad = def.lines.findIndex((l, k) => appNorm(logs[k]) !== appNorm(l));
+    if (bad >= 0) miss.push(logs[bad] === undefined ? 'ეკრანზე აკლია ' + (bad + 1) + '-ე ხაზი: „' + def.lines[bad] + '“'
+      : (bad + 1) + '-ე ხაზი უნდა იყოს „' + def.lines[bad] + '“, დაიბეჭდა „' + logs[bad] + '“');
+    else if (logs.length > def.lines.length) miss.push('ზედმეტი ხაზი ეკრანზე: „' + logs[def.lines.length] + '“');
+  }
   // ტექსტის შედარება დამწყებისთვის მოქნილია: ჰარები და სასვენი ნიშნები არ ითვლება
   const norm = t => String(t).toLowerCase().replace(/[\s,.!?;:—-]+/g, '');
   if (g.outputHas && !logs.some(l => norm(l) === norm(g.outputHas))) miss.push('კონსოლში უნდა დაიბეჭდოს: „' + g.outputHas + '“');
@@ -1921,6 +2123,24 @@ const WORLDS = [
   { id: 9, name: 'ალგორითმების კოშკი', icon: '🗼', topic: 'ალგორითმები', a: '#2f9488', b: '#2f9488' },
   { id: 10, name: 'გლიჩის ციხე', icon: '🏰', topic: 'საბოლოო გამოცდა', a: '#b54848', b: '#b54848' }
 ];
+// დაფის თემა თითოეული სამყაროსთვის: უჯრები, კედელი და მისი ნახატი, ჩარჩო, ცა, კუთხის დეკორაციები
+const THEMES = {
+  1: { t1: '#d4efb8', t2: '#c7e8a8', tw: '#8fc46e', wic: '🌳', edge: '#5f9e45', sky: '#dff1ff', d1: '🌼', d2: '🦋' },
+  2: { t1: '#cdebd2', t2: '#bfe3c6', tw: '#5e9f78', wic: '🌲', edge: '#2f7a55', sky: '#e2f3ea', d1: '🍄', d2: '🐿️' },
+  3: { t1: '#e7e3f6', t2: '#dcd6f1', tw: '#aaa2cf', wic: '🪨', edge: '#6b5fc7', sky: '#eef0ff', d1: '⛰️', d2: '☁️' },
+  4: { t1: '#f3e7d6', t2: '#ebdcc6', tw: '#e0ae7a', wic: '🏠', edge: '#c9741f', sky: '#fff3e2', d1: '🚗', d2: '🌤️' },
+  5: { t1: '#d9eefc', t2: '#cbe6fa', tw: '#73aee6', wic: '🌊', edge: '#2f6fc4', sky: '#e3f4ff', d1: '🐟', d2: '⛵' },
+  6: { t1: '#f6e2d8', t2: '#efd5c8', tw: '#cf9479', wic: '⚙️', edge: '#b0502f', sky: '#fff0e8', d1: '🔩', d2: '🛠️' },
+  7: { t1: '#ebe6f0', t2: '#e1dbe8', tw: '#ab9bbd', wic: '📦', edge: '#6e5d80', sky: '#f1edf6', d1: '🕯️', d2: '🗝️' },
+  8: { t1: '#f8e1eb', t2: '#f1d4e1', tw: '#d991b0', wic: '🏢', edge: '#a94a74', sky: '#ffeef5', d1: '🎈', d2: '🌸' },
+  9: { t1: '#d8f0ed', t2: '#cae9e5', tw: '#68b8ad', wic: '📚', edge: '#26877b', sky: '#e5f7f4', d1: '📜', d2: '⭐' },
+  10: { t1: '#f5dcdc', t2: '#eecdcd', tw: '#a55858', wic: '🧱', edge: '#8f3434', sky: '#fbe9e9', d1: '🦇', d2: '⚡' }
+};
+function applyTheme(el, n) {
+  const t = THEMES[n] || THEMES[1];
+  ['t1', 't2', 'tw', 'edge', 'sky'].forEach(k => el.style.setProperty('--' + k, t[k]));
+  ['wic', 'd1', 'd2'].forEach(k => el.style.setProperty('--' + k, '"' + t[k] + '"'));
+}
 
 // რომელი ბრძანებები იხსნება რომელ სამყაროში (კუმულატიურად)
 const CMD_SETS = {
@@ -5708,7 +5928,161 @@ COURSES.forEach(c => {
   c.levels.forEach((l, i) => { l.index = i; LEVEL_BY_ID[l.id] = l; });
 });
 const courseLevels = id => (id === 'js' || !COURSE_BY_ID[id] ? LEVELS : COURSE_BY_ID[id].levels);
-const ALL_LEVELS = () => LEVELS.concat(...COURSES.filter(c => c.levels).map(c => c.levels));
+const ALL_LEVELS = () => LEVELS.concat(...COURSES.filter(c => c.levels).map(c => c.levels), PROJECTS);
+
+/* ---------- რეალური პროექტები: ნამდვილი პატარა აპები (JavaScript, სამყაროები 2–10) ----------
+   აპი მონაცემებს ცვლადებში აწვდის (ყოველ ტესტში სხვას), შენი კოდი კი ეკრანზე ზუსტად იმას ბეჭდავს, რაც საჭიროა. */
+const PROJECTS = [
+  {
+    id: 'proj-2', world: 2, icon: '🪪', title: 'პროფილის ბარათი',
+    real: 'სოციალური ქსელები პროფილს ზუსტად ასე აწყობენ.',
+    story: 'სოციალური ქსელის აპს პროფილის ბარათი სჭირდება! აპი მომხმარებლის მონაცემებს ცვლადებში ინახავს — შენ კი ეკრანზე უნდა გამოიტანო.',
+    task: 'დაბეჭდე სამი ხაზი: „სახელი: …“, „ასაკი: …“ და „ქალაქი: …“. მნიშვნელობები აიღე ცვლადებიდან name, age და city.',
+    theory: 'ტექსტს და ცვლადს + აერთებს: "სახელი: " + name. ყოველი console.log ეკრანზე ახალ ხაზს ბეჭდავს.',
+    starter: '// name, age და city უკვე არსებობს — ნახე „მონაცემები“\n',
+    maps: [
+      { vars: { name: 'ნინო', age: 12, city: 'ბათუმი' }, lines: ['სახელი: ნინო', 'ასაკი: 12', 'ქალაქი: ბათუმი'] },
+      { vars: { name: 'გიორგი', age: 15, city: 'თბილისი' }, lines: ['სახელი: გიორგი', 'ასაკი: 15', 'ქალაქი: თბილისი'] }
+    ],
+    hints: ['პირველი ხაზი: console.log("სახელი: " + name);', 'კიდევ ორი console.log — ასაკისა (age) და ქალაქისთვის (city).'],
+    solution: 'console.log("სახელი: " + name);\nconsole.log("ასაკი: " + age);\nconsole.log("ქალაქი: " + city);'
+  },
+  {
+    id: 'proj-3', world: 3, icon: '🍕', title: 'პიცის შეკვეთა',
+    real: 'მიტანის აპები კალათის ჯამს ასე ითვლიან.',
+    story: 'პიცერიის აპში კალათის ჯამი არ ითვლება! შეკვეთაში ცნობილია ერთი პიცის ფასი (price), რაოდენობა (count) და მიტანის ფასი (delivery).',
+    task: 'დაბეჭდე ორი ხაზი: „პიცები: X ლარი“ (price × count) და „სულ: Y ლარი“ (პიცებს დამატებული მიტანა).',
+    theory: '* ამრავლებს, + კრებს. ფრთხილად: "სულ: " + a + b ტექსტს მიაწებებს ("სულ: 245")! ჯერ დათვალე ფრჩხილებში: "სულ: " + (a + b).',
+    starter: '// price, count და delivery უკვე არსებობს\n',
+    maps: [
+      { vars: { price: 8, count: 3, delivery: 5 }, lines: ['პიცები: 24 ლარი', 'სულ: 29 ლარი'] },
+      { vars: { price: 12, count: 2, delivery: 0 }, lines: ['პიცები: 24 ლარი', 'სულ: 24 ლარი'] },
+      { vars: { price: 10, count: 1, delivery: 4 }, lines: ['პიცები: 10 ლარი', 'სულ: 14 ლარი'] }
+    ],
+    hints: ['ჯერ ცვლადში შეინახე: let pizzas = price * count;', 'console.log("პიცები: " + pizzas + " ლარი"); — მეორე ხაზში ჯამი ფრჩხილებში ჩასვი: (pizzas + delivery).'],
+    solution: 'let pizzas = price * count;\nconsole.log("პიცები: " + pizzas + " ლარი");\nconsole.log("სულ: " + (pizzas + delivery) + " ლარი");'
+  },
+  {
+    id: 'proj-4', world: 4, icon: '🎬', title: 'კინოს ბილეთი',
+    real: 'ბილეთების სალაროები და აპები ფასდაკლებას პირობებით ირჩევენ.',
+    story: 'კინოთეატრის აპი მყიდველის ასაკის (age) მიხედვით ბილეთს ირჩევს. ბავშვებს და პენსიონერებს ფასდაკლება აქვთ!',
+    task: '12 წლამდე — „ბავშვის ბილეთი: 5 ლარი“, 65 წლიდან — „პენსიონერის ბილეთი: 6 ლარი“, დანარჩენებს — „სრული ბილეთი: 10 ლარი“.',
+    theory: 'if / else if / else სამ გზას შორის ირჩევს: პირველი true პირობა სრულდება, დანარჩენები — აღარა. „12 წლამდე“ ნიშნავს age < 12, „65 წლიდან“ — age >= 65.',
+    starter: '// age უკვე არსებობს\n',
+    maps: [
+      { vars: { age: 8 }, lines: ['ბავშვის ბილეთი: 5 ლარი'] },
+      { vars: { age: 30 }, lines: ['სრული ბილეთი: 10 ლარი'] },
+      { vars: { age: 70 }, lines: ['პენსიონერის ბილეთი: 6 ლარი'] },
+      { vars: { age: 12 }, lines: ['სრული ბილეთი: 10 ლარი'] },
+      { vars: { age: 65 }, lines: ['პენსიონერის ბილეთი: 6 ლარი'] }
+    ],
+    hints: ['დაიწყე: if (age < 12) { console.log("ბავშვის ბილეთი: 5 ლარი"); }', 'შემდეგ: else if (age >= 65) { ... } else { ... }'],
+    solution: 'if (age < 12) {\n  console.log("ბავშვის ბილეთი: 5 ლარი");\n} else if (age >= 65) {\n  console.log("პენსიონერის ბილეთი: 6 ლარი");\n} else {\n  console.log("სრული ბილეთი: 10 ლარი");\n}'
+  },
+  {
+    id: 'proj-5', world: 5, icon: '🚀', title: 'რაკეტის გაშვება',
+    real: 'ტაიმერები და უკუთვლა ციკლით მუშაობს — მიკროტალღურიდან რაკეტამდე.',
+    story: 'კოსმოსური ცენტრის აპს უკუთვლა სჭირდება! რამდენი წამიდან დაიწყოს, ცვლადი seconds გეუბნება.',
+    task: 'დაბეჭდე რიცხვები seconds-დან 1-მდე (თითო ხაზზე), ბოლოს კი „სტარტი!“.',
+    theory: 'for ციკლი შეიძლება უკუღმაც ითვლიდეს: for (let i = 5; i >= 1; i--) — i იწყება 5-დან და ყოველ წრეზე 1-ით მცირდება.',
+    starter: '// seconds უკვე არსებობს\n',
+    maps: [
+      { vars: { seconds: 5 }, lines: ['5', '4', '3', '2', '1', 'სტარტი!'] },
+      { vars: { seconds: 3 }, lines: ['3', '2', '1', 'სტარტი!'] },
+      { vars: { seconds: 10 }, lines: ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1', 'სტარტი!'] }
+    ],
+    require: [R(/\b(for|while)\b/, 'გამოიყენე ციკლი — წამების რაოდენობა ყოველ ტესტში სხვაა!')],
+    hints: ['ციკლი: for (let i = seconds; i >= 1; i--) { ... }', 'ციკლის შიგნით console.log(i); ციკლის შემდეგ — console.log("სტარტი!");'],
+    solution: 'for (let i = seconds; i >= 1; i--) {\n  console.log(i);\n}\nconsole.log("სტარტი!");'
+  },
+  {
+    id: 'proj-6', world: 6, icon: '🧾', title: 'ჩაის ფულის კალკულატორი',
+    real: 'რესტორნის ანგარიშის აპები ჩაის ფულს ფუნქციით ითვლიან.',
+    story: 'რესტორნის აპს ჩაის ფულის კალკულატორი სჭირდება. ცნობილია ანგარიში (bill) და პროცენტი (percent).',
+    task: 'შექმენი ფუნქცია tip(bill, percent), რომელიც დააბრუნებს bill * percent / 100. დაბეჭდე „ჩაი: X ლარი“ და „სულ: Y ლარი“ (ანგარიშს დამატებული ჩაი).',
+    theory: 'ფუნქცია პასუხს return-ით აბრუნებს: function double(n) { return n * 2; }. გამოძახება double(5) იგივეა, რაც 10 — შეგიძლია პირდაპირ ტექსტში ჩასვა.',
+    starter: '// bill და percent უკვე არსებობს\n',
+    maps: [
+      { vars: { bill: 40, percent: 10 }, lines: ['ჩაი: 4 ლარი', 'სულ: 44 ლარი'] },
+      { vars: { bill: 25, percent: 20 }, lines: ['ჩაი: 5 ლარი', 'სულ: 30 ლარი'] },
+      { vars: { bill: 80, percent: 15 }, lines: ['ჩაი: 12 ლარი', 'სულ: 92 ლარი'] }
+    ],
+    require: [R(/function\s+tip\s*\(/, 'შექმენი ფუნქცია tip(bill, percent).'), R(/\breturn\b/, 'ფუნქციამ პასუხი return-ით უნდა დააბრუნოს.')],
+    hints: ['function tip(bill, percent) {\n  return bill * percent / 100;\n}', 'console.log("ჩაი: " + tip(bill, percent) + " ლარი"); — ჯამში გამოიყენე ფრჩხილები: (bill + tip(bill, percent)).'],
+    solution: 'function tip(bill, percent) {\n  return bill * percent / 100;\n}\nconsole.log("ჩაი: " + tip(bill, percent) + " ლარი");\nconsole.log("სულ: " + (bill + tip(bill, percent)) + " ლარი");'
+  },
+  {
+    id: 'proj-7', world: 7, icon: '🛒', title: 'საყიდლების კალათა',
+    real: 'ონლაინ მაღაზიის კალათა ორი მასივია: სახელები და ფასები.',
+    story: 'ონლაინ მაღაზიის კალათაში ორი მასივია: items (პროდუქტები) და prices (ფასები, იგივე რიგით). აპმა ჩეკი უნდა აჩვენოს!',
+    task: 'ყოველ პროდუქტზე დაბეჭდე „სახელი - ფასი ლარი“ (მაგ. „პური - 2 ლარი“), ბოლოს — „სულ: X ლარი“.',
+    theory: 'ორი მასივი ერთი ინდექსით: items[i] და prices[i] ერთსა და იმავე პროდუქტზეა. ჯამისთვის: let total = 0; და ციკლში total += prices[i];',
+    starter: '// items და prices უკვე არსებობს\n',
+    maps: [
+      { vars: { items: ['პური', 'რძე', 'ვაშლი'], prices: [2, 3, 5] }, lines: ['პური - 2 ლარი', 'რძე - 3 ლარი', 'ვაშლი - 5 ლარი', 'სულ: 10 ლარი'] },
+      { vars: { items: ['ყველი', 'წყალი'], prices: [12, 1] }, lines: ['ყველი - 12 ლარი', 'წყალი - 1 ლარი', 'სულ: 13 ლარი'] }
+    ],
+    require: [R(/\b(for|while)\b/, 'გამოიყენე ციკლი — კალათა ყოველ ტესტში სხვაა!')],
+    hints: ['let total = 0;\nfor (let i = 0; i < items.length; i++) { ... }', 'ციკლში: console.log(items[i] + " - " + prices[i] + " ლარი"); და total += prices[i];'],
+    solution: 'let total = 0;\nfor (let i = 0; i < items.length; i++) {\n  console.log(items[i] + " - " + prices[i] + " ლარი");\n  total += prices[i];\n}\nconsole.log("სულ: " + total + " ლარი");'
+  },
+  {
+    id: 'proj-8', world: 8, icon: '⛅', title: 'ამინდის აპი',
+    real: 'ამინდის სერვისები მონაცემებს ობიექტებად აგზავნიან.',
+    story: 'ამინდის სერვისმა ობიექტი weather გამოგზავნა: city (ქალაქი), temp (ტემპერატურა) და rain (წვიმს თუ არა — true/false).',
+    task: 'დაბეჭდე „ქალაქი: X გრადუსი“, შემდეგ — თუ წვიმს, „წაიღე ქოლგა“, თუ არა — „ქოლგა არ დაგჭირდება“.',
+    theory: 'ობიექტის თვისებას წერტილით კითხულობ: weather.city, weather.temp. true/false თვისება პირდაპირ პირობაში ჩაჯდება: if (weather.rain) { ... }.',
+    starter: '// weather უკვე არსებობს\n',
+    maps: [
+      { vars: { weather: { city: 'თბილისი', temp: 24, rain: false } }, lines: ['თბილისი: 24 გრადუსი', 'ქოლგა არ დაგჭირდება'] },
+      { vars: { weather: { city: 'ბათუმი', temp: 18, rain: true } }, lines: ['ბათუმი: 18 გრადუსი', 'წაიღე ქოლგა'] },
+      { vars: { weather: { city: 'გუდაური', temp: -5, rain: false } }, lines: ['გუდაური: -5 გრადუსი', 'ქოლგა არ დაგჭირდება'] }
+    ],
+    hints: ['console.log(weather.city + ": " + weather.temp + " გრადუსი");', 'if (weather.rain) { console.log("წაიღე ქოლგა"); } else { ... }'],
+    solution: 'console.log(weather.city + ": " + weather.temp + " გრადუსი");\nif (weather.rain) {\n  console.log("წაიღე ქოლგა");\n} else {\n  console.log("ქოლგა არ დაგჭირდება");\n}'
+  },
+  {
+    id: 'proj-9', world: 9, icon: '🏆', title: 'ლიდერბორდი',
+    real: 'ყველა ონლაინ თამაშს აქვს საუკეთესო მოთამაშეების სია.',
+    story: 'თამაშის სერვერმა ქულების მასივი scores გამოგზავნა (არეული რიგით). აპმა სამი საუკეთესო შედეგი უნდა აჩვენოს!',
+    task: 'დაბეჭდე სამი უდიდესი ქულა კლებადობით: „1. X“, „2. Y“, „3. Z“.',
+    theory: 'დალაგება ნამდვილ პროგრამებში ხშირად ჩაშენებული sort-ით ხდება: scores.slice().sort((a, b) => b - a) — ასლს დიდიდან პატარისკენ ალაგებს. ან დაწერე შენი ალგორითმი!',
+    starter: '// scores უკვე არსებობს\n',
+    maps: [
+      { vars: { scores: [40, 95, 77, 80, 12] }, lines: ['1. 95', '2. 80', '3. 77'] },
+      { vars: { scores: [5, 9, 7] }, lines: ['1. 9', '2. 7', '3. 5'] },
+      { vars: { scores: [100, 3, 100, 50] }, lines: ['1. 100', '2. 100', '3. 50'] }
+    ],
+    hints: ['let sorted = scores.slice().sort((a, b) => b - a);', 'for (let i = 0; i < 3; i++) { console.log((i + 1) + ". " + sorted[i]); }'],
+    solution: 'let sorted = scores.slice().sort((a, b) => b - a);\nfor (let i = 0; i < 3; i++) {\n  console.log((i + 1) + ". " + sorted[i]);\n}'
+  },
+  {
+    id: 'proj-10', world: 10, icon: '🔐', title: 'პაროლის შემმოწმებელი',
+    real: 'რეგისტრაციის ყველა ფორმა პაროლს ასე ამოწმებს.',
+    story: 'რეგისტრაციის ფორმას პაროლის შემმოწმებელი სჭირდება — გლიჩი სუსტ პაროლებს ადვილად გატეხავს!',
+    task: '8 სიმბოლოზე მოკლე — „ძალიან მოკლეა“. გრძელი, მაგრამ ციფრის გარეშე — „დაამატე ციფრი“. სხვა შემთხვევაში — „ძლიერი პაროლი“.',
+    theory: 'password.length სიგრძეა. ტექსტს for...of-ით ასო-ასო ჩამოუვლი: for (const ch of password) { ... }. ციფრია, თუ ch >= "0" && ch <= "9".',
+    starter: '// password უკვე არსებობს\n',
+    maps: [
+      { vars: { password: 'bit12345' }, lines: ['ძლიერი პაროლი'] },
+      { vars: { password: 'logikaaa' }, lines: ['დაამატე ციფრი'] },
+      { vars: { password: 'abc1' }, lines: ['ძალიან მოკლეა'] },
+      { vars: { password: 'glitch2024' }, lines: ['ძლიერი პაროლი'] },
+      { vars: { password: 'qwerty' }, lines: ['ძალიან მოკლეა'] }
+    ],
+    hints: ['let hasDigit = false;\nfor (const ch of password) {\n  if (ch >= "0" && ch <= "9") hasDigit = true;\n}', 'შემდეგ: if (password.length < 8) { ... } else if (!hasDigit) { ... } else { ... }'],
+    solution: 'let hasDigit = false;\nfor (const ch of password) {\n  if (ch >= "0" && ch <= "9") hasDigit = true;\n}\nif (password.length < 8) {\n  console.log("ძალიან მოკლეა");\n} else if (!hasDigit) {\n  console.log("დაამატე ციფრი");\n} else {\n  console.log("ძლიერი პაროლი");\n}'
+  }
+];
+const PROJECT_BY_WORLD = {};
+PROJECTS.forEach(p => {
+  Object.assign(p, { project: true, num: 1, index: -1, example: '', goal: {}, allowedCommands: [] });
+  p.maps.forEach(m => { m.grid = ['>']; });
+  p.hints = p.hints.concat([p.solution]);
+  LEVEL_BY_ID[p.id] = p; PROJECT_BY_WORLD[p.world] = p;
+});
+// აპის ეკრანზე ტექსტის შედარება: ჰარები და ბოლო „.“/„!“ არ ითვლება
+const appNorm = t => String(t == null ? '' : t).trim().replace(/\s+/g, ' ').replace(/[.!]+$/, '').toLowerCase();
 
 /* =====================================================================
    სიუჟეტი: სცენები, რეალური სამყარო, ქვიზები
@@ -5903,6 +6277,10 @@ const ACHIEVEMENTS = [
   { id: 'speedrunner', ic: '⏱️', t: 'სპიდრანერი', d: 'დაასრულე სპიდრანი' },
   { id: 'stylist', ic: '🎨', t: 'სტილისტი', d: 'შეცვალე ბიტის იერსახე' },
   { id: 'certified', ic: '📜', t: 'სერტიფიცირებული', d: 'ჩამოტვირთე სერტიფიკატი' },
+  { id: 'typist', ic: '⌨️', t: 'ხელი გაეწაფა', d: 'გადაწერე 10 გაკვეთილის კოდი' },
+  { id: 'sharp', ic: '🎯', t: 'სნაიპერი', d: 'გადაწერე კოდი ერთი შეცდომის გარეშე' },
+  { id: 'builder', ic: '🏗️', t: 'პირველი აპი', d: 'დაასრულე რეალური პროექტი' },
+  { id: 'architect', ic: '🏙️', t: 'აპების ოსტატი', d: 'დაასრულე ყველა რეალური პროექტი' },
   { id: 'legend', ic: '👑', t: 'ლეგენდა', d: 'ყველა ლეველი ⭐⭐⭐-ით' },
   { id: 'polyglot', ic: '🌍', t: 'პოლიგლოტი', d: 'გაიარე ლეველი 3 სხვადასხვა ენაზე' },
   { id: 'course_py', ic: '🐍', t: 'პითონისტი', d: 'დაასრულე Python-ის კურსი' },
@@ -5994,7 +6372,7 @@ async function verifyLevels(run, seeds = Array.from({ length: 30 }, (_, i) => i 
           const ev = evaluateRun(lv, def, map, res, sol.code);
           if (!ev.ok) issues.push('ტესტი ' + (i + 1) + ' (seed ' + seed + '): ' + ev.msg);
           if (lv.stars3 === 'guesses7' && ev.guesses > 7) issues.push('ტესტი ' + (i + 1) + ': ' + ev.guesses + ' ცდა > 7');
-          if (lv.boss && lv.starter) {
+          if ((lv.boss || lv.project) && lv.starter) {
             const st = prep(lv.starter, def);
             if (st.error) starterPassesAll = false;
             else {
@@ -6011,7 +6389,7 @@ async function verifyLevels(run, seeds = Array.from({ length: 30 }, (_, i) => i 
       }
       const req = checkRequirements(lv, lv.solution);
       if (req) issues.push('მოთხოვნა: ' + req);
-      if (lv.boss && lv.starter && starterPassesAll && !checkRequirements(lv, lv.starter)) issues.push('ბოსის ბაგიანი საწყისი კოდი შეცდომის გარეშე გადის!');
+      if ((lv.boss || lv.project) && lv.starter && starterPassesAll && !checkRequirements(lv, lv.starter)) issues.push((lv.project ? 'პროექტის' : 'ბოსის ბაგიანი') + ' საწყისი კოდი შეცდომის გარეშე გადის!');
       if (!lv.hints || !lv.hints.length) issues.push('მინიშნებები აკლია');
       report.push({ id: lv.id, title: lv.title, ok: issues.length === 0, issues });
     }
@@ -6035,7 +6413,8 @@ function defaultProgress() {
     // დღის სერია: იზრდება ყოველ დღე, როცა ერთი ლეველი, დღის გამოწვევა ან ქვიზი მაინც დასრულდა
     streak: { last: '', count: 0, best: 0, days: [] },
     quiz: {}, speedrun: {}, codes: {}, seen: {}, sandbox: null, certified: false,
-    course: 'js', certs: {}
+    course: 'js', certs: {},
+    learned: {}   // „გაიმეორე“ გავლილი გაკვეთილები: { id: { acc, cpm } }
   };
 }
 function mergeDeep(base, extra) {
@@ -6062,6 +6441,7 @@ const Progress = {
   isUnlocked(lv) {
     if (!lv) return false;
     if (this.P.settings.unlockAll || lv.index === 0) return true;
+    if (lv.project) return this.isDone(lv.world + '-5');   // პროექტი სამყაროს ბოსის შემდეგ იხსნება
     return this.isDone(courseLevels(lv.course)[lv.index - 1].id);
   },
   worldUnlocked(w) { return this.isUnlocked(LEVELS.find(l => l.world === w)); },
@@ -6088,7 +6468,7 @@ const Progress = {
   nextRank() { const xp = this.totalXP(); return RANKS.find(k => k.xp > xp) || null; },
   maxWorld() { let m = 1; for (const w of WORLDS) if (this.worldUnlocked(w.id)) m = w.id; return m; },
   nextLevel() { return LEVELS.find(l => !this.isDone(l.id) && this.isUnlocked(l)) || LEVELS[0]; },
-  baseXP(lv) { return lv.final ? 1000 : lv.boss ? 300 : 100; },
+  baseXP(lv) { return lv.final ? 1000 : lv.boss ? 300 : lv.project ? 200 : 100; },
   xpFor(lv, hints) { const b = this.baseXP(lv); return Math.max(Math.round(b * 0.2), b - 20 * hints); },
   unlockedReward(item) { return this.P.settings.unlockAll || this.totalXP() >= item.xp; },
   complete(lv, r) {
@@ -6168,6 +6548,11 @@ const Progress = {
     if (Object.keys(P.speedrun).length) A('speedrunner');
     if (P.stats.styled) A('stylist');
     if (P.certified || Object.keys(P.certs || {}).length) A('certified');
+    const learned = Object.values(P.learned || {});
+    if (learned.length >= 10) A('typist');
+    if (learned.some(x => x.acc >= 100)) A('sharp');
+    if (PROJECTS.some(p => this.isDone(p.id))) A('builder');
+    if (PROJECTS.every(p => this.isDone(p.id))) A('architect');
     if (this.legend()) A('legend');
     if (got.length) { this.save(); got.forEach((id, i) => setTimeout(() => UI.achToast(id), 400 + i * 900)); }
   }
@@ -6278,13 +6663,15 @@ const Renderer = {
     this.bugIcon = (map && map.bugIcon) || '🐞';
     this.mode = s.books ? 'books' : (s.secret != null ? 'guess' : 'grid');
     board.className = 'mode-' + this.mode;
+    if (this.mode !== 'grid') $('#board-wrap').classList.add('tight');
     if (this.mode === 'books') { this.maxBook = Math.max(1, ...s.books); this.draw(world); return; }
     if (this.mode === 'guess') { this.draw(world); return; }
     this.W = s.W; this.H = s.H;
     const wrap = $('#board-wrap');
-    const avail = Math.max(180, (wrap.clientWidth || 420) - 30);
+    const avail = Math.max(180, (wrap.clientWidth || 420) - 44);
     this.cell = Math.max(24, Math.min(64, Math.floor(Math.min(avail, 640) / this.W), Math.floor(Math.max(300, innerHeight * 0.62) / this.H)));
     board.style.setProperty('--cell', this.cell + 'px');
+    wrap.classList.toggle('tight', this.cell * this.W + 120 > wrap.clientWidth);
     board.style.setProperty('--cols', this.W);
     board.style.setProperty('--rows', this.H);
     const grid = document.createElement('div');
@@ -6328,10 +6715,10 @@ const Renderer = {
     const K = (x, y) => x + ',' + y, top = {}, rest = {};
     const put = (map, x, y, h) => (map[K(x, y)] = map[K(x, y)] || []).push(h);
     s.crystals.forEach(c => { if (!c.taken) put(top, c.x, c.y, '<span class="gemw"><span class="c-' + c.color + '">💎</span></span>'); });
-    s.keys.forEach(k => { if (!k.taken) put(top, k.x, k.y, '🔑<span class="keydot" style="background:' + (COLOR_HEX[k.color] || '#ffd43b') + '"></span>'); });
-    s.bugs.forEach(b => { if (!b.fixed) put(top, b.x, b.y, this.bugIcon); });
-    s.teleports.forEach(t => put(rest, t.x, t.y, '🌀'));
-    if (s.flag) put(rest, s.flag.x, s.flag.y, '🏁');
+    s.keys.forEach(k => { if (!k.taken) put(top, k.x, k.y, '<span class="bob">🔑</span><span class="keydot" style="background:' + (COLOR_HEX[k.color] || '#ffd43b') + '"></span>'); });
+    s.bugs.forEach(b => { if (!b.fixed) put(top, b.x, b.y, '<span class="bob">' + this.bugIcon + '</span>'); });
+    s.teleports.forEach(t => put(rest, t.x, t.y, '<span class="spin">🌀</span>'));
+    if (s.flag) put(rest, s.flag.x, s.flag.y, '<span class="flag">🏁</span>');
     if (s.mirrorFlag) put(rest, s.mirrorFlag.x, s.mirrorFlag.y, '🎯');
     const doors = {}; s.doors.forEach(d => { doors[K(d.x, d.y)] = d; });
     const light = world.lightColor();
@@ -6499,19 +6886,10 @@ const Editor = {
       const ta = this.ta; ta.setRangeText(text, ta.selectionStart, ta.selectionEnd, "end"); ta.focus(); this.sync(); this.onChange && this.onChange();
     }
   },
-  // ბოლო არაცარიელი ხაზის წაშლა (დამწყებთა ღილაკი „⌫“)
-  removeLastLine() {
-    const lines = this.get().replace(/\s+$/, '').split('\n');
-    // C/C++/Java: main-ის ჩარჩოს (}, return 0;, #include ...) არ ვშლით
-    const frame = /^\s*(\}|return 0;|int main\(\)\s*\{|void main\(\)\s*\{|#include.*|using namespace std;|\/\/.*)?\s*$/;
-    let k = lines.length - 1;
-    if (this.lang !== 'js' && this.lang !== 'py') while (k >= 0 && frame.test(lines[k])) k--;
-    if (k < 0) return;
-    lines.splice(k, 1);
-    const code = lines.join('\n');
-    this.set(code ? code + '\n' : '');
-    if (this.cm) this.cm.focus(); else this.ta.focus();
-    if (this.onChange) this.onChange();
+  // ტექსტის ჩასმა კურსორთან, ზუსტად ისე, როგორც კლავიატურიდან (სიმბოლოების ღილაკები)
+  type(text) {
+    if (this.cm) { this.cm.replaceSelection(text); this.cm.focus(); }
+    else { const ta = this.ta; ta.setRangeText(text, ta.selectionStart, ta.selectionEnd, 'end'); ta.focus(); this.sync(); this.onChange && this.onChange(); }
   },
   markError(line) {
     this.err = line || null;
@@ -6710,7 +7088,7 @@ const MapScreen = {
     const rowH = 168, W = wrap.clientWidth || 800, top0 = 24;
     const pts = WORLDS.map((w, i) => ({ x: (i % 2 ? 72 : 28) + (i % 4 === 1 ? 4 : i % 4 === 3 ? -4 : 0), y: top0 + i * rowH }));
     const cur = Progress.nextLevel().world;
-    const cxy = p => [p.x / 100 * W, p.y + 43];
+    const cxy = p => [p.x / 100 * W, p.y + 47];
     let d = '';
     pts.forEach((p, i) => {
       const [x, y] = cxy(p);
@@ -6718,16 +7096,17 @@ const MapScreen = {
       else { const [px, py] = cxy(pts[i - 1]); d += ' C' + px + ' ' + (py + rowH * 0.55) + ',' + x + ' ' + (y - rowH * 0.55) + ',' + x + ' ' + y; }
     });
     const H = top0 + WORLDS.length * rowH + 30;
-    let html = '<svg class="map-svg" width="' + W + '" height="' + H + '" aria-hidden="true"><path d="' + d + '" fill="none" stroke="var(--border)" stroke-width="3" stroke-dasharray="6 8" stroke-linecap="round"/></svg>';
+    let html = '<svg class="map-svg" width="' + W + '" height="' + H + '" aria-hidden="true"><path class="map-road" d="' + d + '" fill="none" stroke-linecap="round"/><path class="map-road-line" d="' + d + '" fill="none" stroke-linecap="round"/></svg>';
     WORLDS.forEach((w, i) => {
       const un = Progress.worldUnlocked(w.id);
       const dots = LEVELS.filter(l => l.world === w.id).map(l => '<span class="dot' + (Progress.isDone(l.id) ? ' done' : '') + (l.boss ? ' boss' : '') + '"></span>').join('');
       html += '<div class="island' + (un ? '' : ' locked') + (un && w.id === cur ? ' current' : '') + '" style="left:' + pts[i].x + '%;top:' + pts[i].y + 'px;--ia:' + w.a + ';--ib:' + w.b + '">' +
         '<button class="island-btn" data-world="' + w.id + '" aria-label="სამყარო ' + w.id + ': ' + esc(w.name) + (un ? '' : ' (ჩაკეტილია)') + '">' +
-        '<div class="island-blob">' + (un ? w.icon : '🔒') + '</div>' +
+        '<div class="island-blob">' + (un ? w.icon : '🔒') + (Progress.worldDone(w.id) ? '<span class="ok" aria-hidden="true">✓</span>' : '') + '</div>' +
         '<div class="island-name">' + w.id + '. ' + esc(w.name) + '</div>' +
         '<div class="island-sub">' + esc(w.topic) + ' · ⭐ ' + Progress.worldStars(w.id) + '/15</div>' +
-        '<div class="dots">' + dots + '</div>' + (un && w.id === cur ? '<span class="here">● აქ ხარ</span>' : '') + '</button></div>';
+        '<div class="dots">' + dots + '</div>' + (un && w.id === cur ? '<span class="here">' + bitSVG() + 'აქ ხარ</span>' : '') +
+        (PROJECT_BY_WORLD[w.id] && Progress.isUnlocked(PROJECT_BY_WORLD[w.id]) ? '<span class="proj-chip">' + PROJECT_BY_WORLD[w.id].icon + ' პროექტი' + (Progress.isDone(PROJECT_BY_WORLD[w.id].id) ? ' ✓' : '') + '</span>' : '') + '</button></div>';
     });
     wrap.style.height = H + 'px';
     wrap.innerHTML = html;
@@ -6739,15 +7118,22 @@ const WorldPanel = {
     const w = WORLDS[wid - 1], P = Progress.P;
     if (!Progress.worldUnlocked(wid)) { UI.toast('🔒', 'სამყარო ჯერ ჩაკეტილია', 'ჯერ წინა სამყარო დაასრულე.'); return; }
     const lv = LEVELS.filter(l => l.world === wid), bossDone = Progress.isDone(lv[4].id);
-    let html = '<h2>' + w.icon + ' ' + esc(w.name) + '</h2><p class="muted" style="margin-top:-.4em">თემა: ' + esc(w.topic) + ' · ⭐ ' + Progress.worldStars(wid) + '/15</p><div class="lvl-list">';
+    let html = '<div class="wp-head" style="--ia:' + w.a + '"><div class="island-blob sm" aria-hidden="true">' + w.icon + '</div><div><h2>' + esc(w.name) + '</h2><p class="muted">თემა: ' + esc(w.topic) + ' · ⭐ ' + Progress.worldStars(wid) + '/15</p></div></div><div class="lvl-list">';
     lv.forEach(l => {
       const un = Progress.isUnlocked(l), r = Progress.rec(l.id) || {};
-      html += '<div style="display:flex;gap:6px;align-items:stretch"><button class="lvl-item" data-lv="' + l.id + '"' + (un ? '' : ' disabled') + ' style="--wa:' + w.a + ';--wb:' + w.b + '">' +
+      html += '<div style="display:flex;gap:6px;align-items:stretch"><button class="lvl-item' + (r.done ? ' done' : un ? ' next' : '') + '" data-lv="' + l.id + '"' + (un ? '' : ' disabled') + ' style="--wa:' + w.a + ';--wb:' + w.b + '">' +
         '<span class="lvl-num">' + (l.boss ? '👾' : l.num) + '</span><span class="t"><b>' + esc(l.title) + '</b><small>' +
         (l.final ? 'საბოლოო ბოსი · 3 ფაზა' : l.boss ? 'ბოსი' : l.practice ? 'პრაქტიკა' : 'სწავლება') + (un ? '' : ' · 🔒') + '</small></span>' + starsHTML(r.stars || 0) + '</button>' +
         (r.done ? '<button class="btn small" data-sr="' + l.id + '" title="სპიდრანი — გაიარე დროზე">⏱' + (P.speedrun[l.id] ? ' ' + fmtTime(P.speedrun[l.id]) : '') + '</button>' : '') + '</div>';
     });
-    html += '</div><div class="modal-actions"><button class="btn" data-a="scene">სცენა</button>' +
+    html += '</div>';
+    const pr = PROJECT_BY_WORLD[wid];
+    if (pr) {
+      const pun = Progress.isUnlocked(pr), pr2 = Progress.rec(pr.id) || {};
+      html += '<button class="proj-card" data-lv="' + pr.id + '"' + (pun ? '' : ' disabled') + ' style="--wa:' + w.a + '"><span class="pi" aria-hidden="true">' + pr.icon + '</span><span class="t"><small>🏗️ რეალური პროექტი</small><b>' + esc(pr.title) + '</b><small>' +
+        (pun ? esc(pr.real) : '🔒 გაიხსნება ბოსის დამარცხების შემდეგ') + '</small></span>' + starsHTML(pr2.stars || 0) + '</button>';
+    }
+    html += '<div class="modal-actions"><button class="btn" data-a="scene">სცენა</button>' +
       (bossDone ? '<button class="btn" data-a="quiz">ქვიზი' + (P.quiz[wid] != null ? ' (' + P.quiz[wid] + '/5)' : '') + '</button><button class="btn" data-a="real">რეალურ ცხოვრებაში</button>'
         : '<span class="muted" style="align-self:center;font-size:.84rem">ქვიზი და „რეალურ ცხოვრებაში“ ბოსის შემდეგ გაიხსნება</span>') +
       '<button class="btn primary" data-close>დახურვა</button></div>';
@@ -6868,20 +7254,6 @@ const Cheat = {
 };
 
 /* ---------- ბრძანებების ღილაკები სხვა ენებისთვის ---------- */
-const LANG_SNIPPETS = {
-  py: [{ w: 2, t: 'x = 0', ins: 'x = 0' }, { w: 2, t: 'print()', ins: 'print()' }, { w: 4, t: 'if', ins: 'if :\n    ' }, { w: 4, t: 'else', ins: 'else:\n    ' }, { w: 4, t: 'and', ins: ' and ' }, { w: 4, t: 'or', ins: ' or ' }, { w: 4, t: 'not', ins: 'not ' },
-    { w: 5, t: 'for', ins: 'for i in range(3):\n    ' }, { w: 5, t: 'while', ins: 'while :\n    ' }, { w: 6, t: 'def', ins: 'def name():\n    ' }],
-  java: [{ w: 2, t: 'int x = 0;', ins: 'int x = 0;' }, { w: 2, t: 'println', ins: 'System.out.println();' }, { w: 4, t: 'if', ins: 'if () {\n    \n}' }, { w: 4, t: 'else', ins: ' else {\n    \n}' }, { w: 4, t: '&&', ins: ' && ' }, { w: 4, t: '||', ins: ' || ' },
-    { w: 5, t: 'for', ins: 'for (int i = 0; i < 3; i++) {\n    \n}' }, { w: 5, t: 'while', ins: 'while () {\n    \n}' }, { w: 6, t: 'void', ins: 'void name() {\n    \n}' }],
-  c: [{ w: 2, t: 'int x = 0;', ins: 'int x = 0;' }, { w: 2, t: 'printf', ins: 'printf("%d\\n", x);' }, { w: 4, t: 'if', ins: 'if () {\n    \n}' }, { w: 4, t: 'else', ins: ' else {\n    \n}' }, { w: 4, t: '&&', ins: ' && ' }, { w: 4, t: '||', ins: ' || ' },
-    { w: 5, t: 'for', ins: 'for (int i = 0; i < 3; i++) {\n    \n}' }, { w: 5, t: 'while', ins: 'while () {\n    \n}' }, { w: 6, t: 'void', ins: 'void name() {\n    \n}' }],
-  cpp: [{ w: 2, t: 'int x = 0;', ins: 'int x = 0;' }, { w: 2, t: 'cout', ins: 'cout << x << endl;' }, { w: 4, t: 'if', ins: 'if () {\n    \n}' }, { w: 4, t: 'else', ins: ' else {\n    \n}' }, { w: 4, t: '&&', ins: ' && ' }, { w: 4, t: '||', ins: ' || ' },
-    { w: 5, t: 'for', ins: 'for (int i = 0; i < 3; i++) {\n    \n}' }, { w: 5, t: 'while', ins: 'while () {\n    \n}' }, { w: 6, t: 'void', ins: 'void name() {\n    \n}' }],
-  html: [{ w: 1, t: '<h1>', ins: '<h1></h1>' }, { w: 2, t: '<p>', ins: '<p></p>' }, { w: 3, t: '<strong>', ins: '<strong></strong>' }, { w: 3, t: '<em>', ins: '<em></em>' }, { w: 4, t: '<a>', ins: '<a href=""></a>' }, { w: 5, t: '<img>', ins: '<img src="" alt="">' },
-    { w: 6, t: '<ul>', ins: '<ul>\n  <li></li>\n</ul>' }, { w: 6, t: '<li>', ins: '<li></li>' }, { w: 7, t: '<table>', ins: '<table>\n  <tr><td></td></tr>\n</table>' }, { w: 7, t: '<tr>', ins: '<tr><td></td></tr>' }, { w: 8, t: '<input>', ins: '<input type="text">' }, { w: 8, t: '<button>', ins: '<button></button>' }, { w: 9, t: '<header>', ins: '<header>\n  \n</header>' }],
-  css: [{ w: 1, t: 'color', ins: 'color: ;' }, { w: 2, t: 'background-color', ins: 'background-color: ;' }, { w: 3, t: 'font-size', ins: 'font-size: px;' }, { w: 3, t: 'font-family', ins: 'font-family: ;' }, { w: 4, t: 'font-weight', ins: 'font-weight: bold;' }, { w: 5, t: 'letter-spacing', ins: 'letter-spacing: px;' },
-    { w: 6, t: 'padding', ins: 'padding: px;' }, { w: 6, t: 'margin', ins: 'margin: px;' }, { w: 7, t: 'border', ins: 'border: 1px solid ;' }, { w: 7, t: 'border-radius', ins: 'border-radius: px;' }, { w: 8, t: 'width', ins: 'width: px;' }, { w: 8, t: 'text-align', ins: 'text-align: center;' }, { w: 9, t: 'display: flex', ins: 'display: flex;' }, { w: 9, t: 'justify-content', ins: 'justify-content: ;' }]
-};
 // თამაშის მონაცემების ჩვენება ენის მიხედვით (int number = 14; ...)
 function fmtDataLine(lang, k, v, t) {
   const lit = x => (Array.isArray(x) ? (lang === 'py' || lang === 'js' ? '[' + x.map(lit).join(', ') + ']' : '{' + x.map(lit).join(', ') + '}') : typeof x === 'string' ? '"' + x + '"' : lang === 'py' && typeof x === 'boolean' ? (x ? 'True' : 'False') : String(x));
@@ -6961,7 +7333,7 @@ const CourseScreen = {
     html += '<div class="lvl-list" style="margin-top:14px">';
     c.levels.forEach(l => {
       const un = Progress.isUnlocked(l), r = Progress.rec(l.id) || {};
-      html += '<div style="display:flex;gap:6px;align-items:stretch"><button class="lvl-item" data-lv="' + l.id + '"' + (un ? '' : ' disabled') + ' style="--wa:' + L.color + '">' +
+      html += '<div style="display:flex;gap:6px;align-items:stretch"><button class="lvl-item' + (r.done ? ' done' : un ? ' next' : '') + '" data-lv="' + l.id + '"' + (un ? '' : ' disabled') + ' style="--wa:' + L.color + '">' +
         '<span class="lvl-num" style="color:' + L.ink + '">' + (l.boss ? '👾' : l.num) + '</span><span class="t"><b>' + esc(l.title) + '</b><small>' + (l.boss ? 'ბოსი' : L.kind === 'web' ? 'გაკვეთილი' : 'ლეველი') + (l === nxt && !r.done ? ' · ● შემდეგი' : '') + (un ? '' : ' · 🔒') + '</small></span>' + starsHTML(r.stars || 0) + '</button>' +
         (r.done ? '<button class="btn small" data-sr="' + l.id + '" title="სპიდრანი — გაიარე დროზე">⏱' + (P.speedrun[l.id] ? ' ' + fmtTime(P.speedrun[l.id]) : '') + '</button>' : '') + '</div>';
     });
@@ -7238,9 +7610,15 @@ const SNIPPETS = [
   { w: 6, t: 'function', ins: 'function name() {\n  \n}' }, { w: 6, t: 'return', ins: 'return ;' },
   { w: 7, t: '[ ]', ins: '[]' }, { w: 7, t: 'for…of', ins: 'for (const x of arr) {\n  \n}' }, { w: 8, t: '{ }', ins: '{ key: 1 }' }
 ];
-const BIG_CMDS = {
-  move: { ic: '⬆', t: 'წინ' }, turnLeft: { ic: '↶', t: 'მარცხნივ' }, turnRight: { ic: '↷', t: 'მარჯვნივ' },
-  collect: { ic: '💎', t: 'აიღე' }, openDoor: { ic: '🚪', t: 'კარი' }
+// სიმბოლოების კლავიატურა ენების მიხედვით
+const KEYS = {
+  js: ['(', ')', ';', '{', '}', '"', '=', '+', '-', '<', '>', '[', ']', '.', ',', '!', '&&', '||'],
+  py: ['(', ')', ':', '"', '=', '+', '-', '<', '>', '[', ']', '.', ',', '#', '%'],
+  java: ['(', ')', ';', '{', '}', '"', '=', '+', '-', '<', '>', '[', ']', '.', ',', '!', '%'],
+  c: ['(', ')', ';', '{', '}', '"', '=', '+', '-', '<', '>', '[', ']', '%', '&', '#', ','],
+  cpp: ['(', ')', ';', '{', '}', '"', '=', '+', '-', '<<', '>>', '<', '>', '[', ']', '#', ','],
+  html: ['<', '>', '/', '"', '=', '!'],
+  css: ['{', '}', ':', ';', '#', '.', '-', '%', '"', '(', ')']
 };
 const ENCOURAGE = ['არაუშავს — შეცდომა სწავლის ნაწილია! 💪', 'თითქმის გამოგივიდა, კიდევ ერთხელ სცადე!', 'ყოველი შეცდომა რაღაც ახალს გასწავლის.', 'პროფესიონალი პროგრამისტებიც ყოველდღე ცდებიან — ეს ნორმალურია!', 'ნაბიჯ-ნაბიჯ რეჟიმი ⏯ დაგეხმარება, დაინახო, სად იბნევა ბიტი.'];
 const SBX_TOOLS = [
@@ -7274,10 +7652,190 @@ function syntaxInfo(code) {
 
 const DEFAULT_SANDBOX = () => ({ grid: ['>.......', '........', '..*..#..', '.....#..', '..#...*.', '.......F'], code: '// შენი სამყარო! დახატე რუკა ზემოთ და დაწერე კოდი.\nmove(2);\ncollect();\n' });
 
+/* =====================================================================
+   სწავლის 3 ნაბიჯი: 👀 ნახე → ✍️ გაიმეორე → 🚀 შენით
+   ===================================================================== */
+const HL_KW = new Set(['let', 'const', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'of', 'in', 'true', 'false', 'null', 'new', 'break', 'continue', 'this',
+  'def', 'elif', 'and', 'or', 'not', 'True', 'False', 'None', 'pass', 'int', 'double', 'float', 'char', 'bool', 'boolean', 'string', 'String', 'void', 'public', 'static', 'class', 'using', 'namespace', 'auto']);
+// მარტივი ფერადი სინტაქსი დემოსთვის
+function hlCode(src, lang) {
+  const span = (c, t) => '<span class="hl-' + c + '">' + esc(t) + '</span>';
+  const re = lang === 'html' ? /(<!--[\s\S]*?(?:-->|$))|("[^"\n]*"?)|(<\/?[A-Za-z][\w-]*|\/?>)|([A-Za-z-]+)(?==)/g
+    : lang === 'css' ? /(\/\*[\s\S]*?(?:\*\/|$))|("[^"\n]*"?)|(#[0-9a-fA-F]{3,8}\b|\b\d+(?:\.\d+)?(?:px|em|rem|%)?)|([A-Za-z-]+)(?=\s*:)/g
+    : lang === 'py' ? /(#.*)|("(?:[^"\\\n]|\\.)*"?|'(?:[^'\\\n]|\\.)*'?)|(\b\d+(?:\.\d+)?\b)|([A-Za-z_]\w*)/g
+    : /(\/\/.*|\/\*[\s\S]*?(?:\*\/|$)|#include.*)|("(?:[^"\\\n]|\\.)*"?|'(?:[^'\\\n]|\\.)*'?|`[^`]*`?)|(\b\d+(?:\.\d+)?\b)|([A-Za-z_$][\w$]*)/g;
+  let out = '', last = 0, m;
+  while ((m = re.exec(src))) {
+    if (!m[0]) { re.lastIndex++; continue; }
+    out += esc(src.slice(last, m.index));
+    if (m[1]) out += span('c', m[1]);
+    else if (m[2]) out += span('s', m[2]);
+    else if (m[3]) out += span(lang === 'html' ? 't' : 'n', m[3]);
+    else {
+      const w = m[4];
+      out += lang === 'html' || lang === 'css' ? span('a', w) : HL_KW.has(w) ? span('k', w) : /^\s*\(/.test(src.slice(m.index + w.length)) ? span('f', w) : esc(w);
+    }
+    last = m.index + m[0].length;
+  }
+  return out + esc(src.slice(last));
+}
+// სად იწყება ხაზზე კომენტარი (ბრჭყალების გარეთ); -1 — არსად
+function commentStart(line, lang) {
+  let q = null;
+  for (let j = 0; j < line.length; j++) {
+    const ch = line[j];
+    if (q) { if (ch === '\\') j++; else if (ch === q) q = null; continue; }
+    if (lang !== 'html' && lang !== 'css' && (ch === '"' || ch === "'" || ch === '`')) { q = ch; continue; }
+    if (lang === 'py' ? ch === '#' : lang === 'html' ? line.startsWith('<!--', j) : lang === 'css' ? line.startsWith('/*', j) : line.startsWith('//', j)) return j;
+  }
+  return -1;
+}
+// „გაიმეორე“: რომელი სიმბოლოები ჩაიწერება თავისით — შეწევა, კომენტარები, ცარიელი ხაზები და არა-ლათინური ტექსტი (ქართული, ემოჯი)
+function autoMask(T, lang) {
+  const auto = new Array(T.length).fill(false);
+  let pos = 0;
+  for (const line of T.split('\n')) {
+    const end = pos + line.length;
+    let k = 0;
+    while (k < line.length && (line[k] === ' ' || line[k] === '\t')) auto[pos + k++] = true;
+    const c = commentStart(line, lang);
+    if (c >= 0) { let st = c; while (st > 0 && line[st - 1] === ' ') st--; for (let j = st; j < line.length; j++) auto[pos + j] = true; }
+    for (let j = 0; j < line.length; j++) if (line.charCodeAt(j) > 127) auto[pos + j] = true;
+    // ტექსტი, რომელშიც ქართულია, მთლიანად თავისით იწერება (ბრჭყალებში ან ტეგებს შორის) — აქ სინტაქსს ვსწავლობთ, არა ბეჭდვას
+    const segRe = lang === 'html' ? />([^<>]+)/g : lang === 'css' ? /"([^"]*)"/g : /"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)'|`([^`]*)`/g;
+    let m;
+    while ((m = segRe.exec(line))) {
+      const inner = m[1] != null ? m[1] : m[2] != null ? m[2] : m[3] || '';
+      if (!/[^\x00-\x7f]/.test(inner)) continue;
+      const from = m.index + 1;
+      for (let j = from; j < from + inner.length; j++) auto[pos + j] = true;
+    }
+    // მთლიანად კომენტარი ან ცარიელი ხაზი — ხაზის გადატანაც თავისით
+    if (end < T.length && line.split('').every((_, j) => auto[pos + j])) auto[end] = true;
+    pos = end + 1;
+  }
+  return auto;
+}
+const typeableCount = (code, lang) => { const T = String(code || '').replace(/\s+$/, ''); return autoMask(T, lang).filter(a => !a).length; };
+// თეორია წინადადებებად (ბარათებად)
+const splitSentences = t => String(t || '').replace(/([.!?])\s+(?=[ა-ჰ„])/g, '$1\u0000').split('\u0000').filter(x => x.trim());
+// მაგალითის მომზადება გასაშვებად: სხვა ენა ითარგმნება, C/C++/Java-ს ნაწყვეტი main()-სა და #include-ებში ჯდება
+function prepExample(lv, allowed) {
+  const lang = lv.lang || 'js', L = LANGS[lang], code = String(lv.example || '');
+  if (!code || lv.web || !L) return null;
+  if (!L.compile) return { code, names: extractVarNames(code) };
+  const HEAD = { c: '#include <stdio.h>\n#include <string.h>', cpp: '#include <iostream>\n#include <string>\nusing namespace std;' }[lang] || '';
+  const tries = [code];
+  if (RC_MAIN[lang] && lang !== 'py') tries.push(/\bmain\s*\(/.test(code) ? HEAD + '\n' + code : RC_MAIN[lang](code, HEAD));
+  for (const t of tries) { const c = L.compile(t, { allowed, vars: [], varTypes: {} }); if (!c.error) return { code: c.code, names: c.vars }; }
+  return null;
+}
+const usesRobot = lv => new RegExp('\\b(' + ALL_COMMANDS.map(c => cmdName(lv.lang || 'js', c)).join('|') + ')\\s*\\(').test(stripComments(String(lv.example || ''), lv.lang));
+// მაგალითის ნამდვილი გაშვება: რას ბეჭდავს (თუ რობოტის ბრძანებებს არ იყენებს)
+async function runExample(lv) {
+  if (usesRobot(lv)) return null;
+  const p = prepExample(lv, []);
+  if (!p) return null;
+  const res = await CodeRunner.run({ code: p.code, lang: lv.lang || 'js', map: parseMap({ grid: ['>'] }), allowed: [], vars: null, wantVars: false, varNames: p.names });
+  if (res.error || res.timeout || res.halted) return null;
+  const logs = (res.events || []).filter(e => e.t === 'log').map(e => e.text);
+  return logs.length ? logs : null;
+}
+// დემო-დაფა რობოტის მაგალითისთვის: ცარიელი მინდორი, კრისტალები, კედელი ან შუქნიშანი — რასაც მაგალითი იყენებს
+function demoMapDef(lv) {
+  const code = stripComments(String(lv.example || ''), lv.lang), rows = ['.......', '.......', '.>.....', '.......', '.......'].map(r => r.split(''));
+  if (/collect|crystal/i.test(code)) for (let x = 2; x < 7; x++) rows[2][x] = '*';
+  if (/wall/i.test(code)) rows[2][/\b(for|while)\b/.test(code) ? 5 : 2] = '#';   // ციკლი — კედელი შორს, if — პირდაპირ წინ
+  if (/green|wait/i.test(code)) rows[2][3] = 'L';
+  return { grid: rows.map(r => r.join('')), light: ['red', 'green'] };
+}
+// „გაიმეორე“: კოდის გადაწერა ასო-ასო (ნაცრისფერი — ასაკრეფი, მწვანე — სწორი, წითელი — შეცდომა)
+const Typer = {
+  T: '', auto: [], v: '', keys: 0, errs: 0, combo: 0, best: 0, t0: 0, done: true, onDone: null,
+  init() {
+    const ta = $('#g-typer-in'), box = $('#g-typer');
+    ta.addEventListener('input', () => this.input());
+    ta.addEventListener('paste', e => e.preventDefault());   // ჩასმა არა — თავად აკრიფე!
+    ta.addEventListener('drop', e => e.preventDefault());
+    ta.addEventListener('keydown', e => {
+      if (e.key === 'Tab' || /^(Arrow|Home$|End$|Page)/.test(e.key)) e.preventDefault();
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); e.stopPropagation(); }
+    });
+    const toEnd = () => { const n = ta.value.length; if (ta.selectionStart !== n || ta.selectionEnd !== n) ta.setSelectionRange(n, n); };
+    ['select', 'click', 'keyup', 'focus'].forEach(ev => ta.addEventListener(ev, toEnd));
+    ta.addEventListener('focus', () => box.classList.add('focus'));
+    ta.addEventListener('blur', () => box.classList.remove('focus'));
+  },
+  mount(code, lang, onDone) {
+    this.T = String(code).replace(/\s+$/, ''); this.auto = autoMask(this.T, lang);
+    this.keys = this.errs = this.combo = this.best = this.t0 = 0; this.done = false; this.onDone = onDone;
+    const ta = $('#g-typer-in');
+    ta.readOnly = false; ta.value = this.v = this.fill('');
+    this.render();
+    if (!matchMedia('(pointer: coarse)').matches) setTimeout(() => ta.focus({ preventScroll: true }), 50);
+  },
+  fill(v) { const T = this.T; while (v.length < T.length && this.auto[v.length] && T.startsWith(v)) v += T[v.length]; return v; },
+  input() {
+    const ta = $('#g-typer-in'), old = this.v;
+    if (this.done) { ta.value = this.v; return; }
+    let v = ta.value;
+    if (v.length > old.length && v.startsWith(old)) {
+      if (!this.t0) this.t0 = Date.now();
+      for (let i = old.length; i < v.length; i++) {
+        if (v.slice(0, i) !== this.T.slice(0, i)) break;   // უკვე არის შეცდომა — ჯერ ის გაასწორე
+        this.keys++;
+        if (v[i] === this.T[i]) { this.combo++; this.best = Math.max(this.best, this.combo); if (this.combo % 10 === 0) { Sound.collect(); this.pop(); } }
+        else { this.errs++; this.combo = 0; Sound.turn(); }
+      }
+    }
+    v = this.fill(v);
+    if (v !== ta.value) ta.value = v;
+    this.v = v;
+    this.render();
+    if (v === this.T) this.finish();
+  },
+  render() {
+    const T = this.T, v = this.v;
+    let h = '', bad = false, good = 0;
+    for (let i = 0; i < T.length; i++) {
+      const ch = T[i];
+      let cls;
+      if (i < v.length) { if (!bad && v[i] === ch) { cls = this.auto[i] ? 'auto' : 'ok'; good = i + 1; } else { bad = true; cls = 'bad'; } }
+      else cls = i === v.length ? 'cur' : 'g';
+      if (ch === '\n') h += (cls === 'bad' || cls === 'cur' ? '<span class="' + cls + ' nl"></span>' : '') + '\n';
+      else h += '<span class="' + cls + '">' + esc(ch) + '</span>';
+    }
+    if (v.length > T.length) h += '<span class="bad">' + esc(v.slice(T.length)) + '</span>';
+    $('#g-typer-ghost').innerHTML = h;
+    $('#g-typer-prog').style.width = Math.round(100 * good / Math.max(1, T.length)) + '%';
+    $('#g-typer-combo').textContent = this.combo >= 5 ? '🔥 ' + this.combo : '';
+  },
+  pop() { const c = $('#g-typer-combo'); c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop'); },
+  finish() {
+    this.done = true;
+    const ta = $('#g-typer-in'); ta.readOnly = true; ta.blur();
+    const ms = Math.max(1000, Date.now() - (this.t0 || Date.now()));
+    const typed = this.auto.filter(a => !a).length;
+    const acc = this.keys ? Math.max(0, Math.round(100 * (this.keys - this.errs) / this.keys)) : 100;
+    if (this.onDone) this.onDone({ acc, cpm: Math.round(typed / (ms / 60000)), best: this.best });
+  }
+};
+// გამარჯვების კონფეტი (ფანჯრის ფონზე, დაკლიკვას არ უშლის ხელს)
+function confetti(host) {
+  if (!host) return;
+  const cols = ['#ff5252', '#ffd43b', '#2ecc71', '#4dabf7', '#b197fc', '#ff922b'];
+  const box = document.createElement('div');
+  box.className = 'confetti'; box.setAttribute('aria-hidden', 'true');
+  box.innerHTML = Array.from({ length: 42 }, (_, i) => '<i style="left:' + (Math.random() * 100).toFixed(1) + '%;background:' + cols[i % cols.length] +
+    ';--x:' + Math.round(Math.random() * 160 - 80) + 'px;--r:' + Math.round(Math.random() * 720 - 360) + 'deg;--d:' + (1.6 + Math.random() * 1.4).toFixed(2) + 's;--dl:' + (Math.random() * .5).toFixed(2) + 's"></i>').join('');
+  host.appendChild(box);
+  setTimeout(() => box.remove(), 3800);
+}
 const Game = {
   mode: 'level', base: null, cur: null, phaseIdx: 0, defs: [], maps: [], testIdx: 0, world: null,
   attempts: 0, failsTotal: 0, hintsUsed: 0, hintLevel: 0, start: 0, busy: false, stepSt: null, animToken: 0,
   timerId: null, tick: 0, lastResults: null, sbx: null, tool: '#', saveT: null,
+  learnOn: false, learnStep: 3, learnMax: 3, learnTok: 0, twTimer: null, twSkip: null,
 
   /* ---- გახსნა ---- */
   openLevel(id, mode = 'level') {
@@ -7340,13 +7898,20 @@ const Game = {
     const g = $('#scr-game');
     if (lv.course) { g.style.setProperty('--wa', L.color); g.style.setProperty('--wb', L.color); }
     else { g.style.setProperty('--wa', w.a); g.style.setProperty('--wb', w.b); }
+    applyTheme(g, lv.world || 1);
+    $('#g-icon').innerHTML = lv.course ? langBadge(lv.lang, true) : esc(lv.project ? lv.icon : { daily: '📅', sandbox: '🧪' }[mode] || w.icon);
     $('#g-back').textContent = mode === 'level' || mode === 'speedrun' ? (lv.course ? '← კურსი' : '← რუკა') : '← მენიუ';
     Editor.setMode(lv.lang || 'js');
-    $('#g-dict').textContent = lv.course ? 'შპარგალკა' : 'ლექსიკონი';
+    $('#g-dict').innerHTML = '<span class="ic">📖</span>' + (lv.course ? 'შპარგალკა' : 'ლექსიკონი');
+    $('#g-timer').classList.toggle('hidden', mode !== 'speedrun');
+    $('#g-attempts').classList.toggle('hidden', mode !== 'level');
     // ვებ-გაკვეთილზე რობოტის დაფის ნაცვლად გვერდის გადახედვა ჩანს
-    const web = !!lv.web;
-    ['#board-wrap', '#scr-game .board-bar', '#g-tests', '#g-step'].forEach(sel => $(sel).classList.toggle('hidden', web));
+    // რეალურ პროექტზე — ტელეფონის აპის ეკრანი
+    const web = !!lv.web, proj = !!lv.project;
+    ['#board-wrap', '#scr-game .board-bar', '#g-step'].forEach(sel => $(sel).classList.toggle('hidden', web || proj));
+    $('#g-tests').classList.toggle('hidden', web);
     ['#g-web', '#g-checks'].forEach(sel => $(sel).classList.toggle('hidden', !web));
+    $('#g-app').classList.toggle('hidden', !proj);
     $('#g-sandbox').classList.toggle('hidden', mode !== 'sandbox');
     Renderer.editable = mode === 'sandbox';
     Renderer.onCellClick = mode === 'sandbox' ? (x, y) => this.sbxEdit(x, y) : null;
@@ -7364,14 +7929,21 @@ const Game = {
     this.newMaps();
     const w = WORLDS[(lv.world || 1) - 1];
     const modeTag = { speedrun: 'სპიდრანი · ', daily: '', sandbox: '' }[this.mode] || '';
-    $('#g-world').textContent = base.course ? LANGS[base.lang].name + ' · ' + (base.web ? 'გაკვეთილი ' : 'ლეველი ') + base.num + '/' + courseLevels(base.course).length
-      : this.mode === 'level' || this.mode === 'speedrun' ? 'სამყარო ' + w.id + ' · ' + w.name + ' · ლეველი ' + base.id : (this.mode === 'daily' ? '📅 ყოველდღიური' : '🧪 სენდბოქსი');
+    const list = base.course ? courseLevels(base.course) : LEVELS.filter(l => l.world === base.world);
+    const inList = (this.mode === 'level' || this.mode === 'speedrun') && !base.project;
+    $('#g-world').textContent = base.course ? LANGS[base.lang].name + ' · ' + (base.web ? 'გაკვეთილი ' : 'ლეველი ') + base.num + '/' + list.length
+      : base.project ? '🏗️ რეალური პროექტი · ' + w.name
+      : inList ? w.name + ' · ' + (base.boss ? 'ბოსი' : 'ლეველი ' + base.num + '/' + list.length) : (this.mode === 'daily' ? 'ყოველდღიური' : 'სენდბოქსი');
+    $('#g-pips').innerHTML = inList ? list.map(l => '<i class="' + (l.id === base.id ? 'cur' : Progress.isDone(l.id) ? 'done' : '') + '"></i>').join('') : '';
     $('#g-name').textContent = modeTag + (base.boss && !base.phases ? '👾 ' : '') + base.title;
     const ph = $('#g-phase');
     ph.classList.toggle('hidden', !base.phases);
     if (base.phases) ph.textContent = lv.title + ' (' + (this.phaseIdx + 1) + '/' + base.phases.length + ')';
     this.setProf(lv.story || '', '');
     $('#g-theory').textContent = lv.theory || '';
+    // ახალი თემის ლეველზე „როგორ?“ ღიაა, პრაქტიკასა და ბოსზე — დახურული (თვითონ სცადე!)
+    $('#g-theory-box').open = !(lv.practice || base.boss || this.mode === 'daily');
+    $('#g-theory-box').classList.toggle('hidden', !lv.theory && !lv.example);
     $('#g-example').textContent = lv.example || '';
     $('#g-example').classList.toggle('hidden', !lv.example);
     $('#g-task').textContent = lv.task || '';
@@ -7389,14 +7961,147 @@ const Game = {
     Vars.reset();
     Con.clear();
     if (lv.web) Con.sys('მზად ვარ! დაწერე კოდი — გვერდი მარჯვნივ მაშინვე განახლდება. ▶ შემოწმება დავალებას შეამოწმებს (Ctrl+Enter).');
+    else if (lv.project) Con.sys('მზად ვარ! დაწერე კოდი — შედეგი ტელეფონის ეკრანზე გამოჩნდება (Ctrl+Enter).');
     else Con.sys('მზად ვარ! დაწერე კოდი და დააჭირე ▶ გაშვებას (Ctrl+Enter).');
     if (this.maps.length > 1) Con.sys('ამ ლეველს ' + this.maps.length + ' ტესტი აქვს — კოდი ყველაზე უნდა მუშაობდეს.');
     this.updateXPChip();
-    $('#g-attempts').textContent = 'ცდა: ' + this.attempts;
+    this.updateStarChip();
     $('#g-streak').textContent = Streak.chip();
     if (lv.web) { this.renderChecks(null); this.webPreview(); }
     else this.showTest(0);
     this.setBusy(false);
+    this.setupLearn();
+  },
+
+  /* ---- სწავლის 3 ნაბიჯი: 👀 ნახე → ✍️ გაიმეორე → 🚀 შენით ---- */
+  setupLearn() {
+    const lv = this.cur, base = this.base, P = Progress.P;
+    // ახალ თემაზე ჯერ ვაჩვენებთ და ერთხელ გადააწერინებთ; პრაქტიკა, ბოსი და პროექტი — პირდაპირ „შენით“
+    this.learnOn = this.mode === 'level' && !base.boss && !lv.practice && !base.project && typeableCount(lv.example, lv.lang || 'js') >= 4;
+    $('#g-steps').classList.toggle('hidden', !this.learnOn);
+    if (this.learnOn) $('#g-theory-box').open = false;
+    const fresh = this.learnOn && !Progress.isDone(base.id) && !P.learned[base.id];
+    this.learnMax = fresh ? 1 : 3;
+    this.showStep(fresh ? 1 : 3);
+  },
+  showStep(n, msg) {
+    const lv = this.cur, learning = n < 3;
+    this.learnStep = n; this.learnMax = Math.max(this.learnMax, n); this.learnTok++;
+    clearInterval(this.twTimer); this.twTimer = null;
+    // დემოს შემდეგ დაფაზე ისევ მისიის რუკა
+    if (!$('#g-demo-tag').classList.contains('hidden')) { $('#g-demo-tag').classList.add('hidden'); this.showTest(0); }
+    $('#g-learn').classList.toggle('hidden', !learning);
+    ['#scr-game .editor-card', '#g-palette', '#scr-game .controls', '#g-console'].forEach(sel => $(sel).classList.toggle('hidden', learning));
+    $('#g-html-box').classList.toggle('hidden', learning || !(lv.web && lv.lang === 'css'));
+    this.renderSteps();
+    if (n === 1) this.learnWatch();
+    else if (n === 2) this.learnType();
+    else {
+      if (msg) this.setProf(msg, '');
+      Editor.refresh();
+    }
+  },
+  renderSteps() {
+    $$('#g-steps [data-s]').forEach(b => {
+      const s = +b.dataset.s;
+      b.classList.toggle('on', s === this.learnStep);
+      b.classList.toggle('done', s < this.learnMax || (s === 3 && Progress.isDone(this.base.id)));
+      b.disabled = s > this.learnMax;
+      b.setAttribute('aria-selected', s === this.learnStep ? 'true' : 'false');
+    });
+  },
+  // ბეჭდვის ეფექტი: კოდი თვალწინ იწერება
+  typewrite(code, lang, done) {
+    const el = $('#g-demo'), tok = this.learnTok;
+    let n = 0;
+    const tick = () => {
+      if (tok !== this.learnTok) { clearInterval(this.twTimer); return; }
+      n = Math.min(code.length, n + (code[n] === ' ' ? 2 : 1));
+      el.innerHTML = hlCode(code.slice(0, n), lang) + (n < code.length ? '<span class="tw-cur"></span>' : '');
+      if (n >= code.length) { clearInterval(this.twTimer); this.twTimer = null; this.twSkip = null; if (done) done(); }
+    };
+    this.twSkip = () => { n = code.length; tick(); };
+    el.innerHTML = '<span class="tw-cur"></span>';
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { this.twSkip(); return; }
+    this.twTimer = setInterval(tick, 28);
+  },
+  learnWatch() {
+    const lv = this.cur, lang = lv.lang || 'js', tok = this.learnTok;
+    this.setProf(lv.story || '', '');
+    $('#g-learn-h').innerHTML = '👀 <b>ნახე და გაიგე</b> — რა არის ახალი';
+    $('#g-learn-pts').innerHTML = splitSentences(lv.theory).map(t => '<li>' + esc(t) + '</li>').join('');
+    $('#g-demo-box').classList.remove('hidden');
+    ['#g-typer', '#g-typer-bar', '#g-typer-stats', '#g-demo-out', '#g-demo-web'].forEach(sel => $(sel).classList.add('hidden'));
+    $('#g-demo-skip').classList.remove('hidden');
+    const next = $('#g-learn-next'); next.disabled = false; next.textContent = '✍️ ახლა შენ გადაწერე →';
+    this.typewrite(String(lv.example).replace(/\s+$/, ''), lang, () => {
+      $('#g-demo-skip').classList.add('hidden');
+      if (lv.web) { const f = $('#g-demo-web'); f.srcdoc = WebPreview.doc(lv, lv.example); f.classList.remove('hidden'); return; }
+      if (usesRobot(lv)) { this.demoBoard(tok); return; }
+      runExample(lv).then(logs => {
+        if (!logs || tok !== this.learnTok) return;
+        const o = $('#g-demo-out');
+        o.innerHTML = '<b>▶ კოდი ნამდვილად გაეშვა და დაბეჭდა:</b>' + logs.map(esc).join('\n');
+        o.classList.remove('hidden');
+      });
+    });
+  },
+  // ბიტი მაგალითს დემო-დაფაზე ასრულებს (შემდეგ ნაბიჯზე ლეველის რუკა ბრუნდება)
+  async demoBoard(tok) {
+    const lv = this.cur, p = prepExample(lv, ALL_COMMANDS);
+    if (!p || lv.project) return;
+    const def = demoMapDef(lv), map = parseMap(def);
+    const res = await CodeRunner.run({ code: p.code, lang: lv.lang || 'js', map, allowed: ALL_COMMANDS, vars: null, wantVars: false, varNames: p.names });
+    if (tok !== this.learnTok || res.error || !res.events || !res.events.some(e => e.t === 'act')) return;
+    const world = createWorld(map);
+    $('#g-demo-tag').classList.remove('hidden');
+    Renderer.setAnim(SPEEDS[1]);
+    Renderer.setup(world, map);
+    Status.update(world);
+    if (innerWidth < 900) $('#board-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    await sleep(500);
+    for (const ev of res.events.slice(0, 80)) {
+      if (tok !== this.learnTok) return;
+      if (ev.t !== 'act') continue;
+      const before = { x: world.s.bit.x, y: world.s.bit.y };
+      const r = world.act(ev.name, ev.args);
+      Renderer.afterAct(world, ev.name, r, before);
+      Status.update(world);
+      await sleep(SPEEDS[1]);
+    }
+  },
+  learnType() {
+    const lv = this.cur;
+    this.setProf('✍️ შენი ჯერია! გადაწერე კოდი ასო-ასო — ასე თითებიც და თავიც ერთად იმახსოვრებს.', '');
+    $('#g-learn-h').innerHTML = '✍️ <b>გადაწერე კოდი</b> — ერთხელ, ზუსტად';
+    $('#g-learn-pts').innerHTML = '<li class="tip">აკრიფე ნაცრისფერი ასოები. მწვანე — სწორია, წითელი — შეცდომა: წაშალე ⌫ და თავიდან სცადე.</li>' +
+      '<li class="tip">ქართული ტექსტი, კომენტარები და შეწევა თავისით ჩაიწერება.</li>';
+    $('#g-demo-box').classList.add('hidden');
+    ['#g-demo-out', '#g-demo-web', '#g-typer-stats'].forEach(sel => $(sel).classList.add('hidden'));
+    ['#g-typer', '#g-typer-bar'].forEach(sel => $(sel).classList.remove('hidden'));
+    const next = $('#g-learn-next'); next.disabled = true; next.textContent = '🚀 ახლა შენით!';
+    Typer.mount(lv.example, lv.lang || 'js', st => this.learnDone(st));
+  },
+  learnDone(st) {
+    const P = Progress.P, id = this.base.id, old = P.learned[id];
+    P.learned[id] = { acc: Math.max(st.acc, (old && old.acc) || 0), cpm: Math.max(st.cpm, (old && old.cpm) || 0) };
+    if (!old) P.bonusXP += 20;
+    Progress.save(); Progress.checkAch();
+    Sound.win();
+    const s = $('#g-typer-stats');
+    s.innerHTML = '<big>🎉 ' + (st.acc === 100 ? 'იდეალურია — არც ერთი შეცდომა!' : st.acc >= 90 ? 'შესანიშნავია!' : 'გამოგივიდა!') + '</big>' +
+      '🎯 სიზუსტე ' + st.acc + '% · ⚡ ' + st.cpm + ' სიმბოლო/წთ · 🔥 კომბო ' + st.best + (old ? '' : ' · <b>+20 XP</b>');
+    s.classList.remove('hidden');
+    this.learnMax = 3; this.renderSteps();
+    const next = $('#g-learn-next'); next.disabled = false; next.focus({ preventScroll: true });
+    this.setProf('ყოჩაღ! ახლა მისია თავად დაწერე — შენ უკვე იცი, როგორ. 🚀', 'good');
+  },
+  learnNext() {
+    if (this.learnStep === 1) this.showStep(2);
+    else if (this.learnStep === 2 && Typer.done) {
+      this.showStep(3, '🚀 ახლა შენით! შენ ეს უკვე ერთხელ დაწერე — გამოიყენე მისიაში. თუ დაგავიწყდა, ზემოთ „1 ნახე“ დააჭირე.');
+      if (Editor.cm) Editor.cm.focus(); else Editor.ta.focus();
+    }
   },
   newMaps() {
     if (this.cur.web) { this.defs = []; this.maps = []; return; }
@@ -7410,7 +8115,7 @@ const Game = {
     b.className = 'bubble' + (cls ? ' ' + cls : '');
     b.innerHTML = html;
     const glitch = /^გლიჩი:/.test(b.textContent);
-    $('.prof .avatar').textContent = glitch ? '👾' : '🦉';
+    $('#g-avatar').textContent = glitch ? '👾' : '🦉';
   },
   renderGoals() {
     const g = this.cur.goal || {}, out = [];
@@ -7430,6 +8135,7 @@ const Game = {
     if (g.shortest) out.push('🧭 უმოკლესი გზა');
     if (g.maxLines) out.push('✂️ ≤ ' + g.maxLines + ' ხაზი');
     if (g.outputHas || this.defs.some(d => d.output !== undefined)) out.push('🖨️ კონსოლში პასუხი');
+    if (this.defs.some(d => d.lines)) out.push('📱 ეკრანზე ზუსტი ტექსტი');
     if (this.defs.length > 1) out.push('🧪 ' + this.defs.length + ' ტესტი');
     if (this.mode === 'level' && this.cur.solution) out.push('⭐⭐⭐: ≤ ' + optimalLines(this.cur) + ' ხაზი' + (this.cur.stars3 === 'guesses7' ? ', ≤ 7 ცდა' : ''));
     $('#g-goals').innerHTML = out.map(t => '<li class="chip">' + t + '</li>').join('');
@@ -7438,38 +8144,38 @@ const Game = {
     const lv = this.cur, w = lv.world || 1, pal = $('#g-palette'), lang = lv.lang || 'js';
     const acts = lv.allowed.filter(c => !SENSORS.includes(c)), sens = lv.allowed.filter(c => SENSORS.includes(c));
     let html;
-    if (lang !== 'js') {
-      // სხვა ენები: ბრძანებები ენის სახელებით (Python — turn_left()), კონსტრუქციები ენის სინტაქსით
-      const semi = lv.web || lang === 'py' ? '' : ';';
-      if (lv.web) html = '<span class="lbl">ჩასვი:</span>' + LANG_SNIPPETS[lang].filter(s => s.w <= lv.num).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('');
-      else if (w <= 2) html = acts.filter(c => BIG_CMDS[c]).map(c => '<button class="cmd-big" data-ins="' + cmdName(lang, c) + '()' + semi + '" data-stmt="1" title="ჩასვი ' + cmdName(lang, c) + '()"><span class="ic">' + BIG_CMDS[c].ic + '</span>' + BIG_CMDS[c].t + '<code>' + cmdName(lang, c) + '()</code></button>').join('') +
-        '<button class="cmd-big undo" data-act="undo" title="ბოლო ხაზის წაშლა"><span class="ic">⌫</span>წაშალე<code>ბოლო ხაზი</code></button>' +
-        LANG_SNIPPETS[lang].filter(s => s.w <= w).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('') +
-        '<div class="palette-help">დააჭირე ღილაკს — ბრძანება კოდში ჩაიწერება. შეგიძლია კოდი თავადაც აკრიფო.</div>';
-      else html = '<span class="lbl">ჩასვი:</span>' + acts.map(c => '<button data-ins="' + cmdName(lang, c) + '()' + semi + '" data-stmt="1">' + cmdName(lang, c) + '()</button>').join('') +
-        sens.map(c => '<button data-ins="' + cmdName(lang, c) + '()" title="სენსორი">' + cmdName(lang, c) + '()</button>').join('') +
-        LANG_SNIPPETS[lang].filter(s => s.w <= w).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('');
-    } else if (w <= 2 && this.mode !== 'sandbox') {
-      // დამწყებთათვის: დიდი ღილაკები — დააჭირე და ბრძანება კოდში ჩაიწერება
-      html = acts.filter(c => BIG_CMDS[c]).map(c => '<button class="cmd-big" data-ins="' + c + '();" title="ჩასვი ' + c + '();"><span class="ic">' + BIG_CMDS[c].ic + '</span>' + BIG_CMDS[c].t + '<code>' + c + '()</code></button>').join('') +
-        '<button class="cmd-big undo" data-act="undo" title="ბოლო ხაზის წაშლა"><span class="ic">⌫</span>წაშალე<code>ბოლო ხაზი</code></button>' +
-        (w === 2 ? SNIPPETS.filter(s => s.w <= w).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('') : '') +
-        '<div class="palette-help">დააჭირე ღილაკს — ბრძანება კოდში ჩაიწერება. შეგიძლია კოდი თავადაც აკრიფო.</div>';
+    if (this.mode === 'sandbox') {
+      // თავისუფალ რეჟიმში ყველა ბრძანება ერთი დაჭერით ჩაისმება
+      html = '<span class="lbl">ჩასვი:</span>' + acts.map(c => '<button data-ins="' + c + '();">' + c + '()</button>').join('') +
+        sens.map(c => '<button data-ins="' + c + '()" title="სენსორი">' + c + '()</button>').join('') +
+        SNIPPETS.map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('');
     } else {
-      html = '<span class="lbl">ჩასვი:</span>' + acts.map(c => '<button data-ins="' + c + '();">' + c + '()</button>').join('');
-      if (sens.length) html += sens.map(c => '<button data-ins="' + c + '()" title="სენსორი">' + c + '()</button>').join('');
-      html += SNIPPETS.filter(s => s.w <= w).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('');
+      // „შენით“: კოდს თავად წერ — ღილაკები მხოლოდ ძნელად ასაკრეფ სიმბოლოებს სვამს
+      html = '<div class="keys" aria-label="სიმბოლოები">' + (KEYS[lang] || KEYS.js).map(k => '<button class="key" data-k="' + esc(k) + '">' + esc(k) + '</button>').join('') +
+        '<button class="key" data-k="&#9;" title="შეწევა">⇥</button></div>';
+      if (!lv.web && !lv.project && lv.allowed.length) {
+        const names = acts.concat(sens).map(c => '<code>' + cmdName(lang, c) + '()</code>').join('');
+        html += '<details class="cmd-ref"' + (w <= 2 ? ' open' : '') + '><summary>📋 ბიტის ბრძანებები</summary>' + names + '</details>';
+      }
     }
     pal.innerHTML = html;
     pal.querySelectorAll('[data-ins]').forEach(b => b.addEventListener('click', () => {
       let t = b.dataset.ins;
-      if (/^[a-zA-Z]+\(\);$/.test(t) || b.dataset.stmt) t += '\n';
-      Editor.insert(t, !!b.dataset.stmt);
+      if (/^[a-zA-Z]+\(\);$/.test(t)) t += '\n';
+      Editor.insert(t, false);
     }));
-    const undo = pal.querySelector('[data-act=undo]');
-    if (undo) undo.addEventListener('click', () => Editor.removeLastLine());
+    pal.querySelectorAll('[data-k]').forEach(b => {
+      b.addEventListener('mousedown', e => e.preventDefault());   // რედაქტორს ფოკუსი არ დაეკარგოს
+      b.addEventListener('click', () => Editor.type(b.dataset.k === '\t' ? ' '.repeat(Editor.unit) : b.dataset.k));
+    });
   },
   updateLines() { $('#g-lines').textContent = '· ' + countLines(Editor.get(), this.cur && this.cur.lang) + ' ხაზი'; },
+  // რამდენი ვარსკვლავის აღება შეიძლება ახლა: ⭐⭐⭐ ≤3 ცდა და მინიშნების გარეშე, ⭐⭐ ≤3 ცდა
+  updateStarChip() {
+    const n = this.attempts >= 3 ? 1 : this.hintsUsed ? 2 : 3;
+    $('#g-attempts').innerHTML = starsHTML(n);
+    $('#g-attempts').title = 'შესაძლო ვარსკვლავები: ' + n + ' · წარუმატებელი ცდები: ' + this.attempts + (this.hintsUsed ? ' · მინიშნებები: ' + this.hintsUsed : '');
+  },
   updateXPChip() {
     const c = $('#g-xp');
     if (this.mode === 'level') { c.textContent = Progress.xpFor(this.base, this.hintsUsed) + ' XP'; c.title = 'მიღებადი XP (ყოველი მინიშნება: −20)'; }
@@ -7488,6 +8194,22 @@ const Game = {
     $('#g-data').classList.toggle('hidden', !vars);
     const lg = this.cur.lang || 'js';
     if (vars) $('#g-data-body').textContent = Object.keys(vars).map(k => lg === 'js' ? k + ' = ' + fmtValue(vars[k]) : fmtDataLine(lg, k, vars[k], (this.cur.varTypes || {})[k])).join('\n');
+    if (this.cur.project) this.renderApp(i);
+  },
+  // რეალური პროექტი: ტელეფონის ეკრანი — ჯერ მოსალოდნელი შედეგი, გაშვების შემდეგ კი ის, რაც შენმა კოდმა დაბეჭდა
+  renderApp(i) {
+    const lv = this.cur, exp = (this.defs[i] && this.defs[i].lines) || [], r = this.lastResults && this.lastResults[i];
+    $('#g-app-ic').textContent = lv.icon; $('#g-app-title').textContent = lv.title;
+    const line = (t, c) => '<div class="app-line ' + c + '">' + esc(t) + '</div>';
+    let html;
+    if (!r) html = '<div class="app-hint">ასე უნდა გამოჩნდეს' + (this.defs.length > 1 ? ' (ტესტი ' + (i + 1) + ')' : '') + ':</div>' + exp.map(t => line(t, 'ghost')).join('');
+    else {
+      const logs = r.ev.logs || [];
+      html = (r.ev.ok ? '<div class="app-ok">✅ აპი მუშაობს!</div>' : '') +
+        (logs.length ? logs.map((t, k) => line(t, appNorm(t) === appNorm(exp[k]) ? 'ok' : 'bad')).join('') : '<div class="app-hint">ეკრანი ცარიელია — კოდმა ჯერ არაფერი დაბეჭდა.</div>') +
+        exp.slice(logs.length).map(t => line(t, 'miss')).join('');
+    }
+    $('#g-app-body').innerHTML = html;
   },
   renderTests() {
     const box = $('#g-tests');
@@ -7502,7 +8224,7 @@ const Game = {
     this.busy = b;
     $('#g-run').disabled = b; $('#g-step').disabled = b; $('#g-hint').disabled = b;
     $('#g-run').textContent = b ? 'სრულდება…' : this.cur && this.cur.web ? '▶ შემოწმება' : '▶ გაშვება';
-    $('#g-reset').textContent = b ? 'გაჩერება' : '⟲ თავიდან';
+    $('#g-reset').innerHTML = b ? '<span class="ic">⏹</span>გაჩერება' : '<span class="ic">⟲</span>თავიდან';
     $$('#g-tests [data-t]').forEach(x => { x.disabled = b; });
   },
   cancelAnim() { this.animToken++; },
@@ -7519,7 +8241,7 @@ const Game = {
 
   /* ---- გაშვება ---- */
   async run(stepMode = false) {
-    if (this.busy) return;
+    if (this.busy || this.learnStep < 3) return;
     Sound.ensure();
     const code = Editor.get();
     if (this.cur.web) return this.runWeb(code);
@@ -7531,7 +8253,7 @@ const Game = {
     P.stats.runs++;
     if (this.cur.maps && this.cur.maps.gen) this.newMaps();
     if (this.mode === 'sandbox') this.noteSandboxMap();
-    if (innerWidth < 900) $('#board-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (innerWidth < 900) $(lv.project ? '#g-app' : '#board-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
     const runTok = this.animToken;
     // სხვა ენა: ჯერ JavaScript-ში ვთარგმნით (ხაზები ემთხვევა), შეცდომას ქართულად ვაჩვენებთ
     const L = LANGS[lv.lang || 'js'];
@@ -7585,7 +8307,7 @@ const Game = {
     this.finish(results, code);
   },
   step() {
-    if (this.busy) return;
+    if (this.busy || this.learnStep < 3) return;
     if (!this.stepSt) this.run(true); else this.stepNext();
   },
   stepNext() {
@@ -7634,6 +8356,7 @@ const Game = {
     Editor.markRun(null);
     this.lastResults = results;
     this.renderTests();
+    if (this.cur.project) this.renderApp(this.testIdx);
     const fi = results.findIndex(r => !r.ev.ok);
     if (fi >= 0) return this.onFail(results[fi].ev, fi, results.length);
     const req = this.mode === 'sandbox' ? null : checkRequirements(this.cur, code);
@@ -7642,7 +8365,7 @@ const Game = {
   },
   onFail(ev, idx, total) {
     this.attempts++; this.failsTotal++; this.attemptsPhase++;
-    $('#g-attempts').textContent = 'ცდა: ' + this.attempts;
+    this.updateStarChip();
     const P = Progress.P, lv = this.cur;
     P.stats.fails++;
     if (this.mode === 'level') P.worldFails[lv.world] = (P.worldFails[lv.world] || 0) + 1;
@@ -7719,25 +8442,33 @@ const Game = {
     this.showVictory({ stars, xp, xpGain: res.xpGain, time, tries, lines, opt, tips, streakLine, web: !!lv.web });
   },
   showVictory(info) {
-    const base = this.base, next = courseLevels(base.course)[base.index + 1];
+    const base = this.base, next = base.project ? null : courseLevels(base.course)[base.index + 1];
+    const proj = !base.course && !base.project && base.boss ? PROJECT_BY_WORLD[base.world] : null;
     const courseEnd = base.course && !next && Progress.courseDone(base.course);
-    const html = '<h2 class="result-title">' + (base.final ? 'გლიჩი დამარცხებულია!' : base.boss ? 'ბოსი დამარცხებულია!' : 'ლეველი გავლილია!') + '</h2>' +
-      '<div class="big-stars">' + [1, 2, 3].map(i => '<span' + (i <= info.stars ? '' : ' style="opacity:.18;filter:grayscale(1)"') + '>⭐</span>').join('') + '</div>' +
-      '<div class="stat-grid"><div class="stat"><b>+' + info.xpGain + '</b><small>XP' + (info.xpGain < info.xp ? ' (საუკეთესო: ' + info.xp + ')' : '') + '</small></div>' +
-      '<div class="stat"><b>' + fmtTime(info.time) + '</b><small>დახარჯული დრო</small></div><div class="stat"><b>' + info.tries + '</b><small>ცდა</small></div>' +
-      (info.web ? '' : '<div class="stat"><b>' + info.lines + '</b><small>ხაზი (ოპტიმალური ≤ ' + info.opt + ')</small></div>') + '</div>' +
-      info.streakLine + '<p class="muted" style="font-size:.85rem;margin-top:12px">⭐ გავლა · ⭐⭐ ≤3 ცდით · ⭐⭐⭐ მინიშნების გარეშე' + (info.web ? '' : ' და ოპტიმალური კოდით') + (info.tips.length ? '<br>💡 ' + info.tips.join(' · ') : '') + '</p>' +
-      (courseEnd ? '<p style="text-align:center;font-weight:700">🎉 ' + esc(LANGS[base.lang].name) + '-ის კურსი დასრულებულია!</p>' : '') +
-      '<div class="modal-actions"><button class="btn" data-a="map">' + (base.course ? 'კურსი' : 'რუკა') + '</button><button class="btn" data-a="retry">⟲ თავიდან ცდა</button>' +
-      (base.boss && !base.final && !base.course ? '<button class="btn" data-a="real">რეალურ ცხოვრებაში</button><button class="btn" data-a="quiz">ქვიზი</button>' : '') +
-      (base.final ? '<button class="btn primary" data-a="ending">ფინალი</button>' : next ? '<button class="btn primary" data-a="next">შემდეგი ' + (base.web ? 'გაკვეთილი' : 'ლეველი') + '</button>' : courseEnd ? '<button class="btn primary" data-a="cert">📜 სერტიფიკატი</button>' : '') + '</div>';
+    const badge = base.project ? base.icon : base.final ? '🏆' : base.boss ? '👾' : info.stars === 3 ? '🌟' : '🎉';
+    const html = '<div class="win"><div class="win-badge" aria-hidden="true">' + badge + '</div>' +
+      '<h2 class="result-title">' + (base.project ? 'აპი მზადაა! ' + esc(base.title) + ' მუშაობს' : base.final ? 'გლიჩი დამარცხებულია!' : base.boss ? 'ბოსი დამარცხებულია!' : (base.web ? 'გაკვეთილი' : 'ლეველი') + ' გავლილია!') + '</h2>' +
+      (base.project ? '<p class="muted" style="margin:.2em 0 .6em">🌍 ' + esc(base.real) + ' შენ ახლა ნამდვილი პროგრამა დაწერე!</p>' : '') +
+      '<div class="big-stars win-stars" aria-label="' + info.stars + ' ვარსკვლავი">' + [1, 2, 3].map(i => '<span class="' + (i <= info.stars ? 'on' : 'off') + '" style="--i:' + i + '">⭐</span>').join('') + '</div>' +
+      '<div class="win-xp">+' + info.xpGain + ' XP' + (info.xpGain < info.xp ? '<small>საუკეთესო შედეგი: ' + info.xp + ' XP</small>' : '') + '</div>' +
+      '<div class="win-stats"><span title="დახარჯული დრო">⏱ ' + fmtTime(info.time) + '</span><span>🎯 ' + info.tries + ' ცდა</span>' +
+      (info.web ? '' : '<span title="ოპტიმალური: ≤ ' + info.opt + '">📝 ' + info.lines + ' ხაზი</span>') + '</div>' +
+      info.streakLine +
+      (info.tips.length ? '<div class="win-tip">💡 ⭐⭐⭐-ისთვის: ' + info.tips.join(' · ') + '</div>' : '') +
+      (courseEnd ? '<p style="font-weight:700">🎉 ' + esc(LANGS[base.lang].name) + '-ის კურსი დასრულებულია!</p>' : '') + '</div>' +
+      '<div class="modal-actions win-actions">' + (base.project ? '' : '<button class="btn" data-a="map">' + (base.course ? 'კურსი' : 'რუკა') + '</button>') + '<button class="btn" data-a="retry">⟲ თავიდან</button>' +
+      (base.boss && !base.final && !base.course ? '<button class="btn" data-a="quiz">ქვიზი</button>' : '') +
+      (proj ? '<button class="btn" data-a="proj">' + proj.icon + ' რეალური პროექტი</button>' : '') +
+      (base.project ? '<button class="btn primary" data-a="map">🗺️ რუკაზე</button>' : '') +
+      (base.final ? '<button class="btn primary" data-a="ending">ფინალი ▶</button>' : next ? '<button class="btn primary" data-a="next">შემდეგი ' + (base.web ? 'გაკვეთილი' : 'ლეველი') + ' ▶</button>' : courseEnd ? '<button class="btn primary" data-a="cert">📜 სერტიფიკატი</button>' : '') + '</div>';
     const m = Modal.open(html, { dismiss: false });
+    confetti(m.parentNode);
     const on = (a, fn) => { const b = m.querySelector('[data-a=' + a + ']'); if (b) b.addEventListener('click', () => { Modal.close(m); fn(); }); };
     on('map', () => UI.show(base.course ? 'course' : 'map'));
     on('retry', () => this.setup(base, 'level'));
     on('cert', () => { UI.show('course'); Certificate.open(base.course); });
     on('next', () => this.openLevel(next.id));
-    on('real', () => openRealWorld(base.world));
+    on('proj', () => this.openLevel(proj.id));
     on('quiz', () => Quiz.open(base.world));
     on('ending', () => Scene.play('ending', () => { UI.show('map'); Certificate.open(); }));
   },
@@ -7794,7 +8525,7 @@ const Game = {
   revealHint() {
     this.hintLevel++; this.hintsUsed++;
     Progress.P.stats.hints++; Progress.save();
-    this.updateXPChip();
+    this.updateXPChip(); this.updateStarChip();
   },
 
   /* ---- თავისუფალი რეჟიმი: რუკის რედაქტორი ---- */
@@ -7972,6 +8703,12 @@ function init() {
   $('#g-back').addEventListener('click', () => Game.leave());
   $('#g-run').addEventListener('click', () => Game.run());
   $('#g-step').addEventListener('click', () => Game.step());
+  // სწავლის ნაბიჯები
+  Typer.init();
+  $('#g-learn-next').addEventListener('click', () => Game.learnNext());
+  $('#g-demo-skip').addEventListener('click', () => { if (Game.twSkip) Game.twSkip(); });
+  $('#g-typer').addEventListener('click', () => $('#g-typer-in').focus());
+  $$('#g-steps [data-s]').forEach(b => b.addEventListener('click', () => { const n = +b.dataset.s; if (n <= Game.learnMax && n !== Game.learnStep) Game.showStep(n); }));
   $('#g-reset').addEventListener('click', () => Game.reset());
   $('#g-hint').addEventListener('click', () => Game.openHints(false));
   $('#g-dict').addEventListener('click', () => { const l = Game.cur && Game.cur.lang; if (l && l !== 'js') Cheat.open(l); else Dict.open(); });

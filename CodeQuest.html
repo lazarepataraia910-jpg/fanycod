@@ -79,6 +79,7 @@ select{background:var(--panel);border:1px solid var(--border);border-radius:8px;
 .topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--border);flex-wrap:wrap}
 .topbar h2{margin:0;font-size:1.1rem;flex:1;min-width:140px}
 .page{max-width:960px;margin:0 auto;padding:18px 16px 60px}
+@media (max-width:520px){.topbar .tl{display:none}}
 
 /* ---------- მთავარი მენიუ ---------- */
 #scr-menu.active{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:center;padding:24px 16px}
@@ -109,52 +110,105 @@ select{background:var(--panel);border:1px solid var(--border);border-radius:8px;
 .wday.today i{box-shadow:0 0 0 2px var(--panel),0 0 0 3px var(--accent)}
 
 /* ---------- სამყაროების რუკა ---------- */
+#scr-map.active{background:linear-gradient(180deg,#e2f1ff 0%,#eaf7e4 45%,#f5f0e3 100%)}
+html[data-theme="dark"] #scr-map.active{background:linear-gradient(180deg,#172231 0%,#18211b 50%,#16191d 100%)}
+#scr-map .topbar{background:color-mix(in srgb,var(--panel) 88%,transparent);backdrop-filter:blur(6px)}
 .map-wrap{position:relative;max-width:820px;margin:0 auto;padding:10px 16px 60px}
 .map-svg{position:absolute;left:0;top:0;pointer-events:none;overflow:visible}
-.island{position:absolute;width:min(220px,46%);transform:translateX(-50%)}
+.map-road{stroke:color-mix(in srgb,#c9a96e 55%,var(--panel));stroke-width:14}
+.map-road-line{stroke:var(--panel);stroke-width:3;stroke-dasharray:2 12;opacity:.9}
+.island{position:absolute;width:min(230px,48%);transform:translateX(-50%)}
 .island-btn{width:100%;border:none;background:none;padding:0;text-align:center}
-.island-blob{height:86px;border-radius:14px;background:color-mix(in srgb,var(--ia) 14%,var(--panel));border:1px solid color-mix(in srgb,var(--ia) 45%,var(--border));display:grid;place-items:center;font-size:2.1rem;transition:border-color .15s}
-.island-btn:hover .island-blob,.island-btn:focus-visible .island-blob{border-color:var(--accent)}
-.island.locked .island-blob{filter:grayscale(1);opacity:.5}
-.island-name{font-weight:700;margin-top:8px}
+.island-blob{position:relative;width:94px;height:94px;margin:0 auto;border-radius:50%;display:grid;place-items:center;font-size:2.6rem;
+  background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--ia) 14%,#fff),color-mix(in srgb,var(--ia) 42%,#fff));
+  border:4px solid #fff;box-shadow:0 0 0 3px var(--ia),0 8px 0 3px color-mix(in srgb,var(--ia) 70%,#000),0 14px 24px rgba(0,0,0,.16);transition:transform .15s}
+html[data-theme="dark"] .island-blob{border-color:var(--panel);background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--ia) 45%,#2a3038),color-mix(in srgb,var(--ia) 70%,#1e2227))}
+.island-btn:hover .island-blob,.island-btn:focus-visible .island-blob{transform:translateY(-3px) scale(1.04)}
+.island.locked .island-blob{filter:grayscale(1) contrast(.8);font-size:2rem}
+.island.locked .island-name,.island.locked .island-sub,.island.locked .dots{opacity:.6}
+.island.current .island-blob::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:3px solid var(--ia);animation:ring 1.8s ease-out infinite;pointer-events:none}
+@keyframes ring{0%{transform:scale(.85);opacity:.8}100%{transform:scale(1.25);opacity:0}}
+.island-blob .ok{position:absolute;right:-6px;bottom:-4px;width:28px;height:28px;border-radius:50%;background:var(--ok);color:#fff;font-size:.95rem;font-weight:800;display:grid;place-items:center;border:3px solid #fff}
+.island-name{font-weight:800;margin-top:14px;font-size:1.02rem}
 .island-sub{font-size:.82rem;color:var(--muted)}
-.here{display:inline-block;margin-top:2px;font-size:.75rem;font-weight:700;color:var(--accent)}
-.dots{display:flex;gap:5px;justify-content:center;margin-top:5px}
-.dot{width:10px;height:10px;border-radius:3px;background:var(--border)}
-.dot.done{background:var(--ok)}
-.dot.boss{border-radius:50%}
+.here{display:inline-flex;align-items:center;gap:5px;margin-top:6px;padding:2px 12px 2px 4px;border-radius:999px;background:var(--accent);color:#fff;font-size:.78rem;font-weight:700;box-shadow:0 3px 0 color-mix(in srgb,var(--accent) 60%,#000)}
+.here .bitsvg{width:18px;height:24px;animation:idle 1.6s ease-in-out infinite}
+.dots{display:flex;gap:5px;justify-content:center;margin-top:6px}
+.dot{width:12px;height:12px;border-radius:50%;background:color-mix(in srgb,var(--ia,var(--ok)) 16%,var(--border))}
+.dot.done{background:var(--ia,var(--ok))}
+.dot.boss{border-radius:3px;transform:rotate(45deg) scale(.86)}
+.wp-head{display:flex;gap:16px;align-items:center;margin:4px 0 14px}
+.wp-head h2{margin:0}
+.wp-head p{margin:.1em 0 0}
+.island-blob.sm{width:64px;height:64px;font-size:1.8rem;margin:3px;flex:none;box-shadow:0 0 0 3px var(--ia),0 5px 0 3px color-mix(in srgb,var(--ia) 70%,#000)}
 .lvl-list{display:grid;gap:8px;margin-top:10px}
-.lvl-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:var(--panel);text-align:left;width:100%}
-.lvl-item:hover:not(:disabled){border-color:var(--accent)}
-.lvl-num{width:32px;height:32px;flex:none;border-radius:8px;display:grid;place-items:center;font-weight:800;background:var(--wa);color:#fff}
+.lvl-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;border:1px solid var(--border);background:var(--panel);text-align:left;width:100%;box-shadow:0 3px 0 var(--border);transition:transform .12s,border-color .12s}
+.lvl-item:hover:not(:disabled){border-color:var(--wa);transform:translateY(-1px)}
+.lvl-item.done{background:color-mix(in srgb,var(--wa) 6%,var(--panel))}
+.lvl-item.next{border:2px solid var(--wa)}
+.lvl-num{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--wa);color:#fff;box-shadow:0 3px 0 color-mix(in srgb,var(--wa) 62%,#000)}
+.lvl-item:disabled .lvl-num{background:var(--border);box-shadow:none;color:var(--muted)}
 .lvl-item .t{flex:1;min-width:0}
 .lvl-item .t b{display:block}
 .lvl-item .t small{color:var(--muted)}
 
 /* ---------- თამაშის ეკრანი ---------- */
-.gbar{display:flex;align-items:center;gap:10px;padding:8px 16px;background:var(--panel);border-bottom:1px solid var(--border);border-top:3px solid var(--wa);flex-wrap:wrap;position:sticky;top:0;z-index:15}
-.gtitle{flex:1;min-width:170px;font-weight:700;font-size:1.02rem}
+/* სამყაროს თემა: --t1/--t2 უჯრები, --tw კედელი, --wic კედლის ნახატი, --edge ჩარჩო, --sky ფონი, --d1/--d2 დეკორაცია (JS აყენებს) */
+#scr-game{--t1:#d4efb8;--t2:#c7e8a8;--tw:#8fc46e;--wic:"🌳";--edge:#5f9e45;--sky:#dff1ff;--d1:"🌼";--d2:"🦋";
+  --c1:var(--t1);--c2:var(--t2);--cw:var(--tw);--sk:var(--sky)}
+html[data-theme="dark"] #scr-game{--c1:color-mix(in srgb,var(--t1) 24%,#1b1f24);--c2:color-mix(in srgb,var(--t2) 19%,#1b1f24);--cw:color-mix(in srgb,var(--tw) 50%,#1b1f24);--sk:color-mix(in srgb,var(--sky) 9%,#16191d)}
+.gbar{display:flex;align-items:center;gap:10px;padding:8px 16px;background:linear-gradient(100deg,color-mix(in srgb,var(--wa) 16%,var(--panel)),var(--panel) 65%);border-bottom:3px solid var(--wa);flex-wrap:wrap;position:sticky;top:0;z-index:15}
+.gicon{width:42px;height:42px;flex:none;border-radius:13px;display:grid;place-items:center;font-size:1.45rem;background:var(--panel);border:2px solid color-mix(in srgb,var(--wa) 55%,var(--border));box-shadow:0 3px 0 color-mix(in srgb,var(--wa) 30%,var(--border))}
+.gtitle{flex:1;min-width:170px;font-weight:800;font-size:1.08rem;line-height:1.3}
 .gtitle small{display:block;font-weight:600;font-size:.78rem;color:var(--muted)}
+.qpips{display:flex;gap:4px;margin-top:4px}
+.qpips i{width:16px;height:6px;border-radius:3px;background:color-mix(in srgb,var(--wa) 16%,var(--border))}
+.qpips i.done{background:var(--wa)}
+.qpips i.cur{background:var(--panel);box-shadow:inset 0 0 0 2px var(--wa);width:24px}
 .gmeta{display:flex;gap:6px;flex-wrap:wrap}
+.gmeta .chip{background:var(--panel)}
+.starchip .stars{font-size:.8rem;letter-spacing:0}
 .gmain{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;padding:14px 16px 40px;max-width:1500px;margin:0 auto}
 .gcol{display:flex;flex-direction:column;gap:12px;min-width:0}
-@media (max-width:900px){.gmain{grid-template-columns:1fr}.gcol.right{order:-1}}
-@media (min-width:901px){.gcol.right{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 72px);overflow:auto;padding-bottom:6px}}
+/* ტელეფონზე: მისია → დაფა → კოდი → ღილაკები */
+@media (max-width:900px){
+  .gmain{display:flex;flex-direction:column;gap:12px}
+  .gcol{display:contents}
+  .mission{order:1}#g-tests{order:2}#board-wrap{order:3}.board-bar{order:4}#g-web{order:5}#g-sandbox{order:6}#g-html-box{order:7}#g-data{order:8}
+  .editor-card{order:9}#g-palette{order:10}.controls{order:11}#g-checks{order:12}#g-console{order:13}#g-vars{order:14}
+}
+@media (min-width:901px){.gcol.right{position:sticky;top:72px;align-self:start;max-height:calc(100vh - 80px);overflow:auto;padding-bottom:10px}}
 .prof{display:flex;gap:10px;align-items:flex-start}
 .prof .avatar{width:42px;height:42px;font-size:1.5rem}
 .prof .bubble{max-width:none;flex:1}
 .prof .bubble.bad{border-color:color-mix(in srgb,var(--bad) 55%,var(--border));background:color-mix(in srgb,var(--bad) 6%,var(--panel))}
 .prof .bubble.good{border-color:color-mix(in srgb,var(--ok) 55%,var(--border));background:color-mix(in srgb,var(--ok) 6%,var(--panel))}
+/* მისიის ბარათი: პერსონაჟი + დავალება + „როგორ?“ */
+.mission{padding:0;overflow:hidden;border:2px solid color-mix(in srgb,var(--wa) 32%,var(--border));border-radius:16px}
+.mission .prof{padding:12px 14px;background:color-mix(in srgb,var(--wa) 9%,var(--panel));align-items:center}
+.mission .prof .avatar{width:48px;height:48px;border-radius:50%;font-size:1.65rem;background:var(--panel);border:2px solid color-mix(in srgb,var(--wa) 45%,var(--border))}
+.mission .bubble{position:relative;background:var(--panel);border-radius:14px;padding:9px 13px}
+.mission .bubble::before{content:"";position:absolute;left:-7px;top:50%;margin-top:-6px;width:11px;height:11px;background:inherit;border:solid;border-color:inherit;border-width:0 0 1px 1px;transform:rotate(45deg)}
+.mission .task{padding:12px 16px 14px}
+.task-h{font-size:.78rem;font-weight:800;letter-spacing:.03em;color:color-mix(in srgb,var(--wa) 70%,var(--text));margin-bottom:2px}
+#g-task{font-size:1.05rem;line-height:1.55}
+.goals{margin:.6em 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.mission .goals .chip{background:color-mix(in srgb,var(--wa) 8%,var(--panel));border-color:color-mix(in srgb,var(--wa) 30%,var(--border))}
+.tip{border-top:1px dashed var(--border);padding:0 16px}
+.tip[open]{padding-bottom:14px}
+.tip>summary{cursor:pointer;font-weight:700;list-style:none;display:flex;align-items:center;gap:.4em;padding:10px 0;font-size:.95rem}
+.tip>summary::-webkit-details-marker{display:none}
+.tip>summary::after{content:"▾";margin-left:auto;color:var(--muted)}
+.tip:not([open])>summary::after{content:"▸"}
+.tip .theory-text{margin:0 0 .4em;font-size:.95rem}
 details.card>summary{cursor:pointer;font-weight:700;list-style:none;display:flex;align-items:center;gap:.4em}
 details.card>summary::-webkit-details-marker{display:none}
 details.card>summary::after{content:"▾";margin-left:auto;color:var(--muted)}
 details.card:not([open])>summary::after{content:"▸"}
 .theory-text{margin:.5em 0}
-pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:var(--mono);font-size:.9rem;white-space:pre-wrap;overflow:auto}
-.task h3{margin:0 0 .3em;font-size:1rem}
-.goals{margin:.5em 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
-.editor-card{padding:0;overflow:hidden}
-.editor-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 10px;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--muted);flex-wrap:wrap}
+pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-family:var(--mono);font-size:.9rem;white-space:pre-wrap;overflow:auto}
+.editor-card{padding:0;overflow:hidden;border-radius:14px}
+.editor-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 10px 5px 14px;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--muted);flex-wrap:wrap;font-weight:600}
 #editor .CodeMirror{height:auto;font-family:var(--mono);font-size:var(--fs);background:var(--code-bg);color:var(--code-text);line-height:1.55}
 #editor .CodeMirror-scroll{min-height:200px;max-height:460px}
 .cm-s-cq .CodeMirror-gutters{background:var(--panel2);border-right:1px solid var(--border)}
@@ -185,41 +239,65 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .ta-gutter .e{color:var(--bad);font-weight:700}
 .ta-gutter .r{color:var(--accent);font-weight:700}
 .ta-wrap textarea{flex:1;border:0;outline:0;resize:none;background:transparent;color:var(--code-text);font:inherit;line-height:inherit;padding:8px;white-space:pre;overflow:hidden;min-height:200px;tab-size:2}
-.controls{display:flex;flex-wrap:wrap;gap:8px}
-.controls .btn{flex:1 1 auto}
-.palette{display:flex;flex-wrap:wrap;gap:6px}
-.palette button{font-family:var(--mono);font-size:.8rem;padding:.3em .6em;border-radius:8px;border:1px solid var(--border);background:var(--panel)}
-.palette button:hover{border-color:var(--accent)}
+/* ღილაკები: დიდი მწვანე „გაშვება“ + პატარა ხელსაწყოები */
+.controls{display:flex;gap:8px}
+.controls .btn{flex:1 1 0;min-width:0}
+.btn.run{flex:2.2 1 0;font-size:1.08rem;font-weight:800;border-radius:14px;padding:.7em 1em;background:#1f9d55;border-color:#1f9d55;color:#fff;box-shadow:0 4px 0 #15723d;transition:transform .08s,box-shadow .08s,background .15s}
+.btn.run:hover:not(:disabled){background:#1b8c4b;border-color:#1b8c4b}
+.btn.run:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 #15723d}
+.btn.tool{flex-direction:column;gap:0;font-size:.74rem;padding:.35em .2em;border-radius:14px;box-shadow:0 3px 0 var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn.tool .ic{font-size:1.15rem;line-height:1.25}
+.btn.tool:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 var(--border)}
+@media (max-width:520px){.controls{flex-wrap:wrap}.btn.run{flex:1 1 100%}}
+.palette{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.palette button{font-family:var(--mono);font-size:.8rem;padding:.32em .7em;border-radius:999px;border:1px solid color-mix(in srgb,var(--wa) 30%,var(--border));background:var(--panel)}
+.palette button:hover{border-color:var(--wa);background:color-mix(in srgb,var(--wa) 8%,var(--panel))}
 .palette .lbl{font-size:.78rem;color:var(--muted);align-self:center;margin-right:2px}
-/* დამწყებთათვის: დიდი ბრძანების ღილაკები */
-.palette .cmd-big{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:86px;padding:8px 10px;border-radius:10px;font-family:var(--font);font-size:.92rem;font-weight:700}
-.palette .cmd-big .ic{font-size:1.25rem;line-height:1.1}
-.palette .cmd-big code{font-size:.72rem;color:var(--muted);font-weight:400}
-.palette .cmd-big.undo{font-weight:600;color:var(--muted)}
+/* დამწყებთათვის: დიდი ფერადი ბრძანების ღილაკები */
+.palette .cmd-big{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:84px;padding:8px 10px 7px;border-radius:14px;font-family:var(--font);font-size:.92rem;font-weight:800;border:0;background:var(--pc,#2f74e0);color:#fff;box-shadow:0 4px 0 color-mix(in srgb,var(--pc,#2f74e0) 68%,#000);transition:transform .08s,box-shadow .08s}
+.palette .cmd-big:hover{background:color-mix(in srgb,var(--pc,#2f74e0) 88%,#000);border:0}
+.palette .cmd-big:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--pc,#2f74e0) 68%,#000)}
+.palette .cmd-big .ic{font-size:1.3rem;line-height:1.1}
+.palette .cmd-big code{font-size:.7rem;color:rgba(255,255,255,.85);font-weight:400}
+.palette .cmd-big.undo{font-weight:700;background:var(--panel2);color:var(--muted);box-shadow:0 4px 0 var(--border)}
+.palette .cmd-big.undo code{color:var(--muted)}
 .palette-help{width:100%;font-size:.8rem;color:var(--muted)}
-.console{background:#1b1f24;color:#d6dbe0;font-family:var(--mono);font-size:.86rem;border-radius:10px;padding:10px 12px;min-height:90px;max-height:220px;overflow:auto;border:1px solid var(--border)}
+@media (max-width:520px){.palette .cmd-big{min-width:0;flex:1 1 58px;padding:7px 3px 6px;font-size:.8rem}.palette .cmd-big code{font-size:.62rem}}
+.console{background:#1b1f24;color:#d6dbe0;font-family:var(--mono);font-size:.86rem;border-radius:14px;padding:10px 14px;min-height:70px;max-height:220px;overflow:auto;border:1px solid var(--border)}
 .console .ln{white-space:pre-wrap;word-break:break-word;padding:1px 0}
 .console .err{color:#ff9b9b}.console .warn{color:#f2c46d}.console .okc{color:#8fd9a8}.console .sys{color:#9aa8b8}
 .console .tag{opacity:.55;font-size:.78em;margin-right:.6em}
 .tests{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .tests .btn.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--panel))}
-.board-wrap{display:flex;justify-content:center;align-items:center;padding:14px;border-radius:var(--radius);border:1px solid var(--border);min-height:240px;position:relative;overflow:hidden;background:color-mix(in srgb,var(--wa) 7%,var(--panel2))}
-#board{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--cell);touch-action:manipulation}
+.board-wrap{display:flex;justify-content:center;align-items:center;padding:18px 14px 22px;border-radius:18px;border:1px solid color-mix(in srgb,var(--edge) 22%,var(--border));min-height:240px;position:relative;overflow:hidden;background:linear-gradient(180deg,var(--sk),color-mix(in srgb,var(--sk) 30%,var(--panel)))}
+.board-wrap::before,.board-wrap::after{position:absolute;font-size:1.6rem;line-height:1;opacity:.6;pointer-events:none}
+.board-wrap::before{content:var(--d1);left:10px;bottom:8px}
+.board-wrap.tight::before,.board-wrap.tight::after{display:none}
+.board-wrap::after{content:var(--d2);right:12px;top:8px}
+#board{position:relative;z-index:1;border-radius:14px;overflow:hidden;border:4px solid var(--edge);background:var(--c1);touch-action:manipulation;box-shadow:0 5px 0 color-mix(in srgb,var(--edge) 72%,#000),0 14px 26px rgba(15,35,20,.16)}
 .cellgrid{display:grid;grid-template-columns:repeat(var(--cols),var(--cell));grid-template-rows:repeat(var(--rows),var(--cell))}
-.cell{position:relative;display:flex;align-items:center;justify-content:center;font-size:calc(var(--cell) * .54);line-height:1;user-select:none}
-.cell.alt{background:var(--cell2)}
-.cell.wall{background:var(--wall)}
+.cell{position:relative;display:flex;align-items:center;justify-content:center;font-size:calc(var(--cell) * .54);line-height:1;user-select:none;background:var(--c1)}
+.cell.alt{background:var(--c2)}
+.cell.wall{background:var(--cw);box-shadow:inset 0 -3px 0 rgba(0,0,0,.13)}
+.cell.wall::before{content:var(--wic);font-size:.86em;filter:drop-shadow(0 2px 1px rgba(0,0,0,.2))}
 .cell.edit{cursor:crosshair}
 .cell.edit:hover{outline:2px dashed var(--accent);outline-offset:-3px}
 .cell .it{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
 .cell .it.small{inset:auto 1px 1px auto;font-size:.48em}
 .cell .it.tl{inset:1px auto auto 1px;font-size:.45em}
-.gemw{display:inline-block}
+.gemw{display:inline-block;animation:gem 2.4s ease-in-out infinite;filter:drop-shadow(0 0 5px rgba(110,190,255,.75))}
+@keyframes gem{50%{transform:translateY(-7%) scale(1.07)}}
+.it .flag{display:inline-block;transform-origin:22% 92%;animation:wave 2.2s ease-in-out infinite}
+@keyframes wave{50%{transform:rotate(-9deg)}}
+.it .bob{display:inline-block;animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8%)}}
+.it .spin{display:inline-block;animation:spin 5s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .c-red{filter:hue-rotate(150deg) saturate(1.4)}.c-green{filter:hue-rotate(-90deg) saturate(1.3)}.c-yellow{filter:hue-rotate(200deg) saturate(1.8)}.c-purple{filter:hue-rotate(50deg) saturate(1.3)}
 .keydot{position:absolute;bottom:3px;right:3px;width:30%;height:30%;border-radius:50%;border:2px solid #fff}
 .cell.door{box-shadow:inset 0 0 0 2px var(--dcol,#b07a3a)}
 .cell.door.open .it{opacity:.3;transition:opacity .3s}
-.cell.trap{background:color-mix(in srgb,var(--bad) 12%,var(--cell))}
+.cell.trap{background:color-mix(in srgb,var(--bad) 14%,var(--c1))}
 .cell.light-green{box-shadow:inset 0 0 0 3px #2b8a3e}
 .cell.light-red{box-shadow:inset 0 0 0 3px #c92a2a}
 .cell.flash{animation:flash .6s}
@@ -228,7 +306,9 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 @keyframes poof{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.35)}}
 .sprite{position:absolute;left:0;top:0;width:var(--cell);height:var(--cell);transition:transform var(--anim) ease-in-out;z-index:3;pointer-events:none}
 .sprite .inner{width:100%;height:100%;position:relative}
-.sprite .bitsvg{width:84%;height:84%;margin:8%;display:block;overflow:visible}
+.sprite .bitsvg{position:relative;width:84%;height:84%;margin:8%;display:block;overflow:visible;animation:idle 2.6s ease-in-out infinite}
+@keyframes idle{50%{transform:translateY(-4%)}}
+.sprite .inner::before{content:"";position:absolute;left:24%;right:24%;bottom:5%;height:10%;border-radius:50%;background:rgba(0,0,0,.22)}
 .sprite .arrow{position:absolute;inset:0;transition:transform var(--anim) ease-in-out}
 .sprite .arrow::after{content:"";position:absolute;right:-2px;top:50%;margin-top:-5px;border:5px solid transparent;border-left:8px solid var(--accent)}
 .sprite.clone{filter:hue-rotate(160deg) saturate(.7);opacity:.75}
@@ -238,6 +318,10 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .sprite.noanim,.sprite.noanim .arrow,.sprite.noanim .eyes{transition:none!important}
 .sprite.bump .inner{animation:shake .35s}
 @keyframes shake{0%,100%{transform:translateX(0)}30%{transform:translateX(-3px)}60%{transform:translateX(3px)}}
+.sprite.happy .inner{animation:hop .5s ease-out 2}
+@keyframes hop{0%,100%{transform:translateY(0)}45%{transform:translateY(-24%)}}
+.sprite.sad .inner{animation:sad .9s}
+@keyframes sad{25%,75%{transform:rotate(-9deg) translateY(4%)}}
 .bars{display:flex;align-items:flex-end;gap:8px;height:240px;padding:16px 16px 30px;min-width:min(420px,80vw)}
 .bar{flex:1;min-width:26px;background:var(--wa);border-radius:6px 6px 2px 2px;display:flex;align-items:flex-start;justify-content:center;color:#fff;font-weight:700;padding-top:4px;transition:height var(--anim);position:relative}
 .bar.sw{outline:2px solid var(--warn);outline-offset:2px}
@@ -250,7 +334,8 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .ruler-lbl{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted)}
 .board-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between}
 .speed{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted);flex-wrap:wrap}
-.speed input{accent-color:var(--accent)}
+.speed input{accent-color:var(--wa)}
+.speed>span{font-size:1.1rem}
 .status{display:flex;gap:6px;flex-wrap:wrap}
 .vars table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.85rem}
 .vars td{padding:3px 6px;border-bottom:1px dashed var(--border);vertical-align:top;word-break:break-word}
@@ -285,6 +370,24 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .toast small{color:var(--muted)}
 @keyframes fadeout{to{opacity:0}}
 .big-stars{font-size:2rem;text-align:center;letter-spacing:6px}
+/* გამარჯვების ფანჯარა */
+.win{text-align:center}
+.win-badge{width:82px;height:82px;margin:0 auto 4px;border-radius:50%;display:grid;place-items:center;font-size:2.7rem;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b);box-shadow:0 5px 0 #d9a600,0 10px 24px rgba(217,166,0,.3);animation:pop .55s cubic-bezier(.2,1.6,.4,1) both}
+.win-stars{font-size:2.5rem;letter-spacing:10px;margin:.1em 0 .2em}
+.win-stars span{display:inline-block;animation:pop .5s cubic-bezier(.2,1.6,.4,1) both;animation-delay:calc(var(--i) * .18s + .15s)}
+.win-stars .off{opacity:.18;filter:grayscale(1)}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.win-xp{display:inline-flex;flex-direction:column;align-items:center;padding:5px 20px;border-radius:999px;background:color-mix(in srgb,var(--accent) 12%,var(--panel));color:var(--accent);font-weight:800;font-size:1.3rem;line-height:1.3}
+.win-xp small{font-size:.72rem;font-weight:600;color:var(--muted)}
+.win-stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0 2px}
+.win-stats span{padding:4px 12px;border-radius:999px;background:var(--panel2);border:1px solid var(--border);font-weight:600;font-size:.9rem}
+.win-tip{margin-top:10px;font-size:.88rem;color:var(--muted)}
+.win-actions{justify-content:center}
+.win-actions .btn.primary{padding:.7em 1.4em;font-size:1.02rem;border-radius:12px;box-shadow:0 4px 0 color-mix(in srgb,var(--accent) 62%,#000)}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.backdrop>.modal{position:relative;z-index:1}
+.confetti i{position:absolute;top:-16px;width:8px;height:14px;border-radius:2px;opacity:0;animation:fall var(--d) ease-in var(--dl) forwards}
+@keyframes fall{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:.9;transform:translate(var(--x),105vh) rotate(var(--r))}}
 .result-title{text-align:center;margin:.2em 0 .3em}
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:12px}
 .stat{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:8px 10px;text-align:center}
@@ -352,7 +455,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
 .checks li.bad::before{content:'✘';color:var(--bad)}
 #g-html{max-height:220px;overflow:auto}
 @media (max-width:520px){#toast-root{left:10px;right:10px;top:10px}.toast{max-width:none}.modal{padding:16px}.gbar{padding:8px 12px}.gmain{padding:12px 10px 30px}}
-@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -389,9 +492,9 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
       <span class="chip flame" id="map-streak" title="დღიანი სერია"></span>
       <span class="chip" id="map-xp"></span>
       <span class="chip" id="map-stars"></span>
-      <button class="btn small" id="map-dict">ლექსიკონი</button>
-      <button class="btn small" data-go="courses">🌐 ენები</button>
-      <button class="btn small" data-go="profile">პროფილი</button>
+      <button class="btn small" id="map-dict" title="ლექსიკონი">📖<span class="tl"> ლექსიკონი</span></button>
+      <button class="btn small" data-go="courses" title="ენები">🌐<span class="tl"> ენები</span></button>
+      <button class="btn small" data-go="profile" title="პროფილი">👤<span class="tl"> პროფილი</span></button>
     </div>
     <div class="map-wrap" id="map-wrap"></div>
   </section>
@@ -419,48 +522,51 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
   <section id="scr-game" class="screen" aria-label="თამაში">
     <header class="gbar">
       <button class="btn small" id="g-back">← რუკა</button>
-      <div class="gtitle"><small id="g-world"></small><span id="g-name"></span> <span id="g-phase" class="chip hidden"></span></div>
+      <span class="gicon" id="g-icon" aria-hidden="true">🌱</span>
+      <div class="gtitle"><small id="g-world"></small><span id="g-name"></span> <span id="g-phase" class="chip hidden"></span><span class="qpips" id="g-pips" aria-hidden="true"></span></div>
       <div class="gmeta">
         <span class="chip flame" id="g-streak" title="დღიანი სერია"></span>
-        <span class="chip" id="g-timer" title="დრო">0:00</span>
-        <span class="chip" id="g-attempts" title="წარუმატებელი ცდები">ცდა: 0</span>
+        <span class="chip hidden" id="g-timer" title="დრო">0:00</span>
+        <span class="chip starchip" id="g-attempts" title="რამდენი ვარსკვლავის მიღება შეგიძლია ახლა"></span>
         <span class="chip" id="g-xp"></span>
       </div>
     </header>
     <div class="gmain">
       <div class="gcol left">
-        <div class="prof">
-          <div class="avatar" aria-hidden="true">🦉</div>
-          <div class="bubble" id="g-prof" role="status" aria-live="polite"></div>
+        <div class="card mission">
+          <div class="prof">
+            <div class="avatar" id="g-avatar" aria-hidden="true">🦉</div>
+            <div class="bubble" id="g-prof" role="status" aria-live="polite"></div>
+          </div>
+          <div class="task">
+            <div class="task-h">🎯 მისია</div>
+            <div id="g-task"></div>
+            <ul class="goals" id="g-goals"></ul>
+          </div>
+          <details class="tip" id="g-theory-box" open>
+            <summary>💡 როგორ გავაკეთო?</summary>
+            <div class="theory-text" id="g-theory"></div>
+            <pre class="example" id="g-example"></pre>
+          </details>
         </div>
-        <details class="card" id="g-theory-box" open>
-          <summary>თეორია</summary>
-          <div class="theory-text" id="g-theory"></div>
-          <pre class="example" id="g-example"></pre>
-        </details>
         <details class="card hidden" id="g-html-box" open>
           <summary>HTML (ეს ნაწილი უცვლელია)</summary>
           <pre class="example" id="g-html"></pre>
         </details>
-        <div class="card task">
-          <h3>დავალება</h3>
-          <div id="g-task"></div>
-          <ul class="goals" id="g-goals"></ul>
-        </div>
         <div class="card editor-card">
           <div class="editor-head">
-            <span>კოდი <span class="muted" id="g-lines"></span></span>
+            <span>📝 შენი კოდი <span class="muted" id="g-lines"></span></span>
             <span><button class="btn small ghost" id="g-restore" title="საწყისი კოდის დაბრუნება">↺ საწყისი კოდი</button></span>
           </div>
           <div id="editor"></div>
         </div>
         <div class="palette" id="g-palette" aria-label="ბრძანებების ჩასმა"></div>
         <div class="controls">
-          <button class="btn primary" id="g-run" title="Ctrl+Enter">▶ გაშვება</button>
-          <button class="btn" id="g-step" title="Ctrl+Shift+Enter">ნაბიჯ-ნაბიჯ</button>
-          <button class="btn" id="g-reset">⟲ თავიდან</button>
-          <button class="btn" id="g-hint">მინიშნება</button>
-          <button class="btn" id="g-dict">ლექსიკონი</button>
+          <button class="btn run" id="g-run" title="Ctrl+Enter">▶ გაშვება</button>
+          <button class="btn tool" id="g-step" title="ნაბიჯ-ნაბიჯ (Ctrl+Shift+Enter)"><span class="ic">⏯</span>ნაბიჯი</button>
+          <button class="btn tool" id="g-reset" title="ბიტი თავის ადგილზე დაბრუნდება"><span class="ic">⟲</span>თავიდან</button>
+          <button class="btn tool" id="g-hint" title="მინიშნება"><span class="ic">💡</span>მინიშნება</button>
+          <button class="btn tool" id="g-dict" title="ლექსიკონი"><span class="ic">📖</span>ლექსიკონი</button>
         </div>
         <div class="console" id="g-console" aria-live="polite" aria-label="კონსოლი"></div>
       </div>
@@ -469,7 +575,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
         <div class="board-wrap" id="board-wrap"><div id="board"></div></div>
         <div class="board-bar">
           <div class="status" id="g-status"></div>
-          <label class="speed">ნელა <input type="range" min="1" max="3" step="1" id="g-speed" aria-label="ანიმაციის სიჩქარე"> სწრაფად <span id="g-speed-lbl"></span></label>
+          <label class="speed" title="ანიმაციის სიჩქარე"><span aria-hidden="true">🐢</span><input type="range" min="1" max="3" step="1" id="g-speed" aria-label="ანიმაციის სიჩქარე"><span aria-hidden="true">🐇</span><span class="hidden" id="g-speed-lbl"></span></label>
         </div>
         <div class="card web hidden" id="g-web">
           <div class="web-bar"><span aria-hidden="true"><i></i><i></i><i></i></span><span class="url" id="g-url">ბიტის-გვერდი.html</span></div>
@@ -1921,6 +2027,24 @@ const WORLDS = [
   { id: 9, name: 'ალგორითმების კოშკი', icon: '🗼', topic: 'ალგორითმები', a: '#2f9488', b: '#2f9488' },
   { id: 10, name: 'გლიჩის ციხე', icon: '🏰', topic: 'საბოლოო გამოცდა', a: '#b54848', b: '#b54848' }
 ];
+// დაფის თემა თითოეული სამყაროსთვის: უჯრები, კედელი და მისი ნახატი, ჩარჩო, ცა, კუთხის დეკორაციები
+const THEMES = {
+  1: { t1: '#d4efb8', t2: '#c7e8a8', tw: '#8fc46e', wic: '🌳', edge: '#5f9e45', sky: '#dff1ff', d1: '🌼', d2: '🦋' },
+  2: { t1: '#cdebd2', t2: '#bfe3c6', tw: '#5e9f78', wic: '🌲', edge: '#2f7a55', sky: '#e2f3ea', d1: '🍄', d2: '🐿️' },
+  3: { t1: '#e7e3f6', t2: '#dcd6f1', tw: '#aaa2cf', wic: '🪨', edge: '#6b5fc7', sky: '#eef0ff', d1: '⛰️', d2: '☁️' },
+  4: { t1: '#f3e7d6', t2: '#ebdcc6', tw: '#e0ae7a', wic: '🏠', edge: '#c9741f', sky: '#fff3e2', d1: '🚗', d2: '🌤️' },
+  5: { t1: '#d9eefc', t2: '#cbe6fa', tw: '#73aee6', wic: '🌊', edge: '#2f6fc4', sky: '#e3f4ff', d1: '🐟', d2: '⛵' },
+  6: { t1: '#f6e2d8', t2: '#efd5c8', tw: '#cf9479', wic: '⚙️', edge: '#b0502f', sky: '#fff0e8', d1: '🔩', d2: '🛠️' },
+  7: { t1: '#ebe6f0', t2: '#e1dbe8', tw: '#ab9bbd', wic: '📦', edge: '#6e5d80', sky: '#f1edf6', d1: '🕯️', d2: '🗝️' },
+  8: { t1: '#f8e1eb', t2: '#f1d4e1', tw: '#d991b0', wic: '🏢', edge: '#a94a74', sky: '#ffeef5', d1: '🎈', d2: '🌸' },
+  9: { t1: '#d8f0ed', t2: '#cae9e5', tw: '#68b8ad', wic: '📚', edge: '#26877b', sky: '#e5f7f4', d1: '📜', d2: '⭐' },
+  10: { t1: '#f5dcdc', t2: '#eecdcd', tw: '#a55858', wic: '🧱', edge: '#8f3434', sky: '#fbe9e9', d1: '🦇', d2: '⚡' }
+};
+function applyTheme(el, n) {
+  const t = THEMES[n] || THEMES[1];
+  ['t1', 't2', 'tw', 'edge', 'sky'].forEach(k => el.style.setProperty('--' + k, t[k]));
+  ['wic', 'd1', 'd2'].forEach(k => el.style.setProperty('--' + k, '"' + t[k] + '"'));
+}
 
 // რომელი ბრძანებები იხსნება რომელ სამყაროში (კუმულატიურად)
 const CMD_SETS = {
@@ -6278,13 +6402,15 @@ const Renderer = {
     this.bugIcon = (map && map.bugIcon) || '🐞';
     this.mode = s.books ? 'books' : (s.secret != null ? 'guess' : 'grid');
     board.className = 'mode-' + this.mode;
+    if (this.mode !== 'grid') $('#board-wrap').classList.add('tight');
     if (this.mode === 'books') { this.maxBook = Math.max(1, ...s.books); this.draw(world); return; }
     if (this.mode === 'guess') { this.draw(world); return; }
     this.W = s.W; this.H = s.H;
     const wrap = $('#board-wrap');
-    const avail = Math.max(180, (wrap.clientWidth || 420) - 30);
+    const avail = Math.max(180, (wrap.clientWidth || 420) - 44);
     this.cell = Math.max(24, Math.min(64, Math.floor(Math.min(avail, 640) / this.W), Math.floor(Math.max(300, innerHeight * 0.62) / this.H)));
     board.style.setProperty('--cell', this.cell + 'px');
+    wrap.classList.toggle('tight', this.cell * this.W + 120 > wrap.clientWidth);
     board.style.setProperty('--cols', this.W);
     board.style.setProperty('--rows', this.H);
     const grid = document.createElement('div');
@@ -6328,10 +6454,10 @@ const Renderer = {
     const K = (x, y) => x + ',' + y, top = {}, rest = {};
     const put = (map, x, y, h) => (map[K(x, y)] = map[K(x, y)] || []).push(h);
     s.crystals.forEach(c => { if (!c.taken) put(top, c.x, c.y, '<span class="gemw"><span class="c-' + c.color + '">💎</span></span>'); });
-    s.keys.forEach(k => { if (!k.taken) put(top, k.x, k.y, '🔑<span class="keydot" style="background:' + (COLOR_HEX[k.color] || '#ffd43b') + '"></span>'); });
-    s.bugs.forEach(b => { if (!b.fixed) put(top, b.x, b.y, this.bugIcon); });
-    s.teleports.forEach(t => put(rest, t.x, t.y, '🌀'));
-    if (s.flag) put(rest, s.flag.x, s.flag.y, '🏁');
+    s.keys.forEach(k => { if (!k.taken) put(top, k.x, k.y, '<span class="bob">🔑</span><span class="keydot" style="background:' + (COLOR_HEX[k.color] || '#ffd43b') + '"></span>'); });
+    s.bugs.forEach(b => { if (!b.fixed) put(top, b.x, b.y, '<span class="bob">' + this.bugIcon + '</span>'); });
+    s.teleports.forEach(t => put(rest, t.x, t.y, '<span class="spin">🌀</span>'));
+    if (s.flag) put(rest, s.flag.x, s.flag.y, '<span class="flag">🏁</span>');
     if (s.mirrorFlag) put(rest, s.mirrorFlag.x, s.mirrorFlag.y, '🎯');
     const doors = {}; s.doors.forEach(d => { doors[K(d.x, d.y)] = d; });
     const light = world.lightColor();
@@ -6710,7 +6836,7 @@ const MapScreen = {
     const rowH = 168, W = wrap.clientWidth || 800, top0 = 24;
     const pts = WORLDS.map((w, i) => ({ x: (i % 2 ? 72 : 28) + (i % 4 === 1 ? 4 : i % 4 === 3 ? -4 : 0), y: top0 + i * rowH }));
     const cur = Progress.nextLevel().world;
-    const cxy = p => [p.x / 100 * W, p.y + 43];
+    const cxy = p => [p.x / 100 * W, p.y + 47];
     let d = '';
     pts.forEach((p, i) => {
       const [x, y] = cxy(p);
@@ -6718,16 +6844,16 @@ const MapScreen = {
       else { const [px, py] = cxy(pts[i - 1]); d += ' C' + px + ' ' + (py + rowH * 0.55) + ',' + x + ' ' + (y - rowH * 0.55) + ',' + x + ' ' + y; }
     });
     const H = top0 + WORLDS.length * rowH + 30;
-    let html = '<svg class="map-svg" width="' + W + '" height="' + H + '" aria-hidden="true"><path d="' + d + '" fill="none" stroke="var(--border)" stroke-width="3" stroke-dasharray="6 8" stroke-linecap="round"/></svg>';
+    let html = '<svg class="map-svg" width="' + W + '" height="' + H + '" aria-hidden="true"><path class="map-road" d="' + d + '" fill="none" stroke-linecap="round"/><path class="map-road-line" d="' + d + '" fill="none" stroke-linecap="round"/></svg>';
     WORLDS.forEach((w, i) => {
       const un = Progress.worldUnlocked(w.id);
       const dots = LEVELS.filter(l => l.world === w.id).map(l => '<span class="dot' + (Progress.isDone(l.id) ? ' done' : '') + (l.boss ? ' boss' : '') + '"></span>').join('');
       html += '<div class="island' + (un ? '' : ' locked') + (un && w.id === cur ? ' current' : '') + '" style="left:' + pts[i].x + '%;top:' + pts[i].y + 'px;--ia:' + w.a + ';--ib:' + w.b + '">' +
         '<button class="island-btn" data-world="' + w.id + '" aria-label="სამყარო ' + w.id + ': ' + esc(w.name) + (un ? '' : ' (ჩაკეტილია)') + '">' +
-        '<div class="island-blob">' + (un ? w.icon : '🔒') + '</div>' +
+        '<div class="island-blob">' + (un ? w.icon : '🔒') + (Progress.worldDone(w.id) ? '<span class="ok" aria-hidden="true">✓</span>' : '') + '</div>' +
         '<div class="island-name">' + w.id + '. ' + esc(w.name) + '</div>' +
         '<div class="island-sub">' + esc(w.topic) + ' · ⭐ ' + Progress.worldStars(w.id) + '/15</div>' +
-        '<div class="dots">' + dots + '</div>' + (un && w.id === cur ? '<span class="here">● აქ ხარ</span>' : '') + '</button></div>';
+        '<div class="dots">' + dots + '</div>' + (un && w.id === cur ? '<span class="here">' + bitSVG() + 'აქ ხარ</span>' : '') + '</button></div>';
     });
     wrap.style.height = H + 'px';
     wrap.innerHTML = html;
@@ -6739,10 +6865,10 @@ const WorldPanel = {
     const w = WORLDS[wid - 1], P = Progress.P;
     if (!Progress.worldUnlocked(wid)) { UI.toast('🔒', 'სამყარო ჯერ ჩაკეტილია', 'ჯერ წინა სამყარო დაასრულე.'); return; }
     const lv = LEVELS.filter(l => l.world === wid), bossDone = Progress.isDone(lv[4].id);
-    let html = '<h2>' + w.icon + ' ' + esc(w.name) + '</h2><p class="muted" style="margin-top:-.4em">თემა: ' + esc(w.topic) + ' · ⭐ ' + Progress.worldStars(wid) + '/15</p><div class="lvl-list">';
+    let html = '<div class="wp-head" style="--ia:' + w.a + '"><div class="island-blob sm" aria-hidden="true">' + w.icon + '</div><div><h2>' + esc(w.name) + '</h2><p class="muted">თემა: ' + esc(w.topic) + ' · ⭐ ' + Progress.worldStars(wid) + '/15</p></div></div><div class="lvl-list">';
     lv.forEach(l => {
       const un = Progress.isUnlocked(l), r = Progress.rec(l.id) || {};
-      html += '<div style="display:flex;gap:6px;align-items:stretch"><button class="lvl-item" data-lv="' + l.id + '"' + (un ? '' : ' disabled') + ' style="--wa:' + w.a + ';--wb:' + w.b + '">' +
+      html += '<div style="display:flex;gap:6px;align-items:stretch"><button class="lvl-item' + (r.done ? ' done' : un ? ' next' : '') + '" data-lv="' + l.id + '"' + (un ? '' : ' disabled') + ' style="--wa:' + w.a + ';--wb:' + w.b + '">' +
         '<span class="lvl-num">' + (l.boss ? '👾' : l.num) + '</span><span class="t"><b>' + esc(l.title) + '</b><small>' +
         (l.final ? 'საბოლოო ბოსი · 3 ფაზა' : l.boss ? 'ბოსი' : l.practice ? 'პრაქტიკა' : 'სწავლება') + (un ? '' : ' · 🔒') + '</small></span>' + starsHTML(r.stars || 0) + '</button>' +
         (r.done ? '<button class="btn small" data-sr="' + l.id + '" title="სპიდრანი — გაიარე დროზე">⏱' + (P.speedrun[l.id] ? ' ' + fmtTime(P.speedrun[l.id]) : '') + '</button>' : '') + '</div>';
@@ -6961,7 +7087,7 @@ const CourseScreen = {
     html += '<div class="lvl-list" style="margin-top:14px">';
     c.levels.forEach(l => {
       const un = Progress.isUnlocked(l), r = Progress.rec(l.id) || {};
-      html += '<div style="display:flex;gap:6px;align-items:stretch"><button class="lvl-item" data-lv="' + l.id + '"' + (un ? '' : ' disabled') + ' style="--wa:' + L.color + '">' +
+      html += '<div style="display:flex;gap:6px;align-items:stretch"><button class="lvl-item' + (r.done ? ' done' : un ? ' next' : '') + '" data-lv="' + l.id + '"' + (un ? '' : ' disabled') + ' style="--wa:' + L.color + '">' +
         '<span class="lvl-num" style="color:' + L.ink + '">' + (l.boss ? '👾' : l.num) + '</span><span class="t"><b>' + esc(l.title) + '</b><small>' + (l.boss ? 'ბოსი' : L.kind === 'web' ? 'გაკვეთილი' : 'ლეველი') + (l === nxt && !r.done ? ' · ● შემდეგი' : '') + (un ? '' : ' · 🔒') + '</small></span>' + starsHTML(r.stars || 0) + '</button>' +
         (r.done ? '<button class="btn small" data-sr="' + l.id + '" title="სპიდრანი — გაიარე დროზე">⏱' + (P.speedrun[l.id] ? ' ' + fmtTime(P.speedrun[l.id]) : '') + '</button>' : '') + '</div>';
     });
@@ -7239,8 +7365,8 @@ const SNIPPETS = [
   { w: 7, t: '[ ]', ins: '[]' }, { w: 7, t: 'for…of', ins: 'for (const x of arr) {\n  \n}' }, { w: 8, t: '{ }', ins: '{ key: 1 }' }
 ];
 const BIG_CMDS = {
-  move: { ic: '⬆', t: 'წინ' }, turnLeft: { ic: '↶', t: 'მარცხნივ' }, turnRight: { ic: '↷', t: 'მარჯვნივ' },
-  collect: { ic: '💎', t: 'აიღე' }, openDoor: { ic: '🚪', t: 'კარი' }
+  move: { ic: '⬆', t: 'წინ', c: '#2f74e0' }, turnLeft: { ic: '↶', t: 'მარცხნივ', c: '#7950c8' }, turnRight: { ic: '↷', t: 'მარჯვნივ', c: '#7950c8' },
+  collect: { ic: '💎', t: 'აიღე', c: '#0f9470' }, openDoor: { ic: '🚪', t: 'კარი', c: '#a8652a' }
 };
 const ENCOURAGE = ['არაუშავს — შეცდომა სწავლის ნაწილია! 💪', 'თითქმის გამოგივიდა, კიდევ ერთხელ სცადე!', 'ყოველი შეცდომა რაღაც ახალს გასწავლის.', 'პროფესიონალი პროგრამისტებიც ყოველდღე ცდებიან — ეს ნორმალურია!', 'ნაბიჯ-ნაბიჯ რეჟიმი ⏯ დაგეხმარება, დაინახო, სად იბნევა ბიტი.'];
 const SBX_TOOLS = [
@@ -7274,6 +7400,17 @@ function syntaxInfo(code) {
 
 const DEFAULT_SANDBOX = () => ({ grid: ['>.......', '........', '..*..#..', '.....#..', '..#...*.', '.......F'], code: '// შენი სამყარო! დახატე რუკა ზემოთ და დაწერე კოდი.\nmove(2);\ncollect();\n' });
 
+// გამარჯვების კონფეტი (ფანჯრის ფონზე, დაკლიკვას არ უშლის ხელს)
+function confetti(host) {
+  if (!host) return;
+  const cols = ['#ff5252', '#ffd43b', '#2ecc71', '#4dabf7', '#b197fc', '#ff922b'];
+  const box = document.createElement('div');
+  box.className = 'confetti'; box.setAttribute('aria-hidden', 'true');
+  box.innerHTML = Array.from({ length: 42 }, (_, i) => '<i style="left:' + (Math.random() * 100).toFixed(1) + '%;background:' + cols[i % cols.length] +
+    ';--x:' + Math.round(Math.random() * 160 - 80) + 'px;--r:' + Math.round(Math.random() * 720 - 360) + 'deg;--d:' + (1.6 + Math.random() * 1.4).toFixed(2) + 's;--dl:' + (Math.random() * .5).toFixed(2) + 's"></i>').join('');
+  host.appendChild(box);
+  setTimeout(() => box.remove(), 3800);
+}
 const Game = {
   mode: 'level', base: null, cur: null, phaseIdx: 0, defs: [], maps: [], testIdx: 0, world: null,
   attempts: 0, failsTotal: 0, hintsUsed: 0, hintLevel: 0, start: 0, busy: false, stepSt: null, animToken: 0,
@@ -7340,9 +7477,13 @@ const Game = {
     const g = $('#scr-game');
     if (lv.course) { g.style.setProperty('--wa', L.color); g.style.setProperty('--wb', L.color); }
     else { g.style.setProperty('--wa', w.a); g.style.setProperty('--wb', w.b); }
+    applyTheme(g, lv.world || 1);
+    $('#g-icon').innerHTML = lv.course ? langBadge(lv.lang, true) : esc({ daily: '📅', sandbox: '🧪' }[mode] || w.icon);
     $('#g-back').textContent = mode === 'level' || mode === 'speedrun' ? (lv.course ? '← კურსი' : '← რუკა') : '← მენიუ';
     Editor.setMode(lv.lang || 'js');
-    $('#g-dict').textContent = lv.course ? 'შპარგალკა' : 'ლექსიკონი';
+    $('#g-dict').innerHTML = '<span class="ic">📖</span>' + (lv.course ? 'შპარგალკა' : 'ლექსიკონი');
+    $('#g-timer').classList.toggle('hidden', mode !== 'speedrun');
+    $('#g-attempts').classList.toggle('hidden', mode !== 'level');
     // ვებ-გაკვეთილზე რობოტის დაფის ნაცვლად გვერდის გადახედვა ჩანს
     const web = !!lv.web;
     ['#board-wrap', '#scr-game .board-bar', '#g-tests', '#g-step'].forEach(sel => $(sel).classList.toggle('hidden', web));
@@ -7364,14 +7505,20 @@ const Game = {
     this.newMaps();
     const w = WORLDS[(lv.world || 1) - 1];
     const modeTag = { speedrun: 'სპიდრანი · ', daily: '', sandbox: '' }[this.mode] || '';
-    $('#g-world').textContent = base.course ? LANGS[base.lang].name + ' · ' + (base.web ? 'გაკვეთილი ' : 'ლეველი ') + base.num + '/' + courseLevels(base.course).length
-      : this.mode === 'level' || this.mode === 'speedrun' ? 'სამყარო ' + w.id + ' · ' + w.name + ' · ლეველი ' + base.id : (this.mode === 'daily' ? '📅 ყოველდღიური' : '🧪 სენდბოქსი');
+    const list = base.course ? courseLevels(base.course) : LEVELS.filter(l => l.world === base.world);
+    const inList = this.mode === 'level' || this.mode === 'speedrun';
+    $('#g-world').textContent = base.course ? LANGS[base.lang].name + ' · ' + (base.web ? 'გაკვეთილი ' : 'ლეველი ') + base.num + '/' + list.length
+      : inList ? w.name + ' · ' + (base.boss ? 'ბოსი' : 'ლეველი ' + base.num + '/' + list.length) : (this.mode === 'daily' ? 'ყოველდღიური' : 'სენდბოქსი');
+    $('#g-pips').innerHTML = inList ? list.map(l => '<i class="' + (l.id === base.id ? 'cur' : Progress.isDone(l.id) ? 'done' : '') + '"></i>').join('') : '';
     $('#g-name').textContent = modeTag + (base.boss && !base.phases ? '👾 ' : '') + base.title;
     const ph = $('#g-phase');
     ph.classList.toggle('hidden', !base.phases);
     if (base.phases) ph.textContent = lv.title + ' (' + (this.phaseIdx + 1) + '/' + base.phases.length + ')';
     this.setProf(lv.story || '', '');
     $('#g-theory').textContent = lv.theory || '';
+    // ახალი თემის ლეველზე „როგორ?“ ღიაა, პრაქტიკასა და ბოსზე — დახურული (თვითონ სცადე!)
+    $('#g-theory-box').open = !(lv.practice || base.boss || this.mode === 'daily');
+    $('#g-theory-box').classList.toggle('hidden', !lv.theory && !lv.example);
     $('#g-example').textContent = lv.example || '';
     $('#g-example').classList.toggle('hidden', !lv.example);
     $('#g-task').textContent = lv.task || '';
@@ -7392,7 +7539,7 @@ const Game = {
     else Con.sys('მზად ვარ! დაწერე კოდი და დააჭირე ▶ გაშვებას (Ctrl+Enter).');
     if (this.maps.length > 1) Con.sys('ამ ლეველს ' + this.maps.length + ' ტესტი აქვს — კოდი ყველაზე უნდა მუშაობდეს.');
     this.updateXPChip();
-    $('#g-attempts').textContent = 'ცდა: ' + this.attempts;
+    this.updateStarChip();
     $('#g-streak').textContent = Streak.chip();
     if (lv.web) { this.renderChecks(null); this.webPreview(); }
     else this.showTest(0);
@@ -7410,7 +7557,7 @@ const Game = {
     b.className = 'bubble' + (cls ? ' ' + cls : '');
     b.innerHTML = html;
     const glitch = /^გლიჩი:/.test(b.textContent);
-    $('.prof .avatar').textContent = glitch ? '👾' : '🦉';
+    $('#g-avatar').textContent = glitch ? '👾' : '🦉';
   },
   renderGoals() {
     const g = this.cur.goal || {}, out = [];
@@ -7442,19 +7589,19 @@ const Game = {
       // სხვა ენები: ბრძანებები ენის სახელებით (Python — turn_left()), კონსტრუქციები ენის სინტაქსით
       const semi = lv.web || lang === 'py' ? '' : ';';
       if (lv.web) html = '<span class="lbl">ჩასვი:</span>' + LANG_SNIPPETS[lang].filter(s => s.w <= lv.num).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('');
-      else if (w <= 2) html = acts.filter(c => BIG_CMDS[c]).map(c => '<button class="cmd-big" data-ins="' + cmdName(lang, c) + '()' + semi + '" data-stmt="1" title="ჩასვი ' + cmdName(lang, c) + '()"><span class="ic">' + BIG_CMDS[c].ic + '</span>' + BIG_CMDS[c].t + '<code>' + cmdName(lang, c) + '()</code></button>').join('') +
+      else if (w <= 2) html = acts.filter(c => BIG_CMDS[c]).map(c => '<button class="cmd-big" style="--pc:' + BIG_CMDS[c].c + '" data-ins="' + cmdName(lang, c) + '()' + semi + '" data-stmt="1" title="ჩასვი ' + cmdName(lang, c) + '()"><span class="ic">' + BIG_CMDS[c].ic + '</span>' + BIG_CMDS[c].t + '<code>' + cmdName(lang, c) + '()</code></button>').join('') +
         '<button class="cmd-big undo" data-act="undo" title="ბოლო ხაზის წაშლა"><span class="ic">⌫</span>წაშალე<code>ბოლო ხაზი</code></button>' +
         LANG_SNIPPETS[lang].filter(s => s.w <= w).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('') +
-        '<div class="palette-help">დააჭირე ღილაკს — ბრძანება კოდში ჩაიწერება. შეგიძლია კოდი თავადაც აკრიფო.</div>';
+        '<div class="palette-help">👆 დააჭირე ბრძანებას — ის კოდში ჩაიწერება.</div>';
       else html = '<span class="lbl">ჩასვი:</span>' + acts.map(c => '<button data-ins="' + cmdName(lang, c) + '()' + semi + '" data-stmt="1">' + cmdName(lang, c) + '()</button>').join('') +
         sens.map(c => '<button data-ins="' + cmdName(lang, c) + '()" title="სენსორი">' + cmdName(lang, c) + '()</button>').join('') +
         LANG_SNIPPETS[lang].filter(s => s.w <= w).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('');
     } else if (w <= 2 && this.mode !== 'sandbox') {
       // დამწყებთათვის: დიდი ღილაკები — დააჭირე და ბრძანება კოდში ჩაიწერება
-      html = acts.filter(c => BIG_CMDS[c]).map(c => '<button class="cmd-big" data-ins="' + c + '();" title="ჩასვი ' + c + '();"><span class="ic">' + BIG_CMDS[c].ic + '</span>' + BIG_CMDS[c].t + '<code>' + c + '()</code></button>').join('') +
+      html = acts.filter(c => BIG_CMDS[c]).map(c => '<button class="cmd-big" style="--pc:' + BIG_CMDS[c].c + '" data-ins="' + c + '();" title="ჩასვი ' + c + '();"><span class="ic">' + BIG_CMDS[c].ic + '</span>' + BIG_CMDS[c].t + '<code>' + c + '()</code></button>').join('') +
         '<button class="cmd-big undo" data-act="undo" title="ბოლო ხაზის წაშლა"><span class="ic">⌫</span>წაშალე<code>ბოლო ხაზი</code></button>' +
         (w === 2 ? SNIPPETS.filter(s => s.w <= w).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('') : '') +
-        '<div class="palette-help">დააჭირე ღილაკს — ბრძანება კოდში ჩაიწერება. შეგიძლია კოდი თავადაც აკრიფო.</div>';
+        '<div class="palette-help">👆 დააჭირე ბრძანებას — ის კოდში ჩაიწერება.</div>';
     } else {
       html = '<span class="lbl">ჩასვი:</span>' + acts.map(c => '<button data-ins="' + c + '();">' + c + '()</button>').join('');
       if (sens.length) html += sens.map(c => '<button data-ins="' + c + '()" title="სენსორი">' + c + '()</button>').join('');
@@ -7470,6 +7617,12 @@ const Game = {
     if (undo) undo.addEventListener('click', () => Editor.removeLastLine());
   },
   updateLines() { $('#g-lines').textContent = '· ' + countLines(Editor.get(), this.cur && this.cur.lang) + ' ხაზი'; },
+  // რამდენი ვარსკვლავის აღება შეიძლება ახლა: ⭐⭐⭐ ≤3 ცდა და მინიშნების გარეშე, ⭐⭐ ≤3 ცდა
+  updateStarChip() {
+    const n = this.attempts >= 3 ? 1 : this.hintsUsed ? 2 : 3;
+    $('#g-attempts').innerHTML = starsHTML(n);
+    $('#g-attempts').title = 'შესაძლო ვარსკვლავები: ' + n + ' · წარუმატებელი ცდები: ' + this.attempts + (this.hintsUsed ? ' · მინიშნებები: ' + this.hintsUsed : '');
+  },
   updateXPChip() {
     const c = $('#g-xp');
     if (this.mode === 'level') { c.textContent = Progress.xpFor(this.base, this.hintsUsed) + ' XP'; c.title = 'მიღებადი XP (ყოველი მინიშნება: −20)'; }
@@ -7502,7 +7655,7 @@ const Game = {
     this.busy = b;
     $('#g-run').disabled = b; $('#g-step').disabled = b; $('#g-hint').disabled = b;
     $('#g-run').textContent = b ? 'სრულდება…' : this.cur && this.cur.web ? '▶ შემოწმება' : '▶ გაშვება';
-    $('#g-reset').textContent = b ? 'გაჩერება' : '⟲ თავიდან';
+    $('#g-reset').innerHTML = b ? '<span class="ic">⏹</span>გაჩერება' : '<span class="ic">⟲</span>თავიდან';
     $$('#g-tests [data-t]').forEach(x => { x.disabled = b; });
   },
   cancelAnim() { this.animToken++; },
@@ -7642,7 +7795,7 @@ const Game = {
   },
   onFail(ev, idx, total) {
     this.attempts++; this.failsTotal++; this.attemptsPhase++;
-    $('#g-attempts').textContent = 'ცდა: ' + this.attempts;
+    this.updateStarChip();
     const P = Progress.P, lv = this.cur;
     P.stats.fails++;
     if (this.mode === 'level') P.worldFails[lv.world] = (P.worldFails[lv.world] || 0) + 1;
@@ -7721,17 +7874,21 @@ const Game = {
   showVictory(info) {
     const base = this.base, next = courseLevels(base.course)[base.index + 1];
     const courseEnd = base.course && !next && Progress.courseDone(base.course);
-    const html = '<h2 class="result-title">' + (base.final ? 'გლიჩი დამარცხებულია!' : base.boss ? 'ბოსი დამარცხებულია!' : 'ლეველი გავლილია!') + '</h2>' +
-      '<div class="big-stars">' + [1, 2, 3].map(i => '<span' + (i <= info.stars ? '' : ' style="opacity:.18;filter:grayscale(1)"') + '>⭐</span>').join('') + '</div>' +
-      '<div class="stat-grid"><div class="stat"><b>+' + info.xpGain + '</b><small>XP' + (info.xpGain < info.xp ? ' (საუკეთესო: ' + info.xp + ')' : '') + '</small></div>' +
-      '<div class="stat"><b>' + fmtTime(info.time) + '</b><small>დახარჯული დრო</small></div><div class="stat"><b>' + info.tries + '</b><small>ცდა</small></div>' +
-      (info.web ? '' : '<div class="stat"><b>' + info.lines + '</b><small>ხაზი (ოპტიმალური ≤ ' + info.opt + ')</small></div>') + '</div>' +
-      info.streakLine + '<p class="muted" style="font-size:.85rem;margin-top:12px">⭐ გავლა · ⭐⭐ ≤3 ცდით · ⭐⭐⭐ მინიშნების გარეშე' + (info.web ? '' : ' და ოპტიმალური კოდით') + (info.tips.length ? '<br>💡 ' + info.tips.join(' · ') : '') + '</p>' +
-      (courseEnd ? '<p style="text-align:center;font-weight:700">🎉 ' + esc(LANGS[base.lang].name) + '-ის კურსი დასრულებულია!</p>' : '') +
-      '<div class="modal-actions"><button class="btn" data-a="map">' + (base.course ? 'კურსი' : 'რუკა') + '</button><button class="btn" data-a="retry">⟲ თავიდან ცდა</button>' +
+    const badge = base.final ? '🏆' : base.boss ? '👾' : info.stars === 3 ? '🌟' : '🎉';
+    const html = '<div class="win"><div class="win-badge" aria-hidden="true">' + badge + '</div>' +
+      '<h2 class="result-title">' + (base.final ? 'გლიჩი დამარცხებულია!' : base.boss ? 'ბოსი დამარცხებულია!' : (base.web ? 'გაკვეთილი' : 'ლეველი') + ' გავლილია!') + '</h2>' +
+      '<div class="big-stars win-stars" aria-label="' + info.stars + ' ვარსკვლავი">' + [1, 2, 3].map(i => '<span class="' + (i <= info.stars ? 'on' : 'off') + '" style="--i:' + i + '">⭐</span>').join('') + '</div>' +
+      '<div class="win-xp">+' + info.xpGain + ' XP' + (info.xpGain < info.xp ? '<small>საუკეთესო შედეგი: ' + info.xp + ' XP</small>' : '') + '</div>' +
+      '<div class="win-stats"><span title="დახარჯული დრო">⏱ ' + fmtTime(info.time) + '</span><span>🎯 ' + info.tries + ' ცდა</span>' +
+      (info.web ? '' : '<span title="ოპტიმალური: ≤ ' + info.opt + '">📝 ' + info.lines + ' ხაზი</span>') + '</div>' +
+      info.streakLine +
+      (info.tips.length ? '<div class="win-tip">💡 ⭐⭐⭐-ისთვის: ' + info.tips.join(' · ') + '</div>' : '') +
+      (courseEnd ? '<p style="font-weight:700">🎉 ' + esc(LANGS[base.lang].name) + '-ის კურსი დასრულებულია!</p>' : '') + '</div>' +
+      '<div class="modal-actions win-actions"><button class="btn" data-a="map">' + (base.course ? 'კურსი' : 'რუკა') + '</button><button class="btn" data-a="retry">⟲ თავიდან</button>' +
       (base.boss && !base.final && !base.course ? '<button class="btn" data-a="real">რეალურ ცხოვრებაში</button><button class="btn" data-a="quiz">ქვიზი</button>' : '') +
-      (base.final ? '<button class="btn primary" data-a="ending">ფინალი</button>' : next ? '<button class="btn primary" data-a="next">შემდეგი ' + (base.web ? 'გაკვეთილი' : 'ლეველი') + '</button>' : courseEnd ? '<button class="btn primary" data-a="cert">📜 სერტიფიკატი</button>' : '') + '</div>';
+      (base.final ? '<button class="btn primary" data-a="ending">ფინალი ▶</button>' : next ? '<button class="btn primary" data-a="next">შემდეგი ' + (base.web ? 'გაკვეთილი' : 'ლეველი') + ' ▶</button>' : courseEnd ? '<button class="btn primary" data-a="cert">📜 სერტიფიკატი</button>' : '') + '</div>';
     const m = Modal.open(html, { dismiss: false });
+    confetti(m.parentNode);
     const on = (a, fn) => { const b = m.querySelector('[data-a=' + a + ']'); if (b) b.addEventListener('click', () => { Modal.close(m); fn(); }); };
     on('map', () => UI.show(base.course ? 'course' : 'map'));
     on('retry', () => this.setup(base, 'level'));
@@ -7794,7 +7951,7 @@ const Game = {
   revealHint() {
     this.hintLevel++; this.hintsUsed++;
     Progress.P.stats.hints++; Progress.save();
-    this.updateXPChip();
+    this.updateXPChip(); this.updateStarChip();
   },
 
   /* ---- თავისუფალი რეჟიმი: რუკის რედაქტორი ---- */

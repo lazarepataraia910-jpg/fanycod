@@ -174,7 +174,7 @@ html[data-theme="dark"] #scr-game{--c1:color-mix(in srgb,var(--t1) 24%,#1b1f24);
 @media (max-width:900px){
   .gmain{display:flex;flex-direction:column;gap:12px}
   .gcol{display:contents}
-  .mission{order:1}#g-tests{order:2}#board-wrap{order:3}.board-bar{order:4}#g-web{order:5}#g-sandbox{order:6}#g-html-box{order:7}#g-data{order:8}
+  .mission{order:1}#g-learn{order:1}#g-tests{order:2}#board-wrap{order:3}#g-app{order:3}.board-bar{order:4}#g-web{order:5}#g-sandbox{order:6}#g-html-box{order:7}#g-data{order:8}
   .editor-card{order:9}#g-palette{order:10}.controls{order:11}#g-checks{order:12}#g-console{order:13}#g-vars{order:14}
 }
 @media (min-width:901px){.gcol.right{position:sticky;top:72px;align-self:start;max-height:calc(100vh - 80px);overflow:auto;padding-bottom:10px}}
@@ -253,16 +253,15 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .palette button{font-family:var(--mono);font-size:.8rem;padding:.32em .7em;border-radius:999px;border:1px solid color-mix(in srgb,var(--wa) 30%,var(--border));background:var(--panel)}
 .palette button:hover{border-color:var(--wa);background:color-mix(in srgb,var(--wa) 8%,var(--panel))}
 .palette .lbl{font-size:.78rem;color:var(--muted);align-self:center;margin-right:2px}
-/* დამწყებთათვის: დიდი ფერადი ბრძანების ღილაკები */
-.palette .cmd-big{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:84px;padding:8px 10px 7px;border-radius:14px;font-family:var(--font);font-size:.92rem;font-weight:800;border:0;background:var(--pc,#2f74e0);color:#fff;box-shadow:0 4px 0 color-mix(in srgb,var(--pc,#2f74e0) 68%,#000);transition:transform .08s,box-shadow .08s}
-.palette .cmd-big:hover{background:color-mix(in srgb,var(--pc,#2f74e0) 88%,#000);border:0}
-.palette .cmd-big:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--pc,#2f74e0) 68%,#000)}
-.palette .cmd-big .ic{font-size:1.3rem;line-height:1.1}
-.palette .cmd-big code{font-size:.7rem;color:rgba(255,255,255,.85);font-weight:400}
-.palette .cmd-big.undo{font-weight:700;background:var(--panel2);color:var(--muted);box-shadow:0 4px 0 var(--border)}
-.palette .cmd-big.undo code{color:var(--muted)}
-.palette-help{width:100%;font-size:.8rem;color:var(--muted)}
-@media (max-width:520px){.palette .cmd-big{min-width:0;flex:1 1 58px;padding:7px 3px 6px;font-size:.8rem}.palette .cmd-big code{font-size:.62rem}}
+/* „შენით“: სიმბოლოების კლავიატურა (ტელეფონზე ფრჩხილების აკრეფა ძნელია) და ბრძანებების სია */
+.keys{display:flex;flex-wrap:wrap;gap:5px;width:100%}
+.key{min-width:38px;height:38px;padding:0 9px;border-radius:10px;border:1px solid var(--border);background:var(--panel);font:600 1rem var(--mono);box-shadow:0 3px 0 var(--border);transition:transform .06s,box-shadow .06s}
+.key:active{transform:translateY(2px);box-shadow:0 1px 0 var(--border)}
+.key:hover{border-color:var(--wa)}
+@media (max-width:520px){.key{flex:1 0 34px;min-width:34px;padding:0 4px}}
+.cmd-ref{width:100%;font-size:.82rem;color:var(--muted)}
+.cmd-ref summary{cursor:pointer;font-weight:600}
+.cmd-ref code{display:inline-block;margin:3px 3px 0 0;padding:1px 7px;border-radius:6px;background:var(--panel2);border:1px solid var(--border);color:var(--text);font-size:.78rem}
 .console{background:#1b1f24;color:#d6dbe0;font-family:var(--mono);font-size:.86rem;border-radius:14px;padding:10px 14px;min-height:70px;max-height:220px;overflow:auto;border:1px solid var(--border)}
 .console .ln{white-space:pre-wrap;word-break:break-word;padding:1px 0}
 .console .err{color:#ff9b9b}.console .warn{color:#f2c46d}.console .okc{color:#8fd9a8}.console .sys{color:#9aa8b8}
@@ -370,6 +369,69 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .toast small{color:var(--muted)}
 @keyframes fadeout{to{opacity:0}}
 .big-stars{font-size:2rem;text-align:center;letter-spacing:6px}
+/* სწავლის ნაბიჯები: 👀 ნახე → ✍️ გაიმეორე → 🚀 შენით */
+.steps{display:flex;gap:4px;padding:8px 10px 0;background:color-mix(in srgb,var(--wa) 9%,var(--panel))}
+.steps button{flex:1;min-width:0;border:0;border-radius:12px 12px 0 0;padding:7px 4px;background:transparent;font-weight:700;font-size:.86rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.steps button b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--border);color:var(--panel);font-size:.72rem;margin-right:3px}
+.steps button.done b{background:var(--ok)}
+.steps button.on{background:var(--panel);color:var(--text)}
+.steps button.on b{background:var(--wa)}
+.steps button:disabled{opacity:.45}
+.learn{border:2px solid color-mix(in srgb,var(--wa) 32%,var(--border));border-radius:16px;display:flex;flex-direction:column;gap:10px}
+.learn-h{font-size:1.05rem}
+.learn-pts{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.learn-pts li{position:relative;padding:7px 12px 7px 34px;border-radius:12px;background:color-mix(in srgb,var(--wa) 7%,var(--panel));line-height:1.5;font-size:.95rem}
+.learn-pts li::before{content:"💡";position:absolute;left:9px;top:7px;font-size:.9rem}
+.learn-pts li.tip::before{content:"👉"}
+.demo{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#1b1f24}
+.demo-bar{display:flex;justify-content:space-between;align-items:center;padding:4px 6px 4px 12px;background:#262b31;color:#aeb6bf;font-size:.8rem}
+.demo-bar .btn{color:#d6dbe0}
+.demo-code,.typer-ghost{margin:0;padding:12px 14px;font:var(--fs)/1.6 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;color:#e6e9ec;min-height:60px}
+.hl-c{color:#8b949e;font-style:italic}.hl-s{color:#a5d6a7}.hl-n{color:#f5b37a}.hl-k{color:#c9a2ff;font-weight:600}.hl-f{color:#8ab4f8}.hl-t{color:#ff8fa3}.hl-a{color:#ffd580}
+.tw-cur{display:inline-block;width:2px;height:1.1em;background:#3ddc97;vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.demo-out{border-top:1px dashed #3a4048;padding:8px 14px;font:.9rem/1.5 var(--mono);color:#8fd9a8;white-space:pre-wrap}
+.demo-out b{display:block;color:#aeb6bf;font:600 .78rem var(--font);margin-bottom:2px}
+.demo-web{display:block;width:100%;height:180px;border:0;border-top:1px solid #3a4048;background:#fff}
+.typer{position:relative;border-radius:14px;background:#1b1f24;border:2px solid #3a4048;cursor:text}
+.typer.focus{border-color:var(--wa);box-shadow:0 0 0 3px color-mix(in srgb,var(--wa) 30%,transparent)}
+.typer-ghost .g{color:#5c6672}
+.typer-ghost .ok{color:#7ee2a8}
+.typer-ghost .auto{color:#8b949e}
+.typer-ghost .bad{background:#ff5c5c;color:#fff;border-radius:3px}
+.typer-ghost .cur{box-shadow:inset 0 -3px 0 #ffd43b;color:#fff;background:rgba(255,212,59,.15);border-radius:2px;animation:blink 1.1s steps(1) infinite}
+.typer-ghost .nl::after{content:"↵";opacity:.55}
+.typer-in{position:absolute;inset:0;width:100%;height:100%;opacity:0;resize:none;border:0;font-size:16px;cursor:text}
+.typer-bar{display:flex;align-items:center;gap:10px}
+.typer-bar .progress{flex:1}
+.typer-bar .progress>div{background:var(--ok)}
+.combo{font-weight:800;min-width:64px;text-align:right;color:var(--flame)}
+.combo.pop{animation:pop .3s}
+.typer-stats{text-align:center;padding:10px;border-radius:12px;background:color-mix(in srgb,var(--ok) 10%,var(--panel));border:1px solid color-mix(in srgb,var(--ok) 35%,var(--border));font-weight:600}
+.typer-stats big{display:block;font-size:1.15rem;margin-bottom:2px}
+.learn-actions{display:flex}
+.learn-actions .btn{flex:1}
+/* რეალური პროექტი: ტელეფონის აპი */
+.app{display:flex;justify-content:center;padding:6px 0}
+.phone{width:min(340px,100%);border-radius:34px;padding:12px;background:#1b1f24;box-shadow:0 0 0 2px #3a4048,0 18px 40px rgba(0,0,0,.25)}
+.phone-top{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:22px 22px 0 0;background:var(--wa);color:#fff}
+.phone-top b{flex:1}
+.phone-ic{font-size:1.4rem}
+.phone-dots{font-size:.5rem;letter-spacing:2px;opacity:.7}
+.phone-body{min-height:300px;max-height:420px;overflow:auto;padding:14px;border-radius:0 0 22px 22px;background:var(--panel);display:flex;flex-direction:column;gap:8px}
+.app-hint{font-size:.82rem;color:var(--muted);text-align:center}
+.app-line{padding:9px 13px;border-radius:14px;background:var(--panel2);border:1px solid var(--border);font-weight:600;animation:fade .25s both;word-break:break-word}
+.app-line.ghost{opacity:.55;border-style:dashed;font-weight:500}
+.app-line.ok{background:color-mix(in srgb,var(--ok) 10%,var(--panel));border-color:color-mix(in srgb,var(--ok) 40%,var(--border))}
+.app-line.bad{background:color-mix(in srgb,var(--bad) 9%,var(--panel));border-color:color-mix(in srgb,var(--bad) 45%,var(--border))}
+.app-line.miss{opacity:.5;border-style:dashed;text-decoration:line-through}
+.app-ok{text-align:center;font-weight:800;color:var(--ok);padding:6px;border-radius:12px;background:color-mix(in srgb,var(--ok) 12%,var(--panel))}
+.proj-card{display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:12px 14px;border-radius:16px;text-align:left;border:2px dashed color-mix(in srgb,var(--wa) 55%,var(--border));background:color-mix(in srgb,var(--wa) 8%,var(--panel))}
+.proj-card:hover:not(:disabled){border-style:solid}
+.proj-card .pi{font-size:2rem}
+.proj-card .t{flex:1;min-width:0}
+.proj-card b{display:block}
+.proj-card small{display:block;color:var(--muted);font-size:.8rem;line-height:1.35}
 /* გამარჯვების ფანჯარა */
 .win{text-align:center}
 .win-badge{width:82px;height:82px;margin:0 auto 4px;border-radius:50%;display:grid;place-items:center;font-size:2.7rem;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b);box-shadow:0 5px 0 #d9a600,0 10px 24px rgba(217,166,0,.3);animation:pop .55s cubic-bezier(.2,1.6,.4,1) both}
@@ -534,6 +596,9 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
     <div class="gmain">
       <div class="gcol left">
         <div class="card mission">
+          <div class="steps hidden" id="g-steps" role="tablist" aria-label="სწავლის ნაბიჯები">
+            <button data-s="1" role="tab"><b>1</b> 👀 ნახე</button><button data-s="2" role="tab"><b>2</b> ✍️ გაიმეორე</button><button data-s="3" role="tab"><b>3</b> 🚀 შენით</button>
+          </div>
           <div class="prof">
             <div class="avatar" id="g-avatar" aria-hidden="true">🦉</div>
             <div class="bubble" id="g-prof" role="status" aria-live="polite"></div>
@@ -548,6 +613,23 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
             <div class="theory-text" id="g-theory"></div>
             <pre class="example" id="g-example"></pre>
           </details>
+        </div>
+        <div class="card learn hidden" id="g-learn">
+          <div class="learn-h" id="g-learn-h"></div>
+          <ul class="learn-pts" id="g-learn-pts"></ul>
+          <div class="demo" id="g-demo-box">
+            <div class="demo-bar"><span>💻 კოდი იწერება...</span><button class="btn small ghost" id="g-demo-skip">⏩ სწრაფად</button></div>
+            <pre class="demo-code" id="g-demo"></pre>
+            <div class="demo-out hidden" id="g-demo-out"></div>
+            <iframe class="demo-web hidden" id="g-demo-web" sandbox="allow-same-origin" title="მაგალითის შედეგი"></iframe>
+          </div>
+          <div class="typer hidden" id="g-typer">
+            <pre class="typer-ghost" id="g-typer-ghost" aria-hidden="true"></pre>
+            <textarea class="typer-in" id="g-typer-in" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="აქ აკრიფე კოდი"></textarea>
+          </div>
+          <div class="typer-bar hidden" id="g-typer-bar"><div class="progress"><div id="g-typer-prog"></div></div><span class="combo" id="g-typer-combo"></span></div>
+          <div class="typer-stats hidden" id="g-typer-stats"></div>
+          <div class="learn-actions"><button class="btn run" id="g-learn-next"></button></div>
         </div>
         <details class="card hidden" id="g-html-box" open>
           <summary>HTML (ეს ნაწილი უცვლელია)</summary>
@@ -576,6 +658,9 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
         <div class="board-bar">
           <div class="status" id="g-status"></div>
           <label class="speed" title="ანიმაციის სიჩქარე"><span aria-hidden="true">🐢</span><input type="range" min="1" max="3" step="1" id="g-speed" aria-label="ანიმაციის სიჩქარე"><span aria-hidden="true">🐇</span><span class="hidden" id="g-speed-lbl"></span></label>
+        </div>
+        <div class="app hidden" id="g-app">
+          <div class="phone"><div class="phone-top"><span class="phone-ic" id="g-app-ic"></span><b id="g-app-title"></b><span class="phone-dots">● ● ●</span></div><div class="phone-body" id="g-app-body"></div></div>
         </div>
         <div class="card web hidden" id="g-web">
           <div class="web-bar"><span aria-hidden="true"><i></i><i></i><i></i></span><span class="url" id="g-url">ბიტის-გვერდი.html</span></div>
@@ -6625,19 +6710,10 @@ const Editor = {
       const ta = this.ta; ta.setRangeText(text, ta.selectionStart, ta.selectionEnd, "end"); ta.focus(); this.sync(); this.onChange && this.onChange();
     }
   },
-  // ბოლო არაცარიელი ხაზის წაშლა (დამწყებთა ღილაკი „⌫“)
-  removeLastLine() {
-    const lines = this.get().replace(/\s+$/, '').split('\n');
-    // C/C++/Java: main-ის ჩარჩოს (}, return 0;, #include ...) არ ვშლით
-    const frame = /^\s*(\}|return 0;|int main\(\)\s*\{|void main\(\)\s*\{|#include.*|using namespace std;|\/\/.*)?\s*$/;
-    let k = lines.length - 1;
-    if (this.lang !== 'js' && this.lang !== 'py') while (k >= 0 && frame.test(lines[k])) k--;
-    if (k < 0) return;
-    lines.splice(k, 1);
-    const code = lines.join('\n');
-    this.set(code ? code + '\n' : '');
-    if (this.cm) this.cm.focus(); else this.ta.focus();
-    if (this.onChange) this.onChange();
+  // ტექსტის ჩასმა კურსორთან, ზუსტად ისე, როგორც კლავიატურიდან (სიმბოლოების ღილაკები)
+  type(text) {
+    if (this.cm) { this.cm.replaceSelection(text); this.cm.focus(); }
+    else { const ta = this.ta; ta.setRangeText(text, ta.selectionStart, ta.selectionEnd, 'end'); ta.focus(); this.sync(); this.onChange && this.onChange(); }
   },
   markError(line) {
     this.err = line || null;
@@ -7364,9 +7440,15 @@ const SNIPPETS = [
   { w: 6, t: 'function', ins: 'function name() {\n  \n}' }, { w: 6, t: 'return', ins: 'return ;' },
   { w: 7, t: '[ ]', ins: '[]' }, { w: 7, t: 'for…of', ins: 'for (const x of arr) {\n  \n}' }, { w: 8, t: '{ }', ins: '{ key: 1 }' }
 ];
-const BIG_CMDS = {
-  move: { ic: '⬆', t: 'წინ', c: '#2f74e0' }, turnLeft: { ic: '↶', t: 'მარცხნივ', c: '#7950c8' }, turnRight: { ic: '↷', t: 'მარჯვნივ', c: '#7950c8' },
-  collect: { ic: '💎', t: 'აიღე', c: '#0f9470' }, openDoor: { ic: '🚪', t: 'კარი', c: '#a8652a' }
+// სიმბოლოების კლავიატურა ენების მიხედვით
+const KEYS = {
+  js: ['(', ')', ';', '{', '}', '"', '=', '+', '-', '<', '>', '[', ']', '.', ',', '!', '&&', '||'],
+  py: ['(', ')', ':', '"', '=', '+', '-', '<', '>', '[', ']', '.', ',', '#', '%'],
+  java: ['(', ')', ';', '{', '}', '"', '=', '+', '-', '<', '>', '[', ']', '.', ',', '!', '%'],
+  c: ['(', ')', ';', '{', '}', '"', '=', '+', '-', '<', '>', '[', ']', '%', '&', '#', ','],
+  cpp: ['(', ')', ';', '{', '}', '"', '=', '+', '-', '<<', '>>', '<', '>', '[', ']', '#', ','],
+  html: ['<', '>', '/', '"', '=', '!'],
+  css: ['{', '}', ':', ';', '#', '.', '-', '%', '"', '(', ')']
 };
 const ENCOURAGE = ['არაუშავს — შეცდომა სწავლის ნაწილია! 💪', 'თითქმის გამოგივიდა, კიდევ ერთხელ სცადე!', 'ყოველი შეცდომა რაღაც ახალს გასწავლის.', 'პროფესიონალი პროგრამისტებიც ყოველდღე ცდებიან — ეს ნორმალურია!', 'ნაბიჯ-ნაბიჯ რეჟიმი ⏯ დაგეხმარება, დაინახო, სად იბნევა ბიტი.'];
 const SBX_TOOLS = [
@@ -7585,36 +7667,30 @@ const Game = {
     const lv = this.cur, w = lv.world || 1, pal = $('#g-palette'), lang = lv.lang || 'js';
     const acts = lv.allowed.filter(c => !SENSORS.includes(c)), sens = lv.allowed.filter(c => SENSORS.includes(c));
     let html;
-    if (lang !== 'js') {
-      // სხვა ენები: ბრძანებები ენის სახელებით (Python — turn_left()), კონსტრუქციები ენის სინტაქსით
-      const semi = lv.web || lang === 'py' ? '' : ';';
-      if (lv.web) html = '<span class="lbl">ჩასვი:</span>' + LANG_SNIPPETS[lang].filter(s => s.w <= lv.num).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('');
-      else if (w <= 2) html = acts.filter(c => BIG_CMDS[c]).map(c => '<button class="cmd-big" style="--pc:' + BIG_CMDS[c].c + '" data-ins="' + cmdName(lang, c) + '()' + semi + '" data-stmt="1" title="ჩასვი ' + cmdName(lang, c) + '()"><span class="ic">' + BIG_CMDS[c].ic + '</span>' + BIG_CMDS[c].t + '<code>' + cmdName(lang, c) + '()</code></button>').join('') +
-        '<button class="cmd-big undo" data-act="undo" title="ბოლო ხაზის წაშლა"><span class="ic">⌫</span>წაშალე<code>ბოლო ხაზი</code></button>' +
-        LANG_SNIPPETS[lang].filter(s => s.w <= w).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('') +
-        '<div class="palette-help">👆 დააჭირე ბრძანებას — ის კოდში ჩაიწერება.</div>';
-      else html = '<span class="lbl">ჩასვი:</span>' + acts.map(c => '<button data-ins="' + cmdName(lang, c) + '()' + semi + '" data-stmt="1">' + cmdName(lang, c) + '()</button>').join('') +
-        sens.map(c => '<button data-ins="' + cmdName(lang, c) + '()" title="სენსორი">' + cmdName(lang, c) + '()</button>').join('') +
-        LANG_SNIPPETS[lang].filter(s => s.w <= w).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('');
-    } else if (w <= 2 && this.mode !== 'sandbox') {
-      // დამწყებთათვის: დიდი ღილაკები — დააჭირე და ბრძანება კოდში ჩაიწერება
-      html = acts.filter(c => BIG_CMDS[c]).map(c => '<button class="cmd-big" style="--pc:' + BIG_CMDS[c].c + '" data-ins="' + c + '();" title="ჩასვი ' + c + '();"><span class="ic">' + BIG_CMDS[c].ic + '</span>' + BIG_CMDS[c].t + '<code>' + c + '()</code></button>').join('') +
-        '<button class="cmd-big undo" data-act="undo" title="ბოლო ხაზის წაშლა"><span class="ic">⌫</span>წაშალე<code>ბოლო ხაზი</code></button>' +
-        (w === 2 ? SNIPPETS.filter(s => s.w <= w).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('') : '') +
-        '<div class="palette-help">👆 დააჭირე ბრძანებას — ის კოდში ჩაიწერება.</div>';
+    if (this.mode === 'sandbox') {
+      // თავისუფალ რეჟიმში ყველა ბრძანება ერთი დაჭერით ჩაისმება
+      html = '<span class="lbl">ჩასვი:</span>' + acts.map(c => '<button data-ins="' + c + '();">' + c + '()</button>').join('') +
+        sens.map(c => '<button data-ins="' + c + '()" title="სენსორი">' + c + '()</button>').join('') +
+        SNIPPETS.map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('');
     } else {
-      html = '<span class="lbl">ჩასვი:</span>' + acts.map(c => '<button data-ins="' + c + '();">' + c + '()</button>').join('');
-      if (sens.length) html += sens.map(c => '<button data-ins="' + c + '()" title="სენსორი">' + c + '()</button>').join('');
-      html += SNIPPETS.filter(s => s.w <= w).map(s => '<button data-ins="' + esc(s.ins) + '">' + esc(s.t) + '</button>').join('');
+      // „შენით“: კოდს თავად წერ — ღილაკები მხოლოდ ძნელად ასაკრეფ სიმბოლოებს სვამს
+      html = '<div class="keys" aria-label="სიმბოლოები">' + (KEYS[lang] || KEYS.js).map(k => '<button class="key" data-k="' + esc(k) + '">' + esc(k) + '</button>').join('') +
+        '<button class="key" data-k="&#9;" title="შეწევა">⇥</button></div>';
+      if (!lv.web && !lv.project && lv.allowed.length) {
+        const names = acts.concat(sens).map(c => '<code>' + cmdName(lang, c) + '()</code>').join('');
+        html += '<details class="cmd-ref"' + (w <= 2 ? ' open' : '') + '><summary>📋 ბიტის ბრძანებები</summary>' + names + '</details>';
+      }
     }
     pal.innerHTML = html;
     pal.querySelectorAll('[data-ins]').forEach(b => b.addEventListener('click', () => {
       let t = b.dataset.ins;
-      if (/^[a-zA-Z]+\(\);$/.test(t) || b.dataset.stmt) t += '\n';
-      Editor.insert(t, !!b.dataset.stmt);
+      if (/^[a-zA-Z]+\(\);$/.test(t)) t += '\n';
+      Editor.insert(t, false);
     }));
-    const undo = pal.querySelector('[data-act=undo]');
-    if (undo) undo.addEventListener('click', () => Editor.removeLastLine());
+    pal.querySelectorAll('[data-k]').forEach(b => {
+      b.addEventListener('mousedown', e => e.preventDefault());   // რედაქტორს ფოკუსი არ დაეკარგოს
+      b.addEventListener('click', () => Editor.type(b.dataset.k === '\t' ? ' '.repeat(Editor.unit) : b.dataset.k));
+    });
   },
   updateLines() { $('#g-lines').textContent = '· ' + countLines(Editor.get(), this.cur && this.cur.lang) + ' ხაზი'; },
   // რამდენი ვარსკვლავის აღება შეიძლება ახლა: ⭐⭐⭐ ≤3 ცდა და მინიშნების გარეშე, ⭐⭐ ≤3 ცდა

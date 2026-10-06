@@ -19,6 +19,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/jsx/jsx.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/mode/simple.min.js"></script>
@@ -9806,6 +9807,7 @@ const LANGS = {
   cpp: { id: 'cpp', name: 'C++', badge: 'C++', color: '#00599c', ink: '#fff', kind: 'robot', cm: 'text/x-c++src', indent: 4, print: 'cout <<', compile: (c, o) => clCompile(c, Object.assign({ lang: 'cpp' }, o)) },
   html: { id: 'html', name: 'HTML', badge: 'HTML', color: '#e34f26', ink: '#fff', kind: 'web', cm: 'htmlmixed', indent: 2 },
   css: { id: 'css', name: 'CSS', badge: 'CSS', color: '#264de4', ink: '#fff', kind: 'web', cm: 'css', indent: 2 },
+  react: { id: 'react', name: 'React', badge: 'React', color: '#61dafb', ink: '#20232a', kind: 'web', cm: 'jsx', indent: 2 },
   ts: { id: 'ts', name: 'TypeScript', badge: 'TS', color: '#3178c6', ink: '#fff', kind: 'robot', cm: 'text/typescript', indent: 2, print: 'console.log()', compile: (c, o) => nlCompile(c, Object.assign({ lang: 'ts' }, o)) },
   cs: { id: 'cs', name: 'C#', badge: 'C#', color: '#68217a', ink: '#fff', kind: 'robot', cm: 'text/x-csharp', indent: 4, print: 'Console.WriteLine()', compile: (c, o) => nlCompile(c, Object.assign({ lang: 'cs' }, o)) },
   go: { id: 'go', name: 'Go', badge: 'Go', color: '#007d9c', ink: '#fff', kind: 'robot', cm: 'text/x-go', indent: 4, print: 'fmt.Println()', compile: (c, o) => nlCompile(c, Object.assign({ lang: 'go' }, o)) },
@@ -10366,6 +10368,173 @@ const CSS_LESSONS = [
     solution: '.card {\n  background: white;\n  padding: 20px;\n  border: 2px solid #3d5afe;\n  border-radius: 12px;\n  color: #13163a;\n}\n\n.card h2 {\n  color: #3d5afe;\n  text-align: center;\n}'
   }
 ];
+/* ---------- React-ის გაკვეთილები (ხელით დაწერილი, 13) ---------- */
+// React-ის შემოწმების დამხმარეები: h — პირველი „ფოტო“ (დაჭერამდე), h.s[i] — i-ე სცენარის შემდეგ; h.logs — console.log
+const rSrc = h => stripComments(h.src, 'react');
+const rTexts = (h, sel) => h.qa(sel).map(e => h.t(e));
+const rSame = (h, sel, items) => { const t = rTexts(h, sel); return t.length === items.length && items.every((x, i) => t[i] === WEB_NORM(x)); };
+const rHasApp = h => /\bfunction\s+App\s*\(|\b(?:const|let)\s+App\s*=/.test(rSrc(h));
+const REACT_LESSONS = [
+  {
+    title: 'პირველი კომპონენტი',
+    story: 'ბიტს საკუთარი აპი უნდა! React-ში აპი კომპონენტებისგან — პატარა ფუნქციებისგან — აიწყობა.',
+    theory: 'React ინტერფეისს კომპონენტებად აწყობს. კომპონენტი ჩვეულებრივი ფუნქციაა, რომლის სახელი დიდი ასოთი იწყება და რომელიც JSX-ს აბრუნებს — HTML-ის მსგავს კოდს JavaScript-ის შიგნით. მთავარ კომპონენტს App ჰქვია: რასაც ის აბრუნებს (return), ის ჩანს ეკრანზე. JSX-ში თეგები ისე იწერება, როგორც HTML-ში: <h1>ტექსტი</h1>.',
+    example: 'function App() {\n  return <h1>გამარჯობა, React!</h1>;\n}',
+    task: 'App-მა დააბრუნოს სათაური <h1> ტექსტით „ბიტის აპი“.',
+    starter: '// App — მთავარი კომპონენტი: რასაც აბრუნებს, ის ჩანს ეკრანზე\nfunction App() {\n  return null;\n}\n',
+    checks: [W('ეკრანზე ჩანს სათაური <h1>', h => !!h.q('h1')), W('<h1>-ში წერია „ბიტის აპი“', h => hasText(h, 'h1', 'ბიტის აპი')), W('სათაურს App კომპონენტი აბრუნებს (return)', h => rHasApp(h) && /\breturn\b/.test(rSrc(h)))],
+    hints: ['null-ის ნაცვლად JSX დააბრუნე: return <h1>…</h1>;', 'JSX-ში თეგი HTML-ივით იწერება: <h1>ბიტის აპი</h1>'],
+    solution: 'function App() {\n  return <h1>ბიტის აპი</h1>;\n}'
+  },
+  {
+    title: 'JSX: ფრჩხილები და {}',
+    story: 'ბიტს უნდა, რომ აპი მისი სახელით და დონით მიესალმოს.',
+    theory: 'რამდენიმე ხაზიან JSX-ს ფრჩხილებში () წერენ. JSX-მა ერთი „მშობელი“ ელემენტი უნდა დააბრუნოს — მაგ. <div>, რომელშიც დანარჩენია. ფიგურულ ფრჩხილებში {} JavaScript იწერება: {name} ცვლადის მნიშვნელობას აჩვენებს, {2 + 3} — გამოთვლის შედეგს.',
+    example: 'const name = "ბიტი";\n\nfunction App() {\n  return (\n    <div>\n      <h1>გამარჯობა, {name}!</h1>\n      <p>2 + 3 = {2 + 3}</p>\n    </div>\n  );\n}',
+    task: 'ცვლადები robot და level უკვე არის. <div>-ში დააბრუნე <h1>, რომელშიც robot-ის მნიშვნელობა ჩანს ({robot}), და <p>, რომელშიც წერია „დონე: “ და level-ის ორმაგი მნიშვნელობა — {level * 2}.',
+    starter: 'const robot = "ბიტი";\nconst level = 7;\n\nfunction App() {\n  return (\n    <div>\n      \n    </div>\n  );\n}\n',
+    checks: [W('<h1>-ში წერია „ბიტი“', h => hasText(h, 'h1', 'ბიტი')), W('<p>-ში წერია „დონე: 14“', h => hasText(h, 'p', 'დონე: 14')), W('ორივე ერთ <div>-შია', h => !!h.q('div > h1') && !!h.q('div > p')),
+      W('სახელი ცვლადიდან მოდის: {robot}', h => /\{\s*robot\s*\}/.test(rSrc(h))), W('დონე გამოითვლება: {level * 2}', h => /\{\s*(level\s*\*\s*2|2\s*\*\s*level)\s*\}/.test(rSrc(h)))],
+    hints: ['{} შიგნით ჩვეულებრივი JavaScript-ია: {robot} ცვლადს აჩვენებს.', '<h1>{robot}</h1>\n<p>დონე: {level * 2}</p>'],
+    solution: 'const robot = "ბიტი";\nconst level = 7;\n\nfunction App() {\n  return (\n    <div>\n      <h1>{robot}</h1>\n      <p>დონე: {level * 2}</p>\n    </div>\n  );\n}'
+  },
+  {
+    title: 'საკუთარი კომპონენტი',
+    story: 'ბიტს ერთი და იგივე ნიშანი სამ ადგილას სჭირდება. სამჯერ გადაწერა? არა — კომპონენტი!',
+    theory: 'კომპონენტს ერთხელ წერ და ბევრჯერ იყენებ — როგორც საკუთარ თეგს: <Badge />. სახელი აუცილებლად დიდი ასოთი იწყება, თორემ React მას HTML-ის თეგად ჩათვლის. JSX-ში class-ის ნაცვლად className იწერება (class JavaScript-ის სიტყვაა).',
+    example: 'function Star() {\n  return <span className="star">⭐</span>;\n}\n\nfunction App() {\n  return (\n    <p>\n      <Star />\n      <Star />\n    </p>\n  );\n}',
+    task: 'შექმენი კომპონენტი Badge, რომელიც აბრუნებს <span className="badge">React</span>-ს. App-მა <div>-ში სამჯერ გამოიყენოს <Badge />.',
+    starter: '// შექმენი კომპონენტი Badge აქ\n\nfunction App() {\n  return (\n    <div>\n      \n    </div>\n  );\n}\n',
+    checks: [W('ეკრანზე სამი <span className="badge">-ია', h => h.qa('span.badge').length === 3), W('ყველაში წერია „React“', h => h.qa('span.badge').length > 0 && rTexts(h, 'span.badge').every(t => t === 'react')),
+      W('Badge ცალკე კომპონენტია', h => /\bfunction\s+Badge\s*\(|\b(?:const|let)\s+Badge\s*=/.test(rSrc(h))), W('App იყენებს <Badge />-ს', h => (rSrc(h).match(/<Badge\b/g) || []).length >= 3), W('გამოყენებულია className', h => /className\s*=/.test(rSrc(h)))],
+    hints: ['კომპონენტი: function Badge() { return <span className="badge">React</span>; }', '<div>-ში: <Badge /> <Badge /> <Badge />'],
+    solution: 'function Badge() {\n  return <span className="badge">React</span>;\n}\n\nfunction App() {\n  return (\n    <div>\n      <Badge />\n      <Badge />\n      <Badge />\n    </div>\n  );\n}'
+  },
+  {
+    title: 'props: კომპონენტის მონაცემები',
+    story: 'ბიტს გმირების სია უნდა — ყველას თავისი სახელი და ძალა აქვს.',
+    theory: 'props კომპონენტის „პარამეტრებია“: <Greeting name="ნინო" />. კომპონენტი მათ ობიექტად იღებს: function Greeting(props) { … props.name … } ან მოკლედ — function Greeting({ name }). ასე ერთი კომპონენტი სხვადასხვა მონაცემს აჩვენებს.',
+    example: 'function Greeting({ name }) {\n  return <p>გამარჯობა, {name}!</p>;\n}\n\nfunction App() {\n  return (\n    <div>\n      <Greeting name="ნინო" />\n      <Greeting name="ლუკა" />\n    </div>\n  );\n}',
+    task: 'შექმენი კომპონენტი Hero, რომელიც იღებს props-ს name და power და აბრუნებს <p>-ს: „{name}: {power}“. App-მა აჩვენოს სამი გმირი რიგით: ბიტი — კოდი, ნინო — ფრენა, გიო — სიჩქარე (მაგ. „ბიტი: კოდი“).',
+    starter: '// Hero იღებს name-სა და power-ს\n\nfunction App() {\n  return (\n    <div>\n      \n    </div>\n  );\n}\n',
+    checks: [W('სამი <p> სწორი ტექსტით და რიგით', h => rSame(h, 'p', ['ბიტი: კოდი', 'ნინო: ფრენა', 'გიო: სიჩქარე'])), W('Hero ცალკე კომპონენტია', h => /\bfunction\s+Hero\s*\(|\b(?:const|let)\s+Hero\s*=/.test(rSrc(h))),
+      W('App სამჯერ იყენებს <Hero … />-ს', h => (rSrc(h).match(/<Hero\b/g) || []).length === 3), W('მონაცემები props-ით გადაეცემა (name=, power=)', h => /<Hero\b[^>]*\bname\s*=/.test(rSrc(h)) && /<Hero\b[^>]*\bpower\s*=/.test(rSrc(h)))],
+    hints: ['function Hero({ name, power }) { return <p>{name}: {power}</p>; }', '<Hero name="ბიტი" power="კოდი" />'],
+    solution: 'function Hero({ name, power }) {\n  return <p>{name}: {power}</p>;\n}\n\nfunction App() {\n  return (\n    <div>\n      <Hero name="ბიტი" power="კოდი" />\n      <Hero name="ნინო" power="ფრენა" />\n      <Hero name="გიო" power="სიჩქარე" />\n    </div>\n  );\n}'
+  },
+  {
+    title: 'სიები: map',
+    story: 'ბიტს პლანეტების სია აქვს. ოთხი <li>-ის ხელით წერა? map ამას ერთ ხაზში აკეთებს!',
+    theory: 'სია მასივიდან .map()-ით იქმნება: ყოველ ელემენტს JSX-ად აქცევ — {fruits.map(f => <li key={f}>{f}</li>)}. key ყოველი ელემენტის უნიკალური „სახელია“: მისით React-ი ხვდება, რომელი ელემენტი შეიცვალა.',
+    example: 'const fruits = ["ვაშლი", "მსხალი", "ბანანი"];\n\nfunction App() {\n  return (\n    <ul>\n      {fruits.map(f => <li key={f}>{f}</li>)}\n    </ul>\n  );\n}',
+    task: 'მასივი planets უკვე არის. <ul>-ში ყოველი პლანეტა თავის <li>-ში აჩვენე — map-ით და key-ით.',
+    starter: 'const planets = ["მერკური", "ვენერა", "დედამიწა", "მარსი"];\n\nfunction App() {\n  return (\n    <ul>\n      \n    </ul>\n  );\n}\n',
+    checks: [W('<ul>-ში ოთხი <li>-ია, სწორი რიგით', h => rSame(h, 'ul > li', ['მერკური', 'ვენერა', 'დედამიწა', 'მარსი'])), W('სია .map()-ით იქმნება', h => /planets\s*\.\s*map\s*\(/.test(rSrc(h))), W('ყოველ <li>-ს key აქვს', h => /<li\b[^>]*\bkey\s*=/.test(rSrc(h)))],
+    hints: ['{planets.map(p => …)} — ფიგურულ ფრჩხილებში, <ul>-ის შიგნით.', '{planets.map(p => <li key={p}>{p}</li>)}'],
+    solution: 'const planets = ["მერკური", "ვენერა", "დედამიწა", "მარსი"];\n\nfunction App() {\n  return (\n    <ul>\n      {planets.map(p => <li key={p}>{p}</li>)}\n    </ul>\n  );\n}'
+  },
+  {
+    title: 'ობიექტების სია: ბარათები',
+    story: 'ბიტმა პატარა მაღაზია გახსნა. ყოველ ნივთს ბარათი სჭირდება — სახელით და ფასით.',
+    theory: 'ხშირად სიის ელემენტი ობიექტია: { id: 1, name: "…", price: 5 }. map-ში ობიექტის ველებს წერტილით კითხულობ: item.name, item.price. key-ად id გამოიყენე — ის ყოველთვის უნიკალურია.',
+    example: 'const pets = [\n  { id: 1, name: "კატა", age: 3 },\n  { id: 2, name: "ძაღლი", age: 5 }\n];\n\nfunction App() {\n  return (\n    <div>\n      {pets.map(p => (\n        <div key={p.id} className="pet">\n          <h3>{p.name}</h3>\n          <p>{p.age} წლის</p>\n        </div>\n      ))}\n    </div>\n  );\n}',
+    task: 'მასივი shop უკვე არის. თითო ნივთისთვის აჩვენე <div className="card">: შიგნით <h3>-ში სახელი, <p>-ში ფასი ასე — „12 ₾“. key-ად id გამოიყენე.',
+    starter: 'const shop = [\n  { id: 1, name: "ხაჭაპური", price: 12 },\n  { id: 2, name: "ლობიანი", price: 8 },\n  { id: 3, name: "ჩურჩხელა", price: 3 }\n];\n\nfunction App() {\n  return (\n    <div>\n      \n    </div>\n  );\n}\n',
+    checks: [W('სამი ბარათი <div className="card">', h => h.qa('div.card').length === 3), W('სახელები <h3>-ში, სწორი რიგით', h => rSame(h, '.card h3', ['ხაჭაპური', 'ლობიანი', 'ჩურჩხელა'])),
+      W('ფასები <p>-ში: „12 ₾“, „8 ₾“, „3 ₾“', h => rSame(h, '.card p', ['12 ₾', '8 ₾', '3 ₾'])), W('ბარათები shop.map()-ით იქმნება, key={…id}', h => /shop\s*\.\s*map\s*\(/.test(rSrc(h)) && /key\s*=\s*\{\s*\w+\s*\.\s*id\s*\}/.test(rSrc(h)))],
+    hints: ['{shop.map(item => (<div key={item.id} className="card">…</div>))}', '<h3>{item.name}</h3>\n<p>{item.price} ₾</p>'],
+    solution: 'const shop = [\n  { id: 1, name: "ხაჭაპური", price: 12 },\n  { id: 2, name: "ლობიანი", price: 8 },\n  { id: 3, name: "ჩურჩხელა", price: 3 }\n];\n\nfunction App() {\n  return (\n    <div>\n      {shop.map(item => (\n        <div key={item.id} className="card">\n          <h3>{item.name}</h3>\n          <p>{item.price} ₾</p>\n        </div>\n      ))}\n    </div>\n  );\n}'
+  },
+  {
+    title: 'პირობითი ჩვენება',
+    story: 'კოდლენდის კარი მხოლოდ გასაღებით იღება. ბიტს უნდა, რომ აპმა სწორი შეტყობინება აჩვენოს.',
+    theory: 'JSX-ში if-ის ნაცვლად ორი ხერხია: პირობა ? <A /> : <B /> — თუ პირობა მართალია, A ჩანს, თუ არა — B. პირობა && <A /> — A მხოლოდ მაშინ ჩანს, როცა პირობა მართალია.',
+    example: 'const isOnline = true;\nconst messages = 2;\n\nfunction App() {\n  return (\n    <div>\n      {isOnline ? <p>🟢 ონლაინ</p> : <p>⚪ ოფლაინ</p>}\n      {messages > 0 && <span>ახალი წერილი: {messages}</span>}\n    </div>\n  );\n}',
+    task: 'hasKey და coins უკვე არის. თუ hasKey მართალია, აჩვენე <p> „კარი ღიაა 🔓“, თუ არა — <p> „კარი დაკეტილია 🔒“ (? :). ქვემოთ, მხოლოდ როცა coins > 0, აჩვენე <span className="coins"> „მონეტები: {coins}“ (&&).',
+    starter: 'const hasKey = false;\nconst coins = 3;\n\nfunction App() {\n  return (\n    <div>\n      \n    </div>\n  );\n}\n',
+    checks: [W('ჩანს <p> „კარი დაკეტილია 🔒“ (გასაღები ხომ არ არის)', h => rSame(h, 'p', ['კარი დაკეტილია 🔒'])), W('ჩანს <span className="coins"> „მონეტები: 3“', h => hasText(h, 'span.coins', 'მონეტები: 3')),
+      W('ტექსტს hasKey ირჩევს (? :)', h => /hasKey\s*\?/.test(rSrc(h)) && /კარი ღიაა/.test(rSrc(h))), W('მონეტები && პირობით ჩანს (coins > 0 &&)', h => /coins\s*>\s*0\s*&&/.test(rSrc(h)) && /\{\s*coins\s*\}/.test(rSrc(h)))],
+    hints: ['{hasKey ? <p>კარი ღიაა 🔓</p> : <p>კარი დაკეტილია 🔒</p>}', '{coins > 0 && <span className="coins">მონეტები: {coins}</span>}'],
+    solution: 'const hasKey = false;\nconst coins = 3;\n\nfunction App() {\n  return (\n    <div>\n      {hasKey ? <p>კარი ღიაა 🔓</p> : <p>კარი დაკეტილია 🔒</p>}\n      {coins > 0 && <span className="coins">მონეტები: {coins}</span>}\n    </div>\n  );\n}'
+  },
+  {
+    title: 'მოვლენა: onClick',
+    story: 'ბიტს ღილაკი უნდა, რომელიც დაჭერისას „გამოეხმაურება“.',
+    theory: 'ღილაკზე დაჭერას onClick იჭერს: <button onClick={hello}>. ფიგურულ ფრჩხილებში ფუნქციას აწვდი და არ იძახებ: onClick={hello} და არა onClick={hello()} — ფრჩხილებით ის დაჭერამდე, მაშინვე გაეშვებოდა. შეიძლება ისარი-ფუნქციაც: onClick={() => console.log("…")}.',
+    example: 'function App() {\n  function hello() {\n    console.log("გამარჯობა!");\n  }\n  return <button onClick={hello}>დააჭირე</button>;\n}',
+    task: 'შექმენი ღილაკი „დააჭირე“, რომელიც დაჭერისას console.log-ით ბეჭდავს „ბიტი მზადაა!“. დაჭერამდე არაფერი უნდა დაიბეჭდოს.',
+    starter: 'function App() {\n  return (\n    <div>\n      \n    </div>\n  );\n}\n',
+    acts: [[['click', 'button']]],
+    checks: [W('არის ღილაკი „დააჭირე“', h => hasText(h, 'button', 'დააჭირე')), W('დაჭერამდე არაფერი იბეჭდება', h => h.logs.length === 0), W('დაჭერისას იბეჭდება „ბიტი მზადაა!“', h => h.s[1].logs.includes('ბიტი მზადაა!')), W('გამოყენებულია onClick', h => /onClick\s*=\s*\{/.test(rSrc(h)))],
+    hints: ['<button onClick={…}>დააჭირე</button> — {}-ში ფუნქცია, რომელიც დაჭერისას გაეშვება.', '<button onClick={() => console.log("ბიტი მზადაა!")}>დააჭირე</button>'],
+    solution: 'function App() {\n  return (\n    <div>\n      <button onClick={() => console.log("ბიტი მზადაა!")}>დააჭირე</button>\n    </div>\n  );\n}'
+  },
+  {
+    title: 'useState: მთვლელი',
+    story: 'ბიტი კრისტალებს აგროვებს და უნდა, რომ აპმა დათვალოს!',
+    theory: 'state კომპონენტის „მეხსიერებაა“. const [count, setCount] = useState(0) — count ახლანდელი მნიშვნელობაა (თავიდან 0), setCount კი მას ცვლის. setCount-ის გამოძახებისას React კომპონენტს ახალი მნიშვნელობით თავიდან ხატავს. ჩვეულებრივი ცვლადი (let) ამას ვერ შეძლებს — ხატვისას ის თავიდან იქმნება.',
+    example: 'function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <div>\n      <p>დაჭერები: {count}</p>\n      <button onClick={() => setCount(count + 1)}>+1</button>\n    </div>\n  );\n}',
+    task: 'შექმენი მთვლელი: <p>-ში „კრისტალები: 0“, ღილაკი „+ კრისტალი“ კი ყოველ დაჭერაზე 1-ით ზრდის რიცხვს.',
+    starter: 'function App() {\n  // შექმენი state: const [count, setCount] = useState(0);\n\n  return (\n    <div>\n      \n    </div>\n  );\n}\n',
+    acts: [[['click', 'button'], ['click', 'button'], ['click', 'button']]],
+    checks: [W('თავიდან „კრისტალები: 0“', h => hasText(h, 'p', 'კრისტალები: 0')), W('ღილაკი „+ კრისტალი“', h => hasText(h, 'button', '+ კრისტალი')), W('3 დაჭერის შემდეგ — „კრისტალები: 3“', h => hasText(h.s[1], 'p', 'კრისტალები: 3')), W('რიცხვი useState-შია', h => /useState\s*\(\s*0\s*\)/.test(rSrc(h)))],
+    hints: ['const [count, setCount] = useState(0);\n<p>კრისტალები: {count}</p>', '<button onClick={() => setCount(count + 1)}>+ კრისტალი</button>'],
+    solution: 'function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <div>\n      <p>კრისტალები: {count}</p>\n      <button onClick={() => setCount(count + 1)}>+ კრისტალი</button>\n    </div>\n  );\n}'
+  },
+  {
+    title: 'ჩართვა და გამორთვა',
+    story: 'ბიტის ოთახში ბნელა. საჭიროა შუქის ჩამრთველი!',
+    theory: 'state შეიძლება true ან false იყოს. setOn(!on) მნიშვნელობას ატრიალებს: false → true → false. ტექსტსაც და ღილაკის წარწერასაც state-ის მიხედვით ირჩევ: {on ? "…" : "…"}.',
+    example: 'function App() {\n  const [open, setOpen] = useState(false);\n  return (\n    <div>\n      <button onClick={() => setOpen(!open)}>{open ? "დახურვა" : "გახსნა"}</button>\n      {open && <p>საიდუმლო: 42</p>}\n    </div>\n  );\n}',
+    task: 'state on თავიდან false-ია. <p>-ში ჩანდეს: on ? „💡 შუქი ანთია“ : „🌑 შუქი ჩამქრალია“. ღილაკზე ეწეროს on ? „გამორთვა“ : „ჩართვა“; დაჭერისას on იცვლება.',
+    starter: 'function App() {\n  const [on, setOn] = useState(false);\n\n  return (\n    <div>\n      \n    </div>\n  );\n}\n',
+    acts: [[['click', 'button']], [['click', 'button'], ['click', 'button']]],
+    checks: [W('თავიდან: „🌑 შუქი ჩამქრალია“ და ღილაკი „ჩართვა“', h => hasText(h, 'p', '🌑 შუქი ჩამქრალია') && hasText(h, 'button', 'ჩართვა')), W('ერთი დაჭერის შემდეგ: „💡 შუქი ანთია“ და „გამორთვა“', h => hasText(h.s[1], 'p', '💡 შუქი ანთია') && hasText(h.s[1], 'button', 'გამორთვა')),
+      W('ორი დაჭერის შემდეგ ისევ ჩამქრალია', h => hasText(h.s[2], 'p', '🌑 შუქი ჩამქრალია')), W('ღილაკი on-ს ატრიალებს: setOn(!on)', h => /setOn\s*\(\s*!\s*on\s*\)|setOn\s*\(\s*\w+\s*=>\s*!\s*\w+\s*\)/.test(rSrc(h)))],
+    hints: ['<p>{on ? "💡 შუქი ანთია" : "🌑 შუქი ჩამქრალია"}</p>', '<button onClick={() => setOn(!on)}>{on ? "გამორთვა" : "ჩართვა"}</button>'],
+    solution: 'function App() {\n  const [on, setOn] = useState(false);\n\n  return (\n    <div>\n      <p>{on ? "💡 შუქი ანთია" : "🌑 შუქი ჩამქრალია"}</p>\n      <button onClick={() => setOn(!on)}>{on ? "გამორთვა" : "ჩართვა"}</button>\n    </div>\n  );\n}'
+  },
+  {
+    title: 'ფორმის ველი',
+    story: 'ბიტს უნდა, რომ აპი ყველას სახელით მიესალმოს — სახელს ველში აკრეფენ.',
+    theory: 'React-ში input-ს state მართავს: value={text} ველში state-ს აჩვენებს, onChange={e => setText(e.target.value)} კი ყოველ აკრეფაზე state-ს ანახლებს. e.target — ის ველია, რომელშიც წერენ, e.target.value — მისი ტექსტი.',
+    example: 'function App() {\n  const [text, setText] = useState("");\n  return (\n    <div>\n      <input value={text} onChange={e => setText(e.target.value)} />\n      <p>შენ წერ: {text}</p>\n    </div>\n  );\n}',
+    task: 'შექმენი <input> და <p>. ველში აკრეფილი სახელი <p>-ში ასე ჩანდეს: „გამარჯობა, ნინო!“. თავიდან ველი ცარიელია.',
+    starter: 'function App() {\n  const [name, setName] = useState("");\n\n  return (\n    <div>\n      \n    </div>\n  );\n}\n',
+    acts: [[['type', 'input', 'ნინო']], [['type', 'input', 'ბიტი']]],
+    checks: [W('თავიდან ველი ცარიელია', h => !!h.q('input') && (h.q('input').getAttribute('value') || '') === ''), W('„ნინოს“ აკრეფისას: „გამარჯობა, ნინო!“', h => hasText(h.s[1], 'p', 'გამარჯობა, ნინო!')),
+      W('„ბიტის“ აკრეფისას: „გამარჯობა, ბიტი!“', h => hasText(h.s[2], 'p', 'გამარჯობა, ბიტი!')), W('ველს value და onChange აქვს', h => /<input\b[^>]*\bvalue\s*=\s*\{/.test(rSrc(h)) && /onChange\s*=/.test(rSrc(h)))],
+    hints: ['<input value={name} onChange={e => setName(e.target.value)} />', '<p>გამარჯობა, {name}!</p>'],
+    solution: 'function App() {\n  const [name, setName] = useState("");\n\n  return (\n    <div>\n      <input value={name} onChange={e => setName(e.target.value)} />\n      <p>გამარჯობა, {name}!</p>\n    </div>\n  );\n}'
+  },
+  {
+    title: 'useEffect: გვერდის სათაური',
+    story: 'ბიტს უნდა, რომ კრისტალების რაოდენობა ბრაუზერის ჩანართზეც ჩანდეს.',
+    theory: 'useEffect „ეფექტს“ უშვებს ხატვის შემდეგ: ცვლის გვერდის სათაურს (document.title), რთავს ტაიმერს, იწერს მონაცემებს. useEffect(() => { … }, [count]) — მეორე არგუმენტი დამოკიდებულებების სიაა: ეფექტი თავიდან გაეშვება, როცა count შეიცვლება.',
+    example: 'function App() {\n  const [count, setCount] = useState(0);\n  useEffect(() => {\n    document.title = `დაჭერები: ${count}`;\n  }, [count]);\n  return <button onClick={() => setCount(count + 1)}>+1</button>;\n}',
+    task: 'მთვლელი უკვე მზადაა. დაამატე useEffect, რომელიც გვერდის სათაურს (document.title) count-ის მიხედვით ცვლის: „კრისტალები: 0“, „კრისტალები: 1“ …',
+    starter: 'function App() {\n  const [count, setCount] = useState(0);\n\n  // აქ დაამატე useEffect\n\n  return (\n    <div>\n      <p>კრისტალები: {count}</p>\n      <button onClick={() => setCount(count + 1)}>+ კრისტალი</button>\n    </div>\n  );\n}\n',
+    acts: [[['click', 'button'], ['click', 'button']]],
+    checks: [W('თავიდან სათაურია „კრისტალები: 0“', h => h.title === 'კრისტალები: 0'), W('ორი დაჭერის შემდეგ — „კრისტალები: 2“', h => h.s[1].title === 'კრისტალები: 2'), W('გამოყენებულია useEffect და document.title', h => /useEffect\s*\(/.test(rSrc(h)) && /document\s*\.\s*title\s*=/.test(rSrc(h))), W('დამოკიდებულებების სიაში count-ია', h => /\[\s*count\s*\]\s*\)/.test(rSrc(h)))],
+    hints: ['useEffect(() => { document.title = …; }, [count]);', 'document.title = "კრისტალები: " + count;'],
+    solution: 'function App() {\n  const [count, setCount] = useState(0);\n\n  useEffect(() => {\n    document.title = "კრისტალები: " + count;\n  }, [count]);\n\n  return (\n    <div>\n      <p>კრისტალები: {count}</p>\n      <button onClick={() => setCount(count + 1)}>+ კრისტალი</button>\n    </div>\n  );\n}'
+  },
+  {
+    title: 'ბიტის დავალებების აპი', boss: true,
+    story: 'გლიჩი: „ბიტის დავალებების აპში 4 ბაგი ჩავდე. აპი თითქოს მუშაობს… ვნახოთ, იპოვი თუ არა!“',
+    theory: 'React-ის ხშირი ბაგები: class className-ის ნაცვლად; onClick={add()} — ფუნქცია დაჭერამდე, ხატვისას ეშვება; სიის ელემენტს key აკლია; მასივის შეცვლა push-ით — React ძველსა და ახალს ერთ მასივად ხედავს. სწორია ახალი მასივი: setItems([...items, text]).',
+    example: '',
+    task: 'გაასწორე 4 ბაგი. ველში აკრეფილი დავალება ღილაკით „დამატება“ სიაში (<ul className="todos">) უნდა ემატებოდეს, ველი კი დამატების შემდეგ უნდა გასუფთავდეს.',
+    starter: '// ⚠️ გლიჩმა აქ 4 ბაგი ჩადო!\nfunction App() {\n  const [items, setItems] = useState([]);\n  const [text, setText] = useState("");\n\n  function add() {\n    items.push(text);\n    setItems(items);\n    setText("");\n  }\n\n  return (\n    <div>\n      <input value={text} onChange={e => setText(e.target.value)} />\n      <button onClick={add()}>დამატება</button>\n      <ul class="todos">\n        {items.map(t => <li>{t}</li>)}\n      </ul>\n    </div>\n  );\n}\n',
+    acts: [[['type', 'input', 'ხაჭაპურის ყიდვა'], ['click', 'button']], [['type', 'input', 'კოდის წერა'], ['click', 'button'], ['type', 'input', 'ვარჯიში'], ['click', 'button']]],
+    checks: [W('თავიდან სია ცარიელია', h => !!h.q('ul') && h.qa('li').length === 0), W('<ul>-ს className="todos" აქვს (და არა class)', h => !!h.q('ul.todos') && !/<ul\b[^>]*\sclass\s*=/.test(rSrc(h))),
+      W('დამატებისას დავალება სიაში ჩნდება', h => rSame(h.s[1], 'ul.todos li', ['ხაჭაპურის ყიდვა'])), W('ორი დამატება — ორი დავალება, რიგით', h => rSame(h.s[2], 'ul.todos li', ['კოდის წერა', 'ვარჯიში'])),
+      W('დამატების შემდეგ ველი ცარიელია', h => !!h.s[1].q('input') && (h.s[1].q('input').getAttribute('value') || '') === ''), W('სიის ელემენტებს key აქვთ', h => /<li\b[^>]*\bkey\s*=/.test(rSrc(h))),
+      W('მასივი push-ით აღარ იცვლება (ახალი მასივი)', h => !/\.\s*push\s*\(/.test(rSrc(h)))],
+    hints: ['ოთხი ბაგი: push, onClick={add()}, class, key.', 'setItems([...items, text]);  ·  onClick={add}  ·  className="todos"  ·  <li key={i}>'],
+    solution: 'function App() {\n  const [items, setItems] = useState([]);\n  const [text, setText] = useState("");\n\n  function add() {\n    setItems([...items, text]);\n    setText("");\n  }\n\n  return (\n    <div>\n      <input value={text} onChange={e => setText(e.target.value)} />\n      <button onClick={add}>დამატება</button>\n      <ul className="todos">\n        {items.map((t, i) => <li key={i}>{t}</li>)}\n      </ul>\n    </div>\n  );\n}'
+  }
+];
 function webCourse(lang, list) {
   return list.map((l, i) => Object.assign({}, l, { id: lang + '-' + (i + 1), course: lang, lang, num: i + 1, web: true, world: 1, maps: [], goal: {}, hints: l.hints.concat([l.solution]) }));
 }
@@ -10386,7 +10555,8 @@ const COURSES = [
   { id: 'lua', lang: 'lua', title: 'Lua', sub: 'თამაშების სკრიპტები', desc: 'Roblox-ისა და ბევრი თამაშის სკრიპტების ენა: local, if ... then ... end, .. ტექსტისთვის და for i = 1, 10 do.', levels: robotCourse('lua') },
   { id: 'dart', lang: 'dart', title: 'Dart', sub: 'Flutter-ის აპები', desc: 'Flutter-ის ენა ტელეფონის აპებისთვის: void main, ტიპები, $ ტექსტში, ~/ მთელი გაყოფა და ფუნქციები.', levels: robotCourse('dart') },
   { id: 'html', lang: 'html', title: 'HTML', sub: 'ვებგვერდის ჩონჩხი', desc: 'ააწყე ბიტის ვებგვერდი: სათაურები, აბზაცები, ბმულები, სურათები, სიები, ცხრილები და ფორმები — ცოცხალი გადახედვით.', levels: webCourse('html', HTML_LESSONS) },
-  { id: 'css', lang: 'css', title: 'CSS', sub: 'ფერები და განლაგება', desc: 'გაალამაზე გვერდი: ფერები, შრიფტები, კლასები, ყუთის მოდელი, ჩარჩოები და Flexbox.', levels: webCourse('css', CSS_LESSONS) }
+  { id: 'css', lang: 'css', title: 'CSS', sub: 'ფერები და განლაგება', desc: 'გაალამაზე გვერდი: ფერები, შრიფტები, კლასები, ყუთის მოდელი, ჩარჩოები და Flexbox.', levels: webCourse('css', CSS_LESSONS) },
+  { id: 'react', lang: 'react', title: 'React', sub: 'ინტერაქტიური ვებ-აპები', desc: 'თანამედროვე ვებ-აპების ბიბლიოთეკა: JSX, კომპონენტები, props, სიები (map), useState, მოვლენები, ფორმები და useEffect — ცოცხალი გადახედვით.', levels: webCourse('react', REACT_LESSONS) }
 ];
 const COURSE_BY_ID = {};
 COURSES.forEach(c => {
@@ -10825,7 +10995,7 @@ const EDITOR_THEMES = [
 const Drill = (() => {
   const N = 1000, PER = 25;
   const ROBOT = ['js', 'py', 'java', 'c', 'cpp', 'ts', 'cs', 'go', 'rs', 'php', 'rb', 'swift', 'kt', 'lua', 'dart'];
-  const LANG_LIST = ['js', 'py', 'java', 'c', 'cpp', 'ts', 'cs', 'go', 'rs', 'php', 'rb', 'swift', 'kt', 'lua', 'dart', 'html', 'css'];
+  const LANG_LIST = ['js', 'py', 'java', 'c', 'cpp', 'ts', 'cs', 'go', 'rs', 'php', 'rb', 'swift', 'kt', 'lua', 'dart', 'html', 'css', 'react'];
   const ri = (rng, a, b) => a + Math.floor(rng() * (b - a + 1));
   const pick = (rng, a) => a[Math.floor(rng() * a.length)];
   const shuffle = (rng, a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -13345,7 +13515,8 @@ const Drill = (() => {
   ];
   const WEB_STORY = {
     html: ['ბიტს საკუთარი ვებგვერდი უნდა — დაეხმარე ააწყოს!', 'კოდლენდის გაზეთს ახალი გვერდი სჭირდება.', 'პროფესორი ლოგიკა სასკოლო საიტს აკეთებს.', 'ბიტის მეგობრებს მისი გვერდის ნახვა უნდათ.'],
-    css: ['ბიტის გვერდი მუშაობს, მაგრამ უფერულია — დროა, გავალამაზოთ!', 'დიზაინერმა ბიტს ახალი სტილი შეუკვეთა.', 'კოდლენდის საიტს ახალი იერსახე სჭირდება.', 'ბიტი სტილისტობას სწავლობს.']
+    css: ['ბიტის გვერდი მუშაობს, მაგრამ უფერულია — დროა, გავალამაზოთ!', 'დიზაინერმა ბიტს ახალი სტილი შეუკვეთა.', 'კოდლენდის საიტს ახალი იერსახე სჭირდება.', 'ბიტი სტილისტობას სწავლობს.'],
+    react: ['ბიტს საკუთარი აპი უნდა — დაეხმარე React-ით ააწყოს!', 'კოდლენდში ახალი აპი იქმნება. ბიტი შენს კომპონენტებს ელოდება.', 'ბიტის აპი ცოცხლდება: ღილაკები, სიები და ველები — ყველაფერი React-ით!', 'გლიჩი აპს აფუჭებს — ბიტს შენი React-ის ცოდნა სჭირდება.']
   };
 
 
@@ -13625,7 +13796,7 @@ const Drill = (() => {
       theory: 'სადესანტო (landing) გვერდი ერთ პროდუქტს წარადგენს: hero-ბლოკი (დიდი სათაური, მოკლე ტექსტი და ღილაკი-ბმული), უპირატესობების სია, გამოწერის ფორმა და footer. ⚠️ ბოლო გამოცდაში გლიჩი ბაგებს ჩადებს.',
       example: '<section class="hero">\n  <h1>CodeQuest</h1>\n  <a href="#join">დაიწყე</a>\n</section>',
       gen(rng, k) {
-        const prod = pick(rng, ['CodeQuest', 'BitBot', 'კოდის სკოლა', 'რობოკლუბი']), feats = picks(rng, ['უფასოა', 'ქართულად', '17 ენა', 'ტელეფონზეც მუშაობს', 'სერტიფიკატები', 'ყოველდღიური გამოწვევა'], 3);
+        const prod = pick(rng, ['CodeQuest', 'BitBot', 'კოდის სკოლა', 'რობოკლუბი']), feats = picks(rng, ['უფასოა', 'ქართულად', '18 ენა', 'ტელეფონზეც მუშაობს', 'სერტიფიკატები', 'ყოველდღიური გამოწვევა'], 3);
         const sol = '<section class="hero">\n  <h1>' + prod + '</h1>\n  <p>ისწავლე პროგრამირება თამაშით.</p>\n  <a href="#join">დაიწყე ახლავე</a>\n</section>\n<section class="features">\n  <h2>რატომ ' + prod + '?</h2>\n  <ul>\n' + feats.map(f => '    <li>' + f + '</li>').join('\n') + '\n  </ul>\n</section>\n<section id="join">\n  <h2>შემოგვიერთდი</h2>\n  <form>\n    <label for="em">ელფოსტა</label>\n    <input id="em" type="email" required>\n    <button type="submit">გამოწერა</button>\n  </form>\n</section>\n<footer>\n  <p>© ' + prod + '</p>\n</footer>';
         const s = { title: 'სადესანტო: ' + prod, task: 'ააწყე გვერდი: (1) <section class="hero"> — <h1> „' + prod + '“, აბზაცი და ბმული „დაიწყე ახლავე“ → #join; (2) <section class="features"> — <h2> „რატომ ' + prod + '?“ და სია: ' + feats.join(', ') + '; (3) <section id="join"> — <h2> „შემოგვიერთდი“ და ფორმა (ელფოსტის ველი id="em", required, წარწერით; ღილაკი „გამოწერა“); (4) <footer>.',
           starter: '', solution: sol,
@@ -13900,7 +14071,485 @@ const Drill = (() => {
         return k === PER - 1 ? cssBoss(rng, s, 3) : s;
       } }
   ];
-  const WEB_TOPICS = { html: H_TOPICS.concat(H_TOPICS2), css: C_TOPICS.concat(C_TOPICS2) };
+  /* ---------- React: 20 თემა (კომპონენტი, props, map, state, მოვლენები, ფორმები, useEffect) ---------- */
+  const RI = (s, n) => s.split('\n').map(l => (l ? ' '.repeat(n) + l : l)).join('\n');
+  // App: pre — მის წინ (მონაცემები, სხვა კომპონენტები), st — App-ის დასაწყისი (state), jsx — რასაც აბრუნებს
+  const rApp = (jsx, pre, st) => (pre ? pre + '\n\n' : '') + 'function App() {\n' + (st ? RI(st, 2) + '\n\n' : '') + '  return (\n' + RI(jsx, 4) + '\n  );\n}';
+  const rStart = (pre, st) => rApp('<div>\n  \n</div>', pre, st) + '\n';
+  const rq = s => JSON.stringify(s);
+  const rArr = xs => '[' + xs.map(rq).join(', ') + ']';
+  const rHas = (h, re) => re.test(rSrc(h));
+  const rawText = (h, sel) => { const e = h.q(sel); return e ? e.textContent.replace(/\s+/g, ' ').trim() : null; };
+  const R_ITEMS = [['ხაჭაპური', 12], ['ლობიანი', 8], ['ჩურჩხელა', 3], ['მწვადი', 15], ['ხინკალი', 2], ['ფხალი', 6], ['აჯაფსანდალი', 9], ['ჩაქაფული', 14], ['ელარჯი', 7], ['ტყემალი', 5], ['მჭადი', 1], ['ჩიხირთმა', 11]];
+  const R_CLS = ['note', 'title', 'big', 'warn', 'info', 'tag', 'hero', 'muted', 'lead', 'quote'];
+  const R_COLORS = [['red', 'წითელი'], ['blue', 'ლურჯი'], ['green', 'მწვანე'], ['orange', 'ნარინჯისფერი'], ['purple', 'იისფერი'], ['teal', 'ზღვისფერი']];
+  const R_COMPS = [['Logo', '🤖 ბიტი'], ['Star', '⭐'], ['Heart', '❤️'], ['Badge', 'React'], ['Coin', '🪙'], ['Gem', '💎'], ['Flag', '🏁'], ['Rocket', '🚀']];
+  const R_WORDS = ['react', 'robot', 'glitch', 'code', 'pixel', 'bit', 'quest', 'magic'];
+  const R_MSGS = ['ბიტი მზადაა!', 'გამარჯობა, კოდლენდ!', 'კრისტალი ნაპოვნია!', 'კარი გაიღო!', 'მისია დაიწყო!', 'ბაგი დამარცხდა!', 'შეტყობინება გაიგზავნა!'];
+  const lower = s => s.charAt(0).toLowerCase() + s.slice(1);
+  // ბოსი: ამოხსნაში 1–2 ტიპური React-ის ბაგი ჩაიდება
+  function reactBoss(rng, s, want) {
+    let code = s.solution, n = 0;
+    const extra = [];
+    const bugs = shuffle(rng, [
+      () => { if (!/className=/.test(code)) return false; code = code.replace(/className=/, 'class='); extra.push(W('JSX-ში className იწერება (და არა class)', h => !/<[a-z][\w-]*\b[^>]*\sclass\s*=/.test(rSrc(h)))); return true; },
+      () => { if (!/onClick=/.test(code)) return false; code = code.replace(/onClick=/, 'onclick='); extra.push(W('მოვლენა onClick დიდი C-თი იწერება', h => !/\sonclick\s*=/.test(rSrc(h)))); return true; },
+      () => { const m = / key=\{[^}]*\}/.exec(code); if (!m) return false; code = code.replace(m[0], ''); extra.push(W('map-ის ყოველ ელემენტს key აქვს', h => /\bkey\s*=/.test(rSrc(h)))); return true; },
+      () => { const m = /<\/(li|p|h1|h2|h3|span|button|td)>/.exec(code); if (!m) return false; code = code.replace(m[0], '</' + { li: 'il', p: 'b', h1: 'h2', h2: 'h3', h3: 'h2', span: 'spam', button: 'buton', td: 'tr' }[m[1]] + '>'); return true; },
+      () => { const m = /onClick=\{\(\) => (set\w+\([^()]*\))\}/.exec(code); if (!m) return false; code = code.replace(m[0], 'onClick={' + m[1] + '}'); return true; },
+      () => { const m = /\{([a-z]\w{3,})\}/.exec(code); if (!m || /^(true|false|null)$/.test(m[1])) return false; const v = m[1], t = v[0] + v[2] + v[1] + v.slice(3); if (t === v) return false; code = code.replace(m[0], '{' + t + '}'); return true; },
+      () => { if (!/\.map\(/.test(code)) return false; code = code.replace(/\.map\(/, '.forEach('); return true; }
+    ]);
+    for (const b of bugs) { if (n >= want) break; if (b()) n++; }
+    s.checks = s.checks.concat(extra);
+    s.starter = '// ⚠️ გლიჩმა აქ ' + n + ' ბაგი ჩადო!\n' + code + '\n';
+    s.boss = true;
+    s.title = 'გლიჩის ბაგები: ' + s.title;
+    s.task = '⚠️ აპში ' + n + ' ბაგია — იპოვე და გაასწორე. ' + s.task;
+    s.story = 'გლიჩი: „შენს აპში ბაგები ჩავდე. React შეცდომაზე ყოველთვის არ გაგაფრთხილებს — ვნახოთ, იპოვი თუ არა!“';
+    return s;
+  }
+  const rFin = (rng, k, s, want) => (k === PER - 1 ? reactBoss(rng, s, want || 2) : s);
+  const R_TOPICS = [
+    { key: 'r-jsx', icon: '✨', name: 'JSX', topic: 'App აბრუნებს თეგებს', a: '#1c9cc0', gate: 1,
+      theory: 'App კომპონენტი JSX-ს აბრუნებს: return <h1>ტექსტი</h1>. რამდენიმე ელემენტი ერთ მშობელში (მაგ. <div>) ჯდება და ფრჩხილებში () იწერება.',
+      example: 'function App() {\n  return (\n    <div>\n      <h1>სათაური</h1>\n      <p>ტექსტი</p>\n    </div>\n  );\n}',
+      gen(rng, k) {
+        if (k < 8) {
+          const tag = ['h1', 'h2', 'p', 'h1', 'h3', 'p', 'h2', 'h1'][k], t = tag === 'p' ? sentences(rng, 1)[0] : headings(rng, 1)[0];
+          return { title: '<' + tag + '> „' + t + '“', task: 'App-მა დააბრუნოს <' + tag + '> ტექსტით „' + t + '“.', starter: 'function App() {\n  return null;\n}\n',
+            solution: 'function App() {\n  return <' + tag + '>' + t + '</' + tag + '>;\n}',
+            checks: [W('ჩანს <' + tag + '> „' + t + '“', h => hasText(h, tag, t)), W('ელემენტს App აბრუნებს', h => rHasApp(h) && rHas(h, /\breturn\b/))],
+            hints: ['null-ის ნაცვლად JSX დააბრუნე: return <' + tag + '>…</' + tag + '>;', 'return <' + tag + '>' + t + '</' + tag + '>;'] };
+        }
+        if (k < 16) {
+          const hd = headings(rng, 1)[0], ps = sentences(rng, k < 12 ? 1 : 2);
+          return { title: 'სათაური და ' + ps.length + ' აბზაცი: ' + hd, task: 'App-მა <div>-ში დააბრუნოს <h1> „' + hd + '“ და შემდეგ ' + ps.map(p => '<p> „' + p + '“').join(', ') + '.', starter: rStart(),
+            solution: rApp('<div>\n  <h1>' + hd + '</h1>\n' + ps.map(p => '  <p>' + p + '</p>').join('\n') + '\n</div>'),
+            checks: [W('<h1> „' + hd + '“', h => hasText(h, 'h1', hd)), W('აბზაცები სწორი ტექსტით და რიგით', h => rSame(h, 'p', ps)), W('ყველაფერი ერთ <div>-შია', h => !!h.q('div > h1') && h.qa('div > p').length === ps.length)],
+            hints: ['რამდენიმე ელემენტი ერთ <div>-ში ჩასვი, ფრჩხილებში ().', '<div>\n  <h1>' + hd + '</h1>\n  <p>…</p>\n</div>'] };
+        }
+        const L = pick(rng, LISTS), items = picks(rng, WB[L.key], 3);
+        const s = { title: 'სექცია: ' + L.head, task: 'App-მა დააბრუნოს <section>: შიგნით <h2> „' + L.head + '“ და <ul> სამი <li>-ით: ' + items.map(x => '„' + x + '“').join(', ') + '.', starter: rStart(),
+          solution: rApp('<section>\n  <h2>' + L.head + '</h2>\n  <ul>\n' + items.map(x => '    <li>' + x + '</li>').join('\n') + '\n  </ul>\n</section>'),
+          checks: [W('<h2> „' + L.head + '“', h => hasText(h, 'section h2', L.head)), W('სიაში სამი <li> სწორი რიგით', h => rSame(h, 'section ul li', items))],
+          hints: ['<section> აერთიანებს სათაურს და სიას.', '<ul>\n  <li>' + items[0] + '</li>\n  …\n</ul>'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-expr', icon: '🧮', name: '{} გამოსახულებები', topic: '{name}, {a + b}', a: '#d9822b', gate: 2,
+      theory: 'ფიგურულ ფრჩხილებში {} JavaScript-ია: {name} ცვლადს აჩვენებს, {a + b} — გამოთვლის შედეგს, {word.length} — სიგრძეს. ტექსტი და {} ერთ თეგში თავისუფლად ერწყმის: <p>ჯამი: {a + b}</p>.',
+      example: 'const a = 3;\nconst b = 4;\n\nfunction App() {\n  return <p>{a} + {b} = {a + b}</p>;\n}',
+      gen(rng, k) {
+        if (k < 8) {
+          const F = [['name', WB.names, 'გამარჯობა, ', '!'], ['city', WB.cities, 'ქალაქი: ', ''], ['hero', WB.names, 'ჩემი გმირია ', ''], ['food', WB.foods, 'დღეს ვჭამ: ', ''], ['pet', WB.animals, 'ჩემი შინაური: ', '']][k % 5], v = pick(rng, F[1]);
+          const txt = F[2] + v + F[3];
+          return { title: '{' + F[0] + '}: ' + v, task: 'ცვლადი ' + F[0] + ' უკვე არის. <h1>-ში აჩვენე „' + txt + '“ — სახელი {' + F[0] + '}-ით და არა ხელით.', starter: rStart('const ' + F[0] + ' = ' + rq(v) + ';'),
+            solution: rApp('<div>\n  <h1>' + F[2] + '{' + F[0] + '}' + F[3] + '</h1>\n</div>', 'const ' + F[0] + ' = ' + rq(v) + ';'),
+            checks: [W('<h1>-ში „' + txt + '“', h => hasText(h, 'h1', txt)), W('მნიშვნელობა ცვლადიდან: {' + F[0] + '}', h => rHas(h, new RegExp('\\{\\s*' + F[0] + '\\s*\\}')))],
+            hints: ['{' + F[0] + '} ტექსტში ცვლადის მნიშვნელობას ჩასვამს.', '<h1>' + F[2] + '{' + F[0] + '}' + F[3] + '</h1>'] };
+        }
+        if (k < 16) {
+          const op = ['+', '-', '*'][k % 3], a = ri(rng, 6, 19), b = ri(rng, 2, 5), r = op === '+' ? a + b : op === '-' ? a - b : a * b;
+          const txt = a + ' ' + op + ' ' + b + ' = ' + r;
+          return { title: 'გამოთვლა: ' + a + ' ' + op + ' ' + b, task: 'ცვლადები a და b უკვე არის. <p>-ში აჩვენე „' + txt + '“ — რიცხვები {a} და {b}-ით, პასუხი კი {a ' + op + ' b}-ით.', starter: rStart('const a = ' + a + ';\nconst b = ' + b + ';'),
+            solution: rApp('<div>\n  <p>{a} ' + op + ' {b} = {a ' + op + ' b}</p>\n</div>', 'const a = ' + a + ';\nconst b = ' + b + ';'),
+            checks: [W('<p>-ში „' + txt + '“', h => rawText(h, 'p') === txt), W('პასუხი გამოითვლება: {a ' + op + ' b}', h => rHas(h, new RegExp('\\{\\s*a\\s*\\' + op + '\\s*b\\s*\\}')))],
+            hints: ['{a ' + op + ' b} — JavaScript თვითონ გამოთვლის.', '<p>{a} ' + op + ' {b} = {a ' + op + ' b}</p>'] };
+        }
+        const w = pick(rng, R_WORDS), kind = k % 3;
+        const sol = kind === 0 ? '<p>{word.toUpperCase()}</p>' : kind === 1 ? '<p>ასოები: {word.length}</p>' : '<p>{word.toUpperCase()}: {word.length}</p>';
+        const want = kind === 0 ? w.toUpperCase() : kind === 1 ? 'ასოები: ' + w.length : w.toUpperCase() + ': ' + w.length;
+        const s = { title: 'სიტყვა „' + w + '“: ' + ['დიდი ასოებით', 'სიგრძე', 'ორივე'][kind], task: 'ცვლადი word უკვე არის. <p>-ში აჩვენე „' + want + '“' + (kind !== 1 ? ' — .toUpperCase()-ით' : '') + (kind !== 0 ? ' — ასოების რაოდენობა .length-ით' : '') + '.', starter: rStart('const word = ' + rq(w) + ';'),
+          solution: rApp('<div>\n  ' + sol + '\n</div>', 'const word = ' + rq(w) + ';'),
+          checks: [W('<p>-ში „' + want + '“', h => rawText(h, 'p') === want), W('მნიშვნელობა word-იდან გამოითვლება', h => (kind === 1 || rHas(h, /word\s*\.\s*toUpperCase\s*\(\s*\)/)) && (kind === 0 || rHas(h, /word\s*\.\s*length/)))],
+          hints: ['word.toUpperCase() — დიდი ასოები, word.length — სიგრძე.', sol] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-attr', icon: '🏷️', name: 'ატრიბუტები', topic: 'className, href, style', a: '#2f8f6f', gate: 3,
+      theory: 'JSX-ში ატრიბუტები HTML-ივით იწერება, ორი განსხვავებით: class → className, და სტილი ობიექტია: style={{ color: "red", fontSize: "20px" }} (თვისება camelCase-ით). ცარიელი თეგი აუცილებლად იხურება: <img … />.',
+      example: 'function App() {\n  return (\n    <div>\n      <p className="note">შენიშვნა</p>\n      <a href="https://example.com">ბმული</a>\n      <p style={{ color: "red" }}>წითელი</p>\n    </div>\n  );\n}',
+      gen(rng, k) {
+        if (k < 8) {
+          const cls = R_CLS[(k + ri(rng, 0, 9)) % R_CLS.length], t = sentences(rng, 1)[0];
+          return { title: 'className="' + cls + '"', task: 'App-მა დააბრუნოს <p className="' + cls + '"> ტექსტით „' + t + '“.', starter: rStart(),
+            solution: rApp('<div>\n  <p className="' + cls + '">' + t + '</p>\n</div>'),
+            checks: [W('<p class="' + cls + '"> „' + t + '“', h => hasText(h, 'p.' + cls, t)), W('გამოყენებულია className', h => rHas(h, /className\s*=/) && !rHas(h, /<p\b[^>]*\sclass\s*=/))],
+            hints: ['React-ში class-ის ნაცვლად className იწერება.', '<p className="' + cls + '">' + t + '</p>'] };
+        }
+        if (k < 16) {
+          const slug = pick(rng, WB.slugs), txt = headings(rng, 1)[0];
+          return { title: 'ბმული და სურათი: ' + slug, task: 'App-მა <div>-ში დააბრუნოს ბმული <a href="https://example.com/' + slug + '"> ტექსტით „' + txt + '“ და სურათი <img src="bit.svg" alt="ბიტი" /> (ცარიელი თეგი /> -ით იხურება).', starter: rStart(),
+            solution: rApp('<div>\n  <a href="https://example.com/' + slug + '">' + txt + '</a>\n  <img src="bit.svg" alt="ბიტი" />\n</div>'),
+            checks: [W('ბმული მიდის https://example.com/' + slug, h => !!h.q('a') && h.q('a').getAttribute('href') === 'https://example.com/' + slug), W('ბმულის ტექსტია „' + txt + '“', h => hasText(h, 'a', txt)),
+              W('სურათი: src="bit.svg", alt="ბიტი"', h => !!h.q('img') && h.q('img').getAttribute('src') === 'bit.svg' && h.q('img').getAttribute('alt') === 'ბიტი'), W('<img /> დახურულია', h => rHas(h, /<img\b[^>]*\/>/))],
+            hints: ['JSX-ში ყველა თეგი უნდა დაიხუროს: <img … />', '<a href="https://example.com/' + slug + '">' + txt + '</a>\n<img src="bit.svg" alt="ბიტი" />'] };
+        }
+        const [col, colKa] = pick(rng, R_COLORS), size = pick(rng, [18, 20, 24, 28]), t = sentences(rng, 1)[0];
+        const s = { title: 'style: ' + colKa + ', ' + size + 'px', task: '<p>-ს „' + t + '“ მიეცი სტილი ობიექტით: ფერი ' + col + ' და შრიფტის ზომა ' + size + 'px — style={{ color: "' + col + '", fontSize: "' + size + 'px" }}.', starter: rStart(),
+          solution: rApp('<div>\n  <p style={{ color: "' + col + '", fontSize: "' + size + 'px" }}>' + t + '</p>\n</div>'),
+          checks: [W('<p> „' + t + '“', h => hasText(h, 'p', t)), W('ფერი: ' + col, h => !!h.q('p') && h.cs(h.q('p'), 'color') === col), W('შრიფტი: ' + size + 'px', h => !!h.q('p') && h.cs(h.q('p'), 'font-size') === size + 'px'), W('სტილი ობიექტია: style={{ … }}', h => rHas(h, /style\s*=\s*\{\s*\{/))],
+          hints: ['სტილი ორმაგ ფიგურულ ფრჩხილებშია: გარე — JavaScript, შიდა — ობიექტი.', '<p style={{ color: "' + col + '", fontSize: "' + size + 'px" }}>…</p>'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-comp', icon: '🧩', name: 'კომპონენტები', topic: 'საკუთარი <Tag />', a: '#6b5fc7', gate: 3,
+      theory: 'კომპონენტი დიდი ასოთი დაწყებული ფუნქციაა, რომელიც JSX-ს აბრუნებს. მას საკუთარ თეგად იყენებ: <Logo />. ერთ კომპონენტს ბევრჯერ გამოიყენებ, დიდ აპს კი პატარა ნაწილებად — Header, Footer… — აწყობ.',
+      example: 'function Logo() {\n  return <span className="logo">🤖</span>;\n}\n\nfunction App() {\n  return (\n    <div>\n      <Logo />\n      <Logo />\n    </div>\n  );\n}',
+      gen(rng, k) {
+        if (k < 12) {
+          const [C, inner] = R_COMPS[k % R_COMPS.length], cls = lower(C), n = 2 + (k % 4);
+          return { title: n + ' × <' + C + ' />', task: 'შექმენი კომპონენტი ' + C + ', რომელიც აბრუნებს <span className="' + cls + '">' + inner + '</span>-ს. App-მა <div>-ში ' + n + '-ჯერ გამოიყენოს <' + C + ' />.', starter: rStart('// შექმენი ' + C + ' აქ'),
+            solution: rApp('<div>\n' + Array.from({ length: n }, () => '  <' + C + ' />').join('\n') + '\n</div>', 'function ' + C + '() {\n  return <span className="' + cls + '">' + inner + '</span>;\n}'),
+            checks: [W('ეკრანზე ' + n + ' <span className="' + cls + '">-ია', h => h.qa('span.' + cls).length === n), W('ყველაში წერია „' + inner + '“', h => h.qa('span.' + cls).length > 0 && rTexts(h, 'span.' + cls).every(t => t === WEB_NORM(inner))),
+              W(C + ' ცალკე კომპონენტია', h => rHas(h, new RegExp('\\bfunction\\s+' + C + '\\s*\\(|\\b(?:const|let)\\s+' + C + '\\s*='))), W('App იყენებს <' + C + ' />-ს', h => (rSrc(h).match(new RegExp('<' + C + '\\b', 'g')) || []).length >= n)],
+            hints: ['function ' + C + '() { return <span className="' + cls + '">' + inner + '</span>; }', '<div>-ში ' + n + '-ჯერ: <' + C + ' />'] };
+        }
+        const hd = headings(rng, 1)[0], p = sentences(rng, 1)[0], who = pick(rng, WB.names);
+        const s = { title: 'Header და Footer: ' + hd, task: 'შექმენი ორი კომპონენტი: Header აბრუნებს <header><h1>' + hd + '</h1></header>-ს, Footer — <footer><p>© ' + who + '</p></footer>-ს. App-მა <div>-ში რიგით აჩვენოს: <Header />, <p>' + p + '</p>, <Footer />.', starter: rStart('// შექმენი Header და Footer აქ'),
+          solution: rApp('<div>\n  <Header />\n  <p>' + p + '</p>\n  <Footer />\n</div>', 'function Header() {\n  return (\n    <header>\n      <h1>' + hd + '</h1>\n    </header>\n  );\n}\n\nfunction Footer() {\n  return (\n    <footer>\n      <p>© ' + who + '</p>\n    </footer>\n  );\n}'),
+          checks: [W('<header>-ში <h1> „' + hd + '“', h => hasText(h, 'header h1', hd)), W('<footer>-ში „© ' + who + '“', h => hasText(h, 'footer p', '© ' + who)), W('შუაში აბზაცი „' + p + '“', h => hasText(h, 'div > p', p)),
+            W('რიგი: header, p, footer', h => { const d = h.q('div'); return !!d && Array.from(d.children).map(e => e.tagName.toLowerCase()).join(',') === 'header,p,footer'; }), W('Header და Footer ცალკე კომპონენტებია', h => rHas(h, /<Header\s*\/>/) && rHas(h, /<Footer\s*\/>/))],
+          hints: ['ორი ფუნქცია: function Header() { … } და function Footer() { … }', '<div>\n  <Header />\n  <p>…</p>\n  <Footer />\n</div>'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-props', icon: '📦', name: 'props', topic: 'კომპონენტის მონაცემები', a: '#c05a3c', gate: 4,
+      theory: 'props კომპონენტს მონაცემებს აწვდის: <Card title="…" />. კომპონენტი მათ ობიექტიდან იღებს: function Card({ title }). ტექსტი ბრჭყალებში იწერება, რიცხვი და ცვლადი — ფიგურულ ფრჩხილებში: amount={5}.',
+      example: 'function Greeting({ name }) {\n  return <p>გამარჯობა, {name}!</p>;\n}\n\nfunction App() {\n  return (\n    <div>\n      <Greeting name="ნინო" />\n      <Greeting name="ლუკა" />\n    </div>\n  );\n}',
+      gen(rng, k) {
+        if (k < 8) {
+          const ns = picks(rng, WB.names, 2 + k % 2), G = ['Greeting', 'Hello', 'Welcome'][k % 3], pre = ['გამარჯობა, ', 'სალამი, ', 'მოგესალმები, '][k % 3];
+          return { title: '<' + G + ' name=… />: ' + ns.join(', '), task: 'შექმენი კომპონენტი ' + G + ', რომელიც იღებს prop-ს name და აბრუნებს <p>„' + pre + '{name}!“</p>-ს. App-მა მიესალმოს რიგით: ' + ns.join(', ') + '.', starter: rStart('// ' + G + ' იღებს name-ს'),
+            solution: rApp('<div>\n' + ns.map(x => '  <' + G + ' name=' + rq(x) + ' />').join('\n') + '\n</div>', 'function ' + G + '({ name }) {\n  return <p>' + pre + '{name}!</p>;\n}'),
+            checks: [W('მისალმებები სწორი რიგით', h => rSame(h, 'p', ns.map(x => pre + x + '!'))), W(G + ' იღებს name-ს', h => rHas(h, new RegExp('<' + G + '\\b[^>]*\\bname\\s*=')) && (rSrc(h).match(new RegExp('<' + G + '\\b', 'g')) || []).length === ns.length)],
+            hints: ['function ' + G + '({ name }) { return <p>' + pre + '{name}!</p>; }', '<' + G + ' name="' + ns[0] + '" />'] };
+        }
+        if (k < 16) {
+          const hs = headings(rng, 2 + k % 2), ps = sentences(rng, hs.length);
+          return { title: hs.length + ' ბარათი <Card title text />', task: 'შექმენი Card({ title, text }), რომელიც აბრუნებს <div className="card"><h3>{title}</h3><p>{text}</p></div>-ს. App-მა აჩვენოს ბარათები: ' + hs.map((x, i) => '„' + x + '“ — „' + ps[i] + '“').join('; ') + '.', starter: rStart('// Card იღებს title-სა და text-ს'),
+            solution: rApp('<div>\n' + hs.map((x, i) => '  <Card title=' + rq(x) + ' text=' + rq(ps[i]) + ' />').join('\n') + '\n</div>', 'function Card({ title, text }) {\n  return (\n    <div className="card">\n      <h3>{title}</h3>\n      <p>{text}</p>\n    </div>\n  );\n}'),
+            checks: [W(hs.length + ' ბარათი', h => h.qa('div.card').length === hs.length), W('სათაურები რიგით', h => rSame(h, '.card h3', hs)), W('ტექსტები რიგით', h => rSame(h, '.card p', ps)), W('Card-ს props გადაეცემა', h => rHas(h, /<Card\b[^>]*\btitle\s*=/) && rHas(h, /<Card\b[^>]*\btext\s*=/))],
+            hints: ['function Card({ title, text }) { return (<div className="card">…</div>); }', '<Card title="' + hs[0] + '" text="…" />'] };
+        }
+        const its = picks(rng, R_ITEMS, 3);
+        const s = { title: 'ფასი ორმაგად: <Price />', task: 'შექმენი Price({ name, amount }), რომელიც აბრუნებს <li>{name}: {amount * 2} ₾</li>-ს (ორი ცალის ფასი). App-მა <ul>-ში აჩვენოს: ' + its.map(x => x[0] + ' (' + x[1] + ')').join(', ') + '. რიცხვი გადაეცი ასე: amount={' + its[0][1] + '}.', starter: rStart('// Price იღებს name-სა და amount-ს'),
+          solution: rApp('<ul>\n' + its.map(x => '  <Price name=' + rq(x[0]) + ' amount={' + x[1] + '} />').join('\n') + '\n</ul>', 'function Price({ name, amount }) {\n  return <li>{name}: {amount * 2} ₾</li>;\n}'),
+          checks: [W('სამი ფასი, ორმაგად', h => rSame(h, 'ul li', its.map(x => x[0] + ': ' + x[1] * 2 + ' ₾'))), W('amount რიცხვად გადაეცემა: amount={…}', h => rHas(h, /amount\s*=\s*\{\s*\d+\s*\}/)), W('Price ითვლის: amount * 2', h => rHas(h, /amount\s*\*\s*2|2\s*\*\s*amount/))],
+          hints: ['რიცხვი props-ში {}-ში იწერება: amount={' + its[0][1] + '}', 'function Price({ name, amount }) { return <li>{name}: {amount * 2} ₾</li>; }'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-children', icon: '🎁', name: 'children', topic: '<Box>…</Box>', a: '#3a7bd5', gate: 4,
+      theory: 'რაც კომპონენტის თეგებს შორის წერია (<Box>აქ</Box>), ის კომპონენტში props.children-ად მოდის. ასე კეთდება „ჩარჩო“ კომპონენტები: function Box({ children }) { return <div className="box">{children}</div>; }',
+      example: 'function Box({ children }) {\n  return <div className="box">{children}</div>;\n}\n\nfunction App() {\n  return (\n    <Box>\n      <p>შიგთავსი</p>\n    </Box>\n  );\n}',
+      gen(rng, k) {
+        if (k < 12) {
+          const n = 2 + k % 2, hs = headings(rng, n), cls = ['box', 'frame', 'card', 'panel'][k % 4], B = cls[0].toUpperCase() + cls.slice(1);
+          return { title: n + ' × <' + B + '>…</' + B + '>', task: 'შექმენი ' + B + '({ children }), რომელიც აბრუნებს <div className="' + cls + '">{children}</div>-ს. App-მა <div>-ში ' + n + ' ' + B + ' აჩვენოს, თითოეულში <h2>: ' + hs.map(x => '„' + x + '“').join(', ') + '.', starter: rStart('// ' + B + ' შიგთავსს children-ით იღებს'),
+            solution: rApp('<div>\n' + hs.map(x => '  <' + B + '>\n    <h2>' + x + '</h2>\n  </' + B + '>').join('\n') + '\n</div>', 'function ' + B + '({ children }) {\n  return <div className="' + cls + '">{children}</div>;\n}'),
+            checks: [W(n + ' ჩარჩო <div className="' + cls + '">', h => h.qa('div.' + cls).length === n), W('ჩარჩოებში სათაურები რიგით', h => rSame(h, 'div.' + cls + ' > h2', hs)), W(B + ' children-ს იყენებს', h => rHas(h, /\bchildren\b/))],
+            hints: ['function ' + B + '({ children }) { return <div className="' + cls + '">{children}</div>; }', '<' + B + '>\n  <h2>' + hs[0] + '</h2>\n</' + B + '>'] };
+        }
+        const t = headings(rng, 1)[0], ps = sentences(rng, 2);
+        const s = { title: 'Panel title + children: ' + t, task: 'შექმენი Panel({ title, children }): <section className="panel"> — შიგნით ჯერ <h2>{title}</h2>, მერე {children}. App-მა აჩვენოს <Panel title="' + t + '"> ორი აბზაცით: ' + ps.map(x => '„' + x + '“').join(', ') + '.', starter: rStart('// Panel იღებს title-ს და children-ს'),
+          solution: rApp('<Panel title=' + rq(t) + '>\n' + ps.map(x => '  <p>' + x + '</p>').join('\n') + '\n</Panel>', 'function Panel({ title, children }) {\n  return (\n    <section className="panel">\n      <h2>{title}</h2>\n      {children}\n    </section>\n  );\n}'),
+          checks: [W('<section className="panel">-ში <h2> „' + t + '“', h => hasText(h, 'section.panel > h2', t)), W('აბზაცები სექციაში, რიგით', h => rSame(h, 'section.panel > p', ps)), W('სათაური აბზაცებზე ადრეა', h => { const s2 = h.q('section.panel'); return !!s2 && !!s2.firstElementChild && s2.firstElementChild.tagName === 'H2'; }), W('Panel იყენებს title-სა და children-ს', h => rHas(h, /\bchildren\b/) && rHas(h, /<Panel\b[^>]*\btitle\s*=/))],
+          hints: ['function Panel({ title, children }) { … <h2>{title}</h2>{children} … }', '<Panel title="' + t + '">\n  <p>…</p>\n</Panel>'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-map', icon: '📋', name: 'map: სიები', topic: 'array.map() და key', a: '#d9822b', gate: 5,
+      theory: 'მასივიდან სია .map()-ით კეთდება: {items.map(x => <li key={x}>{x}</li>)}. map-ს მეორე პარამეტრად ინდექსიც მოსდევს: (x, i) => … — i 0-დან იწყება. key ყოველ ელემენტს უნიკალური უნდა ჰქონდეს.',
+      example: 'const colors = ["წითელი", "მწვანე"];\n\nfunction App() {\n  return (\n    <ol>\n      {colors.map((c, i) => <li key={c}>{i + 1}. {c}</li>)}\n    </ol>\n  );\n}',
+      gen(rng, k) {
+        const L = pick(rng, LISTS), n = 3 + k % 4, items = picks(rng, WB[L.key], n), v = ['items', 'list', 'things', 'data'][k % 4];
+        const pre = 'const ' + v + ' = ' + rArr(items) + ';';
+        if (k < 10) {
+          return { title: L.head + ': ' + n + ' <li>', task: 'მასივი ' + v + ' უკვე არის. <ul>-ში ყოველი ელემენტი თავის <li>-ში აჩვენე — .map()-ით და key-ით.', starter: rApp('<ul>\n  \n</ul>', pre) + '\n',
+            solution: rApp('<ul>\n  {' + v + '.map(x => <li key={x}>{x}</li>)}\n</ul>', pre),
+            checks: [W(n + ' <li> სწორი რიგით', h => rSame(h, 'ul > li', items)), W('სია .map()-ით იქმნება', h => rHas(h, new RegExp(v + '\\s*\\.\\s*map\\s*\\('))), W('<li>-ს key აქვს', h => rHas(h, /<li\b[^>]*\bkey\s*=/))],
+            hints: ['{' + v + '.map(x => …)} — <ul>-ის შიგნით.', '{' + v + '.map(x => <li key={x}>{x}</li>)}'] };
+        }
+        if (k < 18) {
+          return { title: 'დანომრილი სია: ' + L.head, task: 'მასივი ' + v + ' უკვე არის. <ol>-ში აჩვენე „1. …“, „2. …“ ფორმით — ნომერი map-ის ინდექსიდან: (x, i) => … {i + 1}. {x}.', starter: rApp('<ol>\n  \n</ol>', pre) + '\n',
+            solution: rApp('<ol>\n  {' + v + '.map((x, i) => <li key={x}>{i + 1}. {x}</li>)}\n</ol>', pre),
+            checks: [W('დანომრილი ელემენტები', h => rSame(h, 'ol > li', items.map((x, i) => (i + 1) + '. ' + x))), W('ნომერი ინდექსიდან: {i + 1}', h => rHas(h, /\{\s*\w+\s*\+\s*1\s*\}/) && rHas(h, /\.\s*map\s*\(\s*\(\s*\w+\s*,\s*\w+\s*\)/))],
+            hints: ['map((x, i) => …) — i ინდექსია, 0-დან.', '{' + v + '.map((x, i) => <li key={x}>{i + 1}. {x}</li>)}'] };
+        }
+        const s = { title: 'სია კომპონენტებით: ' + L.head, task: 'მასივი ' + v + ' უკვე არის. შექმენი Tag({ label }), რომელიც აბრუნებს <span className="tag">{label}</span>-ს, და App-ში <div>-ში ყოველი ელემენტისთვის <Tag key={x} label={x} /> აჩვენე.', starter: rApp('<div>\n  \n</div>', pre + '\n\n// შექმენი Tag აქ') + '\n',
+          solution: rApp('<div>\n  {' + v + '.map(x => <Tag key={x} label={x} />)}\n</div>', pre + '\n\nfunction Tag({ label }) {\n  return <span className="tag">{label}</span>;\n}'),
+          checks: [W(n + ' თეგი <span className="tag">', h => rSame(h, 'span.tag', items)), W('map ქმნის <Tag />-ებს', h => rHas(h, /\.\s*map\s*\([^)]*\)?\s*=>\s*\(?\s*<Tag\b/) || rHas(h, /<Tag\b[^>]*\blabel\s*=\s*\{/)), W('<Tag />-ს key აქვს', h => rHas(h, /<Tag\b[^>]*\bkey\s*=/))],
+          hints: ['function Tag({ label }) { return <span className="tag">{label}</span>; }', '{' + v + '.map(x => <Tag key={x} label={x} />)}'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-objmap', icon: '🗂️', name: 'ობიექტების სიები', topic: 'item.name, item.price', a: '#2f8f6f', gate: 6,
+      theory: 'როცა სიის ელემენტი ობიექტია, map-ში ველებს წერტილით კითხულობ: p.name, p.age. key-ად უნიკალური id გამოიყენე. ერთი ობიექტიდან რამდენიმე თეგს ააწყობ — ბარათს ან ცხრილის რიგს.',
+      example: 'const users = [{ id: 1, name: "ნინო", age: 12 }];\n\nfunction App() {\n  return (\n    <ul>\n      {users.map(u => <li key={u.id}>{u.name} — {u.age}</li>)}\n    </ul>\n  );\n}',
+      gen(rng, k) {
+        if (k < 12) {
+          const names = picks(rng, WB.names, 3), ages = names.map(() => ri(rng, 8, 16)), v = ['friends', 'team', 'players'][k % 3];
+          const pre = 'const ' + v + ' = [\n' + names.map((x, i) => '  { id: ' + (i + 1) + ', name: ' + rq(x) + ', age: ' + ages[i] + ' }').join(',\n') + '\n];';
+          return { title: 'ბარათები: ' + v, task: 'მასივი ' + v + ' უკვე არის. თითოეულისთვის აჩვენე <div className="card"> — შიგნით <h3>{name}</h3> და <p>„{age} წლის“</p>. key-ად id.', starter: rApp('<div>\n  \n</div>', pre) + '\n',
+            solution: rApp('<div>\n  {' + v + '.map(f => (\n    <div key={f.id} className="card">\n      <h3>{f.name}</h3>\n      <p>{f.age} წლის</p>\n    </div>\n  ))}\n</div>', pre),
+            checks: [W('სამი ბარათი', h => h.qa('div.card').length === 3), W('სახელები რიგით', h => rSame(h, '.card h3', names)), W('ასაკები: „… წლის“', h => rSame(h, '.card p', ages.map(a => a + ' წლის'))), W('key={….id}', h => rHas(h, /key\s*=\s*\{\s*\w+\s*\.\s*id\s*\}/))],
+            hints: ['{' + v + '.map(f => (<div key={f.id} className="card">…</div>))}', '<h3>{f.name}</h3>\n<p>{f.age} წლის</p>'] };
+        }
+        const its = picks(rng, R_ITEMS, 3 + k % 2);
+        const pre = 'const menu = [\n' + its.map((x, i) => '  { id: ' + (i + 1) + ', name: ' + rq(x[0]) + ', price: ' + x[1] + ' }').join(',\n') + '\n];';
+        const s = { title: 'ცხრილი: მენიუ (' + its.length + ')', task: 'მასივი menu უკვე არის. <table><tbody>-ში ყოველი კერძისთვის <tr> აჩვენე: პირველ <td>-ში სახელი, მეორეში ფასი (მხოლოდ რიცხვი). key-ად id.', starter: rApp('<table>\n  <tbody>\n    \n  </tbody>\n</table>', pre) + '\n',
+          solution: rApp('<table>\n  <tbody>\n    {menu.map(m => (\n      <tr key={m.id}>\n        <td>{m.name}</td>\n        <td>{m.price}</td>\n      </tr>\n    ))}\n  </tbody>\n</table>', pre),
+          checks: [W(its.length + ' რიგი', h => h.qa('tbody tr').length === its.length), W('სახელები პირველ სვეტში', h => rSame(h, 'tbody tr td:first-child', its.map(x => x[0]))), W('ფასები მეორე სვეტში', h => rSame(h, 'tbody tr td:nth-child(2)', its.map(x => String(x[1])))), W('key={m.id}', h => rHas(h, /key\s*=\s*\{\s*\w+\s*\.\s*id\s*\}/))],
+          hints: ['{menu.map(m => (<tr key={m.id}>…</tr>))}', '<td>{m.name}</td>\n<td>{m.price}</td>'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-filter', icon: '🔍', name: 'filter + map', topic: 'მხოლოდ საჭირო ელემენტები', a: '#7a6a8a', gate: 6,
+      theory: '.filter() მასივიდან მხოლოდ იმ ელემენტებს ტოვებს, რომლებზეც პირობა მართალია: items.filter(x => x.price < 10). შედეგს მერე map-ით აჩვენებ — ორივე ერთ ხაზშიც იწერება: items.filter(…).map(…).',
+      example: 'const nums = [3, 8, 12, 5];\n\nfunction App() {\n  return (\n    <ul>\n      {nums.filter(n => n > 4).map(n => <li key={n}>{n}</li>)}\n    </ul>\n  );\n}',
+      gen(rng, k) {
+        const its = picks(rng, R_ITEMS, 5), lim = pick(rng, [5, 7, 8, 10]), cheap = k % 2 === 0;
+        const ok = x => (cheap ? x[1] < lim : x[1] >= lim), keep = its.filter(ok);
+        // სიაში ორივე სახის კერძი უნდა იყოს — თორემ filter-ს აზრი არ ექნება
+        if (!keep.length) its[0] = cheap ? ['მჭადი', 1] : ['მწვადი', 15];
+        else if (keep.length === its.length) its[0] = cheap ? ['მწვადი', 15] : ['მჭადი', 1];
+        const exp = its.filter(ok), cond = cheap ? 'p.price < ' + lim : 'p.price >= ' + lim;
+        const pre = 'const products = [\n' + its.map((x, i) => '  { id: ' + (i + 1) + ', name: ' + rq(x[0]) + ', price: ' + x[1] + ' }').join(',\n') + '\n];';
+        const withCount = k >= 12;
+        const jsx = withCount ? '<div>\n  <p>ნაპოვნია: {products.filter(p => ' + cond + ').length}</p>\n  <ul>\n    {products.filter(p => ' + cond + ').map(p => <li key={p.id}>{p.name}</li>)}\n  </ul>\n</div>'
+          : '<ul>\n  {products.filter(p => ' + cond + ').map(p => <li key={p.id}>{p.name}</li>)}\n</ul>';
+        const s = { title: (cheap ? 'იაფი: < ' : 'ძვირი: ≥ ') + lim + ' ₾' + (withCount ? ' + რაოდენობა' : ''), task: 'products უკვე არის. <ul>-ში მხოლოდ ის კერძები აჩვენე (სახელი <li>-ში), რომელთა ფასი ' + (cheap ? lim + '-ზე ნაკლებია' : lim + ' ან მეტია') + ' — .filter()-ით.' + (withCount ? ' სიის ზემოთ <p>-ში დაწერე „ნაპოვნია: N“.' : ''), starter: rApp(withCount ? '<div>\n  \n</div>' : '<ul>\n  \n</ul>', pre) + '\n',
+          solution: rApp(jsx, pre),
+          checks: [W('სიაში მხოლოდ: ' + exp.map(x => x[0]).join(', '), h => rSame(h, 'ul li', exp.map(x => x[0]))), W('გამოყენებულია .filter()', h => rHas(h, /\.\s*filter\s*\(/))].concat(withCount ? [W('„ნაპოვნია: ' + exp.length + '“', h => hasText(h, 'p', 'ნაპოვნია: ' + exp.length))] : []),
+          hints: ['products.filter(p => ' + cond + ') — მხოლოდ შესაფერისი დარჩება.', '{products.filter(p => ' + cond + ').map(p => <li key={p.id}>{p.name}</li>)}'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-cond', icon: '🔀', name: 'პირობითი ჩვენება', topic: '? : და &&', a: '#6b5fc7', gate: 7,
+      theory: 'პირობა ? <A /> : <B /> — ან ერთი ჩანს, ან მეორე. პირობა && <A /> — A მხოლოდ მაშინ ჩანს, როცა პირობა მართალია. კომპონენტში ჩვეულებრივი if-იც შეიძლება — return-მდე: if (online) return <p>…</p>;',
+      example: 'const score = 80;\n\nfunction App() {\n  return (\n    <div>\n      {score >= 50 ? <p>ჩაბარდა</p> : <p>ვერ ჩაბარდა</p>}\n      {score === 100 && <span>🏆</span>}\n    </div>\n  );\n}',
+      gen(rng, k) {
+        if (k < 8) {
+          const P = [['isDay', 'დღეა ☀️', 'ღამეა 🌙'], ['isOpen', 'მაღაზია ღიაა 🟢', 'მაღაზია დაკეტილია 🔴'], ['isWinner', 'გაიმარჯვე! 🏆', 'სცადე თავიდან 🔁'], ['hasWifi', 'ინტერნეტი არის 📶', 'ინტერნეტი არ არის 🚫']][k % 4], val = rng() < 0.5;
+          return { title: P[0] + ' = ' + val, task: 'ცვლადი ' + P[0] + ' უკვე არის. <p>-ში აჩვენე „' + P[1] + '“, თუ ' + P[0] + ' მართალია, თუ არა — „' + P[2] + '“ (? :-ით).', starter: rStart('const ' + P[0] + ' = ' + val + ';'),
+            solution: rApp('<div>\n  <p>{' + P[0] + ' ? ' + rq(P[1]) + ' : ' + rq(P[2]) + '}</p>\n</div>', 'const ' + P[0] + ' = ' + val + ';'),
+            checks: [W('ჩანს „' + (val ? P[1] : P[2]) + '“', h => rSame(h, 'p', [val ? P[1] : P[2]])), W('ტექსტს ' + P[0] + ' ირჩევს (? :)', h => rHas(h, new RegExp(P[0] + '\\s*\\?')) && rSrc(h).includes(P[1]) && rSrc(h).includes(P[2]))],
+            hints: ['{' + P[0] + ' ? "…" : "…"}', '<p>{' + P[0] + ' ? ' + rq(P[1]) + ' : ' + rq(P[2]) + '}</p>'] };
+        }
+        if (k < 16) {
+          const score = pick(rng, [35, 48, 50, 72, 90, 100]), pass = score >= 50;
+          return { title: 'ქულა ' + score, task: 'score უკვე არის. თუ score >= 50 — <p className="ok">„ჩაბარდა ✅“</p>, თუ არა — <p className="bad">„ვერ ჩაბარდა ❌“</p>. ქვემოთ, მხოლოდ როცა score === 100, აჩვენე <span>„🏆 იდეალური!“</span> (&&).', starter: rStart('const score = ' + score + ';'),
+            solution: rApp('<div>\n  {score >= 50 ? <p className="ok">ჩაბარდა ✅</p> : <p className="bad">ვერ ჩაბარდა ❌</p>}\n  {score === 100 && <span>🏆 იდეალური!</span>}\n</div>', 'const score = ' + score + ';'),
+            checks: [W(pass ? 'ჩანს <p className="ok"> „ჩაბარდა ✅“' : 'ჩანს <p className="bad"> „ვერ ჩაბარდა ❌“', h => (pass ? hasText(h, 'p.ok', 'ჩაბარდა ✅') : hasText(h, 'p.bad', 'ვერ ჩაბარდა ❌')) && h.qa('p').length === 1),
+              W(score === 100 ? '🏆 ჩანს (ქულა 100-ია)' : '🏆 არ ჩანს (ქულა 100 არ არის)', h => (h.qa('span').length === 1) === (score === 100)), W('პირობები: score >= 50 ? … და score === 100 &&', h => rHas(h, /score\s*>=\s*50\s*\?/) && rHas(h, /score\s*===?\s*100\s*&&/))],
+            hints: ['{score >= 50 ? <p className="ok">…</p> : <p className="bad">…</p>}', '{score === 100 && <span>🏆 იდეალური!</span>}'] };
+        }
+        const T = [['online', '🟢 ონლაინ', '⚪ ოფლაინ'], ['ready', '✅ მზადაა', '⏳ მზადდება']][k % 2], vals = [true, false, rng() < 0.5];
+        const s = { title: 'if კომპონენტში: <Status ' + T[0] + ' />', task: 'შექმენი Status({ ' + T[0] + ' }): if-ით — თუ ' + T[0] + ' მართალია, დააბრუნე <p>„' + T[1] + '“</p>, თუ არა — <p>„' + T[2] + '“</p>. App-მა <div>-ში აჩვენოს: ' + vals.map(v => '<Status ' + T[0] + '={' + v + '} />').join(', ') + '.', starter: rStart('// Status: if (' + T[0] + ') return …'),
+          solution: rApp('<div>\n' + vals.map(v => '  <Status ' + T[0] + '={' + v + '} />').join('\n') + '\n</div>', 'function Status({ ' + T[0] + ' }) {\n  if (' + T[0] + ') {\n    return <p>' + T[1] + '</p>;\n  }\n  return <p>' + T[2] + '</p>;\n}'),
+          checks: [W('სამი სტატუსი სწორი რიგით', h => rSame(h, 'p', vals.map(v => (v ? T[1] : T[2])))), W('Status-ში if გამოიყენება', h => rHas(h, new RegExp('if\\s*\\(\\s*!?\\s*' + T[0] + '\\s*\\)'))), W('<Status ' + T[0] + '={…} /> სამჯერ', h => (rSrc(h).match(/<Status\b/g) || []).length === 3)],
+          hints: ['function Status({ ' + T[0] + ' }) {\n  if (' + T[0] + ') return <p>' + T[1] + '</p>;\n  return <p>' + T[2] + '</p>;\n}', '<Status ' + T[0] + '={true} />'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-click', icon: '🖱️', name: 'onClick', topic: 'ღილაკები და console.log', a: '#c05a3c', gate: 8,
+      theory: 'onClick-ს ფუნქციას აწვდი: onClick={hello} ან onClick={() => console.log("…")}. onClick={hello()} — შეცდომაა: ფუნქცია დაჭერამდე, ხატვისას გაეშვება. ფუნქცია კომპონენტის შიგნითაც შეიძლება: function handleClick() { … }.',
+      example: 'function App() {\n  function hello() {\n    console.log("გამარჯობა!");\n  }\n  return <button onClick={hello}>დააჭირე</button>;\n}',
+      gen(rng, k) {
+        if (k < 8) {
+          const msg = pick(rng, R_MSGS), lab = pick(rng, ['დააჭირე', 'დაწყება', 'გაგზავნა', 'გახსნა', 'შემოწმება']);
+          return { title: 'ღილაკი „' + lab + '“', task: 'შექმენი ღილაკი „' + lab + '“, რომელიც დაჭერისას console.log-ით ბეჭდავს „' + msg + '“. დაჭერამდე არაფერი უნდა დაიბეჭდოს.', starter: rStart(), acts: [[['click', 'button']]],
+            solution: rApp('<div>\n  <button onClick={() => console.log(' + rq(msg) + ')}>' + lab + '</button>\n</div>'),
+            checks: [W('ღილაკი „' + lab + '“', h => hasText(h, 'button', lab)), W('დაჭერამდე — არაფერი', h => h.logs.length === 0), W('დაჭერისას: „' + msg + '“', h => h.s[1].logs.join('|') === msg)],
+            hints: ['onClick={() => console.log("…")}', '<button onClick={() => console.log(' + rq(msg) + ')}>' + lab + '</button>'] };
+        }
+        if (k < 16) {
+          const ms = picks(rng, R_MSGS, 2), labs = ['A', 'B'];
+          return { title: 'ორი ღილაკი: ' + ms[0], task: 'შექმენი ორი ღილაკი: „' + labs[0] + '“ ბეჭდავს „' + ms[0] + '“-ს, „' + labs[1] + '“ — „' + ms[1] + '“-ს (console.log).', starter: rStart(), acts: [[['click', 'button', 0]], [['click', 'button', 1]]],
+            solution: rApp('<div>\n  <button onClick={() => console.log(' + rq(ms[0]) + ')}>' + labs[0] + '</button>\n  <button onClick={() => console.log(' + rq(ms[1]) + ')}>' + labs[1] + '</button>\n</div>'),
+            checks: [W('ორი ღილაკი: A და B', h => rSame(h, 'button', labs)), W('A ბეჭდავს „' + ms[0] + '“', h => h.s[1].logs.join('|') === ms[0]), W('B ბეჭდავს „' + ms[1] + '“', h => h.s[2].logs.join('|') === ms[1]), W('დაჭერამდე — არაფერი', h => h.logs.length === 0)],
+            hints: ['თითო ღილაკს თავისი onClick აქვს.', '<button onClick={() => console.log(' + rq(ms[0]) + ')}>A</button>'] };
+        }
+        const msg = pick(rng, R_MSGS), times = 2 + k % 2;
+        const s = { title: 'handleClick: ' + msg, task: 'App-ში შექმენი ფუნქცია handleClick, რომელიც ბეჭდავს „' + msg + '“-ს, და ღილაკს „დააჭირე“ onClick={handleClick} მიეცი. ' + times + ' დაჭერა — ' + times + ' ჩანაწერი.', starter: rStart(null, '// function handleClick() { … }'), acts: [Array.from({ length: times }, () => ['click', 'button'])],
+          solution: rApp('<div>\n  <button onClick={handleClick}>დააჭირე</button>\n</div>', null, 'function handleClick() {\n  console.log(' + rq(msg) + ');\n}'),
+          checks: [W('ღილაკი „დააჭირე“', h => hasText(h, 'button', 'დააჭირე')), W(times + ' დაჭერა — ' + times + '-ჯერ „' + msg + '“', h => h.s[1].logs.length === times && h.s[1].logs.every(x => x === msg)), W('ფუნქცია handleClick და onClick={handleClick}', h => rHas(h, /function\s+handleClick\s*\(|const\s+handleClick\s*=/) && rHas(h, /onClick\s*=\s*\{\s*handleClick\s*\}/))],
+          hints: ['function handleClick() { console.log(' + rq(msg) + '); }', '<button onClick={handleClick}>დააჭირე</button> — ფრჩხილების გარეშე!'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-count', icon: '🔢', name: 'მთვლელი', topic: 'useState და setCount', a: '#3a7bd5', gate: 9,
+      theory: 'const [count, setCount] = useState(0) — state და მისი შემცვლელი. setCount(count + 1) ზრდის, setCount(count - 1) ამცირებს, setCount(0) ანულებს. ყოველი ცვლილების შემდეგ React კომპონენტს თავიდან ხატავს.',
+      example: 'function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <div>\n      <p>{count}</p>\n      <button onClick={() => setCount(count + 1)}>+</button>\n      <button onClick={() => setCount(count - 1)}>−</button>\n    </div>\n  );\n}',
+      gen(rng, k) {
+        const L = pick(rng, ['კრისტალები', 'ქულები', 'მონეტები', 'ნაბიჯები', 'ვარსკვლავები', 'ლაიქები']), s0 = ri(rng, 0, 5), d = 1 + k % 3;
+        if (k < 8) {
+          const c = 2 + k % 3;
+          return { title: L + ': ' + s0 + ' +' + d, task: 'შექმენი მთვლელი: <p>-ში „' + L + ': ' + s0 + '“ (თავიდან ' + s0 + '), ღილაკი „+' + d + '“ ყოველ დაჭერაზე ' + d + '-ით ზრდის.', starter: rStart(), acts: [Array.from({ length: c }, () => ['click', 'button'])],
+            solution: rApp('<div>\n  <p>' + L + ': {count}</p>\n  <button onClick={() => setCount(count + ' + d + ')}>+' + d + '</button>\n</div>', null, 'const [count, setCount] = useState(' + s0 + ');'),
+            checks: [W('თავიდან „' + L + ': ' + s0 + '“', h => hasText(h, 'p', L + ': ' + s0)), W('ღილაკი „+' + d + '“', h => hasText(h, 'button', '+' + d)), W(c + ' დაჭერის შემდეგ — „' + L + ': ' + (s0 + c * d) + '“', h => hasText(h.s[1], 'p', L + ': ' + (s0 + c * d))), W('useState(' + s0 + ')', h => rHas(h, new RegExp('useState\\s*\\(\\s*' + s0 + '\\s*\\)')))],
+            hints: ['const [count, setCount] = useState(' + s0 + ');', '<button onClick={() => setCount(count + ' + d + ')}>+' + d + '</button>'] };
+        }
+        if (k < 16) {
+          const seq = shuffle(rng, ['+', '+', '+', '-']), exp = s0 + seq.reduce((a, x) => a + (x === '+' ? d : -d), 0);
+          return { title: L + ': + და −', task: '<p>-ში „' + L + ': ' + s0 + '“ (თავიდან ' + s0 + '). ორი ღილაკი, რიგით: „+“ ზრდის ' + d + '-ით, „−“ ამცირებს ' + d + '-ით.', starter: rStart(), acts: [seq.map(x => ['click', 'button', x === '+' ? 0 : 1])],
+            solution: rApp('<div>\n  <p>' + L + ': {count}</p>\n  <button onClick={() => setCount(count + ' + d + ')}>+</button>\n  <button onClick={() => setCount(count - ' + d + ')}>−</button>\n</div>', null, 'const [count, setCount] = useState(' + s0 + ');'),
+            checks: [W('თავიდან „' + L + ': ' + s0 + '“', h => hasText(h, 'p', L + ': ' + s0)), W('ღილაკები „+“ და „−“, ამ რიგით', h => h.qa('button').length === 2), W('დაჭერები ' + seq.join(' ') + ' → „' + L + ': ' + exp + '“', h => hasText(h.s[1], 'p', L + ': ' + exp))],
+            hints: ['ორივე ღილაკი ერთსა და იმავე state-ს ცვლის: setCount(count + ' + d + ') და setCount(count - ' + d + ').', '<button onClick={() => setCount(count - ' + d + ')}>−</button>'] };
+        }
+        const s = { title: L + ': + და „თავიდან“', task: '<p>-ში „' + L + ': ' + s0 + '“. ორი ღილაკი, რიგით: „+“ ზრდის ' + d + '-ით, „თავიდან“ ისევ ' + s0 + '-ს აბრუნებს.', starter: rStart(), acts: [[['click', 'button', 0], ['click', 'button', 0]], [['click', 'button', 0], ['click', 'button', 0], ['click', 'button', 1]]],
+          solution: rApp('<div>\n  <p>' + L + ': {count}</p>\n  <button onClick={() => setCount(count + ' + d + ')}>+</button>\n  <button onClick={() => setCount(' + s0 + ')}>თავიდან</button>\n</div>', null, 'const [count, setCount] = useState(' + s0 + ');'),
+          checks: [W('თავიდან „' + L + ': ' + s0 + '“', h => hasText(h, 'p', L + ': ' + s0)), W('ორი „+“ → „' + L + ': ' + (s0 + 2 * d) + '“', h => hasText(h.s[1], 'p', L + ': ' + (s0 + 2 * d))), W('„თავიდან“ → ისევ ' + s0, h => hasText(h.s[2], 'p', L + ': ' + s0)), W('ღილაკი „თავიდან“', h => hasText(h, 'button', 'თავიდან'))],
+          hints: ['„თავიდან“: setCount(' + s0 + ')', '<button onClick={() => setCount(' + s0 + ')}>თავიდან</button>'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-toggle', icon: '💡', name: 'ჩართვა/გამორთვა', topic: 'true / false state', a: '#b8577f', gate: 10,
+      theory: 'boolean state-ს setX(!x) ატრიალებს. {show && <p>…</p>} — ჩანს მხოლოდ როცა show მართალია; {on ? "A" : "B"} — ორიდან ერთი. ღილაკის წარწერაც state-ზე შეიძლება იყოს დამოკიდებული.',
+      example: 'function App() {\n  const [show, setShow] = useState(false);\n  return (\n    <div>\n      <button onClick={() => setShow(!show)}>{show ? "დამალვა" : "ჩვენება"}</button>\n      {show && <p>საიდუმლო!</p>}\n    </div>\n  );\n}',
+      gen(rng, k) {
+        if (k < 12) {
+          const secret = pick(rng, ['საიდუმლო კოდი: 42', 'განძი ბაღშია 🌳', 'პაროლი: ბიტი123', 'ხვალ ექსკურსიაა 🚌', 'კრისტალი ჭურჭელშია 💎']), L = [['ჩვენება', 'დამალვა'], ['გახსნა', 'დახურვა']][k % 2];
+          return { title: 'დამალული: ' + secret, task: 'state show თავიდან false-ია. ღილაკზე ეწეროს show ? „' + L[1] + '“ : „' + L[0] + '“; დაჭერისას show იცვლება. <p>„' + secret + '“</p> ჩანდეს მხოლოდ როცა show მართალია (&&).', starter: rStart(null, 'const [show, setShow] = useState(false);'), acts: [[['click', 'button']], [['click', 'button'], ['click', 'button']]],
+            solution: rApp('<div>\n  <button onClick={() => setShow(!show)}>{show ? ' + rq(L[1]) + ' : ' + rq(L[0]) + '}</button>\n  {show && <p>' + secret + '</p>}\n</div>', null, 'const [show, setShow] = useState(false);'),
+            checks: [W('თავიდან: ღილაკი „' + L[0] + '“, ტექსტი დამალულია', h => hasText(h, 'button', L[0]) && !h.q('p')), W('ერთი დაჭერა: „' + secret + '“ და „' + L[1] + '“', h => hasText(h.s[1], 'p', secret) && hasText(h.s[1], 'button', L[1])), W('ორი დაჭერა: ისევ დამალულია', h => !h.s[2].q('p'))],
+            hints: ['{show && <p>' + secret + '</p>}', '<button onClick={() => setShow(!show)}>{show ? ' + rq(L[1]) + ' : ' + rq(L[0]) + '}</button>'] };
+        }
+        const n = ri(rng, 3, 40);
+        const s = { title: 'მოწონება ❤️ (' + n + ')', task: 'liked თავიდან false-ია. ღილაკზე: liked ? „❤️ მომწონს“ : „🤍 მოწონება“, დაჭერისას liked იცვლება. <p>-ში „მოწონებები: N“, სადაც N = liked ? ' + (n + 1) + ' : ' + n + ' (გამოთვალე {liked ? ' + (n + 1) + ' : ' + n + '}).', starter: rStart(null, 'const [liked, setLiked] = useState(false);'), acts: [[['click', 'button']], [['click', 'button'], ['click', 'button']]],
+          solution: rApp('<div>\n  <button onClick={() => setLiked(!liked)}>{liked ? "❤️ მომწონს" : "🤍 მოწონება"}</button>\n  <p>მოწონებები: {liked ? ' + (n + 1) + ' : ' + n + '}</p>\n</div>', null, 'const [liked, setLiked] = useState(false);'),
+          checks: [W('თავიდან: „🤍 მოწონება“, „მოწონებები: ' + n + '“', h => hasText(h, 'button', '🤍 მოწონება') && hasText(h, 'p', 'მოწონებები: ' + n)), W('დაჭერის შემდეგ: „❤️ მომწონს“, „მოწონებები: ' + (n + 1) + '“', h => hasText(h.s[1], 'button', '❤️ მომწონს') && hasText(h.s[1], 'p', 'მოწონებები: ' + (n + 1))), W('ორი დაჭერის შემდეგ ისევ ' + n, h => hasText(h.s[2], 'p', 'მოწონებები: ' + n))],
+          hints: ['setLiked(!liked) — true/false ტრიალებს.', '<p>მოწონებები: {liked ? ' + (n + 1) + ' : ' + n + '}</p>'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-input', icon: '⌨️', name: 'ტექსტის ველი', topic: 'value და onChange', a: '#2f8f6f', gate: 11,
+      theory: 'კონტროლირებადი ველი: <input value={text} onChange={e => setText(e.target.value)} />. state ყოველ აკრეფაზე ახლდება, ამიტომ text-ით ბევრ რამეს გააკეთებ: ჩვენება, სიგრძე (text.length), დიდი ასოები (text.toUpperCase()).',
+      example: 'function App() {\n  const [text, setText] = useState("");\n  return (\n    <div>\n      <input value={text} onChange={e => setText(e.target.value)} />\n      <p>ასოები: {text.length}</p>\n    </div>\n  );\n}',
+      gen(rng, k) {
+        const st = 'const [text, setText] = useState("");', inp = '<input value={text} onChange={e => setText(e.target.value)} />';
+        if (k < 8) {
+          const pre = ['შენ წერ: ', 'ძებნა: ', 'სახელი: ', 'ქალაქი: '][k % 4], w1 = pick(rng, WB.cities), w2 = pick(rng, WB.names);
+          return { title: 'ველი → „' + pre + '…“', task: 'შექმენი <input> (value და onChange-ით) და <p>, სადაც ჩანს „' + pre + '“ და აკრეფილი ტექსტი.', starter: rStart(null, st), acts: [[['type', 'input', w1]], [['type', 'input', w2]]],
+            solution: rApp('<div>\n  ' + inp + '\n  <p>' + pre + '{text}</p>\n</div>', null, st),
+            checks: [W('„' + w1 + '“ → „' + pre + w1 + '“', h => hasText(h.s[1], 'p', pre + w1)), W('„' + w2 + '“ → „' + pre + w2 + '“', h => hasText(h.s[2], 'p', pre + w2)), W('ველს value={text} და onChange აქვს', h => rHas(h, /<input\b[^>]*\bvalue\s*=\s*\{/) && rHas(h, /onChange\s*=/))],
+            hints: [inp, '<p>' + pre + '{text}</p>'] };
+        }
+        if (k < 16) {
+          const w = pick(rng, WB.cities.concat(WB.animals));
+          return { title: 'ასოების მთვლელი: ' + w, task: 'შექმენი <input> და <p>-ში „ასოები: N“, სადაც N აკრეფილი ტექსტის სიგრძეა (text.length). თავიდან — „ასოები: 0“.', starter: rStart(null, st), acts: [[['type', 'input', w]]],
+            solution: rApp('<div>\n  ' + inp + '\n  <p>ასოები: {text.length}</p>\n</div>', null, st),
+            checks: [W('თავიდან „ასოები: 0“', h => hasText(h, 'p', 'ასოები: 0')), W('„' + w + '“ → „ასოები: ' + w.length + '“', h => hasText(h.s[1], 'p', 'ასოები: ' + w.length)), W('გამოყენებულია text.length', h => rHas(h, /\.\s*length\b/))],
+            hints: ['text.length — ტექსტის სიგრძე.', '<p>ასოები: {text.length}</p>'] };
+        }
+        const w = pick(rng, R_WORDS);
+        const s = { title: 'დიდი ასოები: ' + w, task: 'შექმენი <input> და <p>, რომელშიც აკრეფილი ტექსტი დიდი ასოებით ჩანს — text.toUpperCase(). მაგ. „' + w + '“ → „' + w.toUpperCase() + '“.', starter: rStart(null, st), acts: [[['type', 'input', w]]],
+          solution: rApp('<div>\n  ' + inp + '\n  <p>{text.toUpperCase()}</p>\n</div>', null, st),
+          checks: [W('„' + w + '“ → „' + w.toUpperCase() + '“', h => rawText(h.s[1], 'p') === w.toUpperCase()), W('ველს value და onChange აქვს', h => rHas(h, /<input\b[^>]*\bvalue\s*=\s*\{/) && rHas(h, /onChange\s*=/)), W('გამოყენებულია toUpperCase()', h => rHas(h, /toUpperCase\s*\(\s*\)/))],
+          hints: ['text.toUpperCase() — დიდი ასოები.', '<p>{text.toUpperCase()}</p>'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-add', icon: '➕', name: 'სიაში დამატება', topic: 'input + ღილაკი + მასივი', a: '#d9822b', gate: 11,
+      theory: 'სიაც state-ია: const [items, setItems] = useState([]). დამატებისას ახალ მასივს ქმნი: setItems([...items, text]) — ... (spread) ძველ ელემენტებს აკოპირებს. push-ით ძველი მასივის შეცვლა React-ში არ მუშაობს!',
+      example: 'function App() {\n  const [items, setItems] = useState([]);\n  const [text, setText] = useState("");\n  return (\n    <div>\n      <input value={text} onChange={e => setText(e.target.value)} />\n      <button onClick={() => { setItems([...items, text]); setText(""); }}>დამატება</button>\n      <ul>{items.map((x, i) => <li key={i}>{x}</li>)}</ul>\n    </div>\n  );\n}',
+      gen(rng, k) {
+        const L = pick(rng, [['shopping', 'საყიდლები', WB.foods], ['books', 'წასაკითხი', ['ვეფხისტყაოსანი', 'ჰარი პოტერი', 'პატარა პრინცი', 'ჯაყოს ხიზნები', 'კაცია-ადამიანი?!']], ['friends', 'მეგობრები', WB.names], ['trips', 'სამოგზაურო', WB.cities]]);
+        const [a, b] = picks(rng, L[2], 2), withCount = k >= 10, noEmpty = k >= 18;
+        const st = 'const [items, setItems] = useState([]);\nconst [text, setText] = useState("");';
+        const add = noEmpty ? 'function add() {\n  if (!text) return;\n  setItems([...items, text]);\n  setText("");\n}' : 'function add() {\n  setItems([...items, text]);\n  setText("");\n}';
+        const jsx = '<div>\n  <input value={text} onChange={e => setText(e.target.value)} />\n  <button onClick={add}>დამატება</button>\n' + (withCount ? '  <p>სულ: {items.length}</p>\n' : '') + '  <ul className="' + L[0] + '">\n    {items.map((x, i) => <li key={i}>{x}</li>)}\n  </ul>\n</div>';
+        const acts = [[['type', 'input', a], ['click', 'button']], [['type', 'input', a], ['click', 'button'], ['type', 'input', b], ['click', 'button']]].concat(noEmpty ? [[['click', 'button']]] : []);
+        const checks = [W('თავიდან სია ცარიელია', h => !!h.q('ul.' + L[0]) && h.qa('li').length === 0), W('„' + a + '“ ემატება სიაში', h => rSame(h.s[1], 'ul.' + L[0] + ' li', [a])), W('ორი დამატება — ორი ელემენტი, რიგით', h => rSame(h.s[2], 'ul.' + L[0] + ' li', [a, b])),
+          W('დამატების შემდეგ ველი სუფთავდება', h => !!h.s[1].q('input') && (h.s[1].q('input').getAttribute('value') || '') === ''), W('ახალი მასივი: [...items, text]', h => rHas(h, /\[\s*\.\.\.\s*items\s*,/) && !rHas(h, /\.\s*push\s*\(/))];
+        if (withCount) checks.push(W('„სულ: 2“ ორი დამატების შემდეგ', h => hasText(h.s[2], 'p', 'სულ: 2')));
+        if (noEmpty) checks.push(W('ცარიელი ტექსტი არ ემატება', h => h.s[3].qa('li').length === 0));
+        const s = { title: L[1] + ': დამატება' + (withCount ? ' + რაოდენობა' : '') + (noEmpty ? ' (ცარიელის გარეშე)' : ''), task: 'შექმენი <input>, ღილაკი „დამატება“ და <ul className="' + L[0] + '">. ღილაკი აკრეფილ ტექსტს სიაში ამატებს და ველს ასუფთავებს.' + (withCount ? ' სიის ზემოთ <p>-ში „სულ: N“.' : '') + (noEmpty ? ' ცარიელი ტექსტი არ უნდა დაემატოს (if (!text) return;).' : ''),
+          starter: rStart(null, st), acts, solution: rApp(jsx, null, st + '\n\n' + add), checks,
+          hints: ['function add() { setItems([...items, text]); setText(""); }', '<ul className="' + L[0] + '">{items.map((x, i) => <li key={i}>{x}</li>)}</ul>'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-effect', icon: '⏱️', name: 'useEffect', topic: 'document.title და [deps]', a: '#6b5fc7', gate: 12,
+      theory: 'useEffect(() => { … }, [x]) ეფექტს ხატვის შემდეგ უშვებს — და თავიდან, როცა x იცვლება. ტიპური მაგალითი: გვერდის სათაური — document.title. ცარიელი სია [] ნიშნავს: „მხოლოდ ერთხელ, პირველ ხატვაზე“.',
+      example: 'function App() {\n  const [n, setN] = useState(0);\n  useEffect(() => {\n    document.title = "დაჭერები: " + n;\n  }, [n]);\n  return <button onClick={() => setN(n + 1)}>+1</button>;\n}',
+      gen(rng, k) {
+        if (k < 12) {
+          const L = pick(rng, ['კრისტალები', 'ქულები', 'მონეტები', 'ლაიქები', 'შეტყობინებები']), c = 1 + k % 4;
+          const st = 'const [count, setCount] = useState(0);', eff = 'useEffect(() => {\n  document.title = ' + rq(L + ': ') + ' + count;\n}, [count]);';
+          return { title: 'სათაური: „' + L + ': N“', task: 'მთვლელი მზადაა. დაამატე useEffect, რომელიც გვერდის სათაურს (document.title) count-ის მიხედვით ცვლის: „' + L + ': 0“, „' + L + ': 1“…', starter: rApp('<div>\n  <p>' + L + ': {count}</p>\n  <button onClick={() => setCount(count + 1)}>+</button>\n</div>', null, st + '\n\n// აქ დაამატე useEffect') + '\n', acts: [Array.from({ length: c }, () => ['click', 'button'])],
+            solution: rApp('<div>\n  <p>' + L + ': {count}</p>\n  <button onClick={() => setCount(count + 1)}>+</button>\n</div>', null, st + '\n\n' + eff),
+            checks: [W('თავიდან სათაური „' + L + ': 0“', h => h.title === L + ': 0'), W(c + ' დაჭერის შემდეგ — „' + L + ': ' + c + '“', h => h.s[1].title === L + ': ' + c), W('useEffect და [count]', h => rHas(h, /useEffect\s*\(/) && rHas(h, /\[\s*count\s*\]\s*\)/))],
+            hints: ['useEffect(() => { document.title = …; }, [count]);', eff] };
+        }
+        const pre = pick(rng, ['ძებნა: ', 'წერილი: ', 'სახელი: ']), w = pick(rng, WB.cities.concat(WB.names));
+        const st = 'const [text, setText] = useState("");', eff = 'useEffect(() => {\n  document.title = ' + rq(pre) + ' + text;\n}, [text]);';
+        const s = { title: 'სათაური ველიდან: „' + pre + '…“', task: 'ველი მზადაა. დაამატე useEffect, რომ გვერდის სათაური იყოს „' + pre + '“ + აკრეფილი ტექსტი (დამოკიდებულება: [text]).', starter: rApp('<div>\n  <input value={text} onChange={e => setText(e.target.value)} />\n</div>', null, st + '\n\n// აქ დაამატე useEffect') + '\n', acts: [[['type', 'input', w]]],
+          solution: rApp('<div>\n  <input value={text} onChange={e => setText(e.target.value)} />\n</div>', null, st + '\n\n' + eff),
+          checks: [W('თავიდან სათაური „' + pre.trim() + '“', h => h.title.trim() === pre.trim()), W('„' + w + '“ აკრეფისას — „' + pre + w + '“', h => h.s[1].title === pre + w), W('useEffect და [text]', h => rHas(h, /useEffect\s*\(/) && rHas(h, /\[\s*text\s*\]\s*\)/))],
+          hints: ['useEffect(() => { document.title = ' + rq(pre) + ' + text; }, [text]);', eff] };
+        return rFin(rng, k, s, 1);
+      } },
+    { key: 'r-style', icon: '🎨', name: 'სტილი პირობით', topic: 'className={x ? "a" : "b"}', a: '#b54848', gate: 7,
+      theory: 'className-ში {} შიგნით პირობაც შეიძლება: className={done ? "done" : "todo"}. ასე ერთი და იგივე ელემენტი state-ის ან ცვლადის მიხედვით სხვანაირად გამოიყურება.',
+      example: 'const done = true;\n\nfunction App() {\n  return <p className={done ? "done" : "todo"}>ვარჯიში</p>;\n}',
+      gen(rng, k) {
+        if (k < 12) {
+          const P = [['done', 'done', 'todo'], ['active', 'on', 'off'], ['urgent', 'red', 'calm'], ['premium', 'gold', 'plain']][k % 4], val = rng() < 0.5, t = sentences(rng, 1)[0];
+          return { title: P[0] + ' → className', task: 'ცვლადი ' + P[0] + ' უკვე არის. <p>„' + t + '“-ს მიეცი className={' + P[0] + ' ? "' + P[1] + '" : "' + P[2] + '"}.', starter: rStart('const ' + P[0] + ' = ' + val + ';'),
+            solution: rApp('<div>\n  <p className={' + P[0] + ' ? ' + rq(P[1]) + ' : ' + rq(P[2]) + '}>' + t + '</p>\n</div>', 'const ' + P[0] + ' = ' + val + ';'),
+            checks: [W('<p>-ს კლასია „' + (val ? P[1] : P[2]) + '“', h => !!h.q('p') && h.q('p').getAttribute('class') === (val ? P[1] : P[2])), W('ტექსტი „' + t + '“', h => hasText(h, 'p', t)), W('კლასს ' + P[0] + ' ირჩევს', h => rHas(h, new RegExp('className\\s*=\\s*\\{\\s*' + P[0] + '\\s*\\?')))],
+            hints: ['className={' + P[0] + ' ? "…" : "…"}', '<p className={' + P[0] + ' ? ' + rq(P[1]) + ' : ' + rq(P[2]) + '}>' + t + '</p>'] };
+        }
+        const lab = pick(rng, ['ნათურა', 'მაგიდა', 'ოთახი', 'ბარათი']);
+        const s = { title: 'კლასი state-იდან: ' + lab, task: 'active თავიდან false-ია. <div>„' + lab + '“</div>-ს className იყოს active ? „box active“ : „box“. ღილაკი „გადართვა“ active-ს ცვლის.', starter: rStart(null, 'const [active, setActive] = useState(false);'), acts: [[['click', 'button']], [['click', 'button'], ['click', 'button']]],
+          solution: rApp('<div>\n  <div className={active ? "box active" : "box"}>' + lab + '</div>\n  <button onClick={() => setActive(!active)}>გადართვა</button>\n</div>', null, 'const [active, setActive] = useState(false);'),
+          checks: [W('თავიდან კლასი „box“', h => !!h.q('div.box') && !h.q('div.box.active')), W('დაჭერის შემდეგ „box active“', h => !!h.s[1].q('div.box.active')), W('ორი დაჭერის შემდეგ ისევ „box“', h => !!h.s[2].q('div.box') && !h.s[2].q('div.box.active')), W('ღილაკი „გადართვა“', h => hasText(h, 'button', 'გადართვა'))],
+          hints: ['className={active ? "box active" : "box"}', '<button onClick={() => setActive(!active)}>გადართვა</button>'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-select', icon: '☑️', name: 'checkbox და select', topic: 'checked, value, onChange', a: '#3a7bd5', gate: 11,
+      theory: 'checkbox-ის მნიშვნელობა checked-შია: <input type="checkbox" checked={ok} onChange={e => setOk(e.target.checked)} />. select-ისა — value-ში: <select value={x} onChange={e => setX(e.target.value)}>, ვარიანტები კი <option>-ებია.',
+      example: 'function App() {\n  const [ok, setOk] = useState(false);\n  return (\n    <label>\n      <input type="checkbox" checked={ok} onChange={e => setOk(e.target.checked)} />\n      {ok ? "ჩართულია" : "გამორთულია"}\n    </label>\n  );\n}',
+      gen(rng, k) {
+        if (k < 12) {
+          const P = [['agree', '✅ თანახმა ვარ', '⬜ არ ვარ თანახმა'], ['dark', '🌙 მუქი თემა', '☀️ ნათელი თემა'], ['sound', '🔊 ხმა ჩართულია', '🔇 ხმა გამორთულია']][k % 3], set = 'set' + P[0][0].toUpperCase() + P[0].slice(1);
+          const st = 'const [' + P[0] + ', ' + set + '] = useState(false);';
+          return { title: 'checkbox: ' + P[0], task: 'შექმენი checkbox (checked={' + P[0] + '}, onChange → e.target.checked) და <p>: ' + P[0] + ' ? „' + P[1] + '“ : „' + P[2] + '“.', starter: rStart(null, st), acts: [[['click', 'input']], [['click', 'input'], ['click', 'input']]],
+            solution: rApp('<div>\n  <input type="checkbox" checked={' + P[0] + '} onChange={e => ' + set + '(e.target.checked)} />\n  <p>{' + P[0] + ' ? ' + rq(P[1]) + ' : ' + rq(P[2]) + '}</p>\n</div>', null, st),
+            checks: [W('თავიდან „' + P[2] + '“', h => hasText(h, 'p', P[2])), W('მონიშვნის შემდეგ „' + P[1] + '“', h => hasText(h.s[1], 'p', P[1]) && h.s[1].q('input').hasAttribute('checked')), W('ორჯერ — ისევ „' + P[2] + '“', h => hasText(h.s[2], 'p', P[2])), W('checked და e.target.checked', h => rHas(h, /checked\s*=\s*\{/) && rHas(h, /e\s*\.\s*target\s*\.\s*checked/))],
+            hints: ['<input type="checkbox" checked={' + P[0] + '} onChange={e => ' + set + '(e.target.checked)} />', '<p>{' + P[0] + ' ? ' + rq(P[1]) + ' : ' + rq(P[2]) + '}</p>'] };
+        }
+        const opts = picks(rng, WB.cities, 3), v = ['city', 'place', 'town'][k % 3];
+        const pre = 'const options = ' + rArr(opts) + ';', st = 'const [' + v + ', set' + v[0].toUpperCase() + v.slice(1) + '] = useState(options[0]);';
+        const s = { title: 'select: ' + opts.join(' / '), task: 'შექმენი <select value={' + v + '}> — ვარიანტები options-იდან (map → <option>), onChange ცვლის ' + v + '-ს. ქვემოთ <p>„არჩეულია: …“.', starter: rApp('<div>\n  \n</div>', pre, st) + '\n', acts: [[['type', 'select', opts[2]]], [['type', 'select', opts[1]]]],
+          solution: rApp('<div>\n  <select value={' + v + '} onChange={e => set' + v[0].toUpperCase() + v.slice(1) + '(e.target.value)}>\n    {options.map(o => <option key={o}>{o}</option>)}\n  </select>\n  <p>არჩეულია: {' + v + '}</p>\n</div>', pre, st),
+          checks: [W('სამი ვარიანტი', h => rSame(h, 'select option', opts)), W('თავიდან „არჩეულია: ' + opts[0] + '“', h => hasText(h, 'p', 'არჩეულია: ' + opts[0])), W('„' + opts[2] + '“-ის არჩევისას — „არჩეულია: ' + opts[2] + '“', h => hasText(h.s[1], 'p', 'არჩეულია: ' + opts[2])), W('„' + opts[1] + '“-ის არჩევისას — „არჩეულია: ' + opts[1] + '“', h => hasText(h.s[2], 'p', 'არჩეულია: ' + opts[1]))],
+          hints: ['<select value={' + v + '} onChange={e => …(e.target.value)}>', '{options.map(o => <option key={o}>{o}</option>)}'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-lift', icon: '🔗', name: 'state და props ერთად', topic: 'მშობელი → შვილი', a: '#2f8f6f', gate: 10,
+      theory: 'state ხშირად მშობელ კომპონენტშია (App), შვილებს კი props-ით გადაეცემა: მნიშვნელობა — value={count}, ფუნქცია — onPlus={() => setCount(count + 1)}. შვილი ფუნქციას თავის ღილაკზე იძახებს: <button onClick={onPlus}>.',
+      example: 'function Show({ value }) {\n  return <p>{value}</p>;\n}\n\nfunction App() {\n  const [n, setN] = useState(0);\n  return (\n    <div>\n      <Show value={n} />\n      <button onClick={() => setN(n + 1)}>+</button>\n    </div>\n  );\n}',
+      gen(rng, k) {
+        const L = pick(rng, ['ქულა', 'სიცოცხლე', 'ენერგია', 'დონე']), s0 = ri(rng, 0, 5), c = 2 + k % 3, d = 1 + k % 2;
+        const pre = 'function Display({ value }) {\n  return <p className="display">' + L + ': {value}</p>;\n}\n\nfunction PlusButton({ onPlus }) {\n  return <button onClick={onPlus}>+' + d + '</button>;\n}';
+        const st = 'const [count, setCount] = useState(' + s0 + ');';
+        const s = { title: L + ': Display + PlusButton', task: 'შექმენი Display({ value }) — <p className="display">„' + L + ': {value}“</p>, და PlusButton({ onPlus }) — <button onClick={onPlus}>+' + d + '</button>. state count (თავიდან ' + s0 + ') App-შია: <Display value={count} /> და <PlusButton onPlus={() => setCount(count + ' + d + ')} />.', starter: rStart(null, st), acts: [Array.from({ length: c }, () => ['click', 'button'])],
+          solution: rApp('<div>\n  <Display value={count} />\n  <PlusButton onPlus={() => setCount(count + ' + d + ')} />\n</div>', pre, st),
+          checks: [W('თავიდან „' + L + ': ' + s0 + '“', h => hasText(h, 'p.display', L + ': ' + s0)), W(c + ' დაჭერის შემდეგ — „' + L + ': ' + (s0 + c * d) + '“', h => hasText(h.s[1], 'p.display', L + ': ' + (s0 + c * d))), W('Display იღებს value-ს', h => rHas(h, /<Display\b[^>]*\bvalue\s*=\s*\{\s*count\s*\}/)), W('PlusButton იღებს onPlus-ს', h => rHas(h, /<PlusButton\b[^>]*\bonPlus\s*=/) && rHas(h, /onClick\s*=\s*\{\s*onPlus\s*\}/))],
+          hints: ['function PlusButton({ onPlus }) { return <button onClick={onPlus}>+' + d + '</button>; }', '<PlusButton onPlus={() => setCount(count + ' + d + ')} />'] };
+        return rFin(rng, k, s);
+      } },
+    { key: 'r-derived', icon: '🧠', name: 'გამოთვლილი მნიშვნელობები', topic: 'Number(...) და გამოთვლა', a: '#c05a3c', gate: 11,
+      theory: 'ველიდან ყოველთვის ტექსტი მოდის — „3“ და არა 3. რიცხვად Number(text) აქცევს. გამოთვლილ მნიშვნელობას state არ სჭირდება — ის პირდაპირ JSX-ში გამოითვლება: {Number(a) + Number(b)}.',
+      example: 'function App() {\n  const [a, setA] = useState("");\n  return (\n    <div>\n      <input value={a} onChange={e => setA(e.target.value)} />\n      <p>ორმაგი: {Number(a) * 2}</p>\n    </div>\n  );\n}',
+      gen(rng, k) {
+        if (k < 12) {
+          const op = ['+', '*'][k % 2], x = ri(rng, 2, 12), y = ri(rng, 2, 9), L = op === '+' ? 'ჯამი' : 'ნამრავლი', r = op === '+' ? x + y : x * y;
+          const st = 'const [a, setA] = useState("");\nconst [b, setB] = useState("");';
+          return { title: L + ': a ' + op + ' b', task: 'ორი <input> (a და b) და <p>„' + L + ': …“ — Number(a) ' + op + ' Number(b). მაგ. ' + x + ' და ' + y + ' → „' + L + ': ' + r + '“.', starter: rStart(null, st), acts: [[['type', 'input', String(x), 0], ['type', 'input', String(y), 1]]],
+            solution: rApp('<div>\n  <input value={a} onChange={e => setA(e.target.value)} />\n  <input value={b} onChange={e => setB(e.target.value)} />\n  <p>' + L + ': {Number(a) ' + op + ' Number(b)}</p>\n</div>', null, st),
+            checks: [W('ორი ველი', h => h.qa('input').length === 2), W(x + ' და ' + y + ' → „' + L + ': ' + r + '“', h => hasText(h.s[1], 'p', L + ': ' + r)), W('ტექსტი რიცხვად: Number(…)', h => rHas(h, /Number\s*\(|parseInt\s*\(|parseFloat\s*\(/))],
+            hints: ['ველიდან ტექსტი მოდის: "3" + "4" = "34"! Number("3") + Number("4") = 7.', '<p>' + L + ': {Number(a) ' + op + ' Number(b)}</p>'] };
+        }
+        const [it, price] = pick(rng, R_ITEMS), q = ri(rng, 2, 6);
+        const st = 'const [qty, setQty] = useState("");';
+        const s = { title: 'ფასის კალკულატორი: ' + it, task: 'ერთი ' + it + ' ' + price + ' ₾ ღირს. <input>-ში რაოდენობას წერენ, <p>-ში კი ჩანდეს „სულ: N ₾“ — Number(qty) * ' + price + '.', starter: rStart('const PRICE = ' + price + ';', st), acts: [[['type', 'input', String(q)]]],
+          solution: rApp('<div>\n  <input value={qty} onChange={e => setQty(e.target.value)} />\n  <p>სულ: {Number(qty) * PRICE} ₾</p>\n</div>', 'const PRICE = ' + price + ';', st),
+          checks: [W('თავიდან „სულ: 0 ₾“', h => hasText(h, 'p', 'სულ: 0 ₾')), W(q + ' ცალი → „სულ: ' + q * price + ' ₾“', h => hasText(h.s[1], 'p', 'სულ: ' + q * price + ' ₾')), W('ფასი PRICE-დან და Number-ით', h => rHas(h, /PRICE/) && rHas(h, /Number\s*\(|parseInt\s*\(/))],
+          hints: ['Number(qty) * PRICE', '<p>სულ: {Number(qty) * PRICE} ₾</p>'] };
+        return rFin(rng, k, s);
+      } }
+  ];
+  const WEB_TOPICS = { html: H_TOPICS.concat(H_TOPICS2), css: C_TOPICS.concat(C_TOPICS2), react: R_TOPICS };
 
 
   /* ---------- ბაგები თემის ბოლო ლეველისთვის (გლიჩის გამოცდა) ---------- */
@@ -13999,7 +14648,7 @@ const Drill = (() => {
 
   /* ---------- ლეველის აწყობა ---------- */
   const id = (lang, n) => 'drill-' + lang + '-' + n;
-  function parse(lid) { const m = /^drill-(js|py|java|c|cpp|ts|cs|go|rs|php|rb|swift|kt|lua|dart|html|css)-(\d+)$/.exec(String(lid)); return m && +m[2] >= 1 && +m[2] <= N ? { lang: m[1], n: +m[2] } : null; }
+  function parse(lid) { const m = /^drill-(js|py|java|c|cpp|ts|cs|go|rs|php|rb|swift|kt|lua|dart|html|css|react)-(\d+)$/.exec(String(lid)); return m && +m[2] >= 1 && +m[2] <= N ? { lang: m[1], n: +m[2] } : null; }
   const seedRng = (lang, n) => mulberry32(hashStr('drill:' + lang + ':' + n));
   function skeleton(lang, spec, types) {
     const given = Object.keys(spec.given || {}).map(v => (lang === 'py' ? pyName(v) : NL_IDS.includes(lang) ? nlVarName(lang, v) : v));
@@ -14032,7 +14681,7 @@ const Drill = (() => {
       id: id(lang, n), drill: true, course: lang, lang, num: n, index: n - 1, topic: ti + 1, inTopic: k + 1, finale: k === PER - 1,
       practice: true, boss: !!s.boss, web: true, world: 1, maps: [], goal: {}, title: s.title, story: s.story || pick(rng, WEB_STORY[lang]),
       theory: s.theory || T.theory, example: s.example || T.example || '', task: s.task, starter: s.starter || '', html: s.html, base: s.base || '',
-      checks: s.checks, require: s.require || [], forbid: [], hints: (s.hints || []).concat([s.solution]), solution: s.solution
+      checks: s.checks, acts: s.acts || null, require: s.require || [], forbid: [], hints: (s.hints || []).concat([s.solution]), solution: s.solution
     };
     return lv;
   }
@@ -14937,6 +15586,16 @@ const WEB_CHAPTERS = {
     { icon: '📦', name: 'ყუთების საწყობი', topic: 'ყუთის მოდელი და ჩარჩო', a: '#7a6a8a', n: 2 },
     { icon: '📐', name: 'განლაგების კოშკი', topic: 'ცენტრი და Flexbox', a: '#3a7bd5', n: 2 },
     { icon: '👾', name: 'ბიტის ბარათი', topic: 'ბოსი', a: '#b54848', n: 1 }
+  ],
+  react: [
+    { icon: '⚛️', name: 'JSX-ის ველი', topic: 'კომპონენტი და {}', a: '#1c9cc0', n: 2 },
+    { icon: '🧩', name: 'კომპონენტების ქალაქი', topic: 'კომპონენტები და props', a: '#6b5fc7', n: 2 },
+    { icon: '📋', name: 'სიების ბაზარი', topic: 'map და key', a: '#d9822b', n: 2 },
+    { icon: '🔀', name: 'პირობების გზაჯვარედინი', topic: '? : და &&', a: '#2f8f6f', n: 1 },
+    { icon: '🖱️', name: 'მოვლენების ქარხანა', topic: 'onClick და useState', a: '#c05a3c', n: 3 },
+    { icon: '⌨️', name: 'ფორმების ფოსტა', topic: 'input და onChange', a: '#3a7bd5', n: 1 },
+    { icon: '⏱️', name: 'ეფექტების კოშკი', topic: 'useEffect', a: '#b8577f', n: 1 },
+    { icon: '👾', name: 'ბიტის დავალებები', topic: 'ბოსი', a: '#b54848', n: 1 }
   ]
 };
 /* ---------- კურსის გეგმა: ყოველი ენის 500 ლეველი თავებად (რუკის კუნძულები) ----------
@@ -15254,6 +15913,18 @@ const CHEATS = {
     { t: 'განლაგება', d: 'text-align: center — ტექსტი ცენტრში; margin: 0 auto — ბლოკი ცენტრში.', ex: '.title {\n  text-align: center;\n}' },
     { t: 'Flexbox', d: 'display: flex — ერთ რიგში; justify-content — განაწილება; gap — დაშორება.', ex: '.row {\n  display: flex;\n  justify-content: space-between;\n  gap: 8px;\n}' },
     { t: '/* კომენტარი */', d: 'CSS-ში კომენტარი /* და */ შორის იწერება.', ex: '/* მთავარი ფერები */' }
+  ],
+  react: [
+    { t: 'კომპონენტი', d: 'დიდი ასოთი დაწყებული ფუნქცია, რომელიც JSX-ს აბრუნებს. მთავარი — App.', ex: 'function App() {\n  return <h1>გამარჯობა!</h1>;\n}' },
+    { t: 'JSX და {}', d: 'HTML-ის მსგავსი კოდი; {}-ში JavaScript. class → className, ცარიელი თეგი — <img />.', ex: '<p className="note">{name}: {2 + 3}</p>' },
+    { t: 'props', d: 'კომპონენტის მონაცემები. ტექსტი — ბრჭყალებში, რიცხვი/ცვლადი — {}-ში.', ex: 'function Hero({ name }) {\n  return <p>{name}</p>;\n}\n\n<Hero name="ბიტი" />' },
+    { t: 'სია: map', d: 'მასივიდან ელემენტები; ყოველს უნიკალური key.', ex: '{items.map(x => <li key={x}>{x}</li>)}' },
+    { t: 'პირობა', d: '? : — ორიდან ერთი; && — მხოლოდ თუ მართალია.', ex: '{ok ? <p>კი</p> : <p>არა</p>}\n{n > 0 && <span>{n}</span>}' },
+    { t: 'onClick', d: 'ფუნქციას აწვდი, არ იძახებ: onClick={f} ან onClick={() => …}.', ex: '<button onClick={() => console.log("კი!")}>დააჭირე</button>' },
+    { t: 'useState', d: '[მნიშვნელობა, შემცვლელი]; შეცვლისას კომპონენტი თავიდან იხატება.', ex: 'const [count, setCount] = useState(0);\nsetCount(count + 1);' },
+    { t: 'input', d: 'value — state-დან, onChange — state-ში.', ex: '<input value={text} onChange={e => setText(e.target.value)} />' },
+    { t: 'სიაში დამატება', d: 'ახალი მასივი (push არა!).', ex: 'setItems([...items, text]);' },
+    { t: 'useEffect', d: 'ეფექტი ხატვის შემდეგ; [x] — თავიდან, როცა x იცვლება.', ex: 'useEffect(() => {\n  document.title = "ქულა: " + score;\n}, [score]);' }
   ]
 };
 const Cheat = {
@@ -15287,10 +15958,344 @@ function fmtDataLine(lang, k, v, t) {
 
 /* ---------- ვებ-გადახედვა (HTML/CSS) და შემოწმება ---------- */
 const WEB_BASE = 'body{font-family:system-ui,-apple-system,"Segoe UI","Noto Sans Georgian",sans-serif;margin:16px;line-height:1.5;color:#000;background:#fff}table{border-collapse:collapse}th,td{border:1px solid #c8ced6;padding:4px 10px}img{max-width:100%}';
+/* ---------- React: JSX → React.createElement (პატარა კომპილატორი) და გაშვება იზოლირებულ iframe-ში ----------
+   მოსწავლის კოდი ჩვეულებრივი React-ია: function App() { return (<h1>…</h1>); }. import/export ხაზები შეიძლება
+   დარჩეს (გამოტოვდება). iframe-ს მხოლოდ სკრიპტების უფლება აქვს (allow-scripts, საკუთარი origin-ის გარეშე) —
+   შედეგს (HTML-ის „ფოტოს“), console.log-ს და შეცდომებს postMessage-ით გვიგზავნის. შემოწმებისას ყოველი
+   სცენარი (lv.acts: [['click', 'button'], ['type', 'input', 'ტექსტი']]) ახალ App-ზე სრულდება. */
+const REACT_CDN = ['https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js'];
+function jsxCompile(input) {
+  // import/export — რეალურ პროექტებში ასე იწერება; აქ React უკვე ჩატვირთულია
+  const src = String(input).replace(/\r\n?/g, '\n').split('\n').map(l =>
+    /^\s*import\s[^;]*?\bfrom\s*['"][^'"]+['"]\s*;?\s*$/.test(l) || /^\s*import\s*['"][^'"]+['"]\s*;?\s*$/.test(l) ? ''
+      : l.replace(/^(\s*)export\s+default\s+(?=(async\s+)?function\b|class\b)/, '$1').replace(/^(\s*)export\s+(?=(async\s+)?function\b|const\b|let\b|var\b|class\b)/, '$1').replace(/^\s*export\s+default\s+[A-Za-z_$][\w$]*\s*;?\s*$/, '')).join('\n');
+  const n = src.length, warnings = [];
+  let i = 0;
+  const lineAt = p => src.slice(0, p).split('\n').length;
+  const fail = (msg, p) => { const e = new Error(msg); e.cqLine = lineAt(p == null ? i : p); throw e; };
+  const isId0 = c => /[A-Za-z_$]/.test(c || ''), isId = c => /[\w$]/.test(c || '');
+  // ამ ნიშნების/სიტყვების შემდეგ გამოსახულება იწყება: „<“ — JSX-ია, „/“ — regex
+  const EXPR_PREV = /^(|[(\[{,;:?=!&|+\-*%~^<>]|return|yield|default|case|else|do|typeof|void|in|of|new|throw|await)$/;
+  const ENT = { nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", copy: '©', hellip: '…', mdash: '—', ndash: '–', times: '×', laquo: '«', raquo: '»' };
+  const decode = s => s.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (m, e) => (e[0] === '#' ? String.fromCodePoint(e[1] === 'x' || e[1] === 'X' ? parseInt(e.slice(2), 16) : +e.slice(1)) : ENT[e.toLowerCase()] != null ? ENT[e.toLowerCase()] : m));
+  const ws = () => { let s = ''; while (i < n && /\s/.test(src[i])) { if (src[i] === '\n') s += '\n'; i++; } return s; };
+  function str(q) {
+    const st = i++;
+    while (i < n && src[i] !== q) { if (src[i] === '\\') i++; else if (src[i] === '\n') fail('ბრჭყალი ' + q + ' არ დაიხურა', st); i++; }
+    if (i >= n) fail('ბრჭყალი ' + q + ' არ დაიხურა', st);
+    return src.slice(st, ++i);
+  }
+  function tpl() {
+    const st = i++;
+    let out = '`';
+    while (i < n && src[i] !== '`') {
+      if (src[i] === '\\') { out += src[i] + (src[i + 1] || ''); i += 2; continue; }
+      if (src[i] === '$' && src[i + 1] === '{') { i += 2; out += '${' + js(true) + '}'; i++; continue; }
+      out += src[i++];
+    }
+    if (i >= n) fail('ტექსტი `...` არ დაიხურა', st);
+    i++;
+    return out + '`';
+  }
+  function regex() {
+    const st = i++;
+    let cls = false;
+    while (i < n && (cls || src[i] !== '/')) { if (src[i] === '\\') i++; else if (src[i] === '[') cls = true; else if (src[i] === ']') cls = false; else if (src[i] === '\n') fail('regex /.../ არ დაიხურა', st); i++; }
+    i++;
+    while (isId(src[i])) i++;
+    return src.slice(st, i);
+  }
+  // ჩვეულებრივი JavaScript: სტრიქონები, კომენტარები, JSX; ციკლებს უსასრულობისგან დაცვა (__g) ემატება
+  function js(stop) {
+    let out = '', depth = 0, prev = '', paren = 0, loopWait = -1, loopReady = false;
+    while (i < n) {
+      const c = src[i];
+      if (c === ' ' || c === '\t' || c === '\n') { out += c; i++; continue; }
+      if (c === '/' && src[i + 1] === '/') { const e = src.indexOf('\n', i), end = e < 0 ? n : e; out += src.slice(i, end); i = end; continue; }
+      if (c === '/' && src[i + 1] === '*') { const e = src.indexOf('*/', i + 2); if (e < 0) fail('კომენტარი /* არ დაიხურა */-ით'); out += src.slice(i, e + 2); i = e + 2; continue; }
+      if (loopReady && c !== '{') loopReady = false;
+      if (c === '"' || c === "'") { out += str(c); prev = 'v'; continue; }
+      if (c === '`') { out += tpl(); prev = 'v'; continue; }
+      if (c === '/' && EXPR_PREV.test(prev)) { out += regex(); prev = 'v'; continue; }
+      if (c === '<' && EXPR_PREV.test(prev) && (isId0(src[i + 1]) || src[i + 1] === '>')) { out += elem(); prev = 'v'; continue; }
+      if (isId0(c)) {
+        let j = i; while (j < n && isId(src[j])) j++;
+        const w = src.slice(i, j);
+        out += w; i = j;
+        if (prev !== '.' && (w === 'for' || w === 'while')) loopWait = paren;
+        if (prev !== '.' && w === 'do') loopReady = true;
+        prev = w; continue;
+      }
+      if (/\d/.test(c)) { let j = i; while (j < n && /[\w.]/.test(src[j])) j++; out += src.slice(i, j); i = j; prev = 'v'; continue; }
+      if (c === '{') {
+        depth++; out += '{'; i++; prev = '{';
+        if (loopReady) { out += '__g();'; loopReady = false; }
+        continue;
+      }
+      if (c === '}') { if (!depth && stop) return out; depth--; }
+      if (c === '(') paren++;
+      if (c === ')') { paren--; if (loopWait >= 0 && paren === loopWait) { loopWait = -1; loopReady = true; out += c; i++; prev = ')'; continue; } }
+      if (c === ')' || c === ']') { out += c; i++; prev = ')'; continue; }
+      out += c; i++; prev = c;
+    }
+    if (stop) fail('„{“ არ დაიხურა „}“-ით');
+    return out;
+  }
+  const tagName = () => { const m = /^[A-Za-z_$][\w$]*(?:[.:-][\w$]+)*/.exec(src.slice(i)); if (!m) return ''; i += m[0].length; return m[0]; };
+  // JSX ტექსტის ჰარები: ხაზების დასაწყისი/ბოლო იჭრება, ცარიელი ხაზები ქრება (როგორც Babel-ში)
+  function jsxText(raw) {
+    const lines = raw.replace(/\t/g, ' ').split('\n');
+    let res = '';
+    lines.forEach((l, k) => {
+      let t = l;
+      if (k > 0) t = t.replace(/^\s+/, '');
+      if (k < lines.length - 1) t = t.replace(/\s+$/, '');
+      if (t) res += (res ? ' ' : '') + t;
+    });
+    return res;
+  }
+  function elem() {
+    const st = i++;
+    let nl = ws();
+    if (src[i] === '>') { i++; return 'React.createElement(React.Fragment, null' + nl + children('', st) + ')'; }
+    const name = tagName();
+    if (!name) fail('ტეგის სახელი აკლია: <…>', st);
+    const type = /^[a-z][\w-]*$/.test(name) ? JSON.stringify(name) : name;
+    let props = '';
+    const add = (s, before) => { props += (props ? ', ' : '') + before + s; };
+    for (;;) {
+      nl = ws();
+      if (i >= n) fail('<' + name + '> არ დაიხურა — „>“ აკლია', st);
+      if (src[i] === '/' && src[i + 1] === '>') { i += 2; return 'React.createElement(' + type + ', ' + (props ? '{' + props + '}' : 'null') + ')' + nl; }
+      if (src[i] === '>') { i++; return 'React.createElement(' + type + ', ' + (props ? '{' + props + '}' : 'null') + nl + children(name, st) + ')'; }
+      if (src[i] === '{') {
+        const p = i; i++;
+        const pre = ws();
+        if (src.slice(i, i + 3) !== '...') fail('ტეგში {…} მხოლოდ ასე შეიძლება: {...props}', p);
+        i += 3;
+        const e = js(true); i++;
+        add('...' + e, nl + pre); continue;
+      }
+      const ap = i, m = /^[A-Za-z_$][\w$:-]*/.exec(src.slice(i));
+      if (!m) fail('„' + src[i] + '“ აქ მოულოდნელია — ტეგი <' + name + '> ჯერ არ დახურულა', i);
+      const an = m[0]; i += an.length;
+      // ხშირი შეცდომები: class → className, for → htmlFor, onclick → onClick
+      const fix = { class: 'className', for: 'htmlFor', onclick: 'onClick', onchange: 'onChange', oninput: 'onInput', onsubmit: 'onSubmit', tabindex: 'tabIndex', readonly: 'readOnly', maxlength: 'maxLength' }[an];
+      if (fix && type[0] === '"') warnings.push({ msg: 'React-ში ' + an + '-ის ნაცვლად ' + fix + ' იწერება', line: lineAt(ap) });
+      const before = nl + ws();
+      let val = 'true';
+      if (src[i] === '=') {
+        i++; ws();
+        if (src[i] === '"' || src[i] === "'") { const q = src[i], e = src.indexOf(q, i + 1); if (e < 0) fail('ატრიბუტის ბრჭყალი ' + q + ' არ დაიხურა', i); val = JSON.stringify(decode(src.slice(i + 1, e))); i = e + 1; }
+        else if (src[i] === '{') { const p = i; i++; const e = js(true); i++; if (!e.trim()) fail('ატრიბუტში ' + an + '={} ცარიელია', p); val = '(' + e + ')'; }
+        else if (src[i] === '<') val = elem();
+        else fail('ატრიბუტის მნიშვნელობა ბრჭყალებში ან {…}-ში იწერება: ' + an + '="…" ან ' + an + '={…}', i);
+      }
+      add((/^[A-Za-z_$][\w$]*$/.test(an) ? an : JSON.stringify(an)) + ': ' + val, before);
+    }
+  }
+  function children(name, st) {
+    let out = '';
+    for (;;) {
+      if (i >= n) fail(name ? '<' + name + '> არ დაიხურა — აკლია </' + name + '>' : '<> არ დაიხურა — აკლია </>', st);
+      if (src[i] === '<' && src[i + 1] === '/') {
+        const p = i; i += 2; ws();
+        const cn = tagName(); ws();
+        if (src[i] !== '>') fail('დამხურავ ტეგს </' + cn + '> „>“ აკლია', p);
+        i++;
+        if (cn !== name) fail(name ? 'დამხურავი </' + (cn || '') + '> არ ემთხვევა <' + name + '>-ს' + (cn ? ' — ჯერ <' + name + '> დახურე' : '') : 'ფრაგმენტი <> იხურება </>-ით', p);
+        return out;
+      }
+      if (src[i] === '<') { out += ', ' + elem(); continue; }
+      if (src[i] === '{') {
+        i++;
+        const e = js(true); i++;
+        if (e.replace(/\/\*[\s\S]*?\*\//g, '').trim()) out += ', (' + e + ')';
+        else out += e.replace(/[^\n]/g, '');
+        continue;
+      }
+      let j = i; while (j < n && src[j] !== '<' && src[j] !== '{') j++;
+      const raw = src.slice(i, j), t = jsxText(raw), nls = raw.replace(/[^\n]/g, '');
+      i = j;
+      out += (t ? ', ' + JSON.stringify(decode(t)) : '') + nls;
+    }
+  }
+  try {
+    const code = js(false);
+    return { code, warnings };
+  } catch (e) {
+    return { error: { message: e.message, line: e.cqLine || 0 }, warnings };
+  }
+}
+// React-ის და JavaScript-ის შეცდომები ქართულად (iframe-შიც ეშვება — სხვა ცვლადებს არ იყენებს)
+function reactErrKa(m) {
+  m = String(m || '');
+  var R = [
+    [/^NO_APP$/, 'App კომპონენტი ვერ ვიპოვე. დაწერე: function App() { return (...); }'],
+    [/^NO_REACT$/, 'React ვერ ჩაიტვირთა — შეამოწმე ინტერნეტი და თავიდან სცადე.'],
+    [/^TIMEOUT$/, 'კოდი ძალიან დიდხანს მუშაობს — იქნებ უსასრულო ციკლია?'],
+    [/^INFINITE_LOOP$/, 'უსასრულო ციკლი: ციკლი არ მთავრდება — შეამოწმე პირობა.'],
+    [/React error #31\b|Objects are not valid as a React child/, 'ობიექტს JSX-ში პირდაპირ ვერ აჩვენებ — აჩვენე მისი ველი, მაგ. {user.name}.'],
+    [/React error #(130|152|306)\b|Element type is invalid/, 'კომპონენტი ვერ მოიძებნა: სახელი დიდი ასოთი იწყება და ფუნქცია განსაზღვრულია?'],
+    [/React error #301\b|Too many re-renders/, 'უსასრულო გადახატვა: setState-ს კომპონენტის ტანში ნუ იძახებ. ღილაკზე: onClick={() => f()} და არა onClick={f()}.'],
+    [/React error #321\b|Invalid hook call/, 'Hook-ი (useState, useEffect) მხოლოდ კომპონენტის შიგნით, ზედა დონეზე გამოიძახე.'],
+    [/React error #185\b|Maximum update depth/, 'უსასრულო განახლება: useEffect-ში state ყოველ ჯერზე იცვლება — დაამატე დამოკიდებულებების სია, მაგ. [].'],
+    [/^([\w$]+) is not defined$/, '„$1“ განსაზღვრული არ არის — შეამოწმე სახელი (დიდი და პატარა ასოებიც).'],
+    [/^([\w$.]+) is not a function$/, '„$1“ ფუნქცია არ არის.'],
+    [/^([\w$.]+) is not iterable/, '„$1“ სია (მასივი) არ არის.'],
+    [/Cannot read propert(?:y|ies) of (undefined|null) \(reading '([^']+)'\)/, '$1-ის ველს „$2“ ვერ წაიკითხავ — შეამოწმე props-ის და ცვლადების სახელები.'],
+    [/Assignment to constant variable/, 'const ცვლადს ახალ მნიშვნელობას ვერ მიანიჭებ — state-ისთვის useState გამოიყენე.'],
+    [/Unexpected end of input/, 'კოდი უეცრად დასრულდა — რომელიღაც { ან ( არ დაიხურა.'],
+    [/Unexpected token '([^']+)'/, 'სინტაქსის შეცდომა: „$1“ აქ მოულოდნელია — შეამოწმე ფრჩხილები და მძიმეები.'],
+    [/Unexpected (?:identifier|string|number) '?([^']*)'?/, 'სინტაქსის შეცდომა: „$1“ აქ მოულოდნელია — მძიმე, ფრჩხილი ან ოპერატორი ხომ არ აკლია?'],
+    [/missing \) after argument list/, 'ფრჩხილი „)“ აკლია.']
+  ];
+  for (var k = 0; k < R.length; k++) { var x = m.match(R[k][0]); if (x) return R[k][1].replace(/\$(\d)/g, function (_, d) { return x[+d] || ''; }); }
+  return m;
+}
+// iframe-ის შიგნით გაშვებული კოდი (toString-ით ჩაიდება; გარე ცვლადებს არ იყენებს)
+function REACT_HARNESS(ka) {
+  var C = window.__CFG, post = function (m) { m.cqReact = C.tok; try { parent.postMessage(m, '*'); } catch (e) { /* მშობელი არ არის */ } };
+  var show = function (v) { try { return typeof v === 'string' ? v : v === undefined ? 'undefined' : typeof v === 'function' ? 'ƒ ' + (v.name || '') : JSON.stringify(v); } catch (e) { return String(v); } };
+  var curS = 0;
+  console.log = console.info = function () { post({ t: 'log', s: curS, text: Array.prototype.map.call(arguments, show).join(' ') }); };
+  console.error = console.warn = function () {};
+  var reported = false;
+  var lineOf = function (e) { var m = /<anonymous>:(\d+):\d+/.exec((e && e.stack) || ''); return m ? Math.max(1, +m[1] - 2) : 0; };
+  var report = function (e) {
+    if (reported) return; reported = true;
+    var msg = String((e && e.message) || e), line = lineOf(e);
+    post({ t: 'err', msg: msg, line: line, syntax: e instanceof SyntaxError });
+    if (C.mode === 'preview') { document.body.innerHTML = '<div class="cq-err"><b></b><pre></pre></div>'; document.querySelector('.cq-err b').textContent = '⚠️ შეცდომა' + (line ? ' (ხაზი ' + line + ')' : ''); document.querySelector('.cq-err pre').textContent = ka(msg); }
+  };
+  window.addEventListener('error', function (ev) { report(ev.error || ev.message); ev.preventDefault(); });
+  window.addEventListener('unhandledrejection', function (ev) { report(ev.reason); });
+  if (!window.React || !window.ReactDOM || !ReactDOM.createRoot) { report('NO_REACT'); return; }
+  var count = 0, guard = function () { if (++count > 3e6) throw new Error('INFINITE_LOOP'); };
+  var App, R = Object.assign({}, React, { createElement: function (t, p) {
+    var a = Array.prototype.slice.call(arguments);
+    if (t === 'img' && p && p.src === 'bit.svg' && C.bit) a[1] = Object.assign({}, p, { src: C.bit, 'data-cq-src': 'bit.svg' });
+    return React.createElement.apply(React, a);
+  } });
+  try {
+    App = new Function('React', 'ReactDOM', 'useState', 'useEffect', 'useRef', 'useMemo', 'useCallback', 'useReducer', 'Fragment', '__g', window.__SRC + '\n;return typeof App === "function" ? App : null;')(
+      R, ReactDOM, React.useState, React.useEffect, React.useRef, React.useMemo, React.useCallback, React.useReducer, React.Fragment, guard);
+  } catch (e) { report(e); return; }
+  if (!App) { report('NO_APP'); return; }
+  class Boundary extends React.Component {
+    constructor(p) { super(p); this.state = { e: null }; }
+    static getDerivedStateFromError(e) { return { e: e }; }
+    componentDidCatch(e) { report(e); }
+    render() { return this.state.e ? null : this.props.children; }
+  }
+  var tick = function (ms) { return new Promise(function (r) { setTimeout(r, ms || 0); }); };
+  var mount = function () {
+    document.body.innerHTML = '<div id="root"></div>';
+    var el = document.getElementById('root'), root = ReactDOM.createRoot(el);
+    ReactDOM.flushSync(function () { root.render(React.createElement(Boundary, null, React.createElement(App))); });
+    return { el: el, root: root };
+  };
+  var act = function (a) {
+    if (a[0] === 'wait') return tick(a[1]);
+    var all = document.querySelectorAll(a[1]), el = all[a[0] === 'click' ? a[2] || 0 : a[3] || 0];
+    if (!el) return tick(0);
+    if (a[0] === 'click') el.click();
+    else if (a[0] === 'type') {
+      var proto = el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : el.tagName === 'SELECT' ? HTMLSelectElement.prototype : HTMLInputElement.prototype;
+      Object.getOwnPropertyDescriptor(proto, 'value').set.call(el, a[2]);
+      el.dispatchEvent(new Event(el.tagName === 'SELECT' ? 'change' : 'input', { bubbles: true }));
+    } else if (a[0] === 'submit') el.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+    return tick(15);
+  };
+  var snap = function (el) {
+    el.querySelectorAll('input,textarea,select').forEach(function (x) {
+      if (x.type === 'checkbox' || x.type === 'radio') { if (x.checked) x.setAttribute('checked', ''); else x.removeAttribute('checked'); } else x.setAttribute('value', x.value);
+    });
+    // „ფოტოში“ სურათს ისევ bit.svg ეწერება (template-ში — სურათი თავიდან არ ჩაიტვირთება)
+    var t = document.createElement('template');
+    t.innerHTML = el.innerHTML;
+    t.content.querySelectorAll('img[data-cq-src]').forEach(function (x) { x.setAttribute('src', x.getAttribute('data-cq-src')); x.removeAttribute('data-cq-src'); });
+    return { html: t.innerHTML, title: document.title };
+  };
+  (async function () {
+    if (C.mode === 'preview') { try { mount(); } catch (e) { report(e); } return; }
+    var snaps = [];
+    for (var s = 0; s < C.scen.length; s++) {
+      var m;
+      curS = s;
+      try { m = mount(); } catch (e) { report(e); return; }
+      await tick(25);
+      for (var k = 0; k < C.scen[s].length && !reported; k++) await act(C.scen[s][k]);
+      await tick(25);
+      if (reported) return;
+      snaps.push(snap(m.el));
+      try { m.root.unmount(); } catch (e) { /* უკვე მოხსნილია */ }
+    }
+    post({ t: 'done', snaps: snaps });
+  })();
+}
+const ReactRun = {
+  hidden() {
+    if (!this.hf || !this.hf.isConnected) { this.hf = document.createElement('iframe'); this.hf.setAttribute('sandbox', 'allow-scripts'); this.hf.setAttribute('aria-hidden', 'true'); this.hf.tabIndex = -1; this.hf.style.cssText = 'position:fixed;left:-10000px;top:0;width:640px;height:480px;border:0'; document.body.appendChild(this.hf); }
+    return this.hf;
+  },
+  doc(code, o) {
+    const comp = typeof code === 'string' ? jsxCompile(code) : code;
+    const cfg = JSON.stringify({ tok: (o && o.tok) || '', scen: (o && o.scen) || [], mode: (o && o.mode) || 'preview', bit: WebPreview.bit() }).replace(/</g, '\\u003c');
+    const head = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>' + WEB_BASE +
+      '.cq-err{margin:12px;padding:12px 14px;border-radius:10px;background:#fff0f0;border:2px solid #e03131;color:#9b1c1c;font:15px/1.5 system-ui,"Noto Sans Georgian",sans-serif}.cq-err pre{margin:6px 0 0;white-space:pre-wrap;font:inherit}</style>';
+    if (comp.error) return head + '</head><body><div class="cq-err"><b>⚠️ JSX-ის შეცდომა' + (comp.error.line ? ' (ხაზი ' + comp.error.line + ')' : '') + '</b><pre>' + esc(comp.error.message) + '</pre></div></body></html>';
+    return head + REACT_CDN.map(u => '<script src="' + u + '"><\/script>').join('') + '</head><body><div id="root"></div><script>window.__CFG=' + cfg + ';window.__SRC=' +
+      JSON.stringify(comp.code).replace(/</g, '\\u003c') + ';(' + REACT_HARNESS.toString() + ')(' + reactErrKa.toString() + ');<\/script></body></html>';
+  },
+  // კოდის გაშვება და სცენარების „ფოტოები“: { snaps: [{ html, title }], logs } ან { err: { message, line }, logs }
+  exec(frame, comp, scen, timeout) {
+    return new Promise(resolve => {
+      const tok = Math.random().toString(36).slice(2), logs = [], byS = [];
+      let done = false;
+      const fin = r => { if (done) return; done = true; removeEventListener('message', on); clearTimeout(tm); r.logs = logs; r.byS = byS; resolve(r); };
+      const on = e => {
+        const m = e.data;
+        if (!m || m.cqReact !== tok || e.source !== frame.contentWindow) return;
+        if (m.t === 'log') { if (logs.length < 200) logs.push(m.text); (byS[m.s || 0] = byS[m.s || 0] || []).push(m.text); }
+        else if (m.t === 'done') fin({ snaps: m.snaps });
+        else if (m.t === 'err') fin({ err: { message: m.msg, line: m.line, syntax: m.syntax } });
+      };
+      addEventListener('message', on);
+      const tm = setTimeout(() => fin({ err: { message: 'TIMEOUT' } }), timeout || 9000);
+      frame.setAttribute('sandbox', 'allow-scripts');
+      frame.srcdoc = this.doc(comp, { tok, scen, mode: 'check' });
+    });
+  },
+  // „ფოტოდან“ შემოწმების დამხმარე, იგივე, რაც HTML-ში: h.q, h.qa, h.t, h.cs (inline სტილი), h.src, h.logs, h.title
+  helper(snap, src, logs) {
+    const d = new DOMParser().parseFromString('<!DOCTYPE html><html><head></head><body>' + snap.html + '</body></html>', 'text/html');
+    return { d, src: String(src), logs: logs || [], title: snap.title || '', q: sel => d.querySelector(sel), qa: sel => Array.from(d.querySelectorAll(sel)),
+      cs: (el, p) => (el ? el.style.getPropertyValue(p) : ''), t: el => WEB_NORM(el ? el.textContent : '') };
+  },
+  async check(lv, code, frame) {
+    const bad = err => { const r = lv.checks.map(c => ({ msg: c.msg, ok: false })); r.err = err; return r; };
+    const comp = jsxCompile(code);
+    if (comp.error) return Object.assign(bad(comp.error), { warnings: comp.warnings });
+    const out = await this.exec(frame, comp, [[]].concat(lv.acts || []));
+    if (out.err) {
+      // სინტაქსის შეცდომის ზუსტი ხაზი
+      if (out.err.syntax && typeof syntaxInfo === 'function') { const info = await syntaxInfo(comp.code); if (info) { out.err.message = String(info.message).replace(/^(Uncaught )?(SyntaxError: )?(Failed to execute 'appendChild' on 'Node': )?/, ''); out.err.line = Math.max(1, (info.line || 2) - 1); } }
+      return Object.assign(bad(out.err), { logs: out.logs, warnings: comp.warnings });
+    }
+    const hs = out.snaps.map((s, k) => this.helper(s, code, out.byS[k] || [])), h = hs[0];
+    h.all = out.logs;
+    h.s = hs;
+    const res = lv.checks.map(c => { let ok = false; try { ok = !!c.test(h); } catch (e) { ok = false; } return { msg: c.msg, ok }; });
+    res.logs = out.logs; res.warnings = comp.warnings;
+    return res;
+  }
+};
 const WebPreview = {
   bitUrl: null,
   bit() { return this.bitUrl || (this.bitUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(bitSVG({ hat: 'none', antenna: 'ball', body: SKINS[0].body, dark: SKINS[0].dark }))); },
   doc(lv, code) {
+    if (lv.lang === 'react') return ReactRun.doc(code, { mode: 'preview' });
     const fix = h => String(h).replace(/(\bsrc\s*=\s*)(["'])bit\.svg\2/gi, (m, a, q) => a + q + this.bit() + q + ' data-cq-src="bit.svg"').replace(/\bsrc\s*=\s*(["'])(bit-(?:song|video)\.(?:mp3|mp4))\1/gi, (m, q, f) => 'data-cq-src=' + q + f + q);
     if (lv.lang === 'css') return '<!DOCTYPE html><html><head><meta charset="utf-8"><style>' + WEB_BASE + (lv.base || '') + '</style><style>' + String(code).replace(/<\/style/gi, '<\\/style') + '</style></head><body>' + fix(lv.html || '') + '</body></html>';
     const body = fix(code), style = '<style>' + WEB_BASE + '</style>';
@@ -15306,7 +16311,14 @@ const WebPreview = {
       setTimeout(fin, 2000);
     });
   },
+  // გადახედვა: React-ს სკრიპტები სჭირდება (საკუთარი origin-ის გარეშე), HTML/CSS-ს — არა
+  show(frame, lv, code) {
+    frame.setAttribute('sandbox', lv.lang === 'react' ? 'allow-scripts' : 'allow-same-origin');
+    frame.srcdoc = this.doc(lv, code);
+  },
   async check(lv, code, frame) {
+    if (lv.lang === 'react') return ReactRun.check(lv, code, frame);
+    frame.setAttribute('sandbox', 'allow-same-origin');
     await this.load(frame, this.doc(lv, code));
     const d = frame.contentDocument, w = frame.contentWindow;
     if (!d || !w) return lv.checks.map(c => ({ msg: c.msg, ok: false }));
@@ -15626,7 +16638,8 @@ const KEYS = {
   swift: ['(', ')', '{', '}', '"', '=', '+', '-', '<', '>', '..<', '[', ']', '.', ',', '!', ':'],
   kt: ['(', ')', '{', '}', '"', '=', '+', '-', '<', '>', '..', '[', ']', '.', ',', '!', ':', '$'],
   lua: ['(', ')', '"', '=', '+', '-', '<', '>', '..', '[', ']', '{', '}', ',', '#', '~='],
-  dart: ['(', ')', ';', '{', '}', "'", '=', '+', '-', '<', '>', '[', ']', '.', ',', '!', '$', '~/']
+  dart: ['(', ')', ';', '{', '}', "'", '=', '+', '-', '<', '>', '[', ']', '.', ',', '!', '$', '~/'],
+  react: ['<', '>', '/', '{', '}', '(', ')', '=', '"', '=>', '.', ',', ';', '?', ':', '&&', '[', ']']
 };
 const ENCOURAGE = ['არაუშავს — შეცდომა სწავლის ნაწილია! 💪', 'თითქმის გამოგივიდა, კიდევ ერთხელ სცადე!', 'ყოველი შეცდომა რაღაც ახალს გასწავლის.', 'პროფესიონალი პროგრამისტებიც ყოველდღე ცდებიან — ეს ნორმალურია!', 'ნაბიჯ-ნაბიჯ რეჟიმი ⏯ დაგეხმარება, დაინახო, სად იბნევა ბიტი.'];
 const SBX_TOOLS = [
@@ -15861,7 +16874,7 @@ function asmTokens(src, lang) {
       while ((m = re.exec(code))) {
         if (m[2]) out.push({ t: m[2], k: 'num' });
         else if (m[3]) out.push({ t: m[3], k: /^\s*\(/.test(code.slice(re.lastIndex)) ? 'fn' : HL_KW.has(m[3]) ? 'kw' : 'id' });
-        else if (m[4] || /^[=:{}<>+]$/.test(m[5] || '')) out.push({ t: m[0], k: 'op' });
+        else if (m[4] || (lang === 'react' ? /^[=:+]$/ : /^[=:{}<>+]$/).test(m[5] || '')) out.push({ t: m[0], k: 'op' });
         else fix(m[0]);
       }
     }
@@ -15889,7 +16902,8 @@ const ASM_KW = {
   lua: ['function', 'local', 'if', 'then', 'else', 'elseif', 'end', 'for', 'while', 'do', 'print', 'return'],
   dart: ['void', 'var', 'int', 'if', 'else', 'for', 'while', 'return', 'print', 'final'],
   html: ['p', 'h1', 'h2', 'h3', 'a', 'img', 'ul', 'ol', 'li', 'div', 'span', 'strong', 'em', 'table', 'tr', 'td', 'form', 'input', 'button', 'label', 'href', 'src', 'alt', 'title', 'body', 'head', 'header', 'footer', 'main', 'section', 'nav'],
-  css: ['color', 'background-color', 'font-size', 'font-family', 'font-weight', 'margin', 'padding', 'border', 'width', 'height', 'display', 'gap', 'red', 'blue', 'green', 'center', 'flex', 'bold', 'none', 'block', '10px', '16px', '20px', 'solid']
+  css: ['color', 'background-color', 'font-size', 'font-family', 'font-weight', 'margin', 'padding', 'border', 'width', 'height', 'display', 'gap', 'red', 'blue', 'green', 'center', 'flex', 'bold', 'none', 'block', '10px', '16px', '20px', 'solid'],
+  react: ['useState', 'useEffect', 'return', 'function', 'const', 'map', 'filter', 'onClick', 'onChange', 'className', 'value', 'key', 'props', 'children', 'div', 'p', 'h1', 'h2', 'li', 'ul', 'button', 'input', 'span', 'App', 'true', 'false']
 };
 const ASM_OPS = ['=', '==', ':', '{', '}', '<', '>', '+', '!=', '<=', '>=', '+=', '++'];
 // დეტერმინირებული შემთხვევითობა (ერთ ლეველზე ყოველთვის ერთნაირი ამოცანა)
@@ -15900,7 +16914,9 @@ function asmPlan(lv) {
   const PRI = { fn: 5, tag: 5, prop: 5, kw: 4, attr: 4, val: 4, id: 3, sel: 3, num: 2, op: 1 };
   let line = 0;
   const cands = [];
-  toks.forEach((x, i) => { if (x.k && x.t.length <= 18) cands.push({ i, line, pri: PRI[x.k] + rnd() * 1.5 }); line += (x.t.match(/\n/g) || []).length; });
+  // React-ში function/App/return ყველა გაკვეთილშია — ბლოკებად ჯობს გაკვეთილის ახალი სიტყვები (useState, onClick, map…)
+  const boil = w => lang === 'react' && /^(function|App|return|const|let|div)$/.test(w);
+  toks.forEach((x, i) => { if (x.k && x.t.length <= 18) cands.push({ i, line, pri: (boil(x.t) ? 0.5 : PRI[x.k]) + rnd() * 1.5 }); line += (x.t.match(/\n/g) || []).length; });
   const n = Math.min(6, Math.ceil(cands.length * 0.6));
   const perLine = {}, picked = [];
   for (const c of cands.slice().sort((a, b) => b.pri - a.pri)) {
@@ -16276,7 +17292,7 @@ const Game = {
     const next = $('#g-learn-next'); next.disabled = false; next.textContent = this.learnKind === 'type' ? '✍️ ახლა შენ გადაწერე →' : '🧩 ახლა ააწყე →';
     this.typewrite(String(lv.example).replace(/\s+$/, ''), lang, () => {
       $('#g-demo-skip').classList.add('hidden');
-      if (lv.web) { const f = $('#g-demo-web'); f.srcdoc = WebPreview.doc(lv, lv.example); f.classList.remove('hidden'); return; }
+      if (lv.web) { const f = $('#g-demo-web'); WebPreview.show(f, lv, lv.example); f.classList.remove('hidden'); return; }
       if (usesRobot(lv)) { this.demoBoard(tok); return; }
       runExample(lv).then(logs => {
         if (!logs || tok !== this.learnTok) return;
@@ -16728,9 +17744,8 @@ const Game = {
   /* ---- ვებ-გაკვეთილი: გადახედვა და შემოწმება ---- */
   webPreview() {
     if (!this.cur || !this.cur.web) return;
-    const f = $('#g-frame');
-    f.srcdoc = WebPreview.doc(this.cur, Editor.get());
-    $('#g-url').textContent = this.cur.lang === 'css' ? 'ბიტის-სტილი.html' : 'ბიტის-გვერდი.html';
+    WebPreview.show($('#g-frame'), this.cur, Editor.get());
+    $('#g-url').textContent = this.cur.lang === 'react' ? 'localhost:3000 — ბიტის-აპი' : this.cur.lang === 'css' ? 'ბიტის-სტილი.html' : 'ბიტის-გვერდი.html';
   },
   renderChecks(res) {
     const list = this.cur.checks || [];
@@ -16742,9 +17757,14 @@ const Game = {
     Editor.clearMarks();
     Con.clear();
     Progress.P.stats.runs++;
-    const res = await WebPreview.check(this.cur, code, $('#g-frame'));
+    const react = this.cur.lang === 'react';
+    const res = await WebPreview.check(this.cur, code, react ? ReactRun.hidden() : $('#g-frame'));
     this.setBusy(false);
     this.renderChecks(res);
+    // React: console.log-ის შედეგი, გაფრთხილებები (class → className) და შეცდომები ქართულად
+    (res.logs || []).forEach(l => Con.log(l));
+    (res.warnings || []).forEach(w => Con.warn(w.msg, w.line));
+    if (res.err) return this.onFail({ kind: 'error', msg: reactErrKa(res.err.message), line: res.err.line }, -1, 1);
     res.forEach(r => (r.ok ? Con.ok(r.msg) : Con.error(r.msg)));
     const bad = res.find(r => !r.ok);
     if (bad) { this.onFail({ kind: 'goal', msg: 'ჯერ არ გამოვიდა: ' + bad.msg }, -1, 1); return; }

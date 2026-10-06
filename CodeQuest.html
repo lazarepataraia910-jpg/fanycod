@@ -550,6 +550,9 @@ html[data-theme="dark"] #scr-drill.active{background:linear-gradient(180deg,#1a2
 .topic-card.full{background:color-mix(in srgb,var(--ia) 8%,var(--panel))}
 .progress.sm{height:7px}
 @media (max-width:520px){.drill-banner{flex-wrap:wrap}.drill-banner .btn{flex:1 1 100%}.topic-grid{grid-template-columns:1fr}}
+
+.tier-h{margin:22px 0 0;font-size:1.05rem;display:flex;align-items:baseline;gap:8px}
+.tier-h small{font-weight:600;font-size:.82rem}
 </style>
 </head>
 <body>
@@ -6321,7 +6324,8 @@ const ACHIEVEMENTS = [
   { id: 'course_css', ic: '🎨', t: 'ვებ-დიზაინერი', d: 'დაასრულე CSS-ის კურსი' },
   { id: 'drill10', ic: '🏋️', t: 'მოვარჯიშე', d: 'გაიარე 10 ლეველი ვარჯიშის ბანაკში' },
   { id: 'drill100', ic: '🥇', t: 'ასი ვარჯიში', d: 'გაიარე 100 ლეველი ვარჯიშის ბანაკში' },
-  { id: 'drill500', ic: '🏅', t: 'ბანაკის ჩემპიონი', d: 'ერთ ენაზე გაიარე ვარჯიშის ბანაკის ყველა 500 ლეველი' }
+  { id: 'drill500', ic: '🏅', t: 'ბანაკის ჩემპიონი', d: 'ერთ ენაზე გაიარე ვარჯიშის ბანაკის 500 ლეველი' },
+  { id: 'drill1000', ic: '💎', t: 'ბანაკის ლეგენდა', d: 'ერთ ენაზე გაიარე ვარჯიშის ბანაკის ყველა 1000 ლეველი' }
 ];
 const RANKS = [
   { name: 'დამწყები', xp: 0, ic: '🐣' },
@@ -6362,7 +6366,7 @@ const EDITOR_THEMES = [
    შემოწმება: CodeQuest.testDrills() — ყველა ამოხსნა ყველა ტესტზე.
    ===================================================================== */
 const Drill = (() => {
-  const N = 500, PER = 25;
+  const N = 1000, PER = 25;
   const ROBOT = ['js', 'py', 'java', 'c', 'cpp'];
   const LANG_LIST = ['js', 'py', 'java', 'c', 'cpp', 'html', 'css'];
   const ri = (rng, a, b) => a + Math.floor(rng() * (b - a + 1));
@@ -6378,6 +6382,7 @@ const Drill = (() => {
     call: (name, ...a) => ({ s: 'call', name, a }),
     def: (name, params, body, ret) => ({ s: 'def', name, params, body, ret: !!ret }),
     ret: e => ({ s: 'ret', e }),
+    retv: () => ({ s: 'retv' }),
     let: (name, e, t) => ({ s: 'let', name, e, t: t || 'int' }),
     set: (name, e) => ({ s: 'set', name, e }),
     add: (name, e) => ({ s: 'add', name, e }),
@@ -6465,6 +6470,7 @@ const Drill = (() => {
         case 'add': return line(d, nm(st.name) + ' += ' + E(st.e) + semi);
         case 'inc': return line(d, py ? nm(st.name) + ' += 1' : nm(st.name) + '++;');
         case 'ret': return line(d, 'return ' + E(st.e) + semi);
+        case 'retv': return line(d, 'return' + semi);
         case 'note': return line(d, (py ? '# ' : '// ') + st.t);
         case 'print': return line(d, printStmt(st.parts) + semi);
         case 'rep': {
@@ -6475,7 +6481,7 @@ const Drill = (() => {
         case 'range': {
           const v = nm(st.v), to = ex(st.to);
           if (py) {
-            const end = to.e === 'num' ? String(to.v + (st.down ? -1 : 1)) : E(to, 5) + (st.down ? ' - 1' : ' + 1');
+            const end = to.e === 'num' ? String(to.v + (st.down ? -1 : 1)) : !st.down && to.e === 'bin' && to.o === '-' && ex(to.b).e === 'num' && ex(to.b).v === 1 ? E(to.a, 5) : E(to, 5) + (st.down ? ' - 1' : ' + 1');
             line(d, 'for ' + v + ' in range(' + E(st.from) + ', ' + end + (st.down ? ', -1' : '') + '):');
           } else line(d, 'for (' + (lang === 'js' ? 'let ' : 'int ') + v + ' = ' + E(st.from) + '; ' + v + (st.down ? ' >= ' : ' <= ') + E(to) + '; ' + v + (st.down ? '--' : '++') + ') {');
           return blk(st.body, d);
@@ -6540,11 +6546,11 @@ const Drill = (() => {
 
   /* ---------- ენების მიხედვით ტექსტი ---------- */
   const SYN = {
-    js: { let: 'let steps = 3;', for: 'for (let i = 0; i < 5; i++) { ... }', range: 'for (let i = 1; i <= n; i++) { ... }', while: 'while (პირობა) { ... }', whilewall: 'while (!isWallAhead()) { move(); }', if: 'if (პირობა) { ... }', ifelse: 'if (პირობა) { ... } else { ... }', def: 'function turnAround() { ... }', defp: 'function walk(n) { ... }', ret: 'function twice(x) { return x * 2; }', and: '&&', or: '||', not: '!', notp: '!', cnt: 'count++', printex: 'console.log(a + b)', orex: 'if (isCrystalHere() || isKeyHere()) { collect(); }', haskey: 'hasKey("red")', blockword: 'ფიგურულ ფრჩხილებში { }' },
-    py: { let: 'steps = 3', for: 'for i in range(5):', range: 'for i in range(1, n + 1):', while: 'while პირობა:', whilewall: 'while not is_wall_ahead(): move()', if: 'if პირობა:', ifelse: 'if პირობა: ... else: ...', def: 'def turn_around():', defp: 'def walk(n):', ret: 'def twice(x): return x * 2', and: 'and', or: 'or', not: 'not', notp: 'not ', cnt: 'count += 1', printex: 'print(a + b)', orex: 'if is_crystal_here() or is_key_here(): collect()', haskey: 'has_key("red")', blockword: 'შეწეულ (4 ჰარით) ხაზებში' },
-    java: { let: 'int steps = 3;', for: 'for (int i = 0; i < 5; i++) { ... }', range: 'for (int i = 1; i <= n; i++) { ... }', while: 'while (პირობა) { ... }', whilewall: 'while (!isWallAhead()) { move(); }', if: 'if (პირობა) { ... }', ifelse: 'if (პირობა) { ... } else { ... }', def: 'void turnAround() { ... }', defp: 'void walk(int n) { ... }', ret: 'int twice(int x) { return x * 2; }', and: '&&', or: '||', not: '!', notp: '!', cnt: 'count++', printex: 'System.out.println(a + b);', orex: 'if (isCrystalHere() || isKeyHere()) { collect(); }', haskey: 'hasKey("red")', blockword: 'ფიგურულ ფრჩხილებში { }' },
-    c: { let: 'int steps = 3;', for: 'for (int i = 0; i < 5; i++) { ... }', range: 'for (int i = 1; i <= n; i++) { ... }', while: 'while (პირობა) { ... }', whilewall: 'while (!isWallAhead()) { move(); }', if: 'if (პირობა) { ... }', ifelse: 'if (პირობა) { ... } else { ... }', def: 'void turnAround() { ... }', defp: 'void walk(int n) { ... }', ret: 'int twice(int x) { return x * 2; }', and: '&&', or: '||', not: '!', notp: '!', cnt: 'count++', printex: 'printf("%d\\n", a + b);', orex: 'if (isCrystalHere() || isKeyHere()) { collect(); }', haskey: 'hasKey("red")', blockword: 'ფიგურულ ფრჩხილებში { }' },
-    cpp: { let: 'int steps = 3;', for: 'for (int i = 0; i < 5; i++) { ... }', range: 'for (int i = 1; i <= n; i++) { ... }', while: 'while (პირობა) { ... }', whilewall: 'while (!isWallAhead()) { move(); }', if: 'if (პირობა) { ... }', ifelse: 'if (პირობა) { ... } else { ... }', def: 'void turnAround() { ... }', defp: 'void walk(int n) { ... }', ret: 'int twice(int x) { return x * 2; }', and: '&&', or: '||', not: '!', notp: '!', cnt: 'count++', printex: 'cout << a + b << endl;', orex: 'if (isCrystalHere() || isKeyHere()) { collect(); }', haskey: 'hasKey("red")', blockword: 'ფიგურულ ფრჩხილებში { }' }
+    js: { let: 'let steps = 3;', for: 'for (let i = 0; i < 5; i++) { ... }', range: 'for (let i = 1; i <= n; i++) { ... }', while: 'while (პირობა) { ... }', whilewall: 'while (!isWallAhead()) { move(); }', if: 'if (პირობა) { ... }', ifelse: 'if (პირობა) { ... } else { ... }', def: 'function turnAround() { ... }', defp: 'function walk(n) { ... }', ret: 'function twice(x) { return x * 2; }', and: '&&', or: '||', not: '!', notp: '!', cnt: 'count++', printex: 'console.log(a + b)', idiv: 'Math.floor(a / b)', orex: 'if (isCrystalHere() || isKeyHere()) { collect(); }', haskey: 'hasKey("red")', blockword: 'ფიგურულ ფრჩხილებში { }' },
+    py: { let: 'steps = 3', for: 'for i in range(5):', range: 'for i in range(1, n + 1):', while: 'while პირობა:', whilewall: 'while not is_wall_ahead(): move()', if: 'if პირობა:', ifelse: 'if პირობა: ... else: ...', def: 'def turn_around():', defp: 'def walk(n):', ret: 'def twice(x): return x * 2', and: 'and', or: 'or', not: 'not', notp: 'not ', cnt: 'count += 1', printex: 'print(a + b)', idiv: 'a // b', orex: 'if is_crystal_here() or is_key_here(): collect()', haskey: 'has_key("red")', blockword: 'შეწეულ (4 ჰარით) ხაზებში' },
+    java: { let: 'int steps = 3;', for: 'for (int i = 0; i < 5; i++) { ... }', range: 'for (int i = 1; i <= n; i++) { ... }', while: 'while (პირობა) { ... }', whilewall: 'while (!isWallAhead()) { move(); }', if: 'if (პირობა) { ... }', ifelse: 'if (პირობა) { ... } else { ... }', def: 'void turnAround() { ... }', defp: 'void walk(int n) { ... }', ret: 'int twice(int x) { return x * 2; }', and: '&&', or: '||', not: '!', notp: '!', cnt: 'count++', printex: 'System.out.println(a + b);', idiv: 'a / b', orex: 'if (isCrystalHere() || isKeyHere()) { collect(); }', haskey: 'hasKey("red")', blockword: 'ფიგურულ ფრჩხილებში { }' },
+    c: { let: 'int steps = 3;', for: 'for (int i = 0; i < 5; i++) { ... }', range: 'for (int i = 1; i <= n; i++) { ... }', while: 'while (პირობა) { ... }', whilewall: 'while (!isWallAhead()) { move(); }', if: 'if (პირობა) { ... }', ifelse: 'if (პირობა) { ... } else { ... }', def: 'void turnAround() { ... }', defp: 'void walk(int n) { ... }', ret: 'int twice(int x) { return x * 2; }', and: '&&', or: '||', not: '!', notp: '!', cnt: 'count++', printex: 'printf("%d\\n", a + b);', idiv: 'a / b', orex: 'if (isCrystalHere() || isKeyHere()) { collect(); }', haskey: 'hasKey("red")', blockword: 'ფიგურულ ფრჩხილებში { }' },
+    cpp: { let: 'int steps = 3;', for: 'for (int i = 0; i < 5; i++) { ... }', range: 'for (int i = 1; i <= n; i++) { ... }', while: 'while (პირობა) { ... }', whilewall: 'while (!isWallAhead()) { move(); }', if: 'if (პირობა) { ... }', ifelse: 'if (პირობა) { ... } else { ... }', def: 'void turnAround() { ... }', defp: 'void walk(int n) { ... }', ret: 'int twice(int x) { return x * 2; }', and: '&&', or: '||', not: '!', notp: '!', cnt: 'count++', printex: 'cout << a + b << endl;', idiv: 'a / b', orex: 'if (isCrystalHere() || isKeyHere()) { collect(); }', haskey: 'hasKey("red")', blockword: 'ფიგურულ ფრჩხილებში { }' }
   };
   // {move} → move() / {turnLeft} → turn_left() ...; {openDoor=count} → open_door(count); {hasKey:red} → hasKey("red");
   // {fn:name} → ფუნქციის სახელი; [for] → ენის სინტაქსი (SYN)
@@ -6585,6 +6591,7 @@ const Drill = (() => {
       else if (k === 'or') out.push(R(py ? /\bor\b/ : /\|\|/, 'გამოიყენე „ან“ ოპერატორი: ' + SYN[lang].or));
       else if (k === 'not') out.push(R(py ? /\bnot\b/ : /!(?!=)/, 'გამოიყენე „არა“ ოპერატორი: ' + SYN[lang].not));
       else if (k === 'def') out.push(R(defRe(lang, a), 'შექმენი ფუნქცია: ' + fnSig(lang, a, b)));
+      else if (k === 'recur') out.push(RT(src => countMatches(src, new RegExp('\\b' + nm(a) + '\\s*\\(', 'g')) >= 3, 'ფუნქცია ' + nm(a) + '() საკუთარ თავს უნდა იძახებდეს — ეს არის რეკურსია!'));
       else if (k === 'calls') out.push(RT(src => countMatches(src, new RegExp('\\b' + nm(a) + '\\s*\\(', 'g')) >= b + 1, 'გამოიძახე ' + nm(a) + '() მინიმუმ ' + b + '-ჯერ — მხოლოდ შექმნა საკმარისი არ არის!'));
       else if (k === 'ret') out.push(R(/\breturn\b/, 'ფუნქციამ პასუხი return-ით უნდა დააბრუნოს.'));
       else if (k === 'var') out.push(R(new RegExp('\\b' + nm(a) + '\\b'), b || 'გამოიყენე ცვლადი ' + nm(a) + '.'));
@@ -7486,6 +7493,564 @@ const Drill = (() => {
   ];
 
 
+  /* ---------- რობოტის თემები, II საფეხური (21–40): ახალი მექანიკები და რთული ამოცანები ---------- */
+  Object.assign(RT_STORY, {
+    mirror: ['სარკის ოთახში ბიტს ასლი გაუჩნდა 🪞 — ორივეს ერთი კოდი მართავს!', 'გლიჩმა სარკე ჩადგა. ასლი ყველაფერს უკუღმა აკეთებს.', 'ორი ბიტი, ორი მიზანი, ერთი პროგრამა.'],
+    tele: ['კოდლენდში ტელეპორტები გაჩნდა ✨ — ერთზე შედიხარ, მეორიდან გამოდიხარ.', 'კედლის მიღმა გზა არ ჩანს... მაგრამ ტელეპორტი იქ მიგიყვანს!', 'პროფესორი ლოგიკა ტელეპორტების ქსელს ამოწმებს.'],
+    big: ['დიდი რუკა, ბევრი მოსახვევი და ბევრი კრისტალი.', 'ბიტი შორეულ ექსპედიციაში მიდის.', 'ამ ველს ბოლო არ უჩანს!'],
+    go: ['ბიტმა კომპასით სიარული ისწავლა 🧭 — ზემოთ, ქვემოთ, მარცხნივ, მარჯვნივ.', 'მოსახვევები აღარ გჭირდება — მხოლოდ მიმართულება!', 'რუკაზე ისრები ჩანს — მიჰყევი მათ.'],
+    coords: ['ბიტს GPS აქვს 📍: იცის, სადაა თვითონ და სადაა დროშა.', 'დროშა ყოველ ტესტში სხვაგანაა, მაგრამ კოორდინატები არ ტყუის.', 'რიცხვებით ნავიგაცია — ნამდვილი რობოტივით.'],
+    calc: ['კოდლენდის ბანკს ზუსტი გამოთვლები სჭირდება.', 'წამები, წუთები, ხურდა — ყველგან მთელი გაყოფაა.', 'პროფესორი ლოგიკა კალკულატორს ამოწმებს.'],
+    chain: ['დერეფანში ყველაფერი შეიძლება შეგხვდეს — ბიტმა ყოველ უჯრაზე უნდა აირჩიოს.', 'ხაფანგი, კარი, კრისტალი თუ ბაგი? ერთი ციკლი ყველაფერს უნდა უმკლავდეს.', 'გლიჩის დერეფანი სიურპრიზებითაა სავსე.'],
+    bugs: ['გლიჩმა რუკაზე ბაგები 🐞 დატოვა — გაასწორე ყველა!', 'ბაგების ნადირობა იწყება.', 'სადაც ბაგია, იქ ხელსაწყო გჭირდება.'],
+    room: ['ბიტი ოთახის კედლებს მიჰყვება და კუთხეებს ითვლის.', 'ოთახის ზომა ყოველ ჯერზე სხვაა.', 'ოთახის პერიმეტრზე კრისტალები ბრწყინავს.'],
+    snake: ['ბიტი ველს გველივით ამუშავებს 🐍 — რიგი რიგის მიყოლებით.', 'ბაღში კრისტალები მწკრივებადაა დარგული.', 'ყოველ რიგს ბოლოს ბიტი შემობრუნდება.'],
+    light: ['ქალაქის ქუჩაზე შუქნიშანია 🚦 — მისი რიტმი არავინ იცის.', 'მწვანეზე — წინ, წითელზე — მოიცადე.', 'შუქნიშნის დერეფანი კრისტალებით.'],
+    rec: ['ფუნქცია, რომელიც საკუთარ თავს იძახებს — რეკურსია 🔁!', 'პროფესორი ლოგიკა: „დიდი ამოცანა = პატარა ნაბიჯი + იგივე ამოცანა, ოღონდ პატარა“.', 'რეკურსია სარკეში სარკეს ჰგავს.'],
+    funcloop: ['ფუნქცია ციკლში — ყოველ წრეზე სხვა რიცხვით.', 'კიბე, რომლის საფეხურები სულ უფრო გრძელდება.', 'ხელოსნის სახელოსნოში დიდი პროექტი იწყება.'],
+    maze: ['ნამდვილი ლაბირინთი განშტოებებით! 🌀 მარჯვენა ხელი კედელზე — და გზას იპოვი.', 'ლაბირინთის მცველი: „ყოველ ჯერზე ახალი ლაბირინთი!“', 'გლიჩის ლაბირინთში ჩიხები ბევრია.'],
+    guess2: ['საიდუმლო რიცხვი ძალიან დიდ შუალედშია — დაითვალე, რამდენ ცდაში გამოიცნობ.', 'ორობითი ძებნა: ყოველი ცდა შუალედს ორად ჰყოფს.', 'პროფესორს ცდების რაოდენობა აინტერესებს.'],
+    sort2: ['ბიბლიოთეკარს დალაგების სტატისტიკა სჭირდება 📚.', 'რამდენი გაცვლა დასჭირდა? დალაგებულია თუ არა?', 'წიგნების თაროები ისევ არეულია.'],
+    arr2: ['რიცხვების სია — ბევრი ამოცანა.', 'მასივის ყველა ელემენტს თავისი ადგილი აქვს.', 'საწყობის აღწერა მასივებითაა შედგენილი.'],
+    digits: ['რიცხვის ციფრები ერთმანეთს ეჯიბრება.', 'ნაშთი და მთელი გაყოფა — ციფრების ჯადოქრობა.', 'პალინდრომი ორივე მხრიდან ერთნაირად იკითხება!'],
+    multi: ['მრავალსაფეხურიანი მისია: დათვალე, გააღე, გადაახტი.', 'გლიჩის ციხის გზა რამდენიმე ნაწილისგან შედგება.', 'ყოველ ნაწილს თავისი ალგორითმი სჭირდება.'],
+    mix2: ['ოსტატის გამოცდა: ყველაფერი, რაც ისწავლე.', 'გლიჩის ციხის უმაღლესი კოშკი.', 'მხოლოდ ლეგენდები აღწევენ აქამდე.']
+  });
+  // გზა მოცემული წერტილიდან, მოცემულ ჩარჩოში (box: {x0, x1, y0, y1}); first — პირველ მონაკვეთს მოხვევა შეიძლება ჰქონდეს
+  function pathFrom(rng, box, start, nSeg, minL, maxL, first) {
+    for (let t = 0; t < 600; t++) {
+      const segs = [];
+      for (let i = 0; i < nSeg; i++) segs.push({ turn: i || first ? pick(rng, i ? ['L', 'R'] : ['L', 'R', null]) : null, len: ri(rng, minL, maxL) });
+      const w = walk(start, segs);
+      if (w.cells.some(c => c.x < box.x0 || c.y < box.y0 || c.x > box.x1 || c.y > box.y1)) continue;
+      if (new Set(w.cells.map(keyOf)).size !== w.cells.length) continue;
+      return { start, segs, cells: w.cells, ends: w.ends, dir: w.dir };
+    }
+    return null;
+  }
+  // move(n) იყოფა იქ, სადაც კრისტალია: move(2); collect(); move(3)
+  function pathBodySplit(p, at) {
+    const body = []; let idx = 0;
+    p.segs.forEach(s => {
+      if (s.turn) body.push(turn(s.turn));
+      let run = 0;
+      for (let i = 0; i < s.len; i++) { idx++; run++; if (at.has(idx)) { body.push(mv(run), C('collect')); run = 0; } }
+      if (run) body.push(mv(run));
+    });
+    return body;
+  }
+  const ABS = { east: 'right', west: 'left', north: 'up', south: 'down' };
+  const ABS_KA = { right: 'მარჯვნივ', left: 'მარცხნივ', up: 'ზემოთ', down: 'ქვემოთ' };
+  // სრულყოფილი ლაბირინთი (DFS): ყოველ უჯრამდე ზუსტად ერთი გზა მიდის
+  function maze(rng, cw, ch) {
+    const W = cw * 2 + 1, H = ch * 2 + 1, g = grid(W, H, '#'), seen = new Set();
+    const st = [[0, 0]]; seen.add('0,0'); g[1][1] = '.';
+    while (st.length) {
+      const [cx, cy] = st[st.length - 1];
+      const nb = [[1, 0], [-1, 0], [0, 1], [0, -1]].map(([dx, dy]) => [cx + dx, cy + dy, dx, dy]).filter(([x, y]) => x >= 0 && y >= 0 && x < cw && y < ch && !seen.has(x + ',' + y));
+      if (!nb.length) { st.pop(); continue; }
+      const [nx, ny, dx, dy] = pick(rng, nb);
+      g[cy * 2 + 1 + dy][cx * 2 + 1 + dx] = '.'; g[ny * 2 + 1][nx * 2 + 1] = '.';
+      seen.add(nx + ',' + ny); st.push([nx, ny]);
+    }
+    return { g, W, H };
+  }
+  // BFS მანძილები ღია უჯრებზე
+  function bfsFar(g, sx, sy) {
+    const H = g.length, W = g[0].length, dist = new Map([[sx + ',' + sy, 0]]), q = [[sx, sy]];
+    let far = [sx, sy];
+    while (q.length) {
+      const [x, y] = q.shift(), d = dist.get(x + ',' + y);
+      if (d > dist.get(far[0] + ',' + far[1])) far = [x, y];
+      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const nx = x + dx, ny = y + dy; if (nx >= 0 && ny >= 0 && nx < W && ny < H && g[ny][nx] !== '#' && !dist.has(nx + ',' + ny)) { dist.set(nx + ',' + ny, d + 1); q.push([nx, ny]); } }
+    }
+    return far;
+  }
+  const bsCount = (N2, s) => { let lo = 1, hi = N2, r = 1, c = 0; while (r !== 0) { const m = Math.floor((lo + hi) / 2); c++; r = m === s ? 0 : s > m ? 1 : -1; if (r === 1) lo = m + 1; else if (r === -1) hi = m - 1; } return c; };
+
+  const RT_TOPICS2 = [
+    { key: 'mirror', icon: '🪞', name: 'სარკის ასლი', topic: 'ორი ბიტი, ერთი კოდი', a: '#6b5fc7', world: 1, gate: { drill: 1 },
+      theory: 'სარკის ოთახში ბიტს ასლი ჰყავს. ასლი შენს ყოველ ნაბიჯს იმეორებს, ოღონდ სარკესავით: როცა ბიტი მარცხნივ უხვევს, ასლი მარჯვნივ უხვევს, და პირიქით. თუ ასლის წინ კედელი ან რუკის კიდეა, ის ადგილზე რჩება. მიზანი: ბიტი — დროშამდე 🏁, ასლი — სამიზნემდე 🎯.',
+      example: [C('move'), C('turnLeft'), C('move')],
+      gen(rng, k) {
+        const W = k < 10 ? 9 : 11, H = k < 6 ? 5 : k < 16 ? 6 : 7, nSeg = k < 4 ? 2 : k < 12 ? 3 : k < 20 ? 4 : 5;
+        for (let t = 0; t < 400; t++) {
+          const sx = ri(rng, 0, 2), sy = ri(rng, 1, H - 2);
+          const p = pathFrom(rng, { x0: 0, x1: (W >> 1) - 1, y0: 0, y1: H - 1 }, { x: sx, y: sy, dir: 'east' }, nSeg, 1, k < 8 ? 2 : 3, false);
+          if (!p) continue;
+          const g = grid(W, H), on = new Set(p.cells.map(keyOf));
+          const mx = W - 1 - sx, my = sy;
+          g.forEach((r, y) => r.forEach((_, x) => { if (!on.has(x + ',' + y) && !(x === mx && y === my) && rng() < 0.06 + k * 0.006) r[x] = '#'; }));
+          // ასლის მოძრაობის სიმულაცია: მოხვევები საპირისპიროა, დაბრკოლებასთან რჩება
+          let m = { x: mx, y: my, dir: 'west' }, moved = 0;
+          for (const s of p.segs) {
+            if (s.turn) m.dir = s.turn === 'L' ? ROF[m.dir] : LOF[m.dir];
+            for (let i = 0; i < s.len; i++) { const nx = m.x + DV[m.dir][0], ny = m.y + DV[m.dir][1]; if (nx >= 0 && ny >= 0 && nx < W && ny < H && g[ny][nx] !== '#') { m.x = nx; m.y = ny; moved++; } }
+          }
+          const e = p.cells[p.cells.length - 1];
+          if (!moved || (m.x === mx && m.y === my) || (m.x === e.x && m.y === e.y) || (m.x === sx && m.y === sy)) continue;
+          g[sy][sx] = '>'; g[my][mx] = 'M'; g[e.y][e.x] = 'F'; g[m.y][m.x] = 'm';
+          const turns = p.segs.filter(s => s.turn).map(s => KA_DIR[s.turn]);
+          return { title: cyc(['სარკე', 'ორი ბიტი', 'სარკის ოთახი', 'უკუღმა ასლი', 'ორი მიზანი', 'სიმეტრია'], k), story: story(rng, 'mirror'),
+            task: 'მიიყვანე ბიტი დროშამდე 🏁, მისი ასლი კი — სამიზნემდე 🎯. ასლი სარკესავით მოძრაობს: შენს ყოველ მოხვევაზე საპირისპიროდ უხვევს. თუ ასლის წინ კედელია, ის ადგილზე რჩება.',
+            maps: [{ grid: rowsOf(g), mirrorDir: 'west' }], goal: { reach: true, mirror: true }, body: k >= 10 ? pathBody(p, { moveN: true }) : pathBody(p),
+            hints: ['ჯერ ბიტის გზა დაგეგმე — ასლი თავისით მიჰყვება.', 'ბიტის მოსახვევები: ' + (turns.join(', ') || 'არ არის') + '. ასლი ამ დროს საპირისპიროდ უხვევს.'], bugs: ['flipTurn', 'dropMove', 'numPlus'] };
+        }
+        throw new Error('mirror gen');
+      } },
+    { key: 'tele', icon: '✨', name: 'ტელეპორტები', topic: '1 ↔ 1, 2 ↔ 2', a: '#7a6a8a', world: 1, gate: { drill: 2 },
+      theory: 'ტელეპორტი წყვილებად მუშაობს: ერთნაირი ციფრის ორი უჯრა (მაგ. 1 და 1) ერთმანეთთანაა დაკავშირებული. როცა ბიტი ერთ მათგანზე გადადის, მაშინვე მეორეზე აღმოჩნდება და იმავე მიმართულებით იყურება. ასე კედლის მიღმაც მოხვდები!',
+      example: [C('move'), C('move'), C('turnLeft'), C('move')],
+      gen(rng, k) {
+        const nReg = k < 12 ? 2 : 3, RW = 4 + (k % 3), H = 5 + (k >> 3), W = nReg * RW + nReg - 1;
+        for (let t = 0; t < 300; t++) {
+          const g = grid(W, H), segs = [];
+          for (let r = 1; r < nReg; r++) for (let y = 0; y < H; y++) g[y][r * (RW + 1) - 1] = '#';
+          let start = { x: ri(rng, 0, RW - 2), y: ri(rng, 0, H - 1), dir: pick(rng, ['east', 'south', 'north']) }, ok = true;
+          const bot = { x: start.x, y: start.y, dir: start.dir }, teles = [];
+          for (let r = 0; r < nReg && ok; r++) {
+            const box = { x0: r * (RW + 1), x1: r * (RW + 1) + RW - 1, y0: 0, y1: H - 1 };
+            const p = pathFrom(rng, box, start, 1 + ri(rng, 1, 2), 1, 3, r > 0);
+            if (!p) { ok = false; break; }
+            segs.push(...p.segs);
+            const end = p.cells[p.cells.length - 1];
+            if (r < nReg - 1) {
+              const nbox = { x0: (r + 1) * (RW + 1), x1: (r + 1) * (RW + 1) + RW - 1 };
+              const b = { x: ri(rng, nbox.x0, nbox.x1), y: ri(rng, 0, H - 1) };
+              teles.push([end, b, String(r + 1)]);
+              start = { x: b.x, y: b.y, dir: p.dir };
+            } else teles.push([end, null, 'F']);
+          }
+          if (!ok) continue;
+          // გზის უჯრები (ტელეპორტების გარდა) — კრისტალებისთვის
+          const keyset = new Set(), path = [];
+          let idx = 0, cur = { x: bot.x, y: bot.y, dir: bot.dir }, bad = false;
+          const tmap = new Map(teles.filter(x => x[1]).map(x => [keyOf(x[0]), x[1]]));
+          for (const s of segs) {
+            if (s.turn) cur.dir = s.turn === 'L' ? LOF[cur.dir] : ROF[cur.dir];
+            for (let i = 0; i < s.len; i++) {
+              cur.x += DV[cur.dir][0]; cur.y += DV[cur.dir][1]; idx++;
+              const kk = keyOf(cur);
+              if (keyset.has(kk)) bad = true;
+              keyset.add(kk);
+              if (tmap.has(kk)) { const b = tmap.get(kk); cur.x = b.x; cur.y = b.y; if (keyset.has(keyOf(cur))) bad = true; keyset.add(keyOf(cur)); continue; }
+              path.push({ idx, x: cur.x, y: cur.y });
+            }
+          }
+          if (bad) continue;
+          const last = path[path.length - 1];
+          if (!last || keyOf(last) !== keyOf(teles[teles.length - 1][0])) continue;
+          teles.forEach(([a, b, ch]) => { if (b) { g[a.y][a.x] = ch; g[b.y][b.x] = ch; } });
+          g[last.y][last.x] = 'F'; g[bot.y][bot.x] = BCH[bot.dir];
+          const free = path.slice(0, -1).filter(c => g[c.y][c.x] === '.');
+          const at = new Set(shuffle(rng, free).slice(0, Math.min(free.length, 1 + (k >> 3))).map(c => c.idx));
+          path.forEach(c => { if (at.has(c.idx)) g[c.y][c.x] = '*'; });
+          const on = new Set([...keyset, keyOf(bot)]);
+          g.forEach((r, y) => r.forEach((c, x) => { if (c === '.' && !on.has(x + ',' + y) && rng() < 0.12) r[x] = '#'; }));
+          return { title: cyc(['ტელეპორტი', 'კედლის მიღმა', 'ჯადოსნური კარიბჭე', 'ორი ოთახი', 'სწრაფი გზა', 'ტელეპორტების ქსელი'], k), story: story(rng, 'tele'),
+            task: 'მიიყვანე ბიტი დროშამდე 🏁 და აიღე ყველა კრისტალი 💎. ტელეპორტზე (' + teles.filter(x => x[1]).map(x => x[2]).join(', ') + ') გადასვლისას ბიტი იმავე ციფრის მეორე უჯრაზე აღმოჩნდება.',
+            maps: [{ grid: rowsOf(g) }], goal: { reach: true, crystals: 'all' }, body: pathBody({ segs }, { at }),
+            hints: ['ტელეპორტზე გადასვლა ჩვეულებრივი ნაბიჯია — ბიტი მეორე ტელეპორტზე ჩნდება და იმავე მიმართულებით იყურება.', 'ჯერ იპოვე, საიდან იწყება გზა მეორე ტელეპორტიდან.'], bugs: ['dropMove', 'flipTurn', 'dropCollect'] };
+        }
+        throw new Error('tele gen');
+      } },
+    { key: 'big', icon: '🗺️', name: 'დიდი მარშრუტები', topic: 'move(n) და კრისტალები გზაზე', a: '#2f8f6f', world: 2, gate: { drill: 3 },
+      theory: 'დიდ რუკაზე move(n) ბევრ ხაზს გიზოგავს, მაგრამ თუ კრისტალი მონაკვეთის შუაშია, მოძრაობა ორად უნდა გაყო: move(2); collect(); move(3). დაითვალე ყოველი მონაკვეთი და ნახე, სად დევს კრისტალები. კოდის სიგრძე შეზღუდულია.',
+      example: [I.c('move', 2), C('collect'), I.c('move', 3), C('turnRight'), I.c('move', 4)],
+      gen(rng, k) {
+        const nSeg = 4 + Math.min(5, k >> 2), W = 12, H = Math.min(12, 9 + (k >> 3));
+        const p = randPath(rng, W, H, nSeg, 2, 5) || randPath(rng, W, H, 4, 2, 4);
+        const g = grid(W, H); decorate(rng, g, p.cells, 0.1 + k * 0.006);
+        const last = p.cells.length - 1;
+        const at = new Set(shuffle(rng, Array.from({ length: last - 1 }, (_, i) => i + 1)).slice(0, Math.min(last - 1, 3 + (k >> 2))));
+        at.forEach(i => { const c = p.cells[i]; g[c.y][c.x] = '*'; });
+        const e = p.cells[last]; g[p.start.y][p.start.x] = BCH[p.start.dir]; g[e.y][e.x] = 'F';
+        return { title: cyc(['ექსპედიცია', 'დიდი ველი', 'შორი გზა', 'კრისტალების მარშრუტი', 'მთის გადასასვლელი', 'გრძელი ლაშქრობა', 'დიდი რუკა'], k), story: story(rng, 'big'),
+          task: 'გაიარე გრძელი გზა დროშამდე 🏁 და გზად აიღე ყველა კრისტალი 💎 (სულ ' + at.size + '). კოდი მოკლე უნდა იყოს — გამოიყენე move(რიცხვი) და გაყავი იქ, სადაც კრისტალია.',
+          maps: [{ grid: rowsOf(g) }], goal: { reach: true, crystals: 'all' }, body: pathBodySplit(p, at), slack: 1,
+          hints: ['მონაკვეთები: ' + p.segs.map(s => s.len).join(', ') + '; მოსახვევები: ' + p.segs.filter(s => s.turn).map(s => KA_DIR[s.turn]).join(', ') + '.', 'თუ მონაკვეთის შუაში კრისტალია: move(რამდენიც კრისტალამდეა), {collect}, მერე move(დარჩენილი).'], bugs: ['numPlus', 'flipTurn', 'dropCollect'] };
+      } },
+    { key: 'go', icon: '🧭', name: 'მიმართულებები go()', topic: 'go("up"), go("right")...', a: '#3a7bd5', world: 9, gate: { drill: 9 },
+      theory: 'go("up") ბიტს ზემოთ წაიყვანს ერთი უჯრით — საითაც არ უნდა იყურებოდეს. მიმართულებებია "up" (ზემოთ), "down" (ქვემოთ), "left" (მარცხნივ) და "right" (მარჯვნივ). მოსახვევები აღარ გჭირდება! ციკლთან ერთად ნიმუშები სულ რამდენიმე ხაზში იწერება.',
+      example: [I.rep(3, [I.c('go', I.str('right')), I.c('go', I.str('up'))])],
+      gen(rng, k) {
+        if (k < 8) {
+          const W = 7 + (k >> 2), H = 6 + (k >> 2), p = randPath(rng, W, H, 3 + (k >> 2), 1, 3) || randPath(rng, W, H, 3, 1, 2);
+          const g = grid(W, H); decorate(rng, g, p.cells, 0.15);
+          const e = p.cells[p.cells.length - 1]; g[p.start.y][p.start.x] = BCH[pick(rng, DIRS)]; g[e.y][e.x] = 'F';
+          const body = []; for (let i = 1; i < p.cells.length; i++) { const dx = p.cells[i].x - p.cells[i - 1].x, dy = p.cells[i].y - p.cells[i - 1].y; body.push(I.c('go', I.str(dx > 0 ? 'right' : dx < 0 ? 'left' : dy > 0 ? 'down' : 'up'))); }
+          return { title: cyc(['კომპასი', 'ისრების გზა', 'ზემოთ, ქვემოთ', 'ოთხი მიმართულება', 'ნავიგატორი'], k), story: story(rng, 'go'),
+            task: 'მიიყვანე ბიტი დროშამდე 🏁 მხოლოდ go(...) ბრძანებებით — ყოველი ერთ უჯრას გადადის. ბიტის ახლანდელ მიმართულებას მნიშვნელობა არ აქვს.',
+            maps: [{ grid: rowsOf(g) }], goal: { reach: true }, body, req: [['sense', 'go']],
+            hints: ['go("right") — ერთი უჯრა მარჯვნივ, go("down") — ქვემოთ.', 'დაითვალე: რამდენი უჯრაა თითო მიმართულებით, რიგრიგობით.'], bugs: ['dropMove'] };
+        }
+        const S = 3 + (k % 4), a = 1 + ((k >> 2) % 2), up = k % 2 === 0, W = S * a + 1, H = S + 1, g = grid(W, H);
+        const y0 = up ? H - 1 : 0; g[y0][0] = pick(rng, ['>', '^', 'v']);
+        for (let i = 1; i <= S; i++) g[up ? y0 - i : y0 + i][i * a] = '*';
+        const step = [];
+        for (let j = 0; j < a; j++) step.push(I.c('go', I.str('right')));
+        step.push(I.c('go', I.str(up ? 'up' : 'down')), C('collect'));
+        return { title: (up ? 'კიბე ზემოთ' : 'კიბე ქვემოთ') + ' ×' + S, story: story(rng, 'go'),
+          task: 'კიბე ' + S + ' საფეხურისაა: ' + a + ' უჯრა მარჯვნივ, მერე 1 უჯრა ' + (up ? 'ზემოთ' : 'ქვემოთ') + ' — იქ კრისტალია 💎. გამოიყენე go(...) და ციკლი.',
+          maps: [{ grid: rowsOf(g) }], goal: { crystals: 'all' }, body: [I.rep(S, step)], req: [['loop']], slack: 1,
+          hints: ['ერთი საფეხური: ' + (a === 1 ? 'go("right")' : a + '-ჯერ go("right")') + ', go("' + (up ? 'up' : 'down') + '"), {collect}.', 'ციკლი ' + S + '-ჯერ.'], bugs: ['offByOne'] };
+      } },
+    { key: 'coords', icon: '📍', name: 'კოორდინატები', topic: '{getX}, {flagX}...', a: '#2f9488', world: 9, gate: { drill: 10 },
+      theory: 'ბიტმა იცის თავისი ადგილი: {getX} — სვეტი (მარცხნიდან, 0-დან), {getY} — რიგი (ზემოდან). {flagX} და {flagY} დროშის ადგილს გეუბნება. მანძილი = სხვაობა: move({flagX} - {getX}). ასე კოდი ნებისმიერ რუკაზე მუშაობს, თუნდაც დროშა ყოველ ჯერზე სხვაგან იყოს.',
+      example: [I.c('move', I.op('-', I.sn('flagX'), I.sn('getX')))],
+      gen(rng, k) {
+        const W = 9, H = 8, kind = k < 9 ? 0 : k < 17 ? 1 : 2;
+        const maps = Array.from({ length: 3 }, (_, i) => {
+          const g = grid(W, H), sx = ri(rng, 0, 2), sy = kind === 1 ? ri(rng, 2, H - 3) : ri(rng, 0, 2);
+          let fx = ri(rng, sx + 1, W - 1), fy = kind === 1 ? (i % 2 ? ri(rng, 0, sy - 1) : ri(rng, sy + 1, H - 1)) : ri(rng, sy + 1, H - 1);
+          g[sy][sx] = '>'; g[fy][fx] = 'F';
+          return { grid: rowsOf(g) };
+        });
+        let body, title, task, hints;
+        if (kind === 0) {
+          body = [I.c('move', I.op('-', I.sn('flagX'), I.sn('getX'))), C('turnRight'), I.c('move', I.op('-', I.sn('flagY'), I.sn('getY')))];
+          title = 'GPS: მარჯვნივ და ქვემოთ'; task = 'დროშა 🏁 ყოველთვის ბიტის მარჯვნივ და ქვემოთაა, მაგრამ ტესტებში სხვადასხვა ადგილას. გაიარე {flagX} - {getX} უჯრა, მოუხვიე მარჯვნივ და გაიარე {flagY} - {getY} უჯრა.';
+          hints = ['ჰორიზონტალური მანძილი: move({flagX} - {getX}).', 'მოხვევის შემდეგ — იგივე Y-ებით: {flagY} - {getY}.'];
+        } else if (kind === 1) {
+          body = [I.c('move', I.op('-', I.sn('flagX'), I.sn('getX'))), I.iff(I.op('>', I.sn('flagY'), I.sn('getY')), [C('turnRight'), I.c('move', I.op('-', I.sn('flagY'), I.sn('getY')))], [C('turnLeft'), I.c('move', I.op('-', I.sn('getY'), I.sn('flagY')))])];
+          title = 'GPS: ზემოთ თუ ქვემოთ?'; task = 'დროშა 🏁 ბიტის მარჯვნივაა, ოღონდ ზოგ ტესტში ზემოთ, ზოგში — ქვემოთ. გაიარე ჰორიზონტალურად, მერე if/else-ით აირჩიე მოსახვევი და დარჩენილი მანძილი.';
+          hints = ['თუ {flagY} > {getY} — დროშა ქვემოთაა (მარჯვნივ მოუხვიე), თუ არა — ზემოთ (მარცხნივ).', 'ზემოთ მანძილი: {getY} - {flagY}.'];
+        } else {
+          body = [I.whl(I.op('<', I.sn('getX'), I.sn('flagX')), [C('move')]), C('turnRight'), I.whl(I.op('<', I.sn('getY'), I.sn('flagY')), [C('move')])];
+          title = 'GPS ციკლით'; task = 'გამოიყენე while: იარე, სანამ {getX} < {flagX}, მერე მოუხვიე მარჯვნივ და იარე, სანამ {getY} < {flagY}.';
+          hints = ['პირობა: {getX} < {flagX}.', 'ორი while ციკლი, მათ შორის — {turnRight}.'];
+        }
+        return { title, story: story(rng, 'coords'), task, maps, goal: { reach: true }, body, req: kind === 2 ? [['while']] : kind === 1 ? [['if'], ['else']] : [['sense', 'flagX']], hints, bugs: ['opSwap', 'flipTurn', 'swapBranches'] };
+      } },
+    { key: 'calc', icon: '➗', name: 'მთელი გაყოფა და ნაშთი', topic: '[idiv], %', a: '#6b5fc7', world: 3, gate: { drill: 6 },
+      theory: 'მთელი გაყოფა ნაშთს აგდებს: 17-ში 5 სამჯერ ეტევა. ენაში ასე იწერება: [idiv]. % კი ნაშთს გაძლევს: 17 % 5 = 2. ერთად ისინი ბევრ ამოცანას ხსნის: წამები → წუთები და წამები, ციფრები, ხურდა.',
+      example: [I.let('s', 125), I.print(I.idiv('s', 60)), I.print(I.op('%', 's', 60))],
+      gen(rng, k) {
+        const F = [
+          { name: 'წუთები და წამები', t: 'secs წამი წუთებად და წამებად — ორ ხაზზე: ჯერ წუთები, მერე დარჩენილი წამები', v: () => ({ secs: ri(rng, 61, 3599) }), lines: v => [Math.floor(v.secs / 60), v.secs % 60], body: [I.print(I.idiv('secs', 60)), I.print(I.op('%', 'secs', 60))] },
+          { name: 'საშუალო', t: 'სამი ქულის (a, b, c) საშუალო, მთელ რიცხვად', v: () => ({ a: ri(rng, 1, 30), b: ri(rng, 1, 30), c: ri(rng, 1, 30) }), lines: v => [Math.floor((v.a + v.b + v.c) / 3)], body: [I.print(I.idiv(I.op('+', I.op('+', 'a', 'b'), 'c'), 3))] },
+          { name: 'ათეულების ციფრი', t: 'n-ის ათეულების ციფრი (მაგ. 357 → 5)', v: () => ({ n: ri(rng, 100, 9999) }), lines: v => [Math.floor(v.n / 10) % 10], body: [I.print(I.op('%', I.idiv('n', 10), 10))] },
+          { name: 'ხურდა მონეტებით', t: 'ხურდა paid - price თეთრი 5-თეთრიანებით: ორ ხაზზე — რამდენი 5-თეთრიანი და რამდენი თეთრი რჩება', v: () => { const price = ri(rng, 10, 90); return { price, paid: price + ri(rng, 6, 49) }; }, lines: v => [Math.floor((v.paid - v.price) / 5), (v.paid - v.price) % 5], body: [I.let('change', I.op('-', 'paid', 'price')), I.print(I.idiv('change', 5)), I.print(I.op('%', 'change', 5))] },
+          { name: 'კვირები და დღეები', t: 'days დღე კვირებად და დღეებად — ორ ხაზზე', v: () => ({ days: ri(rng, 8, 200) }), lines: v => [Math.floor(v.days / 7), v.days % 7], body: [I.print(I.idiv('days', 7)), I.print(I.op('%', 'days', 7))] },
+          { name: 'ყუთები', t: 'რამდენი სრული ყუთი შეივსება, თუ n ნივთია და ყუთში size ეტევა, და რამდენი ნივთი დარჩება — ორ ხაზზე', v: () => ({ n: ri(rng, 20, 99), size: ri(rng, 3, 9) }), lines: v => [Math.floor(v.n / v.size), v.n % v.size], body: [I.print(I.idiv('n', 'size')), I.print(I.op('%', 'n', 'size'))] }
+        ];
+        const f = F[(k + ri(rng, 0, 5)) % F.length], ts = [];
+        for (let g2 = 0; g2 < 30 && ts.length < 3; g2++) { const v = f.v(); const l = f.lines(v).map(String); if (!ts.some(x => x.l.join() === l.join())) ts.push({ v, l }); }
+        return { title: f.name, story: story(rng, 'calc'), task: 'დაბეჭდე ' + f.t + '. მნიშვნელობები „მონაცემებშია“ და ტესტებში იცვლება — მაგ., პირველ ტესტში: ' + ts[0].l.join(' და ') + '.',
+          maps: ts.map(x => ({ grid: BOARD, vars: x.v, lines: x.l })), given: Object.fromEntries(Object.keys(ts[0].v).map(v => [v, 'int'])), goal: {}, body: f.body, req: [['print']], print: true,
+          hints: ['მთელი გაყოფა: [idiv]; ნაშთი: %.', 'ყოველი პასუხი — ცალკე {print}.'], bugs: ['opSwap'] };
+      } },
+    { key: 'chain', icon: '🔗', name: 'else if ჯაჭვები', topic: 'ბევრი შემთხვევა', a: '#d9822b', world: 6, gate: { drill: 8 },
+      theory: 'როცა შემთხვევა ორზე მეტია, if-ებს ჯაჭვად აერთებ: [ifelse] — else-ის ნაცვლად შეიძლება else if (Python-ში elif) ახალი პირობით. მოწმდება ზემოდან ქვემოთ და სრულდება პირველი ჭეშმარიტი ბლოკი. {isBugHere} ამბობს, ბაგზე დგახარ თუ არა, {fix} კი ბაგს ასწორებს.',
+      example: [I.iff(has('isCrystalHere'), [C('collect')], [I.iff(has('isBugHere'), [C('fix')])])],
+      gen(rng, k) {
+        const doors = k >= 8, traps = k >= 15;
+        const mk = () => {
+          const L = ri(rng, 8, 12), c = Array(L).fill('.');
+          if (traps) for (let x = 1; x < L - 2; x++) if (c[x - 1] === '.' && rng() < 0.2) c[x] = 'T';
+          if (doors) for (let x = 1; x < L - 1; x++) if (c[x] === '.' && c[x - 1] !== 'T' && rng() < 0.15) c[x] = 'D';
+          for (let x = 0; x < L - 1; x++) if (c[x] === '.' && rng() < 0.45) c[x] = rng() < 0.5 ? '*' : 'x';
+          if (!c.includes('*')) c[c.indexOf('.')] = '*';
+          if (!c.includes('x')) { const i = c.indexOf('.'); if (i >= 0 && i < L - 1) c[i] = 'x'; }
+          c[L - 1] = 'F';
+          return { grid: rowMap(c) };
+        };
+        const moveStep = traps ? I.iff(has('isTrapAhead'), [C('jump')], doors ? [I.iff(has('isDoorAhead'), [C('openDoor'), C('move')], [C('move')])] : [C('move')])
+          : doors ? I.iff(has('isDoorAhead'), [C('openDoor'), C('move')], [C('move')]) : C('move');
+        const body = [I.whl(notWall(), [moveStep, I.iff(has('isCrystalHere'), [C('collect')], [I.iff(has('isBugHere'), [C('fix')])])])];
+        const goal = Object.assign({ crystals: 'all', bugs: 'all', reach: true }, doors ? { doors: 'all' } : {});
+        return { title: cyc(traps ? ['ხაფანგები, კარები, ბაგები', 'სრული ჯაჭვი', 'გლიჩის დერეფანი'] : doors ? ['კარი თუ არა?', 'ჯაჭვი კარებით', 'ბევრი შემთხვევა'] : ['კრისტალი თუ ბაგი?', 'ორი სიურპრიზი', 'else if'], k), story: story(rng, 'chain'),
+          task: 'იარე კედლამდე. ' + (traps ? 'თუ წინ ხაფანგია 🕳️ — გადაახტი; ' : '') + (doors ? (traps ? 'სხვა შემთხვევაში, ' : '') + 'თუ წინ კარია 🚪 — გააღე და გაიარე; ' : '') + 'ყოველ უჯრაზე: თუ კრისტალია 💎 — აიღე, სხვა შემთხვევაში თუ ბაგია 🐞 — გაასწორე. დროშა 🏁 ბოლოშია.',
+          maps: [mk(), mk(), mk()], goal, body, req: [['while'], ['if'], ['else']],
+          hints: ['ციკლში ორი გადაწყვეტილებაა: როგორ წავიდე და რა გავაკეთო უჯრაზე.', 'უჯრაზე: if {isCrystalHere} — {collect}, else if {isBugHere} — {fix}.'], bugs: ['swapBranches', 'emptyElse', 'notFlip'] };
+      } },
+    { key: 'bugs', icon: '🐞', name: 'ბაგების ნადირობა', topic: '{fix}, {isBugHere}', a: '#b54848', world: 6, gate: { drill: 11 },
+      theory: 'ბაგი 🐞 შეცდომაა რუკაზე. {fix} ასწორებს ბაგს, რომელზეც ბიტი დგას, {isBugHere} კი ამბობს, ბაგზე დგახარ თუ არა. ბაგები ყოველ ტესტში სხვაგანაა — ამიტომ ციკლი და if გჭირდება. მრიცხველით შეგიძლია დათვალო, რამდენი გაასწორე.',
+      example: [I.whl(notWall(), [C('move'), I.iff(has('isBugHere'), [C('fix')])])],
+      gen(rng, k) {
+        if (k < 8) {
+          const W = 7, H = 6, p = randPath(rng, W, H, 2 + (k >> 2), 1, 3) || randPath(rng, W, H, 2, 1, 2);
+          const last = p.cells.length - 1, at = new Set(shuffle(rng, Array.from({ length: last - 1 }, (_, i) => i + 1)).slice(0, Math.min(last - 1, 2 + (k >> 2))));
+          const g = grid(W, H); decorate(rng, g, p.cells, 0.12);
+          at.forEach(i => { const c = p.cells[i]; g[c.y][c.x] = 'x'; });
+          const e = p.cells[last]; g[p.start.y][p.start.x] = BCH[p.start.dir]; g[e.y][e.x] = 'F';
+          const body = pathBody(p, { at }).map(s => (s.s === 'cmd' && s.name === 'collect' ? C('fix') : s));
+          return { title: cyc(['პირველი ბაგები', 'ბაგების ბილიკი', 'გაასწორე გზად', 'ბაგ-მონადირე'], k), story: story(rng, 'bugs'),
+            task: 'მიდი დროშამდე 🏁 და გზად გაასწორე ყველა ბაგი 🐞 (სულ ' + at.size + ') — ბაგზე დადექი და {fix}.',
+            maps: [{ grid: rowsOf(g) }], goal: { bugs: 'all', reach: true }, body, hints: ['{fix} მხოლოდ ბაგის უჯრაზე მუშაობს.', 'მოსახვევები: ' + p.segs.filter(s => s.turn).map(s => KA_DIR[s.turn]).join(', ') + '.'], bugs: ['dropMove', 'flipTurn'] };
+        }
+        if (k < 16) {
+          const maps = Array.from({ length: 3 }, () => { const L = ri(rng, 6, 11); return { grid: rowMap(randomItems(rng, L - 1, 0.4, 'x').concat(['F'])) }; });
+          return { title: cyc(['ბაგები დერეფანში', 'უცნობი ბაგები', 'ციკლი და fix', 'სანამ კედელი არ არის', 'ბაგების დევნა'], k - 8), story: story(rng, 'bugs'),
+            task: 'დერეფნის სიგრძე და ბაგები 🐞 ტესტებში იცვლება. იარე კედლამდე და ყოველი ბაგი გაასწორე. დროშა 🏁 ბოლოშია.',
+            maps, goal: { bugs: 'all', reach: true }, body: [I.whl(notWall(), [C('move'), I.iff(has('isBugHere'), [C('fix')])])], req: [['while'], ['if']],
+            hints: ['while: სანამ წინ კედელი არ არის.', 'ციკლში: {move} და if {isBugHere} — {fix}.'], bugs: ['notFlip', 'dropIf'] };
+        }
+        const maps = Array.from({ length: 3 }, () => { const L = ri(rng, 6, 11), c = randomItems(rng, L, 0.4, 'x'); return { grid: rowMap(c), output: String(c.filter(x => x === 'x').length) }; });
+        return { title: cyc(['ბაგების აღწერა', 'რამდენი ბაგი იყო?', 'ანგარიში პროფესორს', 'მრიცხველი და fix', 'ბაგების სტატისტიკა'], k - 16), story: story(rng, 'bugs'),
+          task: 'იარე კედლამდე, გაასწორე ყველა ბაგი 🐞 და დათვალე. ბოლოს დაბეჭდე, რამდენი გაასწორე ({print}).',
+          maps, goal: { bugs: 'all' }, body: [I.let('fixed', 0), I.whl(notWall(), [C('move'), I.iff(has('isBugHere'), [C('fix'), I.inc('fixed')])]), I.print('fixed')],
+          req: [['while'], ['if'], ['counter'], ['print']], print: true, hints: ['მრიცხველი 0-ით, გასწორებისას +1.', 'ციკლის შემდეგ — {print}.'], bugs: ['dropInc', 'notFlip'] };
+      } },
+    { key: 'room', icon: '🏠', name: 'ოთახის შემოვლა', topic: 'კედლების გასწვრივ', a: '#3b9b5b', world: 5, gate: { drill: 12 },
+      theory: 'ოთახის შემოსავლელად 4 კედელი უნდა გაიარო: ციკლი 4-ჯერ, ყოველ წრეზე — while „სანამ წინ კედელი არ არის“ და მერე მოხვევა. ოთახის ზომა არ გჭირდება იცოდე — while თავად გაჩერდება კუთხეში!',
+      example: [I.rep(4, [I.whl(notWall(), [C('move')]), C('turnRight')], 'side')],
+      gen(rng, k) {
+        const count = k >= 16;
+        const maps = Array.from({ length: 3 }, () => {
+          const W = ri(rng, 4, 9), H = ri(rng, 3, 7), g = grid(W, H), per = [];
+          for (let x = 1; x < W; x++) per.push([x, 0]); for (let y = 1; y < H; y++) per.push([W - 1, y]); for (let x = W - 2; x >= 0; x--) per.push([x, H - 1]); for (let y = H - 2; y >= 1; y--) per.push([0, y]);
+          let n = 0; per.forEach(([x, y]) => { if (rng() < 0.35) { g[y][x] = '*'; n++; } });
+          if (!n) { const [x, y] = per[ri(rng, 0, per.length - 1)]; g[y][x] = '*'; n = 1; }
+          for (let y = 1; y < H - 1; y++) for (let x = 1; x < W - 1; x++) if (rng() < 0.3) g[y][x] = '#';
+          g[0][0] = '>';
+          return Object.assign({ grid: rowsOf(g) }, count ? { output: String(n) } : {});
+        });
+        const inner = [C('move'), I.iff(has('isCrystalHere'), count ? [C('collect'), I.inc('count')] : [C('collect')])];
+        const body = (count ? [I.let('count', 0)] : []).concat([I.rep(4, [I.whl(notWall(), inner), C('turnRight')], 'side')]).concat(count ? [I.print('count')] : []);
+        return { title: count ? cyc(['ოთახის აღწერა', 'კრისტალების დათვლა', 'პერიმეტრის ანგარიში'], k - 16) : cyc(['ოთახის კედლები', 'პერიმეტრი', 'კუთხიდან კუთხემდე', 'ოთხი კედელი', 'სახლის შემოვლა', 'ოთახის მცველი'], k), story: story(rng, 'room'),
+          task: 'შემოუარე ოთახს კედლების გასწვრივ (ოთახის ზომა ტესტებში იცვლება) და აიღე კედლებთან მდებარე ყველა კრისტალი 💎.' + (count ? ' ბოლოს დაბეჭდე, რამდენი აიღე.' : '') + ' ოთახის შუაში ავეჯია 🪑 — იქ არ შედიხარ.',
+          maps, goal: { crystals: 'all' }, body, req: [['for'], ['while']].concat(count ? [['print']] : []), print: count,
+          hints: ['გარე ციკლი 4-ჯერ (4 კედელი), შიგნით while.', 'while-ში: {move} და if {isCrystalHere} — {collect}. while-ის შემდეგ — {turnRight}.'], bugs: ['offByOne', 'flipTurn', 'notFlip'] };
+      } },
+    { key: 'snake', icon: '🐍', name: 'გველის მარშრუტი', topic: 'რიგები და % 2', a: '#2f8f6f', world: 5, gate: { drill: 12 },
+      theory: 'ველი რიგებად გაიარე, როგორც გველი: ლუწ რიგზე ბიტი მარჯვნივ მიდის, კენტზე — მარცხნივ. რიგის ბოლოს შემობრუნება მის ნომერზეა დამოკიდებული: r % 2 == 0 — ლუწია. რიგების და სვეტების რაოდენობა „მონაცემებშია“.',
+      example: [I.range('r', 0, 3, [I.iff(I.op('==', I.op('%', 'r', 2), 0), [C('turnRight')], [C('turnLeft')])])],
+      gen(rng, k) {
+        const rand = k >= 12;
+        const ts = Array.from({ length: 3 }, () => ({ rows: ri(rng, 2, 4 + (k >> 3)), cols: ri(rng, 3, 7) }));
+        if (ts.every(t => t.rows === ts[0].rows && t.cols === ts[0].cols)) ts[1].cols = ts[0].cols === 3 ? 4 : 3;
+        const maps = ts.map(t => {
+          const g = grid(t.cols, t.rows);
+          for (let y = 0; y < t.rows; y++) for (let x = 0; x < t.cols; x++) if (!(x === 0 && y === 0) && (!rand || rng() < 0.5)) g[y][x] = '*';
+          if (rand && !rowsOf(g).join('').includes('*')) g[0][1] = '*';
+          g[0][0] = '>';
+          return { grid: rowsOf(g), vars: { rows: t.rows, cols: t.cols } };
+        });
+        const take = rand ? [I.iff(has('isCrystalHere'), [C('collect')])] : [C('collect')];
+        const body = [I.rep('rows', [
+          I.rep(I.op('-', 'cols', 1), [C('move')].concat(take), 'j'),
+          I.iff(I.op('<', 'r', I.op('-', 'rows', 1)), [I.iff(I.op('==', I.op('%', 'r', 2), 0), [C('turnRight'), C('move')].concat(take, [C('turnRight')]), [C('turnLeft'), C('move')].concat(take, [C('turnLeft')]))])
+        ], 'r')];
+        return { title: cyc(rand ? ['შემთხვევითი ბაღი', 'გველი და სენსორი', 'ფარული კრისტალები'] : ['გველი', 'ბაღის რიგები', 'ზიგზაგი რიგებად', 'მინდვრის დამუშავება'], k), story: story(rng, 'snake'),
+          task: 'ველი rows რიგისა და cols სვეტისაა (ტესტებში იცვლება). გაიარე გველივით: ლუწ რიგზე მარჯვნივ, კენტზე — მარცხნივ' + (rand ? ' და აიღე ყველა კრისტალი 💎 (ისინი შემთხვევით დევს).' : '; ყველა უჯრაზე კრისტალია 💎 — აიღე ყველა.'),
+          maps, given: { rows: 'int', cols: 'int' }, goal: { crystals: 'all' }, body, req: [['for2'], ['if']],
+          hints: ['გარე ციკლი — რიგები (r), შიდა — cols - 1 ნაბიჯი.', 'რიგის ბოლოს (თუ ბოლო რიგი არ არის): თუ r % 2 == 0 — {turnRight}, {move}, {turnRight}; სხვა შემთხვევაში — იგივე {turnLeft}-ით.'], bugs: ['swapBranches', 'opSwap', 'offByOne'] };
+      } },
+    { key: 'light', icon: '🚦', name: 'შუქნიშნის ქუჩები', topic: 'while + if/else + wait', a: '#d9822b', world: 4, gate: { drill: 10 },
+      theory: 'ქუჩაზე შუქნიშანია, მაგრამ არ იცი, სად და რა რიტმით ციმციმებს. უსაფრთხო წესი: ყოველ ნაბიჯამდე შეამოწმე {isGreen}. მწვანეა — გადადი, წითელია — {wait}. ციკლი გაგრძელდეს, სანამ წინ კედელი არ არის.',
+      example: [I.whl(notWall(), [I.iff(has('isGreen'), [C('move')], [C('wait')])])],
+      gen(rng, k) {
+        const crystals = k >= 8, cnt = k >= 18;
+        const PAT = [['red', 'green'], ['green', 'red'], ['red', 'red', 'green'], ['green', 'green', 'red'], ['red', 'red', 'red', 'green'], ['red', 'green', 'green']];
+        const maps = Array.from({ length: 3 }, () => {
+          const L = ri(rng, 5, 10), c = Array(L).fill('.');
+          c[ri(rng, 0, L - 2)] = 'L';
+          if (crystals) { for (let x = 0; x < L - 1; x++) if (c[x] === '.' && rng() < 0.4) c[x] = '*'; if (!c.includes('*')) c[c.indexOf('.')] = '*'; }
+          c[L - 1] = 'F';
+          return Object.assign({ grid: rowMap(c), light: pick(rng, PAT) }, cnt ? { output: String(c.filter(x => x === '*').length) } : {});
+        });
+        const onMove = crystals ? [C('move'), I.iff(has('isCrystalHere'), cnt ? [C('collect'), I.inc('count')] : [C('collect')])] : [C('move')];
+        const body = (cnt ? [I.let('count', 0)] : []).concat([I.whl(notWall(), [I.iff(has('isGreen'), onMove, [C('wait')])])]).concat(cnt ? [I.print('count')] : []);
+        return { title: cyc(['ქუჩის შუქნიშანი', 'მწვანე ტალღა', 'უცნობი რიტმი', 'ფრთხილი ნაბიჯები', 'ღამის ქალაქი', 'გზაჯვარედინები'], k), story: story(rng, 'light'),
+          task: 'იარე კედლამდე — დროშა 🏁 ბოლოშია. შუქნიშნის 🚦 ადგილი და რიტმი ტესტებში იცვლება: ყოველ ნაბიჯამდე შეამოწმე, მწვანეა თუ არა.' + (crystals ? ' გზად აიღე კრისტალები 💎.' : '') + (cnt ? ' ბოლოს დაბეჭდე, რამდენი აიღე.' : ''),
+          maps, goal: crystals ? { crystals: 'all', reach: true } : { reach: true }, body, req: [['while'], ['if'], ['else']].concat(cnt ? [['print']] : []), print: cnt,
+          hints: ['ციკლში if/else: {isGreen} — {move}, სხვა შემთხვევაში — {wait}.', 'ლოდინი ზედმეტი არ არის: წითელზე გადასვლა ბიტს გააჩერებს.'], bugs: ['swapBranches', 'emptyElse', 'notFlip'] };
+      } },
+    { key: 'rec', icon: '🔁', name: 'რეკურსია', topic: 'ფუნქცია, რომელიც თავს იძახებს', a: '#c05a3c', world: 6, gate: { drill: 14 },
+      theory: 'რეკურსიული ფუნქცია საკუთარ თავს იძახებს, ოღონდ უფრო პატარა ამოცანით: walk(n) = ერთი ნაბიჯი + walk(n - 1). აუცილებელია გაჩერების პირობა: თუ n == 0 — return (ფუნქციიდან გამოსვლა), თორემ ფუნქცია უსასრულოდ გაიძახებს თავს. ფუნქციამ პასუხიც შეიძლება დააბრუნოს: return 1 + steps().',
+      example: { defs: [I.def('walk', ['n'], [I.iff(I.op('==', 'n', 0), [I.retv()]), C('move'), I.call('walk', I.op('-', 'n', 1))])], body: [I.call('walk', 3)] },
+      gen(rng, k) {
+        const recReq = name => [['def', name], RT_REC(name)];
+        if (k < 8) {
+          const L = 4 + k;
+          return { title: 'რეკურსიული ნაბიჯები: ' + L, story: story(rng, 'rec'),
+            task: 'დერეფნის ' + L + ' უჯრაზე კრისტალია 💎. დაწერე რეკურსიული ფუნქცია walk(n): თუ n == 0 — return; სხვა შემთხვევაში ნაბიჯი, აღება და walk(n - 1). გამოიძახე walk(' + L + ').',
+            maps: [{ grid: rowMap(Array(L).fill('*')) }], goal: { crystals: 'all' },
+            defs: [I.def('walk', ['n'], [I.iff(I.op('==', 'n', 0), [I.retv()]), C('move'), C('collect'), I.call('walk', I.op('-', 'n', 1))])], body: [I.call('walk', L)],
+            req: recReq('walk'), hints: ['გაჩერების პირობა ფუნქციის დასაწყისშია: if n == 0 — return.', 'ფუნქციის ბოლოს — walk(n - 1).'], bugs: ['offByOne', 'dropCollect'] };
+        }
+        if (k < 16) {
+          const L = 3 + (k - 8) % 5, W = L + 1, H = L, g = grid(W, H);
+          const segs = []; for (let s = L; s >= 1; s--) segs.push({ turn: s === L ? null : 'R', len: s });
+          const w = walk({ x: 0, y: 0, dir: 'east' }, segs);
+          g[0][0] = '>'; w.ends.forEach(i => { const c = w.cells[i]; g[c.y][c.x] = '*'; });
+          return { title: 'რეკურსიული სპირალი ' + L, story: story(rng, 'rec'),
+            task: 'დაწერე რეკურსიული spiral(n): თუ n == 0 — გაჩერდი; სხვა შემთხვევაში move(n), აღება 💎, მარჯვნივ მოხვევა და spiral(n - 1). გამოიძახე spiral(' + L + ').',
+            maps: [{ grid: rowsOf(g) }], goal: { crystals: 'all' },
+            defs: [I.def('spiral', ['n'], [I.iff(I.op('==', 'n', 0), [I.retv()]), I.c('move', I.v('n')), C('collect'), C('turnRight'), I.call('spiral', I.op('-', 'n', 1))])], body: [I.call('spiral', L)],
+            req: recReq('spiral'), hints: ['ყოველ გამოძახებაზე n 1-ით მცირდება — სპირალის გვერდიც.', 'spiral(n) ფუნქციის ბოლოს იძახებს spiral(n - 1)-ს.'], bugs: ['flipTurn', 'offByOne'] };
+        }
+        const maps = Array.from({ length: 3 }, () => { const L = ri(rng, 3, 10); return { grid: rowMap(Array(L).fill('.')), output: String(L) }; });
+        return { title: cyc(['რეკურსიული მთვლელი', 'დაითვალე რეკურსიით', 'return 1 + ...', 'რამდენი ნაბიჯია?'], k - 16), story: story(rng, 'rec'),
+          task: 'დაწერე რეკურსიული steps(): თუ წინ კედელია — return 0; სხვა შემთხვევაში ნაბიჯი და return 1 + steps(). დაბეჭდე steps() — დერეფნის სიგრძე (ტესტებში სხვადასხვაა).',
+          maps, goal: {}, defs: [I.def('steps', [], [I.iff(wallAhead(), [I.ret(0)]), C('move'), I.ret(I.op('+', 1, I.fn('steps')))], true)], body: [I.print(I.fn('steps'))],
+          req: recReq('steps').concat([['ret'], ['print']]), print: true, hints: ['გაჩერება: კედელთან — return 0.', 'სხვა შემთხვევაში: {move}, მერე return 1 + steps().'], bugs: ['opSwap', 'notFlip'] };
+      } },
+    { key: 'funcloop', icon: '🪜', name: 'ფუნქციები ციკლში', topic: 'stair(i), zig(a, b)', a: '#c05a3c', world: 6, gate: { drill: 13 },
+      theory: 'ფუნქცია ციკლშიც გამოიძახება — ყოველ წრეზე სხვა არგუმენტით: for i = 1..n: stair(i). ასე იქმნება ნიმუშები, რომლებიც თანდათან იზრდება ან მცირდება. ორპარამეტრიანი ფუნქცია: zig(a, b) — a და b ორივე გამოძახებისას ივსება.',
+      example: { defs: [I.def('stair', ['n'], [I.rep(I.v('n'), [C('move')], 'j'), C('turnLeft'), C('move'), C('turnRight')])], body: [I.range('i', 1, 3, [I.call('stair', I.v('i'))])] },
+      gen(rng, k) {
+        if (k < 16) {
+          const grow = k < 8, n = 3 + (k % 3);
+          const lens = grow ? Array.from({ length: n }, (_, i) => i + 1) : Array.from({ length: n }, (_, i) => n - i);
+          const W = lens.reduce((s, x) => s + x, 0) + 1, H = n + 1, g = grid(W, H);
+          let x = 0, y = grow ? n : 0;
+          g[y][x] = '>';
+          lens.forEach(l => { for (let j = 0; j < l; j++) { x++; g[y][x] = '*'; } y += grow ? -1 : 1; });
+          const dy = grow ? [C('turnLeft'), C('move'), C('turnRight')] : [C('turnRight'), C('move'), C('turnLeft')];
+          return { title: (grow ? 'მზარდი კიბე ' : 'კლებადი კიბე ') + n, story: story(rng, 'funcloop'),
+            task: 'შექმენი ფუნქცია stair(n): n ნაბიჯი მარჯვნივ, ყოველზე აღება 💎, მერე ერთი უჯრა ' + (grow ? 'ზემოთ' : 'ქვემოთ') + '. საფეხურები: ' + lens.join(', ') + ' — გამოიძახე ციკლით.',
+            maps: [{ grid: rowsOf(g) }], goal: { crystals: 'all' },
+            defs: [I.def('stair', ['n'], [I.rep(I.v('n'), [C('move'), C('collect')], 'j')].concat(dy))],
+            body: [grow ? I.range('i', 1, n, [I.call('stair', I.v('i'))]) : I.range('i', n, 1, [I.call('stair', I.v('i'))], true)],
+            req: [['def', 'stair', ['n']], ['for']], slack: 1, hints: ['ფუნქციაში: ციკლი n-ჯერ ({move}, {collect}), მერე ერთი უჯრა ' + (grow ? 'ზემოთ' : 'ქვემოთ') + '.', 'გარე ციკლი ' + (grow ? '1-დან ' + n + '-მდე' : n + '-დან 1-მდე') + ': stair(i).'], bugs: ['flipTurn', 'offByOne'] };
+        }
+        const n = 3 + (k % 3), lens = Array.from({ length: n }, (_, i) => i + 1), W = lens.reduce((s, x) => s + x, 0) + 1, H = n + 1, g = grid(W, H);
+        let x = 0, y = 0; g[0][0] = '>';
+        lens.forEach(l => { x += l; y += 1; g[y][x] = '*'; });
+        return { title: 'zig(a, b) ×' + n, story: story(rng, 'funcloop'),
+          task: 'შექმენი ფუნქცია zig(a, b): a უჯრა მარჯვნივ, მერე b უჯრა ქვემოთ (და ისევ მარჯვნივ შემობრუნება). ციკლით i = 1..' + n + ': zig(i, 1) და კრისტალის 💎 აღება.',
+          maps: [{ grid: rowsOf(g) }], goal: { crystals: 'all' },
+          defs: [I.def('zig', ['a', 'b'], [I.c('move', I.v('a')), C('turnRight'), I.c('move', I.v('b')), C('turnLeft')])],
+          body: [I.range('i', 1, n, [I.call('zig', I.v('i'), 1), C('collect')])],
+          req: [['def', 'zig', ['a', 'b']], ['for']], slack: 1, hints: ['ფუნქციაში: move(a), {turnRight}, move(b), {turnLeft}.', 'ციკლში: zig(i, 1) და {collect}.'], bugs: ['flipTurn', 'offByOne'] };
+      } },
+    { key: 'maze', icon: '🌀', name: 'ლაბირინთები', topic: 'მარჯვენა ხელის წესი', a: '#2f9488', world: 5, gate: { drill: 18 },
+      theory: 'ნამდვილ ლაბირინთს განშტოებები და ჩიხები აქვს. მარჯვენა ხელის წესი: ყოველ ნაბიჯამდე ჯერ მარჯვნივ მოუხვიე, მერე, სანამ წინ კედელია, მარცხნივ უხვიე — და გადადი ერთი უჯრით. ასე ბიტი ყოველთვის მარჯვენა კედელს მიჰყვება და ნებისმიერ ასეთ ლაბირინთში იპოვის კრისტალს 💎.',
+      example: [I.whl(I.not(has('isCrystalHere')), [C('turnRight'), I.whl(wallAhead(), [C('turnLeft')]), C('move')]), C('collect')],
+      gen(rng, k) {
+        const cw = Math.min(5, 3 + (k >> 3)), ch = Math.min(5, 3 + ((k + 4) >> 3));
+        const maps = Array.from({ length: 3 }, () => {
+          const m = maze(rng, cw, ch);
+          const sx = ri(rng, 0, cw - 1) * 2 + 1, sy = ri(rng, 0, ch - 1) * 2 + 1;
+          const [fx, fy] = bfsFar(m.g, sx, sy);
+          m.g[fy][fx] = '*'; m.g[sy][sx] = BCH[pick(rng, DIRS)];
+          return { grid: rowsOf(m.g) };
+        });
+        return { title: cyc(['პირველი ლაბირინთი', 'ჩიხები', 'მარჯვენა კედელი', 'ლაბირინთის გული', 'გლიჩის ლაბირინთი', 'დაკარგული კრისტალი', 'ხვეული გზები', 'ლაბირინთის ოსტატი'], k), story: story(rng, 'maze'),
+          task: 'ლაბირინთი 🌀 ყოველ ტესტში სხვაა. იპოვე კრისტალი 💎 და აიღე — გამოიყენე მარჯვენა ხელის წესი.',
+          maps, goal: { crystals: 'all' }, body: [I.whl(I.not(has('isCrystalHere')), [C('turnRight'), I.whl(wallAhead(), [C('turnLeft')]), C('move')]), C('collect')],
+          req: [['while']], hints: ['გარე ციკლი: სანამ კრისტალზე არ დგახარ.', 'ციკლში: {turnRight}; სანამ წინ კედელია — {turnLeft}; მერე {move}.'], bugs: ['flipTurn', 'notFlip', 'dropCollect'] };
+      } },
+    { key: 'guess2', icon: '🔢', name: 'ძებნა და ცდები', topic: 'ორობითი ძებნა + მრიცხველი', a: '#6b5fc7', world: 9, gate: { drill: 19 },
+      theory: 'ორობითი ძებნა ყოველი ცდით შუალედს ორად ჰყოფს: 1000 რიცხვში 10 ცდაც საკმარისია! ცდები მრიცხველით დათვალე და ბოლოს დაბეჭდე. {guess} აბრუნებს 1-ს (საიდუმლო მეტია), -1-ს (ნაკლებია) ან 0-ს (გამოიცანი).',
+      example: [I.let('tries', 0), I.let('r', 1), I.whl(I.op('!=', 'r', 0), [I.set('r', I.sn('guess', 50)), I.inc('tries')]), I.print('tries')],
+      gen(rng, k) {
+        const Nn = [100, 200, 500, 1000, 2000, 5000][k % 6], maxG = Math.ceil(Math.log2(Nn + 1)), showMid = k >= 13;
+        const ss = distinct(rng, 3, 1, Nn);
+        const body = [I.let('low', 1), I.let('high', Nn), I.let('mid', 0), I.let('r', 1), I.let('tries', 0),
+          I.whl(I.op('!=', 'r', 0), [I.set('mid', I.idiv(I.op('+', 'low', 'high'), 2)), I.set('r', I.sn('guess', 'mid')), I.inc('tries'), I.iff(I.op('==', 'r', 1), [I.set('low', I.op('+', 'mid', 1))], [I.iff(I.op('==', 'r', -1), [I.set('high', I.op('-', 'mid', 1))])])]),
+          I.print(showMid ? 'mid' : 'tries')];
+        return { title: (showMid ? 'იპოვე და დაბეჭდე: 1–' : 'დაითვალე ცდები: 1–') + Nn, story: story(rng, 'guess2'),
+          task: 'საიდუმლო რიცხვი 1-დან ' + Nn + '-მდეა. გამოიცანი ორობითი ძებნით (არაუმეტეს ' + maxG + ' ცდისა) და ბოლოს დაბეჭდე ' + (showMid ? 'ნაპოვნი რიცხვი.' : 'ცდების რაოდენობა.') + ' mid ციკლამდე შექმენი, რომ ციკლის შემდეგაც არსებობდეს.',
+          maps: ss.map(s => ({ secret: s, range: [1, Nn], output: String(showMid ? s : bsCount(Nn, s)) })), goal: { found: true, maxGuesses: maxG }, body,
+          req: [['while'], ['print']], print: true, hints: ['ყოველ ცდაზე: mid = შუა, r = {guess=mid}, მრიცხველი +1.', 'r == 1 → low = mid + 1; r == -1 → high = mid - 1.'], bugs: ['cmpSwap', 'opSwap', 'dropInc'] };
+      } },
+    { key: 'sort2', icon: '📚', name: 'დალაგება II', topic: 'გაცვლები, შემოწმება, ინვერსიები', a: '#7a6a8a', world: 9, gate: { drill: 19 },
+      theory: 'დალაგების ალგორითმს სტატისტიკაც აქვს: რამდენი გაცვლა დასჭირდა? დალაგებულია თუ არა თარო (ყველა მეზობელი წყვილი სწორ რიგშია)? ინვერსია ორი წიგნია, რომლებიც არასწორ რიგშია — მათ ჩადგმული ციკლით დათვლი.',
+      example: [I.let('n', I.sn('bookCount')), I.let('ok', 1), I.rep(I.op('-', 'n', 1), [I.iff(I.op('>', I.sn('bookAt', 'i'), I.sn('bookAt', I.op('+', 'i', 1))), [I.set('ok', 0)])]), I.print('ok')],
+      gen(rng, k) {
+        const arr = (len, sorted) => { const a = []; while (a.length < len) { const v = ri(rng, 1, 40); if (!a.includes(v)) a.push(v); } return sorted ? a.sort((x, y) => x - y) : a; };
+        if (k < 9) {
+          const bs = Array.from({ length: 3 }, () => arr(4 + (k % 4), false));
+          const swaps = b => { b = b.slice(); let c = 0; for (let i = 0; i < b.length - 1; i++) for (let j = 0; j < b.length - 1 - i; j++) if (b[j] > b[j + 1]) { [b[j], b[j + 1]] = [b[j + 1], b[j]]; c++; } return c; };
+          return { title: 'დაალაგე და დაითვალე გაცვლები', story: story(rng, 'sort2'),
+            task: 'დაალაგე წიგნები 📚 ბუშტუკოვანი დალაგებით და დაითვალე, რამდენჯერ გამოიძახე {swap}. ბოლოს დაბეჭდე ეს რიცხვი.',
+            maps: bs.map(b => ({ books: b, output: String(swaps(b)) })), goal: { sorted: true },
+            body: [I.let('n', I.sn('bookCount')), I.let('swaps', 0), I.rep(I.op('-', 'n', 1), [I.rep(I.op('-', I.op('-', 'n', 1), 'i'), [I.iff(I.op('>', I.sn('bookAt', 'j'), I.sn('bookAt', I.op('+', 'j', 1))), [I.c('swap', I.v('j')), I.inc('swaps')])], 'j')]), I.print('swaps')],
+            req: [['for2'], ['counter'], ['print']], print: true, hints: ['ყოველი {swap=j}-ის შემდეგ მრიცხველი +1.', 'ბოლოს — {print}.'], bugs: ['cmpSwap', 'dropInc'] };
+        }
+        if (k < 17) {
+          const bs = [arr(5, true), arr(5, false), arr(6, k % 2 === 0)];
+          const isS = b => (b.every((v, i) => i === 0 || b[i - 1] <= v) ? 1 : 0);
+          if (bs.every(b => isS(b) === isS(bs[0]))) bs[2] = arr(6, !isS(bs[0]));
+          return { title: cyc(['დალაგებულია?', 'თაროს შემოწმება', 'ერთი ზედმეტი წიგნი'], k - 9), story: story(rng, 'sort2'),
+            task: 'შეამოწმე, დალაგებულია თუ არა თარო ზრდადობით: დაბეჭდე 1, თუ ყველა მეზობელი წყვილი სწორ რიგშია, და 0 — თუ არა. წიგნები არ გადაადგილო.',
+            maps: bs.map(b => ({ books: b, output: String(isS(b)) })), goal: {},
+            body: [I.let('n', I.sn('bookCount')), I.let('ok', 1), I.rep(I.op('-', 'n', 1), [I.iff(I.op('>', I.sn('bookAt', 'i'), I.sn('bookAt', I.op('+', 'i', 1))), [I.set('ok', 0)])]), I.print('ok')],
+            req: [['loop'], ['if'], ['print']], print: true, hints: ['ok = 1, და თუ რომელიმე მეზობელი წყვილი არასწორ რიგშია — ok = 0.', 'შეადარე {bookAt=i} და {bookAt=i + 1}.'], bugs: ['cmpSwap', 'opSwap'] };
+        }
+        const bs = Array.from({ length: 3 }, () => arr(4 + (k % 3), false));
+        const inv = b => { let c = 0; for (let i = 0; i < b.length; i++) for (let j = i + 1; j < b.length; j++) if (b[i] > b[j]) c++; return c; };
+        return { title: cyc(['ინვერსიები', 'არეულობის საზომი', 'წყვილების დათვლა'], k - 17), story: story(rng, 'sort2'),
+          task: 'დაითვალე ინვერსიები: რამდენი წყვილია (i < j), სადაც {bookAt=i} > {bookAt=j}. დაბეჭდე რაოდენობა. წიგნები არ გადაადგილო.',
+          maps: bs.map(b => ({ books: b, output: String(inv(b)) })), goal: {},
+          body: [I.let('n', I.sn('bookCount')), I.let('count', 0), I.rep('n', [I.range('j', I.op('+', 'i', 1), I.op('-', 'n', 1), [I.iff(I.op('>', I.sn('bookAt', 'i'), I.sn('bookAt', 'j')), [I.inc('count')])])]), I.print('count')],
+          req: [['for2'], ['print']], print: true, hints: ['გარე ციკლი i, შიდა — j = i + 1-დან ბოლომდე.', 'თუ {bookAt=i} > {bookAt=j} — მრიცხველი +1.'], bugs: ['cmpSwap', 'dropInc'] };
+      } },
+    { key: 'arr2', icon: '🗃️', name: 'მასივები II', topic: 'ჯამები, უკუღმა, ძებნა', a: '#2f9488', world: 7, gate: { drill: 19 },
+      theory: 'მასივზე ბევრი ამოცანა ერთი ციკლით იხსნება: მზარდი ჯამი (ყოველ ნაბიჯზე ახალი ჯამის ბეჭდვა), ბოლოდან დასაწყისამდე ჩამოვლა (კლებადი ციკლი), დათვლა პირობით, მეორე უდიდესის პოვნა ორი ცვლადით. ინდექსები 0-დან იწყება: ბოლოა arr[n - 1].',
+      example: [I.range('i', I.op('-', 'n', 1), 0, [I.print(I.at('arr', 'i'))], true)],
+      gen(rng, k) {
+        const as = (len, lo, hi, uniq) => Array.from({ length: 3 }, () => { const a = []; while (a.length < len) { const v = ri(rng, lo, hi); if (!uniq || !a.includes(v)) a.push(v); } return a; });
+        const V = [
+          { name: 'მზარდი ჯამი', t: 'მზარდი ჯამი — ყოველი ელემენტის შემდეგ მიმდინარე ჯამი, თითო ხაზზე', lines: a => { let s = 0; return a.map(x => String(s += x)); }, body: [I.let('total', 0), I.rep('n', [I.add('total', I.at('arr', 'i')), I.print('total')])] },
+          { name: 'უკუღმა', t: 'მასივი ბოლოდან დასაწყისამდე, თითო ელემენტი ხაზზე', lines: a => a.slice().reverse().map(String), body: [I.range('i', I.op('-', 'n', 1), 0, [I.print(I.at('arr', 'i'))], true)] },
+          { name: 'რამდენჯერ გვხვდება', t: 'რამდენჯერ გვხვდება target მასივში', out: (a, t) => a.filter(x => x === t).length, target: true, body: [I.let('count', 0), I.rep('n', [I.iff(I.op('==', I.at('arr', 'i'), 'target'), [I.inc('count')])]), I.print('count')] },
+          { name: 'ლუწ ადგილებზე', t: 'ლუწ ინდექსებზე (0, 2, 4, ...) მდგომი ელემენტების ჯამი', out: a => a.filter((_, i) => i % 2 === 0).reduce((s, x) => s + x, 0), body: [I.let('total', 0), I.rep('n', [I.iff(I.op('==', I.op('%', 'i', 2), 0), [I.add('total', I.at('arr', 'i'))])]), I.print('total')] },
+          { name: 'მეორე უდიდესი', t: 'მეორე უდიდესი რიცხვი (რიცხვები არ მეორდება)', uniq: true, out: a => a.slice().sort((x, y) => y - x)[1], body: [I.let('best', -1), I.let('second', -1), I.rep('n', [I.iff(I.op('>', I.at('arr', 'i'), 'best'), [I.set('second', 'best'), I.set('best', I.at('arr', 'i'))], [I.iff(I.op('>', I.at('arr', 'i'), 'second'), [I.set('second', I.at('arr', 'i'))])])]), I.print('second')] }
+        ];
+        const v = V[(k + ri(rng, 0, 4)) % V.length], arrs = as(4 + (k % 4), 1, 30, v.uniq);
+        const tg = arrs.map(a => (v.target ? (rng() < 0.75 ? pick(rng, a) : 99) : null));
+        const maps = arrs.map((a, i) => Object.assign({ grid: BOARD, vars: Object.assign({ arr: a, n: a.length }, v.target ? { target: tg[i] } : {}) }, v.lines ? { lines: v.lines(a) } : { output: String(v.out(a, tg[i])) }));
+        return { title: v.name, story: story(rng, 'arr2'), task: 'მასივში arr არის n რიცხვი' + (v.target ? ', target კი საძებნი რიცხვია' : '') + '. დაბეჭდე: ' + v.t + '.',
+          maps, given: Object.assign({ arr: 'int[]', n: 'int' }, v.target ? { target: 'int' } : {}), goal: {}, body: v.body, req: [['loop'], ['print']], print: true,
+          hints: ['ერთი ციკლი მასივზე: i = 0..n - 1' + (v.name === 'უკუღმა' ? ' — ამჯერად პირიქით, n - 1-დან 0-მდე.' : '.'), 'ბეჭდვა — ' + (v.lines ? 'ციკლის შიგნით.' : 'ციკლის შემდეგ.')], bugs: ['cmpSwap', 'opSwap', 'offByOne'] };
+      } },
+    { key: 'digits', icon: '🔟', name: 'ციფრების ჯადოქრობა', topic: '% 10 და [idiv]', a: '#b8577f', world: 3, gate: { drill: 12 },
+      theory: 'რიცხვის ბოლო ციფრი = n % 10, ბოლო ციფრის „მოჭრა“ კი — მთელი გაყოფაა 10-ზე: [idiv]. ამ ორის გამეორებით (while x > 0) რიცხვს ციფრებად დაშლი: ჯამი, რაოდენობა, შებრუნება. მოცემული რიცხვი ჯერ ცვლადში დააკოპირე: x = n.',
+      example: [I.let('x', 'n'), I.let('total', 0), I.whl(I.op('>', 'x', 0), [I.add('total', I.op('%', 'x', 10)), I.set('x', I.idiv('x', 10))]), I.print('total')],
+      gen(rng, k) {
+        const V = [
+          { name: 'ციფრების ჯამი', t: 'n-ის ციფრების ჯამი', f: n => String(n).split('').reduce((s, d) => s + +d, 0), body: [I.let('x', 'n'), I.let('total', 0), I.whl(I.op('>', 'x', 0), [I.add('total', I.op('%', 'x', 10)), I.set('x', I.idiv('x', 10))]), I.print('total')] },
+          { name: 'ციფრების რაოდენობა', t: 'რამდენი ციფრია n-ში', f: n => String(n).length, body: [I.let('x', 'n'), I.let('count', 0), I.whl(I.op('>', 'x', 0), [I.inc('count'), I.set('x', I.idiv('x', 10))]), I.print('count')] },
+          { name: 'შებრუნებული რიცხვი', t: 'n უკუღმა (1234 → 4321)', f: n => +String(n).split('').reverse().join(''), body: [I.let('x', 'n'), I.let('rev', 0), I.whl(I.op('>', 'x', 0), [I.set('rev', I.op('+', I.op('*', 'rev', 10), I.op('%', 'x', 10))), I.set('x', I.idiv('x', 10))]), I.print('rev')] },
+          { name: 'პალინდრომი?', t: '1, თუ n ორივე მხრიდან ერთნაირად იკითხება (12321), და 0 — თუ არა', pal: true, f: n => (String(n) === String(n).split('').reverse().join('') ? 1 : 0), body: [I.let('x', 'n'), I.let('rev', 0), I.whl(I.op('>', 'x', 0), [I.set('rev', I.op('+', I.op('*', 'rev', 10), I.op('%', 'x', 10))), I.set('x', I.idiv('x', 10))]), I.iff(I.op('==', 'rev', 'n'), [I.print(1)], [I.print(0)])] },
+          { name: 'უდიდესი ციფრი', t: 'n-ის უდიდესი ციფრი', f: n => Math.max(...String(n).split('').map(Number)), body: [I.let('x', 'n'), I.let('best', 0), I.whl(I.op('>', 'x', 0), [I.iff(I.op('>', I.op('%', 'x', 10), 'best'), [I.set('best', I.op('%', 'x', 10))]), I.set('x', I.idiv('x', 10))]), I.print('best')] }
+        ];
+        const v = V[(k + ri(rng, 0, 4)) % V.length];
+        const mkN = i => { if (v.pal && i % 2 === 0) { const h = String(ri(rng, 10, 999)); return +(h + h.split('').reverse().join('').slice(h.length > 2 ? 1 : 0)); } let n; do { n = ri(rng, 100, 99999); } while (n % 10 === 0); return n; };
+        const ns = [mkN(0), mkN(1), mkN(2)];
+        return { title: v.name, story: story(rng, 'digits'), task: 'დაბეჭდე ' + v.t + '. n „მონაცემებშია“ და ტესტებში იცვლება. ჯერ დააკოპირე: x = n, მერე while x > 0.',
+          maps: ns.map(n => ({ grid: BOARD, vars: { n }, output: String(v.f(n)) })), given: { n: 'int' }, goal: {}, body: v.body, req: [['while'], ['print']], print: true,
+          hints: ['ბოლო ციფრი: x % 10; ბოლო ციფრის მოჭრა: x = [idiv].', 'ციკლი გრძელდება, სანამ x > 0.'], bugs: ['opSwap', 'cmpSwap'] };
+      } },
+    { key: 'multi', icon: '🧗', name: 'მრავალსაფეხურიანი მისიები', topic: 'რამდენიმე ალგორითმი ზედიზედ', a: '#7a6a8a', world: 6, gate: { drill: 17 },
+      theory: 'დიდი მისია რამდენიმე ნაწილისგან შედგება და თითოს თავისი ციკლი სჭირდება: ჯერ დათვალე კრისტალები კარამდე, კოდით გააღე კარი, მერე ხაფანგების დერეფანი გაიარე... დაყავი ამოცანა ნაწილებად და თითო ნაწილი ცალკე ციკლით დაწერე.',
+      example: [I.let('count', 0), I.whl(I.not(has('isDoorAhead')), [C('move'), I.iff(has('isCrystalHere'), [C('collect'), I.inc('count')])]), I.c('openDoor', I.v('count'))],
+      gen(rng, k) {
+        const second = k < 12 ? 'traps' : 'bugs';
+        const maps = Array.from({ length: 3 }, () => {
+          const A = ri(rng, 3, 7), c1 = randomItems(rng, A, 0.45, '*'), B = ri(rng, 4, 8), c2 = Array(B).fill('.');
+          if (second === 'traps') { for (let x = 0; x < B - 2; x++) if ((x === 0 || c2[x - 1] !== 'T') && rng() < 0.35) c2[x] = 'T'; if (!c2.includes('T')) c2[0] = 'T'; }
+          else { for (let x = 0; x < B - 1; x++) if (rng() < 0.45) c2[x] = 'x'; if (!c2.includes('x')) c2[0] = 'x'; }
+          c2[B - 1] = 'F';
+          return { grid: rowMap(c1.concat(['D'], c2)), codes: [c1.filter(x => x === '*').length] };
+        });
+        const part2 = second === 'traps' ? [I.whl(notWall(), [I.iff(has('isTrapAhead'), [C('jump')], [C('move')])])] : [I.whl(notWall(), [C('move'), I.iff(has('isBugHere'), [C('fix')])])];
+        const body = [I.let('count', 0), I.whl(I.not(has('isDoorAhead')), [C('move'), I.iff(has('isCrystalHere'), [C('collect'), I.inc('count')])]), I.c('openDoor', I.v('count')), C('move')].concat(part2);
+        return { title: cyc(second === 'traps' ? ['კარი და ხაფანგები', 'ორი დერეფანი', 'დათვალე და გადაახტი', 'ციხის კარიბჭე'] : ['კარი და ბაგები', 'გლიჩის სარდაფი', 'დათვალე და გაასწორე'], k), story: story(rng, 'multi'),
+          task: 'ორი ნაწილი: (1) იარე კარამდე 🚪, აიღე და დათვალე კრისტალები 💎, კარი გააღე კოდით = მათი რაოდენობა და შედი კარში; (2) იარე კედლამდე — ' + (second === 'traps' ? 'ხაფანგებს 🕳️ გადაახტი.' : 'ყველა ბაგი 🐞 გაასწორე.') + ' დროშა 🏁 ბოლოშია.',
+          maps, goal: Object.assign({ crystals: 'all', doors: 'all', reach: true }, second === 'bugs' ? { bugs: 'all' } : {}), body, req: [['while'], ['if'], ['counter']],
+          hints: ['პირველი ციკლი: სანამ წინ კარი არ არის. მერე {openDoor=count} და ერთი {move}.', 'მეორე ციკლი: სანამ წინ კედელი არ არის.'], bugs: ['dropInc', 'notFlip', 'swapBranches'] };
+      } },
+    { key: 'mix2', icon: '👑', name: 'ოსტატის გამოცდები', topic: 'ყველაფერი ერთად, II', a: '#b54848', world: 10, gate: { drill: 20 },
+      theory: 'ოსტატის გამოცდები: ლაბირინთები, სარკეები, ტელეპორტები, რეკურსია, ალგორითმები — ყველაზე რთული ვერსიებით და მკაცრი შეზღუდვებით. ჯერ დაფიქრდი, მერე წერე. ⏯ ნაბიჯ-ნაბიჯ რეჟიმი დაგეხმარება.',
+      example: [I.whl(I.not(has('isCrystalHere')), [C('turnRight'), I.whl(wallAhead(), [C('turnLeft')]), C('move')]), C('collect')],
+      gen(rng, k, lang) {
+        const order = ['maze', 'mirror', 'snake', 'tele', 'rec', 'chain', 'guess2', 'room', 'multi', 'digits', 'light', 'sort2', 'coords', 'arr2', 'funcloop', 'bugs', 'big', 'calc'];
+        const src = RT_TOPICS2.find(t => t.key === order[k % order.length]);
+        const s = src.gen(rng, Math.min(23, 16 + (k % 8)), lang);
+        s.title = 'ოსტატი: ' + s.title;
+        if (s.slack != null) s.slack = 0;
+        return s;
+      } }
+  ];
+  // რეკურსიის შემოწმება: ფუნქციის სახელი სულ მცირე 3-ჯერ (აღწერა, თავის გამოძახება, პირველი გამოძახება)
+  function RT_REC(name) { return ['recur', name]; }
+
+
   /* ---------- ვებ-თემები: HTML და CSS ---------- */
   const WB = {
     names: ['ნინო', 'გიორგი', 'ანა', 'ლუკა', 'მარიამი', 'დავითი', 'ელენე', 'საბა', 'თამარი', 'ნიკა', 'ქეთი', 'ლევანი', 'სალომე', 'ირაკლი', 'ბარბარე', 'დათო'],
@@ -8318,11 +8883,564 @@ const Drill = (() => {
         return k === PER - 1 ? cssBoss(rng, s, 3) : s;
       } }
   ];
-  const WEB_TOPICS = { html: H_TOPICS, css: C_TOPICS };
   const WEB_STORY = {
     html: ['ბიტს საკუთარი ვებგვერდი უნდა — დაეხმარე ააწყოს!', 'კოდლენდის გაზეთს ახალი გვერდი სჭირდება.', 'პროფესორი ლოგიკა სასკოლო საიტს აკეთებს.', 'ბიტის მეგობრებს მისი გვერდის ნახვა უნდათ.'],
     css: ['ბიტის გვერდი მუშაობს, მაგრამ უფერულია — დროა, გავალამაზოთ!', 'დიზაინერმა ბიტს ახალი სტილი შეუკვეთა.', 'კოდლენდის საიტს ახალი იერსახე სჭირდება.', 'ბიტი სტილისტობას სწავლობს.']
   };
+
+
+  /* ---------- HTML, II საფეხური (21–40) ---------- */
+  const H_TOPICS2 = [
+    { key: 'h-radio', icon: '🔘', name: 'რადიო-ღილაკები', topic: 'fieldset, legend, radio', a: '#6b5fc7', gate: { drill: 12 },
+      theory: 'რადიო-ღილაკებიდან (type="radio") მხოლოდ ერთის არჩევა შეიძლება — ამიტომ ერთ ჯგუფს ერთნაირი name აქვს. value ამბობს, რა გაიგზავნება. checked წინასწარ მონიშნავს. ჯგუფი <fieldset>-შია, მისი სათაური — <legend>.',
+      example: '<fieldset>\n  <legend>ფერი</legend>\n  <label><input type="radio" name="color" value="red" checked> წითელი</label>\n  <label><input type="radio" name="color" value="blue"> ლურჯი</label>\n</fieldset>',
+      gen(rng, k) {
+        const Q = pick(rng, [{ q: 'საყვარელი ენა', name: 'lang', opts: [['js', 'JavaScript'], ['py', 'Python'], ['java', 'Java'], ['cpp', 'C++']] }, { q: 'საყვარელი ხილი', name: 'fruit', opts: [['apple', 'ვაშლი'], ['pear', 'მსხალი'], ['grape', 'ყურძენი'], ['peach', 'ატამი']] }, { q: 'რომელ კლასში ხარ?', name: 'grade', opts: [['5', 'მეხუთე'], ['6', 'მეექვსე'], ['7', 'მეშვიდე'], ['8', 'მერვე']] }, { q: 'ტრანსპორტი', name: 'ride', opts: [['bus', 'ავტობუსი'], ['bike', 'ველოსიპედი'], ['metro', 'მეტრო'], ['walk', 'ფეხით']] }]);
+        const opts = Q.opts.slice(0, 2 + (k % 3)), chk = k >= 8 ? ri(rng, 0, opts.length - 1) : -1;
+        const sol = '<fieldset>\n  <legend>' + Q.q + '</legend>\n' + opts.map((o, i) => '  <label><input type="radio" name="' + Q.name + '" value="' + o[0] + '"' + (i === chk ? ' checked' : '') + '> ' + o[1] + '</label>').join('\n') + '\n</fieldset>';
+        const checks = [W('<fieldset> სათაურით <legend> „' + Q.q + '“', h => hasText(h, 'fieldset > legend', Q.q)), W(opts.length + ' რადიო-ღილაკი', h => h.qa('fieldset input[type="radio"]').length === opts.length), W('ყველას ერთი name="' + Q.name + '"', h => h.qa('input[type="radio"]').every(e => e.getAttribute('name') === Q.name)), W('value-ები: ' + opts.map(o => o[0]).join(', '), h => h.qa('input[type="radio"]').map(e => e.getAttribute('value')).join() === opts.map(o => o[0]).join()), W('წარწერები: ' + opts.map(o => o[1]).join(', '), h => sameList(h, 'fieldset label', opts.map(o => o[1])))];
+        if (chk >= 0) checks.push(W('წინასწარ მონიშნულია „' + opts[chk][1] + '“ (checked)', h => h.qa('input[type="radio"]').filter(e => e.checked).map(e => e.value).join() === opts[chk][0]));
+        const s = { title: 'რადიო: ' + Q.q, task: 'შექმენი <fieldset> <legend>-ით „' + Q.q + '“ და რადიო-ღილაკებით (name="' + Q.name + '"): ' + opts.map(o => '„' + o[1] + '“ (value="' + o[0] + '")').join(', ') + '. თითო ღილაკი თავის <label>-შია.' + (chk >= 0 ? ' „' + opts[chk][1] + '“ წინასწარ მონიშნე (checked).' : ''),
+          starter: '', solution: sol, checks, hints: ['<label><input type="radio" name="' + Q.name + '" value="..."> ტექსტი</label>', 'ერთნაირი name — ერთი ჯგუფი, მხოლოდ ერთი არჩევანი.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['label', 'legend'], 2) : s;
+      } },
+    { key: 'h-check', icon: '☑️', name: 'ჩამრთველები და სიები', topic: 'checkbox, select, optgroup', a: '#2f9488', gate: { drill: 12 },
+      theory: 'checkbox-ით რამდენიმე ვარიანტის არჩევა შეიძლება; <label for="id"> წარწერას ველთან აკავშირებს. <select>-ში ვარიანტები <optgroup label="...">-ებად ჯგუფდება, selected კი ვარიანტს წინასწარ ირჩევს.',
+      example: '<input type="checkbox" id="news" checked>\n<label for="news">სიახლეები</label>\n<select>\n  <optgroup label="ხილი">\n    <option>ვაშლი</option>\n  </optgroup>\n</select>',
+      gen(rng, k) {
+        if (k < 12) {
+          const items = picks(rng, [['music', 'მუსიკა'], ['sport', 'სპორტი'], ['code', 'კოდირება'], ['art', 'ხატვა'], ['books', 'წიგნები'], ['games', 'თამაშები']], 2 + (k % 3)), chk = items.map((_, i) => i % 2 === 0);
+          const sol = '<h3>რა გაინტერესებს?</h3>\n' + items.map((x, i) => '<input type="checkbox" id="' + x[0] + '"' + (chk[i] ? ' checked' : '') + '>\n<label for="' + x[0] + '">' + x[1] + '</label>').join('\n');
+          const s = { title: 'ჩამრთველები: ' + items.map(x => x[1]).join(', '), task: 'შექმენი checkbox-ები წარწერებით (label for → id): ' + items.map((x, i) => '„' + x[1] + '“ (id="' + x[0] + '"' + (chk[i] ? ', მონიშნული' : '') + ')').join(', ') + '.',
+            starter: '<h3>რა გაინტერესებს?</h3>\n', solution: sol,
+            checks: [W(items.length + ' checkbox', h => h.qa('input[type="checkbox"]').length === items.length), W('ყოველ checkbox-ს აქვს თავისი <label for>', h => items.every(x => !!h.q('input#' + x[0] + '[type="checkbox"]') && hasText(h, 'label[for="' + x[0] + '"]', x[1]))), W('მონიშნულია: ' + items.filter((_, i) => chk[i]).map(x => x[1]).join(', '), h => items.every((x, i) => !!h.q('input#' + x[0]) && h.q('input#' + x[0]).checked === chk[i]))],
+            hints: ['<input type="checkbox" id="music" checked>', 'label-ის for = input-ის id.'] };
+          return s;
+        }
+        const G = picks(rng, [['ხილი', 'fruits'], ['ცხოველები', 'animals'], ['ქალაქები', 'cities'], ['კერძები', 'foods']], 2), opts = G.map(g => picks(rng, WB[g[1]], 2 + (k % 2)));
+        const sel = opts[1][0];
+        const sol = '<label for="pick">აირჩიე</label>\n<select id="pick">\n' + G.map((g, i) => '  <optgroup label="' + g[0] + '">\n' + opts[i].map(o => '    <option' + (o === sel ? ' selected' : '') + '>' + o + '</option>').join('\n') + '\n  </optgroup>').join('\n') + '\n</select>';
+        const s = { title: 'ჯგუფები: ' + G.map(g => g[0]).join(' და '), task: 'შექმენი <select id="pick"> (წარწერით „აირჩიე“) ორი <optgroup>-ით: „' + G[0][0] + '“ — ' + opts[0].join(', ') + '; „' + G[1][0] + '“ — ' + opts[1].join(', ') + '. „' + sel + '“ წინასწარ აირჩიე (selected).',
+          starter: '', solution: sol,
+          checks: [W('<select id="pick"> წარწერით', h => !!h.q('select#pick') && hasText(h, 'label[for="pick"]', 'აირჩიე')), W('ორი <optgroup>: ' + G.map(g => g[0]).join(', '), h => h.qa('select#pick optgroup').map(e => e.getAttribute('label')).join() === G.map(g => g[0]).join()), W('ვარიანტები სწორ ჯგუფებშია', h => h.qa('optgroup').every((og, i) => [...og.querySelectorAll('option')].map(o => h.t(o)).join('|') === opts[i].map(WEB_NORM).join('|'))), W('არჩეულია „' + sel + '“', h => !!h.q('select#pick') && WEB_NORM(h.q('select#pick').value) === WEB_NORM(sel))],
+          hints: ['<optgroup label="..."> option-ებს აჯგუფებს.', '<option selected>' + sel + '</option>'] };
+        return k === PER - 1 ? webBoss(rng, s, ['optgroup', 'option'], 2) : s;
+      } },
+    { key: 'h-inattr', icon: '🎚️', name: 'ველის ატრიბუტები', topic: 'min, max, step, maxlength, value', a: '#d9822b', gate: { drill: 11 },
+      theory: 'ველს წესებს ატრიბუტები აძლევს: min და max — რიცხვის საზღვრები, step — ბიჯი, maxlength — ტექსტის მაქსიმალური სიგრძე, value — საწყისი მნიშვნელობა, readonly — შეცვლა არ შეიძლება. type="range" სლაიდერია.',
+      example: '<input type="number" min="1" max="10" step="1" value="5">\n<input type="text" maxlength="20">',
+      gen(rng, k) {
+        const F = [
+          () => { const mn = ri(rng, 0, 5), mx = mn + ri(rng, 5, 50), st = pick(rng, [1, 2, 5]), v = mn + st; return { name: 'რიცხვი ' + mn + '–' + mx, html: '<input type="number" id="f" min="' + mn + '" max="' + mx + '" step="' + st + '" value="' + v + '">', need: { type: 'number', min: mn, max: mx, step: st, value: v } }; },
+          () => { const ml = pick(rng, [10, 20, 30, 50]), v = pick(rng, WB.names); return { name: 'ტექსტი ≤ ' + ml, html: '<input type="text" id="f" maxlength="' + ml + '" value="' + v + '">', need: { type: 'text', maxlength: ml, value: v } }; },
+          () => { const mx = pick(rng, [10, 20, 100]), v = ri(rng, 1, mx - 1); return { name: 'სლაიდერი 0–' + mx, html: '<input type="range" id="f" min="0" max="' + mx + '" value="' + v + '">', need: { type: 'range', min: 0, max: mx, value: v } }; },
+          () => { const v = pick(rng, WB.cities); return { name: 'readonly ველი', html: '<input type="text" id="f" value="' + v + '" readonly>', need: { type: 'text', value: v, readonly: '' } }; }
+        ];
+        const f = F[(k + ri(rng, 0, 3)) % F.length]();
+        const checks = Object.keys(f.need).map(a => W(a + (f.need[a] === '' ? '' : '="' + f.need[a] + '"'), h => !!h.q('input#f') && (f.need[a] === '' ? h.q('input#f').hasAttribute(a) : h.q('input#f').getAttribute(a) === String(f.need[a]))));
+        const s = { title: f.name, task: 'შექმენი ველი <input id="f"> ატრიბუტებით: ' + Object.keys(f.need).map(a => a + (f.need[a] === '' ? '' : '="' + f.need[a] + '"')).join(', ') + '.', starter: '<label for="f">ველი</label>\n', solution: '<label for="f">ველი</label>\n' + f.html, checks,
+          hints: ['ყველა ატრიბუტი ერთ <input> თეგში, ჰარით გამოყოფილი.', f.html] };
+        return k === PER - 1 ? webBoss(rng, s, ['label'], 2) : s;
+      } },
+    { key: 'h-dlist', icon: '💡', name: 'მინიშნებების სია', topic: '<datalist>', a: '#3a7bd5', gate: { drill: 11 },
+      theory: '<datalist> ველს ავტომატურ მინიშნებებს აძლევს: ველს list ატრიბუტი აქვს, რომელიც datalist-ის id-ს უდრის. მომხმარებელს შეუძლია აირჩიოს მინიშნება ან თავისი ტექსტი დაწეროს.',
+      example: '<input list="cities">\n<datalist id="cities">\n  <option value="თბილისი">\n  <option value="ბათუმი">\n</datalist>',
+      gen(rng, k) {
+        const L = pick(rng, [['cities', 'ქალაქი'], ['fruits', 'ხილი'], ['animals', 'ცხოველი'], ['hobbies', 'ჰობი'], ['subjects', 'საგანი']]), id = L[0] + '-list', items = picks(rng, WB[L[0]], 3 + (k % 3));
+        const sol = '<label for="q">' + L[1] + '</label>\n<input id="q" list="' + id + '">\n<datalist id="' + id + '">\n' + items.map(x => '  <option value="' + x + '">').join('\n') + '\n</datalist>';
+        const s = { title: 'მინიშნებები: ' + L[1], task: 'შექმენი ველი <input id="q" list="' + id + '"> წარწერით „' + L[1] + '“ და <datalist id="' + id + '"> ვარიანტებით: ' + items.join(', ') + '.', starter: '', solution: sol,
+          checks: [W('ველს აქვს list="' + id + '"', h => attrIs(h, 'input#q', 'list', id)), W('<datalist id="' + id + '">', h => !!h.q('datalist#' + id)), W(items.length + ' ვარიანტი სწორი value-ებით', h => h.qa('datalist#' + id + ' option').map(o => WEB_NORM(o.getAttribute('value'))).join('|') === items.map(WEB_NORM).join('|')), W('წარწერა „' + L[1] + '“', h => hasText(h, 'label[for="q"]', L[1]))],
+          hints: ['input-ის list = datalist-ის id.', '<option value="...">-ს დამხურავი თეგი არ სჭირდება.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['datalist', 'label'], 2) : s;
+      } },
+    { key: 'h-rowspan', icon: '🧮', name: 'გაერთიანებული უჯრები', topic: 'rowspan, scope', a: '#c05a3c', gate: { drill: 10 },
+      theory: 'rowspan="2" უჯრას ორ რიგზე გაჭიმავს (colspan — სვეტებზე). ასეთი უჯრის ქვემოთ რიგში ერთი უჯრით ნაკლები იწერება! scope="col" სვეტის სათაურს აღნიშნავს, scope="row" — რიგისას: ეკრანის წამკითხველი ასე უკეთ ხვდება ცხრილს.',
+      example: '<table>\n  <tr><th scope="col">დღე</th><th scope="col">გაკვეთილი</th></tr>\n  <tr><th scope="row" rowspan="2">ორშაბათი</th><td>მათემატიკა</td></tr>\n  <tr><td>ისტორია</td></tr>\n</table>',
+      gen(rng, k) {
+        const days = picks(rng, WB.days.slice(0, 5), 2), subs = days.map(() => picks(rng, WB.subjects, 2));
+        let sol = '<table>\n  <tr><th scope="col">დღე</th><th scope="col">გაკვეთილი</th></tr>\n';
+        days.forEach((d, i) => { sol += '  <tr><th scope="row" rowspan="2">' + d + '</th><td>' + subs[i][0] + '</td></tr>\n  <tr><td>' + subs[i][1] + '</td></tr>\n'; });
+        sol += '</table>';
+        const s = { title: 'განრიგი: ' + days.join(', '), task: 'შექმენი ცხრილი: სათაურები „დღე“ და „გაკვეთილი“ (scope="col"). ყოველი დღე — <th scope="row" rowspan="2">, მის გასწვრივ ორი გაკვეთილი ორ რიგად: ' + days.map((d, i) => d + ' — ' + subs[i].join(', ')).join('; ') + '.',
+          starter: '', solution: sol,
+          checks: [W('სვეტების სათაურები scope="col"', h => h.qa('th[scope="col"]').length === 2), W('დღეები — th scope="row" rowspan="2"', h => h.qa('th[scope="row"]').length === 2 && h.qa('th[scope="row"]').every((e, i) => e.getAttribute('rowspan') === '2' && h.t(e) === WEB_NORM(days[i]))), W('5 რიგი', h => h.qa('tr').length === 5), W('გაკვეთილები სწორი რიგით', h => sameList(h, 'td', subs.flat())), W('rowspan-ის ქვემოთ რიგში მხოლოდ ერთი უჯრაა', h => h.qa('tr').filter((_, i) => i === 2 || i === 4).every(tr => tr.cells.length === 1))],
+          hints: ['rowspan-იანი უჯრა მხოლოდ პირველ რიგში იწერება.', 'მეორე რიგში — მხოლოდ <td>.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['td', 'th'], 2) : s;
+      } },
+    { key: 'h-details', icon: '📂', name: 'გასაშლელი ბლოკები', topic: '<details>, <summary>', a: '#2f8f6f', gate: { drill: 3 },
+      theory: '<details> დაკეცილი ბლოკია: ჩანს მხოლოდ <summary> (სათაური), დაჭერისას კი შიგთავსი იშლება. open ატრიბუტი ბლოკს თავიდანვე გაშლილს აჩენს. ასე კეთდება ხშირი კითხვები (FAQ) და აკორდეონები — JavaScript-ის გარეშე!',
+      example: '<details>\n  <summary>რა არის HTML?</summary>\n  <p>ვებგვერდის ენა.</p>\n</details>',
+      gen(rng, k) {
+        const QA = [['რა არის HTML?', 'ვებგვერდის სტრუქტურის ენა.'], ['რა არის CSS?', 'გვერდის გაფორმების ენა.'], ['ვინ არის ბიტი?', 'კოდლენდის რობოტი.'], ['რა არის ციკლი?', 'ბრძანებების გამეორება.'], ['რა არის ცვლადი?', 'ყუთი სახელით.'], ['რა არის ბაგი?', 'შეცდომა კოდში.']];
+        const qs = picks(rng, QA, 2 + (k % 3)), op = k >= 8 ? ri(rng, 0, qs.length - 1) : -1;
+        const sol = '<h2>ხშირი კითხვები</h2>\n' + qs.map((q, i) => '<details' + (i === op ? ' open' : '') + '>\n  <summary>' + q[0] + '</summary>\n  <p>' + q[1] + '</p>\n</details>').join('\n');
+        const s = { title: 'FAQ: ' + qs.length + ' კითხვა' + (op >= 0 ? ', ერთი ღია' : ''), task: 'სათაურის ქვემოთ შექმენი ' + qs.length + ' <details> ბლოკი: ' + qs.map(q => '<summary> „' + q[0] + '“ და <p> „' + q[1] + '“').join('; ') + '.' + (op >= 0 ? ' „' + qs[op][0] + '“ თავიდანვე გაშლილი იყოს (open).' : ''),
+          starter: '<h2>ხშირი კითხვები</h2>\n', solution: sol,
+          checks: [W(qs.length + ' <details>', h => h.qa('details').length === qs.length), W('კითხვები <summary>-ში', h => sameList(h, 'details > summary', qs.map(q => q[0]))), W('პასუხები <p>-ში', h => sameList(h, 'details > p', qs.map(q => q[1])))].concat(op >= 0 ? [W('გაშლილია მხოლოდ „' + qs[op][0] + '“', h => h.qa('details').every((d, i) => d.open === (i === op)))] : []).concat([W('<details> დახურულია', h => closedTag(h.src, 'details'))]),
+          hints: ['<details><summary>კითხვა</summary><p>პასუხი</p></details>', 'open ატრიბუტს მნიშვნელობა არ სჭირდება.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['summary', 'details'], 2) : s;
+      } },
+    { key: 'h-dl', icon: '📖', name: 'განმარტებების სია', topic: '<dl>, <dt>, <dd>', a: '#7a6a8a', gate: { drill: 8 },
+      theory: '<dl> (description list) ტერმინებისა და განმარტებების სიაა: <dt> — ტერმინი, <dd> — მისი განმარტება. ლექსიკონები, პარამეტრების ჩამონათვალი და „ვინ ვინაა“ ასე იწერება.',
+      example: '<dl>\n  <dt>HTML</dt>\n  <dd>ვებგვერდის ენა</dd>\n</dl>',
+      gen(rng, k) {
+        const T = [['ცვლადი', 'მნიშვნელობის შესანახი ყუთი'], ['ციკლი', 'ბრძანებების გამეორება'], ['ფუნქცია', 'ახალი ბრძანება'], ['მასივი', 'მნიშვნელობების სია'], ['ბაგი', 'შეცდომა პროგრამაში'], ['ალგორითმი', 'ამოცანის ამოხსნის რეცეპტი'], ['პირობა', 'კითხვა, რომელიც true-ა ან false']];
+        const ts = picks(rng, T, 2 + (k % 4));
+        const sol = '<h2>ლექსიკონი</h2>\n<dl>\n' + ts.map(t => '  <dt>' + t[0] + '</dt>\n  <dd>' + t[1] + '</dd>').join('\n') + '\n</dl>';
+        const s = { title: 'ლექსიკონი: ' + ts.map(t => t[0]).join(', '), task: 'შექმენი <dl> ' + ts.length + ' ტერმინით: ' + ts.map(t => '<dt> „' + t[0] + '“ — <dd> „' + t[1] + '“').join('; ') + '.', starter: '<h2>ლექსიკონი</h2>\n', solution: sol,
+          checks: [W('გვერდზე არის <dl>', h => !!h.q('dl')), W('ტერმინები <dt>-ში', h => sameList(h, 'dl > dt', ts.map(t => t[0]))), W('განმარტებები <dd>-ში', h => sameList(h, 'dl > dd', ts.map(t => t[1]))), W('ყოველ <dt>-ს მოსდევს <dd>', h => h.qa('dl > dt').every(dt => dt.nextElementSibling && dt.nextElementSibling.tagName === 'DD')), W('<dt> და <dd> დახურულია', h => closedTag(h.src, 'dt') && closedTag(h.src, 'dd'))],
+          hints: ['თანმიმდევრობა: <dt>, <dd>, <dt>, <dd>...', '<dl>\n  <dt>ტერმინი</dt>\n  <dd>განმარტება</dd>\n</dl>'] };
+        return k === PER - 1 ? webBoss(rng, s, ['dt', 'dd'], 2) : s;
+      } },
+    { key: 'h-meta', icon: '🏷️', name: 'მეტა-ინფორმაცია', topic: '<meta>, <title>', a: '#2f9488', gate: { drill: 19 },
+      theory: '<head>-ში ის წერია, რაც გვერდზე არ ჩანს, მაგრამ ბრაუზერისა და საძიებო სისტემისთვის მნიშვნელოვანია: <meta charset="utf-8"> — ასოების კოდირება, <meta name="viewport" content="width=device-width, initial-scale=1"> — ტელეფონზე სწორი ზომა, <meta name="description" content="..."> — მოკლე აღწერა ძებნის შედეგებისთვის, <meta name="author" content="..."> — ავტორი.',
+      example: '<head>\n  <meta charset="utf-8">\n  <meta name="description" content="ბიტის ბლოგი">\n  <title>ბიტი</title>\n</head>',
+      gen(rng, k) {
+        const ttl = pick(rng, ['ბიტის ბლოგი', 'კოდლენდის გაზეთი', 'ჩემი პორტფოლიო', 'რობოტების კლუბი']), desc = pick(rng, ['სტატიები პროგრამირებაზე', 'ამბები კოდლენდიდან', 'ჩემი პროექტები და თამაშები', 'რობოტების სიახლეები']), au = pick(rng, WB.names), vp = k >= 8, aut = k >= 14;
+        const sol = '<!DOCTYPE html>\n<html lang="ka">\n<head>\n  <meta charset="utf-8">\n' + (vp ? '  <meta name="viewport" content="width=device-width, initial-scale=1">\n' : '') + '  <meta name="description" content="' + desc + '">\n' + (aut ? '  <meta name="author" content="' + au + '">\n' : '') + '  <title>' + ttl + '</title>\n</head>\n<body>\n  <h1>' + ttl + '</h1>\n</body>\n</html>';
+        const meta = (h, n) => { const e = h.d.querySelector('meta[name="' + n + '"]'); return e ? e.getAttribute('content') : null; };
+        const checks = [W('<meta charset="utf-8">', h => /<meta\s+charset=["']?utf-8/i.test(h.src)), W('description: „' + desc + '“', h => WEB_NORM(meta(h, 'description')) === WEB_NORM(desc)), W('სათაური „' + ttl + '“', h => WEB_NORM(h.d.title) === WEB_NORM(ttl)), W('<body>-ში <h1>', h => hasText(h, 'body h1', ttl))];
+        if (vp) checks.push(W('viewport: width=device-width, initial-scale=1', h => /width=device-width/.test(meta(h, 'viewport') || '') && /initial-scale=1/.test(meta(h, 'viewport') || '')));
+        if (aut) checks.push(W('author: „' + au + '“', h => WEB_NORM(meta(h, 'author')) === WEB_NORM(au)));
+        const s = { title: 'მეტა: ' + ttl, task: 'დაწერე სრული გვერდი, სადაც <head>-ში: <meta charset="utf-8">' + (vp ? ', viewport (width=device-width, initial-scale=1)' : '') + ', description „' + desc + '“' + (aut ? ', author „' + au + '“' : '') + ' და <title> „' + ttl + '“. body-ში — <h1> იგივე ტექსტით.',
+          starter: '', solution: sol, checks, hints: ['<meta name="description" content="...">', 'ყველა <meta> და <title> — <head>-ში.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['title', 'h1'], 2) : s;
+      } },
+    { key: 'h-a11y', icon: '♿', name: 'ყველასთვის ხელმისაწვდომი', topic: 'alt, aria-label, lang', a: '#3b9b5b', gate: { drill: 13 },
+      theory: 'კარგი გვერდი ყველასთვისაა — მათ შორის მათთვისაც, ვინც ეკრანის წამკითხველით „უსმენს“ საიტს. სურათს alt სჭირდება, ხატულიან ღილაკს — aria-label (ტექსტი, რომელსაც წამკითხველი წაიკითხავს), ნავიგაციას — aria-label, ტექსტს — სწორი lang.',
+      example: '<button aria-label="ძებნა">🔍</button>\n<img src="bit.svg" alt="რობოტი ბიტი">\n<nav aria-label="მთავარი მენიუ">...</nav>',
+      gen(rng, k) {
+        const btns = picks(rng, [['🔍', 'ძებნა'], ['✉️', 'წერილი'], ['❤️', 'მოწონება'], ['🗑️', 'წაშლა'], ['⚙️', 'პარამეტრები'], ['🔔', 'შეტყობინებები']], 1 + (k % 3)), alt = pick(rng, ['რობოტი ბიტი', 'ბიტი ტყეში', 'მხიარული რობოტი']), navL = k >= 10 ? pick(rng, ['მთავარი მენიუ', 'საიტის ნავიგაცია']) : null, en = k >= 16;
+        let sol = '<img src="bit.svg" alt="' + alt + '" width="80">\n' + btns.map(b => '<button aria-label="' + b[1] + '">' + b[0] + '</button>').join('\n');
+        if (navL) sol += '\n<nav aria-label="' + navL + '">\n  <a href="#home">მთავარი</a>\n</nav>';
+        if (en) sol += '\n<p lang="en">Hello, Bit!</p>';
+        const checks = [W('სურათს აქვს alt „' + alt + '“', h => !!h.q('img') && WEB_NORM(h.q('img').getAttribute('alt')) === WEB_NORM(alt)), W(btns.length + ' ღილაკი aria-label-ით: ' + btns.map(b => b[1]).join(', '), h => btns.every(b => h.qa('button').some(e => e.getAttribute('aria-label') === b[1] && e.textContent.trim() === b[0])))];
+        if (navL) checks.push(W('<nav aria-label="' + navL + '">', h => attrIs(h, 'nav', 'aria-label', navL)));
+        if (en) checks.push(W('ინგლისური აბზაცი lang="en"-ით', h => h.qa('p[lang="en"]').some(p => /hello/i.test(p.textContent))));
+        const s = { title: 'ხელმისაწვდომობა: ' + btns.map(b => b[1]).join(', '), task: 'ჩასვი სურათი (src="bit.svg", alt „' + alt + '“) და ხატულიანი ღილაკები aria-label-ით: ' + btns.map(b => b[0] + ' → „' + b[1] + '“').join(', ') + '.' + (navL ? ' დაამატე <nav aria-label="' + navL + '"> ერთი ბმულით.' : '') + (en ? ' ბოლოს აბზაცი „Hello, Bit!“ lang="en"-ით.' : ''),
+          starter: '', solution: sol, checks, hints: ['<button aria-label="ძებნა">🔍</button>', 'aria-label ღილაკის ტექსტს არ ცვლის — ის მხოლოდ წამკითხველისთვისაა.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['button'], 2) : s;
+      } },
+    { key: 'h-ent', icon: '🔣', name: 'სპეციალური სიმბოლოები', topic: '&lt; &gt; &amp; &copy;', a: '#b8577f', gate: { drill: 17 },
+      theory: 'ზოგი სიმბოლო HTML-ში განსაკუთრებულია: < თეგს იწყებს. ტექსტში რომ გამოჩნდეს, entity იწერება: &lt; — <, &gt; — >, &amp; — &, &copy; — ©, &nbsp; — ჰარი, რომელიც ხაზს არ წყვეტს. ასე გვერდზე თეგის „სახელიც“ შეიძლება დაწერო.',
+      example: '<p>&lt;p&gt; არის აბზაცის თეგი.</p>\n<p>&copy; 2026 ბიტი</p>',
+      gen(rng, k) {
+        const tags = picks(rng, [['p', 'აბზაცი'], ['h1', 'მთავარი სათაური'], ['ul', 'სია'], ['img', 'სურათი'], ['a', 'ბმული'], ['table', 'ცხრილი']], 1 + (k % 2)), year = 2020 + ri(rng, 0, 9), nm = pick(rng, WB.names), amp = k >= 10;
+        const lines = tags.map(t => '<' + t[0] + '> არის ' + t[1] + '.');
+        let sol = tags.map((t, i) => '<p>&lt;' + t[0] + '&gt; არის ' + t[1] + '.</p>').join('\n') + '\n<p>&copy; ' + year + ' ' + nm + '</p>';
+        if (amp) sol += '\n<p>HTML &amp; CSS</p>';
+        const checks = lines.map((l, i) => W('აბზაცში ჩანს: ' + l, h => !!h.qa('p')[i] && h.qa('p')[i].textContent.trim() === l));
+        checks.push(W('გვერდზე ჩანს: © ' + year + ' ' + nm, h => h.qa('p').some(p => p.textContent.replace(/\s+/g, ' ').trim() === '© ' + year + ' ' + nm)), W('გამოყენებულია entity-ები (&lt; და &copy;)', h => /&lt;/.test(h.src) && /&copy;|&#169;/.test(h.src)), W('გვერდზე ზედმეტი თეგები არ გაჩნდა', h => h.qa('body *').every(e => e.tagName === 'P')));
+        if (amp) checks.push(W('გვერდზე ჩანს: HTML & CSS', h => h.qa('p').some(p => p.textContent.trim() === 'HTML & CSS') && /&amp;/.test(h.src)));
+        const s = { title: 'entity-ები: ' + tags.map(t => '<' + t[0] + '>').join(' '), task: 'დაწერე აბზაცები, რომლებიც გვერდზე ზუსტად ასე ჩანს: ' + lines.map(l => '„' + l + '“').join(', ') + ', „© ' + year + ' ' + nm + '“' + (amp ? ', „HTML & CSS“' : '') + '. < > © ' + (amp ? '& ' : '') + 'entity-ებით ჩაწერე.',
+          starter: '', solution: sol, checks, hints: ['< → &lt;, > → &gt;, © → &copy;' + (amp ? ', & → &amp;' : '') + '.', 'თუ < პირდაპირ დაწერე, ბრაუზერი მას თეგად ჩათვლის.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['p'], 2) : s;
+      } },
+    { key: 'h-time', icon: '🕒', name: 'დრო და მისამართი', topic: '<time>, <address>, <mark>', a: '#d9822b', gate: { drill: 14 },
+      theory: 'სემანტიკური თეგები ტექსტის მნიშვნელობას ხსნის: <time datetime="2026-10-06"> — თარიღი კომპიუტერისთვის გასაგებ ფორმატში (წელი-თვე-დღე), <address> — საკონტაქტო ინფორმაცია, <mark> — მონიშნული (საძიებო) ტექსტი.',
+      example: '<p>შეხვედრა: <time datetime="2026-10-06">6 ოქტომბერი</time></p>\n<address>bit@example.com</address>',
+      gen(rng, k) {
+        const MON = ['იანვარი', 'თებერვალი', 'მარტი', 'აპრილი', 'მაისი', 'ივნისი', 'ივლისი', 'აგვისტო', 'სექტემბერი', 'ოქტომბერი', 'ნოემბერი', 'დეკემბერი'];
+        const d = ri(rng, 1, 28), m = ri(rng, 1, 12), y = 2026, iso = y + '-' + String(m).padStart(2, '0') + '-' + String(d).padStart(2, '0'), human = d + ' ' + MON[m - 1];
+        const ev = pick(rng, ['ჰაკათონი', 'რობოტების გამოფენა', 'კოდის კლუბი', 'სასკოლო ოლიმპიადა']), mail = pick(rng, ['bit', 'club', 'info']) + '@example.com', mk = k >= 10 ? pick(rng, ['უფასოა', 'ყველასთვის', 'დილის 10-ზე']) : null;
+        const sol = '<h2>' + ev + '</h2>\n<p>თარიღი: <time datetime="' + iso + '">' + human + '</time></p>\n' + (mk ? '<p>შესვლა <mark>' + mk + '</mark></p>\n' : '') + '<address>' + mail + '</address>';
+        const checks = [W('<time datetime="' + iso + '">', h => attrIs(h, 'time', 'datetime', iso)), W('<time>-ში ჩანს „' + human + '“', h => hasText(h, 'time', human)), W('<address>-ში ' + mail, h => hasText(h, 'address', mail))];
+        if (mk) checks.push(W('<mark>-ში „' + mk + '“', h => hasText(h, 'mark', mk)));
+        checks.push(W('<time> და <address> დახურულია', h => closedTag(h.src, 'time') && closedTag(h.src, 'address')));
+        const s = { title: ev + ': ' + human, task: 'სათაურის „' + ev + '“ ქვემოთ დაწერე აბზაცი „თარიღი: ' + human + '“, სადაც თარიღი <time datetime="' + iso + '">-შია;' + (mk ? ' აბზაცი „შესვლა ' + mk + '“, სადაც „' + mk + '“ <mark>-შია;' : '') + ' ბოლოს <address>-ში ' + mail + '.',
+          starter: '<h2>' + ev + '</h2>\n', solution: sol, checks, hints: ['datetime-ის ფორმატი: წელი-თვე-დღე, მაგ. ' + iso + '.', '<address> ცალკე ბლოკია.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['time', 'address'], 2) : s;
+      } },
+    { key: 'h-gallery', icon: '🖼️', name: 'გალერეა', topic: 'figure, loading="lazy"', a: '#6b5fc7', gate: { drill: 16 },
+      theory: 'გალერეა ბევრი <figure>-ისგან შედგება: თითოში <img> და <figcaption>. loading="lazy" ბრაუზერს ეუბნება, სურათი მხოლოდ მაშინ ჩატვირთოს, როცა მასთან ჩამოხვალ — გვერდი უფრო სწრაფად იხსნება. width და height სურათის ადგილს წინასწარ იტოვებს.',
+      example: '<figure>\n  <img src="bit.svg" alt="ბიტი" width="80" height="80" loading="lazy">\n  <figcaption>ბიტი</figcaption>\n</figure>',
+      gen(rng, k) {
+        const caps = picks(rng, ['ბიტი დილით', 'ბიტი სკოლაში', 'ბიტი ტყეში', 'ბიტი ზღვაზე', 'ბიტი მთაში', 'ბიტი ქალაქში', 'ბიტი სახლში'], 2 + (k % 3)), w = pick(rng, [60, 80, 100]);
+        const sol = '<section class="gallery">\n' + caps.map(c => '  <figure>\n    <img src="bit.svg" alt="' + c + '" width="' + w + '" height="' + w + '" loading="lazy">\n    <figcaption>' + c + '</figcaption>\n  </figure>').join('\n') + '\n</section>';
+        const s = { title: 'გალერეა: ' + caps.length + ' ფოტო', task: 'შექმენი <section class="gallery"> ' + caps.length + ' <figure>-ით. თითოში: <img src="bit.svg"> (alt = წარწერა, width და height ' + w + ', loading="lazy") და <figcaption>: ' + caps.join(', ') + '.',
+          starter: '', solution: sol,
+          checks: [W('<section class="gallery">', h => !!h.q('section.gallery')), W(caps.length + ' figure', h => h.qa('.gallery > figure').length === caps.length), W('წარწერები: ' + caps.join(', '), h => sameList(h, '.gallery figcaption', caps)), W('alt = წარწერა', h => h.qa('.gallery figure').every((f, i) => !!f.querySelector('img') && WEB_NORM(f.querySelector('img').getAttribute('alt')) === WEB_NORM(caps[i]))), W('ყველა სურათი: ' + w + '×' + w + ', loading="lazy"', h => h.qa('.gallery img').length === caps.length && h.qa('.gallery img').every(e => e.getAttribute('width') === String(w) && e.getAttribute('height') === String(w) && e.getAttribute('loading') === 'lazy'))],
+          hints: ['ყოველი ფოტო: <figure> → <img ...> → <figcaption>.', 'loading="lazy" — img-ის ატრიბუტია.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['figure', 'figcaption'], 2) : s;
+      } },
+    { key: 'h-ol2', icon: '🔢', name: 'სიები II', topic: 'reversed, value, ჩადგმული ol', a: '#3a7bd5', gate: { drill: 7 },
+      theory: '<ol reversed> უკუღმა ითვლის (5, 4, 3...) — რეიტინგებისთვის. <li value="10"> კონკრეტულ ელემენტს ნომერს აძლევს, შემდეგები კი იქიდან გრძელდება. სიები ერთმანეთში ჩაიდება — ქვესია <li>-ის შიგნით იწერება.',
+      example: '<ol reversed>\n  <li>მესამე ადგილი</li>\n  <li>მეორე ადგილი</li>\n  <li>პირველი ადგილი</li>\n</ol>',
+      gen(rng, k) {
+        if (k < 12) {
+          const items = picks(rng, WB.names, 3 + (k % 3)), rev = k % 2 === 0, val = rev ? null : ri(rng, 5, 20);
+          const sol = '<h2>რეიტინგი</h2>\n<ol' + (rev ? ' reversed' : '') + '>\n' + items.map((x, i) => '  <li' + (val && i === 0 ? ' value="' + val + '"' : '') + '>' + x + '</li>').join('\n') + '\n</ol>';
+          return { title: rev ? 'უკუღმა რეიტინგი' : 'ნუმერაცია ' + val + '-დან', task: 'შექმენი <ol> სახელებით: ' + items.join(', ') + '.' + (rev ? ' ნუმერაცია უკუღმა იყოს (reversed).' : ' პირველ ელემენტს მიეცი value="' + val + '".'),
+            starter: '<h2>რეიტინგი</h2>\n', solution: sol,
+            checks: [W('სიაში ' + items.length + ' სახელი', h => sameList(h, 'ol > li', items)), rev ? W('ol-ს აქვს reversed', h => !!h.q('ol') && h.q('ol').reversed) : W('პირველ li-ს value="' + val + '"', h => !!h.q('ol > li') && h.q('ol > li').getAttribute('value') === String(val))],
+            hints: [rev ? '<ol reversed>' : '<li value="' + val + '">', 'დანარჩენი ელემენტები ჩვეულებრივია.'] };
+        }
+        const groups = picks(rng, [['ხილი', 'fruits'], ['ქალაქები', 'cities'], ['ცხოველები', 'animals']], 2), subs = groups.map(g => picks(rng, WB[g[1]], 2));
+        const sol = '<ol>\n' + groups.map((g, i) => '  <li>' + g[0] + '\n    <ol type="a">\n' + subs[i].map(x => '      <li>' + x + '</li>').join('\n') + '\n    </ol>\n  </li>').join('\n') + '\n</ol>';
+        const s = { title: 'ჩადგმული ol: ' + groups.map(g => g[0]).join(', '), task: 'შექმენი დანომრილი სია ორი ელემენტით: ' + groups.map((g, i) => '„' + g[0] + '“ — შიგნით ქვესია <ol type="a">: ' + subs[i].join(', ')).join('; ') + '.',
+          starter: '', solution: sol,
+          checks: [W('მთავარ სიაში 2 ელემენტია', h => h.qa('body > ol > li').length === 2), W('ყოველ ელემენტში ქვესია <ol type="a">', h => h.qa('body > ol > li').every(li => !!li.querySelector('ol[type="a"]'))), W('ქვესიები სწორია', h => h.qa('body > ol > li').every((li, i) => [...li.querySelectorAll('ol > li')].map(e => h.t(e)).join('|') === subs[i].map(WEB_NORM).join('|'))), W('<li> დახურულია', h => closedTag(h.src, 'li'))],
+          hints: ['ქვესია <li>-ის შიგნით, ტექსტის შემდეგ.', '<ol type="a"> ასოებით ნომრავს.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['li', 'ol'], 2) : s;
+      } },
+    { key: 'h-article', icon: '📰', name: 'სტატიის სტრუქტურა', topic: 'article, header, footer', a: '#c05a3c', gate: { drill: 14 },
+      theory: 'სტატია (<article>) დამოუკიდებელი ნაწილია: მას თავისი <header> აქვს (სათაური და თარიღი), შიგნით <section>-ები ქვესათაურებით და <footer> (ავტორი, ტეგები). ერთ გვერდზე რამდენიმე სტატიაც შეიძლება იყოს.',
+      example: '<article>\n  <header><h2>სათაური</h2></header>\n  <section><h3>ნაწილი</h3><p>...</p></section>\n  <footer>ავტორი: ბიტი</footer>\n</article>',
+      gen(rng, k) {
+        const t = pick(rng, ['როგორ ვისწავლე ციკლები', 'ჩემი პირველი თამაში', 'რობოტების გამოფენა', 'რატომ მიყვარს Python', 'ერთი დღე კოდლენდში']), secs = headings(rng, 2 + (k % 2)), ps = sentences(rng, secs.length), au = pick(rng, WB.names);
+        const sol = '<article>\n  <header>\n    <h2>' + t + '</h2>\n    <p>ავტორი: ' + au + '</p>\n  </header>\n' + secs.map((x, i) => '  <section>\n    <h3>' + x + '</h3>\n    <p>' + ps[i] + '</p>\n  </section>').join('\n') + '\n  <footer>\n    <p>მადლობა წაკითხვისთვის!</p>\n  </footer>\n</article>';
+        const s = { title: 'სტატია: ' + t, task: 'შექმენი <article>: <header>-ში <h2> „' + t + '“ და <p> „ავტორი: ' + au + '“; შემდეგ ' + secs.length + ' <section> (<h3> + <p>): ' + secs.map((x, i) => '„' + x + '“ — „' + ps[i] + '“').join('; ') + '; ბოლოს <footer> აბზაცით „მადლობა წაკითხვისთვის!“.',
+          starter: '', solution: sol,
+          checks: [W('<article> > <header> > <h2> „' + t + '“', h => hasText(h, 'article > header > h2', t)), W('ავტორი header-შია', h => hasText(h, 'article > header > p', 'ავტორი: ' + au)), W(secs.length + ' section სათაურებით', h => sameList(h, 'article > section > h3', secs)), W('აბზაცები სექციებში', h => sameList(h, 'article > section > p', ps)), W('<footer> სტატიის ბოლოს', h => !!h.q('article > footer') && h.q('article').lastElementChild === h.q('article > footer')), W('ყველა თეგი დახურულია', h => ['article', 'header', 'section', 'footer'].every(x => closedTag(h.src, x)))],
+          hints: ['header → section-ები → footer, ყველა <article>-ის შიგნით.', 'ყოველ section-ში: <h3> და <p>.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['section', 'h3', 'p'], 2) : s;
+      } },
+    { key: 'h-code', icon: '⌨️', name: 'კოდი და კლავიშები', topic: '<pre>, <code>, <kbd>, <samp>', a: '#2f8f6f', gate: { drill: 17 },
+      theory: 'ტექნიკურ ტექსტს თავისი თეგები აქვს: <code> — კოდი, <pre> — ტექსტი ზუსტად ისე, როგორც დაწერე, <kbd> — კლავიში ან კლავიშების კომბინაცია (Ctrl + C), <samp> — პროგრამის მიერ დაბეჭდილი შედეგი.',
+      example: '<p>დააჭირე <kbd>Ctrl</kbd> + <kbd>Enter</kbd></p>\n<pre><code>print("გამარჯობა")</code></pre>\n<p>შედეგი: <samp>გამარჯობა</samp></p>',
+      gen(rng, k) {
+        const K = pick(rng, [['Ctrl', 'Enter', 'კოდის გასაშვებად'], ['Ctrl', 'C', 'კოპირებისთვის'], ['Ctrl', 'V', 'ჩასასმელად'], ['Ctrl', 'S', 'შესანახად'], ['Ctrl', 'Z', 'გასაუქმებლად']]);
+        const P = pick(rng, [['console.log(2 + 3);', '5'], ['print("ბიტი")', 'ბიტი'], ['print(7 // 2)', '3'], ['console.log("კოდი".length);', '4']]);
+        const sol = '<p>' + K[2] + ' დააჭირე <kbd>' + K[0] + '</kbd> + <kbd>' + K[1] + '</kbd></p>\n<pre><code>' + P[0] + '</code></pre>\n<p>შედეგი: <samp>' + P[1] + '</samp></p>';
+        const s = { title: 'კლავიშები ' + K[0] + ' + ' + K[1], task: 'დაწერე სამი ხაზი: (1) „' + K[2] + ' დააჭირე ' + K[0] + ' + ' + K[1] + '“ — თითო კლავიში <kbd>-ში; (2) კოდი <pre><code>-ში: ' + P[0] + '; (3) „შედეგი: ' + P[1] + '“ — შედეგი <samp>-ში.',
+          starter: '', solution: sol,
+          checks: [W('ორი <kbd>: ' + K[0] + ' და ' + K[1], h => h.qa('kbd').map(e => e.textContent.trim()).join('+') === K[0] + '+' + K[1]), W('კოდი <pre><code>-ში', h => !!h.q('pre code') && h.q('pre code').textContent.trim() === P[0]), W('შედეგი <samp>-ში: ' + P[1], h => !!h.q('samp') && h.q('samp').textContent.trim() === P[1]), W('თეგები დახურულია', h => ['kbd', 'code', 'samp', 'pre'].every(x => closedTag(h.src, x)))],
+          hints: ['თითო კლავიში ცალკე <kbd>-შია.', '<pre><code>კოდი</code></pre>'] };
+        return k === PER - 1 ? webBoss(rng, s, ['kbd', 'samp'], 2) : s;
+      } },
+    { key: 'h-form3', icon: '📝', name: 'რეგისტრაციის ფორმა', topic: 'required, minlength, pattern', a: '#b54848', gate: { drill: 12 },
+      theory: 'ფორმას ბრაუზერი თავად ამოწმებს, თუ ველს წესები აქვს: required — სავალდებულო, minlength — მინიმალური სიგრძე, type="email" — ელფოსტის ფორმატი, min/max — რიცხვის საზღვრები. ასე არასწორი მონაცემი ფორმიდან არ გაიგზავნება.',
+      example: '<form>\n  <input id="pw" type="password" minlength="8" required>\n</form>',
+      gen(rng, k) {
+        const F = [{ id: 'user', lab: 'მომხმარებელი', ty: 'text', at: { required: '', minlength: 3 } }, { id: 'mail', lab: 'ელფოსტა', ty: 'email', at: { required: '' } }, { id: 'pw', lab: 'პაროლი', ty: 'password', at: { required: '', minlength: 8 } }, { id: 'age', lab: 'ასაკი', ty: 'number', at: { min: 7, max: 99 } }];
+        const use = F.slice(0, 2 + (k % 3));
+        const attrs = a => Object.keys(a).map(x => (a[x] === '' ? ' ' + x : ' ' + x + '="' + a[x] + '"')).join('');
+        const sol = '<form>\n  <fieldset>\n    <legend>რეგისტრაცია</legend>\n' + use.map(f => '    <label for="' + f.id + '">' + f.lab + '</label>\n    <input id="' + f.id + '" type="' + f.ty + '"' + attrs(f.at) + '>').join('\n') + '\n    <button type="submit">რეგისტრაცია</button>\n  </fieldset>\n</form>';
+        const checks = [W('<form> > <fieldset> > <legend> „რეგისტრაცია“', h => hasText(h, 'form fieldset > legend', 'რეგისტრაცია'))];
+        use.forEach(f => checks.push(W('„' + f.lab + '“: type="' + f.ty + '"' + attrs(f.at), h => { const e = h.q('input#' + f.id); return !!e && e.getAttribute('type') === f.ty && hasText(h, 'label[for="' + f.id + '"]', f.lab) && Object.keys(f.at).every(x => (f.at[x] === '' ? e.hasAttribute(x) : e.getAttribute(x) === String(f.at[x]))); })));
+        checks.push(W('ღილაკი type="submit"', h => h.qa('form button').some(b => b.getAttribute('type') === 'submit')));
+        const s = { title: 'რეგისტრაცია: ' + use.length + ' ველი', task: 'შექმენი ფორმა <fieldset>-ით (<legend> „რეგისტრაცია“). ველები წარწერებით: ' + use.map(f => '„' + f.lab + '“ (id="' + f.id + '", type="' + f.ty + '"' + attrs(f.at) + ')').join('; ') + '. ბოლოს <button type="submit">.',
+          starter: '', solution: sol, checks, hints: ['წესები input-ის ატრიბუტებია: required, minlength="8"...', 'label for = input id.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['label', 'legend'], 2) : s;
+      } },
+    { key: 'h-table4', icon: '🛒', name: 'პროდუქტების ცხრილი', topic: 'thead, tbody, tfoot, colspan', a: '#d9822b', gate: { drill: 10 },
+      theory: 'სრულ ცხრილს ყველა ნაწილი აქვს: <caption>, <thead> (სვეტების სათაურები), <tbody> (მონაცემები), <tfoot> (ჯამი). ჯამის უჯრა colspan-ით რამდენიმე სვეტზე იჭიმება. ფასები და რაოდენობები ყველა რიგში ერთსა და იმავე სვეტშია.',
+      example: '<table>\n  <caption>შენაძენი</caption>\n  <thead><tr><th>ნივთი</th><th>ფასი</th></tr></thead>\n  <tbody><tr><td>რვეული</td><td>3</td></tr></tbody>\n  <tfoot><tr><td>სულ</td><td>3</td></tr></tfoot>\n</table>',
+      gen(rng, k) {
+        const items = picks(rng, [['რვეული', 3], ['კალამი', 1], ['წიგნი', 15], ['ჩანთა', 40], ['ფანქარი', 1], ['სახაზავი', 2], ['საშლელი', 1]], 2 + (k % 3)).map(([n, p]) => [n, p, ri(rng, 1, 4)]);
+        const total = items.reduce((s, x) => s + x[1] * x[2], 0);
+        const sol = '<table>\n  <caption>შენაძენი</caption>\n  <thead>\n    <tr><th>ნივთი</th><th>ფასი</th><th>რაოდენობა</th><th>ჯამი</th></tr>\n  </thead>\n  <tbody>\n' + items.map(x => '    <tr><td>' + x[0] + '</td><td>' + x[1] + '</td><td>' + x[2] + '</td><td>' + x[1] * x[2] + '</td></tr>').join('\n') + '\n  </tbody>\n  <tfoot>\n    <tr><td colspan="3">სულ</td><td>' + total + '</td></tr>\n  </tfoot>\n</table>';
+        const s = { title: 'შენაძენი: ' + items.map(x => x[0]).join(', '), task: 'შექმენი ცხრილი (<caption> „შენაძენი“): სვეტები „ნივთი“, „ფასი“, „რაოდენობა“, „ჯამი“ (thead-ში). tbody-ში: ' + items.map(x => x[0] + ' — ფასი ' + x[1] + ', რაოდენობა ' + x[2]).join('; ') + ' (ჯამი = ფასი × რაოდენობა). tfoot-ში: „სულ“ (colspan="3") და ' + total + '.',
+          starter: '', solution: sol,
+          checks: [W('<caption> „შენაძენი“', h => hasText(h, 'caption', 'შენაძენი')), W('thead-ში 4 სვეტი', h => sameList(h, 'thead th', ['ნივთი', 'ფასი', 'რაოდენობა', 'ჯამი'])), W('tbody-ში ' + items.length + ' რიგი სწორი ჯამებით', h => h.qa('tbody tr').length === items.length && items.every((x, i) => { const c = h.qa('tbody tr')[i].cells; return c.length === 4 && h.t(c[0]) === WEB_NORM(x[0]) && h.t(c[3]) === String(x[1] * x[2]); })), W('tfoot: „სულ“ colspan="3" და ' + total, h => attrIs(h, 'tfoot td', 'colspan', '3') && !!h.q('tfoot') && h.t(h.q('tfoot')).endsWith(String(total)))],
+          hints: ['ჯამის სვეტი = ფასი × რაოდენობა (თავად გამოთვალე).', '<td colspan="3">სულ</td><td>' + total + '</td>'] };
+        return k === PER - 1 ? webBoss(rng, s, ['td', 'tr'], 2) : s;
+      } },
+    { key: 'h-layout', icon: '🧱', name: 'საიტის ჩონჩხი', topic: 'header, nav, main, aside, footer', a: '#7a6a8a', gate: { drill: 15 },
+      theory: 'ტიპური საიტის ჩონჩხი: <header> (ლოგო და <nav> მენიუთი), <main> (სექციები id-ებით, რომლებზეც მენიუ მიუთითებს), <aside> (გვერდითი ბლოკი) და <footer>. ბმული href="#id" იმავე გვერდის სექციაზე გადადის.',
+      example: '<header>\n  <nav><a href="#about">შესახებ</a></nav>\n</header>\n<main>\n  <section id="about"><h2>შესახებ</h2></section>\n</main>\n<footer>© ბიტი</footer>',
+      gen(rng, k) {
+        const site = pick(rng, ['ბიტის სამყარო', 'კოდის სკოლა', 'რობოტების კლუბი', 'ჩემი პორტფოლიო']), secs = picks(rng, [['about', 'შესახებ'], ['projects', 'პროექტები'], ['blog', 'ბლოგი'], ['contact', 'კონტაქტი'], ['team', 'გუნდი']], 2 + (k % 3));
+        const sol = '<header>\n  <h1>' + site + '</h1>\n  <nav>\n' + secs.map(s2 => '    <a href="#' + s2[0] + '">' + s2[1] + '</a>').join('\n') + '\n  </nav>\n</header>\n<main>\n' + secs.map(s2 => '  <section id="' + s2[0] + '">\n    <h2>' + s2[1] + '</h2>\n  </section>').join('\n') + '\n</main>\n<aside>\n  <p>რჩევა დღისთვის</p>\n</aside>\n<footer>\n  <p>© ' + site + '</p>\n</footer>';
+        const s = { title: 'ჩონჩხი: ' + site, task: 'ააწყე საიტი: <header>-ში <h1> „' + site + '“ და <nav> ბმულებით ' + secs.map(s2 => '„' + s2[1] + '“ → #' + s2[0]).join(', ') + '; <main>-ში თითო ბმულისთვის <section id="..."> სათაურით <h2>; შემდეგ <aside> (აბზაცი „რჩევა დღისთვის“) და <footer> (აბზაცი „© ' + site + '“).',
+          starter: '', solution: sol,
+          checks: [W('<header>-ში <h1> და <nav>', h => hasText(h, 'header h1', site) && !!h.q('header nav')), W('მენიუს ბმულები', h => h.qa('header nav a').map(a => a.getAttribute('href')).join() === secs.map(s2 => '#' + s2[0]).join() && sameList(h, 'header nav a', secs.map(s2 => s2[1]))), W('სექციები id-ებით main-ში', h => secs.every(s2 => !!h.q('main > section#' + s2[0] + ' > h2') && h.t(h.q('main > section#' + s2[0] + ' > h2')) === WEB_NORM(s2[1]))), W('<aside> და <footer>', h => hasText(h, 'aside p', 'რჩევა დღისთვის') && !!h.q('footer')), W('რიგი: header → main → aside → footer', h => before(h.q('header'), h.q('main')) && before(h.q('main'), h.q('aside')) && before(h.q('aside'), h.q('footer')))],
+          hints: ['ბმულის href = # + სექციის id.', 'ოთხი დიდი ბლოკი რიგით: header, main, aside, footer.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['a', 'section'], 2) : s;
+      } },
+    { key: 'h-blog', icon: '✍️', name: 'ბლოგის პოსტი', topic: 'პროექტი: სტატია მედიით', a: '#3a7bd5', gate: { drill: 20 },
+      theory: 'ბლოგის პოსტი ბევრ თეგს აერთიანებს: სათაური, თარიღი (<time>), შესავალი აბზაცი, სურათი წარწერით (<figure>), ციტატა (<blockquote>), სია და ბოლოს ტეგები. ყველაფერი <article>-ის შიგნითაა.',
+      example: '<article>\n  <h1>სათაური</h1>\n  <p><time datetime="2026-10-06">6 ოქტომბერი</time></p>\n  <blockquote>ციტატა</blockquote>\n</article>',
+      gen(rng, k) {
+        const t = pick(rng, ['ჩემი პირველი რობოტი', 'როგორ ვისწავლე ფუნქციები', 'კოდლენდის ექსკურსია', 'ჰაკათონის დღიური', 'ბიტის საიდუმლო']), d = ri(rng, 1, 28), q = pick(rng, ['შეცდომა სწავლის ნაწილია.', 'ჯერ იფიქრე, მერე წერე.', 'მარტივი კოდი საუკეთესოა.']), tags = picks(rng, ['HTML', 'CSS', 'რობოტები', 'სკოლა', 'კოდი'], 2 + (k % 2));
+        const iso = '2026-10-' + String(d).padStart(2, '0');
+        const sol = '<article>\n  <h1>' + t + '</h1>\n  <p><time datetime="' + iso + '">' + d + ' ოქტომბერი</time></p>\n  <p>' + sentences(rng, 1)[0] + '</p>\n  <figure>\n    <img src="bit.svg" alt="' + t + '" width="120">\n    <figcaption>' + t + '</figcaption>\n  </figure>\n  <blockquote>' + q + '</blockquote>\n  <ul class="tags">\n' + tags.map(x => '    <li>' + x + '</li>').join('\n') + '\n  </ul>\n</article>';
+        const s = { title: 'ბლოგი: ' + t, task: 'შექმენი <article>: <h1> „' + t + '“; აბზაცში <time datetime="' + iso + '"> „' + d + ' ოქტომბერი“; ნებისმიერი შესავალი აბზაცი; <figure> (bit.svg, alt და figcaption — „' + t + '“); <blockquote> „' + q + '“; ბოლოს <ul class="tags"> ტეგებით: ' + tags.join(', ') + '.',
+          starter: '', solution: sol,
+          checks: [W('<article> > <h1> „' + t + '“', h => hasText(h, 'article > h1', t)), W('<time datetime="' + iso + '">', h => attrIs(h, 'article time', 'datetime', iso)), W('სურათი წარწერით', h => !!h.q('article figure img') && hasText(h, 'article figcaption', t)), W('ციტატა', h => hasText(h, 'article blockquote', q)), W('ტეგები: ' + tags.join(', '), h => sameList(h, 'article ul.tags > li', tags)), W('აბზაცები სულ მცირე 2', h => h.qa('article > p').length >= 2)],
+          hints: ['ყველა ნაწილი <article>-ის შიგნითაა, ამ რიგით.', 'ტეგების სია: <ul class="tags"><li>...</li></ul>.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['li', 'figcaption', 'blockquote'], 3) : s;
+      } },
+    { key: 'h-land', icon: '🚀', name: 'სადესანტო გვერდი', topic: 'პროექტი: hero, features, ფორმა', a: '#b54848', gate: { drill: 20 },
+      theory: 'სადესანტო (landing) გვერდი ერთ პროდუქტს წარადგენს: hero-ბლოკი (დიდი სათაური, მოკლე ტექსტი და ღილაკი-ბმული), უპირატესობების სია, გამოწერის ფორმა და footer. ⚠️ ბოლო გამოცდაში გლიჩი ბაგებს ჩადებს.',
+      example: '<section class="hero">\n  <h1>CodeQuest</h1>\n  <a href="#join">დაიწყე</a>\n</section>',
+      gen(rng, k) {
+        const prod = pick(rng, ['CodeQuest', 'BitBot', 'კოდის სკოლა', 'რობოკლუბი']), feats = picks(rng, ['უფასოა', 'ქართულად', '7 ენა', 'ტელეფონზეც მუშაობს', 'სერტიფიკატები', 'ყოველდღიური გამოწვევა'], 3);
+        const sol = '<section class="hero">\n  <h1>' + prod + '</h1>\n  <p>ისწავლე პროგრამირება თამაშით.</p>\n  <a href="#join">დაიწყე ახლავე</a>\n</section>\n<section class="features">\n  <h2>რატომ ' + prod + '?</h2>\n  <ul>\n' + feats.map(f => '    <li>' + f + '</li>').join('\n') + '\n  </ul>\n</section>\n<section id="join">\n  <h2>შემოგვიერთდი</h2>\n  <form>\n    <label for="em">ელფოსტა</label>\n    <input id="em" type="email" required>\n    <button type="submit">გამოწერა</button>\n  </form>\n</section>\n<footer>\n  <p>© ' + prod + '</p>\n</footer>';
+        const s = { title: 'სადესანტო: ' + prod, task: 'ააწყე გვერდი: (1) <section class="hero"> — <h1> „' + prod + '“, აბზაცი და ბმული „დაიწყე ახლავე“ → #join; (2) <section class="features"> — <h2> „რატომ ' + prod + '?“ და სია: ' + feats.join(', ') + '; (3) <section id="join"> — <h2> „შემოგვიერთდი“ და ფორმა (ელფოსტის ველი id="em", required, წარწერით; ღილაკი „გამოწერა“); (4) <footer>.',
+          starter: '', solution: sol,
+          checks: [W('hero: <h1> „' + prod + '“', h => hasText(h, 'section.hero > h1', prod)), W('hero-ს ბმული → #join', h => h.qa('section.hero a').some(a => a.getAttribute('href') === '#join' && h.t(a) === WEB_NORM('დაიწყე ახლავე'))), W('უპირატესობები: ' + feats.join(', '), h => sameList(h, 'section.features li', feats)), W('ფორმა #join-ში: email, required', h => !!h.q('section#join form input#em[type="email"]') && h.q('input#em').required && hasText(h, 'label[for="em"]', 'ელფოსტა')), W('ღილაკი „გამოწერა“', h => h.qa('section#join button').some(b => h.t(b) === WEB_NORM('გამოწერა') && b.getAttribute('type') === 'submit')), W('<footer> ბოლოშია', h => !!h.q('footer') && before(h.q('section#join'), h.q('footer')))],
+          hints: ['ოთხი დიდი ბლოკი რიგით: hero, features, join, footer.', 'hero-ს ბმული: <a href="#join">დაიწყე ახლავე</a>.'] };
+        return k === PER - 1 ? webBoss(rng, s, ['li', 'h2', 'a', 'label'], 3) : s;
+      } }
+  ];
+
+
+  /* ---------- CSS, II საფეხური (21–40) ---------- */
+  const box = (h, sel) => { const e = h.q(sel); return e ? e.getBoundingClientRect() : null; };
+  const near = (a, b) => Math.abs(a - b) <= 1;
+  // CSS-ის hsl → rgb (როგორც ბრაუზერი ითვლის)
+  const hslRgb = (hh, s2, l2) => { const f = n => { const kk = (n + hh / 30) % 12, a = s2 * Math.min(l2, 1 - l2); return Math.round(255 * (l2 - a * Math.max(-1, Math.min(kk - 3, 9 - kk, 1)))); }; return 'rgb(' + f(0) + ', ' + f(8) + ', ' + f(4) + ')'; };
+  const C_TOPICS2 = [
+    { key: 'c-units', icon: '📐', name: 'ერთეულები', topic: 'em, rem, %', a: '#6b5fc7', gate: { drill: 3 },
+      theory: 'px ზუსტი ზომაა, მაგრამ არსებობს ფარდობითიც: em — მშობლის შრიფტის ზომასთან შედარებით (2em = ორჯერ მეტი), rem — გვერდის (html) შრიფტის ზომასთან შედარებით (ჩვეულებრივ 16px, ამიტომ 1.5rem = 24px), % — მშობლის სიგანის ნაწილი (width: 50%).',
+      example: 'h1 {\n  font-size: 2rem;\n}\n\n.half {\n  width: 50%;\n}',
+      gen(rng, k) {
+        const kind = k % 3;
+        let html, base, sel, decl, checks, title, task;
+        if (kind === 0) { const r = pick(rng, [1.5, 2, 2.5, 3]); html = '<h1>' + headings(rng, 1)[0] + '</h1>\n<p>' + sentences(rng, 1)[0] + '</p>'; base = ''; sel = 'h1'; decl = ['font-size: ' + r + 'rem']; title = 'rem: ' + r + 'rem'; task = 'სათაურის ზომა გახადე ' + r + 'rem (გვერდის ზომა 16px-ია, ანუ სათაური ' + r * 16 + 'px გამოვა).'; checks = [W('სათაური — ' + r * 16 + 'px', h => cs(h, 'h1', 'font-size') === r * 16 + 'px'), W('გამოყენებულია rem', h => /rem\b/.test(h.src))]; }
+        else if (kind === 1) { const e = pick(rng, [1.5, 2, 3]), pf = pick(rng, [12, 14, 16]); html = '<div class="card">\n  <p>ტექსტი <span class="big">დიდი</span> სიტყვით.</p>\n</div>'; base = '.card { font-size: ' + pf + 'px; }'; sel = '.big'; decl = ['font-size: ' + e + 'em']; title = 'em: ' + e + 'em'; task = '.big ელემენტის შრიფტი გახადე ' + e + 'em — მშობლის ზომა ' + pf + 'px-ია, ანუ ' + e * pf + 'px გამოვა.'; checks = [W('.big — ' + e * pf + 'px', h => cs(h, '.big', 'font-size') === e * pf + 'px'), W('გამოყენებულია em', h => /\d(\.\d+)?em\b/.test(h.src))]; }
+        else { const pc = pick(rng, [25, 40, 50, 75]), cw = pick(rng, [300, 400, 480]); html = '<div class="wrap">\n  <div class="part">ნაწილი</div>\n</div>'; base = '.wrap { width: ' + cw + 'px; background: #eef; } .part { background: #ffd; }'; sel = '.part'; decl = ['width: ' + pc + '%']; title = 'პროცენტი: ' + pc + '%'; task = '.part-ის სიგანე გახადე მშობლის (' + cw + 'px) ' + pc + '% — ანუ ' + cw * pc / 100 + 'px.'; checks = [W('.part — ' + cw * pc / 100 + 'px', h => near(parseFloat(cs(h, '.part', 'width')), cw * pc / 100)), W('გამოყენებულია %', h => /\d%/.test(h.src))]; }
+        const s = { title, task, html, base, starter: '', solution: css([[sel, decl]]), checks, hints: ['ერთეული რიცხვს მიეწერება ჰარის გარეშე: 2rem, 1.5em, 50%.', css([[sel, decl]])] };
+        return k === PER - 1 ? cssBoss(rng, s, 1) : s;
+      } },
+    { key: 'c-rgb', icon: '🌈', name: 'ფერის ჩაწერა', topic: 'rgb(), #hex, hsl()', a: '#b8577f', gate: { drill: 2 },
+      theory: 'ფერი რამდენიმენაირად იწერება: სახელით (tomato), #hex-ით (#ff6347 ან მოკლედ #f63), rgb()-ით — წითლის, მწვანისა და ლურჯის რაოდენობა 0-დან 255-მდე: rgb(255, 99, 71), hsl()-ით — ტონი (0–360°), გაჯერება და სიკაშკაშე: hsl(9, 100%, 64%).',
+      example: 'h1 {\n  color: rgb(255, 99, 71);\n}\n\np {\n  color: #36c;\n}',
+      gen(rng, k) {
+        const kind = k % 3, r = ri(rng, 20, 220), g = ri(rng, 20, 220), b = ri(rng, 20, 220);
+        let val, title, task, want;
+        if (kind === 0) { val = 'rgb(' + r + ', ' + g + ', ' + b + ')'; want = val; title = 'rgb(' + r + ', ' + g + ', ' + b + ')'; task = 'სათაური h1 გახადე ფერით rgb(' + r + ', ' + g + ', ' + b + ').'; }
+        else if (kind === 1) { const hx = pick(rng, ['#36c', '#f63', '#3a6', '#93c', '#c33', '#069', '#960']); val = hx; want = 'rgb(' + [1, 2, 3].map(i => parseInt(hx[i] + hx[i], 16)).join(', ') + ')'; title = 'მოკლე hex: ' + hx; task = 'სათაური h1 გახადე ფერით ' + hx + ' (მოკლე ჩაწერა: ' + hx + ' = #' + [1, 2, 3].map(i => hx[i] + hx[i]).join('') + ').'; }
+        else { const hue = pick(rng, [0, 120, 240, 30, 280]); val = 'hsl(' + hue + ', 100%, 40%)'; want = hslRgb(hue, 1, 0.4); title = 'hsl(' + hue + ', 100%, 40%)'; task = 'სათაური h1 გახადე ფერით hsl(' + hue + ', 100%, 40%) — ტონი ' + hue + '°.'; }
+        const s = { title, task, html: '<h1>' + headings(rng, 1)[0] + '</h1>\n<p>' + sentences(rng, 1)[0] + '</p>', starter: '', solution: css([['h1', ['color: ' + val]]]),
+          checks: [W('h1-ის ფერი — ' + val, h => cs(h, 'h1', 'color') === want), W('p არ შეცვლილა', h => cs(h, 'p', 'color') === BLACK)], hints: ['h1 { color: ' + val + '; }', 'ფერის ჩაწერის ფორმა ზუსტად ისე, როგორც დავალებაშია.'] };
+        return k === PER - 1 ? cssBoss(rng, s, 1) : s;
+      } },
+    { key: 'c-short', icon: '📦', name: 'მოკლე ჩანაწერები', topic: 'padding: 5px 10px 15px 20px', a: '#2f9488', gate: { drill: 10 },
+      theory: 'padding და margin ოთხ მნიშვნელობასაც იღებს — საათის ისრის მიმართულებით: ზემოთ, მარჯვნივ, ქვემოთ, მარცხნივ (padding: 5px 10px 15px 20px). სამი მნიშვნელობა: ზემოთ, გვერდები, ქვემოთ. ორი: ზემო-ქვემო და გვერდები.',
+      example: '.box {\n  padding: 5px 10px 15px 20px;\n  margin: 10px 0 20px;\n}',
+      gen(rng, k) {
+        const prop = k % 2 ? 'margin' : 'padding', n = 2 + (k % 3), vals = Array.from({ length: n }, () => pick(rng, [0, 4, 6, 8, 10, 12, 15, 20, 25, 30]));
+        const full = n === 4 ? vals : n === 3 ? [vals[0], vals[1], vals[2], vals[1]] : [vals[0], vals[1], vals[0], vals[1]];
+        const val = vals.map(v => (v ? v + 'px' : '0')).join(' ');
+        const S4 = ['top', 'right', 'bottom', 'left'], KA4 = { top: 'ზემოთ', right: 'მარჯვნივ', bottom: 'ქვემოთ', left: 'მარცხნივ' };
+        const s = { title: prop + ': ' + val, task: '.box-ს მიეცი ' + prop + ' ერთი ჩანაწერით (' + n + ' მნიშვნელობა): ' + S4.map((x, i) => KA4[x] + ' ' + full[i] + 'px').join(', ') + '.', html: '<div class="box">' + sentences(rng, 1)[0] + '</div>', base: '.box { background: #e3f2fd; }', starter: '', solution: css([['.box', [prop + ': ' + val]]]),
+          checks: S4.map((x, i) => W(prop + '-' + x + ': ' + full[i] + 'px', h => cs(h, '.box', prop + '-' + x) === full[i] + 'px')).concat([W('ერთი ჩანაწერი (' + n + ' მნიშვნელობა)', h => new RegExp(prop + '\\s*:\\s*(\\S+\\s+){' + (n - 1) + '}\\S+\\s*;?').test(h.src))]),
+          hints: ['რიგი: ზემოთ → მარჯვნივ → ქვემოთ → მარცხნივ.', css([['.box', [prop + ': ' + val]]])] };
+        return k === PER - 1 ? cssBoss(rng, s, 1) : s;
+      } },
+    { key: 'c-sides', icon: '🔳', name: 'ჩარჩოს მხარეები', topic: 'border-left, outline', a: '#c05a3c', gate: { drill: 11 },
+      theory: 'ჩარჩო ცალკეულ მხარესაც შეიძლება: border-left: 5px solid teal; — მხოლოდ მარცხნივ (კარგია ციტატებისა და შენიშვნებისთვის). outline ჩარჩოს ჰგავს, მაგრამ ადგილს არ იკავებს და ზომას არ ცვლის — ის ფოკუსის აღსანიშნავად გამოიყენება.',
+      example: '.note {\n  border-left: 5px solid teal;\n}\n\n.btn {\n  outline: 2px dashed orange;\n}',
+      gen(rng, k) {
+        const side = pick(rng, ['left', 'top', 'bottom', 'right']), w = pick(rng, [2, 3, 4, 5, 6]), st = pick(rng, ['solid', 'dashed', 'dotted']), col = pick(rng, TEXT_C), ol = k >= 12;
+        const decl = ol ? ['outline: ' + w + 'px ' + st + ' ' + col] : ['border-' + side + ': ' + w + 'px ' + st + ' ' + col];
+        const checks = ol ? [W('outline: ' + w + 'px ' + st + ' ' + col, h => cs(h, '.note', 'outline-width') === w + 'px' && cs(h, '.note', 'outline-style') === st && cs(h, '.note', 'outline-color') === rgbOf(col)), W('ჩარჩო (border) არ არის', h => cs(h, '.note', 'border-top-style') === 'none')]
+          : [W('border-' + side + ': ' + w + 'px ' + st + ' ' + col, h => cs(h, '.note', 'border-' + side + '-width') === w + 'px' && cs(h, '.note', 'border-' + side + '-style') === st && cs(h, '.note', 'border-' + side + '-color') === rgbOf(col)), W('სხვა მხარეებს ჩარჩო არ აქვს', h => ['left', 'top', 'bottom', 'right'].filter(x => x !== side).every(x => cs(h, '.note', 'border-' + x + '-style') === 'none'))];
+        const s = { title: ol ? 'outline ' + st : 'border-' + side + ' ' + st, task: '.note-ს მიეცი ' + (ol ? 'outline' : 'მხოლოდ ' + { left: 'მარცხენა', top: 'ზედა', bottom: 'ქვედა', right: 'მარჯვენა' }[side] + ' ჩარჩო') + ': ' + w + 'px, ' + st + ', ' + colorKa(col) + '.', html: '<p class="note">' + sentences(rng, 1)[0] + '</p>', base: '.note { padding: 8px; }', starter: '', solution: css([['.note', decl]]), checks,
+          hints: ['თვისება: ' + decl[0].split(':')[0] + '.', css([['.note', decl]])] };
+        return k === PER - 1 ? cssBoss(rng, s, 2) : s;
+      } },
+    { key: 'c-boxsz', icon: '📏', name: 'box-sizing', topic: 'border-box', a: '#3a7bd5', gate: { drill: 13 },
+      theory: 'ჩვეულებრივ width მხოლოდ შიგთავსის სიგანეა: padding და border მას ემატება, და ყუთი გეგმაზე განიერი გამოდის. box-sizing: border-box ამას ცვლის — width უკვე padding-ს და border-ს მოიცავს. ბევრი დიზაინერი მას ყველა ელემენტს აძლევს.',
+      example: '.card {\n  box-sizing: border-box;\n  width: 200px;\n  padding: 20px;\n}',
+      gen(rng, k) {
+        const w = pick(rng, [160, 200, 240]), p = pick(rng, [10, 15, 20]), b = pick(rng, [2, 4, 5]);
+        const s = { title: 'border-box ' + w + 'px', task: '.card-ს მიეცი box-sizing: border-box, width ' + w + 'px, padding ' + p + 'px და ჩარჩო ' + b + 'px solid navy — ყუთის მთლიანი სიგანე ზუსტად ' + w + 'px უნდა იყოს.', html: '<div class="card">ბიტის ბარათი</div>', base: '.card { background: #fff8e1; }', starter: '',
+          solution: css([['.card', ['box-sizing: border-box', 'width: ' + w + 'px', 'padding: ' + p + 'px', 'border: ' + b + 'px solid navy']]]),
+          checks: [W('box-sizing: border-box', h => cs(h, '.card', 'box-sizing') === 'border-box'), W('მთლიანი სიგანე ' + w + 'px', h => near(box(h, '.card').width, w)), W('padding ' + p + 'px', h => cs(h, '.card', 'padding-left') === p + 'px'), W('ჩარჩო ' + b + 'px', h => cs(h, '.card', 'border-left-width') === b + 'px')],
+          hints: ['border-box-ის გარეშე ყუთი ' + (w + 2 * p + 2 * b) + 'px იქნებოდა.', 'ოთხი თვისება ერთ წესში.'] };
+        return k === PER - 1 ? cssBoss(rng, s, 2) : s;
+      } },
+    { key: 'c-grad', icon: '🌅', name: 'გრადიენტები', topic: 'linear-gradient', a: '#d9822b', gate: { drill: 2 },
+      theory: 'background: linear-gradient(to right, gold, tomato); ფონს ერთი ფერიდან მეორეში გადასვლით ხატავს. მიმართულება: to right, to bottom, 45deg... ფერები რამდენიც გინდა, მძიმით. radial-gradient(...) წრიულ გადასვლას ქმნის.',
+      example: '.banner {\n  background: linear-gradient(to right, gold, tomato);\n}',
+      gen(rng, k) {
+        const dir = pick(rng, ['to right', 'to bottom', 'to left', '45deg', '90deg']), cols = picks(rng, ['gold', 'tomato', 'lightblue', 'navy', 'teal', 'pink', 'orange', 'purple'], 2 + (k >= 12 ? 1 : 0)), rad = k >= 18;
+        const val = rad ? 'radial-gradient(' + cols.join(', ') + ')' : 'linear-gradient(' + dir + ', ' + cols.join(', ') + ')';
+        const s = { title: rad ? 'წრიული გრადიენტი' : 'გრადიენტი ' + dir, task: '.banner-ს ფონად მიეცი ' + val + '.', html: '<div class="banner">ბიტის ბანერი</div>', base: '.banner { height: 80px; padding: 10px; }', starter: '', solution: css([['.banner', ['background: ' + val]]]),
+          checks: [W((rad ? 'radial' : 'linear') + '-gradient ფონი', h => new RegExp((rad ? 'radial' : 'linear') + '-gradient').test(cs(h, '.banner', 'background-image'))), W('ფერები: ' + cols.join(', '), h => { const bi = cs(h, '.banner', 'background-image'); return cols.every(c => bi.includes(rgbOf(c))); })].concat(rad ? [] : [W('მიმართულება ' + dir, h => new RegExp(dir.replace(/\s+/g, '\\s+')).test(h.src))]),
+          hints: ['background: ' + val + ';', 'ფერები მძიმით, ბოლოს — დამხურავი ფრჩხილი.'] };
+        return k === PER - 1 ? cssBoss(rng, s, 1) : s;
+      } },
+    { key: 'c-text2', icon: '〰️', name: 'ტექსტის ეფექტები', topic: 'wavy, small-caps, nowrap', a: '#7a6a8a', gate: { drill: 4 },
+      theory: 'ხაზგასმას სტილიც აქვს: text-decoration: underline wavy red — ტალღოვანი წითელი ხაზი (როგორც შეცდომისას). font-variant: small-caps პატარა ასოებს „პატარა დიდ ასოებად“ აჩენს (ლათინურზე). white-space: nowrap ტექსტს ერთ ხაზზე ტოვებს, არ გადაიტანს.',
+      example: '.err {\n  text-decoration: underline wavy red;\n}\n\n.logo {\n  font-variant: small-caps;\n}',
+      gen(rng, k) {
+        const kind = k % 3, col = pick(rng, ['red', 'blue', 'green', 'orange', 'purple']), st = pick(rng, ['wavy', 'dotted', 'dashed', 'double']);
+        let html, sel, decl, checks, title, task;
+        if (kind === 0) { html = '<p>ეს <span class="err">შეცდომა</span> უნდა გასწორდეს.</p>'; sel = '.err'; decl = ['text-decoration: underline ' + st + ' ' + col]; title = 'ხაზგასმა ' + st; task = '.err-ს მიეცი ' + st + ' ხაზგასმა ფერით ' + colorKa(col) + ': text-decoration: underline ' + st + ' ' + col + '.'; checks = [W('underline', h => /underline/.test(cs(h, '.err', 'text-decoration-line'))), W('სტილი ' + st, h => cs(h, '.err', 'text-decoration-style') === st), W('ფერი ' + col, h => cs(h, '.err', 'text-decoration-color') === rgbOf(col))]; }
+        else if (kind === 1) { html = '<h1 class="logo">Bit Robotics</h1>'; sel = '.logo'; decl = ['font-variant: small-caps']; title = 'small-caps'; task = '.logo-ს მიეცი font-variant: small-caps.'; checks = [W('font-variant: small-caps', h => /small-caps/.test(cs(h, '.logo', 'font-variant') + ' ' + cs(h, '.logo', 'font-variant-caps')))]; }
+        else { html = '<div class="tag">' + sentences(rng, 2).join(' ') + '</div>'; sel = '.tag'; decl = ['white-space: nowrap']; title = 'nowrap'; task = '.tag-ის ტექსტი ერთ ხაზზე დატოვე: white-space: nowrap.'; checks = [W('white-space: nowrap', h => cs(h, '.tag', 'white-space') === 'nowrap')]; }
+        const s = { title, task, html, base: '.tag { width: 150px; background: #f1f8e9; }', starter: '', solution: css([[sel, decl]]), checks, hints: ['თვისება: ' + decl[0].split(':')[0] + '.', css([[sel, decl]])] };
+        return k === PER - 1 ? cssBoss(rng, s, 1) : s;
+      } },
+    { key: 'c-pos', icon: '📍', name: 'position: relative', topic: 'top, left', a: '#2f8f6f', gate: { drill: 13 },
+      theory: 'position: relative ელემენტს თავისი ჩვეულებრივი ადგილიდან წაანაცვლებს: top: 10px — 10px-ით ქვემოთ, left: 20px — 20px-ით მარჯვნივ. სხვა ელემენტები ისე რჩება, თითქოს არაფერი შეცვლილა.',
+      example: '.moved {\n  position: relative;\n  top: 10px;\n  left: 20px;\n}',
+      gen(rng, k) {
+        const t = pick(rng, [5, 10, 15, 20, 30]), l = pick(rng, [10, 20, 25, 40]);
+        const s = { title: 'relative: ' + t + 'px / ' + l + 'px', task: '.moved წაანაცვლე თავისი ადგილიდან: ' + t + 'px ქვემოთ (top) და ' + l + 'px მარჯვნივ (left) — position: relative-ით.', html: '<div class="moved">💎</div>\n<div class="still">🔑</div>', base: '.moved, .still { width: 60px; padding: 6px; background: #e8ecff; }', starter: '',
+          solution: css([['.moved', ['position: relative', 'top: ' + t + 'px', 'left: ' + l + 'px']]]),
+          checks: [W('position: relative', h => cs(h, '.moved', 'position') === 'relative'), W('top ' + t + 'px, left ' + l + 'px', h => cs(h, '.moved', 'top') === t + 'px' && cs(h, '.moved', 'left') === l + 'px'), W('ელემენტი მართლა გადაინაცვლა', h => near(box(h, '.moved').left - box(h, '.still').left, l))],
+          hints: ['ჯერ position: relative, მერე top და left.', css([['.moved', ['position: relative', 'top: ' + t + 'px', 'left: ' + l + 'px']]])] };
+        return k === PER - 1 ? cssBoss(rng, s, 2) : s;
+      } },
+    { key: 'c-abs', icon: '🎯', name: 'position: absolute', topic: 'კუთხეში მიმაგრება', a: '#b54848', gate: { drill: 13 },
+      theory: 'position: absolute ელემენტს ჩვეულებრივი რიგიდან ამოიღებს და ზუსტ ადგილას დასვამს — უახლოესი „პოზიციონირებული“ მშობლის (position: relative) კიდეებიდან: top: 0; right: 0; — ზედა მარჯვენა კუთხე. ასე კეთდება ბეჯები, ხატულები და შეტყობინებების რიცხვები.',
+      example: '.card {\n  position: relative;\n}\n\n.badge {\n  position: absolute;\n  top: 0;\n  right: 0;\n}',
+      gen(rng, k) {
+        const corner = pick(rng, [['top', 'right'], ['top', 'left'], ['bottom', 'right'], ['bottom', 'left']]), off = pick(rng, [0, 5, 10]);
+        const KA = { top: 'ზედა', bottom: 'ქვედა', left: 'მარცხენა', right: 'მარჯვენა' };
+        const decl = ['position: absolute', corner[0] + ': ' + (off ? off + 'px' : '0'), corner[1] + ': ' + (off ? off + 'px' : '0')];
+        const s = { title: 'ბეჯი: ' + KA[corner[0]] + ' ' + KA[corner[1]] + ' კუთხე', task: '.card-ს მიეცი position: relative, ხოლო .badge მიამაგრე ბარათის ' + KA[corner[0]] + ' ' + KA[corner[1]] + ' კუთხეში: position: absolute, ' + corner[0] + ' და ' + corner[1] + ' — ' + off + 'px.', html: '<div class="card">\n  ბიტის ბარათი\n  <span class="badge">3</span>\n</div>', base: '.card { width: 200px; height: 100px; background: #e3f2fd; } .badge { background: tomato; color: white; padding: 2px 8px; border-radius: 10px; }', starter: '',
+          solution: css([['.card', ['position: relative']], ['.badge', decl]]),
+          checks: [W('.card — relative', h => cs(h, '.card', 'position') === 'relative'), W('.badge — absolute', h => cs(h, '.badge', 'position') === 'absolute'), W('ბეჯი ' + KA[corner[0]] + ' ' + KA[corner[1]] + ' კუთხეშია (' + off + 'px)', h => { const c = box(h, '.card'), b = box(h, '.badge'); if (!c || !b) return false; const v = corner[0] === 'top' ? b.top - c.top : c.bottom - b.bottom, hz = corner[1] === 'left' ? b.left - c.left : c.right - b.right; return near(v, off) && near(hz, off); })],
+          hints: ['მშობელს — relative, ბეჯს — absolute.', css([['.badge', decl]])] };
+        return k === PER - 1 ? cssBoss(rng, s, 2) : s;
+      } },
+    { key: 'c-z', icon: '🥞', name: 'ფენები z-index', topic: 'z-index', a: '#6b5fc7', gate: { drill: 13 },
+      theory: 'როცა ელემენტები ერთმანეთს ფარავს, z-index წყვეტს, რომელი ზემოთ იყოს: მეტი რიცხვი — ზედა ფენა. z-index მხოლოდ პოზიციონირებულ ელემენტებზე მუშაობს (position: relative, absolute...).',
+      example: '.front {\n  position: relative;\n  z-index: 2;\n}',
+      gen(rng, k) {
+        const names = ['red', 'blue', 'green'], order = shuffle(rng, [1, 2, 3]), top = names[order.indexOf(3)];
+        const html = '<div class="stack">\n' + names.map((n, i) => '  <div class="card ' + n + '" style="left:' + i * 30 + 'px;top:' + i * 20 + 'px">' + n + '</div>').join('\n') + '\n</div>';
+        const base = '.stack { position: relative; height: 160px; } .card { position: absolute; width: 90px; height: 70px; color: white; padding: 4px; } .red { background: crimson; } .blue { background: steelblue; } .green { background: seagreen; }';
+        const sol = css(names.map((n, i) => ['.' + n, ['z-index: ' + order[i]]]));
+        const s = { title: 'ზემოთ: ' + top, task: 'სამი ბარათი ერთმანეთს ფარავს. მიეცი z-index: ' + names.map((n, i) => '.' + n + ' — ' + order[i]).join(', ') + ' — ყველაზე ზემოთ .' + top + ' იქნება.', html, base, starter: '', solution: sol,
+          checks: names.map((n, i) => W('.' + n + ' — z-index ' + order[i], h => cs(h, '.' + n, 'z-index') === String(order[i]))),
+          hints: ['z-index — მთელი რიცხვი, მეტი = ზემოთ.', sol] };
+        return k === PER - 1 ? cssBoss(rng, s, 1) : s;
+      } },
+    { key: 'c-flex3', icon: '↔️', name: 'Flexbox III', topic: 'flex-grow, order, align-self', a: '#3a7bd5', gate: { drill: 16 },
+      theory: 'flex-grow ამბობს, თავისუფალი ადგილის რა წილს იკავებს შვილი: flex-grow: 2 — ორჯერ მეტს, ვიდრე flex-grow: 1. order ცვლის რიგს ეკრანზე (კოდის შეუცვლელად): ნაკლები order — უფრო ადრე. align-self ერთ შვილს ცალკე ასწორებს.',
+      example: '.main {\n  flex-grow: 2;\n}\n\n.side {\n  flex-grow: 1;\n  order: -1;\n}',
+      gen(rng, k) {
+        const kind = k % 3;
+        const html = '<div class="row">\n  <div class="a">A</div>\n  <div class="b">B</div>\n  <div class="c">C</div>\n</div>', base = '.row { display: flex; width: 600px; height: 120px; } .a, .b, .c { flex-basis: 0; background: #e8ecff; border: 1px solid #99a; }';
+        let sol, checks, title, task;
+        if (kind === 0) { const g = pick(rng, [2, 3]); sol = css([['.a', ['flex-grow: 1']], ['.b', ['flex-grow: ' + g]], ['.c', ['flex-grow: 1']]]); title = 'flex-grow 1 : ' + g + ' : 1'; task = '.a-ს და .c-ს flex-grow: 1, .b-ს — flex-grow: ' + g + '. ჯამში ' + (g + 2) + ' წილი: B ' + g + '-ჯერ განიერი იქნება.'; checks = [W('.b ' + g + '-ჯერ განიერია .a-ზე', h => { const a = box(h, '.a').width, b = box(h, '.b').width; return Math.abs(b / a - g) < 0.08; }), W('.a და .c ტოლია', h => near(box(h, '.a').width, box(h, '.c').width))]; }
+        else if (kind === 1) { const first = pick(rng, ['b', 'c']); sol = css([['.' + first, ['order: -1']]]); title = 'order: ' + first.toUpperCase() + ' პირველი'; task = '.' + first + ' ეკრანზე პირველი გახადე order: -1-ით (HTML არ შეცვალო).'; checks = [W('.' + first + ' — order: -1', h => cs(h, '.' + first, 'order') === '-1'), W(first.toUpperCase() + ' ყველაზე მარცხნივაა', h => ['a', 'b', 'c'].filter(x => x !== first).every(x => box(h, '.' + first).left < box(h, '.' + x).left))]; }
+        else { const al = pick(rng, ['flex-end', 'center', 'flex-start']), w = pick(rng, ['a', 'b', 'c']); sol = css([['.row', ['align-items: stretch']], ['.' + w, ['align-self: ' + al, 'height: 40px']]]); title = 'align-self: ' + al; task = '.' + w + '-ს მიეცი height: 40px და align-self: ' + al + ' (დანარჩენები სიმაღლეზე იჭიმება — align-items: stretch .row-ზე).'; checks = [W('.' + w + ' — align-self: ' + al, h => cs(h, '.' + w, 'align-self') === al), W('სიმაღლე 40px', h => cs(h, '.' + w, 'height') === '40px'), W('სხვები სიმაღლეზე იჭიმება', h => ['a', 'b', 'c'].filter(x => x !== w).every(x => near(box(h, '.' + x).height, 120)))]; }
+        const s = { title, task, html, base, starter: '', solution: sol, checks, hints: ['flex-ის თვისებები შვილებს ეძლევა.', sol] };
+        return k === PER - 1 ? cssBoss(rng, s, 1) : s;
+      } },
+    { key: 'c-grid2', icon: '🧱', name: 'Grid II', topic: 'span, rows, fr + px', a: '#d9822b', gate: { drill: 17 },
+      theory: 'grid-template-columns-ში px და fr შეიძლება შეურიო: 100px 1fr — პირველი სვეტი 100px, მეორე — დანარჩენი ადგილი. grid-column: span 2 ელემენტს ორ სვეტზე გაჭიმავს. grid-template-rows რიგების სიმაღლეს ადგენს.',
+      example: '.grid {\n  display: grid;\n  grid-template-columns: 100px 1fr;\n}\n\n.wide {\n  grid-column: span 2;\n}',
+      gen(rng, k) {
+        const side = pick(rng, [80, 100, 120, 150]), rows = k >= 10 ? pick(rng, [50, 60, 80]) : null;
+        const html = '<div class="grid">\n  <div class="head">სათაური</div>\n  <div class="nav">მენიუ</div>\n  <div class="main">შიგთავსი</div>\n</div>', base = '.grid { width: 500px; } .grid > div { background: #e0f7fa; border: 1px solid #8ab; }';
+        const decl = ['display: grid', 'grid-template-columns: ' + side + 'px 1fr'].concat(rows ? ['grid-template-rows: ' + rows + 'px ' + rows + 'px'] : []);
+        const sol = css([['.grid', decl], ['.head', ['grid-column: span 2']]]);
+        const s = { title: 'Grid: ' + side + 'px + 1fr' + (rows ? ', რიგები ' + rows + 'px' : ''), task: '.grid: display: grid, სვეტები ' + side + 'px და 1fr' + (rows ? ', ორი რიგი ' + rows + 'px სიმაღლით' : '') + '. .head ორივე სვეტზე გაჭიმე (grid-column: span 2).', html, base, starter: '', solution: sol,
+          checks: [W('.nav — ' + side + 'px სიგანე', h => near(box(h, '.nav').width, side)), W('.main ავსებს დანარჩენს', h => near(box(h, '.main').width, 500 - side)), W('.head ორივე სვეტზეა', h => near(box(h, '.head').width, 500))].concat(rows ? [W('რიგის სიმაღლე ' + rows + 'px', h => near(box(h, '.nav').height, rows))] : []),
+          hints: ['grid-template-columns: ' + side + 'px 1fr;', '.head { grid-column: span 2; }'] };
+        return k === PER - 1 ? cssBoss(rng, s, 2) : s;
+      } },
+    { key: 'c-pseudoel', icon: '✨', name: '::before და ::after', topic: 'content', a: '#b8577f', gate: { drill: 18 },
+      theory: '::before და ::after ელემენტის შიგნით, დასაწყისში და ბოლოში, დამატებით შიგთავსს ქმნის — HTML-ის შეუცვლელად. content აუცილებელია: content: "★ "; — ტექსტი ბრჭყალებში. ასე ემატება ხატულები, ისრები და დეკორაციები.',
+      example: '.tip::before {\n  content: "💡 ";\n}\n\n.next::after {\n  content: " →";\n}',
+      gen(rng, k) {
+        const where = k % 2 ? 'after' : 'before', txt = pick(rng, where === 'before' ? ['★ ', '💡 ', '✔ ', '👉 ', '# '] : [' →', ' ✓', ' !', ' 🚀', ' »']), col = k >= 10 ? pick(rng, TEXT_C) : null;
+        const decl = ['content: "' + txt + '"'].concat(col ? ['color: ' + col] : []);
+        const s = { title: '::' + where + ' „' + txt.trim() + '“', task: '.item ელემენტებს ' + (where === 'before' ? 'დასაწყისში' : 'ბოლოში') + ' დაუმატე „' + txt + '“ (::' + where + ', content)' + (col ? ' ფერით ' + colorKa(col) : '') + '.', html: '<ul>\n' + picks(rng, WB.hobbies, 3).map(x => '  <li class="item">' + x + '</li>').join('\n') + '\n</ul>', starter: '', solution: css([['.item::' + where, decl]]),
+          checks: [W('::' + where + ' content: „' + txt + '“', h => h.qa('.item').every(e => h.w.getComputedStyle(e, '::' + where).getPropertyValue('content') === JSON.stringify(txt)))].concat(col ? [W('ფერი ' + col, h => h.qa('.item').every(e => h.w.getComputedStyle(e, '::' + where).getPropertyValue('color') === rgbOf(col)))] : []),
+          hints: ['სელექტორი: .item::' + where, 'content-ის ტექსტი ბრჭყალებშია: content: "' + txt + '";'] };
+        return k === PER - 1 ? cssBoss(rng, s, 1) : s;
+      } },
+    { key: 'c-nth', icon: '🔢', name: 'ფსევდო-კლასები II', topic: ':nth-child(3n), :not()', a: '#2f9488', gate: { drill: 18 },
+      theory: ':nth-child(3n) ყოველ მესამეს ირჩევს (3, 6, 9...), :nth-child(3n+1) — 1, 4, 7... :not(.done) — ყველას, ვისაც done კლასი არ აქვს. :first-of-type და :last-of-type — თავისი ტიპის პირველი და ბოლო ელემენტი.',
+      example: 'li:nth-child(3n) {\n  color: red;\n}\n\nli:not(.done) {\n  font-weight: bold;\n}',
+      gen(rng, k) {
+        const items = picks(rng, WB.fruits, 7), done = items.map(() => rng() < 0.4), col = pick(rng, TEXT_C);
+        const P = [['li:nth-child(3n)', 'ყოველი მესამე (3, 6)', i => (i + 1) % 3 === 0], ['li:nth-child(3n+1)', '1-ლი, მე-4, მე-7', i => i % 3 === 0], ['li:nth-child(2n+3)', 'მე-3-დან ყოველი მეორე (3, 5, 7)', i => i >= 2 && i % 2 === 0], ['li:not(.done)', 'ყველა, ვისაც .done არ აქვს', i => !done[i]], ['li:last-of-type', 'ბოლო', i => i === 6]];
+        const p = P[(k + ri(rng, 0, 4)) % P.length];
+        const html = '<ul>\n' + items.map((x, i) => '  <li' + (done[i] ? ' class="done"' : '') + '>' + x + '</li>').join('\n') + '\n</ul>';
+        const s = { title: p[0] + ' — ' + col, task: 'გაფერადე ' + colorKa(col) + ' სიის ელემენტები: ' + p[1] + '. გამოიყენე ' + p[0].slice(2) + ' — კლასები არ დაამატო.', html, starter: '', solution: css([[p[0], ['color: ' + col]]]),
+          checks: [W('სწორი ელემენტებია გაფერადებული', h => h.qa('li').every((e, i) => (h.cs(e, 'color') === rgbOf(col)) === p[2](i))), W('გამოყენებულია ' + p[0].slice(2).replace(/\(.*/, ''), h => new RegExp(p[0].slice(3).replace(/\(.*/, '')).test(h.src))],
+          hints: ['სელექტორი: ' + p[0], css([[p[0], ['color: ' + col]]])] };
+        return k === PER - 1 ? cssBoss(rng, s, 1) : s;
+      } },
+    { key: 'c-attrsel', icon: '🔎', name: 'ატრიბუტის სელექტორები', topic: 'a[href^="https"], [type="email"]', a: '#c05a3c', gate: { drill: 8 },
+      theory: 'ელემენტი ატრიბუტითაც შეიძლება აირჩიო: [type="email"] — ზუსტი მნიშვნელობით, a[href^="https"] — იწყება „https“-ით, a[href$=".pdf"] — მთავრდება „.pdf“-ით, [title] — ვისაც title საერთოდ აქვს.',
+      example: 'a[href^="https"] {\n  color: green;\n}\n\ninput[type="email"] {\n  border-color: blue;\n}',
+      gen(rng, k) {
+        const col = pick(rng, TEXT_C), kind = k % 3;
+        let html, sel, checks, title, task;
+        if (kind === 0) { html = '<a href="https://example.com">დაცული ბმული</a>\n<a href="http://example.org">ძველი ბმული</a>\n<a href="#top">ზემოთ</a>'; sel = 'a[href^="https"]'; title = 'href იწყება https-ით'; task = 'მხოლოდ ის ბმულები, რომელთა href „https“-ით იწყება, გახადე ' + colorKa(col) + '.'; checks = [W('https-ბმული — ' + col, h => cs(h, 'a[href^="https"]', 'color') === rgbOf(col)), W('სხვა ბმულები არ შეცვლილა', h => h.qa('a').filter(a => !/^https/.test(a.getAttribute('href'))).every(a => h.cs(a, 'color') !== rgbOf(col)))]; }
+        else if (kind === 1) { html = '<a href="guide.pdf">სახელმძღვანელო</a>\n<a href="page.html">გვერდი</a>\n<a href="notes.pdf">ჩანაწერები</a>'; sel = 'a[href$=".pdf"]'; title = 'href მთავრდება .pdf-ით'; task = '.pdf-ით დამთავრებული ბმულები გახადე ' + colorKa(col) + '.'; checks = [W('.pdf ბმულები — ' + col, h => h.qa('a[href$=".pdf"]').every(a => h.cs(a, 'color') === rgbOf(col))), W('page.html არ შეცვლილა', h => cs(h, 'a[href="page.html"]', 'color') !== rgbOf(col))]; }
+        else { html = '<input type="text" placeholder="სახელი">\n<input type="email" placeholder="ელფოსტა">\n<input type="password" placeholder="პაროლი">'; sel = 'input[type="email"]'; title = '[type="email"]'; task = 'მხოლოდ ელფოსტის ველს (input[type="email"]) მიეცი ტექსტის ფერი ' + colorKa(col) + '.'; checks = [W('email ველი — ' + col, h => cs(h, 'input[type="email"]', 'color') === rgbOf(col)), W('სხვა ველები არ შეცვლილა', h => h.qa('input:not([type="email"])').every(e => h.cs(e, 'color') !== rgbOf(col)))]; }
+        checks.push(W('გამოყენებულია ატრიბუტის სელექტორი [...]', h => /\[[a-z]+[\^$]?="/.test(h.src)));
+        const s = { title, task, html, starter: '', solution: css([[sel, ['color: ' + col]]]), checks, hints: ['სელექტორი: ' + sel, css([[sel, ['color: ' + col]]])] };
+        return k === PER - 1 ? cssBoss(rng, s, 1) : s;
+      } },
+    { key: 'c-transform', icon: '🔄', name: 'გარდაქმნები', topic: 'transform, transition', a: '#3b9b5b', gate: { drill: 19 },
+      theory: 'transform ელემენტს ატრიალებს, ზრდის ან აძრავს — სხვა ელემენტების შეუცვლელად: rotate(15deg), scale(1.5), translateX(20px). transition ცვლილებას ნელ, ლამაზ ანიმაციად აქცევს: transition: transform 0.3s;.',
+      example: '.card {\n  transform: rotate(10deg);\n  transition: transform 0.3s;\n}',
+      gen(rng, k) {
+        const kind = k % 3, dur = k >= 10 ? pick(rng, [0.2, 0.3, 0.5]) : null;
+        let val, title, ok;
+        if (kind === 0) { const d = pick(rng, [5, 10, 15, 30, 45, 90]); val = 'rotate(' + d + 'deg)'; title = 'შემობრუნება ' + d + '°'; ok = m => { const r = d * Math.PI / 180; return Math.abs(m[0] - Math.cos(r)) < 0.01 && Math.abs(m[1] - Math.sin(r)) < 0.01; }; }
+        else if (kind === 1) { const sc = pick(rng, [1.2, 1.5, 2, 0.8]); val = 'scale(' + sc + ')'; title = 'გადიდება ×' + sc; ok = m => Math.abs(m[0] - sc) < 0.01 && Math.abs(m[3] - sc) < 0.01; }
+        else { const tx = pick(rng, [10, 20, 30, 50]); val = 'translateX(' + tx + 'px)'; title = 'წანაცვლება ' + tx + 'px'; ok = m => Math.abs(m[4] - tx) < 0.5 && Math.abs(m[0] - 1) < 0.01; }
+        const decl = ['transform: ' + val].concat(dur ? ['transition: transform ' + dur + 's'] : []);
+        const mat = h => { const t = cs(h, '.card', 'transform'); const m = /matrix\(([^)]+)\)/.exec(t); return m ? m[1].split(',').map(Number) : null; };
+        const s = { title, task: '.card-ს მიეცი transform: ' + val + (dur ? ' და transition: transform ' + dur + 's' : '') + '.', html: '<div class="card">ბიტი</div>', base: '.card { width: 120px; padding: 20px; background: #ffe8a3; margin: 30px; }', starter: '', solution: css([['.card', decl]]),
+          checks: [W('transform: ' + val, h => { const m = mat(h); return !!m && ok(m); })].concat(dur ? [W('transition ' + dur + 's', h => cs(h, '.card', 'transition-duration') === dur + 's')] : []),
+          hints: ['transform-ს ფუნქცია სჭირდება: ' + val + '.', css([['.card', decl]])] };
+        return k === PER - 1 ? cssBoss(rng, s, 1) : s;
+      } },
+    { key: 'c-list', icon: '📃', name: 'სიების სტილი', topic: 'list-style', a: '#7a6a8a', gate: { drill: 6 },
+      theory: 'list-style-type სიის ნიშანს ცვლის: disc (წრე), circle, square (კვადრატი), decimal (ციფრები), upper-roman (I, II, III), lower-alpha (a, b, c), none (ნიშნის გარეშე — მენიუებისთვის). list-style-position: inside ნიშანს ტექსტის შიგნით შეიყვანს.',
+      example: 'ul {\n  list-style-type: square;\n}\n\n.menu {\n  list-style-type: none;\n}',
+      gen(rng, k) {
+        const t = pick(rng, ['square', 'circle', 'upper-roman', 'lower-alpha', 'decimal', 'none']), inside = k >= 12, tag = /roman|alpha|decimal/.test(t) ? 'ol' : 'ul';
+        const decl = ['list-style-type: ' + t].concat(inside ? ['list-style-position: inside'] : []);
+        const s = { title: 'list-style: ' + t + (inside ? ', inside' : ''), task: tag + '-ს მიეცი list-style-type: ' + t + (inside ? ' და list-style-position: inside' : '') + '.', html: '<' + tag + '>\n' + picks(rng, WB.cities, 4).map(x => '  <li>' + x + '</li>').join('\n') + '\n</' + tag + '>', starter: '', solution: css([[tag, decl]]),
+          checks: [W('list-style-type: ' + t, h => cs(h, 'li', 'list-style-type') === t)].concat(inside ? [W('list-style-position: inside', h => cs(h, 'li', 'list-style-position') === 'inside')] : []),
+          hints: ['თვისება სიის თეგს (' + tag + ') ეძლევა — li-ები მას იღებენ.', css([[tag, decl]])] };
+        return k === PER - 1 ? cssBoss(rng, s, 1) : s;
+      } },
+    { key: 'c-table', icon: '📊', name: 'ცხრილის სტილი', topic: 'border-collapse, zebra', a: '#3a7bd5', gate: { drill: 18 },
+      theory: 'ცხრილს ასე აფორმებენ: border-collapse: collapse — მეზობელი უჯრების ჩარჩოები ერთ ხაზად ერთიანდება; th-ს ფონი და ფერი; td-ს padding; tr:nth-child(even) — ყოველი მეორე რიგის ფონი („ზებრა“), რომ ცხრილი ადვილად იკითხებოდეს.',
+      example: 'table {\n  border-collapse: collapse;\n}\n\ntr:nth-child(even) {\n  background-color: #f1f3f5;\n}',
+      gen(rng, k) {
+        const thb = pick(rng, ['navy', 'teal', 'darkgreen', 'indigo']), zebra = pick(rng, ['#f1f3f5', '#e3f2fd', '#fff3cd', '#e8f5e9']), pad = pick(rng, [6, 8, 10, 12]);
+        const html = '<table>\n  <tr><th>სახელი</th><th>ქულა</th></tr>\n' + picks(rng, WB.names, 4).map(n => '  <tr><td>' + n + '</td><td>' + ri(rng, 10, 99) + '</td></tr>').join('\n') + '\n</table>';
+        const sol = css([['table', ['border-collapse: collapse']], ['th', ['background-color: ' + thb, 'color: white']], ['td', ['padding: ' + pad + 'px']], ['tr:nth-child(even)', ['background-color: ' + zebra]]]);
+        const s = { title: 'ცხრილი: ' + thb + ' და ზებრა', task: 'table: border-collapse: collapse; th: ფონი ' + colorKa(thb) + ', ტექსტი თეთრი (white); td: padding ' + pad + 'px; ლუწი რიგები (tr:nth-child(even)): ფონი ' + zebra + '.', html, base: 'th, td { border: 1px solid #99a; }', starter: '', solution: sol,
+          checks: [W('border-collapse: collapse', h => cs(h, 'table', 'border-collapse') === 'collapse'), W('th — ფონი ' + thb + ', თეთრი ტექსტი', h => h.qa('th').every(e => h.cs(e, 'background-color') === rgbOf(thb) && h.cs(e, 'color') === rgbOf('white'))), W('td — padding ' + pad + 'px', h => h.qa('td').every(e => h.cs(e, 'padding-left') === pad + 'px')), W('ლუწ რიგებს ფონი ' + zebra, h => h.qa('tr').every((tr, i) => (h.cs(tr, 'background-color') === rgbOf(zebra)) === (i % 2 === 1)))],
+          hints: ['ოთხი წესი: table, th, td და tr:nth-child(even).', sol] };
+        return k === PER - 1 ? cssBoss(rng, s, 2) : s;
+      } },
+    { key: 'c-vars', icon: '🧪', name: 'CSS ცვლადები', topic: '--main, var()', a: '#2f8f6f', gate: { drill: 19 },
+      theory: 'CSS-საც აქვს ცვლადები: :root { --main: navy; } — ცვლადი ორი ტირით იწყება. გამოყენება: color: var(--main);. ერთი ფერის ბევრგან გამეორების ნაცვლად ცვლადს ცვლი ერთხელ — და მთელი საიტი იცვლება.',
+      example: ':root {\n  --main: teal;\n}\n\nh1 {\n  color: var(--main);\n}',
+      gen(rng, k) {
+        const main = pick(rng, TEXT_C), two = k >= 10, bg = two ? pick(rng, BG_C) : null, vn = pick(rng, ['--main', '--brand', '--accent', '--primary']);
+        const rules = [[':root', [vn + ': ' + main].concat(two ? ['--bg: ' + bg] : [])], ['h1', ['color: var(' + vn + ')']], ['.btn', ['background-color: var(' + vn + ')', 'color: white']]].concat(two ? [['body', ['background-color: var(--bg)']]] : []);
+        const s = { title: 'ცვლადი ' + vn + ': ' + main, task: ':root-ში შექმენი ცვლადი ' + vn + ' = ' + main + (two ? ' და --bg = ' + bg : '') + '. h1-ის ფერად და .btn-ის ფონად გამოიყენე var(' + vn + ')' + (two ? ', body-ს ფონად — var(--bg)' : '') + '; .btn-ის ტექსტი თეთრი (white).', html: '<h1>' + headings(rng, 1)[0] + '</h1>\n<button class="btn">დააჭირე</button>', starter: '', solution: css(rules),
+          checks: [W('h1 — ' + main, h => cs(h, 'h1', 'color') === rgbOf(main)), W('.btn-ის ფონი — ' + main, h => cs(h, '.btn', 'background-color') === rgbOf(main)), W('.btn-ის ტექსტი თეთრია', h => cs(h, '.btn', 'color') === rgbOf('white')), W('ცვლადი ' + vn + ' განსაზღვრულია და გამოყენებული', h => new RegExp(vn + '\\s*:').test(h.src) && (h.src.match(new RegExp('var\\(\\s*' + vn + '\\s*\\)', 'g')) || []).length >= 2)].concat(two ? [W('body-ს ფონი — ' + bg, h => h.cs(h.d.body, 'background-color') === rgbOf(bg))] : []),
+          hints: [':root { ' + vn + ': ' + main + '; }', 'გამოყენება: var(' + vn + ').'] };
+        return k === PER - 1 ? cssBoss(rng, s, 1) : s;
+      } },
+    { key: 'c-proj2', icon: '🏆', name: 'CSS პროექტები II', topic: 'ყველაფერი ერთად', a: '#b54848', gate: { drill: 20 },
+      theory: 'დიდი პროექტები: ფასების ბარათი, გაფრთხილების ბლოკი, პროფილის თავსართი. ერთ ელემენტს ბევრი თვისება სჭირდება და ელემენტებიც ბევრია — დაალაგე წესები ლოგიკურად. ⚠️ ბოლო გამოცდაში გლიჩი ბაგებს ჩადებს.',
+      example: '.alert {\n  background-color: #fff3cd;\n  border-left: 5px solid orange;\n  padding: 12px;\n}',
+      gen(rng, k) {
+        const kind = k % 3, col = pick(rng, ['navy', 'teal', 'indigo', 'crimson', 'darkgreen']), pad = pick(rng, [12, 16, 20]), rad = pick(rng, [8, 10, 12]);
+        let s;
+        if (kind === 0) {
+          s = { title: 'ფასების ბარათი ' + col, task: '.price: ფონი თეთრი (white), ჩარჩო 2px solid ' + col + ', კუთხეები ' + rad + 'px, padding ' + pad + 'px, ტექსტი ცენტრში. .price h3 — ფერი ' + colorKa(col) + '. .amount — font-size 32px და მუქი (bold).', html: '<div class="price">\n  <h3>პრემიუმი</h3>\n  <p class="amount">9 ₾</p>\n</div>',
+            solution: css([['.price', ['background-color: white', 'border: 2px solid ' + col, 'border-radius: ' + rad + 'px', 'padding: ' + pad + 'px', 'text-align: center']], ['.price h3', ['color: ' + col]], ['.amount', ['font-size: 32px', 'font-weight: bold']]]),
+            checks: [W('ჩარჩო 2px solid ' + col, h => cs(h, '.price', 'border-top-width') === '2px' && cs(h, '.price', 'border-top-color') === rgbOf(col) && cs(h, '.price', 'border-top-style') === 'solid'), W('კუთხეები ' + rad + 'px და padding ' + pad + 'px', h => cs(h, '.price', 'border-top-left-radius') === rad + 'px' && cs(h, '.price', 'padding-top') === pad + 'px'), W('ტექსტი ცენტრშია', h => cs(h, '.price', 'text-align') === 'center'), W('h3 — ' + col, h => cs(h, '.price h3', 'color') === rgbOf(col)), W('.amount — 32px, bold', h => cs(h, '.amount', 'font-size') === '32px' && +cs(h, '.amount', 'font-weight') >= 700), W('ფონი თეთრია', h => cs(h, '.price', 'background-color') === rgbOf('white'))] };
+        } else if (kind === 1) {
+          const bg = pick(rng, ['#fff3cd', '#ffe4e1', '#e8f5e9', '#e3f2fd']);
+          s = { title: 'გაფრთხილება ' + bg, task: '.alert: ფონი ' + bg + ', მარცხენა ჩარჩო 5px solid ' + col + ', padding ' + pad + 'px, კუთხეები ' + rad + 'px. .alert b — ფერი ' + colorKa(col) + '.', html: '<div class="alert"><b>ყურადღება!</b> ხვალ ახალი თემა იხსნება.</div>',
+            solution: css([['.alert', ['background-color: ' + bg, 'border-left: 5px solid ' + col, 'padding: ' + pad + 'px', 'border-radius: ' + rad + 'px']], ['.alert b', ['color: ' + col]]]),
+            checks: [W('ფონი ' + bg, h => cs(h, '.alert', 'background-color') === rgbOf(bg)), W('მარცხენა ჩარჩო 5px ' + col, h => cs(h, '.alert', 'border-left-width') === '5px' && cs(h, '.alert', 'border-left-color') === rgbOf(col)), W('padding ' + pad + 'px', h => all4(h, h.q('.alert'), 'padding-*', pad + 'px')), W('კუთხეები ' + rad + 'px', h => cs(h, '.alert', 'border-top-right-radius') === rad + 'px'), W('b — ' + col, h => cs(h, '.alert b', 'color') === rgbOf(col))] };
+        } else {
+          s = { title: 'პროფილის თავსართი ' + col, task: '.profile: display: flex, align-items: center, gap ' + pad + 'px, ფონი ' + col + ', ტექსტი თეთრი (white), padding ' + pad + 'px. .avatar — 60px × 60px, border-radius: 50%.', html: '<div class="profile">\n  <img class="avatar" src="bit.svg" alt="ბიტი">\n  <h2>ბიტი</h2>\n</div>',
+            solution: css([['.profile', ['display: flex', 'align-items: center', 'gap: ' + pad + 'px', 'background-color: ' + col, 'color: white', 'padding: ' + pad + 'px']], ['.avatar', ['width: 60px', 'height: 60px', 'border-radius: 50%']]]),
+            checks: [W('flex, center, gap ' + pad + 'px', h => cs(h, '.profile', 'display') === 'flex' && cs(h, '.profile', 'align-items') === 'center' && cs(h, '.profile', 'column-gap') === pad + 'px'), W('ფონი ' + col + ', თეთრი ტექსტი', h => cs(h, '.profile', 'background-color') === rgbOf(col) && cs(h, '.profile', 'color') === rgbOf('white')), W('padding ' + pad + 'px', h => cs(h, '.profile', 'padding-left') === pad + 'px'), W('ავატარი 60×60 წრე', h => near(box(h, '.avatar').width, 60) && near(box(h, '.avatar').height, 60) && cs(h, '.avatar', 'border-top-left-radius') === '50%')] };
+        }
+        s.starter = ''; s.hints = ['ყოველი თვისება ცალკე ხაზზე, ;-ით.', s.solution];
+        return k === PER - 1 ? cssBoss(rng, s, 3) : s;
+      } }
+  ];
+  const WEB_TOPICS = { html: H_TOPICS.concat(H_TOPICS2), css: C_TOPICS.concat(C_TOPICS2) };
 
 
   /* ---------- ბაგები თემის ბოლო ლეველისთვის (გლიჩის გამოცდა) ---------- */
@@ -8430,7 +9548,7 @@ const Drill = (() => {
     return emit(lang, { defs: [], body: note ? [I.note(note)] : [], types, print: !!spec.print, empty: true }) + '\n';
   }
   function robotLevel(lang, n) {
-    const ti = Math.floor((n - 1) / PER), k = (n - 1) % PER, T = RT_TOPICS[ti], rng = seedRng(lang, n);
+    const ti = Math.floor((n - 1) / PER), k = (n - 1) % PER, T = RT_ALL[ti], rng = seedRng(lang, n);
     const spec = T.gen(rng, k, lang);
     const types = Object.assign({}, spec.given || {});
     const prog = { defs: spec.defs || [], body: spec.body, types };
@@ -8476,16 +9594,21 @@ const Drill = (() => {
     genTopic(p.lang, Math.floor((p.n - 1) / PER));
     return cache[lid];
   }
-  const topicDefs = lang => (ROBOT.includes(lang) ? RT_TOPICS : WEB_TOPICS[lang] || []);
+  const RT_ALL = RT_TOPICS.concat(RT_TOPICS2);
+  const topicDefs = lang => (ROBOT.includes(lang) ? RT_ALL : WEB_TOPICS[lang] || []);
+  // II საფეხურის თემა იხსნება I საფეხურის შესაბამისი თემის გლიჩის გამოცდის შემდეგ
   function gateId(lang, t) {
+    if (t.gate && t.gate.drill) return id(lang, t.gate.drill * PER);
     if (lang === 'js') return t.gate.js;
     if (ROBOT.includes(lang)) return lang + '-' + (RC_LEVELS.findIndex(l => l.key === t.gate.rc) + 1);
     return lang + '-' + t.gate;
   }
   function topics(lang) {
     return topicDefs(lang).map((t, i) => {
-      const g = gateId(lang, t), gl = LEVEL_BY_ID[g];
-      return { n: i + 1, key: t.key, icon: t.icon, name: t.name, topic: tx(ROBOT.includes(lang) ? lang : 'js', t.topic), a: t.a, gate: g, gateTitle: gl ? gl.title : g, from: i * PER + 1 };
+      const g = gateId(lang, t), gl = LEVEL_BY_ID[g], defs = topicDefs(lang);
+      const gateLabel = t.gate && t.gate.drill ? 'თემა ' + t.gate.drill + ' „' + defs[t.gate.drill - 1].name + '“ — გლიჩის გამოცდა'
+        : gl ? (gl.web ? 'გაკვეთილი ' + gl.num : 'ლეველი ' + (gl.course ? gl.num : gl.id)) + ' „' + gl.title + '“' : g;
+      return { n: i + 1, tier: i < 20 ? 1 : 2, key: t.key, icon: t.icon, name: t.name, topic: tx(ROBOT.includes(lang) ? lang : 'js', t.topic), a: t.a, gate: g, gateLabel, from: i * PER + 1 };
     });
   }
   const isDone = lid => typeof Progress !== 'undefined' && Progress.isDone(lid);
@@ -8813,7 +9936,8 @@ const Progress = {
     const drills = Drill.doneAll();
     if (drills >= 10) A('drill10');
     if (drills >= 100) A('drill100');
-    if (drills >= Drill.N && Drill.LANGS.some(l => Drill.stats(l).done >= Drill.N)) A('drill500');
+    if (drills >= 500 && Drill.LANGS.some(l => Drill.stats(l).done >= 500)) A('drill500');
+    if (drills >= Drill.N && Drill.LANGS.some(l => Drill.stats(l).done >= Drill.N)) A('drill1000');
     if (this.legend()) A('legend');
     if (got.length) { this.save(); got.forEach((id, i) => setTimeout(() => UI.achToast(id), 400 + i * 900)); }
   }
@@ -10956,7 +12080,6 @@ const Game = {
 /* =====================================================================
    ვარჯიშის ბანაკი — ეკრანი, თემის ფანჯარა და შემოწმება
    ===================================================================== */
-const drillGateText = t => { const g = LEVEL_BY_ID[t.gate]; return g ? (g.web ? 'გაკვეთილი ' + g.num : 'ლეველი ' + (g.course ? g.num : g.id)) + ' „' + g.title + '“' : t.gate; };
 const DrillScreen = {
   render() {
     const cid = Progress.course(), course = COURSE_BY_ID[cid], lang = course.lang, L = LANGS[lang], web = L.kind === 'web';
@@ -10966,17 +12089,18 @@ const DrillScreen = {
     $('#drill-xp').textContent = Progress.totalXP() + ' XP';
     $('#drill-stars').textContent = '⭐ ' + st.stars + '/' + st.total * 3;
     let html = '<div class="card course-head drill-head" style="--ia:' + L.color + '"><div class="island-blob sm" aria-hidden="true">🏋️</div>' +
-      '<div style="flex:1;min-width:200px"><h2>ვარჯიშის ბანაკი</h2><p class="muted">' + Drill.N + ' დამატებითი ' + (web ? 'გაკვეთილი' : 'ლეველი') + ' — 20 თემა, თითოში 25. თემა იხსნება, როცა მთავარ კურსში შესაბამის ' + (web ? 'გაკვეთილს' : 'ლეველს') + ' გაივლი. ყოველი თემის ბოლოს გლიჩის გამოცდაა 👾.</p>' +
+      '<div style="flex:1;min-width:200px"><h2>ვარჯიშის ბანაკი</h2><p class="muted">' + Drill.N + ' დამატებითი ' + (web ? 'გაკვეთილი' : 'ლეველი') + ' — ' + tops.length + ' თემა ორ საფეხურად, თითოში 25. I საფეხურის თემა იხსნება, როცა მთავარ კურსში შესაბამის ' + (web ? 'გაკვეთილს' : 'ლეველს') + ' გაივლი, II საფეხურისა — როცა I საფეხურის შესაბამის გამოცდას ჩააბარებ. ყოველი თემის ბოლოს გლიჩის გამოცდაა 👾.</p>' +
       '<div class="progress"><div style="width:' + (st.done / st.total * 100).toFixed(1) + '%"></div></div><small class="muted">' + st.done + '/' + st.total + ' დასრულებულია</small></div>' +
       (nxt ? '<button class="btn primary" id="dr-go">▶ ' + (st.done ? 'გაგრძელება' : 'დაწყება') + '</button>' : '') + '</div>';
-    html += '<div class="topic-grid">' + tops.map(t => {
+    const TIERS = [[1, 'I საფეხური · საფუძვლები'], [2, 'II საფეხური · ოსტატობა']];
+    html += TIERS.map(([tier, label]) => { const list = tops.filter(t => t.tier === tier), ts = list.reduce((a, t) => a + Drill.stats(lang, t.n).done, 0); return list.length ? '<h3 class="tier-h">' + label + ' <small class="muted">' + ts + '/' + list.length * Drill.PER + '</small></h3><div class="topic-grid">' + list.map(t => {
       const un = Drill.topicUnlocked(lang, t.n), s = Drill.stats(lang, t.n), full = s.done === s.total;
       return '<button class="topic-card' + (un ? '' : ' locked') + (full ? ' full' : '') + '" data-t="' + t.n + '" style="--ia:' + t.a + '" aria-label="' + t.n + '. ' + esc(t.name) + (un ? '' : ' (ჩაკეტილია)') + '">' +
         '<div class="island-blob sm" aria-hidden="true">' + (un ? t.icon : '🔒') + (full ? '<span class="ok">✓</span>' : '') + '</div>' +
         '<div class="tc-t"><b>' + t.n + '. ' + esc(t.name) + '</b><small>' + esc(t.topic) + '</small>' +
         (un ? '<div class="progress sm"><div style="width:' + (s.done / s.total * 100) + '%"></div></div><small>' + s.done + '/' + s.total + ' · ⭐ ' + s.stars + '/' + s.total * 3 + '</small>'
-          : '<small>🔒 გაიხსნება: ' + esc(drillGateText(t)) + '</small>') + '</div></button>';
-    }).join('') + '</div>';
+          : '<small>🔒 გაიხსნება: ' + esc(t.gateLabel) + '</small>') + '</div></button>';
+    }).join('') + '</div>' : ''; }).join('');
     const body = $('#drill-body');
     body.innerHTML = html;
     const go = $('#dr-go');
@@ -10987,7 +12111,7 @@ const DrillScreen = {
 const DrillPanel = {
   open(lang, c) {
     const t = Drill.topics(lang)[c - 1], P = Progress.P, web = LANGS[lang].kind === 'web';
-    if (!Drill.topicUnlocked(lang, c)) { UI.toast('🔒', 'ეს თემა ჯერ ჩაკეტილია', 'გაიარე მთავარ კურსში: ' + drillGateText(t)); return; }
+    if (!Drill.topicUnlocked(lang, c)) { UI.toast('🔒', 'ეს თემა ჯერ ჩაკეტილია', 'ჯერ გაიარე: ' + t.gateLabel); return; }
     const s = Drill.stats(lang, c);
     let html = '<div class="wp-head" style="--ia:' + t.a + '"><div class="island-blob sm" aria-hidden="true">' + t.icon + '</div><div><h2>' + c + '. ' + esc(t.name) + '</h2><p class="muted">' +
       esc(COURSE_BY_ID[lang].title) + ' · ' + esc(t.topic) + ' · ' + s.done + '/' + s.total + ' · ⭐ ' + s.stars + '/' + s.total * 3 + '</p></div></div><div class="lvl-list">';
@@ -11011,7 +12135,7 @@ const DrillPanel = {
 function renderDrillBanner(cid) {
   const box = $('#map-drill'), lang = COURSE_BY_ID[cid].lang, L = LANGS[lang], st = Drill.stats(lang);
   box.innerHTML = '<button class="drill-banner" id="md-open" style="--ia:' + L.color + '"><span class="island-blob sm" aria-hidden="true">🏋️</span><span class="t"><b>ვარჯიშის ბანაკი · ' + Drill.N + ' ' + (L.kind === 'web' ? 'გაკვეთილი' : 'ლეველი') + '</b>' +
-    '<small>20 თემა · ' + st.done + '/' + st.total + ' დასრულებულია · ⭐ ' + st.stars + '/' + st.total * 3 + '</small><span class="progress sm"><span style="width:' + (st.done / st.total * 100).toFixed(1) + '%"></span></span></span><span class="btn primary small">გახსნა ▶</span></button>';
+    '<small>' + Drill.topics(lang).length + ' თემა · ' + st.done + '/' + st.total + ' დასრულებულია · ⭐ ' + st.stars + '/' + st.total * 3 + '</small><span class="progress sm"><span style="width:' + (st.done / st.total * 100).toFixed(1) + '%"></span></span></span><span class="btn primary small">გახსნა ▶</span></button>';
   $('#md-open').addEventListener('click', () => { Sound.click(); UI.show('drill'); });
 }
 // ყველა ვარჯიშის შემოწმება: რობოტის ენები — პირდაპირ (სწრაფად), ვებ — iframe-ში

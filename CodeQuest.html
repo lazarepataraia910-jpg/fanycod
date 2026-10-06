@@ -440,6 +440,13 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .proj-card .t{flex:1;min-width:0}
 .proj-card b{display:block}
 .proj-card small{display:block;color:var(--muted);font-size:.8rem;line-height:1.35}
+/* Pro */
+.pro-box{text-align:center}
+.pro-badge{width:78px;height:78px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;font-size:2.5rem;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b);box-shadow:0 5px 0 #d9a600}
+.pro-list{list-style:none;padding:0;margin:12px auto 0;max-width:380px;text-align:left;display:grid;gap:6px}
+.pro-list li{padding:8px 12px;border-radius:10px;background:var(--panel2)}
+.pro-chip{display:inline-block;margin:6px 0 0 4px;padding:1px 10px;border-radius:999px;background:linear-gradient(90deg,#ffd43b,#ffb703);color:#3d2a00;font-size:.75rem;font-weight:800}
+.pro-tag{margin-left:4px;font-size:.8rem}
 /* გამარჯვების ფანჯარა */
 .win{text-align:center}
 .win-badge{width:82px;height:82px;margin:0 auto 4px;border-radius:50%;display:grid;place-items:center;font-size:2.7rem;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b);box-shadow:0 5px 0 #d9a600,0 10px 24px rgba(217,166,0,.3);animation:pop .55s cubic-bezier(.2,1.6,.4,1) both}
@@ -5906,14 +5913,545 @@ const CSS_LESSONS = [
 function webCourse(lang, list) {
   return list.map((l, i) => Object.assign({}, l, { id: lang + '-' + (i + 1), course: lang, lang, num: i + 1, web: true, world: 1, maps: [], goal: {}, hints: l.hints.concat([l.solution]) }));
 }
+/* =====================================================================
+   სავარჯიშო ლეველები — ავტომატურად აწყობილი (seed-ით, ყოველთვის ერთნაირი).
+   ამოხსნა ერთ სქემად იწერება და ყველა ენაზე ითარგმნება; რუკა ამოხსნიდან იხაზება,
+   ამიტომ ყოველი ლეველი გარანტირებულად ამოხსნადია. ყველა ტესტს სხვა რუკა/მონაცემი აქვს —
+   გადის მხოლოდ ზოგადი კოდი (ცვლადით, ციკლით, პირობით...).
+   ===================================================================== */
+const prRng = s => mulberry32(hashStr('practice:' + s));
+const prInt = (rng, a, b) => a + Math.floor(rng() * (b - a + 1));
+const prPick = (rng, arr) => arr[Math.floor(rng() * arr.length)];
+function prDistinct(rng, n, a, b) { const out = []; let g = 0; while (out.length < n && g++ < 300) { const v = prInt(rng, a, b); if (!out.includes(v)) out.push(v); } return out; }
+const PR_D = [[1, 0], [0, 1], [-1, 0], [0, -1]];   // აღმოსავლეთი, სამხრეთი, დასავლეთი, ჩრდილოეთი
+const PR_BIT = ['>', 'v', '<', '^'];
+
+// ---- ამოხსნის სქემა → კოდი ენის სინტაქსით ----
+// { c: 'move', a?: 'steps' | 3 } · { while: 'notWall', body } · { if: 'wall'|'crystal', body } · { for: 'n'|3, body } · { call: 'step' }
+const PR_COND = {
+  notWall: { js: '!isWallAhead()', py: 'not is_wall_ahead()' },
+  wall: { js: 'isWallAhead()', py: 'is_wall_ahead()' },
+  crystal: { js: 'isCrystalHere()', py: 'is_crystal_here()' }
+};
+const prUnit = lang => (lang === 'js' ? '  ' : '    ');
+function prRender(lang, nodes, ind) {
+  const py = lang === 'py', semi = py ? '' : ';', U = prUnit(lang), out = [];
+  const cond = k => PR_COND[k][py ? 'py' : 'js'];
+  const block = (head, body) => {
+    if (py) { out.push(ind + head + ':'); out.push(...prRender(lang, body, ind + U)); }
+    else { out.push(ind + head + ' {'); out.push(...prRender(lang, body, ind + U)); out.push(ind + '}'); }
+  };
+  for (const n of nodes) {
+    if (n.c) out.push(ind + cmdName(lang, n.c) + '(' + (n.a != null ? n.a : '') + ')' + semi);
+    else if (n.call) out.push(ind + n.call + '()' + semi);
+    else if (n.while) block(py ? 'while ' + cond(n.while) : 'while (' + cond(n.while) + ')', n.body);
+    else if (n.if) block(py ? 'if ' + cond(n.if) : 'if (' + cond(n.if) + ')', n.body);
+    else if (n.for != null) block(py ? 'for i in range(' + n.for + ')' : 'for (' + (lang === 'js' ? 'let' : 'int') + ' i = 0; i < ' + n.for + '; i++)', n.body);
+  }
+  return out;
+}
+function prProgram(lang, main, defs) {
+  const U = prUnit(lang), head = n => ({ js: 'function ' + n + '()', py: 'def ' + n + '()' }[lang] || 'void ' + n + '()');
+  const pre = (defs || []).map(d => (lang === 'py' ? [head(d.name) + ':'].concat(prRender(lang, d.body, U)) : [head(d.name) + ' {'].concat(prRender(lang, d.body, U), ['}'])).join('\n')).join('\n\n');
+  const body = prRender(lang, main, '').join('\n');
+  if (lang === 'js' || lang === 'py') return (pre ? pre + '\n\n' : '') + body;
+  return RC_MAIN[lang](body, pre);
+}
+function prStarter(lang, note) {
+  const cm = lang === 'py' ? '# ' : '// ', txt = cm + (note || 'შენი კოდი აქ') + '\n';
+  return lang === 'js' || lang === 'py' ? txt : RC_MAIN[lang](txt) + '\n';
+}
+
+// ---- რუკა ამოხსნიდან: ბიტის გზა — თავისუფალი, აღებული ნივთები — კრისტალები, დანარჩენი — კედელი ----
+function prTrace(main, defs, vars) {
+  let x = 0, y = 0, d = 0;
+  const cells = new Map([['0,0', 1]]), crys = [];
+  const val = a => (a == null ? 1 : typeof a === 'number' ? a : Function.apply(null, Object.keys(vars || {}).concat('return ' + a)).apply(null, Object.values(vars || {})));
+  const run = list => list.forEach(n => {
+    if (n.c === 'move') for (let i = val(n.a); i > 0; i--) { x += PR_D[d][0]; y += PR_D[d][1]; cells.set(x + ',' + y, 1); }
+    else if (n.c === 'turnLeft') d = (d + 3) % 4;
+    else if (n.c === 'turnRight') d = (d + 1) % 4;
+    else if (n.c === 'collect') crys.push(x + ',' + y);
+    else if (n.for != null) for (let i = val(n.for); i > 0; i--) run(n.body);
+    else if (n.call) run(defs.find(f => f.name === n.call).body);
+  });
+  run(main);
+  return { cells, crys, end: x + ',' + y };
+}
+function prGrid(tr, opts = {}) {
+  const pts = [...tr.cells.keys()].map(k => k.split(',').map(Number));
+  const pad = opts.pad || 0;
+  const x0 = Math.min(...pts.map(p => p[0])) - pad, y0 = Math.min(...pts.map(p => p[1])) - pad;
+  const W = Math.max(...pts.map(p => p[0])) - x0 + 1 + pad, H = Math.max(...pts.map(p => p[1])) - y0 + 1 + pad;
+  const g = Array.from({ length: H }, () => Array(W).fill(opts.fill || '#'));
+  for (const [x, y] of pts) g[y - y0][x - x0] = '.';
+  if (opts.rng && opts.decor) for (let yy = 0; yy < H; yy++) for (let xx = 0; xx < W; xx++) if (g[yy][xx] !== '.' && opts.rng() < opts.decor) g[yy][xx] = '.';
+  tr.crys.forEach(k => { const [x, y] = k.split(',').map(Number); g[y - y0][x - x0] = '*'; });
+  if (opts.flag) { const [x, y] = tr.end.split(',').map(Number); g[y - y0][x - x0] = 'F'; }
+  g[-y0][-x0] = '>';
+  return g.map(r => r.join(''));
+}
+const prLaneRow = (len, fill) => { const r = Array(len).fill('.'); fill(r); return r.join(''); };
+
+// ---- სავარჯიშოს ტიპები ----
+const PR_REQ = {
+  loop: R(/\b(for|while)\b/, 'გამოიყენე ციკლი — რუკა ყოველ ტესტში სხვაა!'),
+  if: R(/\bif\b/, 'გამოიყენე if — კოდმა თავად უნდა გადაწყვიტოს!'),
+  func: lang => R({ js: /\bfunction\s+\w+\s*\(/, py: /\bdef\s+\w+\s*\(/ }[lang] || /\bvoid\s+(?!main\b)\w+\s*\(/, 'შექმენი შენი ფუნქცია (ბრძანება) და გამოიძახე.'),
+  uses: (name, why) => R(new RegExp('\\b' + name + '\\b'), why || 'გამოიყენე ცვლადი ' + name + ' — ტესტებში მისი მნიშვნელობა იცვლება!')
+};
+const PRACTICE = {
+  path: {
+    world: 1, icon: '👣', name: 'ნაბიჯების ბილიკი', topic: 'ბრძანებების რიგი',
+    gen(rng) {
+      for (let t = 0; t < 100; t++) {
+        const cmds = [], seen = new Set(['0,0']); let x = 0, y = 0, d = 0, ok = true;
+        const segs = prInt(rng, 2, 4);
+        for (let s = 0; s < segs && ok; s++) {
+          if (s) { const left = rng() < 0.5; d = (d + (left ? 3 : 1)) % 4; cmds.push({ c: left ? 'turnLeft' : 'turnRight' }); }
+          for (let i = prInt(rng, 1, 3); i > 0; i--) {
+            x += PR_D[d][0]; y += PR_D[d][1];
+            if (seen.has(x + ',' + y)) { ok = false; break; }
+            seen.add(x + ',' + y); cmds.push({ c: 'move' });
+          }
+        }
+        if (!ok || seen.size < 4) continue;
+        const tr = prTrace(cmds, [], null);
+        const grid = prGrid(tr, { flag: true, pad: 1, fill: '#', rng, decor: 0.55 });
+        if (grid[0].length > 9 || grid.length > 7) continue;
+        return { maps: [{ grid }], goal: { reach: true }, main: cmds,
+          task: 'მიიყვანე ბიტი დროშამდე 🏁. კედლებს გვერდი აუარე.',
+          hints: ['დათვალე: რამდენი უჯრაა პირველ მოსახვევამდე? საით უნდა მოუხვიოს?', 'ყოველი move() — ერთი უჯრა, turnLeft()/turnRight() — მობრუნება ადგილზე.'] };
+      }
+    }
+  },
+  gems: {
+    world: 1, icon: '💎', name: 'კრისტალების ბილიკი', topic: 'move და collect',
+    gen(rng) {
+      for (let t = 0; t < 100; t++) {
+        const cmds = [], seen = new Set(['0,0']); let x = 0, y = 0, d = 0, ok = true, moves = 0;
+        const segs = prInt(rng, 2, 3);
+        for (let s = 0; s < segs && ok; s++) {
+          if (s) { const left = rng() < 0.5; d = (d + (left ? 3 : 1)) % 4; cmds.push({ c: left ? 'turnLeft' : 'turnRight' }); }
+          for (let i = prInt(rng, 1, 3); i > 0; i--) {
+            x += PR_D[d][0]; y += PR_D[d][1];
+            if (seen.has(x + ',' + y)) { ok = false; break; }
+            seen.add(x + ',' + y); cmds.push({ c: 'move' }); moves++;
+            if (rng() < 0.4) cmds.push({ c: 'collect' });
+          }
+        }
+        if (!ok || moves < 3 || !cmds.some(c => c.c === 'collect')) continue;
+        const grid = prGrid(prTrace(cmds, [], null), { flag: true, pad: 1, rng, decor: 0.55 });
+        if (grid[0].length > 9 || grid.length > 7) continue;
+        return { maps: [{ grid }], goal: { crystals: 'all', reach: true }, main: cmds,
+          task: 'აიღე ყველა კრისტალი 💎 და მიდი დროშამდე 🏁.',
+          hints: ['collect() კრისტალს მხოლოდ მაშინ იღებს, როცა ბიტი ზედ დგას.', 'გაიარე გზა ნაბიჯ-ნაბიჯ: ყოველ კრისტალზე — collect().'] };
+      }
+    }
+  },
+  vars: {
+    world: 2, icon: '📦', name: 'ცვლადების ხეობა', topic: 'ცვლადი ბრძანებაში',
+    gen(rng) {
+      const sub = prPick(rng, ['go', 'gem', 'up', 'down']), ds = prDistinct(rng, 3, 2, 6);
+      const main = { go: [{ c: 'move', a: 'steps' }], gem: [{ c: 'move', a: 'steps' }, { c: 'collect' }], up: [{ c: 'turnLeft' }, { c: 'move', a: 'steps' }], down: [{ c: 'turnRight' }, { c: 'move', a: 'steps' }] }[sub];
+      const gem = sub === 'gem';
+      return {
+        maps: ds.map(steps => ({ grid: prGrid(prTrace(main, [], { steps }), { flag: !gem, pad: 1 }), vars: { steps } })),
+        goal: gem ? { crystals: 'all' } : { reach: true }, main, varTypes: { steps: 'int' }, req: [PR_REQ.uses('steps')],
+        note: 'steps უკვე არსებობს — ნახე „მონაცემები“',
+        task: (gem ? 'კრისტალი 💎' : 'დროშა 🏁') + ' ზუსტად steps უჯრაზეა' + (sub === 'up' ? ' ზემოთ' : sub === 'down' ? ' ქვემოთ' : '') + '. გამოიყენე ცვლადი steps — ტესტებში ის სხვადასხვაა!',
+        hints: ['move()-ს რიცხვის ნაცვლად ცვლადიც შეიძლება ჩაუწერო: move(steps).', sub === 'up' ? 'ჯერ ზემოთ მოუხვიე — turnLeft().' : sub === 'down' ? 'ჯერ ქვემოთ მოუხვიე — turnRight().' : gem ? 'მისვლის შემდეგ — collect().' : 'მეტი არაფერი: ერთი ბრძანება!'] };
+    }
+  },
+  calc: {
+    world: 3, icon: '🧮', name: 'გამოთვლების მთა', topic: 'ოპერატორები',
+    gen(rng) {
+      const sub = prPick(rng, ['sum', 'double', 'minus']);
+      const sets = { sum: () => ({ a: prInt(rng, 1, 4), b: prInt(rng, 1, 4) }), double: () => ({ a: prInt(rng, 1, 4) }), minus: () => ({ a: prInt(rng, 5, 8), b: prInt(rng, 1, 3) }) }[sub];
+      const expr = { sum: 'a + b', double: 'a * 2', minus: 'a - b' }[sub];
+      const main = [{ c: 'move', a: expr }];
+      const vs = []; let g = 0;
+      while (vs.length < 3 && g++ < 50) { const v = sets(); const key = JSON.stringify(v); if (!vs.some(o => JSON.stringify(o) === key)) vs.push(v); }
+      const types = sub === 'double' ? { a: 'int' } : { a: 'int', b: 'int' };
+      return {
+        maps: vs.map(v => ({ grid: prGrid(prTrace(main, [], v), { flag: true, pad: 1 }), vars: v })),
+        goal: { reach: true }, main, varTypes: types,
+        req: [PR_REQ.uses('a'), R(/[+\-*]/, 'გამოთვალე: გამოიყენე + - ან *')].concat(sub === 'double' ? [] : [PR_REQ.uses('b')]),
+        note: (sub === 'double' ? 'a' : 'a და b') + ' უკვე არსებობს — ნახე „მონაცემები“',
+        task: 'დროშამდე 🏁 ' + { sum: 'a + b', double: 'a-ს ორმაგი რაოდენობა (a * 2)', minus: 'a - b' }[sub] + ' უჯრაა. გამოთვალე move()-ის ფრჩხილებში.',
+        hints: ['ფრჩხილებში გამოთვლაც შეიძლება: move(1 + 2) იგივეა, რაც move(3).', 'move(' + expr + ')'] };
+    }
+  },
+  ifwall: {
+    world: 4, icon: '🚧', name: 'კედლების ქუჩა', topic: 'if — თუ...',
+    gen(rng) {
+      const sub = prPick(rng, ['right', 'left', 'gem']), k = prInt(rng, 1, 3);
+      if (sub === 'gem') {
+        const main = [{ c: 'move' }, { if: 'crystal', body: [{ c: 'collect' }] }, { c: 'move', a: 2 }];
+        const row = has => lane(prLaneRow(5, r => { r[0] = '>'; if (has) r[1] = '*'; r[3] = 'F'; }));
+        return { maps: [{ grid: row(true) }, { grid: row(false) }], goal: { crystals: 'all', reach: true }, main, req: [PR_REQ.if],
+          task: 'ბიტის წინ შეიძლება კრისტალი იყოს, შეიძლება — არა. თუ არის, აიღე, მერე მიდი დროშამდე 🏁.',
+          hints: ['isCrystalHere() ამბობს, დგას თუ არა ბიტი კრისტალზე.', 'ჯერ ერთი ნაბიჯი, მერე if — კრისტალზე ხომ არ დგახარ?'] };
+      }
+      const turn = sub === 'right' ? 'turnRight' : 'turnLeft';
+      const main = [{ if: 'wall', body: [{ c: turn }] }, { c: 'move', a: k }];
+      const mk = wall => {
+        const tr = prTrace(wall ? [{ c: turn }, { c: 'move', a: k }] : [{ c: 'move', a: k }], [], null);
+        const pts = [...tr.cells.keys()];
+        const W = 7, H = 7, sx = 2, sy = 3, g = Array.from({ length: H }, () => Array(W).fill('.'));
+        pts.forEach(p => { const [x, y] = p.split(',').map(Number); g[sy + y][sx + x] = '.'; });
+        if (wall) g[sy][sx + 1] = '#';
+        const [ex, ey] = tr.end.split(',').map(Number); g[sy + ey][sx + ex] = 'F'; g[sy][sx] = '>';
+        return g.map(r => r.join(''));
+      };
+      return { maps: [{ grid: mk(true) }, { grid: mk(false) }], goal: { reach: true }, main, req: [PR_REQ.if],
+        task: 'ორი ტესტი: ერთში ბიტის წინ კედელია, მეორეში — არა. თუ კედელია, მოუხვიე ' + (sub === 'right' ? 'მარჯვნივ' : 'მარცხნივ') + ', მერე გაიარე ' + k + ' უჯრა დროშამდე 🏁.',
+        hints: ['isWallAhead() ამბობს, არის თუ არა ბიტის წინ კედელი.', 'if-ის შემდეგ ' + k + ' ნაბიჯი ორივე ტესტში ერთნაირია.'] };
+    }
+  },
+  loop: {
+    world: 5, icon: '🔁', name: 'ციკლების მდინარე', topic: 'while და for',
+    gen(rng) {
+      const sub = prPick(rng, ['gems', 'flag', 'forN']), ns = prDistinct(rng, 3, 3, 8);
+      if (sub === 'forN') {
+        const main = [{ for: 'n', body: [{ c: 'move' }, { c: 'collect' }] }];
+        return { maps: ns.map(n => ({ grid: lane(prLaneRow(n + 3, r => { r[0] = '>'; for (let i = 1; i <= n; i++) r[i] = '*'; })), vars: { n } })), goal: { crystals: 'all' }, main, varTypes: { n: 'int' },
+          req: [PR_REQ.loop], note: 'n უკვე არსებობს — ნახე „მონაცემები“',
+          task: 'ბიტის წინ n კრისტალია 💎 (ტესტებში n სხვადასხვაა). აიღე ყველა — ციკლით, რომელიც n-ჯერ მეორდება.',
+          hints: ['for ციკლი n-ჯერ: მრიცხველი 0-დან n-მდე.', 'ციკლის შიგნით: ერთი ნაბიჯი და collect().'] };
+      }
+      const gems = sub === 'gems', main = [{ while: 'notWall', body: gems ? [{ c: 'move' }, { c: 'collect' }] : [{ c: 'move' }] }];
+      return { maps: ns.map(n => ({ grid: lane(prLaneRow(n + 1, r => { r[0] = '>'; for (let i = 1; i <= n; i++) r[i] = gems ? '*' : '.'; if (!gems) r[n] = 'F'; })) })),
+        goal: gems ? { crystals: 'all' } : { reach: true }, main, req: [PR_REQ.loop],
+        task: (gems ? 'დერეფანი კრისტალებით 💎 სავსეა' : 'დროშა 🏁 დერეფნის ბოლოშია') + ', მაგრამ სიგრძე ყოველ ტესტში სხვაა. იარე, სანამ წინ კედელი არ არის.',
+        hints: ['while ციკლი იმეორებს, სანამ პირობა სრულდება: სანამ წინ კედელი არ არის...', gems ? 'ციკლში: ნაბიჯი, მერე collect().' : 'ციკლში მხოლოდ ერთი ნაბიჯია.'] };
+    }
+  },
+  smart: {
+    world: 5, icon: '🧠', name: 'ჭკვიანი დერეფანი', topic: 'ციკლი + if',
+    gen(rng) {
+      const main = [{ while: 'notWall', body: [{ c: 'move' }, { if: 'crystal', body: [{ c: 'collect' }] }] }];
+      const maps = []; let g = 0;
+      while (maps.length < 3 && g++ < 50) {
+        const n = prInt(rng, 5, 8);
+        const row = prLaneRow(n + 1, r => { r[0] = '>'; for (let i = 1; i < n; i++) if (rng() < 0.45) r[i] = '*'; r[n] = 'F'; });
+        if (!row.includes('*') || maps.some(m => m.grid[2] === row)) continue;
+        maps.push({ grid: lane(row) });
+      }
+      return { maps, goal: { crystals: 'all', reach: true }, main, req: [PR_REQ.loop, PR_REQ.if],
+        task: 'კრისტალები 💎 შემთხვევით ადგილებზეა და დერეფნის სიგრძეც იცვლება. იარე ბოლომდე და აიღე მხოლოდ იქ, სადაც კრისტალია.',
+        hints: ['გარე ციკლი — სანამ წინ კედელი არ არის. შიგნით — ნაბიჯი.', 'ნაბიჯის შემდეგ: if (კრისტალზე დგახარ) → collect().'] };
+    }
+  },
+  stairs: {
+    world: 5, icon: '🪜', name: 'კიბეების ქალაქი', topic: 'განმეორებადი ნიმუში',
+    gen(rng) {
+      const up = rng() < 0.5, ns = prDistinct(rng, 3, 2, 4);
+      const step = up ? [{ c: 'turnLeft' }, { c: 'move' }, { c: 'turnRight' }, { c: 'move' }, { c: 'collect' }] : [{ c: 'move' }, { c: 'turnRight' }, { c: 'move' }, { c: 'turnLeft' }, { c: 'collect' }];
+      const main = [{ for: 'n', body: step }];
+      return { maps: ns.map(n => ({ grid: prGrid(prTrace(main, [], { n }), { pad: 1 }), vars: { n } })), goal: { crystals: 'all' }, main, varTypes: { n: 'int' },
+        req: [PR_REQ.loop], note: 'n უკვე არსებობს — ნახე „მონაცემები“',
+        task: 'კიბეს n საფეხური აქვს (ტესტებში სხვადასხვა) და ყოველ საფეხურზე კრისტალია 💎. ' + (up ? 'აიყვანე' : 'ჩაიყვანე') + ' ბიტი და აიღე ყველა.',
+        hints: ['იპოვე ერთი საფეხურის ბრძანებები — ისინი ყოველ საფეხურზე მეორდება.', up ? 'ერთი საფეხური: ზემოთ 1, მარჯვნივ 1, collect(). გაიმეორე n-ჯერ.' : 'ერთი საფეხური: წინ 1, ქვემოთ 1, collect(). გაიმეორე n-ჯერ.'] };
+    }
+  },
+  func: {
+    world: 6, icon: '🔧', name: 'ფუნქციების სახელოსნო', topic: 'შენი ბრძანება',
+    gen(rng) {
+      const kind = prPick(rng, ['climb', 'descend', 'hop']), ns = prDistinct(rng, 3, 2, 4);
+      const body = { climb: [{ c: 'turnLeft' }, { c: 'move' }, { c: 'turnRight' }, { c: 'move' }, { c: 'collect' }], descend: [{ c: 'move' }, { c: 'turnRight' }, { c: 'move' }, { c: 'turnLeft' }, { c: 'collect' }], hop: [{ c: 'move', a: 2 }, { c: 'collect' }] }[kind];
+      const defs = [{ name: kind, body }], main = [{ for: 'n', body: [{ call: kind }] }];
+      return { maps: ns.map(n => ({ grid: prGrid(prTrace(main, defs, { n }), { pad: 1 }), vars: { n } })), goal: { crystals: 'all' }, main, defs, varTypes: { n: 'int' },
+        req: [PR_REQ.loop], reqFunc: true, note: 'n უკვე არსებობს — შექმენი ფუნქცია ' + kind + '()',
+        task: 'შექმენი ფუნქცია ' + kind + '(), რომელიც ' + { climb: 'ერთ საფეხურს აჰყავს და კრისტალს იღებს', descend: 'ერთ საფეხურს ჩაჰყავს და კრისტალს იღებს', hop: 'ორ უჯრას გადის და კრისტალს იღებს' }[kind] + '. მერე გამოიძახე ის n-ჯერ.',
+        hints: ['ჯერ დაწერე ფუნქცია — ერთი ნიმუშის ბრძანებებით.', 'მერე ციკლი n-ჯერ, შიგნით მხოლოდ ' + kind + '().'] };
+    }
+  }
+};
+// სავარჯიშოს ლეველი კონკრეტული ენისთვის
+function practiceLevel(lang, key, k, id) {
+  const T = PRACTICE[key], v = T.gen(prRng(key + ':' + k));
+  const solution = prProgram(lang, v.main, v.defs);
+  const req = (v.req || []).concat(v.reqFunc ? [PR_REQ.func(lang)] : []);
+  return {
+    id, course: lang, lang, practice: true, chapter: 'p:' + key, world: T.world, title: T.name + ' ' + k,
+    story: '🏋️ ვარჯიში: ' + T.topic + '. ' + (v.maps.length > 1 ? 'ამ ლეველს ' + v.maps.length + ' ტესტი აქვს — კოდი ყველაზე უნდა მუშაობდეს.' : 'იპოვე გზა!'),
+    task: v.task, theory: T.topic + ' — ' + PR_THEORY[key], example: '',
+    starter: prStarter(lang, v.note), maps: v.maps, goal: v.goal, varTypes: v.varTypes || null,
+    require: req, forbid: [], hints: v.hints.concat([solution]), solution
+  };
+}
+const PR_THEORY = {
+  path: 'ბრძანებები ზემოდან ქვემოთ სრულდება. move() — ერთი უჯრა წინ, turnLeft()/turnRight() — მობრუნება.',
+  gems: 'ჯერ მიდი კრისტალამდე, მერე collect().',
+  vars: 'ცვლადი ყუთია სახელით; move(steps) ბიტს იმდენ უჯრაზე გადაიყვანს, რამდენიც steps-შია.',
+  calc: '+ შეკრება, - გამოკლება, * გამრავლება. გამოთვლა ბრძანების ფრჩხილებშიც შეიძლება.',
+  ifwall: 'if-ის ბლოკი მხოლოდ მაშინ სრულდება, როცა პირობა ჭეშმარიტია.',
+  loop: 'while იმეორებს, სანამ პირობა ჭეშმარიტია; for — ზუსტად n-ჯერ.',
+  smart: 'ციკლის შიგნით if: ყოველ ნაბიჯზე კოდი თავად წყვეტს, აიღოს თუ არა.',
+  stairs: 'თუ ბრძანებების ჯგუფი მეორდება, ჩასვი ციკლში.',
+  func: 'ფუნქცია შენი ახალი ბრძანებაა: ერთხელ დაწერე, ბევრჯერ გამოიძახე.'
+};
+// სად ჩაჯდება სავარჯიშოები რობოტის კურსში (გაკვეთილის key-ის შემდეგ) და რამდენი
+const PR_PLAN = [['crystals', [['path', 12], ['gems', 12]]], ['print', [['vars', 12]]], ['math', [['calc', 10]]], ['else', [['ifwall', 10]]], ['smart', [['loop', 12], ['smart', 12], ['stairs', 12]]], ['func', [['func', 12]]]];
+const PR_PLAN_JS = [['path', 8], ['gems', 8], ['vars', 8], ['calc', 8], ['ifwall', 8], ['loop', 8], ['smart', 8], ['stairs', 7], ['func', 7]];
+function withPractice(lang, lessons) {
+  const out = [], cnt = {};
+  const add = (key, n) => { for (let i = 0; i < n; i++) { cnt[key] = (cnt[key] || 0) + 1; out.push(practiceLevel(lang, key, cnt[key], lang + '-p-' + key + '-' + cnt[key])); } };
+  RC_LEVELS.forEach((base, i) => {
+    out.push(lessons[i]);
+    const plan = PR_PLAN.find(p => p[0] === base.key);
+    if (plan) plan[1].forEach(([key, n]) => add(key, n));
+  });
+  out.forEach((l, i) => { l.num = i + 1; });
+  return out;
+}
+
+// HTML/CSS-ის თემები (რუკის კუნძულები): რამდენი გაკვეთილია თითოეულში
+const WEB_CHAPTERS = {
+  html: [
+    { icon: '📝', name: 'ტექსტის ველი', topic: 'სათაურები და აბზაცები', a: '#d9822b', n: 3 },
+    { icon: '🔗', name: 'ბმულების ხიდი', topic: 'ბმულები და სურათები', a: '#2f8f6f', n: 2 },
+    { icon: '📋', name: 'სიების ქალაქი', topic: 'სიები და ცხრილები', a: '#3a7bd5', n: 2 },
+    { icon: '📮', name: 'ფორმების ფოსტა', topic: 'ფორმები', a: '#6b5fc7', n: 1 },
+    { icon: '🏗️', name: 'მშენებლობა', topic: 'გვერდის სტრუქტურა', a: '#c05a3c', n: 1 },
+    { icon: '👾', name: 'ბიტის პორტფოლიო', topic: 'ბოსი', a: '#b54848', n: 1 }
+  ],
+  css: [
+    { icon: '🎨', name: 'ფერების ბაღი', topic: 'ფერი და ფონი', a: '#2f8f6f', n: 2 },
+    { icon: '🔤', name: 'შრიფტების სახელოსნო', topic: 'შრიფტები', a: '#d9822b', n: 1 },
+    { icon: '🏷️', name: 'იარლიყების ბაზარი', topic: 'კლასები და id', a: '#b8577f', n: 2 },
+    { icon: '📦', name: 'ყუთების საწყობი', topic: 'ყუთის მოდელი და ჩარჩო', a: '#7a6a8a', n: 2 },
+    { icon: '📐', name: 'განლაგების კოშკი', topic: 'ცენტრი და Flexbox', a: '#3a7bd5', n: 2 },
+    { icon: '👾', name: 'ბიტის ბარათი', topic: 'ბოსი', a: '#b54848', n: 1 }
+  ]
+};
+/* ---------- HTML/CSS სავარჯიშოები: შაბლონები შემთხვევითი (seed) სიტყვებით ---------- */
+const PW = {
+  fruit: ['ვაშლი', 'მსხალი', 'ბანანი', 'ატამი', 'ყურძენი', 'ნესვი', 'ალუბალი', 'ლეღვი', 'კივი', 'ფორთოხალი', 'მანდარინი', 'ბროწეული'],
+  animal: ['კატა', 'ძაღლი', 'ცხენი', 'კურდღელი', 'ზღარბი', 'მელია', 'დათვი', 'ციყვი', 'ბუ', 'თევზი', 'პინგვინი', 'ლომი'],
+  city: ['თბილისი', 'ბათუმი', 'ქუთაისი', 'მესტია', 'სიღნაღი', 'ბორჯომი', 'ზუგდიდი', 'გორი', 'თელავი', 'ფოთი', 'რუსთავი', 'ყაზბეგი'],
+  topic: ['ჩემი ჰობი', 'ბიტის ბლოგი', 'სასკოლო გაზეთი', 'მოგზაურობა', 'ჩემი ოთახი', 'სპორტი', 'კოსმოსი', 'მუსიკა', 'წიგნები', 'თამაშები', 'ზღვა', 'მთები'],
+  site: ['wikipedia.org', 'example.com', 'scratch.mit.edu', 'khanacademy.org', 'github.com', 'mozilla.org'],
+  cls: ['note', 'star', 'info', 'hero', 'card', 'tag', 'badge', 'title', 'quote', 'tip']
+};
+// CSS-ის ფერები და მათი rgb (getComputedStyle ასე აბრუნებს)
+const PW_COL = { red: 'rgb(255, 0, 0)', blue: 'rgb(0, 0, 255)', green: 'rgb(0, 128, 0)', purple: 'rgb(128, 0, 128)', orange: 'rgb(255, 165, 0)', navy: 'rgb(0, 0, 128)', teal: 'rgb(0, 128, 128)', brown: 'rgb(165, 42, 42)', tomato: 'rgb(255, 99, 71)', crimson: 'rgb(220, 20, 60)' };
+const PW_BG = { lightyellow: 'rgb(255, 255, 224)', lightblue: 'rgb(173, 216, 230)', pink: 'rgb(255, 192, 203)', lavender: 'rgb(230, 230, 250)', honeydew: 'rgb(240, 255, 240)', wheat: 'rgb(245, 222, 179)', lightgreen: 'rgb(144, 238, 144)', gold: 'rgb(255, 215, 0)' };
+const pwKeys = o => Object.keys(o);
+function pwPickN(rng, arr, n) { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a.slice(0, n); }
+const pwClosed = tag => W('ყველა <' + tag + '> დახურულია </' + tag + '>-ით', h => closedTag(h.src, tag));
+
+const WEB_PRACTICE = {
+  /* ---------- HTML ---------- */
+  heading: {
+    lang: 'html', icon: '🔠', name: 'სათაურების ველი', topic: 'h1–h3', color: '#d9822b',
+    gen(rng) {
+      const n = prInt(rng, 1, 3), t = prPick(rng, PW.topic), tag = 'h' + n;
+      return { task: 'დაწერე სათაური <' + tag + '> ტექსტით „' + t + '“.', solution: '<' + tag + '>' + t + '</' + tag + '>',
+        checks: [W('გვერდზე არის <' + tag + '>', h => !!h.q(tag)), W('სათაურში წერია „' + t + '“', h => hasText(h, tag, t)), pwClosed(tag)],
+        hints: ['h1 ყველაზე დიდი სათაურია, h3 — უფრო პატარა.', 'გახსნა <' + tag + '>, ტექსტი, დახურვა </' + tag + '>.'] };
+    }
+  },
+  paras: {
+    lang: 'html', icon: '📃', name: 'აბზაცების ბაღი', topic: 'p', color: '#c9741f',
+    gen(rng) {
+      const [a, b] = pwPickN(rng, PW.fruit, 2), s1 = 'მიყვარს ' + a + '.', s2 = b + ' ტკბილია.';
+      return { task: 'დაწერე ორი აბზაცი <p>: პირველში „' + s1 + '“, მეორეში „' + s2 + '“.', solution: '<p>' + s1 + '</p>\n<p>' + s2 + '</p>',
+        checks: [W('გვერდზე ორი აბზაცი <p> მაინც არის', h => h.qa('p').length >= 2), W('პირველ აბზაცში წერია „' + s1 + '“', h => h.t(h.qa('p')[0]) === WEB_NORM(s1)), W('მეორე აბზაცში წერია „' + s2 + '“', h => h.t(h.qa('p')[1]) === WEB_NORM(s2)), pwClosed('p')],
+        hints: ['ყოველი აბზაცი ცალკე <p>...</p>-შია.', 'ორი ხაზი: ჯერ პირველი აბზაცი, მერე მეორე.'] };
+    }
+  },
+  bold: {
+    lang: 'html', icon: '🅱️', name: 'გამოყოფის ხეობა', topic: 'b, i, strong, em', color: '#b0502f',
+    gen(rng) {
+      const tag = prPick(rng, ['b', 'i', 'strong', 'em']), w = prPick(rng, PW.animal), s = 'ჩემი საყვარელი ცხოველია ' + w;
+      return { task: 'დაწერე აბზაცი „' + s + '“, სადაც სიტყვა „' + w + '“ <' + tag + '>-შია.', solution: '<p>ჩემი საყვარელი ცხოველია <' + tag + '>' + w + '</' + tag + '></p>',
+        checks: [W('გვერდზე არის აბზაცი <p>', h => !!h.q('p')), W('აბზაცის ტექსტია „' + s + '“', h => hasText(h, 'p', s)), W('„' + w + '“ არის <' + tag + '>-ში, აბზაცის შიგნით', h => hasText(h, 'p ' + tag, w)), pwClosed(tag)],
+        hints: ['თეგი თეგის შიგნით შეიძლება: <p>... <' + tag + '>სიტყვა</' + tag + '></p>', 'ჯერ დახურე </' + tag + '>, მერე </p>.'] };
+    }
+  },
+  link: {
+    lang: 'html', icon: '🔗', name: 'ბმულების ხიდი', topic: 'a href', color: '#2f8f6f',
+    gen(rng) {
+      const site = prPick(rng, PW.site), t = prPick(rng, ['გაიგე მეტი', 'ჩემი რჩეული საიტი', 'წაიკითხე აქ', 'გადადი საიტზე', 'სასარგებლო ბმული', 'ნახე ეს']);
+      const url = 'https://' + site;
+      return { task: 'შექმენი ბმული ტექსტით „' + t + '“, რომელიც ' + url + '-ზე მიდის.', solution: '<a href="' + url + '">' + t + '</a>',
+        checks: [W('გვერდზე არის ბმული <a>', h => !!h.q('a')), W('ბმული მიდის ' + url + '-ზე', h => !!h.q('a') && (h.q('a').getAttribute('href') || '').replace(/\/$/, '') === url), W('ბმულის ტექსტია „' + t + '“', h => hasText(h, 'a', t))],
+        hints: ['მისამართი href ატრიბუტშია: <a href="...">', '<a href="' + url + '">ტექსტი</a>'] };
+    }
+  },
+  image: {
+    lang: 'html', icon: '🖼️', name: 'სურათების გალერეა', topic: 'img', color: '#3b9b5b',
+    gen(rng) {
+      const alt = prPick(rng, ['ბიტი ' + prPick(rng, PW.city) + 'ში', 'რობოტი ბიტი', 'ჩემი რობოტი', 'ბიტი ' + prPick(rng, ['მოგზაურობს', 'თამაშობს', 'სწავლობს', 'ცეკვავს'])]), w = prPick(rng, [80, 100, 120, 150]);
+      return { task: 'ჩასვი სურათი bit.svg, alt ტექსტით „' + alt + '“ და სიგანით ' + w + ' (width="' + w + '").', solution: '<img src="bit.svg" alt="' + alt + '" width="' + w + '">',
+        checks: [W('გვერდზე არის სურათი <img>', h => !!h.q('img')), W('src არის bit.svg', h => !!h.q('img') && (h.q('img').dataset.cqSrc || h.q('img').getAttribute('src')) === 'bit.svg'), W('alt-ში წერია „' + alt + '“', h => !!h.q('img') && WEB_NORM(h.q('img').getAttribute('alt')) === WEB_NORM(alt)), W('სიგანე ' + w + '-ია', h => !!h.q('img') && h.q('img').getAttribute('width') === String(w))],
+        hints: ['img თეგი არ იხურება; ყველაფერი ატრიბუტებშია: src, alt, width.', '<img src="bit.svg" alt="..." width="' + w + '">'] };
+    }
+  },
+  list: {
+    lang: 'html', icon: '📋', name: 'სიების ქალაქი', topic: 'ul, ol, li', color: '#3a7bd5',
+    gen(rng) {
+      const tag = rng() < 0.5 ? 'ul' : 'ol', items = pwPickN(rng, prPick(rng, [PW.fruit, PW.animal, PW.city]), prInt(rng, 3, 4));
+      return { task: 'შექმენი ' + (tag === 'ul' ? 'მარკერებიანი სია <ul>' : 'დანომრილი სია <ol>') + ' ამ ელემენტებით: ' + items.join(', ') + '.',
+        solution: '<' + tag + '>\n' + items.map(i => '  <li>' + i + '</li>').join('\n') + '\n</' + tag + '>',
+        checks: [W('გვერდზე არის <' + tag + '>', h => !!h.q(tag)), W('სიაში ' + items.length + ' ელემენტია <li>', h => h.qa(tag + ' > li').length === items.length), W('ელემენტები სწორი რიგითაა', h => h.qa(tag + ' > li').every((e, i) => h.t(e) === WEB_NORM(items[i]))), pwClosed('li')],
+        hints: ['ყოველი ელემენტი <li>...</li>-შია, ყველა ერთად — <' + tag + '>...</' + tag + '>-ში.', '<' + tag + '>\n  <li>' + items[0] + '</li>\n  ...\n</' + tag + '>'] };
+    }
+  },
+  table: {
+    lang: 'html', icon: '🗂️', name: 'ცხრილების ბაზარი', topic: 'table, tr, th, td', color: '#2f6fc4',
+    gen(rng) {
+      const f = pwPickN(rng, PW.fruit, 2), p = [prInt(rng, 2, 9), prInt(rng, 2, 9)];
+      const sol = '<table>\n  <tr><th>ხილი</th><th>ფასი</th></tr>\n' + f.map((x, i) => '  <tr><td>' + x + '</td><td>' + p[i] + '</td></tr>').join('\n') + '\n</table>';
+      return { task: 'შექმენი ცხრილი: სათაურები „ხილი“ და „ფასი“ (<th>), ქვემოთ ორი რიგი: ' + f[0] + ' — ' + p[0] + ', ' + f[1] + ' — ' + p[1] + '.', solution: sol,
+        checks: [W('გვერდზე არის ცხრილი <table>', h => !!h.q('table')), W('სათაურები „ხილი“ და „ფასი“ <th>-შია', h => hasText(h, 'th', 'ხილი') && hasText(h, 'th', 'ფასი')), W('ცხრილში 3 რიგია <tr>', h => h.qa('tr').length === 3),
+          W('რიგებში სწორი მონაცემებია', h => { const tds = h.qa('td').map(e => h.t(e)); return tds.length === 4 && tds[0] === WEB_NORM(f[0]) && tds[1] === String(p[0]) && tds[2] === WEB_NORM(f[1]) && tds[3] === String(p[1]); })],
+        hints: ['ყოველი რიგი <tr>-ია; სათაურის უჯრა <th>, ჩვეულებრივი — <td>.', 'პირველი რიგი: <tr><th>ხილი</th><th>ფასი</th></tr>'] };
+    }
+  },
+  form: {
+    lang: 'html', icon: '📮', name: 'ფორმების ფოსტა', topic: 'input, button', color: '#6b5fc7',
+    gen(rng) {
+      const ph = prPick(rng, ['შენი სახელი', 'ელფოსტა', 'ქალაქი', 'საყვარელი ფერი', 'ასაკი', 'მეტსახელი']), btn = prPick(rng, ['გაგზავნა', 'შენახვა', 'დადასტურება', 'შესვლა', 'ძებნა']);
+      return { task: 'შექმენი ფორმა <form>: ტექსტური ველი placeholder-ით „' + ph + '“ და ღილაკი „' + btn + '“.', solution: '<form>\n  <input type="text" placeholder="' + ph + '">\n  <button>' + btn + '</button>\n</form>',
+        checks: [W('გვერდზე არის ფორმა <form>', h => !!h.q('form')), W('ფორმაში არის ველი <input>', h => !!h.q('form input')), W('ველის placeholder არის „' + ph + '“', h => h.qa('input').some(i => WEB_NORM(i.getAttribute('placeholder')) === WEB_NORM(ph))), W('ფორმაში არის ღილაკი „' + btn + '“', h => hasText(h, 'form button', btn))],
+        hints: ['input არ იხურება; placeholder ველში ნაცრისფერი მინიშნებაა.', '<input type="text" placeholder="' + ph + '"> და <button>' + btn + '</button>'] };
+    }
+  },
+  layout: {
+    lang: 'html', icon: '🏗️', name: 'სტრუქტურის მშენებლობა', topic: 'header, main, footer', color: '#c05a3c',
+    gen(rng) {
+      const t = prPick(rng, PW.topic), c = prPick(rng, PW.city), y = prInt(rng, 2020, 2026);
+      const m = 'ამ გვერდზე ' + c + 'ზე მოგიყვები.', f = '© ' + y + ' ბიტი';
+      return { task: 'ააწყე გვერდი: <header>-ში <h1> „' + t + '“, <main>-ში <p> „' + m + '“, <footer>-ში ტექსტი „' + f + '“.',
+        solution: '<header>\n  <h1>' + t + '</h1>\n</header>\n<main>\n  <p>' + m + '</p>\n</main>\n<footer>' + f + '</footer>',
+        checks: [W('<header>-ში არის <h1> „' + t + '“', h => hasText(h, 'header h1', t)), W('<main>-ში არის <p> „' + m + '“', h => hasText(h, 'main p', m)), W('<footer>-ში წერია „' + f + '“', h => !!h.q('footer') && h.t(h.q('footer')) === WEB_NORM(f)), pwClosed('main')],
+        hints: ['header — თავი, main — მთავარი ნაწილი, footer — ბოლო. სამივე იხურება.', '<header>\n  <h1>' + t + '</h1>\n</header>'] };
+    }
+  },
+  /* ---------- CSS ---------- */
+  color: {
+    lang: 'css', icon: '🎨', name: 'ფერების ბაღი', topic: 'color', color: '#2f8f6f',
+    gen(rng) {
+      const sel = prPick(rng, ['h1', 'h2', 'p']), c = prPick(rng, pwKeys(PW_COL)), others = ['h1', 'h2', 'p'].filter(x => x !== sel);
+      return { html: '<h1>ბიტის გვერდი</h1>\n<h2>ჩემი ამბავი</h2>\n<p>გამარჯობა, მე ბიტი ვარ!</p>', task: 'გახადე ' + sel + ' ' + c + ' ფერის. დანარჩენი არ შეცვალო.', solution: sel + ' {\n  color: ' + c + ';\n}',
+        checks: [W(sel + '-ის ფერია ' + c, h => h.cs(h.q(sel), 'color') === PW_COL[c]), W('დანარჩენი ელემენტები შავია', h => others.every(o => h.cs(h.q(o), 'color') === RGB.black))],
+        hints: ['ტექსტის ფერი — color თვისება.', sel + ' { color: ' + c + '; }'] };
+    }
+  },
+  bg: {
+    lang: 'css', icon: '🖌️', name: 'ფონების სახელოსნო', topic: 'background-color', color: '#3b9b5b',
+    gen(rng) {
+      const sel = prPick(rng, ['body', 'h1', 'p']), c = prPick(rng, pwKeys(PW_BG));
+      return { html: '<h1>ბიტის ბაღი</h1>\n<p>აქ კრისტალები იზრდება.</p>', task: 'მიეცი ' + (sel === 'body' ? 'მთელ გვერდს (body)' : sel + '-ს') + ' ფონი ' + c + '.', solution: sel + ' {\n  background-color: ' + c + ';\n}',
+        checks: [W((sel === 'body' ? 'გვერდის' : sel + '-ის') + ' ფონია ' + c, h => h.cs(sel === 'body' ? h.d.body : h.q(sel), 'background-color') === PW_BG[c])],
+        hints: ['ფონის ფერი — background-color.', sel + ' { background-color: ' + c + '; }'] };
+    }
+  },
+  font: {
+    lang: 'css', icon: '🔤', name: 'შრიფტების სახელოსნო', topic: 'font-size, font-weight', color: '#d9822b',
+    gen(rng) {
+      const sel = prPick(rng, ['h2', 'p']), n = prPick(rng, [14, 18, 20, 22, 24, 28, 32]), bold = rng() < 0.5;
+      const sol = sel + ' {\n  font-size: ' + n + 'px;' + (bold ? '\n  font-weight: bold;' : '') + '\n}';
+      return { html: '<h2>ბიტის დღიური</h2>\n<p>დღეს ახალი ბრძანება ვისწავლე.</p>', task: sel + '-ის ზომა გახადე ' + n + 'px' + (bold ? ' და ასოები მუქი (bold).' : '.'), solution: sol,
+        checks: [W(sel + '-ის ზომაა ' + n + 'px', h => h.cs(h.q(sel), 'font-size') === n + 'px')].concat(bold ? [W(sel + ' მუქია (bold)', h => +h.cs(h.q(sel), 'font-weight') >= 700)] : []),
+        hints: ['ზომა — font-size, სისქე — font-weight.', sol] };
+    }
+  },
+  klass: {
+    lang: 'css', icon: '🏷️', name: 'კლასების ბაზარი', topic: '.კლასი', color: '#b8577f',
+    gen(rng) {
+      const cl = prPick(rng, PW.cls), c = prPick(rng, pwKeys(PW_COL));
+      return { html: '<p class="' + cl + '">პირველი</p>\n<p>მეორე</p>\n<p class="' + cl + '">მესამე</p>', task: 'კლასის „' + cl + '“ მქონე აბზაცები გახადე ' + c + '. შუა აბზაცი არ შეცვალო.', solution: '.' + cl + ' {\n  color: ' + c + ';\n}',
+        checks: [W('.' + cl + ' აბზაცები ' + c + '-ია', h => h.qa('.' + cl).length === 2 && h.qa('.' + cl).every(e => h.cs(e, 'color') === PW_COL[c])), W('შუა აბზაცი შავია', h => h.cs(h.qa('p')[1], 'color') === RGB.black)],
+        hints: ['კლასის სელექტორი წერტილით იწყება: .' + cl, '.' + cl + ' { color: ' + c + '; }'] };
+    }
+  },
+  idsel: {
+    lang: 'css', icon: '🆔', name: 'id-ის კოშკი', topic: '#id', color: '#7a6a8a',
+    gen(rng) {
+      const id = prPick(rng, PW.cls) + prInt(rng, 1, 9), c = prPick(rng, pwKeys(PW_BG));
+      return { html: '<h1 id="' + id + '">ბიტი</h1>\n<h1>გლიჩი</h1>', task: 'სათაურს id-ით „' + id + '“ მიეცი ფონი ' + c + '. მეორე სათაური არ შეცვალო.', solution: '#' + id + ' {\n  background-color: ' + c + ';\n}',
+        checks: [W('#' + id + '-ის ფონია ' + c, h => h.cs(h.q('#' + id), 'background-color') === PW_BG[c]), W('მეორე სათაურს ფონი არ აქვს', h => h.cs(h.qa('h1')[1], 'background-color') === 'rgba(0, 0, 0, 0)')],
+        hints: ['id-ის სელექტორი # ნიშნით იწყება.', '#' + id + ' { background-color: ' + c + '; }'] };
+    }
+  },
+  pad: {
+    lang: 'css', icon: '📦', name: 'ყუთების საწყობი', topic: 'padding, margin', color: '#6e5d80',
+    gen(rng) {
+      const prop = rng() < 0.5 ? 'padding' : 'margin', n = prPick(rng, [8, 10, 12, 16, 20, 24, 30]);
+      return { html: '<div class="box">ბიტის ყუთი</div>', base: '.box { background: #e8ecff; }', task: '.box-ს მიეცი ' + prop + ' ' + n + 'px ოთხივე მხარეს.', solution: '.box {\n  ' + prop + ': ' + n + 'px;\n}',
+        checks: [W(prop + ' ოთხივე მხარეს ' + n + 'px-ია', h => sides(h, h.q('.box'), prop + '-*', n + 'px'))],
+        hints: [prop === 'padding' ? 'padding — შიდა დაშორება ტექსტსა და კიდეს შორის.' : 'margin — გარე დაშორება სხვა ელემენტებამდე.', '.box { ' + prop + ': ' + n + 'px; }'] };
+    }
+  },
+  border: {
+    lang: 'css', icon: '🔲', name: 'ჩარჩოების ქალაქი', topic: 'border', color: '#a94a74',
+    gen(rng) {
+      const w = prInt(rng, 1, 5), st = prPick(rng, ['solid', 'dashed', 'dotted']), c = prPick(rng, pwKeys(PW_COL));
+      return { html: '<div class="card">ბიტის ბარათი</div>', base: '.card { padding: 12px; }', task: '.card-ს მიეცი ჩარჩო: სისქე ' + w + 'px, სტილი ' + st + ', ფერი ' + c + '.', solution: '.card {\n  border: ' + w + 'px ' + st + ' ' + c + ';\n}',
+        checks: [W('ჩარჩოს სისქე ' + w + 'px-ია', h => sides(h, h.q('.card'), 'border-*-width', w + 'px')), W('ჩარჩოს სტილი ' + st + '-ია', h => sides(h, h.q('.card'), 'border-*-style', st)), W('ჩარჩოს ფერი ' + c + '-ია', h => sides(h, h.q('.card'), 'border-*-color', PW_COL[c]))],
+        hints: ['ერთი ხაზით: border: სისქე სტილი ფერი;', '.card { border: ' + w + 'px ' + st + ' ' + c + '; }'] };
+    }
+  },
+  align: {
+    lang: 'css', icon: '↔️', name: 'სწორების მოედანი', topic: 'text-align', color: '#3a7bd5',
+    gen(rng) {
+      const sel = prPick(rng, ['h1', 'p']), v = prPick(rng, ['center', 'right']);
+      return { html: '<h1>ბიტის გვერდი</h1>\n<p>ტექსტი შეიძლება ცენტრში ან მარჯვნივ იყოს.</p>', task: sel + '-ის ტექსტი გაასწორე ' + (v === 'center' ? 'ცენტრში (center)' : 'მარჯვნივ (right)') + '.', solution: sel + ' {\n  text-align: ' + v + ';\n}',
+        checks: [W(sel + '-ის text-align არის ' + v, h => h.cs(h.q(sel), 'text-align') === v)],
+        hints: ['ტექსტის სწორება — text-align.', sel + ' { text-align: ' + v + '; }'] };
+    }
+  },
+  flex: {
+    lang: 'css', icon: '📐', name: 'Flexbox-ის კოშკი', topic: 'display: flex', color: '#26877b',
+    gen(rng) {
+      const v = prPick(rng, ['center', 'space-between', 'space-around', 'flex-end']);
+      return { html: '<div class="row">\n  <div class="item">💎</div>\n  <div class="item">🔑</div>\n  <div class="item">🏁</div>\n</div>', base: '.item { background: #e8ecff; padding: 8px; }',
+        task: '.row გახადე flex-კონტეინერი და ნივთები გაანაწილე: justify-content: ' + v + '.', solution: '.row {\n  display: flex;\n  justify-content: ' + v + ';\n}',
+        checks: [W('.row-ს აქვს display: flex', h => h.cs(h.q('.row'), 'display') === 'flex'), W('justify-content: ' + v, h => h.cs(h.q('.row'), 'justify-content') === v)],
+        hints: ['ჯერ display: flex, მერე justify-content.', '.row { display: flex; justify-content: ' + v + '; }'] };
+    }
+  }
+};
+function webPracticeLevel(lang, key, k, id) {
+  const T = WEB_PRACTICE[key], v = T.gen(prRng(key + ':' + k));
+  return Object.assign({
+    id, course: lang, lang, web: true, practice: true, chapter: 'p:' + key, world: 1, title: T.name + ' ' + k,
+    story: '🏋️ ვარჯიში: ' + T.topic + '. გვერდი მარჯვნივ მაშინვე განახლდება.',
+    theory: '', example: '', starter: lang === 'css' ? '/* აქ დაწერე CSS */\n' : '<!-- აქ დაწერე HTML -->\n',
+    maps: [], goal: {}
+  }, v, { hints: v.hints.concat([v.solution]) });
+}
+// სად ჩაჯდება ვებ-სავარჯიშოები (გაკვეთილის ნომრის შემდეგ) და რამდენი
+const PW_PLAN = {
+  html: [[3, [['heading', 12], ['paras', 12], ['bold', 12]]], [5, [['link', 12], ['image', 12]]], [7, [['list', 12], ['table', 12]]], [8, [['form', 12]]], [9, [['layout', 10]]]],
+  css: [[2, [['color', 12], ['bg', 12]]], [3, [['font', 12]]], [5, [['klass', 12], ['idsel', 12]]], [7, [['pad', 12], ['border', 12]]], [9, [['align', 12], ['flex', 10]]]]
+};
+function withWebPractice(lang, lessons) {
+  const out = [], cnt = {};
+  let ch = 0, left = WEB_CHAPTERS[lang][0].n;
+  lessons.forEach((l, i) => {
+    l.chapter = 'c' + ch;
+    if (--left === 0 && ch < WEB_CHAPTERS[lang].length - 1) { ch++; left = WEB_CHAPTERS[lang][ch].n; }
+    out.push(l);
+    const plan = PW_PLAN[lang].find(p => p[0] === i + 1);
+    if (plan) plan[1].forEach(([key, n]) => { for (let j = 0; j < n; j++) { cnt[key] = (cnt[key] || 0) + 1; out.push(webPracticeLevel(lang, key, cnt[key], lang + '-p-' + key + '-' + cnt[key])); } });
+  });
+  out.forEach((l, i) => { l.num = i + 1; });
+  return out;
+}
+
 const COURSES = [
   { id: 'js', lang: 'js', title: 'JavaScript', sub: 'სრული თავგადასავალი', desc: '10 სამყარო, 50 ლეველი და გლიჩთან ბრძოლა: ცვლადები, პირობები, ციკლები, ფუნქციები, მასივები, ობიექტები და ალგორითმები.', levels: null },
-  { id: 'py', lang: 'py', title: 'Python', sub: 'პოპულარული და მარტივი', desc: 'ყველაზე პოპულარული ენა დამწყებთათვის: შეწევით დაწერილი ბლოკები, print, if, for, while და ფუნქციები.', levels: robotCourse('py') },
-  { id: 'java', lang: 'java', title: 'Java', sub: 'ტიპები და მეთოდები', desc: 'Android-ისა და დიდი სისტემების ენა: ტიპიანი ცვლადები, System.out.println, პირობები, ციკლები და მეთოდები.', levels: robotCourse('java') },
-  { id: 'c', lang: 'c', title: 'C', sub: 'კომპიუტერთან ახლოს', desc: 'კლასიკური ენა, რომელზეც ოპერაციული სისტემები წერია: main(), printf, #include, ტიპები და ფუნქციები.', levels: robotCourse('c') },
-  { id: 'cpp', lang: 'cpp', title: 'C++', sub: 'თამაშები და სიჩქარე', desc: 'თამაშების ძრავების ენა: cout, string, პირობები, ციკლები და ფუნქციები.', levels: robotCourse('cpp') },
-  { id: 'html', lang: 'html', title: 'HTML', sub: 'ვებგვერდის ჩონჩხი', desc: 'ააწყე ბიტის ვებგვერდი: სათაურები, აბზაცები, ბმულები, სურათები, სიები, ცხრილები და ფორმები — ცოცხალი გადახედვით.', levels: webCourse('html', HTML_LESSONS) },
-  { id: 'css', lang: 'css', title: 'CSS', sub: 'ფერები და განლაგება', desc: 'გაალამაზე გვერდი: ფერები, შრიფტები, კლასები, ყუთის მოდელი, ჩარჩოები და Flexbox.', levels: webCourse('css', CSS_LESSONS) }
+  { id: 'py', lang: 'py', title: 'Python', sub: 'პოპულარული და მარტივი', desc: 'ყველაზე პოპულარული ენა დამწყებთათვის: შეწევით დაწერილი ბლოკები, print, if, for, while და ფუნქციები.', levels: withPractice('py', robotCourse('py')) },
+  { id: 'java', lang: 'java', title: 'Java', sub: 'ტიპები და მეთოდები', desc: 'Android-ისა და დიდი სისტემების ენა: ტიპიანი ცვლადები, System.out.println, პირობები, ციკლები და მეთოდები.', levels: withPractice('java', robotCourse('java')) },
+  { id: 'c', lang: 'c', title: 'C', sub: 'კომპიუტერთან ახლოს', desc: 'კლასიკური ენა, რომელზეც ოპერაციული სისტემები წერია: main(), printf, #include, ტიპები და ფუნქციები.', levels: withPractice('c', robotCourse('c')) },
+  { id: 'cpp', lang: 'cpp', title: 'C++', sub: 'თამაშები და სიჩქარე', desc: 'თამაშების ძრავების ენა: cout, string, პირობები, ციკლები და ფუნქციები.', levels: withPractice('cpp', robotCourse('cpp')) },
+  { id: 'html', lang: 'html', title: 'HTML', sub: 'ვებგვერდის ჩონჩხი', desc: 'ააწყე ბიტის ვებგვერდი: სათაურები, აბზაცები, ბმულები, სურათები, სიები, ცხრილები და ფორმები — ცოცხალი გადახედვით.', levels: withWebPractice('html', webCourse('html', HTML_LESSONS)) },
+  { id: 'css', lang: 'css', title: 'CSS', sub: 'ფერები და განლაგება', desc: 'გაალამაზე გვერდი: ფერები, შრიფტები, კლასები, ყუთის მოდელი, ჩარჩოები და Flexbox.', levels: withWebPractice('css', webCourse('css', CSS_LESSONS)) }
 ];
 const COURSE_BY_ID = {};
 COURSES.forEach(c => {
@@ -5921,8 +6459,24 @@ COURSES.forEach(c => {
   if (!c.levels) return;
   c.levels.forEach((l, i) => { l.index = i; LEVEL_BY_ID[l.id] = l; });
 });
-const courseLevels = id => (id === 'js' || !COURSE_BY_ID[id] ? LEVELS : COURSE_BY_ID[id].levels);
-const ALL_LEVELS = () => LEVELS.concat(...COURSES.filter(c => c.levels).map(c => c.levels), PROJECTS);
+// JavaScript: 50 სიუჟეტური ლეველის შემდეგ — სავარჯიშოები
+const JS_PRACTICE = [];
+PR_PLAN_JS.forEach(([key, n]) => { for (let k = 1; k <= n; k++) JS_PRACTICE.push(practiceLevel('js', key, k, 'js-p-' + key + '-' + k)); });
+const JS_LEVELS = LEVELS.concat(JS_PRACTICE);
+JS_PRACTICE.forEach((l, i) => { l.index = LEVELS.length + i; l.num = l.index + 1; LEVEL_BY_ID[l.id] = l; });
+const courseLevels = id => (id === 'js' || !COURSE_BY_ID[id] ? JS_LEVELS : COURSE_BY_ID[id].levels);
+const ALL_LEVELS = () => JS_LEVELS.concat(...COURSES.filter(c => c.levels).map(c => c.levels), PROJECTS);
+
+/* ---------- Pro: ყოველ ენაზე პირველი 100 ლეველი უფასოა, დანარჩენს ერთჯერადი გადახდა ხსნის (Dodo Payments) ---------- */
+const PRO = {
+  freeLevels: 100,
+  // Dodo Payments-ის გადახდის ბმული: Dashboard → Products → პროდუქტი → Share (ლიცენზიის კოდები ჩართული უნდა იყოს).
+  // ცარიელი = ყიდვის ღილაკი ჯერ არ მუშაობს (კოდის ჩასმა მაინც შეიძლება).
+  payLink: '',
+  price: '',                 // ღილაკზე გამოსაჩენი ფასი, მაგ. '9.99 $'
+  api: '/api/license'        // Vercel-ის ფუნქცია (api/license.js): კოდს Dodo-სთან ამოწმებს
+};
+const isPremium = lv => !!lv && !lv.project && lv.index >= PRO.freeLevels;
 
 /* ---------- რეალური პროექტები: ნამდვილი პატარა აპები (JavaScript, სამყაროები 2–10) ----------
    აპი მონაცემებს ცვლადებში აწვდის (ყოველ ტესტში სხვას), შენი კოდი კი ეკრანზე ზუსტად იმას ბეჭდავს, რაც საჭიროა. */
@@ -6408,7 +6962,8 @@ function defaultProgress() {
     streak: { last: '', count: 0, best: 0, days: [] },
     quiz: {}, speedrun: {}, codes: {}, seen: {}, sandbox: null, certified: false,
     course: 'js', certs: {},
-    learned: {}   // „გაიმეორე“ გავლილი გაკვეთილები: { id: { acc, cpm } }
+    learned: {},   // „გაიმეორე“ გავლილი გაკვეთილები: { id: { acc, cpm } }
+    pro: null      // Pro: { key, at } — Dodo Payments-ის ლიცენზიის კოდი
   };
 }
 function mergeDeep(base, extra) {
@@ -6432,9 +6987,10 @@ const Progress = {
   save() { Store.set(SAVE_KEY, this.P); },
   rec(id) { return this.P.levels[id] || null; },
   isDone(id) { const r = this.P.levels[id]; return !!(r && r.done); },
+  hasPro() { return !!(this.P.pro && this.P.pro.key); },
   isUnlocked(lv) {
     if (!lv) return false;
-    if (this.P.settings.unlockAll || lv.index === 0) return true;
+    if (this.P.settings.unlockAll || lv.index === 0 || this.isDone(lv.id)) return true;
     if (lv.project) return this.isDone(lv.world + '-5');   // პროექტი სამყაროს ბოსის შემდეგ იხსნება
     return this.isDone(courseLevels(lv.course)[lv.index - 1].id);
   },
@@ -6510,7 +7066,7 @@ const Progress = {
     if (!obj || typeof obj !== 'object' || typeof obj.levels !== 'object') throw new Error('bad');
     this.P = mergeDeep(defaultProgress(), obj); this.save();
   },
-  reset() { this.P = defaultProgress(); this.save(); },
+  reset() { const pro = this.P.pro; this.P = defaultProgress(); this.P.pro = pro || null; this.save(); },   // Pro არ იშლება
   // მიღწევების შემოწმება; ctx — ბოლო მოვლენის დეტალები
   checkAch(ctx = {}) {
     const P = this.P, got = [];
@@ -7074,41 +7630,26 @@ const Menu = {
 
 /* ---------- სამყაროების რუკა ---------- */
 // რუკის კუნძულები (თემები) თითოეული ენისთვის. JavaScript — 10 სამყარო; სხვა ენები — ლეველები თემების მიხედვით
-const WEB_CHAPTERS = {
-  html: [
-    { icon: '📝', name: 'ტექსტის ველი', topic: 'სათაურები და აბზაცები', a: '#d9822b', n: 3 },
-    { icon: '🔗', name: 'ბმულების ხიდი', topic: 'ბმულები და სურათები', a: '#2f8f6f', n: 2 },
-    { icon: '📋', name: 'სიების ქალაქი', topic: 'სიები და ცხრილები', a: '#3a7bd5', n: 2 },
-    { icon: '📮', name: 'ფორმების ფოსტა', topic: 'ფორმები', a: '#6b5fc7', n: 1 },
-    { icon: '🏗️', name: 'მშენებლობა', topic: 'გვერდის სტრუქტურა', a: '#c05a3c', n: 1 },
-    { icon: '👾', name: 'ბიტის პორტფოლიო', topic: 'ბოსი', a: '#b54848', n: 1 }
-  ],
-  css: [
-    { icon: '🎨', name: 'ფერების ბაღი', topic: 'ფერი და ფონი', a: '#2f8f6f', n: 2 },
-    { icon: '🔤', name: 'შრიფტების სახელოსნო', topic: 'შრიფტები', a: '#d9822b', n: 1 },
-    { icon: '🏷️', name: 'იარლიყების ბაზარი', topic: 'კლასები და id', a: '#b8577f', n: 2 },
-    { icon: '📦', name: 'ყუთების საწყობი', topic: 'ყუთის მოდელი და ჩარჩო', a: '#7a6a8a', n: 2 },
-    { icon: '📐', name: 'განლაგების კოშკი', topic: 'ცენტრი და Flexbox', a: '#3a7bd5', n: 2 },
-    { icon: '👾', name: 'ბიტის ბარათი', topic: 'ბოსი', a: '#b54848', n: 1 }
-  ]
-};
 const CHAPTER_CACHE = {};
+// რუკის კუნძულები: ლეველები ჯგუფდება თემების მიხედვით (JavaScript — სამყაროები, სხვა ენები — თემები; სავარჯიშოები — ცალკე)
+const chapterKey = (cid, l) => (cid === 'js' && !l.practice ? 'w' + l.world : l.chapter || (l.boss ? 'boss' : 'w' + (l.world || 1)));
+function chapterMeta(cid, key, l) {
+  if (key.startsWith('p:')) {
+    const T = PRACTICE[key.slice(2)] || WEB_PRACTICE[key.slice(2)];
+    return { practice: true, icon: T.icon, name: T.name, topic: '🏋️ ' + T.topic, a: T.color || WORLDS[T.world - 1].a };
+  }
+  if (key === 'boss') return { icon: '👾', name: l.title, topic: 'ბოსი', a: '#b54848' };
+  if (key[0] === 'c' && WEB_CHAPTERS[cid]) return Object.assign({}, WEB_CHAPTERS[cid][+key.slice(1)]);
+  const w = WORLDS[(l.world || 1) - 1];
+  return { world: w.id, icon: w.icon, name: w.name, topic: w.topic, a: w.a };
+}
 function courseChapters(cid) {
   if (CHAPTER_CACHE[cid]) return CHAPTER_CACHE[cid];
-  let chs;
-  if (cid === 'js') chs = WORLDS.map(w => ({ world: w.id, name: w.name, icon: w.icon, topic: w.topic, a: w.a, levels: LEVELS.filter(l => l.world === w.id) }));
-  else if (WEB_CHAPTERS[cid]) {
-    let i = 0;
-    chs = WEB_CHAPTERS[cid].map(c => { const levels = courseLevels(cid).slice(i, i + c.n); i += c.n; return Object.assign({}, c, { levels }); });
-  } else {
-    // რობოტის კურსები: იგივე სამყაროები, რაც JavaScript-ში (ლეველის stage), ბოსი — ცალკე კუნძული
-    chs = [];
-    for (const l of courseLevels(cid)) {
-      const key = l.boss ? 'boss' : l.world, last = chs[chs.length - 1];
-      if (last && last.key === key) { last.levels.push(l); continue; }
-      const w = WORLDS[(l.world || 1) - 1];
-      chs.push(l.boss ? { key, icon: '👾', name: l.title, topic: 'ბოსი', a: '#b54848', levels: [l] } : { key, world: w.id, icon: w.icon, name: w.name, topic: w.topic, a: w.a, levels: [l] });
-    }
+  const chs = [];
+  for (const l of courseLevels(cid)) {
+    const key = chapterKey(cid, l), last = chs[chs.length - 1];
+    if (last && last.key === key) { last.levels.push(l); continue; }
+    chs.push(Object.assign(chapterMeta(cid, key, l), { key, levels: [l] }));
   }
   chs.forEach((c, i) => { c.n = i + 1; });
   return (CHAPTER_CACHE[cid] = chs);
@@ -7130,14 +7671,15 @@ const MapScreen = {
     if (!js) {
       head.innerHTML = '<div class="card course-head">' + langBadge(course.lang) + '<div style="flex:1;min-width:180px"><h2>' + esc(course.title) + '</h2><p class="muted">' + esc(course.desc) + '</p>' +
         '<div class="progress"><div style="width:' + Math.round(st.done / st.total * 100) + '%"></div></div><small class="muted">' + st.done + '/' + st.total + ' დასრულებულია</small></div>' +
-        '<div style="display:flex;gap:8px;flex-wrap:wrap">' + (done ? '<button class="btn" id="co-cert">📜 სერტიფიკატი</button>' : '') +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap">' + (done ? '<button class="btn" id="co-cert">📜 სერტიფიკატი</button>' : '') + (Progress.hasPro() ? '' : '<button class="btn" id="co-pro">👑 Pro</button>') +
         '<button class="btn primary" id="co-go">' + (st.done ? (done ? '⟲ თავიდან გავლა' : '▶ გაგრძელება') : '▶ დაწყება') + '</button></div></div>';
       $('#co-go').addEventListener('click', () => { Sound.click(); Game.openLevel(done ? course.levels[0].id : nxt.id); });
       const ce = $('#co-cert'); if (ce) ce.addEventListener('click', () => Certificate.open(cid));
+      const cp = $('#co-pro'); if (cp) cp.addEventListener('click', () => Paywall.open(null));
     }
     const rowH = 168, W = wrap.clientWidth || 800, top0 = 24;
     const pts = chs.map((c, i) => ({ x: (i % 2 ? 72 : 28) + (i % 4 === 1 ? 4 : i % 4 === 3 ? -4 : 0), y: top0 + i * rowH }));
-    const curCh = chs.find(c => c.levels.includes(nxt)) || chs[0];
+    const curCh = chs.find(c => c.levels.includes(nxt)) || chs[0], pro = Progress.hasPro();
     const cxy = p => [p.x / 100 * W, p.y + 47];
     let d = '';
     pts.forEach((p, i) => {
@@ -7156,7 +7698,8 @@ const MapScreen = {
         '<div class="island-name">' + ch.n + '. ' + esc(ch.name) + '</div>' +
         '<div class="island-sub">' + esc(ch.topic) + ' · ⭐ ' + chapterStars(ch) + '/' + ch.levels.length * 3 + '</div>' +
         '<div class="dots">' + dots + '</div>' + (cur ? '<span class="here">' + bitSVG() + 'აქ ხარ</span>' : '') +
-        (pr && Progress.isUnlocked(pr) ? '<span class="proj-chip">' + pr.icon + ' პროექტი' + (Progress.isDone(pr.id) ? ' ✓' : '') + '</span>' : '') + '</button></div>';
+        (pr && Progress.isUnlocked(pr) ? '<span class="proj-chip">' + pr.icon + ' პროექტი' + (Progress.isDone(pr.id) ? ' ✓' : '') + '</span>' : '') +
+        (!pro && ch.levels.some(isPremium) ? '<span class="pro-chip">👑 Pro</span>' : '') + '</button></div>';
     });
     wrap.style.height = H + 'px';
     wrap.innerHTML = html;
@@ -7166,7 +7709,7 @@ const MapScreen = {
 // კუნძულზე დაჭერა: JavaScript-ში სამყაროს პანელი (ქვიზით და პროექტით), სხვა ენებზე — თემის ლეველები
 const ChapterPanel = {
   open(cid, ch) {
-    if (cid === 'js') return WorldPanel.open(ch.world);
+    if (cid === 'js' && !ch.practice) return WorldPanel.open(ch.world);
     const P = Progress.P, L = LANGS[COURSE_BY_ID[cid].lang];
     if (!Progress.isUnlocked(ch.levels[0])) { UI.toast('🔒', 'ეს თემა ჯერ ჩაკეტილია', 'ჯერ წინა თემა დაასრულე.'); return; }
     let html = '<div class="wp-head" style="--ia:' + ch.a + '"><div class="island-blob sm" aria-hidden="true">' + ch.icon + '</div><div><h2>' + esc(ch.name) + '</h2><p class="muted">' +
@@ -7175,7 +7718,7 @@ const ChapterPanel = {
       const un = Progress.isUnlocked(l), r = Progress.rec(l.id) || {};
       html += '<div style="display:flex;gap:6px;align-items:stretch"><button class="lvl-item' + (r.done ? ' done' : un ? ' next' : '') + '" data-lv="' + l.id + '"' + (un ? '' : ' disabled') + ' style="--wa:' + ch.a + '">' +
         '<span class="lvl-num">' + (l.boss ? '👾' : l.num) + '</span><span class="t"><b>' + esc(l.title) + '</b><small>' +
-        (l.boss ? 'ბოსი' : L.kind === 'web' ? 'გაკვეთილი ' + l.num : 'ლეველი ' + l.num) + (un ? '' : ' · 🔒') + '</small></span>' + starsHTML(r.stars || 0) + '</button>' +
+        (l.boss ? 'ბოსი' : L.kind === 'web' ? 'გაკვეთილი ' + l.num : 'ლეველი ' + l.num) + (un ? '' : ' · 🔒') + (isPremium(l) && !Progress.hasPro() ? ' · 👑 Pro' : '') + '</small></span>' + starsHTML(r.stars || 0) + '</button>' +
         (r.done ? '<button class="btn small" data-sr="' + l.id + '" title="სპიდრანი — გაიარე დროზე">⏱' + (P.speedrun[l.id] ? ' ' + fmtTime(P.speedrun[l.id]) : '') + '</button>' : '') + '</div>';
     });
     html += '</div><div class="modal-actions"><button class="btn" data-a="cheat">📋 შპარგალკა</button><button class="btn primary" data-close>დახურვა</button></div>';
@@ -7528,12 +8071,16 @@ const SettingsScreen = {
   render() {
     const P = Progress.P, s = P.settings;
     const seg = (id, opts, val) => '<div class="seg" id="' + id + '">' + opts.map(([v, l]) => '<button data-v="' + v + '" class="' + (String(val) === String(v) ? 'on' : '') + '">' + l + '</button>').join('') + '</div>';
-    $('#settings-body').innerHTML = '<div class="card">' +
+    const pro = P.pro && P.pro.key;
+    $('#settings-body').innerHTML = '<div class="card" style="margin-bottom:12px"><div class="set-row" style="border:0;padding:4px 0"><label>👑 CodeQuest Pro<br><small class="muted">' +
+      (pro ? 'აქტიურია · კოდი …' + esc(P.pro.key.slice(-4)) : 'ყველა ენაზე პირველი ' + PRO.freeLevels + ' ლეველი უფასოა; Pro დანარჩენს ხსნის.') + '</small></label>' +
+      '<span>' + (pro ? '<button class="btn small" id="st-pro-off">გამორთვა ამ მოწყობილობაზე</button>' : '<button class="btn small" id="st-pro-key">🔑 კოდის ჩასმა</button> <button class="btn small primary" id="st-pro-buy">💳 ყიდვა</button>') + '</span></div></div>' +
+      '<div class="card">' +
       '<div class="set-row"><label>თემა</label>' + seg('st-theme', [['light', '☀️ ნათელი'], ['dark', '🌙 მუქი']], s.theme) + '</div>' +
       '<div class="set-row"><label>ხმა</label>' + seg('st-sound', [[1, 'ჩართული'], [0, 'გამორთული']], s.sound ? 1 : 0) + '</div>' +
       '<div class="set-row"><label>ანიმაციის სიჩქარე</label>' + seg('st-speed', [[1, '🐢 ნელი'], [2, 'ჩვეულებრივი'], [3, '🐇 სწრაფი']], s.speed) + '</div>' +
       '<div class="set-row"><label for="st-font">შრიფტის ზომა: <span id="st-font-v">' + s.font + '</span>px</label><input type="range" id="st-font" min="13" max="21" value="' + s.font + '" style="accent-color:var(--accent)"></div>' +
-      '<div class="set-row"><label>მასწავლებლის რეჟიმი<br><small class="muted">ყველა ლეველისა და ჯილდოს გახსნა</small></label>' + seg('st-unlock', [[1, 'ჩართული'], [0, 'გამორთული']], s.unlockAll ? 1 : 0) + '</div>' +
+      '<div class="set-row"><label>მასწავლებლის რეჟიმი<br><small class="muted">ყველა ლეველისა და ჯილდოს გახსნა (Pro ლეველების გარდა)</small></label>' + seg('st-unlock', [[1, 'ჩართული'], [0, 'გამორთული']], s.unlockAll ? 1 : 0) + '</div>' +
       '</div><div class="card" style="margin-top:12px"><h3 style="margin-top:0">პროგრესის კოდი</h3>' +
       '<p class="muted" style="margin-top:-.4em">დააკოპირე კოდი, რომ პროგრესი სხვა მოწყობილობაზე გადაიტანო ან შეინახო.</p>' +
       '<textarea class="code-io" id="st-export" readonly aria-label="ექსპორტის კოდი"></textarea><div class="modal-actions" style="justify-content:flex-start"><button class="btn small" id="st-copy">კოპირება</button></div>' +
@@ -7557,6 +8104,8 @@ const SettingsScreen = {
       catch (e) { UI.toast('⚠️', 'კოდი არასწორია', 'შეამოწმე, მთლიანად ჩასვი თუ არა.'); }
     });
     $('#st-test').addEventListener('click', () => DevPanel.open());
+    if ($('#st-pro-key')) { $('#st-pro-key').addEventListener('click', () => Paywall.keyForm()); $('#st-pro-buy').addEventListener('click', () => Paywall.open(null)); }
+    if ($('#st-pro-off')) $('#st-pro-off').addEventListener('click', () => { P.pro = null; Progress.save(); this.render(); UI.toast('👑', 'Pro გამოირთო ამ მოწყობილობაზე', 'კოდით ნებისმიერ დროს ისევ ჩართავ.'); });
     $('#st-reset').addEventListener('click', () => {
       const m = Modal.open('<h2>ნამდვილად გინდა განულება?</h2><p>ყველა პროგრესი, XP და მიღწევა სამუდამოდ წაიშლება. სანამ წაშლი, შეგიძლია პროგრესის კოდი შეინახო.</p><div class="modal-actions"><button class="btn" data-close autofocus>არა, დავტოვოთ</button><button class="btn danger" data-a="yes">კი, განულდეს</button></div>');
       m.querySelector('[data-a=yes]').addEventListener('click', () => { Progress.reset(); Modal.close(m); applySettings(); UI.toast('🧹', 'პროგრესი განულდა'); this.render(); });
@@ -7873,6 +8422,68 @@ function confetti(host) {
   host.appendChild(box);
   setTimeout(() => box.remove(), 3800);
 }
+/* ---------- Pro-ს ფანჯარა: ყიდვა (Dodo Payments) და ლიცენზიის კოდის ჩასმა ---------- */
+const Paywall = {
+  open(lv) {
+    const price = PRO.price ? ' · ' + esc(PRO.price) : '';
+    const m = Modal.open('<div class="pro-box"><div class="pro-badge" aria-hidden="true">👑</div><h2 class="result-title">CodeQuest Pro</h2>' +
+      '<p>' + (lv ? 'ეს <b>' + (lv.index + 1) + '-ე ლეველია</b>. ' : '') + 'ყველა ენაზე პირველი <b>' + PRO.freeLevels + ' ლეველი უფასოა</b> — დანარჩენს Pro ხსნის.</p>' +
+      '<ul class="pro-list"><li>✅ ყველა ფასიანი ლეველი 7-ვე ენაზე</li><li>✅ ერთჯერადი გადახდა — გამოწერის გარეშე</li><li>✅ კოდი ელფოსტაზე მოგივა და ნებისმიერ მოწყობილობაზე ჩასვამ</li></ul></div>' +
+      '<div class="modal-actions win-actions"><button class="btn" data-close>მოგვიანებით</button><button class="btn" data-a="key">🔑 მაქვს კოდი</button><button class="btn primary" data-a="buy">💳 ყიდვა' + price + '</button></div>');
+    m.querySelector('[data-a=buy]').addEventListener('click', () => this.buy());
+    m.querySelector('[data-a=key]').addEventListener('click', () => { Modal.close(m); this.keyForm(); });
+  },
+  buy() {
+    if (!PRO.payLink) { UI.toast('⚙️', 'გადახდა ჯერ არ არის ჩართული', 'საიტის მფლობელმა Dodo Payments-ის ბმული უნდა დაამატოს.'); return; }
+    // გადახდის შემდეგ Dodo აქ დაგვაბრუნებს (?status=succeeded&payment_id=...&email=...)
+    const u = new URL(PRO.payLink);
+    u.searchParams.set('redirect_url', location.origin + location.pathname + '?pro=return');
+    location.href = u.toString();
+  },
+  keyForm(intro) {
+    const m = Modal.open('<h2>🔑 ლიცენზიის კოდი</h2>' + (intro ? '<p>' + intro + '</p>' : '<p class="muted">კოდი ყიდვის შემდეგ ელფოსტაზე მოგივიდა.</p>') +
+      '<input class="txt" id="pro-key" style="width:100%;font-family:var(--mono)" placeholder="მაგ. ABCD-1234-..." autocomplete="off" spellcheck="false">' +
+      '<p class="muted" id="pro-msg" style="min-height:1.4em;font-size:.88rem"></p>' +
+      '<div class="modal-actions"><button class="btn" data-close>დახურვა</button><button class="btn primary" data-a="ok">გააქტიურება</button></div>');
+    const inp = m.querySelector('#pro-key'), btn = m.querySelector('[data-a=ok]'), msg = m.querySelector('#pro-msg');
+    setTimeout(() => inp.focus(), 60);
+    const go = async () => {
+      const key = inp.value.trim();
+      if (!key) { msg.textContent = 'ჩასვი კოდი.'; return; }
+      btn.disabled = true; msg.textContent = 'ვამოწმებ...';
+      const r = await this.validate(key);
+      btn.disabled = false;
+      if (r.valid) {
+        Progress.P.pro = { key, at: Date.now() }; Progress.save();
+        Modal.close(m); Sound.ach(); confetti(document.body);
+        UI.toast('👑', 'Pro გააქტიურდა!', 'ყველა ლეველი ყველა ენაზე ღიაა.');
+        if (UI.cur === 'map') MapScreen.render();
+        if (UI.cur === 'settings') SettingsScreen.render();
+      } else msg.textContent = r.error || 'კოდი არასწორია ან ვადაგასულია. შეამოწმე და თავიდან სცადე.';
+    };
+    btn.addEventListener('click', go);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  },
+  async validate(key) {
+    try {
+      const res = await fetch(PRO.api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ license_key: key }) });
+      if (!res.ok && res.status !== 400) return { valid: false, error: 'შემოწმება ვერ მოხერხდა (' + res.status + '). სცადე მოგვიანებით.' };
+      const j = await res.json();
+      return { valid: !!j.valid };
+    } catch (e) {
+      return { valid: false, error: 'სერვერთან კავშირი ვერ დამყარდა. კოდის შემოწმება მხოლოდ საიტზე (Vercel) მუშაობს.' };
+    }
+  },
+  // Dodo-ს გადახდის გვერდიდან დაბრუნება
+  checkReturn() {
+    const q = new URLSearchParams(location.search);
+    if (q.get('pro') !== 'return' && !q.get('payment_id')) return;
+    const ok = q.get('status') === 'succeeded', email = q.get('email');
+    history.replaceState(null, '', location.pathname + location.hash);
+    if (ok) this.keyForm('🎉 გადახდა მიღებულია, მადლობა! ლიცენზიის კოდი ' + (email ? 'გამოგიგზავნეს მისამართზე <b>' + esc(email) + '</b>' : 'ელფოსტაზე გამოგიგზავნეს') + ' — ჩასვი აქ:');
+    else UI.toast('⚠️', 'გადახდა არ დასრულდა', 'თანხა არ ჩამოგეჭრება. შეგიძლია თავიდან სცადო.');
+  }
+};
 const Game = {
   mode: 'level', base: null, cur: null, phaseIdx: 0, defs: [], maps: [], testIdx: 0, world: null,
   attempts: 0, failsTotal: 0, hintsUsed: 0, hintLevel: 0, start: 0, busy: false, stepSt: null, animToken: 0,
@@ -7884,6 +8495,7 @@ const Game = {
     const lv = LEVEL_BY_ID[id];
     if (!lv) return;
     if (mode === 'level' && !Progress.isUnlocked(lv)) { UI.toast('🔒', 'ლეველი ჩაკეტილია', 'ჯერ წინა ლეველი გაიარე.'); return; }
+    if (isPremium(lv) && !Progress.hasPro()) { Paywall.open(lv); return; }
     const P = Progress.P;
     const cid = lv.course || 'js';
     if (P.course !== cid) { P.course = cid; Progress.save(); }
@@ -7934,13 +8546,14 @@ const Game = {
     UI.show('game');
     const w = WORLDS[(lv.world || 1) - 1], L = LANGS[lv.lang || 'js'];
     const g = $('#scr-game');
-    if (lv.course) { g.style.setProperty('--wa', L.color); g.style.setProperty('--wb', L.color); }
+    const other = lv.lang && lv.lang !== 'js';   // Python, Java... — ენის ფერი; JavaScript — სამყაროს ფერი
+    if (other) { g.style.setProperty('--wa', L.color); g.style.setProperty('--wb', L.color); }
     else { g.style.setProperty('--wa', w.a); g.style.setProperty('--wb', w.b); }
     applyTheme(g, lv.world || 1);
-    $('#g-icon').innerHTML = lv.course ? langBadge(lv.lang, true) : esc(lv.project ? lv.icon : { daily: '📅', sandbox: '🧪' }[mode] || w.icon);
+    $('#g-icon').innerHTML = other ? langBadge(lv.lang, true) : esc(lv.project ? lv.icon : lv.practice ? PRACTICE[lv.chapter.slice(2)].icon : { daily: '📅', sandbox: '🧪' }[mode] || w.icon);
     $('#g-back').textContent = mode === 'level' || mode === 'speedrun' ? '← რუკა' : '← მენიუ';
     Editor.setMode(lv.lang || 'js');
-    $('#g-dict').innerHTML = '<span class="ic">📖</span>' + (lv.course ? 'შპარგალკა' : 'ლექსიკონი');
+    $('#g-dict').innerHTML = '<span class="ic">📖</span>' + (other ? 'შპარგალკა' : 'ლექსიკონი');
     $('#g-timer').classList.toggle('hidden', mode !== 'speedrun');
     $('#g-attempts').classList.toggle('hidden', mode !== 'level');
     // ვებ-გაკვეთილზე რობოტის დაფის ნაცვლად გვერდის გადახედვა ჩანს
@@ -7972,7 +8585,9 @@ const Game = {
     $('#g-world').textContent = base.course ? LANGS[base.lang].name + ' · ' + (base.web ? 'გაკვეთილი ' : 'ლეველი ') + base.num + '/' + list.length
       : base.project ? '🏗️ რეალური პროექტი · ' + w.name
       : inList ? w.name + ' · ' + (base.boss ? 'ბოსი' : 'ლეველი ' + base.num + '/' + list.length) : (this.mode === 'daily' ? 'ყოველდღიური' : 'სენდბოქსი');
-    $('#g-pips').innerHTML = inList ? list.map(l => '<i class="' + (l.id === base.id ? 'cur' : Progress.isDone(l.id) ? 'done' : '') + '"></i>').join('') : '';
+    // პროგრესის წერტილები — მხოლოდ მიმდინარე თემის (კუნძულის) ლეველები
+    const chap = inList ? (courseChapters(base.course || 'js').find(c => c.levels.includes(base)) || { levels: list }) : null;
+    $('#g-pips').innerHTML = chap ? chap.levels.slice(0, 16).map(l => '<i class="' + (l.id === base.id ? 'cur' : Progress.isDone(l.id) ? 'done' : '') + '"></i>').join('') : '';
     $('#g-name').textContent = modeTag + (base.boss && !base.phases ? '👾 ' : '') + base.title;
     const ph = $('#g-phase');
     ph.classList.toggle('hidden', !base.phases);
@@ -8718,7 +9333,7 @@ function init() {
   $('#m-start').addEventListener('click', () => {
     Sound.ensure(); Sound.click();
     const P = Progress.P;
-    if (!P.started) { P.started = true; Progress.save(); Scene.play('intro', () => UI.show('courses')); }
+    if (!P.started) { P.started = true; Progress.save(); UI.show('courses'); }   // შესავალი სცენის გარეშე — პირდაპირ ენის არჩევა
     else openCourse(Progress.course());
   });
   $('#m-continue').addEventListener('click', () => {
@@ -8768,6 +9383,7 @@ function init() {
   document.addEventListener('visibilitychange', () => { if (document.hidden) Progress.save(); });
   Menu.render();
   Progress.checkAch();
+  Paywall.checkReturn();   // Dodo Payments-ის გადახდიდან დაბრუნება
   if (location.hash === '#test') testAll();
 }
 window.CodeQuest = { testAll, LEVELS, WORLDS, COURSES, LANGS, Progress, Game, CodeRunner };

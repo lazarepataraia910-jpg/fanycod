@@ -526,12 +526,12 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
 #g-html{max-height:220px;overflow:auto}
 @media (max-width:520px){#toast-root{left:10px;right:10px;top:10px}.toast{max-width:none}.modal{padding:16px}.gbar{padding:8px 12px}.gmain{padding:12px 10px 30px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-/* ---------- რუკა: დიდ თავს (გენერირებული თემა, 11–13 ლეველი) წერტილების ნაცვლად პროგრესის ზოლი აქვს ---------- */
-.progress.sm{height:7px}
-.isl-prog{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:6px;font-size:.75rem;color:var(--muted)}
-.isl-prog .progress{width:84px}
-.isl-prog .progress>div{background:var(--ia)}
-.island.locked .isl-prog{opacity:.6}
+/* ---------- რუკა: კუნძულზე ლეველების დიაპაზონი და ყოველი ლეველის წერტილი ---------- */
+.dots.sm{gap:3px;flex-wrap:wrap}
+.dots.sm .dot{width:9px;height:9px}
+.island-sub .nw{white-space:nowrap}
+.island-rng{font-size:.76rem;font-weight:700;color:var(--muted);margin-top:5px}
+.island.locked .island-rng{opacity:.6}
 </style>
 </head>
 <body>
@@ -10510,7 +10510,7 @@ const chapterStars = ch => ch.levels.reduce((a, l) => a + ((Progress.rec(l.id) |
 const MapScreen = {
   render() {
     const wrap = $('#map-wrap'), cid = Progress.course(), course = COURSE_BY_ID[cid], js = cid === 'js';
-    const chs = courseChapters(cid), st = Progress.courseStats(cid);
+    const chs = courseChapters(cid), st = Progress.courseStats(cid), unit = LANGS[course.lang].kind === 'web' ? 'გაკვეთილები' : 'ლეველები';
     $('#map-title').innerHTML = js ? 'კოდლენდის რუკა' : langBadge(course.lang, true) + ' ' + esc(course.title);
     $('#map-streak').textContent = Streak.chip();
     $('#map-xp').textContent = Progress.totalXP() + ' XP';
@@ -10537,20 +10537,21 @@ const MapScreen = {
       if (!i) d += 'M' + x + ' ' + y;
       else { const [px, py] = cxy(pts[i - 1]); d += ' C' + px + ' ' + (py + rowH * 0.55) + ',' + x + ' ' + (y - rowH * 0.55) + ',' + x + ' ' + y; }
     });
-    const H = top0 + chs.length * rowH + 30;
+    const H = top0 + chs.length * rowH + 100;
     let html = '<svg class="map-svg" width="' + W + '" height="' + H + '" aria-hidden="true"><path class="map-road" d="' + d + '" fill="none" stroke-linecap="round"/><path class="map-road-line" d="' + d + '" fill="none" stroke-linecap="round"/></svg>';
     chs.forEach((ch, i) => {
       const un = Progress.isUnlocked(ch.levels[0]), cur = un && ch === curCh && !done, pr = js && !ch.gen && PROJECT_BY_WORLD[ch.world];
       const total = ch.levels.length, dn = ch.levels.filter(l => Progress.isDone(l.id)).length;
-      // დიდ თავს (გენერირებული თემა, 11–13 ლეველი) წერტილების ნაცვლად პროგრესის ზოლი აქვს
-      const prog = total > 6 ? '<div class="isl-prog"><div class="progress sm"><div style="width:' + (dn / total * 100).toFixed(1) + '%"></div></div><small>' + dn + '/' + total + '</small></div>'
-        : '<div class="dots">' + ch.levels.map(l => '<span class="dot' + (Progress.isDone(l.id) ? ' done' : '') + (l.boss ? ' boss' : '') + '"></span>').join('') + '</div>';
+      // კუნძულზე ჩანს, კურსის რომელი ლეველები უჭირავს (მაგ. 489–500), და ყოველი ლეველი — თავისი წერტილით.
+      // კუნძულის ნომერი არ იწერება: „46“ ისე გამოიყურებოდა, თითქოს კურსში 46 ლეველია
+      const from = ch.levels[0].index + 1, to = ch.levels[total - 1].index + 1, rng = unit + ' ' + (from === to ? from : from + '–' + to);
+      const dots = '<div class="dots' + (total > 6 ? ' sm' : '') + '">' + ch.levels.map(l => '<span class="dot' + (Progress.isDone(l.id) ? ' done' : '') + (l.boss ? ' boss' : '') + '"></span>').join('') + '</div>';
       html += '<div class="island' + (un ? '' : ' locked') + (cur ? ' current' : '') + '" style="left:' + pts[i].x + '%;top:' + pts[i].y + 'px;--ia:' + ch.a + '">' +
-        '<button class="island-btn" data-ch="' + i + '" aria-label="' + ch.n + ': ' + esc(ch.name) + (un ? '' : ' (ჩაკეტილია)') + '">' +
+        '<button class="island-btn" data-ch="' + i + '" aria-label="' + esc(ch.name) + ', ' + rng + (un ? '' : ' (ჩაკეტილია)') + '">' +
         '<div class="island-blob">' + (un ? ch.icon : '🔒') + (dn === total ? '<span class="ok" aria-hidden="true">✓</span>' : '') + '</div>' +
-        '<div class="island-name">' + ch.n + '. ' + esc(ch.name) + '</div>' +
-        '<div class="island-sub">' + esc(ch.topic) + ' · ⭐ ' + chapterStars(ch) + '/' + total * 3 + '</div>' +
-        prog + (cur ? '<span class="here">' + bitSVG() + 'აქ ხარ</span>' : '') +
+        '<div class="island-name">' + esc(ch.name) + '</div>' +
+        '<div class="island-sub">' + esc(ch.topic) + ' · <span class="nw">⭐ ' + chapterStars(ch) + '/' + total * 3 + '</span></div>' +
+        dots + '<div class="island-rng">' + rng + ' · ' + dn + '/' + total + '</div>' + (cur ? '<span class="here">' + bitSVG() + 'აქ ხარ</span>' : '') +
         (pr && Progress.isUnlocked(pr) ? '<span class="proj-chip">' + pr.icon + ' პროექტი' + (Progress.isDone(pr.id) ? ' ✓' : '') + '</span>' : '') + '</button></div>';
     });
     wrap.style.height = H + 'px';

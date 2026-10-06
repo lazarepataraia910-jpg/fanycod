@@ -448,6 +448,13 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .proj-card .t{flex:1;min-width:0}
 .proj-card b{display:block}
 .proj-card small{display:block;color:var(--muted);font-size:.8rem;line-height:1.35}
+/* Pro */
+.pro-box{text-align:center}
+.pro-badge{width:78px;height:78px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;font-size:2.5rem;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b);box-shadow:0 5px 0 #d9a600}
+.pro-list{list-style:none;padding:0;margin:12px auto 0;max-width:380px;text-align:left;display:grid;gap:6px}
+.pro-list li{padding:8px 12px;border-radius:10px;background:var(--panel2)}
+.pro-chip{display:inline-block;margin:6px 0 0 4px;padding:1px 10px;border-radius:999px;background:linear-gradient(90deg,#ffd43b,#ffb703);color:#3d2a00;font-size:.75rem;font-weight:800}
+.pro-tag{margin-left:4px;font-size:.8rem}
 /* გამარჯვების ფანჯარა */
 .win{text-align:center}
 .win-badge{width:82px;height:82px;margin:0 auto 4px;border-radius:50%;display:grid;place-items:center;font-size:2.7rem;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b);box-shadow:0 5px 0 #d9a600,0 10px 24px rgba(217,166,0,.3);animation:pop .55s cubic-bezier(.2,1.6,.4,1) both}
@@ -10232,6 +10239,18 @@ const courseLevels = id => coursePlan(id).levels;
 let ALL_CACHE = null;
 const ALL_LEVELS = () => ALL_CACHE || (ALL_CACHE = [].concat(...COURSES.map(c => coursePlan(c.id).levels), PROJECTS));
 
+/* ---------- Pro: ყოველ ენაზე პირველი 100 ლეველი უფასოა, დანარჩენს ერთჯერადი გადახდა ხსნის (Dodo Payments) ---------- */
+const PRO = {
+  freeLevels: 100,
+  // Dodo Payments-ის გადახდის ბმული: Dashboard → Products → პროდუქტი → Share (ლიცენზიის კოდები ჩართული უნდა იყოს).
+  // ცარიელი = ყიდვის ღილაკი ჯერ არ მუშაობს (კოდის ჩასმა მაინც შეიძლება).
+  // ⚠️ ეს სატესტო ბმულია (test.checkout...) — ნამდვილი გაყიდვებისთვის Live Mode-ის ბმულით შეცვალე და Vercel-ში DODO_MODE=live
+  payLink: 'https://test.checkout.dodopayments.com/buy/pdt_0NpAlHj8uygXzZpR6gnNG?quantity=1',
+  price: '$9',               // ღილაკზე გამოსაჩენი ფასი
+  api: '/api/license'        // Vercel-ის ფუნქცია (api/license.js): კოდს Dodo-სთან ამოწმებს
+};
+const isPremium = lv => !!lv && !lv.project && lv.index >= PRO.freeLevels;
+
 /* ---------- რეალური პროექტები: ნამდვილი პატარა აპები (JavaScript, სამყაროები 2–10) ----------
    აპი მონაცემებს ცვლადებში აწვდის (ყოველ ტესტში სხვას), შენი კოდი კი ეკრანზე ზუსტად იმას ბეჭდავს, რაც საჭიროა. */
 const PROJECTS = [
@@ -14042,7 +14061,8 @@ function defaultProgress() {
     streak: { last: '', count: 0, best: 0, days: [] },
     quiz: {}, speedrun: {}, codes: {}, seen: {}, sandbox: null, certified: false,
     course: 'js', certs: {},
-    learned: {}   // „გაიმეორე“ გავლილი გაკვეთილები: { id: { acc, cpm } }
+    learned: {},   // „გაიმეორე“ გავლილი გაკვეთილები: { id: { acc, cpm } }
+    pro: null      // Pro: { key, at } — Dodo Payments-ის ლიცენზიის კოდი
   };
 }
 function mergeDeep(base, extra) {
@@ -14073,6 +14093,7 @@ const Progress = {
   save() { Store.set(SAVE_KEY, this.P); },
   rec(id) { return this.P.levels[id] || null; },
   isDone(id) { const r = this.P.levels[id]; return !!(r && r.done); },
+  hasPro() { return !!(this.P.pro && this.P.pro.key); },
   isUnlocked(lv) {
     if (!lv) return false;
     if (this.P.settings.unlockAll || lv.index === 0 || this.isDone(lv.id)) return true;
@@ -14151,7 +14172,7 @@ const Progress = {
     if (!obj || typeof obj !== 'object' || typeof obj.levels !== 'object') throw new Error('bad');
     this.P = mergeDeep(defaultProgress(), obj); this.save();
   },
-  reset() { this.P = defaultProgress(); this.save(); },
+  reset() { const pro = this.P.pro; this.P = defaultProgress(); this.P.pro = pro || null; this.save(); },   // Pro არ იშლება
   // მიღწევების შემოწმება; ctx — ბოლო მოვლენის დეტალები
   checkAch(ctx = {}) {
     const P = this.P, got = [];
@@ -14838,14 +14859,15 @@ const MapScreen = {
     if (!js) {
       head.innerHTML = '<div class="card course-head">' + langBadge(course.lang) + '<div style="flex:1;min-width:180px"><h2>' + esc(course.title) + '</h2><p class="muted">' + esc(course.desc) + '</p>' +
         '<div class="progress"><div style="width:' + Math.round(st.done / st.total * 100) + '%"></div></div><small class="muted">' + st.done + '/' + st.total + ' დასრულებულია</small></div>' +
-        '<div style="display:flex;gap:8px;flex-wrap:wrap">' + (done || Progress.P.certs[cid] ? '<button class="btn" id="co-cert">📜 სერტიფიკატი</button>' : '') +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap">' + (done || Progress.P.certs[cid] ? '<button class="btn" id="co-cert">📜 სერტიფიკატი</button>' : '') + (Progress.hasPro() ? '' : '<button class="btn" id="co-pro">👑 Pro</button>') +
         '<button class="btn primary" id="co-go">' + (st.done ? (done ? '⟲ თავიდან გავლა' : '▶ გაგრძელება') : '▶ დაწყება') + '</button></div></div>';
       $('#co-go').addEventListener('click', () => { Sound.click(); Game.openLevel(done ? courseLevels(cid)[0].id : nxt.id); });
       const ce = $('#co-cert'); if (ce) ce.addEventListener('click', () => Certificate.open(cid));
+      const cp = $('#co-pro'); if (cp) cp.addEventListener('click', () => Paywall.open(null));
     }
     const rowH = 168, W = wrap.clientWidth || 800, top0 = 24;
     const pts = chs.map((c, i) => ({ x: (i % 2 ? 72 : 28) + (i % 4 === 1 ? 4 : i % 4 === 3 ? -4 : 0), y: top0 + i * rowH }));
-    const curCh = chs.find(c => c.levels.includes(nxt)) || chs[0];
+    const curCh = chs.find(c => c.levels.includes(nxt)) || chs[0], pro = Progress.hasPro();
     const cxy = p => [p.x / 100 * W, p.y + 47];
     let d = '';
     pts.forEach((p, i) => {
@@ -14868,7 +14890,8 @@ const MapScreen = {
         '<div class="island-name">' + esc(ch.name) + '</div>' +
         '<div class="island-sub">' + esc(ch.topic) + ' · <span class="nw">⭐ ' + chapterStars(ch) + '/' + total * 3 + '</span></div>' +
         dots + '<div class="island-rng">' + rng + ' · ' + dn + '/' + total + '</div>' + (cur ? '<span class="here">' + bitSVG() + 'აქ ხარ</span>' : '') +
-        (pr && Progress.isUnlocked(pr) ? '<span class="proj-chip">' + pr.icon + ' პროექტი' + (Progress.isDone(pr.id) ? ' ✓' : '') + '</span>' : '') + '</button></div>';
+        (pr && Progress.isUnlocked(pr) ? '<span class="proj-chip">' + pr.icon + ' პროექტი' + (Progress.isDone(pr.id) ? ' ✓' : '') + '</span>' : '') +
+        (!pro && isPremium(ch.levels[total - 1]) ? '<span class="pro-chip">👑 Pro</span>' : '') + '</button></div>';
     });
     wrap.style.height = H + 'px';
     wrap.innerHTML = html;
@@ -14887,7 +14910,7 @@ const ChapterPanel = {
       const un = Progress.isUnlocked(l), r = Progress.rec(l.id) || {};
       html += '<div style="display:flex;gap:6px;align-items:stretch"><button class="lvl-item' + (r.done ? ' done' : un ? ' next' : '') + '" data-lv="' + l.id + '"' + (un ? '' : ' disabled') + ' style="--wa:' + ch.a + '">' +
         '<span class="lvl-num">' + (l.boss ? '👾' : l.num) + '</span><span class="t"><b>' + esc(l.title) + '</b><small>' +
-        (l.boss ? 'ბოსი · ' : '') + (L.kind === 'web' ? 'გაკვეთილი ' : 'ლეველი ') + l.num + (un ? '' : ' · 🔒') + '</small></span>' + starsHTML(r.stars || 0) + '</button>' +
+        (l.boss ? 'ბოსი · ' : '') + (L.kind === 'web' ? 'გაკვეთილი ' : 'ლეველი ') + l.num + (un ? '' : ' · 🔒') + (isPremium(l) && !Progress.hasPro() ? ' · 👑 Pro' : '') + '</small></span>' + starsHTML(r.stars || 0) + '</button>' +
         (r.done ? '<button class="btn small" data-sr="' + l.id + '" title="სპიდრანი — გაიარე დროზე">⏱' + (P.speedrun[l.id] ? ' ' + fmtTime(P.speedrun[l.id]) : '') + '</button>' : '') + '</div>';
     });
     html += '</div><div class="modal-actions"><button class="btn" data-a="cheat">' + (lang === 'js' ? '📖 ლექსიკონი' : '📋 შპარგალკა') + '</button><button class="btn primary" data-close>დახურვა</button></div>';
@@ -15243,12 +15266,16 @@ const SettingsScreen = {
   render() {
     const P = Progress.P, s = P.settings;
     const seg = (id, opts, val) => '<div class="seg" id="' + id + '">' + opts.map(([v, l]) => '<button data-v="' + v + '" class="' + (String(val) === String(v) ? 'on' : '') + '">' + l + '</button>').join('') + '</div>';
-    $('#settings-body').innerHTML = '<div class="card">' +
+    const pro = P.pro && P.pro.key;
+    $('#settings-body').innerHTML = '<div class="card" style="margin-bottom:12px"><div class="set-row" style="border:0;padding:4px 0"><label>👑 CodeQuest Pro<br><small class="muted">' +
+      (pro ? 'აქტიურია · კოდი …' + esc(P.pro.key.slice(-4)) : 'ყველა ენაზე პირველი ' + PRO.freeLevels + ' ლეველი უფასოა; Pro დანარჩენს ხსნის.') + '</small></label>' +
+      '<span>' + (pro ? '<button class="btn small" id="st-pro-off">გამორთვა ამ მოწყობილობაზე</button>' : '<button class="btn small" id="st-pro-key">🔑 კოდის ჩასმა</button> <button class="btn small primary" id="st-pro-buy">💳 ყიდვა</button>') + '</span></div></div>' +
+      '<div class="card">' +
       '<div class="set-row"><label>თემა</label>' + seg('st-theme', [['light', '☀️ ნათელი'], ['dark', '🌙 მუქი']], s.theme) + '</div>' +
       '<div class="set-row"><label>ხმა</label>' + seg('st-sound', [[1, 'ჩართული'], [0, 'გამორთული']], s.sound ? 1 : 0) + '</div>' +
       '<div class="set-row"><label>ანიმაციის სიჩქარე</label>' + seg('st-speed', [[1, '🐢 ნელი'], [2, 'ჩვეულებრივი'], [3, '🐇 სწრაფი']], s.speed) + '</div>' +
       '<div class="set-row"><label for="st-font">შრიფტის ზომა: <span id="st-font-v">' + s.font + '</span>px</label><input type="range" id="st-font" min="13" max="21" value="' + s.font + '" style="accent-color:var(--accent)"></div>' +
-      '<div class="set-row"><label>მასწავლებლის რეჟიმი<br><small class="muted">ყველა ლეველისა და ჯილდოს გახსნა</small></label>' + seg('st-unlock', [[1, 'ჩართული'], [0, 'გამორთული']], s.unlockAll ? 1 : 0) + '</div>' +
+      '<div class="set-row"><label>მასწავლებლის რეჟიმი<br><small class="muted">ყველა ლეველისა და ჯილდოს გახსნა (Pro ლეველების გარდა)</small></label>' + seg('st-unlock', [[1, 'ჩართული'], [0, 'გამორთული']], s.unlockAll ? 1 : 0) + '</div>' +
       '</div><div class="card" style="margin-top:12px"><h3 style="margin-top:0">პროგრესის კოდი</h3>' +
       '<p class="muted" style="margin-top:-.4em">დააკოპირე კოდი, რომ პროგრესი სხვა მოწყობილობაზე გადაიტანო ან შეინახო.</p>' +
       '<textarea class="code-io" id="st-export" readonly aria-label="ექსპორტის კოდი"></textarea><div class="modal-actions" style="justify-content:flex-start"><button class="btn small" id="st-copy">კოპირება</button></div>' +
@@ -15272,6 +15299,8 @@ const SettingsScreen = {
       catch (e) { UI.toast('⚠️', 'კოდი არასწორია', 'შეამოწმე, მთლიანად ჩასვი თუ არა.'); }
     });
     $('#st-test').addEventListener('click', () => DevPanel.open());
+    if ($('#st-pro-key')) { $('#st-pro-key').addEventListener('click', () => Paywall.keyForm()); $('#st-pro-buy').addEventListener('click', () => Paywall.open(null)); }
+    if ($('#st-pro-off')) $('#st-pro-off').addEventListener('click', () => { P.pro = null; Progress.save(); this.render(); UI.toast('👑', 'Pro გამოირთო ამ მოწყობილობაზე', 'კოდით ნებისმიერ დროს ისევ ჩართავ.'); });
     $('#st-reset').addEventListener('click', () => {
       const m = Modal.open('<h2>ნამდვილად გინდა განულება?</h2><p>ყველა პროგრესი, XP და მიღწევა სამუდამოდ წაიშლება. სანამ წაშლი, შეგიძლია პროგრესის კოდი შეინახო.</p><div class="modal-actions"><button class="btn" data-close autofocus>არა, დავტოვოთ</button><button class="btn danger" data-a="yes">კი, განულდეს</button></div>');
       m.querySelector('[data-a=yes]').addEventListener('click', () => { Progress.reset(); Modal.close(m); applySettings(); UI.toast('🧹', 'პროგრესი განულდა'); this.render(); });
@@ -15601,6 +15630,68 @@ function confetti(host) {
   host.appendChild(box);
   setTimeout(() => box.remove(), 3800);
 }
+/* ---------- Pro-ს ფანჯარა: ყიდვა (Dodo Payments) და ლიცენზიის კოდის ჩასმა ---------- */
+const Paywall = {
+  open(lv) {
+    const price = PRO.price ? ' · ' + esc(PRO.price) : '';
+    const m = Modal.open('<div class="pro-box"><div class="pro-badge" aria-hidden="true">👑</div><h2 class="result-title">CodeQuest Pro</h2>' +
+      '<p>' + (lv ? 'ეს <b>' + (lv.index + 1) + '-ე ლეველია</b>. ' : '') + 'ყველა ენაზე პირველი <b>' + PRO.freeLevels + ' ლეველი უფასოა</b> — დანარჩენს Pro ხსნის.</p>' +
+      '<ul class="pro-list"><li>✅ ყველა ფასიანი ლეველი ყველა ენაზე (' + COURSES.length + ')</li><li>✅ ერთჯერადი გადახდა — გამოწერის გარეშე</li><li>✅ კოდი ელფოსტაზე მოგივა და ნებისმიერ მოწყობილობაზე ჩასვამ</li></ul></div>' +
+      '<div class="modal-actions win-actions"><button class="btn" data-close>მოგვიანებით</button><button class="btn" data-a="key">🔑 მაქვს კოდი</button><button class="btn primary" data-a="buy">💳 ყიდვა' + price + '</button></div>');
+    m.querySelector('[data-a=buy]').addEventListener('click', () => this.buy());
+    m.querySelector('[data-a=key]').addEventListener('click', () => { Modal.close(m); this.keyForm(); });
+  },
+  buy() {
+    if (!PRO.payLink) { UI.toast('⚙️', 'გადახდა ჯერ არ არის ჩართული', 'საიტის მფლობელმა Dodo Payments-ის ბმული უნდა დაამატოს.'); return; }
+    // გადახდის შემდეგ Dodo აქ დაგვაბრუნებს (?status=succeeded&payment_id=...&email=...)
+    const u = new URL(PRO.payLink);
+    u.searchParams.set('redirect_url', location.origin + location.pathname + '?pro=return');
+    location.href = u.toString();
+  },
+  keyForm(intro) {
+    const m = Modal.open('<h2>🔑 ლიცენზიის კოდი</h2>' + (intro ? '<p>' + intro + '</p>' : '<p class="muted">კოდი ყიდვის შემდეგ ელფოსტაზე მოგივიდა.</p>') +
+      '<input class="txt" id="pro-key" style="width:100%;font-family:var(--mono)" placeholder="მაგ. ABCD-1234-..." autocomplete="off" spellcheck="false">' +
+      '<p class="muted" id="pro-msg" style="min-height:1.4em;font-size:.88rem"></p>' +
+      '<div class="modal-actions"><button class="btn" data-close>დახურვა</button><button class="btn primary" data-a="ok">გააქტიურება</button></div>');
+    const inp = m.querySelector('#pro-key'), btn = m.querySelector('[data-a=ok]'), msg = m.querySelector('#pro-msg');
+    setTimeout(() => inp.focus(), 60);
+    const go = async () => {
+      const key = inp.value.trim();
+      if (!key) { msg.textContent = 'ჩასვი კოდი.'; return; }
+      btn.disabled = true; msg.textContent = 'ვამოწმებ...';
+      const r = await this.validate(key);
+      btn.disabled = false;
+      if (r.valid) {
+        Progress.P.pro = { key, at: Date.now() }; Progress.save();
+        Modal.close(m); Sound.ach(); confetti(document.body);
+        UI.toast('👑', 'Pro გააქტიურდა!', 'ყველა ლეველი ყველა ენაზე ღიაა.');
+        if (UI.cur === 'map') MapScreen.render();
+        if (UI.cur === 'settings') SettingsScreen.render();
+      } else msg.textContent = r.error || 'კოდი არასწორია ან ვადაგასულია. შეამოწმე და თავიდან სცადე.';
+    };
+    btn.addEventListener('click', go);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  },
+  async validate(key) {
+    try {
+      const res = await fetch(PRO.api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ license_key: key }) });
+      if (!res.ok && res.status !== 400) return { valid: false, error: 'შემოწმება ვერ მოხერხდა (' + res.status + '). სცადე მოგვიანებით.' };
+      const j = await res.json();
+      return { valid: !!j.valid };
+    } catch (e) {
+      return { valid: false, error: 'სერვერთან კავშირი ვერ დამყარდა. კოდის შემოწმება მხოლოდ საიტზე (Vercel) მუშაობს.' };
+    }
+  },
+  // Dodo-ს გადახდის გვერდიდან დაბრუნება
+  checkReturn() {
+    const q = new URLSearchParams(location.search);
+    if (q.get('pro') !== 'return' && !q.get('payment_id')) return;
+    const ok = q.get('status') === 'succeeded', email = q.get('email');
+    history.replaceState(null, '', location.pathname + location.hash);
+    if (ok) this.keyForm('🎉 გადახდა მიღებულია, მადლობა! ლიცენზიის კოდი ' + (email ? 'გამოგიგზავნეს მისამართზე <b>' + esc(email) + '</b>' : 'ელფოსტაზე გამოგიგზავნეს') + ' — ჩასვი აქ:');
+    else UI.toast('⚠️', 'გადახდა არ დასრულდა', 'თანხა არ ჩამოგეჭრება. შეგიძლია თავიდან სცადო.');
+  }
+};
 const Game = {
   mode: 'level', base: null, cur: null, phaseIdx: 0, defs: [], maps: [], testIdx: 0, world: null,
   attempts: 0, failsTotal: 0, hintsUsed: 0, hintLevel: 0, start: 0, busy: false, stepSt: null, animToken: 0,
@@ -15612,6 +15703,7 @@ const Game = {
     const lv = levelById(id);
     if (!lv) return;
     if (mode === 'level' && !Progress.isUnlocked(lv)) { UI.toast('🔒', 'ლეველი ჩაკეტილია', 'ჯერ წინა ლეველი გაიარე.'); return; }
+    if (isPremium(lv) && !Progress.hasPro()) { Paywall.open(lv); return; }
     const P = Progress.P;
     const cid = lv.course || 'js';
     if (P.course !== cid) { P.course = cid; Progress.save(); }
@@ -16479,7 +16571,7 @@ function init() {
   $('#m-start').addEventListener('click', () => {
     Sound.ensure(); Sound.click();
     const P = Progress.P;
-    if (!P.started) { P.started = true; Progress.save(); Scene.play('intro', () => UI.show('courses')); }
+    if (!P.started) { P.started = true; Progress.save(); UI.show('courses'); }   // შესავალი სცენის გარეშე — პირდაპირ ენის არჩევა
     else openCourse(Progress.course());
   });
   $('#m-continue').addEventListener('click', () => {
@@ -16530,6 +16622,7 @@ function init() {
   Menu.render();
   Progress.checkAch();
   if (location.hash === '#test') testAll();
+  Paywall.checkReturn();   // Dodo Payments-ის გადახდიდან დაბრუნება
   if (location.hash === '#testgen') testGenerated();
 }
 window.CodeQuest = { testAll, testGenerated, Drill, levelById, courseLevels, courseChapters, LEVELS, WORLDS, COURSES, LANGS, Progress, Game, CodeRunner };

@@ -502,7 +502,7 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .toast small{color:var(--muted)}
 @keyframes fadeout{to{opacity:0}}
 .big-stars{font-size:2rem;text-align:center;letter-spacing:6px}
-/* სწავლის ნაბიჯები: 👀 ნახე → ✍️ გაიმეორე → 🚀 შენით */
+/* სწავლის ნაბიჯები: 👀 ნახე → 🧩 ააწყე → 🚀 შენით */
 .steps{display:flex;gap:4px;padding:8px 10px 0;background:color-mix(in srgb,var(--wa) 9%,var(--panel))}
 .steps button{flex:1;min-width:0;border:0;border-radius:12px 12px 0 0;padding:7px 4px;background:transparent;font-weight:700;font-size:.86rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .steps button b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--border);color:var(--panel);font-size:.72rem;margin-right:3px}
@@ -521,29 +521,38 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .demo{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#1b1f24}
 .demo-bar{display:flex;justify-content:space-between;align-items:center;padding:4px 6px 4px 12px;background:#262b31;color:#aeb6bf;font-size:.8rem}
 .demo-bar .btn{color:#d6dbe0}
-.demo-code,.typer-ghost{margin:0;padding:12px 14px;font:var(--fs)/1.6 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;color:#e6e9ec;min-height:60px}
+.demo-code{margin:0;padding:12px 14px;font:var(--fs)/1.6 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;color:#e6e9ec;min-height:60px}
 .hl-c{color:#8b949e;font-style:italic}.hl-s{color:#a5d6a7}.hl-n{color:#f5b37a}.hl-k{color:#c9a2ff;font-weight:600}.hl-f{color:#8ab4f8}.hl-t{color:#ff8fa3}.hl-a{color:#ffd580}
 .tw-cur{display:inline-block;width:2px;height:1.1em;background:#3ddc97;vertical-align:-2px;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .demo-out{border-top:1px dashed #3a4048;padding:8px 14px;font:.9rem/1.5 var(--mono);color:#8fd9a8;white-space:pre-wrap}
 .demo-out b{display:block;color:#aeb6bf;font:600 .78rem var(--font);margin-bottom:2px}
 .demo-web{display:block;width:100%;height:180px;border:0;border-top:1px solid #3a4048;background:#fff}
-.typer{position:relative;border-radius:14px;background:#1b1f24;border:2px solid #3a4048;cursor:text}
-.typer.focus{border-color:var(--wa);box-shadow:0 0 0 3px color-mix(in srgb,var(--wa) 30%,transparent)}
-.typer-ghost .g{color:#5c6672}
-.typer-ghost .ok{color:#7ee2a8}
-.typer-ghost .auto{color:#8b949e}
-.typer-ghost .bad{background:#ff5c5c;color:#fff;border-radius:3px}
-.typer-ghost .cur{box-shadow:inset 0 -3px 0 #ffd43b;color:#fff;background:rgba(255,212,59,.15);border-radius:2px;animation:blink 1.1s steps(1) infinite}
-.typer-ghost .nl::after{content:"↵";opacity:.55}
-.typer-in{position:absolute;inset:0;width:100%;height:100%;opacity:0;resize:none;border:0;font-size:16px;cursor:text}
-.typer-bar{display:flex;align-items:center;gap:10px}
-.typer-bar .progress{flex:1}
-.typer-bar .progress>div{background:var(--ok)}
-.combo{font-weight:800;min-width:64px;text-align:right;color:var(--flame)}
-.combo.pop{animation:pop .3s}
-.typer-stats{text-align:center;padding:10px;border-radius:12px;background:color-mix(in srgb,var(--ok) 10%,var(--panel));border:1px solid color-mix(in srgb,var(--ok) 35%,var(--border));font-weight:600}
-.typer-stats big{display:block;font-size:1.15rem;margin-bottom:2px}
+/* „ააწყე“: კოდი ცარიელი ადგილებით და ბლოკები ქვემოთ (Duolingo-ს სტილი) */
+.asm{border-radius:14px;background:#1b1f24;border:2px solid #3a4048;overflow:hidden}
+.asm-code{margin:0;padding:12px 14px;font:var(--fs)/2 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere;color:#e6e9ec;min-height:60px}
+.asm-slot{display:inline-block;min-width:4ch;height:1.6em;padding:0 6px;margin:0 1px;vertical-align:-.35em;border-radius:7px;border:2px dashed #5c6672;background:#262b31;color:#e6e9ec;font:inherit;line-height:1.35;cursor:pointer;transition:border-color .15s,background .15s}
+.asm-slot.on{border-color:#ffd43b;background:rgba(255,212,59,.13);animation:asm-glow 1.3s ease-in-out infinite}
+.asm-slot.ok{border-style:solid;border-color:#3ddc97;background:rgba(61,220,151,.14);color:#7ee2a8;cursor:default;animation:asm-in .3s cubic-bezier(.2,1.6,.4,1)}
+.asm-slot.bad{border-color:#ff6b6b;animation:shake .35s}
+.asm-bank{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:14px 12px 16px;border-top:1px solid #3a4048;background:#20252b}
+.asm-chip{position:relative;padding:8px 14px;border-radius:12px;border:0;background:#f4f5f7;color:#1f2328;font:700 .95rem var(--mono);box-shadow:0 4px 0 #aab3bd;transition:transform .1s,box-shadow .1s}
+.asm-chip:hover{transform:translateY(-2px);box-shadow:0 6px 0 #aab3bd}
+.asm-chip:active{transform:translateY(3px);box-shadow:0 1px 0 #aab3bd}
+.asm-chip small{position:absolute;top:-8px;left:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#3a4048;color:#cfd5db;font:700 .66rem/18px var(--font)}
+.asm-chip.used{background:transparent;color:transparent;box-shadow:none;outline:2px dashed #3a4048;outline-offset:-2px;pointer-events:none;transform:none}
+.asm-chip.used small{display:none}
+.asm-chip.bad{background:#ff6b6b;color:#fff;box-shadow:0 4px 0 #c92a2a;animation:shake .35s}
+.asm-chip.hint{box-shadow:0 4px 0 #aab3bd,0 0 0 3px #ffd43b;animation:asm-glow 1s ease-in-out infinite}
+@keyframes asm-glow{50%{box-shadow:0 0 0 4px rgba(255,212,59,.28)}}
+@keyframes asm-in{0%{transform:scale(.6)}100%{transform:scale(1)}}
+@media (pointer:coarse){.asm-chip small{display:none}.asm-chip{padding:10px 16px;font-size:1rem}}
+.asm-bar{display:flex;align-items:center;gap:10px}
+.asm-bar .progress{flex:1}
+.asm-bar .progress>div{background:var(--ok)}
+.asm-left{font-weight:700;font-size:.85rem;color:var(--muted);white-space:nowrap}
+.asm-stats{text-align:center;padding:10px;border-radius:12px;background:color-mix(in srgb,var(--ok) 10%,var(--panel));border:1px solid color-mix(in srgb,var(--ok) 35%,var(--border));font-weight:600}
+.asm-stats big{display:block;font-size:1.15rem;margin-bottom:2px}
 .learn-actions{display:flex}
 .learn-actions .btn{flex:1}
 /* რეალური პროექტი: ტელეფონის აპი */
@@ -742,7 +751,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
       <div class="gcol left">
         <div class="card mission">
           <div class="steps hidden" id="g-steps" role="tablist" aria-label="სწავლის ნაბიჯები">
-            <button data-s="1" role="tab"><b>1</b><i>👀 </i>ნახე</button><button data-s="2" role="tab"><b>2</b><i>✍️ </i>გაიმეორე</button><button data-s="3" role="tab"><b>3</b><i>🚀 </i>შენით</button>
+            <button data-s="1" role="tab"><b>1</b><i>👀 </i>ნახე</button><button data-s="2" role="tab"><b>2</b><i>🧩 </i>ააწყე</button><button data-s="3" role="tab"><b>3</b><i>🚀 </i>შენით</button>
           </div>
           <div class="prof">
             <div class="avatar" id="g-avatar" aria-hidden="true">🦉</div>
@@ -768,12 +777,12 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
             <div class="demo-out hidden" id="g-demo-out"></div>
             <iframe class="demo-web hidden" id="g-demo-web" sandbox="allow-same-origin" title="მაგალითის შედეგი"></iframe>
           </div>
-          <div class="typer hidden" id="g-typer">
-            <pre class="typer-ghost" id="g-typer-ghost" aria-hidden="true"></pre>
-            <textarea class="typer-in" id="g-typer-in" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="აქ აკრიფე კოდი"></textarea>
+          <div class="asm hidden" id="g-asm">
+            <pre class="asm-code" id="g-asm-code"></pre>
+            <div class="asm-bank" id="g-asm-bank" role="group" aria-label="ბლოკები: აირჩიე სწორი"></div>
           </div>
-          <div class="typer-bar hidden" id="g-typer-bar"><div class="progress"><div id="g-typer-prog"></div></div><span class="combo" id="g-typer-combo"></span></div>
-          <div class="typer-stats hidden" id="g-typer-stats"></div>
+          <div class="asm-bar hidden" id="g-asm-bar"><div class="progress"><div id="g-asm-prog"></div></div><span class="asm-left" id="g-asm-left"></span></div>
+          <div class="asm-stats hidden" id="g-asm-stats" role="status"></div>
           <div class="learn-actions"><button class="btn run" id="g-learn-next"></button></div>
         </div>
         <details class="card hidden" id="g-html-box" open>
@@ -10726,8 +10735,8 @@ const ACHIEVEMENTS = [
   { id: 'speedrunner', ic: '⏱️', t: 'სპიდრანერი', d: 'დაასრულე სპიდრანი' },
   { id: 'stylist', ic: '🎨', t: 'სტილისტი', d: 'შეცვალე ბიტის იერსახე' },
   { id: 'certified', ic: '📜', t: 'სერტიფიცირებული', d: 'ჩამოტვირთე სერტიფიკატი' },
-  { id: 'typist', ic: '⌨️', t: 'ხელი გაეწაფა', d: 'გადაწერე 10 გაკვეთილის კოდი' },
-  { id: 'sharp', ic: '🎯', t: 'სნაიპერი', d: 'გადაწერე კოდი ერთი შეცდომის გარეშე' },
+  { id: 'typist', ic: '🧩', t: 'ამწყობი', d: 'ააწყე 10 გაკვეთილის კოდი' },
+  { id: 'sharp', ic: '🎯', t: 'სნაიპერი', d: 'ააწყე კოდი ერთი შეცდომის გარეშე' },
   { id: 'builder', ic: '🏗️', t: 'პირველი აპი', d: 'დაასრულე რეალური პროექტი' },
   { id: 'architect', ic: '🏙️', t: 'აპების ოსტატი', d: 'დაასრულე ყველა რეალური პროექტი' },
   { id: 'legend', ic: '👑', t: 'ლეგენდა', d: 'JavaScript-ის 10 სამყაროს ყველა ლეველი ⭐⭐⭐-ით' },
@@ -14189,7 +14198,7 @@ function defaultProgress() {
     streak: { last: '', count: 0, best: 0, days: [] },
     quiz: {}, speedrun: {}, codes: {}, seen: {}, sandbox: null, certified: false,
     course: 'js', certs: {},
-    learned: {},   // „გაიმეორე“ გავლილი გაკვეთილები: { id: { acc, cpm } }
+    learned: {},   // „ააწყე“ გავლილი გაკვეთილები: { id: { acc } }
     pro: null      // Pro: { key, at } — Dodo Payments-ის ლიცენზიის კოდი
   };
 }
@@ -15627,7 +15636,7 @@ function syntaxInfo(code) {
 const DEFAULT_SANDBOX = () => ({ grid: ['>.......', '........', '..*..#..', '.....#..', '..#...*.', '.......F'], code: '// შენი სამყარო! დახატე რუკა ზემოთ და დაწერე კოდი.\nmove(2);\ncollect();\n' });
 
 /* =====================================================================
-   სწავლის 3 ნაბიჯი: 👀 ნახე → ✍️ გაიმეორე → 🚀 შენით
+   სწავლის 3 ნაბიჯი: 👀 ნახე → 🧩 ააწყე → 🚀 შენით
    ===================================================================== */
 const HL_KW = new Set(['let', 'const', 'var', 'function', 'return', 'if', 'else', 'for', 'while', 'of', 'in', 'true', 'false', 'null', 'new', 'break', 'continue', 'this',
   'def', 'elif', 'and', 'or', 'not', 'True', 'False', 'None', 'pass', 'int', 'double', 'float', 'char', 'bool', 'boolean', 'string', 'String', 'void', 'public', 'static', 'class', 'using', 'namespace', 'auto',
@@ -15667,33 +15676,6 @@ function commentStart(line, lang) {
   }
   return -1;
 }
-// „გაიმეორე“: რომელი სიმბოლოები ჩაიწერება თავისით — შეწევა, კომენტარები, ცარიელი ხაზები და არა-ლათინური ტექსტი (ქართული, ემოჯი)
-function autoMask(T, lang) {
-  const auto = new Array(T.length).fill(false);
-  let pos = 0;
-  for (const line of T.split('\n')) {
-    const end = pos + line.length;
-    let k = 0;
-    while (k < line.length && (line[k] === ' ' || line[k] === '\t')) auto[pos + k++] = true;
-    const c = commentStart(line, lang);
-    if (c >= 0) { let st = c; while (st > 0 && line[st - 1] === ' ') st--; for (let j = st; j < line.length; j++) auto[pos + j] = true; }
-    for (let j = 0; j < line.length; j++) if (line.charCodeAt(j) > 127) auto[pos + j] = true;
-    // ტექსტი, რომელშიც ქართულია, მთლიანად თავისით იწერება (ბრჭყალებში ან ტეგებს შორის) — აქ სინტაქსს ვსწავლობთ, არა ბეჭდვას
-    const segRe = lang === 'html' ? />([^<>]+)/g : lang === 'css' ? /"([^"]*)"/g : /"((?:[^"\\]|\\.)*)"|'((?:[^'\\]|\\.)*)'|`([^`]*)`/g;
-    let m;
-    while ((m = segRe.exec(line))) {
-      const inner = m[1] != null ? m[1] : m[2] != null ? m[2] : m[3] || '';
-      if (!/[^\x00-\x7f]/.test(inner)) continue;
-      const from = m.index + 1;
-      for (let j = from; j < from + inner.length; j++) auto[pos + j] = true;
-    }
-    // მთლიანად კომენტარი ან ცარიელი ხაზი — ხაზის გადატანაც თავისით
-    if (end < T.length && line.split('').every((_, j) => auto[pos + j])) auto[end] = true;
-    pos = end + 1;
-  }
-  return auto;
-}
-const typeableCount = (code, lang) => { const T = String(code || '').replace(/\s+$/, ''); return autoMask(T, lang).filter(a => !a).length; };
 // თეორია წინადადებებად (ბარათებად)
 const splitSentences = t => String(t || '').replace(/([.!?])\s+(?=[ა-ჰ„])/g, '$1\u0000').split('\u0000').filter(x => x.trim());
 // მაგალითის მომზადება გასაშვებად: სხვა ენა ითარგმნება, C/C++/Java-ს ნაწყვეტი main()-სა და #include-ებში ჯდება
@@ -15726,75 +15708,168 @@ function demoMapDef(lv) {
   if (/green|wait/i.test(code)) rows[2][3] = 'L';
   return { grid: rows.map(r => r.join('')), light: ['red', 'green'] };
 }
-// „გაიმეორე“: კოდის გადაწერა ასო-ასო (ნაცრისფერი — ასაკრეფი, მწვანე — სწორი, წითელი — შეცდომა)
-const Typer = {
-  T: '', auto: [], v: '', keys: 0, errs: 0, combo: 0, best: 0, t0: 0, done: true, onDone: null,
-  init() {
-    const ta = $('#g-typer-in'), box = $('#g-typer');
-    ta.addEventListener('input', () => this.input());
-    ta.addEventListener('paste', e => e.preventDefault());   // ჩასმა არა — თავად აკრიფე!
-    ta.addEventListener('drop', e => e.preventDefault());
-    ta.addEventListener('keydown', e => {
-      if (e.key === 'Tab' || /^(Arrow|Home$|End$|Page)/.test(e.key)) e.preventDefault();
-      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); e.stopPropagation(); }
-    });
-    const toEnd = () => { const n = ta.value.length; if (ta.selectionStart !== n || ta.selectionEnd !== n) ta.setSelectionRange(n, n); };
-    ['select', 'click', 'keyup', 'focus'].forEach(ev => ta.addEventListener(ev, toEnd));
-    ta.addEventListener('focus', () => box.classList.add('focus'));
-    ta.addEventListener('blur', () => box.classList.remove('focus'));
-  },
-  mount(code, lang, onDone) {
-    this.T = String(code).replace(/\s+$/, ''); this.auto = autoMask(this.T, lang);
-    this.keys = this.errs = this.combo = this.best = this.t0 = 0; this.done = false; this.onDone = onDone;
-    const ta = $('#g-typer-in');
-    ta.readOnly = false; ta.value = this.v = this.fill('');
-    this.render();
-    if (!matchMedia('(pointer: coarse)').matches) setTimeout(() => ta.focus({ preventScroll: true }), 50);
-  },
-  fill(v) { const T = this.T; while (v.length < T.length && this.auto[v.length] && T.startsWith(v)) v += T[v.length]; return v; },
-  input() {
-    const ta = $('#g-typer-in'), old = this.v;
-    if (this.done) { ta.value = this.v; return; }
-    let v = ta.value;
-    if (v.length > old.length && v.startsWith(old)) {
-      if (!this.t0) this.t0 = Date.now();
-      for (let i = old.length; i < v.length; i++) {
-        if (v.slice(0, i) !== this.T.slice(0, i)) break;   // უკვე არის შეცდომა — ჯერ ის გაასწორე
-        this.keys++;
-        if (v[i] === this.T[i]) { this.combo++; this.best = Math.max(this.best, this.combo); if (this.combo % 10 === 0) { Sound.collect(); this.pop(); } }
-        else { this.errs++; this.combo = 0; Sound.turn(); }
+// „ააწყე“: კოდი ნაწილებად (ტოკენებად). k — სახეობა: fn (ბრძანება/ფუნქცია), kw, id, num, op, tag, attr, sel, prop, val; null — უცვლელი ტექსტი
+function asmTokens(src, lang) {
+  const out = [], web = lang === 'html' || lang === 'css';
+  const fix = t => { const l = out[out.length - 1]; if (l && !l.k) l.t += t; else out.push({ t, k: null }); };
+  let depth = 0;
+  src.split('\n').forEach((line, li) => {
+    if (li) fix('\n');
+    const cs = commentStart(line, lang), code = cs >= 0 ? line.slice(0, cs) : line, rest = cs >= 0 ? line.slice(cs) : '';
+    // იმპორტები და #include-ები უცვლელია
+    if (/^\s*(#include|import\b|package\b|using\s+namespace|<!DOCTYPE)/i.test(code)) { fix(line); return; }
+    let m;
+    if (lang === 'html') {
+      const re = /("[^"]*"?)|(<\/?)([A-Za-z][\w-]*)|([A-Za-z-]+)(?==)|([^<>"=]+)|([\s\S])/g;
+      while ((m = re.exec(code))) {
+        if (m[2]) { fix(m[2]); out.push({ t: m[3], k: 'tag' }); }
+        else if (m[4]) out.push({ t: m[4], k: 'attr' });
+        else fix(m[0]);
+      }
+    } else if (lang === 'css') {
+      const re = /("[^"]*"?|'[^']*'?)|(#[0-9a-fA-F]{3,8}\b|-?\d*\.?\d+(?:px|em|rem|%|s|ms|deg|vh|vw|fr)?)|([.#]?-?[A-Za-z_][\w-]*)|([\s\S])/g;
+      while ((m = re.exec(code))) {
+        if (m[2]) out.push({ t: m[2], k: 'num' });
+        else if (m[3]) out.push({ t: m[3], k: depth ? (/^\s*:/.test(code.slice(re.lastIndex)) ? 'prop' : 'val') : 'sel' });
+        else { if (m[0] === '{') depth++; if (m[0] === '}') depth = Math.max(0, depth - 1); fix(m[0]); }
+      }
+    } else {
+      const re = /("(?:[^"\\]|\\.)*"?|'(?:[^'\\]|\\.)*'?|`[^`]*`?)|(\d+(?:\.\d+)?)|([A-Za-z_$][\w$]*(?:!(?=\())?)|(==|!=|<=|>=|=>|->|&&|\|\||\+=|-=|\+\+|:=)|([\s\S])/g;
+      while ((m = re.exec(code))) {
+        if (m[2]) out.push({ t: m[2], k: 'num' });
+        else if (m[3]) out.push({ t: m[3], k: /^\s*\(/.test(code.slice(re.lastIndex)) ? 'fn' : HL_KW.has(m[3]) ? 'kw' : 'id' });
+        else if (m[4] || /^[=:{}<>+]$/.test(m[5] || '')) out.push({ t: m[0], k: 'op' });
+        else fix(m[0]);
       }
     }
-    v = this.fill(v);
-    if (v !== ta.value) ta.value = v;
-    this.v = v;
+    if (rest) fix(rest);
+  });
+  // ქართული/არა-ლათინური ნაწილები არასოდეს ხდება ბლოკი
+  out.forEach(x => { if (x.k && /[^\x00-\x7f]/.test(x.t)) x.k = null; });
+  return out;
+}
+// დამაბნეველი ბლოკები: ენის ბრძანებები და სიტყვები, რომლებიც სწორს ჰგავს
+const ASM_KW = {
+  js: ['let', 'const', 'function', 'return', 'if', 'else', 'for', 'while', 'true', 'false', 'console', 'log'],
+  py: ['def', 'return', 'if', 'elif', 'else', 'for', 'while', 'in', 'range', 'print', 'True', 'False', 'and', 'not'],
+  java: ['int', 'void', 'if', 'else', 'for', 'while', 'return', 'String', 'boolean', 'true', 'System', 'println'],
+  c: ['int', 'void', 'if', 'else', 'for', 'while', 'return', 'printf', 'char', 'float'],
+  cpp: ['int', 'void', 'if', 'else', 'for', 'while', 'return', 'cout', 'string', 'auto', 'bool'],
+  ts: ['let', 'const', 'function', 'return', 'if', 'else', 'for', 'while', 'number', 'string', 'boolean'],
+  cs: ['int', 'void', 'if', 'else', 'for', 'while', 'return', 'var', 'string', 'Console', 'WriteLine', 'bool'],
+  go: ['func', 'var', 'if', 'else', 'for', 'return', 'fmt', 'Println', 'int', 'string', 'range'],
+  rs: ['fn', 'let', 'mut', 'if', 'else', 'for', 'while', 'loop', 'in', 'return', 'println!'],
+  php: ['function', 'echo', 'if', 'else', 'for', 'while', 'return', 'foreach', 'true', 'false'],
+  rb: ['def', 'end', 'if', 'else', 'elsif', 'while', 'until', 'times', 'do', 'puts', 'unless'],
+  swift: ['func', 'let', 'var', 'if', 'else', 'for', 'while', 'in', 'return', 'print', 'Int'],
+  kt: ['fun', 'val', 'var', 'if', 'else', 'for', 'while', 'in', 'return', 'println', 'Int', 'repeat'],
+  lua: ['function', 'local', 'if', 'then', 'else', 'elseif', 'end', 'for', 'while', 'do', 'print', 'return'],
+  dart: ['void', 'var', 'int', 'if', 'else', 'for', 'while', 'return', 'print', 'final'],
+  html: ['p', 'h1', 'h2', 'h3', 'a', 'img', 'ul', 'ol', 'li', 'div', 'span', 'strong', 'em', 'table', 'tr', 'td', 'form', 'input', 'button', 'label', 'href', 'src', 'alt', 'title', 'body', 'head', 'header', 'footer', 'main', 'section', 'nav'],
+  css: ['color', 'background-color', 'font-size', 'font-family', 'font-weight', 'margin', 'padding', 'border', 'width', 'height', 'display', 'gap', 'red', 'blue', 'green', 'center', 'flex', 'bold', 'none', 'block', '10px', '16px', '20px', 'solid']
+};
+const ASM_OPS = ['=', '==', ':', '{', '}', '<', '>', '+', '!=', '<=', '>=', '+=', '++'];
+// დეტერმინირებული შემთხვევითობა (ერთ ლეველზე ყოველთვის ერთნაირი ამოცანა)
+function asmRng(str) { let h = 2166136261; for (const ch of String(str)) h = Math.imul(h ^ ch.charCodeAt(0), 16777619); return () => { h = Math.imul(h ^ (h >>> 15), 2246822507); h = Math.imul(h ^ (h >>> 13), 3266489909); return ((h ^= h >>> 16) >>> 0) / 4294967296; }; }
+// რომელი ტოკენი გახდეს ცარიელი ადგილი და რა ბლოკები ჩანდეს ქვემოთ
+function asmPlan(lv) {
+  const lang = lv.lang || 'js', code = String(lv.example || '').replace(/\s+$/, ''), toks = asmTokens(code, lang), rnd = asmRng(lv.id + '|' + code);
+  const PRI = { fn: 5, tag: 5, prop: 5, kw: 4, attr: 4, val: 4, id: 3, sel: 3, num: 2, op: 1 };
+  let line = 0;
+  const cands = [];
+  toks.forEach((x, i) => { if (x.k && x.t.length <= 18) cands.push({ i, line, pri: PRI[x.k] + rnd() * 1.5 }); line += (x.t.match(/\n/g) || []).length; });
+  const n = Math.min(6, Math.ceil(cands.length * 0.6));
+  const perLine = {}, picked = [];
+  for (const c of cands.slice().sort((a, b) => b.pri - a.pri)) {
+    if (picked.length >= n) break;
+    if ((perLine[c.line] || 0) >= 2 || picked.some(p => Math.abs(p - c.i) < 2)) continue;
+    perLine[c.line] = (perLine[c.line] || 0) + 1; picked.push(c.i);
+  }
+  picked.sort((a, b) => a - b);
+  const answers = picked.map(i => toks[i].t), ans = new Set(answers);
+  // დამაბნეველები: ჯერ მსგავსი (იგივე დასაწყისი ან იგივე სახეობა), მერე ენის სხვა სიტყვები
+  // რობოტის ბრძანებებიდან მხოლოდ საბაზო (move, მოხვევები, collect, jump) — უცნობი ფუნქციები დამწყებს დააბნევდა
+  const robot = usesRobot(lv) ? [...new Set(CMD_SETS[1].concat('jump'))].map(c => cmdName(lang, c)) : [];
+  // დამაბნეველები იმავე ჯგუფიდან, რასაც სწორი ბლოკი: ბრძანება → ბრძანება, რიცხვი → რიცხვი, ტეგი → ტეგი, ოპერატორი → ოპერატორი
+  const kwPool = ASM_KW[lang] || ASM_KW.js, robotSet = new Set(robot);
+  const numNear = a => { const d = (a.split('.')[1] || '').length, v = parseFloat(a); return [v + 1, v - 1, v + 2].filter(x => x >= 0).map(x => x.toFixed(d)); };
+  const poolFor = (a, k) => k === 'num' && /^\d/.test(a) ? numNear(a) : k === 'op' ? ASM_OPS : robotSet.has(a) ? robot : kwPool;
+  const sim = (w, a) => { let i = 0; while (i < w.length && i < a.length && w[i] === a[i]) i++; return Math.min(i, 4) * 2 + rnd() * 1.5; };
+  const decoys = [], order = answers.map((a, j) => ({ a, k: toks[picked[j]].k, r: rnd() })).sort((x, y) => x.r - y.r);
+  for (let round = 0; round < 3 && decoys.length < 3; round++) {
+    for (const { a, k } of order) {
+      if (decoys.length >= 3) break;
+      const cand = poolFor(a, k).filter(w => !ans.has(w) && !decoys.includes(w)).map(w => ({ w, sc: sim(w, a) })).sort((x, y) => y.sc - x.sc);
+      if (cand.length) decoys.push(cand[0].w);
+    }
+  }
+  const general = robot.concat(kwPool).filter(w => !ans.has(w) && !decoys.includes(w));
+  while (decoys.length < 2 && general.length) decoys.push(general.splice(Math.floor(rnd() * general.length), 1)[0]);
+  const chips = answers.concat(decoys.slice(0, 3)).map((t, i) => ({ t, r: rnd(), i })).sort((a, b) => a.r - b.r).map(c => c.t);
+  return { lang, toks, slots: picked, chips };
+}
+// „ააწყე“: ცარიელ ადგილებში სწორი ბლოკების ჩასმა (შეცდომაზე ბლოკი ირხევა, ორი შეცდომის შემდეგ სწორი ანათებს)
+const Assemble = {
+  plan: null, fill: [], used: [], act: 0, errs: 0, miss: {}, done: true, onDone: null,
+  init() {
+    $('#g-asm-code').addEventListener('click', e => { const b = e.target.closest('.asm-slot'); if (b && !this.done && this.fill[+b.dataset.k] == null) { this.act = +b.dataset.k; Sound.click(); this.render(); } });
+    $('#g-asm-bank').addEventListener('click', e => { const b = e.target.closest('.asm-chip'); if (b) this.pick(+b.dataset.c); });
+    document.addEventListener('keydown', e => {
+      if (this.done || UI.cur !== 'game' || Game.learnStep !== 2 || Modal.top() || e.ctrlKey || e.metaKey || e.altKey || !/^[1-9]$/.test(e.key)) return;
+      if (e.target.closest && e.target.closest('input, textarea, select, .CodeMirror')) return;
+      e.preventDefault(); this.pick(+e.key - 1);
+    });
+  },
+  mount(lv, onDone) {
+    this.plan = asmPlan(lv); this.onDone = onDone; this.done = false;
+    this.fill = this.plan.slots.map(() => null); this.used = this.plan.chips.map(() => false);
+    this.act = 0; this.errs = 0; this.miss = {};
     this.render();
-    if (v === this.T) this.finish();
+  },
+  pick(ci) {
+    const P = this.plan;
+    if (this.done || !P || ci < 0 || ci >= P.chips.length || this.used[ci]) return;
+    const k = this.act, want = P.toks[P.slots[k]].t, chip = $('#g-asm-bank').children[ci];
+    if (P.chips[ci] === want) {
+      this.fill[k] = want; this.used[ci] = true; Sound.collect();
+      const nx = this.fill.findIndex((f, j) => f == null && j > k), first = this.fill.findIndex(f => f == null);
+      this.act = nx >= 0 ? nx : first;
+      this.render();
+      if (first < 0) this.finish();
+      return;
+    }
+    // შეცდომა: ბლოკი წითლდება და ირხევა; ორი შეცდომის შემდეგ სწორი ბლოკი ანათებს
+    this.errs++; this.miss[k] = (this.miss[k] || 0) + 1; Sound.turn();
+    if (chip) { chip.classList.remove('bad'); void chip.offsetWidth; chip.classList.add('bad'); setTimeout(() => chip.classList.remove('bad'), 450); }
+    const slot = $('#g-asm-code .asm-slot.on'); if (slot) { slot.classList.remove('bad'); void slot.offsetWidth; slot.classList.add('bad'); }
+    if (this.miss[k] >= 2) this.render();
   },
   render() {
-    const T = this.T, v = this.v;
-    let h = '', bad = false, good = 0;
-    for (let i = 0; i < T.length; i++) {
-      const ch = T[i];
-      let cls;
-      if (i < v.length) { if (!bad && v[i] === ch) { cls = this.auto[i] ? 'auto' : 'ok'; good = i + 1; } else { bad = true; cls = 'bad'; } }
-      else cls = i === v.length ? 'cur' : 'g';
-      if (ch === '\n') h += (cls === 'bad' || cls === 'cur' ? '<span class="' + cls + ' nl"></span>' : '') + '\n';
-      else h += '<span class="' + cls + '">' + esc(ch) + '</span>';
-    }
-    if (v.length > T.length) h += '<span class="bad">' + esc(v.slice(T.length)) + '</span>';
-    $('#g-typer-ghost').innerHTML = h;
-    $('#g-typer-prog').style.width = Math.round(100 * good / Math.max(1, T.length)) + '%';
-    $('#g-typer-combo').textContent = this.combo >= 5 ? '🔥 ' + this.combo : '';
+    const P = this.plan, lang = P.lang, hint = this.miss[this.act] >= 2 ? P.toks[P.slots[this.act]].t : null;
+    let h = '', buf = '';
+    P.toks.forEach((x, i) => {
+      const k = P.slots.indexOf(i);
+      if (k < 0) { buf += x.t; return; }
+      h += hlCode(buf, lang); buf = '';
+      const f = this.fill[k], w = Math.max(4, x.t.length + 1);
+      h += f != null ? '<span class="asm-slot ok" style="min-width:' + w + 'ch">' + esc(f) + '</span>'
+        : '<button class="asm-slot' + (k === this.act && !this.done ? ' on' : '') + '" data-k="' + k + '" style="min-width:' + w + 'ch" aria-label="ცარიელი ადგილი ' + (k + 1) + '"></button>';
+    });
+    $('#g-asm-code').innerHTML = h + hlCode(buf, lang);
+    let hinted = false;
+    $('#g-asm-bank').innerHTML = P.chips.map((t, i) => {
+      const hi = hint && !hinted && !this.used[i] && t === hint; if (hi) hinted = true;
+      return '<button class="asm-chip' + (this.used[i] ? ' used' : '') + (hi ? ' hint' : '') + '" data-c="' + i + '"' + (this.used[i] ? ' tabindex="-1" aria-hidden="true"' : '') + '>' + (i < 9 ? '<small aria-hidden="true">' + (i + 1) + '</small>' : '') + esc(t) + '</button>';
+    }).join('');
+    const ok = this.fill.filter(f => f != null).length, n = P.slots.length;
+    $('#g-asm-prog').style.width = Math.round(100 * ok / n) + '%';
+    $('#g-asm-left').textContent = ok + '/' + n;
   },
-  pop() { const c = $('#g-typer-combo'); c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop'); },
   finish() {
     this.done = true;
-    const ta = $('#g-typer-in'); ta.readOnly = true; ta.blur();
-    const ms = Math.max(1000, Date.now() - (this.t0 || Date.now()));
-    const typed = this.auto.filter(a => !a).length;
-    const acc = this.keys ? Math.max(0, Math.round(100 * (this.keys - this.errs) / this.keys)) : 100;
-    if (this.onDone) this.onDone({ acc, cpm: Math.round(typed / (ms / 60000)), best: this.best });
+    const n = this.plan.slots.length;
+    this.render();
+    if (this.onDone) this.onDone({ acc: Math.round(100 * n / (n + this.errs)), errs: this.errs, n });
   }
 };
 // გამარჯვების კონფეტი (ფანჯრის ფონზე, დაკლიკვას არ უშლის ხელს)
@@ -16011,11 +16086,11 @@ const Game = {
     this.setupLearn();
   },
 
-  /* ---- სწავლის 3 ნაბიჯი: 👀 ნახე → ✍️ გაიმეორე → 🚀 შენით ---- */
+  /* ---- სწავლის 3 ნაბიჯი: 👀 ნახე → 🧩 ააწყე → 🚀 შენით ---- */
   setupLearn() {
     const lv = this.cur, base = this.base, P = Progress.P;
     // ახალ თემაზე ჯერ ვაჩვენებთ და ერთხელ გადააწერინებთ; პრაქტიკა, ბოსი და პროექტი — პირდაპირ „შენით“
-    this.learnOn = this.mode === 'level' && !base.boss && !lv.practice && !base.project && typeableCount(lv.example, lv.lang || 'js') >= 4;
+    this.learnOn = this.mode === 'level' && !base.boss && !lv.practice && !base.project && !!lv.example && asmPlan(lv).slots.length > 0;
     $('#g-steps').classList.toggle('hidden', !this.learnOn);
     if (this.learnOn) $('#g-theory-box').open = false;
     const fresh = this.learnOn && !Progress.isDone(base.id) && !P.learned[base.id];
@@ -16069,9 +16144,9 @@ const Game = {
     $('#g-learn-h').innerHTML = '👀 <b>ნახე და გაიგე</b> — რა არის ახალი';
     $('#g-learn-pts').innerHTML = splitSentences(lv.theory).map(t => '<li>' + esc(t) + '</li>').join('');
     $('#g-demo-box').classList.remove('hidden');
-    ['#g-typer', '#g-typer-bar', '#g-typer-stats', '#g-demo-out', '#g-demo-web'].forEach(sel => $(sel).classList.add('hidden'));
+    ['#g-asm', '#g-asm-bar', '#g-asm-stats', '#g-demo-out', '#g-demo-web'].forEach(sel => $(sel).classList.add('hidden'));
     $('#g-demo-skip').classList.remove('hidden');
-    const next = $('#g-learn-next'); next.disabled = false; next.textContent = '✍️ ახლა შენ გადაწერე →';
+    const next = $('#g-learn-next'); next.disabled = false; next.textContent = '🧩 ახლა ააწყე →';
     this.typewrite(String(lv.example).replace(/\s+$/, ''), lang, () => {
       $('#g-demo-skip').classList.add('hidden');
       if (lv.web) { const f = $('#g-demo-web'); f.srcdoc = WebPreview.doc(lv, lv.example); f.classList.remove('hidden'); return; }
@@ -16110,34 +16185,34 @@ const Game = {
   },
   learnType() {
     const lv = this.cur;
-    this.setProf('✍️ შენი ჯერია! გადაწერე კოდი ასო-ასო — ასე თითებიც და თავიც ერთად იმახსოვრებს.', '');
-    $('#g-learn-h').innerHTML = '✍️ <b>გადაწერე კოდი</b> — ერთხელ, ზუსტად';
-    $('#g-learn-pts').innerHTML = '<li class="tip">აკრიფე ნაცრისფერი ასოები. მწვანე — სწორია, წითელი — შეცდომა: წაშალე ⌫ და თავიდან სცადე.</li>' +
-      '<li class="tip">ქართული ტექსტი, კომენტარები და შეწევა თავისით ჩაიწერება.</li>';
+    this.setProf('🧩 შენი ჯერია! ააწყე იგივე კოდი — ყოველ ცარიელ ადგილზე სწორი ბლოკი ჩასვი.', '');
+    $('#g-learn-h').innerHTML = '🧩 <b>ააწყე კოდი</b> — აირჩიე სწორი ბლოკები';
+    $('#g-learn-pts').innerHTML = '<li class="tip">დააჭირე ბლოკს ქვემოთ — ის მოციმციმე ყვითელ ადგილზე ჩაჯდება.</li>' +
+      '<li class="tip">ზოგი ბლოკი ზედმეტია — ფრთხილად! სხვა ადგილის შესავსებად ჯერ ის ადგილი აირჩიე.' + (matchMedia('(pointer: coarse)').matches ? '' : ' კლავიატურით: 1–9.') + '</li>';
     $('#g-demo-box').classList.add('hidden');
-    ['#g-demo-out', '#g-demo-web', '#g-typer-stats'].forEach(sel => $(sel).classList.add('hidden'));
-    ['#g-typer', '#g-typer-bar'].forEach(sel => $(sel).classList.remove('hidden'));
+    ['#g-demo-out', '#g-demo-web', '#g-asm-stats'].forEach(sel => $(sel).classList.add('hidden'));
+    ['#g-asm', '#g-asm-bar'].forEach(sel => $(sel).classList.remove('hidden'));
     const next = $('#g-learn-next'); next.disabled = true; next.textContent = '🚀 ახლა შენით!';
-    Typer.mount(lv.example, lv.lang || 'js', st => this.learnDone(st));
+    Assemble.mount(lv, st => this.learnDone(st));
   },
   learnDone(st) {
     const P = Progress.P, id = this.base.id, old = P.learned[id];
-    P.learned[id] = { acc: Math.max(st.acc, (old && old.acc) || 0), cpm: Math.max(st.cpm, (old && old.cpm) || 0) };
+    P.learned[id] = { acc: Math.max(st.acc, (old && old.acc) || 0) };
     if (!old) P.bonusXP += 20;
     Progress.save(); Progress.checkAch();
     Sound.win();
-    const s = $('#g-typer-stats');
-    s.innerHTML = '<big>🎉 ' + (st.acc === 100 ? 'იდეალურია — არც ერთი შეცდომა!' : st.acc >= 90 ? 'შესანიშნავია!' : 'გამოგივიდა!') + '</big>' +
-      '🎯 სიზუსტე ' + st.acc + '% · ⚡ ' + st.cpm + ' სიმბოლო/წთ · 🔥 კომბო ' + st.best + (old ? '' : ' · <b>+20 XP</b>');
+    const s = $('#g-asm-stats');
+    s.innerHTML = '<big>🎉 ' + (st.errs === 0 ? 'იდეალურია — არც ერთი შეცდომა!' : st.acc >= 75 ? 'შესანიშნავია!' : 'გამოგივიდა!') + '</big>' +
+      '🧩 ' + st.n + ' ბლოკი · 🎯 სიზუსტე ' + st.acc + '%' + (st.errs ? ' · შეცდომა: ' + st.errs : '') + (old ? '' : ' · <b>+20 XP</b>');
     s.classList.remove('hidden');
     this.learnMax = 3; this.renderSteps();
     const next = $('#g-learn-next'); next.disabled = false; next.focus({ preventScroll: true });
-    this.setProf('ყოჩაღ! ახლა მისია თავად დაწერე — შენ უკვე იცი, როგორ. 🚀', 'good');
+    this.setProf('ყოჩაღ! კოდი ააწყე — ახლა მისია თავად დაწერე. 🚀', 'good');
   },
   learnNext() {
     if (this.learnStep === 1) this.showStep(2);
-    else if (this.learnStep === 2 && Typer.done) {
-      this.showStep(3, '🚀 ახლა შენით! შენ ეს უკვე ერთხელ დაწერე — გამოიყენე მისიაში. თუ დაგავიწყდა, ზემოთ „1 ნახე“ დააჭირე.');
+    else if (this.learnStep === 2 && Assemble.done) {
+      this.showStep(3, '🚀 ახლა შენით! ეს კოდი უკვე ააწყე — გამოიყენე მისიაში. თუ დაგავიწყდა, ზემოთ „1 ნახე“ დააჭირე.');
       if (Editor.cm) Editor.cm.focus(); else Editor.ta.focus();
     }
   },
@@ -16773,10 +16848,9 @@ function init() {
   $('#g-run').addEventListener('click', () => Game.run());
   $('#g-step').addEventListener('click', () => Game.step());
   // სწავლის ნაბიჯები
-  Typer.init();
+  Assemble.init();
   $('#g-learn-next').addEventListener('click', () => Game.learnNext());
   $('#g-demo-skip').addEventListener('click', () => { if (Game.twSkip) Game.twSkip(); });
-  $('#g-typer').addEventListener('click', () => $('#g-typer-in').focus());
   $$('#g-steps [data-s]').forEach(b => b.addEventListener('click', () => { const n = +b.dataset.s; if (n <= Game.learnMax && n !== Game.learnStep) Game.showStep(n); }));
   $('#g-reset').addEventListener('click', () => Game.reset());
   $('#g-hint').addEventListener('click', () => Game.openHints(false));

@@ -90,32 +90,84 @@ select{background:var(--panel);border:1px solid var(--border);border-radius:8px;
 @media (max-width:520px){.topbar .tl{display:none}}
 
 /* ---------- მთავარი მენიუ ---------- */
-#scr-menu.active{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:center;padding:24px 16px}
-.menu-box{max-width:440px;width:100%;min-width:0;text-align:center}
-.menu-btns .btn{white-space:normal}
-@media (max-width:380px){.menu-row{grid-template-columns:1fr}.streak-card{gap:8px}}
-.menu-logo{width:118px;height:112px;margin:0 auto}
-.menu-logo svg{width:100%;height:100%;display:block}
-.logo{font-size:clamp(2rem,7vw,2.5rem);font-weight:800;margin:.15em 0 0}
-.logo span{color:var(--accent)}
-.sublogo{color:var(--muted);margin:.1em 0 0}
-.menu-btns{display:grid;gap:8px;margin-top:14px}
-.menu-btns .btn{padding:.7em 1em;font-size:1rem}
-.menu-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.menu-foot{margin-top:14px;color:var(--muted);font-size:.85rem}
+#scr-menu{--violet:#7c4dff;--hm-line:color-mix(in srgb,var(--border) 72%,transparent);--hm-sh:0 1px 2px rgba(16,24,40,.04),0 6px 20px rgba(16,24,40,.05);--hm-sh2:0 2px 4px rgba(16,24,40,.06),0 16px 34px rgba(40,40,120,.11)}
+html[data-theme="dark"] #scr-menu{--violet:#9d80ff;--hm-sh:0 1px 2px rgba(0,0,0,.35);--hm-sh2:0 10px 28px rgba(0,0,0,.45)}
+#scr-menu.active{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:center;padding:28px 16px 18px;
+  background:radial-gradient(60% 50% at 100% 100%,color-mix(in srgb,var(--violet) 15%,transparent),transparent 70%),radial-gradient(55% 45% at 0% 0%,color-mix(in srgb,var(--accent) 9%,transparent),transparent 70%),var(--bg)}
+.menu-box{max-width:500px;width:100%;min-width:0;text-align:center}
+.menu-logo{width:108px;height:102px;margin:0 auto;animation:hm-float 4.5s ease-in-out infinite}
+.menu-logo svg{width:100%;height:100%;display:block;filter:drop-shadow(0 10px 16px color-mix(in srgb,var(--accent) 30%,transparent))}
+.logo{font-size:clamp(2.1rem,7vw,2.8rem);font-weight:800;margin:.08em 0 0;letter-spacing:-.02em}
+.logo span{color:var(--accent);background:linear-gradient(90deg,var(--accent),var(--violet));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sublogo{color:var(--muted);margin:.15em 0 0}
+.hm-card{background:var(--panel);border:1px solid var(--hm-line);border-radius:18px;box-shadow:var(--hm-sh);text-align:left}
+.hm-ic{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:1.3rem;line-height:1;background:color-mix(in srgb,var(--ti,var(--accent)) 13%,var(--panel));transition:transform .2s}
+.hm-ic.lb{background:none}
+.hm-ic .lang-badge{min-width:44px;height:44px;border-radius:13px;font-size:.88rem;padding:0 6px}
+/* მოთამაშის ბარათი */
+.hm-player{display:flex;align-items:center;gap:14px;margin-top:20px;padding:14px 16px}
+.hm-pmain{flex:1;min-width:0}
+.hm-ptop,.hm-pbot{display:flex;justify-content:space-between;align-items:baseline;gap:8px;white-space:nowrap}
+.hm-ptop b{font-size:1.02rem;overflow:hidden;text-overflow:ellipsis}
+.hm-ptop small,.hm-pbot{color:var(--muted);font-size:.8rem}
+.hm-bar{height:7px;border-radius:99px;margin:7px 0 6px;overflow:hidden;background:color-mix(in srgb,var(--accent) 12%,var(--panel2))}
+.hm-bar i{display:block;height:100%;min-width:7px;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--violet));transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.pro-btn{flex:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 14px;border:0;border-radius:12px;background:linear-gradient(135deg,#ffe066,#ffb703);color:#3d2a00;font-weight:800;font-size:.88rem;white-space:nowrap;box-shadow:0 3px 0 #d9a600,0 8px 18px rgba(255,183,3,.28);transition:transform .15s,box-shadow .15s,filter .15s}
+.pro-btn:hover{transform:translateY(-1px);filter:brightness(1.04)}
+.pro-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #d9a600}
+.pro-btn.on{cursor:default;transform:none;filter:none;box-shadow:none;background:color-mix(in srgb,#ffb703 18%,var(--panel));color:var(--text)}
+.pro-more{display:none;font-weight:600}
+/* დიდი ღილაკი */
+.hm-play{position:relative;overflow:hidden;width:100%;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:12px;padding:16px 20px;border:0;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--violet));color:#fff;font-size:1.08rem;font-weight:800;box-shadow:0 5px 0 color-mix(in srgb,var(--accent) 55%,#000),0 14px 28px color-mix(in srgb,var(--accent) 30%,transparent);transition:transform .15s,box-shadow .15s,filter .15s}
+.hm-play:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 7px 0 color-mix(in srgb,var(--accent) 55%,#000),0 18px 34px color-mix(in srgb,var(--accent) 36%,transparent)}
+.hm-play:active{transform:translateY(4px);box-shadow:0 1px 0 color-mix(in srgb,var(--accent) 55%,#000),0 6px 14px color-mix(in srgb,var(--accent) 25%,transparent)}
+.hm-play svg{width:22px;height:22px;flex:none}
+.hm-play::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.26) 50%,transparent 65%);transform:translateX(-100%);animation:hm-shine 4s ease-in-out 1.2s infinite}
+/* სიის ღილაკები და ფილები */
+.hm-row,.hm-tile{width:100%;display:flex;align-items:center;gap:14px;margin-top:12px;padding:13px 16px;background:var(--panel);border:1px solid var(--hm-line);border-radius:16px;box-shadow:var(--hm-sh);text-align:left;transition:transform .18s,box-shadow .18s,border-color .18s}
+.hm-row:hover:not(:disabled),.hm-tile:hover:not(:disabled){transform:translateY(-2px);box-shadow:var(--hm-sh2);border-color:color-mix(in srgb,var(--ti,var(--accent)) 45%,var(--border))}
+.hm-row:hover:not(:disabled) .hm-ic,.hm-tile:hover:not(:disabled) .hm-ic{transform:scale(1.08) rotate(-4deg)}
+.hm-row:active:not(:disabled),.hm-tile:active:not(:disabled){transform:translateY(0);box-shadow:var(--hm-sh)}
+.hm-t{flex:1;min-width:0}
+.hm-t b{display:block;font-weight:700;font-size:.98rem}
+.hm-t small{display:block;margin-top:1px;color:var(--muted);font-size:.8rem;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hm-chev{flex:none;color:var(--muted);font-size:1.4rem;line-height:1;transition:transform .18s,color .18s}
+.hm-row:hover:not(:disabled) .hm-chev{transform:translateX(3px);color:var(--accent)}
+.hm-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.hm-grid .hm-tile{margin-top:0;position:relative}
+.hm-tile .hm-t small{white-space:normal}
+.hm-tile .hm-t b{font-size:.94rem}
+.hm-tile.done::after{content:'✓';position:absolute;top:10px;right:12px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--ok);color:#fff;font-size:.72rem;font-weight:800}
+.menu-foot{margin:18px 0 0;color:var(--muted);font-size:.8rem}
+/* გამოჩენის ანიმაცია (backwards — რომ hover-ის transform არ გადაფაროს) */
+#scr-menu.active .hm-in{animation:hm-up .5s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--d,0) * 55ms)}
+#scr-menu.active .menu-logo.hm-in{animation:hm-up .5s cubic-bezier(.2,.8,.2,1) backwards,hm-float 4.5s ease-in-out .5s infinite}
+@keyframes hm-up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes hm-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes hm-shine{0%,62%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@media (max-width:480px){.hm-tile{flex-direction:column;align-items:flex-start;gap:10px;padding:14px}.hm-tile .hm-ic{width:40px;height:40px}}
+@media (max-width:440px){.hm-player{flex-wrap:wrap}.pro-btn{width:100%;padding:11px 14px}.pro-more{display:inline}}
 
 /* ---------- დღის სერია (სტრიქი) ---------- */
-.streak-card{display:flex;align-items:center;gap:14px;text-align:left;margin-top:16px;flex-wrap:wrap}
-.streak-num{display:flex;align-items:center;gap:6px;font-size:1.6rem;font-weight:800;color:var(--flame);white-space:nowrap}
-.streak-num.cold{color:var(--muted)}
-.streak-txt{flex:1;min-width:170px}
-.streak-txt b{display:block}
-.streak-txt small{display:block;color:var(--muted);font-size:.82rem;line-height:1.35}
-.week{display:flex;gap:6px;margin-top:8px}
-.wday{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.68rem;color:var(--muted)}
-.wday i{width:22px;height:22px;border-radius:50%;border:1px solid var(--border);display:grid;place-items:center;font-style:normal;font-size:.72rem;background:var(--panel2)}
-.wday.on i{background:var(--flame);border-color:var(--flame);color:#fff}
-.wday.today i{box-shadow:0 0 0 2px var(--panel),0 0 0 3px var(--accent)}
+.streak-card{display:flex;align-items:center;gap:16px;margin-top:12px;padding:16px}
+.streak-fire{position:relative;flex:none;width:64px;height:64px;border-radius:18px;display:grid;place-items:center;font-size:2rem;line-height:1;background:linear-gradient(160deg,color-mix(in srgb,var(--flame) 9%,var(--panel)),color-mix(in srgb,var(--flame) 22%,var(--panel)))}
+.streak-fire span{display:block}
+.streak-fire.hot span{animation:hm-flick 2.2s ease-in-out infinite;transform-origin:50% 90%}
+.streak-fire.cold span{filter:grayscale(1);opacity:.55}
+.streak-fire em{position:absolute;right:-6px;bottom:-6px;min-width:24px;height:24px;padding:0 6px;border-radius:99px;background:var(--flame);color:#fff;border:2px solid var(--panel);font:800 .76rem/20px var(--font);font-style:normal;text-align:center}
+@keyframes hm-flick{0%,100%{transform:scale(1) rotate(0)}30%{transform:scale(1.07) rotate(-3deg)}60%{transform:scale(.97) rotate(2deg)}}
+.streak-txt{flex:1;min-width:0}
+.streak-txt b{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:1.02rem}
+.streak-best{padding:1px 8px;border-radius:99px;background:var(--panel2);color:var(--muted);font-size:.72rem;font-weight:700}
+.streak-txt small{display:block;margin-top:2px;color:var(--muted);font-size:.82rem;line-height:1.4}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:10px}
+.wday{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.7rem;color:var(--muted)}
+.wday i{width:100%;max-width:46px;height:24px;border-radius:8px;display:grid;place-items:center;font-style:normal;font-size:.75rem;font-weight:800;background:color-mix(in srgb,var(--accent) 9%,var(--panel2))}
+.wday.on i{background:linear-gradient(180deg,#ff8f3f,var(--flame));color:#fff;box-shadow:0 3px 8px color-mix(in srgb,var(--flame) 32%,transparent)}
+.wday.today{color:var(--accent);font-weight:800}
+.wday.today:not(.on) i{background:transparent;border:2px dashed color-mix(in srgb,var(--accent) 75%,transparent)}
+.wday.today.on i{outline:2px solid color-mix(in srgb,var(--accent) 55%,transparent);outline-offset:2px}
+@media (max-width:400px){.streak-card{gap:12px;padding:14px}.streak-fire{width:52px;height:52px;font-size:1.6rem;border-radius:15px}.week{gap:4px}}
 
 /* ---------- სამყაროების რუკა ---------- */
 #scr-map.active{background:linear-gradient(180deg,#e2f1ff 0%,#eaf7e4 45%,#f5f0e3 100%)}
@@ -455,10 +507,6 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .pro-list li{padding:8px 12px;border-radius:10px;background:var(--panel2)}
 .pro-chip{display:inline-block;margin:6px 0 0 4px;padding:1px 10px;border-radius:999px;background:linear-gradient(90deg,#ffd43b,#ffb703);color:#3d2a00;font-size:.75rem;font-weight:800}
 .pro-tag{margin-left:4px;font-size:.8rem}
-.pro-btn{margin-left:8px;padding:3px 12px;border:0;border-radius:999px;background:linear-gradient(90deg,#ffd43b,#ffb703);color:#3d2a00;font:inherit;font-size:.8rem;font-weight:800;cursor:pointer;box-shadow:0 2px 0 #d9a600;vertical-align:middle}
-.pro-btn:hover{filter:brightness(1.06)}
-.pro-btn:active{transform:translateY(2px);box-shadow:none}
-.pro-btn.on{cursor:default;box-shadow:none;opacity:.85}
 /* გამარჯვების ფანჯარა */
 .win{text-align:center}
 .win-badge{width:82px;height:82px;margin:0 auto 4px;border-radius:50%;display:grid;place-items:center;font-size:2.7rem;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b);box-shadow:0 5px 0 #d9a600,0 10px 24px rgba(217,166,0,.3);animation:pop .55s cubic-bezier(.2,1.6,.4,1) both}
@@ -558,24 +606,29 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
   <!-- ===== მთავარი მენიუ ===== -->
   <section id="scr-menu" class="screen active" aria-label="მთავარი მენიუ">
     <div class="menu-box">
-      <div class="menu-logo" id="menu-logo" role="img" aria-label="CodeQuest-ის ლოგო"></div>
-      <h1 class="logo">Code<span>Quest</span></h1>
-      <p class="sublogo">ბიტის თავგადასავალი — ისწავლე პროგრამირება ნულიდან</p>
-      <div class="card streak-card" id="menu-streak"></div>
-      <div class="menu-btns">
-        <button class="btn primary" id="m-start">▶ თამაშის დაწყება</button>
-        <button class="btn" id="m-continue">გაგრძელება</button>
-        <button class="btn" id="m-lang">🌐 ენის არჩევა</button>
-        <div class="menu-row">
-          <button class="btn" id="m-sandbox">თავისუფალი რეჟიმი</button>
-          <button class="btn" id="m-daily">დღის გამოწვევა</button>
+      <div class="menu-logo hm-in" id="menu-logo" role="img" aria-label="CodeQuest-ის ლოგო"></div>
+      <h1 class="logo hm-in" style="--d:1">Code<span>Quest</span></h1>
+      <p class="sublogo hm-in" style="--d:2">ბიტის თავგადასავალი — ისწავლე პროგრამირება ნულიდან</p>
+      <div class="hm-card hm-player hm-in" style="--d:3">
+        <span class="hm-ic" id="hm-rank-ic" aria-hidden="true">🐣</span>
+        <div class="hm-pmain">
+          <div class="hm-ptop"><b id="hm-rank">დამწყები</b><small id="hm-xp">0 XP</small></div>
+          <div class="hm-bar" id="hm-bar" role="progressbar" aria-label="XP შემდეგ წოდებამდე" aria-valuemin="0" aria-valuemax="100"><i></i></div>
+          <div class="hm-pbot"><span id="hm-stars">⭐ 0</span><span id="hm-levels">0 ლეველი</span></div>
         </div>
-        <div class="menu-row">
-          <button class="btn" id="m-profile">მიღწევები</button>
-          <button class="btn" id="m-settings">პარამეტრები</button>
-        </div>
+        <button class="pro-btn" id="m-pro" type="button">👑 Pro</button>
       </div>
-      <p class="menu-foot"><span id="menu-foot"></span><button class="pro-btn" id="m-pro" type="button">👑 Pro</button></p>
+      <div class="hm-card streak-card hm-in" style="--d:4" id="menu-streak"></div>
+      <button class="hm-play hm-in" style="--d:5" id="m-start"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5.6v12.8a1.1 1.1 0 0 0 1.7.93l10-6.4a1.1 1.1 0 0 0 0-1.86l-10-6.4A1.1 1.1 0 0 0 8 5.6z"/></svg><span>თამაშის დაწყება</span></button>
+      <button class="hm-row hm-in" style="--d:6;--ti:#3b82f6" id="m-continue"><span class="hm-ic" aria-hidden="true">▶️</span><span class="hm-t"><b>გაგრძელება</b><small id="m-continue-sub">ბოლო ლეველიდან</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
+      <button class="hm-row hm-in" style="--d:7" id="m-lang"><span class="hm-ic lb" id="m-lang-ic" aria-hidden="true"></span><span class="hm-t"><b id="m-lang-t">ენის არჩევა</b><small id="m-lang-sub">შეცვლა</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
+      <div class="hm-grid">
+        <button class="hm-tile hm-in" style="--d:8;--ti:#2fb344" id="m-sandbox"><span class="hm-ic" aria-hidden="true">🧪</span><span class="hm-t"><b>თავისუფალი რეჟიმი</b><small>წერე რაც გინდა</small></span></button>
+        <button class="hm-tile hm-in" style="--d:9;--ti:#f03e3e" id="m-daily"><span class="hm-ic" aria-hidden="true">🎯</span><span class="hm-t"><b>დღის გამოწვევა</b><small id="m-daily-sub">ყოველ დღე ახალი</small></span></button>
+        <button class="hm-tile hm-in" style="--d:10;--ti:#f59f00" id="m-profile"><span class="hm-ic" aria-hidden="true">🏆</span><span class="hm-t"><b>მიღწევები</b><small id="m-profile-sub">შენი პროგრესი</small></span></button>
+        <button class="hm-tile hm-in" style="--d:11;--ti:#868e96" id="m-settings"><span class="hm-ic" aria-hidden="true">⚙️</span><span class="hm-t"><b>პარამეტრები</b><small>ხმა, თემა, ზომა</small></span></button>
+      </div>
+      <p class="menu-foot hm-in" style="--d:12">CodeQuest © <span id="hm-year">2026</span></p>
     </div>
   </section>
 
@@ -14710,8 +14763,8 @@ const Streak = {
     const msg = today ? 'დღეს უკვე ივარჯიშე ✓ ხვალ დაბრუნდი, რომ სერია გაგრძელდეს.'
       : n ? 'დღეს ჯერ არ გივარჯიშია — გაიარე ერთი ლეველი, რომ სერია არ გაწყდეს.'
         : 'გაიარე ერთი ლეველი ყოველ დღე და სერია გაიზრდება.';
-    return '<div class="streak-num' + (n ? '' : ' cold') + '" aria-label="' + n + ' დღიანი სერია">🔥 ' + n + '</div>' +
-      '<div class="streak-txt"><b>' + (n === 1 ? '1 დღიანი სერია' : n + ' დღიანი სერია') + (best > n ? ' <span class="muted" style="font-weight:400">· რეკორდი ' + best + '</span>' : '') + '</b><small>' + msg + '</small>' + this.week() + '</div>';
+    return '<div class="streak-fire ' + (n ? 'hot' : 'cold') + '" aria-hidden="true"><span>🔥</span>' + (n ? '<em>' + n + '</em>' : '') + '</div>' +
+      '<div class="streak-txt"><b>' + n + ' დღიანი სერია' + (best > n ? '<span class="streak-best">🏅 რეკორდი ' + best + '</span>' : '') + '</b><small>' + msg + '</small>' + this.week() + '</div>';
   },
   // ვარჯიშის აღნიშვნა; თუ სერია დღეს პირველად გაგრძელდა — შეტყობინება
   mark() {
@@ -14729,18 +14782,37 @@ const Streak = {
 const Menu = {
   render() {
     $('#menu-logo').innerHTML = LOGO_SVG;
-    const r = Progress.rank(), cid = Progress.course(), c = COURSE_BY_ID[cid], st = Progress.courseStats(cid);
-    const nxt = Progress.nextIn(cid);
-    $('#m-continue').disabled = !Progress.P.started;
-    $('#m-continue').textContent = Progress.courseDone(cid) ? 'გაგრძელება · ' + c.title + ' ✔ დასრულებულია' : st.done ? 'გაგრძელება · ' + (nxt.course ? c.title + ' ' + nxt.num : nxt.id) + ' „' + nxt.title + '“' : 'გაგრძელება';
-    $('#m-lang').innerHTML = '🌐 ენა: ' + langBadge(c.lang, true) + ' ' + esc(c.title);
-    $('#m-daily').textContent = Progress.P.daily.last === todayStr() ? 'დღის გამოწვევა ✓' : 'დღის გამოწვევა';
-    $('#menu-streak').innerHTML = Streak.card();
+    const P = Progress.P, r = Progress.rank(), xp = Progress.totalXP();
+    const nr = r.name === 'ლეგენდა' ? null : Progress.nextRank();
+    const cid = Progress.course(), c = COURSE_BY_ID[cid], st = Progress.courseStats(cid), nxt = Progress.nextIn(cid);
+    // მოთამაშის ბარათი: წოდება, XP შემდეგ წოდებამდე, კურსის ვარსკვლავები და ლეველები
+    $('#hm-rank-ic').textContent = r.ic;
+    $('#hm-rank').textContent = r.name;
+    $('#hm-xp').textContent = nr ? xp + ' / ' + nr.xp + ' XP' : xp + ' XP';
+    const pct = nr ? Math.max(0, Math.min(100, Math.round((xp - (r.xp || 0)) / (nr.xp - (r.xp || 0)) * 100))) : 100;
+    const bar = $('#hm-bar');
+    bar.firstChild.style.width = pct + '%';
+    bar.setAttribute('aria-valuenow', pct);
+    bar.title = nr ? 'შემდეგი წოდება: ' + nr.ic + ' ' + nr.name + ' — დარჩა ' + (nr.xp - xp) + ' XP' : 'უმაღლესი წოდება';
+    $('#hm-stars').textContent = '⭐ ' + st.stars + '/' + st.total * 3;
+    $('#hm-levels').textContent = st.done + '/' + st.total + (LANGS[c.lang].kind === 'web' ? ' გაკვეთილი' : ' ლეველი');
+    $('#hm-levels').parentNode.title = c.title + ' — შენი პროგრესი';
     const pb = $('#m-pro'), pro = Progress.hasPro();
     pb.classList.toggle('on', pro);
-    pb.textContent = pro ? '👑 Pro ✓' : '👑 Pro · ' + PRO.price;
+    pb.innerHTML = pro ? '👑 Pro ✓' : '👑 Pro · ' + PRO.price + '<span class="pro-more"> — ყველა ლეველი</span>';
     pb.title = pro ? 'Pro ჩართულია' : 'Pro-ს ყიდვა';
-    $('#menu-foot').textContent = r.ic + ' ' + r.name + ' · ' + Progress.totalXP() + ' XP · ' + c.title + ': ⭐ ' + st.stars + '/' + st.total * 3 + ' · ' + st.done + '/' + st.total + (LANGS[c.lang].kind === 'web' ? ' გაკვეთილი' : ' ლეველი');
+    $('#menu-streak').innerHTML = Streak.card();
+    // გაგრძელება და ენა
+    $('#m-continue').disabled = !P.started;
+    $('#m-continue-sub').textContent = !P.started ? 'ჯერ არ დაგიწყია' : Progress.courseDone(cid) ? c.title + ' ✔ დასრულებულია' : (nxt.course ? c.title + ' ' + nxt.num : nxt.id) + ' · „' + nxt.title + '“';
+    $('#m-lang-ic').innerHTML = langBadge(c.lang);
+    $('#m-lang-t').textContent = 'ენა: ' + c.title;
+    $('#m-lang-sub').textContent = 'შეცვლა · ' + COURSES.length + ' ენა';
+    const daily = P.daily.last === todayStr();
+    $('#m-daily').classList.toggle('done', daily);
+    $('#m-daily-sub').textContent = daily ? 'დღეს შესრულებულია' : 'ყოველ დღე ახალი';
+    $('#m-profile-sub').textContent = ACHIEVEMENTS.filter(a => P.ach[a.id]).length + ' / ' + ACHIEVEMENTS.length + ' მიღებული';
+    $('#hm-year').textContent = new Date().getFullYear();
   }
 };
 

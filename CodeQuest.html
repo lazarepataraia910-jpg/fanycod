@@ -526,33 +526,12 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
 #g-html{max-height:220px;overflow:auto}
 @media (max-width:520px){#toast-root{left:10px;right:10px;top:10px}.toast{max-width:none}.modal{padding:16px}.gbar{padding:8px 12px}.gmain{padding:12px 10px 30px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-/* ---------- ვარჯიშის ბანაკი ---------- */
-.map-drill{max-width:820px;margin:14px auto 0;padding:0 16px}
-.map-drill:empty{display:none}
-.drill-banner{display:flex;align-items:center;gap:14px;width:100%;padding:10px 14px;border-radius:var(--radius);border:1px solid var(--border);background:color-mix(in srgb,var(--panel) 92%,transparent);box-shadow:0 3px 0 var(--border);text-align:left;transition:border-color .15s,transform .15s}
-.drill-banner:hover{border-color:var(--ia);transform:translateY(-1px)}
-.drill-banner .t{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
-.drill-banner .t small{color:var(--muted);font-size:.82rem}
-.drill-banner .progress{display:block;max-width:320px}
-.drill-banner .progress>span{display:block;height:100%;background:var(--accent)}
-.drill-banner .island-blob.sm,.topic-card .island-blob.sm,.drill-head .island-blob.sm{width:52px;height:52px;font-size:1.5rem}
-#scr-drill.active{background:linear-gradient(180deg,#eaf0ff 0%,#f4f5f7 55%)}
-html[data-theme="dark"] #scr-drill.active{background:linear-gradient(180deg,#1a2030 0%,#16191d 55%)}
-.drill-head p{margin:.2em 0 .5em}
-.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:14px}
-.topic-card{display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--radius);border:1px solid var(--border);background:var(--panel);box-shadow:0 3px 0 var(--border);text-align:left;min-width:0;transition:border-color .15s,transform .15s}
-.topic-card:hover:not(.locked){border-color:var(--ia);transform:translateY(-1px)}
-.topic-card .tc-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
-.topic-card .tc-t b{line-height:1.3}
-.topic-card .tc-t small{color:var(--muted);font-size:.8rem;overflow-wrap:anywhere}
-.topic-card.locked{background:var(--panel2)}
-.topic-card.locked .island-blob{filter:grayscale(1) contrast(.8)}
-.topic-card.full{background:color-mix(in srgb,var(--ia) 8%,var(--panel))}
+/* ---------- რუკა: დიდ თავს (გენერირებული თემა, 11–13 ლეველი) წერტილების ნაცვლად პროგრესის ზოლი აქვს ---------- */
 .progress.sm{height:7px}
-@media (max-width:520px){.drill-banner{flex-wrap:wrap}.drill-banner .btn{flex:1 1 100%}.topic-grid{grid-template-columns:1fr}}
-
-.tier-h{margin:22px 0 0;font-size:1.05rem;display:flex;align-items:baseline;gap:8px}
-.tier-h small{font-weight:600;font-size:.82rem}
+.isl-prog{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:6px;font-size:.75rem;color:var(--muted)}
+.isl-prog .progress{width:84px}
+.isl-prog .progress>div{background:var(--ia)}
+.island.locked .isl-prog{opacity:.6}
 </style>
 </head>
 <body>
@@ -594,7 +573,6 @@ html[data-theme="dark"] #scr-drill.active{background:linear-gradient(180deg,#1a2
       <button class="btn small" data-go="profile" title="პროფილი">👤<span class="tl"> პროფილი</span></button>
     </div>
     <div class="map-head hidden" id="map-head"></div>
-    <div class="map-drill" id="map-drill"></div>
     <div class="map-wrap" id="map-wrap"></div>
   </section>
 
@@ -602,18 +580,6 @@ html[data-theme="dark"] #scr-drill.active{background:linear-gradient(180deg,#1a2
   <section id="scr-courses" class="screen" aria-label="ენის არჩევა">
     <div class="topbar"><button class="btn small" data-go="menu">← მენიუ</button><h2>რომელი ენა ვისწავლოთ?</h2><button class="btn small" data-go="profile">პროფილი</button></div>
     <div class="page" id="courses-body"></div>
-  </section>
-
-  <!-- ===== ვარჯიშის ბანაკი: 500 დამატებითი ლეველი ===== -->
-  <section id="scr-drill" class="screen" aria-label="ვარჯიშის ბანაკი">
-    <div class="topbar">
-      <button class="btn small" data-go="map">← რუკა</button>
-      <h2 id="drill-title">ვარჯიში</h2>
-      <span class="chip flame" id="drill-streak" title="დღიანი სერია"></span>
-      <span class="chip" id="drill-xp"></span>
-      <span class="chip" id="drill-stars"></span>
-    </div>
-    <div class="page" id="drill-body"></div>
   </section>
 
   <!-- ===== თამაში ===== -->
@@ -738,8 +704,8 @@ html[data-theme="dark"] #scr-drill.active{background:linear-gradient(180deg,#1a2
      SOUND       — Web Audio ხმები
      RENDERER    — ბადის დახატვა და ანიმაციები
      UI          — ეკრანები, ფანჯრები, თამაშის კონტროლერი
-     DRILLS      — ვარჯიშის ბანაკი: 500 დამატებითი ლეველი თითო ენაზე (გენერატორები, IR → 5 ენა)
-     DEV         — ყველა ლეველის ავტომატური შემოწმება (CodeQuest.testAll(), CodeQuest.testDrills())
+     DRILLS      — გენერირებული ლეველები: ყოველი ენის კურსი 500 ლეველამდე ივსება (გენერატორები, IR → 5 ენა)
+     DEV         — ყველა ლეველის ავტომატური შემოწმება (CodeQuest.testAll(), CodeQuest.testGenerated())
    ===================================================================== */
 
 /* =====================================================================
@@ -5946,7 +5912,7 @@ function webCourse(lang, list) {
   return list.map((l, i) => Object.assign({}, l, { id: lang + '-' + (i + 1), course: lang, lang, num: i + 1, web: true, world: 1, maps: [], goal: {}, hints: l.hints.concat([l.solution]) }));
 }
 const COURSES = [
-  { id: 'js', lang: 'js', title: 'JavaScript', sub: 'სრული თავგადასავალი', desc: '10 სამყარო, 50 ლეველი და გლიჩთან ბრძოლა: ცვლადები, პირობები, ციკლები, ფუნქციები, მასივები, ობიექტები და ალგორითმები.', levels: null },
+  { id: 'js', lang: 'js', title: 'JavaScript', sub: 'სრული თავგადასავალი', desc: '10 სამყარო, 500 ლეველი და გლიჩთან ბრძოლა: ცვლადები, პირობები, ციკლები, ფუნქციები, მასივები, ობიექტები და ალგორითმები.', levels: null },
   { id: 'py', lang: 'py', title: 'Python', sub: 'პოპულარული და მარტივი', desc: 'ყველაზე პოპულარული ენა დამწყებთათვის: შეწევით დაწერილი ბლოკები, print, if, for, while და ფუნქციები.', levels: robotCourse('py') },
   { id: 'java', lang: 'java', title: 'Java', sub: 'ტიპები და მეთოდები', desc: 'Android-ისა და დიდი სისტემების ენა: ტიპიანი ცვლადები, System.out.println, პირობები, ციკლები და მეთოდები.', levels: robotCourse('java') },
   { id: 'c', lang: 'c', title: 'C', sub: 'კომპიუტერთან ახლოს', desc: 'კლასიკური ენა, რომელზეც ოპერაციული სისტემები წერია: main(), printf, #include, ტიპები და ფუნქციები.', levels: robotCourse('c') },
@@ -5960,8 +5926,10 @@ COURSES.forEach(c => {
   if (!c.levels) return;
   c.levels.forEach((l, i) => { l.index = i; LEVEL_BY_ID[l.id] = l; });
 });
-const courseLevels = id => (id === 'js' || !COURSE_BY_ID[id] ? LEVELS : COURSE_BY_ID[id].levels);
-const ALL_LEVELS = () => LEVELS.concat(...COURSES.filter(c => c.levels).map(c => c.levels), PROJECTS);
+// ყოველი ენის კურსი 500 ლეველია: ხელით დაწერილი + გენერირებული (იხ. coursePlan, UI-ში რუკასთან)
+const courseLevels = id => coursePlan(id).levels;
+let ALL_CACHE = null;
+const ALL_LEVELS = () => ALL_CACHE || (ALL_CACHE = [].concat(...COURSES.map(c => coursePlan(c.id).levels), PROJECTS));
 
 /* ---------- რეალური პროექტები: ნამდვილი პატარა აპები (JavaScript, სამყაროები 2–10) ----------
    აპი მონაცემებს ცვლადებში აწვდის (ყოველ ტესტში სხვას), შენი კოდი კი ეკრანზე ზუსტად იმას ბეჭდავს, რაც საჭიროა. */
@@ -6314,18 +6282,14 @@ const ACHIEVEMENTS = [
   { id: 'sharp', ic: '🎯', t: 'სნაიპერი', d: 'გადაწერე კოდი ერთი შეცდომის გარეშე' },
   { id: 'builder', ic: '🏗️', t: 'პირველი აპი', d: 'დაასრულე რეალური პროექტი' },
   { id: 'architect', ic: '🏙️', t: 'აპების ოსტატი', d: 'დაასრულე ყველა რეალური პროექტი' },
-  { id: 'legend', ic: '👑', t: 'ლეგენდა', d: 'ყველა ლეველი ⭐⭐⭐-ით' },
+  { id: 'legend', ic: '👑', t: 'ლეგენდა', d: 'JavaScript-ის 10 სამყაროს ყველა ლეველი ⭐⭐⭐-ით' },
   { id: 'polyglot', ic: '🌍', t: 'პოლიგლოტი', d: 'გაიარე ლეველი 3 სხვადასხვა ენაზე' },
   { id: 'course_py', ic: '🐍', t: 'პითონისტი', d: 'დაასრულე Python-ის კურსი' },
   { id: 'course_java', ic: '☕', t: 'ჯავისტი', d: 'დაასრულე Java-ს კურსი' },
   { id: 'course_c', ic: '🔩', t: 'C-ს ოსტატი', d: 'დაასრულე C-ს კურსი' },
   { id: 'course_cpp', ic: '⚙️', t: 'C++-ის ინჟინერი', d: 'დაასრულე C++-ის კურსი' },
   { id: 'course_html', ic: '🌐', t: 'ვებ-მშენებელი', d: 'დაასრულე HTML-ის კურსი' },
-  { id: 'course_css', ic: '🎨', t: 'ვებ-დიზაინერი', d: 'დაასრულე CSS-ის კურსი' },
-  { id: 'drill10', ic: '🏋️', t: 'მოვარჯიშე', d: 'გაიარე 10 ლეველი ვარჯიშის ბანაკში' },
-  { id: 'drill100', ic: '🥇', t: 'ასი ვარჯიში', d: 'გაიარე 100 ლეველი ვარჯიშის ბანაკში' },
-  { id: 'drill500', ic: '🏅', t: 'ბანაკის ჩემპიონი', d: 'ერთ ენაზე გაიარე ვარჯიშის ბანაკის 500 ლეველი' },
-  { id: 'drill1000', ic: '💎', t: 'ბანაკის ლეგენდა', d: 'ერთ ენაზე გაიარე ვარჯიშის ბანაკის ყველა 1000 ლეველი' }
+  { id: 'course_css', ic: '🎨', t: 'ვებ-დიზაინერი', d: 'დაასრულე CSS-ის კურსი' }
 ];
 const RANKS = [
   { name: 'დამწყები', xp: 0, ic: '🐣' },
@@ -6356,14 +6320,17 @@ const EDITOR_THEMES = [
 
 
 /* =====================================================================
-   DRILLS — ვარჯიშის ბანაკი: თითო ენას 500 დამატებითი ლეველი
-   (20 თემა × 25 ლეველი). ლეველები ფაილში მზა სახით არ ინახება —
-   ყოველი მათგანი გენერატორით იქმნება seed-იდან (ენა + ნომერი), ამიტომ
-   ყოველ ჯერზე ზუსტად ერთნაირია და პროგრესიც სწორად ინახება.
-   რობოტის ენებზე (JS, Python, Java, C, C++) ამოხსნა იწერება პატარა
-   შუალედურ ენაზე (IR) და თითოეულ ენაზე ავტომატურად ითარგმნება.
-   თემა იხსნება, როცა მთავარ კურსში შესაბამისი გაკვეთილი გაივლი.
-   შემოწმება: CodeQuest.testDrills() — ყველა ამოხსნა ყველა ტესტზე.
+   DRILLS — გენერირებული ლეველები. ყოველი ენის კურსი 500 ლეველია:
+   ხელით დაწერილ ლეველებს (JavaScript — 50, Python/Java/C/C++ — 12,
+   HTML/CSS — 10) თემების მიხედვით გენერირებული ლეველები ავსებს.
+   გენერატორს 40 თემა აქვს, თითოში 25 ვარიანტი (id: drill-<ენა>-<ნომერი>);
+   კურსში თითო თემიდან 11–13 შედის — თანაბრად, სირთულის ზრდით — და
+   ბოლოს გლიჩის ბოსი (კოდში ბაგებია). რიგი იხ. coursePlan (UI-ში).
+   ლეველები ფაილში მზა სახით არ ინახება — ყოველი მათგანი იქმნება
+   seed-იდან (ენა + ნომერი), ამიტომ ყოველთვის ერთნაირია და პროგრესიც
+   სწორად ინახება. რობოტის ენებზე (JS, Python, Java, C, C++) ამოხსნა
+   იწერება პატარა შუალედურ ენაზე (IR) და თითოეულ ენაზე ითარგმნება.
+   შემოწმება: CodeQuest.testGenerated() — ყველა ამოხსნა ყველა ტესტზე.
    ===================================================================== */
 const Drill = (() => {
   const N = 1000, PER = 25;
@@ -9596,58 +9563,26 @@ const Drill = (() => {
   }
   const RT_ALL = RT_TOPICS.concat(RT_TOPICS2);
   const topicDefs = lang => (ROBOT.includes(lang) ? RT_ALL : WEB_TOPICS[lang] || []);
-  // II საფეხურის თემა იხსნება I საფეხურის შესაბამისი თემის გლიჩის გამოცდის შემდეგ
+  // I საფეხურის თემის „კარიბჭე“ — კურსის ლეველი, რომელიც თემის ცნებას ასწავლის: კურსში თემა მის თავს მოსდევს.
+  // II საფეხურის თემები კურსის ბოლო ნაწილშია, ამიტომ კარიბჭე არ სჭირდებათ.
   function gateId(lang, t) {
-    if (t.gate && t.gate.drill) return id(lang, t.gate.drill * PER);
+    if (t.gate && t.gate.drill) return null;
     if (lang === 'js') return t.gate.js;
     if (ROBOT.includes(lang)) return lang + '-' + (RC_LEVELS.findIndex(l => l.key === t.gate.rc) + 1);
     return lang + '-' + t.gate;
   }
   function topics(lang) {
-    return topicDefs(lang).map((t, i) => {
-      const g = gateId(lang, t), gl = LEVEL_BY_ID[g], defs = topicDefs(lang);
-      const gateLabel = t.gate && t.gate.drill ? 'თემა ' + t.gate.drill + ' „' + defs[t.gate.drill - 1].name + '“ — გლიჩის გამოცდა'
-        : gl ? (gl.web ? 'გაკვეთილი ' + gl.num : 'ლეველი ' + (gl.course ? gl.num : gl.id)) + ' „' + gl.title + '“' : g;
-      return { n: i + 1, tier: i < 20 ? 1 : 2, key: t.key, icon: t.icon, name: t.name, topic: tx(ROBOT.includes(lang) ? lang : 'js', t.topic), a: t.a, gate: g, gateLabel, from: i * PER + 1 };
-    });
-  }
-  const isDone = lid => typeof Progress !== 'undefined' && Progress.isDone(lid);
-  const unlockAll = () => typeof Progress !== 'undefined' && Progress.P.settings.unlockAll;
-  function topicUnlocked(lang, c) { const t = topicDefs(lang)[c - 1]; return !!t && (unlockAll() || isDone(gateId(lang, t))); }
-  function unlocked(lv) { return !!lv && topicUnlocked(lv.lang, lv.topic) && (unlockAll() || lv.inTopic === 1 || isDone(id(lv.lang, lv.num - 1))); }
-  function topicLevels(lang, c) { return Array.from({ length: PER }, (_, i) => get(id(lang, (c - 1) * PER + i + 1))); }
-  function stats(lang, c) {
-    const P = typeof Progress !== 'undefined' ? Progress.P.levels : {};
-    const from = c ? (c - 1) * PER + 1 : 1, to = c ? c * PER : N;
-    let done = 0, stars = 0;
-    for (let n = from; n <= to; n++) { const r = P[id(lang, n)]; if (r && r.done) { done++; stars += r.stars || 0; } }
-    return { done, stars, total: to - from + 1 };
-  }
-  function next(lv) { return lv.inTopic < PER ? get(id(lv.lang, lv.num + 1)) : null; }
-  function nextIn(lang, c) {
-    const list = c ? [c] : topicDefs(lang).map((_, i) => i + 1);
-    for (const t of list) {
-      if (!topicUnlocked(lang, t)) continue;
-      for (let i = 1; i <= PER; i++) { const lid = id(lang, (t - 1) * PER + i); if (!isDone(lid)) return lid; }
-    }
-    return null;
+    return topicDefs(lang).map((t, i) => ({ n: i + 1, tier: i < 20 ? 1 : 2, key: t.key, icon: t.icon, name: t.name, topic: tx(ROBOT.includes(lang) ? lang : 'js', t.topic), a: t.a, gate: gateId(lang, t) }));
   }
   const xp = lv => (lv.boss ? 150 : 50);
-  const totalXP = () => {
-    if (typeof Progress === 'undefined') return 0;
-    let s = 0; const L = Progress.P.levels;
-    for (const k in L) if (k.startsWith('drill-') && L[k]) s += L[k].xp || 0;
-    return s;
-  };
-  const doneAll = () => { if (typeof Progress === 'undefined') return 0; let s = 0; const L = Progress.P.levels; for (const k in L) if (k.startsWith('drill-') && L[k] && L[k].done) s++; return s; };
 
   /* ---------- შემოწმება: ყოველი ამოხსნა ყველა ტესტზე ---------- */
   // run(payload) — კოდის გამშვები (CodeRunner.run ან runSandbox); web(lv, code) — ვებ-შემოწმება (ბრაუზერში)
   async function verify(lang, opt) {
     opt = opt || {};
     const run = opt.run || (p => runSandbox(p)), report = [];
-    const from = opt.from || 1, to = opt.to || N;
-    for (let n = from; n <= to; n++) {
+    const from = opt.from || 1, ns = opt.ns || Array.from({ length: (opt.to || N) - from + 1 }, (_, i) => from + i);   // ns — მხოლოდ ეს ნომრები
+    for (const n of ns) {
       const issues = [];
       let lv;
       try { lv = get(id(lang, n)); } catch (e) { report.push({ id: id(lang, n), title: '?', ok: false, issues: ['გენერაციის შეცდომა: ' + e.message] }); continue; }
@@ -9694,7 +9629,7 @@ const Drill = (() => {
     return report;
   }
 
-  return { N, PER, ROBOT, LANGS: LANG_LIST, id, parse, get, topics, topicLevels, topicUnlocked, unlocked, stats, next, nextIn, xp, totalXP, doneAll, verify, gateId: (lang, c) => gateId(lang, topicDefs(lang)[c - 1]), _emit: emit, _I: I };
+  return { N, PER, ROBOT, LANGS: LANG_LIST, id, parse, get, topics, xp, verify, _emit: emit, _I: I };
 })();
 
 /* =====================================================================
@@ -9708,7 +9643,7 @@ function levelParts(lv) {
 async function verifyLevels(run, seeds = Array.from({ length: 30 }, (_, i) => i + 1)) {
   const report = [];
   let frame = null;
-  for (const base of ALL_LEVELS()) {
+  for (const base of ALL_LEVELS().filter(l => !l.gen)) {   // გენერირებულს testGenerated() ამოწმებს
     // ვებ-გაკვეთილი: ამოხსნამ ყველა შემოწმება უნდა გაიაროს, ბოსის ბაგიანმა კოდმა — არა
     if (base.web) {
       if (!frame && typeof document !== 'undefined') {
@@ -9813,14 +9748,20 @@ const Progress = {
     if (!P.streak.last && P.daily && P.daily.last && P.daily.streak) {
       P.streak = { last: P.daily.last, count: P.daily.streak, best: Math.max(P.daily.best || 0, P.daily.streak), days: [P.daily.last] };
     }
+    // კურსი 500 ლეველი გახდა (ვარჯიშის ბანაკი კურსში შევიდა): ბანაკის ლეველები, რომლებიც კურსში აღარ შედის,
+    // ქრება, მათი XP კი bonusXP-ში გადადის — არაფერი იკარგება
+    if (!P.plan500) {
+      coursePlan('js');
+      for (const k of Object.keys(P.levels)) if (Drill.parse(k) && !GEN_STUB[k]) { P.bonusXP = (P.bonusXP || 0) + ((P.levels[k] || {}).xp || 0); delete P.levels[k]; delete P.speedrun[k]; }
+      P.plan500 = true; this.save();
+    }
   },
   save() { Store.set(SAVE_KEY, this.P); },
   rec(id) { return this.P.levels[id] || null; },
   isDone(id) { const r = this.P.levels[id]; return !!(r && r.done); },
   isUnlocked(lv) {
     if (!lv) return false;
-    if (lv.drill) return Drill.unlocked(lv);
-    if (this.P.settings.unlockAll || lv.index === 0) return true;
+    if (this.P.settings.unlockAll || lv.index === 0 || this.isDone(lv.id)) return true;
     if (lv.project) return this.isDone(lv.world + '-5');   // პროექტი სამყაროს ბოსის შემდეგ იხსნება
     return this.isDone(courseLevels(lv.course)[lv.index - 1].id);
   },
@@ -9828,7 +9769,7 @@ const Progress = {
   worldDone(w) { return LEVELS.filter(l => l.world === w).every(l => this.isDone(l.id)); },
   worldStars(w) { return LEVELS.filter(l => l.world === w).reduce((a, l) => a + ((this.P.levels[l.id] || {}).stars || 0), 0); },
   totalStars() { return LEVELS.reduce((a, l) => a + ((this.P.levels[l.id] || {}).stars || 0), 0); },
-  totalXP() { return ALL_LEVELS().reduce((a, l) => a + ((this.P.levels[l.id] || {}).xp || 0), 0) + (this.P.bonusXP || 0) + Drill.totalXP(); },
+  totalXP() { return ALL_LEVELS().reduce((a, l) => a + ((this.P.levels[l.id] || {}).xp || 0), 0) + (this.P.bonusXP || 0); },
   /* ---- კურსები (ენები) ---- */
   course() { return COURSE_BY_ID[this.P.course] ? this.P.course : 'js'; },
   courseStats(id) {
@@ -9933,11 +9874,6 @@ const Progress = {
     if (learned.some(x => x.acc >= 100)) A('sharp');
     if (PROJECTS.some(p => this.isDone(p.id))) A('builder');
     if (PROJECTS.every(p => this.isDone(p.id))) A('architect');
-    const drills = Drill.doneAll();
-    if (drills >= 10) A('drill10');
-    if (drills >= 100) A('drill100');
-    if (drills >= 500 && Drill.LANGS.some(l => Drill.stats(l).done >= 500)) A('drill500');
-    if (drills >= Drill.N && Drill.LANGS.some(l => Drill.stats(l).done >= Drill.N)) A('drill1000');
     if (this.legend()) A('legend');
     if (got.length) { this.save(); got.forEach((id, i) => setTimeout(() => UI.achToast(id), 400 + i * 900)); }
   }
@@ -10385,7 +10321,6 @@ const UI = {
     if (name === 'profile') ProfileScreen.render();
     if (name === 'settings') SettingsScreen.render();
     if (name === 'courses') CoursesScreen.render();
-    if (name === 'drill') DrillScreen.render();
     if (name === 'game') Editor.refresh();
   },
   toast(ic, title, sub, cls) {
@@ -10456,7 +10391,7 @@ const Menu = {
     const r = Progress.rank(), cid = Progress.course(), c = COURSE_BY_ID[cid], st = Progress.courseStats(cid);
     const nxt = Progress.nextIn(cid);
     $('#m-continue').disabled = !Progress.P.started;
-    $('#m-continue').textContent = Progress.courseDone(cid) ? 'გაგრძელება · ' + c.title + ' ✔ დასრულებულია' : st.done ? 'გაგრძელება · ' + (cid === 'js' ? nxt.id : c.title + ' ' + nxt.num) + ' „' + nxt.title + '“' : 'გაგრძელება';
+    $('#m-continue').textContent = Progress.courseDone(cid) ? 'გაგრძელება · ' + c.title + ' ✔ დასრულებულია' : st.done ? 'გაგრძელება · ' + (nxt.course ? c.title + ' ' + nxt.num : nxt.id) + ' „' + nxt.title + '“' : 'გაგრძელება';
     $('#m-lang').innerHTML = '🌐 ენა: ' + langBadge(c.lang, true) + ' ' + esc(c.title);
     $('#m-daily').textContent = Progress.P.daily.last === todayStr() ? 'დღის გამოწვევა ✓' : 'დღის გამოწვევა';
     $('#menu-streak').innerHTML = Streak.card();
@@ -10484,26 +10419,91 @@ const WEB_CHAPTERS = {
     { icon: '👾', name: 'ბიტის ბარათი', topic: 'ბოსი', a: '#b54848', n: 1 }
   ]
 };
-const CHAPTER_CACHE = {};
-function courseChapters(cid) {
-  if (CHAPTER_CACHE[cid]) return CHAPTER_CACHE[cid];
-  let chs;
-  if (cid === 'js') chs = WORLDS.map(w => ({ world: w.id, name: w.name, icon: w.icon, topic: w.topic, a: w.a, levels: LEVELS.filter(l => l.world === w.id) }));
-  else if (WEB_CHAPTERS[cid]) {
+/* ---------- კურსის გეგმა: ყოველი ენის 500 ლეველი თავებად (რუკის კუნძულები) ----------
+   ხელით დაწერილი თავები რჩება (JavaScript — 10 სამყარო; სხვა ენებზე — ლეველები თემების მიხედვით),
+   მათ შორის კი გენერირებული თავები (Drill) ჩადგება: I საფეხურის თემა მოსდევს თავს, რომელშიც მისი
+   ცნება ისწავლება, II საფეხურის თემები — ბოლოს (JavaScript-ში საბოლოო სამყაროს, „გლიჩის ციხის“, წინ).
+   გენერირებული ლეველი გეგმაში მსუბუქი ჩანაწერია (id, ნომერი, თავი); სრული ლეველი (რუკები,
+   ამოხსნა) პირველად საჭიროებისას იქმნება — levelById(). */
+const COURSE_SIZE = 500;
+const GEN_STUB = {};
+let PLANS = null;
+function mainChapters(cid) {
+  if (cid === 'js') return WORLDS.map(w => ({ world: w.id, name: w.name, icon: w.icon, topic: w.topic, a: w.a, levels: LEVELS.filter(l => l.world === w.id) }));
+  const main = COURSE_BY_ID[cid].levels;
+  if (WEB_CHAPTERS[cid]) {
     let i = 0;
-    chs = WEB_CHAPTERS[cid].map(c => { const levels = courseLevels(cid).slice(i, i + c.n); i += c.n; return Object.assign({}, c, { levels }); });
-  } else {
-    // რობოტის კურსები: იგივე სამყაროები, რაც JavaScript-ში (ლეველის stage), ბოსი — ცალკე კუნძული
-    chs = [];
-    for (const l of courseLevels(cid)) {
-      const key = l.boss ? 'boss' : l.world, last = chs[chs.length - 1];
-      if (last && last.key === key) { last.levels.push(l); continue; }
-      const w = WORLDS[(l.world || 1) - 1];
-      chs.push(l.boss ? { key, icon: '👾', name: l.title, topic: 'ბოსი', a: '#b54848', levels: [l] } : { key, world: w.id, icon: w.icon, name: w.name, topic: w.topic, a: w.a, levels: [l] });
-    }
+    return WEB_CHAPTERS[cid].map(c => { const levels = main.slice(i, i + c.n); i += c.n; return Object.assign({}, c, { levels }); });
   }
-  chs.forEach((c, i) => { c.n = i + 1; });
-  return (CHAPTER_CACHE[cid] = chs);
+  // რობოტის კურსები: იგივე სამყაროები, რაც JavaScript-ში (ლეველის stage), ბოსი — ცალკე კუნძული
+  const chs = [];
+  for (const l of main) {
+    const key = l.boss ? 'boss' : l.world, last = chs[chs.length - 1];
+    if (last && last.key === key) { last.levels.push(l); continue; }
+    const w = WORLDS[(l.world || 1) - 1];
+    chs.push(l.boss ? { key, icon: '👾', name: l.title, topic: 'ბოსი', a: '#b54848', levels: [l] } : { key, world: w.id, icon: w.icon, name: w.name, topic: w.topic, a: w.a, levels: [l] });
+  }
+  return chs;
+}
+// თემიდან კურსში შედის s ლეველი: s − 1 ჩვეულებრივი — 24 ვარიანტიდან თანაბრად (სირთულე იზრდება) — და ბოლოს ბოსი
+function genChapter(lang, t, s) {
+  const r = s - 1, ks = Array.from({ length: r }, (_, j) => Math.round(j * (Drill.PER - 2) / (r - 1))).concat([Drill.PER - 1]);
+  const web = LANGS[lang].kind === 'web';
+  return {
+    gen: true, t: t.n, icon: t.icon, name: t.name, topic: t.topic, a: t.a,
+    levels: ks.map(k => ({
+      id: Drill.id(lang, (t.n - 1) * Drill.PER + k + 1), gen: true, drill: true, course: lang, lang, web,
+      get title() { return levelById(this.id).title; }, get boss() { return levelById(this.id).boss; }
+    }))
+  };
+}
+function buildPlan(c) {
+  const main = mainChapters(c.id), tops = Drill.topics(c.lang);
+  const order = main.flatMap(ch => ch.levels.map(l => l.id));
+  const G = COURSE_SIZE - order.length, base = Math.floor(G / tops.length), extra = G - base * tops.length;
+  const gen = t => genChapter(c.lang, t, base + (t.n <= extra ? 1 : 0));
+  const after = main.map(() => []), tail = [];
+  for (const t of tops) {
+    const ci = t.gate ? main.findIndex(ch => ch.levels.some(l => l.id === t.gate)) : -1;
+    (ci >= 0 ? after[ci] : tail).push(t);
+  }
+  const chapters = [];
+  main.forEach((ch, i) => {
+    chapters.push(ch);
+    after[i].sort((a, b) => order.indexOf(a.gate) - order.indexOf(b.gate) || a.n - b.n).forEach(t => chapters.push(gen(t)));
+  });
+  chapters.splice(c.id === 'js' ? chapters.indexOf(main[main.length - 1]) : chapters.length, 0, ...tail.map(gen));
+  const levels = [];
+  chapters.forEach((ch, ci) => {
+    ch.n = ci + 1;
+    ch.levels.forEach(l => {
+      l.index = levels.length; l.chapter = ci;
+      if (l.course) l.num = levels.length + 1;   // JavaScript-ის სამყაროების ლეველებს თავისი ნომრები რჩებათ (1-1 … 10-5)
+      if (l.gen) GEN_STUB[l.id] = l;
+      levels.push(l);
+    });
+  });
+  return { chapters, levels };
+}
+function coursePlan(id) {
+  if (!PLANS) { PLANS = {}; COURSES.forEach(c => { PLANS[c.id] = buildPlan(c); }); }
+  return PLANS[COURSE_BY_ID[id] ? id : 'js'];
+}
+const courseChapters = cid => coursePlan(cid).chapters;
+// ლეველი id-ით. გენერირებულის პირველად მოთხოვნისას მთელი თავი იქმნება: კურსის ნომრები და სათაურები
+// (თავში განმეორებულ სათაურს ნომერი ემატება)
+function levelById(id) {
+  if (LEVEL_BY_ID[id]) return LEVEL_BY_ID[id];
+  coursePlan('js');
+  const s = GEN_STUB[id];
+  if (!s) return null;   // კურსში არ შედის
+  const seen = {};
+  for (const x of courseChapters(s.course)[s.chapter].levels) {
+    const f = Drill.get(x.id), t = f.title.replace(/ \(\d+\)$/, ''), k = seen[t] = (seen[t] || 0) + 1;
+    Object.assign(f, { course: x.course, index: x.index, num: x.num, chapter: x.chapter, title: k > 1 ? t + ' (' + k + ')' : t });
+    LEVEL_BY_ID[x.id] = f;
+  }
+  return LEVEL_BY_ID[id];
 }
 const chapterStars = ch => ch.levels.reduce((a, l) => a + ((Progress.rec(l.id) || {}).stars || 0), 0);
 
@@ -10522,12 +10522,11 @@ const MapScreen = {
     if (!js) {
       head.innerHTML = '<div class="card course-head">' + langBadge(course.lang) + '<div style="flex:1;min-width:180px"><h2>' + esc(course.title) + '</h2><p class="muted">' + esc(course.desc) + '</p>' +
         '<div class="progress"><div style="width:' + Math.round(st.done / st.total * 100) + '%"></div></div><small class="muted">' + st.done + '/' + st.total + ' დასრულებულია</small></div>' +
-        '<div style="display:flex;gap:8px;flex-wrap:wrap">' + (done ? '<button class="btn" id="co-cert">📜 სერტიფიკატი</button>' : '') +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap">' + (done || Progress.P.certs[cid] ? '<button class="btn" id="co-cert">📜 სერტიფიკატი</button>' : '') +
         '<button class="btn primary" id="co-go">' + (st.done ? (done ? '⟲ თავიდან გავლა' : '▶ გაგრძელება') : '▶ დაწყება') + '</button></div></div>';
-      $('#co-go').addEventListener('click', () => { Sound.click(); Game.openLevel(done ? course.levels[0].id : nxt.id); });
+      $('#co-go').addEventListener('click', () => { Sound.click(); Game.openLevel(done ? courseLevels(cid)[0].id : nxt.id); });
       const ce = $('#co-cert'); if (ce) ce.addEventListener('click', () => Certificate.open(cid));
     }
-    renderDrillBanner(cid);
     const rowH = 168, W = wrap.clientWidth || 800, top0 = 24;
     const pts = chs.map((c, i) => ({ x: (i % 2 ? 72 : 28) + (i % 4 === 1 ? 4 : i % 4 === 3 ? -4 : 0), y: top0 + i * rowH }));
     const curCh = chs.find(c => c.levels.includes(nxt)) || chs[0];
@@ -10541,14 +10540,17 @@ const MapScreen = {
     const H = top0 + chs.length * rowH + 30;
     let html = '<svg class="map-svg" width="' + W + '" height="' + H + '" aria-hidden="true"><path class="map-road" d="' + d + '" fill="none" stroke-linecap="round"/><path class="map-road-line" d="' + d + '" fill="none" stroke-linecap="round"/></svg>';
     chs.forEach((ch, i) => {
-      const un = Progress.isUnlocked(ch.levels[0]), cur = un && ch === curCh && !done, pr = js && PROJECT_BY_WORLD[ch.world];
-      const dots = ch.levels.map(l => '<span class="dot' + (Progress.isDone(l.id) ? ' done' : '') + (l.boss ? ' boss' : '') + '"></span>').join('');
+      const un = Progress.isUnlocked(ch.levels[0]), cur = un && ch === curCh && !done, pr = js && !ch.gen && PROJECT_BY_WORLD[ch.world];
+      const total = ch.levels.length, dn = ch.levels.filter(l => Progress.isDone(l.id)).length;
+      // დიდ თავს (გენერირებული თემა, 11–13 ლეველი) წერტილების ნაცვლად პროგრესის ზოლი აქვს
+      const prog = total > 6 ? '<div class="isl-prog"><div class="progress sm"><div style="width:' + (dn / total * 100).toFixed(1) + '%"></div></div><small>' + dn + '/' + total + '</small></div>'
+        : '<div class="dots">' + ch.levels.map(l => '<span class="dot' + (Progress.isDone(l.id) ? ' done' : '') + (l.boss ? ' boss' : '') + '"></span>').join('') + '</div>';
       html += '<div class="island' + (un ? '' : ' locked') + (cur ? ' current' : '') + '" style="left:' + pts[i].x + '%;top:' + pts[i].y + 'px;--ia:' + ch.a + '">' +
         '<button class="island-btn" data-ch="' + i + '" aria-label="' + ch.n + ': ' + esc(ch.name) + (un ? '' : ' (ჩაკეტილია)') + '">' +
-        '<div class="island-blob">' + (un ? ch.icon : '🔒') + (ch.levels.every(l => Progress.isDone(l.id)) ? '<span class="ok" aria-hidden="true">✓</span>' : '') + '</div>' +
+        '<div class="island-blob">' + (un ? ch.icon : '🔒') + (dn === total ? '<span class="ok" aria-hidden="true">✓</span>' : '') + '</div>' +
         '<div class="island-name">' + ch.n + '. ' + esc(ch.name) + '</div>' +
-        '<div class="island-sub">' + esc(ch.topic) + ' · ⭐ ' + chapterStars(ch) + '/' + ch.levels.length * 3 + '</div>' +
-        '<div class="dots">' + dots + '</div>' + (cur ? '<span class="here">' + bitSVG() + 'აქ ხარ</span>' : '') +
+        '<div class="island-sub">' + esc(ch.topic) + ' · ⭐ ' + chapterStars(ch) + '/' + total * 3 + '</div>' +
+        prog + (cur ? '<span class="here">' + bitSVG() + 'აქ ხარ</span>' : '') +
         (pr && Progress.isUnlocked(pr) ? '<span class="proj-chip">' + pr.icon + ' პროექტი' + (Progress.isDone(pr.id) ? ' ✓' : '') + '</span>' : '') + '</button></div>';
     });
     wrap.style.height = H + 'px';
@@ -10559,8 +10561,8 @@ const MapScreen = {
 // კუნძულზე დაჭერა: JavaScript-ში სამყაროს პანელი (ქვიზით და პროექტით), სხვა ენებზე — თემის ლეველები
 const ChapterPanel = {
   open(cid, ch) {
-    if (cid === 'js') return WorldPanel.open(ch.world);
-    const P = Progress.P, L = LANGS[COURSE_BY_ID[cid].lang];
+    if (cid === 'js' && !ch.gen) return WorldPanel.open(ch.world);
+    const P = Progress.P, lang = COURSE_BY_ID[cid].lang, L = LANGS[lang];
     if (!Progress.isUnlocked(ch.levels[0])) { UI.toast('🔒', 'ეს თემა ჯერ ჩაკეტილია', 'ჯერ წინა თემა დაასრულე.'); return; }
     let html = '<div class="wp-head" style="--ia:' + ch.a + '"><div class="island-blob sm" aria-hidden="true">' + ch.icon + '</div><div><h2>' + esc(ch.name) + '</h2><p class="muted">' +
       esc(COURSE_BY_ID[cid].title) + ' · თემა: ' + esc(ch.topic) + ' · ⭐ ' + chapterStars(ch) + '/' + ch.levels.length * 3 + '</p></div></div><div class="lvl-list">';
@@ -10568,20 +10570,20 @@ const ChapterPanel = {
       const un = Progress.isUnlocked(l), r = Progress.rec(l.id) || {};
       html += '<div style="display:flex;gap:6px;align-items:stretch"><button class="lvl-item' + (r.done ? ' done' : un ? ' next' : '') + '" data-lv="' + l.id + '"' + (un ? '' : ' disabled') + ' style="--wa:' + ch.a + '">' +
         '<span class="lvl-num">' + (l.boss ? '👾' : l.num) + '</span><span class="t"><b>' + esc(l.title) + '</b><small>' +
-        (l.boss ? 'ბოსი' : L.kind === 'web' ? 'გაკვეთილი ' + l.num : 'ლეველი ' + l.num) + (un ? '' : ' · 🔒') + '</small></span>' + starsHTML(r.stars || 0) + '</button>' +
+        (l.boss ? 'ბოსი · ' : '') + (L.kind === 'web' ? 'გაკვეთილი ' : 'ლეველი ') + l.num + (un ? '' : ' · 🔒') + '</small></span>' + starsHTML(r.stars || 0) + '</button>' +
         (r.done ? '<button class="btn small" data-sr="' + l.id + '" title="სპიდრანი — გაიარე დროზე">⏱' + (P.speedrun[l.id] ? ' ' + fmtTime(P.speedrun[l.id]) : '') + '</button>' : '') + '</div>';
     });
-    html += '</div><div class="modal-actions"><button class="btn" data-a="cheat">📋 შპარგალკა</button><button class="btn primary" data-close>დახურვა</button></div>';
+    html += '</div><div class="modal-actions"><button class="btn" data-a="cheat">' + (lang === 'js' ? '📖 ლექსიკონი' : '📋 შპარგალკა') + '</button><button class="btn primary" data-close>დახურვა</button></div>';
     const m = Modal.open(html);
     m.querySelectorAll('[data-lv]').forEach(b => b.addEventListener('click', () => { Modal.closeAll(); Game.openLevel(b.dataset.lv); }));
     m.querySelectorAll('[data-sr]').forEach(b => b.addEventListener('click', () => { Modal.closeAll(); Game.openLevel(b.dataset.sr, 'speedrun'); }));
-    m.querySelector('[data-a=cheat]').addEventListener('click', () => { Modal.close(m); Cheat.open(COURSE_BY_ID[cid].lang); });
+    m.querySelector('[data-a=cheat]').addEventListener('click', () => { Modal.close(m); if (lang === 'js') Dict.open(); else Cheat.open(lang); });
   }
 };
 const WorldPanel = {
   open(wid) {
     const w = WORLDS[wid - 1], P = Progress.P;
-    if (!Progress.worldUnlocked(wid)) { UI.toast('🔒', 'სამყარო ჯერ ჩაკეტილია', 'ჯერ წინა სამყარო დაასრულე.'); return; }
+    if (!Progress.worldUnlocked(wid)) { UI.toast('🔒', 'სამყარო ჯერ ჩაკეტილია', 'ჯერ რუკაზე წინა კუნძულები გაიარე.'); return; }
     const lv = LEVELS.filter(l => l.world === wid), bossDone = Progress.isDone(lv[4].id);
     let html = '<div class="wp-head" style="--ia:' + w.a + '"><div class="island-blob sm" aria-hidden="true">' + w.icon + '</div><div><h2>' + esc(w.name) + '</h2><p class="muted">თემა: ' + esc(w.topic) + ' · ⭐ ' + Progress.worldStars(wid) + '/15</p></div></div><div class="lvl-list">';
     lv.forEach(l => {
@@ -10768,7 +10770,7 @@ const CoursesScreen = {
     const card = c => {
       const st = Progress.courseStats(c.id), pct = st.total ? Math.round(st.done / st.total * 100) : 0;
       return '<button class="course-card' + (c.id === cur ? ' sel' : '') + '" data-course="' + c.id + '" style="--lb:' + LANGS[c.lang].color + '">' +
-        '<div class="head">' + langBadge(c.lang) + '<div><h3>' + esc(c.title) + '</h3><div class="sub">' + esc(c.sub) + ' · ' + st.total + (LANGS[c.lang].kind === 'web' ? ' გაკვეთილი' : ' ლეველი') + ' + ' + Drill.N + ' ვარჯიში</div></div></div>' +
+        '<div class="head">' + langBadge(c.lang) + '<div><h3>' + esc(c.title) + '</h3><div class="sub">' + esc(c.sub) + ' · ' + st.total + (LANGS[c.lang].kind === 'web' ? ' გაკვეთილი' : ' ლეველი') + '</div></div></div>' +
         '<p>' + esc(c.desc) + '</p>' +
         '<div class="foot"><div class="progress"><div style="width:' + pct + '%"></div></div><span>' + st.done + '/' + st.total + '</span>' + (c.id === cur ? '<span class="tag">● ახლა</span>' : '') + '</div></button>';
     };
@@ -10881,6 +10883,7 @@ const ProfileScreen = {
     const prevXP = (RANKS.filter(r => r.xp <= xp).pop() || RANKS[0]).xp;
     const pct = next ? Math.min(100, (xp - prevXP) / (next.xp - prevXP) * 100) : 100;
     const achN = ACHIEVEMENTS.filter(a => P.ach[a.id]).length;
+    const all = COURSES.map(c => Progress.courseStats(c.id)).reduce((a, s) => ({ done: a.done + s.done, stars: a.stars + s.stars, total: a.total + s.total }), { done: 0, stars: 0, total: 0 });
     const stat = (v, l) => '<div class="stat"><b>' + v + '</b><small>' + l + '</small></div>';
     const skinBtn = sk => {
       const un = Progress.unlockedReward(sk), sel = P.skin[sk.type] === sk.id;
@@ -10890,8 +10893,8 @@ const ProfileScreen = {
     let html = '<div class="card" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div class="avatar big" style="width:90px;height:90px">' + bitSVG() + '</div>' +
       '<div style="flex:1;min-width:220px"><label class="muted" style="font-size:.85rem">სახელი (სერტიფიკატისთვის)<br><input class="txt" id="pf-name" value="' + esc(P.name) + '" placeholder="შენი სახელი" maxlength="40"></label>' +
       '<h3 style="margin:.5em 0 .3em">' + rank.ic + ' ' + rank.name + '</h3><div class="progress"><div style="width:' + pct + '%"></div></div>' +
-      '<small class="muted">' + xp + ' XP' + (next ? ' · შემდეგი რანგი „' + next.name + '“ — ' + next.xp + ' XP' : '') + (rank.name !== 'ლეგენდა' ? ' · „ლეგენდა“ — ყველა ლეველი ⭐⭐⭐-ით' : '') + '</small></div></div>' +
-      '<div class="stat-grid">' + stat(xp, 'XP') + stat('⭐ ' + Progress.totalStars() + '/150', 'ვარსკვლავი') + stat(Progress.doneCount() + '/50', 'ლეველი') +
+      '<small class="muted">' + xp + ' XP' + (next ? ' · შემდეგი რანგი „' + next.name + '“ — ' + next.xp + ' XP' : '') + (rank.name !== 'ლეგენდა' ? ' · „ლეგენდა“ — JavaScript-ის სამყაროების ყველა ლეველი ⭐⭐⭐-ით' : '') + '</small></div></div>' +
+      '<div class="stat-grid">' + stat(xp, 'XP') + stat('⭐ ' + all.stars + '/' + all.total * 3, 'ვარსკვლავი') + stat(all.done + '/' + all.total, 'ლეველი') +
       stat(achN + '/' + ACHIEVEMENTS.length, 'მიღწევა') + stat(P.stats.runs, 'გაშვება') + stat(P.stats.hints, 'მინიშნება') +
       stat(fmtTime(P.stats.playMs), 'თამაშის დრო') + stat('🔥 ' + Progress.streakNow() + ' (' + (P.streak.best || 0) + ')', 'დღიანი სერია (რეკორდი)') + '</div>' +
       '<h3>მიღწევები</h3><div class="ach-grid">' + ACHIEVEMENTS.map(a => '<div class="ach' + (P.ach[a.id] ? '' : ' locked') + '"><span class="ic">' + a.ic + '</span><div><b>' + esc(a.t) + '</b><small>' + esc(a.d) + '</small></div></div>').join('') + '</div>' +
@@ -10899,13 +10902,13 @@ const ProfileScreen = {
       ['color', 'hat', 'antenna'].map(t => '<h4 style="margin:.8em 0 .4em">' + { color: 'ფერი', hat: 'ქუდი', antenna: 'ანტენა' }[t] + '</h4><div class="skin-grid">' + SKINS.filter(s => s.type === t).map(skinBtn).join('') + '</div>').join('') +
       '<h3>რედაქტორის თემა</h3><div class="seg" id="pf-etheme">' + EDITOR_THEMES.map(t => '<button data-et="' + t.id + '" class="' + (P.etheme === t.id ? 'on' : '') + '"' + (Progress.unlockedReward(t) ? '' : ' disabled') + '>' + esc(t.name) + (Progress.unlockedReward(t) ? '' : ' 🔒' + t.xp) + '</button>').join('') + '</div>' +
       '<h3>ენები</h3><div class="lvl-list">' + COURSES.map(c => {
-        const st = Progress.courseStats(c.id), ok = c.id === 'js' ? Progress.isDone('10-5') : Progress.courseDone(c.id);
-        return '<div class="lvl-item" style="cursor:default">' + langBadge(c.lang, true) + '<span class="t"><b>' + esc(c.title) + '</b><small>' + st.done + '/' + st.total + ' · ⭐ ' + st.stars + '/' + st.total * 3 + ' · 🏋️ ' + Drill.stats(c.lang).done + '/' + Drill.N + '</small></span>' +
+        const st = Progress.courseStats(c.id), ok = (c.id === 'js' ? Progress.isDone('10-5') : Progress.courseDone(c.id)) || !!P.certs[c.id];
+        return '<div class="lvl-item" style="cursor:default">' + langBadge(c.lang, true) + '<span class="t"><b>' + esc(c.title) + '</b><small>' + st.done + '/' + st.total + ' · ⭐ ' + st.stars + '/' + st.total * 3 + '</small></span>' +
           (ok ? '<button class="btn small primary" data-cert="' + c.id + '">📜 სერტიფიკატი</button>' : '<button class="btn small" data-open="' + c.id + '">' + (st.done ? 'გაგრძელება' : 'დაწყება') + '</button>') + '</div>';
       }).join('') + '</div>' +
       '<p class="muted" style="font-size:.85rem">სერტიფიკატი იხსნება, როცა ენის კურსს ბოლომდე გაივლი (JavaScript-ში — როცა გლიჩს საბოლოო ბრძოლაში დაამარცხებ).</p>';
     const sr = Object.keys(P.speedrun);
-    if (sr.length) html += '<h3>სპიდრანის რეკორდები</h3><div class="stat-grid">' + sr.map(id => stat(fmtTime(P.speedrun[id]), id + ' ' + esc((LEVEL_BY_ID[id] || Drill.get(id) || {}).title || ''))).join('') + '</div>';
+    if (sr.length) html += '<h3>სპიდრანის რეკორდები</h3><div class="stat-grid">' + sr.map(id => { const l = levelById(id) || {}; return stat(fmtTime(P.speedrun[id]), (l.course ? LANGS[l.lang].name + ' ' + l.num : id) + ' ' + esc(l.title || '')); }).join('') + '</div>';
     const body = $('#profile-body');
     body.innerHTML = html;
     $('#pf-name').addEventListener('input', e => { P.name = e.target.value.trim(); Progress.save(); });
@@ -11274,7 +11277,7 @@ const Game = {
 
   /* ---- გახსნა ---- */
   openLevel(id, mode = 'level') {
-    const lv = LEVEL_BY_ID[id] || Drill.get(id);
+    const lv = levelById(id);
     if (!lv) return;
     if (mode === 'level' && !Progress.isUnlocked(lv)) { UI.toast('🔒', 'ლეველი ჩაკეტილია', 'ჯერ წინა ლეველი გაიარე.'); return; }
     const P = Progress.P;
@@ -11331,9 +11334,9 @@ const Game = {
     else { g.style.setProperty('--wa', w.a); g.style.setProperty('--wb', w.b); }
     applyTheme(g, lv.world || 1);
     $('#g-icon').innerHTML = lv.course ? langBadge(lv.lang, true) : esc(lv.project ? lv.icon : { daily: '📅', sandbox: '🧪' }[mode] || w.icon);
-    $('#g-back').textContent = mode === 'level' || mode === 'speedrun' ? (lv.drill ? '← ვარჯიში' : '← რუკა') : '← მენიუ';
+    $('#g-back').textContent = mode === 'level' || mode === 'speedrun' ? '← რუკა' : '← მენიუ';
     Editor.setMode(lv.lang || 'js');
-    $('#g-dict').innerHTML = '<span class="ic">📖</span>' + (lv.course ? 'შპარგალკა' : 'ლექსიკონი');
+    $('#g-dict').innerHTML = '<span class="ic">📖</span>' + (lv.course && lv.lang !== 'js' ? 'შპარგალკა' : 'ლექსიკონი');
     $('#g-timer').classList.toggle('hidden', mode !== 'speedrun');
     $('#g-attempts').classList.toggle('hidden', mode !== 'level');
     // ვებ-გაკვეთილზე რობოტის დაფის ნაცვლად გვერდის გადახედვა ჩანს
@@ -11360,10 +11363,11 @@ const Game = {
     this.newMaps();
     const w = WORLDS[(lv.world || 1) - 1];
     const modeTag = { speedrun: 'სპიდრანი · ', daily: '', sandbox: '' }[this.mode] || '';
-    const list = base.drill ? Drill.topicLevels(base.lang, base.topic) : base.course ? courseLevels(base.course) : LEVELS.filter(l => l.world === base.world);
+    // ზოლზე (pips) — მიმდინარე თავის ლეველები; კურსის ნომერი 1-დან 500-მდეა
+    const ch = base.course ? courseChapters(base.course)[base.chapter] : null;
+    const list = ch ? ch.levels : LEVELS.filter(l => l.world === base.world);
     const inList = (this.mode === 'level' || this.mode === 'speedrun') && !base.project;
-    $('#g-world').textContent = base.drill ? LANGS[base.lang].name + ' · 🏋️ ვარჯიში · თემა ' + base.topic + ' · ' + base.inTopic + '/' + list.length
-      : base.course ? LANGS[base.lang].name + ' · ' + (base.web ? 'გაკვეთილი ' : 'ლეველი ') + base.num + '/' + list.length
+    $('#g-world').textContent = base.course ? LANGS[base.lang].name + ' · ' + (base.web ? 'გაკვეთილი ' : 'ლეველი ') + base.num + '/' + courseLevels(base.course).length + (ch ? ' · ' + ch.name : '')
       : base.project ? '🏗️ რეალური პროექტი · ' + w.name
       : inList ? w.name + ' · ' + (base.boss ? 'ბოსი' : 'ლეველი ' + base.num + '/' + list.length) : (this.mode === 'daily' ? 'ყოველდღიური' : 'სენდბოქსი');
     $('#g-pips').innerHTML = inList ? list.map(l => '<i class="' + (l.id === base.id ? 'cur' : Progress.isDone(l.id) ? 'done' : '') + '"></i>').join('') : '';
@@ -11848,7 +11852,7 @@ const Game = {
       if (rec) P.speedrun[base.id] = time;
       Progress.save(); Progress.checkAch(); this.updateXPChip();
       const m = Modal.open('<h2 class="result-title">' + (rec ? 'ახალი რეკორდი!' : 'სპიდრანი დასრულდა') + '</h2><div class="stat-grid"><div class="stat"><b>' + fmtTime(time) + '</b><small>დრო</small></div><div class="stat"><b>' + fmtTime(P.speedrun[base.id]) + '</b><small>საუკეთესო</small></div><div class="stat"><b>' + tries + '</b><small>ცდა</small></div></div><div class="modal-actions"><button class="btn" data-a="map">რუკა</button><button class="btn primary" data-a="again">⟲ კიდევ ერთხელ</button></div>');
-      m.querySelector('[data-a=map]').addEventListener('click', () => { Modal.close(m); UI.show(base.drill ? 'drill' : 'map'); });
+      m.querySelector('[data-a=map]').addEventListener('click', () => { Modal.close(m); UI.show('map'); });
       m.querySelector('[data-a=again]').addEventListener('click', () => { Modal.close(m); this.setup(base, 'speedrun'); });
       return;
     }
@@ -11874,9 +11878,9 @@ const Game = {
     this.showVictory({ stars, xp, xpGain: res.xpGain, time, tries, lines, opt, tips, streakLine, web: !!lv.web });
   },
   showVictory(info) {
-    const base = this.base, next = base.project ? null : base.drill ? Drill.next(base) : courseLevels(base.course)[base.index + 1];
+    const base = this.base, next = base.project ? null : courseLevels(base.course)[base.index + 1];
     const proj = !base.course && !base.project && base.boss ? PROJECT_BY_WORLD[base.world] : null;
-    const courseEnd = base.course && !base.drill && !next && Progress.courseDone(base.course);
+    const courseEnd = base.course && !next && Progress.courseDone(base.course);
     const badge = base.project ? base.icon : base.final ? '🏆' : base.boss ? '👾' : info.stars === 3 ? '🌟' : '🎉';
     const html = '<div class="win"><div class="win-badge" aria-hidden="true">' + badge + '</div>' +
       '<h2 class="result-title">' + (base.project ? 'აპი მზადაა! ' + esc(base.title) + ' მუშაობს' : base.final ? 'გლიჩი დამარცხებულია!' : base.boss ? 'ბოსი დამარცხებულია!' : (base.web ? 'გაკვეთილი' : 'ლეველი') + ' გავლილია!') + '</h2>' +
@@ -11888,7 +11892,7 @@ const Game = {
       info.streakLine +
       (info.tips.length ? '<div class="win-tip">💡 ⭐⭐⭐-ისთვის: ' + info.tips.join(' · ') + '</div>' : '') +
       (courseEnd ? '<p style="font-weight:700">🎉 ' + esc(LANGS[base.lang].name) + '-ის კურსი დასრულებულია!</p>' : '') + '</div>' +
-      '<div class="modal-actions win-actions">' + (base.project ? '' : '<button class="btn" data-a="map">' + (base.drill ? '🏋️ თემები' : 'რუკა') + '</button>') + '<button class="btn" data-a="retry">⟲ თავიდან</button>' +
+      '<div class="modal-actions win-actions">' + (base.project ? '' : '<button class="btn" data-a="map">რუკა</button>') + '<button class="btn" data-a="retry">⟲ თავიდან</button>' +
       (base.boss && !base.final && !base.course ? '<button class="btn" data-a="quiz">ქვიზი</button>' : '') +
       (proj ? '<button class="btn" data-a="proj">' + proj.icon + ' რეალური პროექტი</button>' : '') +
       (base.project ? '<button class="btn primary" data-a="map">🗺️ რუკაზე</button>' : '') +
@@ -11896,7 +11900,7 @@ const Game = {
     const m = Modal.open(html, { dismiss: false });
     confetti(m.parentNode);
     const on = (a, fn) => { const b = m.querySelector('[data-a=' + a + ']'); if (b) b.addEventListener('click', () => { Modal.close(m); fn(); }); };
-    on('map', () => UI.show(base.drill ? 'drill' : 'map'));
+    on('map', () => UI.show('map'));
     on('retry', () => this.setup(base, 'level'));
     on('cert', () => { UI.show('map'); Certificate.open(base.course); });
     on('next', () => this.openLevel(next.id));
@@ -12073,73 +12077,15 @@ const Game = {
     this.cancelAnim(); this.stepSt = null; this.setBusy(false);
     clearInterval(this.timerId);
     Progress.save();
-    UI.show(this.mode === 'level' || this.mode === 'speedrun' ? (this.base && this.base.drill ? 'drill' : 'map') : 'menu');
+    UI.show(this.mode === 'level' || this.mode === 'speedrun' ? 'map' : 'menu');
   }
 };
 
 /* =====================================================================
-   ვარჯიშის ბანაკი — ეკრანი, თემის ფანჯარა და შემოწმება
+   გენერირებული ლეველების შემოწმება
    ===================================================================== */
-const DrillScreen = {
-  render() {
-    const cid = Progress.course(), course = COURSE_BY_ID[cid], lang = course.lang, L = LANGS[lang], web = L.kind === 'web';
-    const tops = Drill.topics(lang), st = Drill.stats(lang), nxt = Drill.nextIn(lang);
-    $('#drill-title').innerHTML = langBadge(lang, true) + ' ვარჯიში · ' + esc(course.title);
-    $('#drill-streak').textContent = Streak.chip();
-    $('#drill-xp').textContent = Progress.totalXP() + ' XP';
-    $('#drill-stars').textContent = '⭐ ' + st.stars + '/' + st.total * 3;
-    let html = '<div class="card course-head drill-head" style="--ia:' + L.color + '"><div class="island-blob sm" aria-hidden="true">🏋️</div>' +
-      '<div style="flex:1;min-width:200px"><h2>ვარჯიშის ბანაკი</h2><p class="muted">' + Drill.N + ' დამატებითი ' + (web ? 'გაკვეთილი' : 'ლეველი') + ' — ' + tops.length + ' თემა ორ საფეხურად, თითოში 25. I საფეხურის თემა იხსნება, როცა მთავარ კურსში შესაბამის ' + (web ? 'გაკვეთილს' : 'ლეველს') + ' გაივლი, II საფეხურისა — როცა I საფეხურის შესაბამის გამოცდას ჩააბარებ. ყოველი თემის ბოლოს გლიჩის გამოცდაა 👾.</p>' +
-      '<div class="progress"><div style="width:' + (st.done / st.total * 100).toFixed(1) + '%"></div></div><small class="muted">' + st.done + '/' + st.total + ' დასრულებულია</small></div>' +
-      (nxt ? '<button class="btn primary" id="dr-go">▶ ' + (st.done ? 'გაგრძელება' : 'დაწყება') + '</button>' : '') + '</div>';
-    const TIERS = [[1, 'I საფეხური · საფუძვლები'], [2, 'II საფეხური · ოსტატობა']];
-    html += TIERS.map(([tier, label]) => { const list = tops.filter(t => t.tier === tier), ts = list.reduce((a, t) => a + Drill.stats(lang, t.n).done, 0); return list.length ? '<h3 class="tier-h">' + label + ' <small class="muted">' + ts + '/' + list.length * Drill.PER + '</small></h3><div class="topic-grid">' + list.map(t => {
-      const un = Drill.topicUnlocked(lang, t.n), s = Drill.stats(lang, t.n), full = s.done === s.total;
-      return '<button class="topic-card' + (un ? '' : ' locked') + (full ? ' full' : '') + '" data-t="' + t.n + '" style="--ia:' + t.a + '" aria-label="' + t.n + '. ' + esc(t.name) + (un ? '' : ' (ჩაკეტილია)') + '">' +
-        '<div class="island-blob sm" aria-hidden="true">' + (un ? t.icon : '🔒') + (full ? '<span class="ok">✓</span>' : '') + '</div>' +
-        '<div class="tc-t"><b>' + t.n + '. ' + esc(t.name) + '</b><small>' + esc(t.topic) + '</small>' +
-        (un ? '<div class="progress sm"><div style="width:' + (s.done / s.total * 100) + '%"></div></div><small>' + s.done + '/' + s.total + ' · ⭐ ' + s.stars + '/' + s.total * 3 + '</small>'
-          : '<small>🔒 გაიხსნება: ' + esc(t.gateLabel) + '</small>') + '</div></button>';
-    }).join('') + '</div>' : ''; }).join('');
-    const body = $('#drill-body');
-    body.innerHTML = html;
-    const go = $('#dr-go');
-    if (go) go.addEventListener('click', () => { Sound.click(); Game.openLevel(nxt); });
-    $$('#drill-body [data-t]').forEach(b => b.addEventListener('click', () => { Sound.click(); DrillPanel.open(lang, +b.dataset.t); }));
-  }
-};
-const DrillPanel = {
-  open(lang, c) {
-    const t = Drill.topics(lang)[c - 1], P = Progress.P, web = LANGS[lang].kind === 'web';
-    if (!Drill.topicUnlocked(lang, c)) { UI.toast('🔒', 'ეს თემა ჯერ ჩაკეტილია', 'ჯერ გაიარე: ' + t.gateLabel); return; }
-    const s = Drill.stats(lang, c);
-    let html = '<div class="wp-head" style="--ia:' + t.a + '"><div class="island-blob sm" aria-hidden="true">' + t.icon + '</div><div><h2>' + c + '. ' + esc(t.name) + '</h2><p class="muted">' +
-      esc(COURSE_BY_ID[lang].title) + ' · ' + esc(t.topic) + ' · ' + s.done + '/' + s.total + ' · ⭐ ' + s.stars + '/' + s.total * 3 + '</p></div></div><div class="lvl-list">';
-    let focus = true;   // ფოკუსი (და გადახვევა) პირველ გაუვლელ ლეველზე
-    Drill.topicLevels(lang, c).forEach(l => {
-      const un = Drill.unlocked(l), r = Progress.rec(l.id) || {}, af = focus && un && !r.done;
-      if (af) focus = false;
-      html += '<div style="display:flex;gap:6px;align-items:stretch"><button class="lvl-item' + (r.done ? ' done' : un ? ' next' : '') + '" data-lv="' + l.id + '"' + (un ? '' : ' disabled') + (af ? ' autofocus' : '') + ' style="--wa:' + t.a + '">' +
-        '<span class="lvl-num">' + (l.boss ? '👾' : l.inTopic) + '</span><span class="t"><b>' + esc(l.title) + '</b><small>' +
-        (l.boss ? 'გლიჩის გამოცდა · ' : '') + (web ? 'გაკვეთილი ' : 'ლეველი ') + l.num + '/' + Drill.N + (un ? '' : ' · 🔒') + '</small></span>' + starsHTML(r.stars || 0) + '</button>' +
-        (r.done ? '<button class="btn small" data-sr="' + l.id + '" title="სპიდრანი — გაიარე დროზე">⏱' + (P.speedrun[l.id] ? ' ' + fmtTime(P.speedrun[l.id]) : '') + '</button>' : '') + '</div>';
-    });
-    html += '</div><div class="modal-actions"><button class="btn" data-a="cheat">' + (lang === 'js' ? '📖 ლექსიკონი' : '📋 შპარგალკა') + '</button><button class="btn primary" data-close>დახურვა</button></div>';
-    const m = Modal.open(html);
-    m.querySelectorAll('[data-lv]').forEach(b => b.addEventListener('click', () => { Modal.closeAll(); Game.openLevel(b.dataset.lv); }));
-    m.querySelectorAll('[data-sr]').forEach(b => b.addEventListener('click', () => { Modal.closeAll(); Game.openLevel(b.dataset.sr, 'speedrun'); }));
-    m.querySelector('[data-a=cheat]').addEventListener('click', () => { Modal.close(m); if (lang === 'js') Dict.open(); else Cheat.open(lang); });
-  }
-};
-// ვარჯიშის ბანაკის ბანერი რუკაზე
-function renderDrillBanner(cid) {
-  const box = $('#map-drill'), lang = COURSE_BY_ID[cid].lang, L = LANGS[lang], st = Drill.stats(lang);
-  box.innerHTML = '<button class="drill-banner" id="md-open" style="--ia:' + L.color + '"><span class="island-blob sm" aria-hidden="true">🏋️</span><span class="t"><b>ვარჯიშის ბანაკი · ' + Drill.N + ' ' + (L.kind === 'web' ? 'გაკვეთილი' : 'ლეველი') + '</b>' +
-    '<small>' + Drill.topics(lang).length + ' თემა · ' + st.done + '/' + st.total + ' დასრულებულია · ⭐ ' + st.stars + '/' + st.total * 3 + '</small><span class="progress sm"><span style="width:' + (st.done / st.total * 100).toFixed(1) + '%"></span></span></span><span class="btn primary small">გახსნა ▶</span></button>';
-  $('#md-open').addEventListener('click', () => { Sound.click(); UI.show('drill'); });
-}
-// ყველა ვარჯიშის შემოწმება: რობოტის ენები — პირდაპირ (სწრაფად), ვებ — iframe-ში
-async function testDrills(langs) {
+// კურსებში შემავალი ყველა გენერირებული ლეველის შემოწმება: რობოტის ენები — პირდაპირ (სწრაფად), ვებ — iframe-ში
+async function testGenerated(langs) {
   const t0 = performance.now(), out = { total: 0, passed: 0, failed: [], byLang: {} };
   let frame = null;
   const web = async (lv, code) => {
@@ -12147,14 +12093,15 @@ async function testDrills(langs) {
     return WebPreview.check(lv, code, frame);
   };
   for (const lang of langs || Drill.LANGS) {
-    const rep = await Drill.verify(lang, { run: p => runSandbox(clone(p)), web });
+    const ns = courseLevels(lang).filter(l => l.gen).map(l => Drill.parse(l.id).n);
+    const rep = await Drill.verify(lang, { ns, run: p => runSandbox(clone(p)), web });
     const bad = rep.filter(r => !r.ok);
     out.byLang[lang] = (rep.length - bad.length) + '/' + rep.length;
     out.total += rep.length; out.passed += rep.length - bad.length; out.failed.push(...bad);
   }
   if (frame) frame.remove();
   out.ms = Math.round(performance.now() - t0);
-  console.log('%cCodeQuest ვარჯიში: ' + out.passed + '/' + out.total + ' ლეველი გავლადია (' + out.ms + ' ms)', 'font-weight:bold;color:' + (out.failed.length ? '#e03131' : '#2f9e44'));
+  console.log('%cCodeQuest გენერირებული ლეველები: ' + out.passed + '/' + out.total + ' ლეველი გავლადია (' + out.ms + ' ms)', 'font-weight:bold;color:' + (out.failed.length ? '#e03131' : '#2f9e44'));
   if (out.failed.length) console.table(out.failed.slice(0, 60).map(f => ({ id: f.id, title: f.title, issues: f.issues.join(' | ') })));
   return out;
 }
@@ -12179,10 +12126,10 @@ const DevPanel = {
     if (!m.isConnected) return;
     m.querySelector('#dev-status').innerHTML = (r.failed.length ? '⚠️ ' : '✅ ') + '<b>' + r.passed + '/' + r.total + '</b> ლეველი (ფაზების ჩათვლით) გავლადია · ' + r.ms + ' ms · Web Worker: ' + (r.worker ? 'კი' : 'არა (სათადარიგო რეჟიმი)');
     m.querySelector('#dev-out').innerHTML = r.failed.map(item).join('');
-    m.querySelector('#dev-drill').textContent = '⏳ ვარჯიშის ბანაკი: ' + Drill.N * Drill.LANGS.length + ' ლეველი მოწმდება…';
-    const d = await testDrills();
+    m.querySelector('#dev-drill').textContent = '⏳ გენერირებული ლეველები: ' + COURSES.reduce((a, c) => a + courseLevels(c.id).filter(l => l.gen).length, 0) + ' ლეველი მოწმდება…';
+    const d = await testGenerated();
     if (!m.isConnected) return;
-    m.querySelector('#dev-drill').innerHTML = (d.failed.length ? '⚠️ ' : '✅ ') + 'ვარჯიშის ბანაკი: <b>' + d.passed + '/' + d.total + '</b> · ' + Object.keys(d.byLang).map(l => LANGS[l].name + ' ' + d.byLang[l]).join(' · ') + ' · ' + d.ms + ' ms';
+    m.querySelector('#dev-drill').innerHTML = (d.failed.length ? '⚠️ ' : '✅ ') + 'გენერირებული ლეველები: <b>' + d.passed + '/' + d.total + '</b> · ' + Object.keys(d.byLang).map(l => LANGS[l].name + ' ' + d.byLang[l]).join(' · ') + ' · ' + d.ms + ' ms';
     m.querySelector('#dev-out').innerHTML += d.failed.slice(0, 40).map(item).join('');
   }
 };
@@ -12251,9 +12198,9 @@ function init() {
   Menu.render();
   Progress.checkAch();
   if (location.hash === '#test') testAll();
-  if (location.hash === '#testdrills') testDrills();
+  if (location.hash === '#testgen') testGenerated();
 }
-window.CodeQuest = { testAll, testDrills, Drill, LEVELS, WORLDS, COURSES, LANGS, Progress, Game, CodeRunner };
+window.CodeQuest = { testAll, testGenerated, Drill, levelById, courseLevels, courseChapters, LEVELS, WORLDS, COURSES, LANGS, Progress, Game, CodeRunner };
 init();
 
 </script>

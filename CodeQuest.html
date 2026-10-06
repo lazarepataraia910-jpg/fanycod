@@ -672,6 +672,30 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
 .course-card .tag{font-size:.72rem;font-weight:700;color:var(--accent);text-transform:none}
 .course-head{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .course-head h2{margin:0}
+/* ენის არჩევა: ძებნა, დალაგება, რჩეულები ★ */
+.lang-tools{display:flex;gap:8px 12px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.lang-tools input.txt{flex:1 1 200px;min-width:0}
+.lang-tools label{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;font-weight:600;color:var(--muted);max-width:100%}
+.lang-tools select{padding:.45em .5em;color:var(--text);min-width:0;max-width:100%}
+.sort-note{margin:8px 0 0;font-size:.85rem}
+.lang-sec{display:flex;align-items:baseline;gap:8px;margin:20px 0 0;font-size:1rem}
+.lang-sec small{color:var(--muted);font-weight:600}
+.lang-sec+.course-grid{margin-top:10px}
+.fav-hint{margin:12px 0 0;font-size:.88rem}
+.course-item{position:relative;display:flex;min-width:0}
+.course-item>.course-card{flex:1}
+.course-item:hover>.course-card{border-color:var(--lb);transform:translateY(-1px)}
+.course-card .head{padding-right:30px}
+.course-card .meta{font-size:.78rem;white-space:nowrap}
+.fav-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:transparent;color:var(--muted);font-size:1.3rem;line-height:1;transition:background .15s,color .15s}
+.course-item:hover>.fav-btn{transform:translateY(-1px)}
+.fav-btn:hover{background:var(--panel2);color:#d99a00}
+.fav-btn.on,#map-fav.on{color:#e0a100}
+.hm-favs{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 14px}
+.hm-favs .lbl{font-size:.82rem;font-weight:700;color:var(--muted);margin-right:2px}
+.hm-favs button{display:inline-flex;align-items:center;gap:7px;padding:4px 11px 4px 4px;border:1px solid var(--hm-line);border-radius:999px;background:var(--panel);font-weight:600;font-size:.88rem;transition:transform .15s,border-color .15s}
+.hm-favs button:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--accent) 45%,var(--border))}
+.hm-favs button.only{padding-right:4px}
 .web{padding:0;overflow:hidden}
 .web-bar{display:flex;align-items:center;gap:10px;padding:7px 12px;border-bottom:1px solid var(--border);background:var(--panel2);font-size:.8rem;color:var(--muted)}
 .web-bar i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;background:#ff5f57}
@@ -704,6 +728,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
           <button class="hm-play hm-in" style="--d:3" id="m-start"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5.6v12.8a1.1 1.1 0 0 0 1.7.93l10-6.4a1.1 1.1 0 0 0 0-1.86l-10-6.4A1.1 1.1 0 0 0 8 5.6z"/></svg><span>თამაშის დაწყება</span></button>
           <button class="hm-row hm-in" style="--d:4;--ti:#3b82f6" id="m-continue"><span class="hm-ic" aria-hidden="true">▶️</span><span class="hm-t"><b>გაგრძელება</b><small id="m-continue-sub">ბოლო ლეველიდან</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
           <button class="hm-row hm-in" style="--d:5" id="m-lang"><span class="hm-ic lb" id="m-lang-ic" aria-hidden="true"></span><span class="hm-t"><b id="m-lang-t">ენის არჩევა</b><small id="m-lang-sub">შეცვლა</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
+          <div class="hm-card hm-favs hm-in hidden" style="--d:5" id="menu-favs" role="group" aria-label="რჩეული ენები"></div>
         </div>
       </div>
       <div class="hm-col hm-right">
@@ -733,6 +758,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
     <div class="topbar">
       <button class="btn small" data-go="menu">← მენიუ</button>
       <h2 id="map-title">კოდლენდის რუკა</h2>
+      <button class="btn small" id="map-fav" aria-pressed="false" title="რჩეულებში დამატება">☆<span class="tl"> რჩეულებში</span></button>
       <span class="chip flame" id="map-streak" title="დღიანი სერია"></span>
       <span class="chip" id="map-xp"></span>
       <span class="chip" id="map-stars"></span>
@@ -14871,7 +14897,9 @@ function defaultProgress() {
     quiz: {}, speedrun: {}, codes: {}, seen: {}, sandbox: null, certified: false,
     course: 'js', certs: {},
     learned: {},   // „ააწყე“ / „გაიმეორე“ გავლილი გაკვეთილები: { id: { acc, cpm? } }
-    pro: null      // Pro: { key, at } — Dodo Payments-ის ლიცენზიის კოდი
+    pro: null,     // Pro: { key, at } — Dodo Payments-ის ლიცენზიის კოდი
+    // ენების სია: რჩეულები (★, დამატების რიგით), გამოყენება { კურსი: { t: ბოლო დრო, n: გაშვებები, ms: თამაშის დრო } } და დალაგება
+    favs: [], use: {}, langSort: 'used'
   };
 }
 function mergeDeep(base, extra) {
@@ -14922,6 +14950,28 @@ const Progress = {
   },
   courseDone(id) { return courseLevels(id).every(l => this.isDone(l.id)); },
   nextIn(id) { const ls = courseLevels(id); return ls.find(l => !this.isDone(l.id) && this.isUnlocked(l)) || ls[0]; },
+  /* ---- რჩეული ენები და ენების გამოყენება (ენების სიის დალაგებისთვის) ---- */
+  favs() { return (Array.isArray(this.P.favs) ? this.P.favs : []).filter(id => COURSE_BY_ID[id]); },
+  isFav(id) { return this.favs().includes(id); },
+  // აბრუნებს true-ს, თუ ენა რჩეულებს დაემატა
+  toggleFav(id) {
+    const f = this.favs(), on = !f.includes(id);
+    this.P.favs = on ? f.concat(id) : f.filter(x => x !== id);
+    this.save();
+    return on;
+  },
+  use(id) { return Object.assign({ t: 0, n: 0, ms: 0 }, (this.P.use || {})[id]); },
+  // kind: 'open' — ენა გაიხსნა, 'run' — კოდი გაეშვა, 'sec' — კიდევ ერთი წამი თამაშში
+  touchUse(id, kind) {
+    if (!COURSE_BY_ID[id]) return;
+    const u = this.use(id);
+    u.t = Date.now();
+    if (kind === 'run') u.n++;
+    if (kind === 'sec') u.ms += 1000;
+    if (!this.P.use || typeof this.P.use !== 'object' || Array.isArray(this.P.use)) this.P.use = {};
+    this.P.use[id] = u;
+    if (kind !== 'sec') this.save();
+  },
   doneCount() { return LEVELS.filter(l => this.isDone(l.id)).length; },
   legend() { return LEVELS.every(l => ((this.P.levels[l.id] || {}).stars || 0) >= 3); },
   rank() {
@@ -15560,6 +15610,13 @@ const Menu = {
     $('#m-lang-ic').innerHTML = langBadge(c.lang);
     $('#m-lang-t').textContent = 'ენა: ' + c.title;
     $('#m-lang-sub').textContent = 'შეცვლა · ' + COURSES.length + ' ენა';
+    // რჩეული ენები ★ — ერთი დაჭერით გადასვლა ენის რუკაზე
+    const favs = Progress.favs(), mf = $('#menu-favs');
+    mf.classList.toggle('hidden', !favs.length);
+    // ღილაკზე ნიშანი და სახელი; თუ სახელი ნიშანს ემთხვევა (Go, Lua, PHP…) — მხოლოდ ნიშანი
+    const favChip = id => { const c = COURSE_BY_ID[id], L = LANGS[c.lang], same = L.badge === c.title; return '<button type="button" class="' + (same ? 'only' : '') + '" data-open="' + id + '" title="' + esc(c.title) + '" aria-label="' + esc(c.title) + '">' + langBadge(c.lang, true) + (same ? '' : esc(c.title)) + '</button>'; };
+    mf.innerHTML = favs.length ? '<span class="lbl">★ რჩეული ენები</span>' + favs.map(favChip).join('') : '';
+    mf.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => { Sound.ensure(); Sound.click(); openCourse(b.dataset.open); }));
     const daily = P.daily.last === todayStr();
     $('#m-daily').classList.toggle('done', daily);
     $('#m-daily-sub').textContent = daily ? 'დღეს შესრულებულია' : 'ყოველ დღე ახალი';
@@ -15691,6 +15748,7 @@ const MapScreen = {
     const wrap = $('#map-wrap'), cid = Progress.course(), course = COURSE_BY_ID[cid], js = cid === 'js';
     const chs = courseChapters(cid), st = Progress.courseStats(cid), web = LANGS[course.lang].kind === 'web', unit = web ? 'გაკვეთილები' : 'ლეველები';
     $('#map-title').innerHTML = js ? 'კოდლენდის რუკა' : langBadge(course.lang, true) + ' ' + esc(course.title);
+    this.favBtn();
     $('#map-streak').textContent = Streak.chip();
     $('#map-xp').textContent = Progress.totalXP() + ' XP';
     $('#map-stars').textContent = '⭐ ' + st.stars + '/' + st.total * 3;
@@ -15765,8 +15823,25 @@ const MapScreen = {
       '<path class="map-road" d="' + d + '" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
       (this.cur > 0 ? '<path class="map-road-done" d="' + dd + '" fill="none" stroke="url(#mp-grad)" stroke-linecap="round" stroke-linejoin="round"/>' : '') +
       '<path class="map-road-line" d="' + d + '" fill="none" stroke-linecap="round"/>';
+  },
+  // ★ ზედა ზოლში: ახლანდელი ენა რჩეულებშია თუ არა
+  favBtn() {
+    const c = COURSE_BY_ID[Progress.course()], on = Progress.isFav(c.id), b = $('#map-fav');
+    const t = on ? 'რჩეულებიდან ამოღება' : 'რჩეულებში დამატება';
+    b.innerHTML = on ? '★<span class="tl"> რჩეულია</span>' : '☆<span class="tl"> რჩეულებში</span>';
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', String(on));
+    b.title = t;
+    b.setAttribute('aria-label', c.title + ' — ' + t);
   }
 };
+// ენის რჩეულებში დამატება/ამოღება (ენის ბარათიდან ან რუკიდან)
+function toggleFavCourse(id) {
+  const on = Progress.toggleFav(id), c = COURSE_BY_ID[id];
+  Sound.click();
+  UI.toast(on ? '★' : '☆', on ? c.title + ' რჩეულებშია' : c.title + ' რჩეულებიდან ამოვიდა', on ? 'რჩეული ენები ენების სიის თავში და მთავარ მენიუში ჩანს.' : '');
+  return on;
+}
 // კუნძულზე დაჭერა: JavaScript-ში სამყაროს პანელი (ქვიზით და პროექტით), სხვა ენებზე — თემის ლეველები
 const ChapterPanel = {
   open(cid, ch) {
@@ -16327,24 +16402,112 @@ const WebPreview = {
   }
 };
 
-/* ---------- ენის არჩევა ---------- */
+/* ---------- ენის არჩევა: ძებნა, დალაგება, რჩეულები ★ ---------- */
+// პოპულარობა მსოფლიოში — Stack Overflow-ის დეველოპერების გამოკითხვის მიხედვით (ყველაზე პოპულარული — პირველი)
+const LANG_POP = ['js', 'html', 'css', 'py', 'react', 'ts', 'java', 'cs', 'cpp', 'c', 'php', 'go', 'rs', 'kt', 'lua', 'dart', 'rb', 'swift'];
+// რისთვის იყენებენ ენას
+const LANG_AREAS = [
+  { ic: '🌐', name: 'ვებსაიტები', langs: ['html', 'css', 'js', 'ts', 'react', 'php', 'rb'] },
+  { ic: '📱', name: 'მობილური აპები', langs: ['kt', 'swift', 'dart', 'java'] },
+  { ic: '🎮', name: 'თამაშები', langs: ['cs', 'cpp', 'lua'] },
+  { ic: '🤖', name: 'ხელოვნური ინტელექტი და მონაცემები', langs: ['py'] },
+  { ic: '⚙️', name: 'სისტემები და სერვერები', langs: ['go', 'rs', 'c'] }
+];
+// დალაგების წესები: [id, სახელი, ახსნა]
+const LANG_SORTS = [
+  ['used', '🔥 ყველაზე ხშირად ნათამაშები', 'პირველია ენა, რომელზეც ყველაზე მეტს თამაშობ: კოდის გაშვებები და გავლილი ლეველები.'],
+  ['recent', '🕒 ბოლოს ნათამაშები', 'პირველია ენა, რომელზეც ბოლოს ითამაშე.'],
+  ['pop', '🌍 პოპულარობით მსოფლიოში', 'რამდენი პროგრამისტი იყენებს ენას — Stack Overflow-ის დეველოპერების გამოკითხვის მიხედვით.'],
+  ['area', '🧭 რისთვის გამოიყენება', 'ენები დაჯგუფებულია იმის მიხედვით, რას ქმნიან მათით: საიტებს, აპებს, თამაშებს…'],
+  ['progress', '📈 პროგრესით', 'პირველია ენა, რომლის კურსიც ყველაზე მეტად გაქვს გავლილი.'],
+  ['az', '🔤 ანბანით (A–Z)', ''],
+  ['rec', '✨ რეკომენდებული რიგი', 'ჯერ JavaScript და Python, შემდეგ დანარჩენი ენები.']
+];
+// „დღეს“, „გუშინ“, „5 დღის წინ“
+function agoStr(t) {
+  const day = x => { const d = new Date(x); d.setHours(0, 0, 0, 0); return d.getTime(); };
+  const n = Math.round((day(Date.now()) - day(t)) / 864e5);
+  return n <= 0 ? 'დღეს' : n === 1 ? 'გუშინ' : n + ' დღის წინ';
+}
 const CoursesScreen = {
+  q: '',
+  sortId() { const s = Progress.P.langSort; return LANG_SORTS.some(x => x[0] === s) ? s : 'used'; },
   render() {
-    const P = Progress.P, cur = Progress.course();
-    const card = c => {
-      const st = Progress.courseStats(c.id), pct = st.total ? Math.round(st.done / st.total * 100) : 0;
-      return '<button class="course-card' + (c.id === cur ? ' sel' : '') + '" data-course="' + c.id + '" style="--lb:' + LANGS[c.lang].color + '">' +
-        '<div class="head">' + langBadge(c.lang) + '<div><h3>' + esc(c.title) + '</h3><div class="sub">' + esc(c.sub) + ' · ' + st.total + (LANGS[c.lang].kind === 'web' ? ' გაკვეთილი' : ' ლეველი') + '</div></div></div>' +
-        '<p>' + esc(c.desc) + '</p>' +
-        '<div class="foot"><div class="progress"><div style="width:' + pct + '%"></div></div><span>' + st.done + '/' + st.total + '</span>' + (c.id === cur ? '<span class="tag">● ახლა</span>' : '') + '</div></button>';
-    };
+    const sort = this.sortId();
     $('#courses-body').innerHTML = '<p class="muted" style="margin:0">ბიტი ყველა ენაზე ლაპარაკობს! აირჩიე, რომლით გინდა სწავლა. პროგრესი და XP თითოეულ ენაში ცალკე ინახება, რანგი კი საერთოა.</p>' +
-      '<div class="course-grid">' + COURSES.map(card).join('') + '</div>';
-    $$('#courses-body [data-course]').forEach(b => b.addEventListener('click', () => { Sound.click(); openCourse(b.dataset.course); }));
+      '<div class="lang-tools">' +
+      '<input class="txt" type="search" id="lang-q" placeholder="🔎 იპოვე ენა…" aria-label="ენის ძებნა" autocomplete="off" spellcheck="false" value="' + esc(this.q) + '">' +
+      '<label>დალაგება: <select id="lang-sort">' + LANG_SORTS.map(([id, t]) => '<option value="' + id + '"' + (id === sort ? ' selected' : '') + '>' + t + '</option>').join('') + '</select></label>' +
+      '</div><div id="lang-list"></div>';
+    $('#lang-q').addEventListener('input', e => { this.q = e.target.value; this.renderList(); });
+    $('#lang-sort').addEventListener('change', e => { Progress.P.langSort = e.target.value; Progress.save(); Sound.click(); this.renderList(); });
+    this.renderList();
+  },
+  // დალაგება არჩეული წესით; თანაბრობისას — რეკომენდებული რიგი
+  sorted(list, sort) {
+    const st = {}, use = {}, cur = Progress.course();
+    list.forEach(c => { st[c.id] = Progress.courseStats(c.id); use[c.id] = Progress.use(c.id); });
+    const pct = c => (st[c.id].total ? st[c.id].done / st[c.id].total : 0);
+    const score = c => use[c.id].n + 3 * st[c.id].done;   // გაშვებები + გავლილი ლეველები
+    const pop = c => { const i = LANG_POP.indexOf(c.id); return i < 0 ? LANG_POP.length : i; };
+    const cmp = {
+      used: (a, b) => score(b) - score(a),
+      // ძველ შენახვაში თარიღი არ არის: მაშინ ჯერ ახლანდელი ენა, მერე — ვისაც მეტი ლეველი აქვს გავლილი
+      recent: (a, b) => use[b.id].t - use[a.id].t || (b.id === cur) - (a.id === cur) || st[b.id].done - st[a.id].done,
+      pop: (a, b) => pop(a) - pop(b),
+      progress: (a, b) => pct(b) - pct(a),
+      az: (a, b) => a.title.localeCompare(b.title, 'en'),
+      area: () => 0,
+      rec: () => 0
+    }[sort];
+    return list.slice().sort((a, b) => cmp(a, b) || COURSES.indexOf(a) - COURSES.indexOf(b));
+  },
+  card(c, sort, cur) {
+    const st = Progress.courseStats(c.id), pct = st.total ? Math.round(st.done / st.total * 100) : 0, fav = Progress.isFav(c.id), u = Progress.use(c.id);
+    const meta = sort === 'recent' && u.t ? '🕒 ' + agoStr(u.t) : sort === 'used' && u.n ? '▶ ' + u.n + ' გაშვება' : sort === 'pop' && LANG_POP.includes(c.id) ? '🌍 #' + (LANG_POP.indexOf(c.id) + 1) : '';
+    const t = fav ? 'რჩეულებიდან ამოღება' : 'რჩეულებში დამატება';
+    return '<div class="course-item"><button class="course-card' + (c.id === cur ? ' sel' : '') + '" data-course="' + c.id + '" style="--lb:' + LANGS[c.lang].color + '">' +
+      '<div class="head">' + langBadge(c.lang) + '<div><h3>' + esc(c.title) + '</h3><div class="sub">' + esc(c.sub) + ' · ' + st.total + (LANGS[c.lang].kind === 'web' ? ' გაკვეთილი' : ' ლეველი') + '</div></div></div>' +
+      '<p>' + esc(c.desc) + '</p>' +
+      '<div class="foot"><div class="progress"><div style="width:' + pct + '%"></div></div>' + (meta ? '<span class="meta">' + meta + '</span>' : '') + '<span>' + st.done + '/' + st.total + '</span>' + (c.id === cur ? '<span class="tag">● ახლა</span>' : '') + '</div></button>' +
+      '<button class="fav-btn' + (fav ? ' on' : '') + '" data-fav="' + c.id + '" aria-pressed="' + fav + '" title="' + t + '" aria-label="' + esc(c.title) + ' — ' + t + '">' + (fav ? '★' : '☆') + '</button></div>';
+  },
+  renderList() {
+    const sort = this.sortId(), cur = Progress.course(), q = this.q.trim().toLowerCase();
+    // ძებნა სიტყვის დასაწყისით („აპ“ — „აპები“, მაგრამ არა „დიაპაზონი“); C# და C++ ერთ სიტყვად ითვლება
+    const words = s => String(s || '').toLowerCase().split(/[^\p{L}\p{N}#+]+/u);
+    // ტექსტში შედის სფეროც („ვებ“ — ყველა ვებ-ენა, „თამაშ“ — თამაშების ენები)
+    const match = c => {
+      const ws = [c.title, c.id, LANGS[c.lang].name, c.sub, c.desc].concat(LANG_AREAS.filter(a => a.langs.includes(c.id)).map(a => a.name)).flatMap(words);
+      return q.split(/\s+/).every(t => ws.some(w => w.startsWith(t)));
+    };
+    const favIds = Progress.favs(), all = this.sorted(COURSES.filter(match), sort);
+    const favs = all.filter(c => favIds.includes(c.id)), rest = all.filter(c => !favIds.includes(c.id));
+    const grid = cs => '<div class="course-grid">' + cs.map(c => this.card(c, sort, cur)).join('') + '</div>';
+    const sec = (title, n) => '<h3 class="lang-sec">' + title + ' <small>' + n + '</small></h3>';
+    const note = LANG_SORTS.find(x => x[0] === sort)[2];
+    let html = note ? '<p class="muted sort-note">' + note + '</p>' : '';
+    if (favs.length) html += sec('★ რჩეულები', favs.length) + grid(favs);
+    else if (!q) html += '<p class="fav-hint muted">☆ დააჭირე ვარსკვლავს ენის ბარათზე — რჩეული ენები აქ, სიის თავში გამოჩნდება.</p>';
+    if (sort === 'area') {
+      LANG_AREAS.forEach(a => { const cs = rest.filter(c => a.langs.includes(c.id)); if (cs.length) html += sec(a.ic + ' ' + a.name, cs.length) + grid(cs); });
+      const other = rest.filter(c => !LANG_AREAS.some(a => a.langs.includes(c.id)));
+      if (other.length) html += sec('სხვა', other.length) + grid(other);
+    } else if (rest.length) html += (favs.length ? sec('ყველა ენა', rest.length) : '') + grid(rest);
+    if (!all.length) html = '<p class="muted" style="margin-top:16px">„' + esc(this.q.trim()) + '“ — ასეთი ენა ვერ ვიპოვე.</p>';
+    $('#lang-list').innerHTML = html;
+    $$('#lang-list [data-course]').forEach(b => b.addEventListener('click', () => { Sound.click(); openCourse(b.dataset.course); }));
+    $$('#lang-list [data-fav]').forEach(b => b.addEventListener('click', () => {
+      const id = b.dataset.fav;
+      toggleFavCourse(id);
+      this.renderList();
+      const nb = $('#lang-list [data-fav="' + id + '"]');
+      if (nb) nb.focus({ preventScroll: true });
+    }));
   }
 };
 function openCourse(id) {
-  Progress.P.course = id; Progress.save();
+  Progress.P.course = id; Progress.touchUse(id, 'open'); Progress.save();
   UI.show('map');
 }
 
@@ -17099,6 +17262,7 @@ const Game = {
     const P = Progress.P;
     const cid = lv.course || 'js';
     if (P.course !== cid) { P.course = cid; Progress.save(); }
+    Progress.touchUse(cid, 'open');
     // სამყაროს სცენა ავტომატურად აღარ ჩნდება — ნახვა შეიძლება სამყაროს პანელის ღილაკით „სცენა“
     this.setup(lv, mode);
   },
@@ -17496,6 +17660,8 @@ const Game = {
     $$('#g-tests [data-t]').forEach(x => { x.disabled = b; });
   },
   cancelAnim() { this.animToken++; },
+  // რომელი ენის კურსს ეკუთვნის ახლანდელი ლეველი (ენების სიის დალაგებისთვის); თავისუფალ რეჟიმსა და დღის გამოწვევაში — არცერთს
+  useCourse() { return this.cur && (this.mode === 'level' || this.mode === 'speedrun') ? this.cur.course || 'js' : null; },
   startTimer() {
     clearInterval(this.timerId);
     $('#g-timer').textContent = '0:00';
@@ -17503,6 +17669,8 @@ const Game = {
       if (UI.cur !== 'game' || document.hidden) return;
       $('#g-timer').textContent = fmtTime(Date.now() - this.start);
       Progress.P.stats.playMs += 1000;
+      const cid = this.useCourse();
+      if (cid) Progress.touchUse(cid, 'sec');
       if (++this.tick % 15 === 0) Progress.save();
     }, 1000);
   },
@@ -17519,6 +17687,7 @@ const Game = {
     Con.clear();
     const lv = this.cur, P = Progress.P;
     P.stats.runs++;
+    if (this.useCourse()) Progress.touchUse(this.useCourse(), 'run');
     if (this.cur.maps && this.cur.maps.gen) this.newMaps();
     if (this.mode === 'sandbox') this.noteSandboxMap();
     if (innerWidth < 900) $(lv.project ? '#g-app' : '#board-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -17757,6 +17926,7 @@ const Game = {
     Editor.clearMarks();
     Con.clear();
     Progress.P.stats.runs++;
+    if (this.useCourse()) Progress.touchUse(this.useCourse(), 'run');
     const react = this.cur.lang === 'react';
     const res = await WebPreview.check(this.cur, code, react ? ReactRun.hidden() : $('#g-frame'));
     this.setBusy(false);
@@ -18002,6 +18172,7 @@ function init() {
     if (g === 'back') UI.show(UI.prev && UI.prev !== UI.cur ? UI.prev : 'menu'); else UI.show(g);
   }));
   $('#map-dict').addEventListener('click', () => { const c = Progress.course(); if (c === 'js') Dict.open(); else Cheat.open(COURSE_BY_ID[c].lang); });
+  $('#map-fav').addEventListener('click', () => { toggleFavCourse(Progress.course()); MapScreen.favBtn(); });
   // თამაში
   $('#g-back').addEventListener('click', () => Game.leave());
   $('#g-run').addEventListener('click', () => Game.run());

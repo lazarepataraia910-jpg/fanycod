@@ -455,6 +455,10 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .pro-list li{padding:8px 12px;border-radius:10px;background:var(--panel2)}
 .pro-chip{display:inline-block;margin:6px 0 0 4px;padding:1px 10px;border-radius:999px;background:linear-gradient(90deg,#ffd43b,#ffb703);color:#3d2a00;font-size:.75rem;font-weight:800}
 .pro-tag{margin-left:4px;font-size:.8rem}
+.pro-btn{margin-left:8px;padding:3px 12px;border:0;border-radius:999px;background:linear-gradient(90deg,#ffd43b,#ffb703);color:#3d2a00;font:inherit;font-size:.8rem;font-weight:800;cursor:pointer;box-shadow:0 2px 0 #d9a600;vertical-align:middle}
+.pro-btn:hover{filter:brightness(1.06)}
+.pro-btn:active{transform:translateY(2px);box-shadow:none}
+.pro-btn.on{cursor:default;box-shadow:none;opacity:.85}
 /* გამარჯვების ფანჯარა */
 .win{text-align:center}
 .win-badge{width:82px;height:82px;margin:0 auto 4px;border-radius:50%;display:grid;place-items:center;font-size:2.7rem;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b);box-shadow:0 5px 0 #d9a600,0 10px 24px rgba(217,166,0,.3);animation:pop .55s cubic-bezier(.2,1.6,.4,1) both}
@@ -571,7 +575,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
           <button class="btn" id="m-settings">პარამეტრები</button>
         </div>
       </div>
-      <p class="menu-foot" id="menu-foot"></p>
+      <p class="menu-foot"><span id="menu-foot"></span><button class="pro-btn" id="m-pro" type="button">👑 Pro</button></p>
     </div>
   </section>
 
@@ -14732,6 +14736,10 @@ const Menu = {
     $('#m-lang').innerHTML = '🌐 ენა: ' + langBadge(c.lang, true) + ' ' + esc(c.title);
     $('#m-daily').textContent = Progress.P.daily.last === todayStr() ? 'დღის გამოწვევა ✓' : 'დღის გამოწვევა';
     $('#menu-streak').innerHTML = Streak.card();
+    const pb = $('#m-pro'), pro = Progress.hasPro();
+    pb.classList.toggle('on', pro);
+    pb.textContent = pro ? '👑 Pro ✓' : '👑 Pro · ' + PRO.price;
+    pb.title = pro ? 'Pro ჩართულია' : 'Pro-ს ყიდვა';
     $('#menu-foot').textContent = r.ic + ' ' + r.name + ' · ' + Progress.totalXP() + ' XP · ' + c.title + ': ⭐ ' + st.stars + '/' + st.total * 3 + ' · ' + st.done + '/' + st.total + (LANGS[c.lang].kind === 'web' ? ' გაკვეთილი' : ' ლეველი');
   }
 };
@@ -16584,6 +16592,7 @@ function init() {
   $('#m-daily').addEventListener('click', () => { Sound.ensure(); Game.openDaily(); });
   $('#m-profile').addEventListener('click', () => UI.show('profile'));
   $('#m-settings').addEventListener('click', () => UI.show('settings'));
+  $('#m-pro').addEventListener('click', () => { if (!Progress.hasPro()) Paywall.buy(); });
   $$('[data-go]').forEach(b => b.addEventListener('click', () => {
     const g = b.dataset.go;
     if (g === 'back') UI.show(UI.prev && UI.prev !== UI.cur ? UI.prev : 'menu'); else UI.show(g);

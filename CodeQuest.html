@@ -6472,8 +6472,9 @@ const PRO = {
   freeLevels: 100,
   // Dodo Payments-ის გადახდის ბმული: Dashboard → Products → პროდუქტი → Share (ლიცენზიის კოდები ჩართული უნდა იყოს).
   // ცარიელი = ყიდვის ღილაკი ჯერ არ მუშაობს (კოდის ჩასმა მაინც შეიძლება).
-  payLink: '',
-  price: '',                 // ღილაკზე გამოსაჩენი ფასი, მაგ. '9.99 $'
+  // ⚠️ ეს სატესტო ბმულია (test.checkout...) — ნამდვილი გაყიდვებისთვის Live Mode-ის ბმულით შეცვალე და Vercel-ში DODO_MODE=live
+  payLink: 'https://test.checkout.dodopayments.com/buy/pdt_0NpAlHj8uygXzZpR6gnNG?quantity=1',
+  price: '$9',               // ღილაკზე გამოსაჩენი ფასი
   api: '/api/license'        // Vercel-ის ფუნქცია (api/license.js): კოდს Dodo-სთან ამოწმებს
 };
 const isPremium = lv => !!lv && !lv.project && lv.index >= PRO.freeLevels;

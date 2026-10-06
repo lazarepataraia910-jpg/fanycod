@@ -94,7 +94,27 @@ select{background:var(--panel);border:1px solid var(--border);border-radius:8px;
 html[data-theme="dark"] #scr-menu{--violet:#9d80ff;--hm-sh:0 1px 2px rgba(0,0,0,.35);--hm-sh2:0 10px 28px rgba(0,0,0,.45)}
 #scr-menu.active{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:center;padding:28px 16px 18px;
   background:radial-gradient(60% 50% at 100% 100%,color-mix(in srgb,var(--violet) 15%,transparent),transparent 70%),radial-gradient(55% 45% at 0% 0%,color-mix(in srgb,var(--accent) 9%,transparent),transparent 70%),var(--bg)}
-.menu-box{max-width:500px;width:100%;min-width:0;text-align:center}
+/* განლაგება: ტელეფონზე ერთი სვეტი (ჯერ მთავარი მოქმედებები, მერე სტატისტიკა), კომპიუტერზე — ორი სვეტი */
+.menu-box{max-width:500px;width:100%;min-width:0;text-align:center;display:flex;flex-direction:column;gap:12px}
+.hm-col{display:contents}
+.hm-brand{order:1;margin-bottom:6px}
+.hm-actions{order:2;display:flex;flex-direction:column;gap:12px}
+.hm-player{order:3}
+#menu-streak{order:4}
+.hm-grid{order:5}
+.menu-foot{order:6}
+@media (min-width:960px){
+  .menu-box{max-width:1060px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:44px;row-gap:8px;align-items:center}
+  .hm-col{display:flex;flex-direction:column;gap:14px}
+  .menu-foot{grid-column:1/-1}
+  .hm-brand{margin-bottom:10px}
+  .menu-logo{width:132px;height:125px}
+  .logo{font-size:3.3rem}
+  .sublogo{font-size:1.05rem}
+  .hm-play{padding:20px;font-size:1.18rem}
+  .hm-right .hm-grid .hm-tile{min-height:76px}
+}
+@media (min-width:1500px){.menu-box{max-width:1180px;column-gap:72px}.hm-col{gap:16px}.hm-grid{gap:16px}}
 .menu-logo{width:108px;height:102px;margin:0 auto;animation:hm-float 4.5s ease-in-out infinite}
 .menu-logo svg{width:100%;height:100%;display:block;filter:drop-shadow(0 10px 16px color-mix(in srgb,var(--accent) 30%,transparent))}
 .logo{font-size:clamp(2.1rem,7vw,2.8rem);font-weight:800;margin:.08em 0 0;letter-spacing:-.02em}
@@ -105,7 +125,7 @@ html[data-theme="dark"] #scr-menu{--violet:#9d80ff;--hm-sh:0 1px 2px rgba(0,0,0,
 .hm-ic.lb{background:none}
 .hm-ic .lang-badge{min-width:44px;height:44px;border-radius:13px;font-size:.88rem;padding:0 6px}
 /* მოთამაშის ბარათი */
-.hm-player{display:flex;align-items:center;gap:14px;margin-top:20px;padding:14px 16px}
+.hm-player{display:flex;align-items:center;gap:14px;padding:14px 16px}
 .hm-pmain{flex:1;min-width:0}
 .hm-ptop,.hm-pbot{display:flex;justify-content:space-between;align-items:baseline;gap:8px;white-space:nowrap}
 .hm-ptop b{font-size:1.02rem;overflow:hidden;text-overflow:ellipsis}
@@ -118,13 +138,13 @@ html[data-theme="dark"] #scr-menu{--violet:#9d80ff;--hm-sh:0 1px 2px rgba(0,0,0,
 .pro-btn.on{cursor:default;transform:none;filter:none;box-shadow:none;background:color-mix(in srgb,#ffb703 18%,var(--panel));color:var(--text)}
 .pro-more{display:none;font-weight:600}
 /* დიდი ღილაკი */
-.hm-play{position:relative;overflow:hidden;width:100%;margin-top:16px;display:flex;align-items:center;justify-content:center;gap:12px;padding:16px 20px;border:0;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--violet));color:#fff;font-size:1.08rem;font-weight:800;box-shadow:0 5px 0 color-mix(in srgb,var(--accent) 55%,#000),0 14px 28px color-mix(in srgb,var(--accent) 30%,transparent);transition:transform .15s,box-shadow .15s,filter .15s}
+.hm-play{position:relative;overflow:hidden;width:100%;display:flex;align-items:center;justify-content:center;gap:12px;padding:16px 20px;border:0;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--violet));color:#fff;font-size:1.08rem;font-weight:800;box-shadow:0 5px 0 color-mix(in srgb,var(--accent) 55%,#000),0 14px 28px color-mix(in srgb,var(--accent) 30%,transparent);transition:transform .15s,box-shadow .15s,filter .15s}
 .hm-play:hover{transform:translateY(-2px);filter:brightness(1.06);box-shadow:0 7px 0 color-mix(in srgb,var(--accent) 55%,#000),0 18px 34px color-mix(in srgb,var(--accent) 36%,transparent)}
 .hm-play:active{transform:translateY(4px);box-shadow:0 1px 0 color-mix(in srgb,var(--accent) 55%,#000),0 6px 14px color-mix(in srgb,var(--accent) 25%,transparent)}
 .hm-play svg{width:22px;height:22px;flex:none}
 .hm-play::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.26) 50%,transparent 65%);transform:translateX(-100%);animation:hm-shine 4s ease-in-out 1.2s infinite}
 /* სიის ღილაკები და ფილები */
-.hm-row,.hm-tile{width:100%;display:flex;align-items:center;gap:14px;margin-top:12px;padding:13px 16px;background:var(--panel);border:1px solid var(--hm-line);border-radius:16px;box-shadow:var(--hm-sh);text-align:left;transition:transform .18s,box-shadow .18s,border-color .18s}
+.hm-row,.hm-tile{width:100%;display:flex;align-items:center;gap:14px;padding:13px 16px;background:var(--panel);border:1px solid var(--hm-line);border-radius:16px;box-shadow:var(--hm-sh);text-align:left;transition:transform .18s,box-shadow .18s,border-color .18s}
 .hm-row:hover:not(:disabled),.hm-tile:hover:not(:disabled){transform:translateY(-2px);box-shadow:var(--hm-sh2);border-color:color-mix(in srgb,var(--ti,var(--accent)) 45%,var(--border))}
 .hm-row:hover:not(:disabled) .hm-ic,.hm-tile:hover:not(:disabled) .hm-ic{transform:scale(1.08) rotate(-4deg)}
 .hm-row:active:not(:disabled),.hm-tile:active:not(:disabled){transform:translateY(0);box-shadow:var(--hm-sh)}
@@ -133,12 +153,12 @@ html[data-theme="dark"] #scr-menu{--violet:#9d80ff;--hm-sh:0 1px 2px rgba(0,0,0,
 .hm-t small{display:block;margin-top:1px;color:var(--muted);font-size:.8rem;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .hm-chev{flex:none;color:var(--muted);font-size:1.4rem;line-height:1;transition:transform .18s,color .18s}
 .hm-row:hover:not(:disabled) .hm-chev{transform:translateX(3px);color:var(--accent)}
-.hm-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-.hm-grid .hm-tile{margin-top:0;position:relative}
+.hm-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hm-grid .hm-tile{position:relative}
 .hm-tile .hm-t small{white-space:normal}
 .hm-tile .hm-t b{font-size:.94rem}
 .hm-tile.done::after{content:'✓';position:absolute;top:10px;right:12px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--ok);color:#fff;font-size:.72rem;font-weight:800}
-.menu-foot{margin:18px 0 0;color:var(--muted);font-size:.8rem}
+.menu-foot{margin:8px 0 0;color:var(--muted);font-size:.8rem}
 /* გამოჩენის ანიმაცია (backwards — რომ hover-ის transform არ გადაფაროს) */
 #scr-menu.active .hm-in{animation:hm-up .5s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--d,0) * 55ms)}
 #scr-menu.active .menu-logo.hm-in{animation:hm-up .5s cubic-bezier(.2,.8,.2,1) backwards,hm-float 4.5s ease-in-out .5s infinite}
@@ -149,7 +169,7 @@ html[data-theme="dark"] #scr-menu{--violet:#9d80ff;--hm-sh:0 1px 2px rgba(0,0,0,
 @media (max-width:440px){.hm-player{flex-wrap:wrap}.pro-btn{width:100%;padding:11px 14px}.pro-more{display:inline}}
 
 /* ---------- დღის სერია (სტრიქი) ---------- */
-.streak-card{display:flex;align-items:center;gap:16px;margin-top:12px;padding:16px}
+.streak-card{display:flex;align-items:center;gap:16px;padding:16px}
 .streak-fire{position:relative;flex:none;width:64px;height:64px;border-radius:18px;display:grid;place-items:center;font-size:2rem;line-height:1;background:linear-gradient(160deg,color-mix(in srgb,var(--flame) 9%,var(--panel)),color-mix(in srgb,var(--flame) 22%,var(--panel)))}
 .streak-fire span{display:block}
 .streak-fire.hot span{animation:hm-flick 2.2s ease-in-out infinite;transform-origin:50% 90%}
@@ -606,27 +626,35 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
   <!-- ===== მთავარი მენიუ ===== -->
   <section id="scr-menu" class="screen active" aria-label="მთავარი მენიუ">
     <div class="menu-box">
-      <div class="menu-logo hm-in" id="menu-logo" role="img" aria-label="CodeQuest-ის ლოგო"></div>
-      <h1 class="logo hm-in" style="--d:1">Code<span>Quest</span></h1>
-      <p class="sublogo hm-in" style="--d:2">ბიტის თავგადასავალი — ისწავლე პროგრამირება ნულიდან</p>
-      <div class="hm-card hm-player hm-in" style="--d:3">
-        <span class="hm-ic" id="hm-rank-ic" aria-hidden="true">🐣</span>
-        <div class="hm-pmain">
-          <div class="hm-ptop"><b id="hm-rank">დამწყები</b><small id="hm-xp">0 XP</small></div>
-          <div class="hm-bar" id="hm-bar" role="progressbar" aria-label="XP შემდეგ წოდებამდე" aria-valuemin="0" aria-valuemax="100"><i></i></div>
-          <div class="hm-pbot"><span id="hm-stars">⭐ 0</span><span id="hm-levels">0 ლეველი</span></div>
+      <div class="hm-col hm-left">
+        <div class="hm-brand">
+          <div class="menu-logo hm-in" id="menu-logo" role="img" aria-label="CodeQuest-ის ლოგო"></div>
+          <h1 class="logo hm-in" style="--d:1">Code<span>Quest</span></h1>
+          <p class="sublogo hm-in" style="--d:2">ბიტის თავგადასავალი — ისწავლე პროგრამირება ნულიდან</p>
         </div>
-        <button class="pro-btn" id="m-pro" type="button">👑 Pro</button>
+        <div class="hm-actions">
+          <button class="hm-play hm-in" style="--d:3" id="m-start"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5.6v12.8a1.1 1.1 0 0 0 1.7.93l10-6.4a1.1 1.1 0 0 0 0-1.86l-10-6.4A1.1 1.1 0 0 0 8 5.6z"/></svg><span>თამაშის დაწყება</span></button>
+          <button class="hm-row hm-in" style="--d:4;--ti:#3b82f6" id="m-continue"><span class="hm-ic" aria-hidden="true">▶️</span><span class="hm-t"><b>გაგრძელება</b><small id="m-continue-sub">ბოლო ლეველიდან</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
+          <button class="hm-row hm-in" style="--d:5" id="m-lang"><span class="hm-ic lb" id="m-lang-ic" aria-hidden="true"></span><span class="hm-t"><b id="m-lang-t">ენის არჩევა</b><small id="m-lang-sub">შეცვლა</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
+        </div>
       </div>
-      <div class="hm-card streak-card hm-in" style="--d:4" id="menu-streak"></div>
-      <button class="hm-play hm-in" style="--d:5" id="m-start"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5.6v12.8a1.1 1.1 0 0 0 1.7.93l10-6.4a1.1 1.1 0 0 0 0-1.86l-10-6.4A1.1 1.1 0 0 0 8 5.6z"/></svg><span>თამაშის დაწყება</span></button>
-      <button class="hm-row hm-in" style="--d:6;--ti:#3b82f6" id="m-continue"><span class="hm-ic" aria-hidden="true">▶️</span><span class="hm-t"><b>გაგრძელება</b><small id="m-continue-sub">ბოლო ლეველიდან</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
-      <button class="hm-row hm-in" style="--d:7" id="m-lang"><span class="hm-ic lb" id="m-lang-ic" aria-hidden="true"></span><span class="hm-t"><b id="m-lang-t">ენის არჩევა</b><small id="m-lang-sub">შეცვლა</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
-      <div class="hm-grid">
-        <button class="hm-tile hm-in" style="--d:8;--ti:#2fb344" id="m-sandbox"><span class="hm-ic" aria-hidden="true">🧪</span><span class="hm-t"><b>თავისუფალი რეჟიმი</b><small>წერე რაც გინდა</small></span></button>
-        <button class="hm-tile hm-in" style="--d:9;--ti:#f03e3e" id="m-daily"><span class="hm-ic" aria-hidden="true">🎯</span><span class="hm-t"><b>დღის გამოწვევა</b><small id="m-daily-sub">ყოველ დღე ახალი</small></span></button>
-        <button class="hm-tile hm-in" style="--d:10;--ti:#f59f00" id="m-profile"><span class="hm-ic" aria-hidden="true">🏆</span><span class="hm-t"><b>მიღწევები</b><small id="m-profile-sub">შენი პროგრესი</small></span></button>
-        <button class="hm-tile hm-in" style="--d:11;--ti:#868e96" id="m-settings"><span class="hm-ic" aria-hidden="true">⚙️</span><span class="hm-t"><b>პარამეტრები</b><small>ხმა, თემა, ზომა</small></span></button>
+      <div class="hm-col hm-right">
+        <div class="hm-card hm-player hm-in" style="--d:6">
+          <span class="hm-ic" id="hm-rank-ic" aria-hidden="true">🐣</span>
+          <div class="hm-pmain">
+            <div class="hm-ptop"><b id="hm-rank">დამწყები</b><small id="hm-xp">0 XP</small></div>
+            <div class="hm-bar" id="hm-bar" role="progressbar" aria-label="XP შემდეგ წოდებამდე" aria-valuemin="0" aria-valuemax="100"><i></i></div>
+            <div class="hm-pbot"><span id="hm-stars">⭐ 0</span><span id="hm-levels">0 ლეველი</span></div>
+          </div>
+          <button class="pro-btn" id="m-pro" type="button">👑 Pro</button>
+        </div>
+        <div class="hm-card streak-card hm-in" style="--d:7" id="menu-streak"></div>
+        <div class="hm-grid">
+          <button class="hm-tile hm-in" style="--d:8;--ti:#2fb344" id="m-sandbox"><span class="hm-ic" aria-hidden="true">🧪</span><span class="hm-t"><b>თავისუფალი რეჟიმი</b><small>წერე რაც გინდა</small></span></button>
+          <button class="hm-tile hm-in" style="--d:9;--ti:#f03e3e" id="m-daily"><span class="hm-ic" aria-hidden="true">🎯</span><span class="hm-t"><b>დღის გამოწვევა</b><small id="m-daily-sub">ყოველ დღე ახალი</small></span></button>
+          <button class="hm-tile hm-in" style="--d:10;--ti:#f59f00" id="m-profile"><span class="hm-ic" aria-hidden="true">🏆</span><span class="hm-t"><b>მიღწევები</b><small id="m-profile-sub">შენი პროგრესი</small></span></button>
+          <button class="hm-tile hm-in" style="--d:11;--ti:#868e96" id="m-settings"><span class="hm-ic" aria-hidden="true">⚙️</span><span class="hm-t"><b>პარამეტრები</b><small>ხმა, თემა, ზომა</small></span></button>
+        </div>
       </div>
       <p class="menu-foot hm-in" style="--d:12">CodeQuest © <span id="hm-year">2026</span></p>
     </div>

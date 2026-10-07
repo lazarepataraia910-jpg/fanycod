@@ -239,6 +239,33 @@ button.menu-logo:hover svg,button.menu-logo:focus-visible svg{transform:scale(1.
 .wb-swatch{position:absolute;top:8px;right:8px;width:14px;height:14px;border-radius:50%;border:2px solid var(--panel);box-shadow:0 0 0 1px var(--border)}
 .wb-promo{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .wb-promo .wb-mini{width:60px;height:80px}
+/* იშვიათობები: ბარათის ფონი, ჩარჩო და წარწერა იშვიათობის ფერისაა */
+.r-common{--rc:#868e96}.r-uncommon{--rc:#2f9e44}.r-rare{--rc:#1c7ed6}.r-epic{--rc:#7048e8}.r-legendary{--rc:#f08c00}.r-mythic{--rc:#e03131}
+.wb-item{content-visibility:auto;contain-intrinsic-size:auto 196px}
+.wb-item[class*=" r-"]{border-color:color-mix(in srgb,var(--rc) 55%,var(--border));background:linear-gradient(180deg,color-mix(in srgb,var(--rc) 22%,var(--panel)),color-mix(in srgb,var(--rc) 7%,var(--panel)) 78%)}
+.wb-item[class*=" r-"] .wb-mini{background:radial-gradient(circle at 50% 42%,color-mix(in srgb,var(--rc) 36%,var(--panel)),color-mix(in srgb,var(--rc) 14%,var(--panel)) 72%)}
+.wb-item[class*=" r-"]:hover{box-shadow:0 10px 24px color-mix(in srgb,var(--rc) 30%,transparent)}
+.wb-item.on{outline:3px solid var(--ok);outline-offset:2px}
+.wb-item.trying{outline:3px dashed #ffb703;outline-offset:2px}
+.wb-rar{position:absolute;top:7px;left:7px;z-index:1;padding:1px 7px;border-radius:99px;background:var(--rc);color:#fff;font-size:.62rem;font-weight:800;line-height:1.5;box-shadow:0 1px 3px color-mix(in srgb,var(--rc) 45%,transparent)}
+.wb-try-t .wb-rar{position:static;display:inline-block;margin-bottom:3px}
+/* ლეგენდარული და მითიური ბრწყინავს; მითიურს ცისარტყელას ჩარჩო აქვს */
+.wb-item.r-legendary::after,.wb-item.r-mythic::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.5) 50%,transparent 62%);background-size:260% 100%;animation:wb-shine 3.4s ease-in-out infinite}
+.wb-item.r-mythic{border-color:transparent;background:linear-gradient(180deg,color-mix(in srgb,var(--rc) 22%,var(--panel)),color-mix(in srgb,#9775fa 12%,var(--panel)) 78%) padding-box,linear-gradient(90deg,#ff6b6b,#ffd43b,#69db7c,#4dabf7,#9775fa,#ff6b6b) border-box;background-size:100% 100%,300% 100%;animation:wb-rainbow 5s linear infinite}
+.wb-rar.r-mythic,.wb-rars .r-mythic i,.wb-rars .r-mythic.on{background:linear-gradient(90deg,#ff6b6b,#f59f00,#4dabf7,#9775fa)}
+@keyframes wb-shine{0%,30%{background-position:120% 0}100%{background-position:-120% 0}}
+@keyframes wb-rainbow{to{background-position:0 0,300% 0}}
+.wb-stage.rar{background:radial-gradient(circle at 50% 36%,color-mix(in srgb,var(--rc) 36%,var(--panel)) 0,color-mix(in srgb,var(--rc) 12%,var(--panel)) 52%,var(--panel) 100%)}
+.wb-stage.rar::after{background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--rc) 16%,var(--panel)))}
+.wb-filter{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;margin-top:8px}
+.wb-rars{display:flex;flex-wrap:wrap;gap:6px}
+.wb-rars button{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:99px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-weight:700;font-size:.8rem}
+.wb-rars button i{width:9px;height:9px;border-radius:50%;background:var(--rc,var(--accent))}
+.wb-rars button small{font-weight:800;opacity:.6}
+.wb-rars button.on{background:var(--rc,var(--accent));border-color:transparent;color:#fff}
+.wb-rars button.on i{background:#fff}
+.wb-sort{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:.8rem;font-weight:700}
+.wb-sort select{padding:5px 8px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font:inherit}
 @media (max-width:520px){.wb-stage{height:290px}.wb-bit{top:20px;left:calc(50% - 75px);width:150px;height:200px}.wb-floor{bottom:62px;width:120px}.wb-try-t{flex-basis:100%}.wb-grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}.wb-mini{width:56px;height:75px}.wb-try{flex-wrap:wrap}.wb-buy{flex:1}}
 
 /* ---------- დღის სერია (სტრიქი) ---------- */
@@ -1119,10 +1146,11 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
         </div>
         <div class="wb-try hidden" id="wb-try" role="status"></div>
         <div class="wb-actions"><button class="btn" id="wb-random">🎲 შემთხვევითი</button><button class="btn" id="wb-reset">↺ ყველაფრის მოხსნა</button></div>
-        <p class="muted wb-note">🎨 ფერები უფასოა, ქუდები და ტანსაცმელი XP-ით იყიდება. XP-ის ხარჯვა წოდებას არ ამცირებს — ის მოგებულ XP-ს ითვლის.</p>
+        <p class="muted wb-note">🎨 ჩვეულებრივი ფერები უფასოა, დანარჩენი XP-ით იყიდება. რაც უფრო იშვიათია ნივთი, მით ძვირია: ჩვეულებრივი → არაჩვეულებრივი → იშვიათი → ეპიკური → ლეგენდარული → მითიური. XP-ის ხარჯვა წოდებას არ ამცირებს — ის მოგებულ XP-ს ითვლის.</p>
       </div>
       <div class="wb-shop">
         <div class="wb-tabs" id="wb-tabs" role="tablist" aria-label="კატეგორიები"></div>
+        <div class="wb-filter" id="wb-filter" role="toolbar" aria-label="იშვიათობა და დალაგება"></div>
         <div class="wb-grid" id="wb-grid"></div>
       </div>
     </div>
@@ -11329,6 +11357,600 @@ const WARDROBE = [
   { slot: 'feet', id: 'skates', name: 'გორგოლაჭები', price: 600, svg: mirror('<rect x="2.1" y="10.9" width="3.4" height="1.6" rx=".6" fill="#be4bdb"/><rect x="2.1" y="12.3" width="3.4" height=".3" fill="#495057"/><circle cx="2.8" cy="12.75" r=".28" fill="#ffd43b"/><circle cx="4.8" cy="12.75" r=".28" fill="#ffd43b"/>') },
   { slot: 'feet', id: 'rocket', name: 'რაკეტა-ფეხსაცმელი', price: 1200, svg: mirror('<rect x="2.1" y="10.9" width="3.4" height="1.7" rx=".6" fill="#e03131"/><rect x="2.1" y="11.5" width="3.4" height=".35" fill="#f8f9fa"/><polygon points="2.6,12.6 3.8,13 5,12.6" fill="#ff922b"/>') }
 ];
+/* ===WARDROBE:BEGIN=== */
+/* ---------- გარდერობის იშვიათობები და ნივთების გენერატორი ----------
+   ყოველ კატეგორიაში 100-ზე მეტი ნივთია: ფორმა (შაბლონი) × ფერი (პალიტრა). იშვიათობა = შაბლონის საბაზო იშვიათობა +
+   პალიტრის ბონუსი (ოქრო, ბრილიანტი, ცისარტყელა...). ფასი იშვიათობაზეა დამოკიდებული.
+   ⚠️ id = შაბლონი-პალიტრა. ნაყიდი ნივთები (P.owned) და ჩაცმული (P.skin) id-ით ინახება — არსებულ id-ს ნუ შეცვლი. */
+const RARITY = [
+  { id: 'common', name: 'ჩვეულებრივი', price: 150 },
+  { id: 'uncommon', name: 'არაჩვეულებრივი', price: 350 },
+  { id: 'rare', name: 'იშვიათი', price: 700 },
+  { id: 'epic', name: 'ეპიკური', price: 1300 },
+  { id: 'legendary', name: 'ლეგენდარული', price: 2400 },
+  { id: 'mythic', name: 'მითიური', price: 4000 }
+];
+const rarOfPrice = p => (p <= 250 ? 0 : p <= 450 ? 1 : p <= 900 ? 2 : p <= 1500 ? 3 : p <= 2500 ? 4 : 5);
+// [ზედსართავი, მთავარი, მუქი, ღია, იშვიათობის ბონუსი, გრადიენტი (მთავარი ფერის ნაცვლად)]
+const WB_PAL = {
+  red: ['წითელი', '#e03131', '#a61e1e', '#ffc9c9'],
+  orange: ['ნარინჯისფერი', '#fd7e14', '#d9480f', '#ffd8a8'],
+  yellow: ['ყვითელი', '#fcc419', '#e67700', '#fff3bf'],
+  lime: ['ლაიმისფერი', '#82c91e', '#5c940d', '#e9fac8'],
+  green: ['მწვანე', '#37b24d', '#2b8a3e', '#d3f9d8'],
+  teal: ['ფირუზისფერი', '#12b886', '#087f5b', '#c3fae8'],
+  cyan: ['ცისფერი', '#22b8cf', '#0b7285', '#c5f6fa'],
+  blue: ['ლურჯი', '#1c7ed6', '#1864ab', '#d0ebff'],
+  indigo: ['ინდიგო', '#4263eb', '#2b3bab', '#dbe4ff'],
+  violet: ['იისფერი', '#7950f2', '#5f3dc4', '#e5dbff'],
+  grape: ['ყურძნისფერი', '#be4bdb', '#862e9c', '#f3d9fa'],
+  pink: ['ვარდისფერი', '#f06595', '#c2255c', '#ffdeeb'],
+  brown: ['ყავისფერი', '#a0522d', '#6b3410', '#e6b98a'],
+  black: ['შავი', '#2b2f36', '#111317', '#adb5bd'],
+  white: ['თეთრი', '#f8f9fa', '#adb5bd', '#ffffff'],
+  gray: ['ნაცრისფერი', '#868e96', '#495057', '#e9ecef'],
+  silver: ['ვერცხლის', '#ced4da', '#868e96', '#f8f9fa', 1, ['#f8f9fa', '#ced4da', '#adb5bd']],
+  bronze: ['ბრინჯაოს', '#cd7f32', '#8c5225', '#f1c27d', 1, ['#f1c27d', '#cd7f32', '#8c5225']],
+  ice: ['ყინულის', '#99e9f2', '#1098ad', '#e3fafc', 1, ['#e3fafc', '#99e9f2', '#66d9e8']],
+  candy: ['კანფეტის', '#ff8cc8', '#c2255c', '#d0ebff', 1, ['#ffdeeb', '#ff8cc8', '#a5d8ff']],
+  ocean: ['ოკეანის', '#1098ad', '#0b7285', '#99e9f2', 1, ['#99e9f2', '#1098ad', '#1864ab']],
+  gold: ['ოქროს', '#fcc419', '#e67700', '#fff3bf', 2, ['#fff3bf', '#fcc419', '#f08c00']],
+  fire: ['ცეცხლოვანი', '#ff6b00', '#c92a2a', '#ffd43b', 2, ['#ffd43b', '#ff6b00', '#e03131']],
+  neon: ['ნეონის', '#ff2fd1', '#7a00ff', '#00f5ff', 2, ['#00f5ff', '#ff2fd1']],
+  toxic: ['ტოქსიკური', '#a9e34b', '#2b8a3e', '#f4fce3', 2, ['#f4fce3', '#a9e34b', '#2b8a3e']],
+  shadow: ['ჩრდილის', '#495057', '#212529', '#b197fc', 2, ['#9775fa', '#343a40', '#111317']],
+  ruby: ['ლალის', '#e03131', '#862e2e', '#ffa8a8', 2, ['#ffa8a8', '#e03131', '#862e2e']],
+  emerald: ['ზურმუხტის', '#2b8a3e', '#1b5e20', '#b2f2bb', 2, ['#b2f2bb', '#37b24d', '#1b5e20']],
+  sapphire: ['საფირონის', '#1c7ed6', '#0b3d91', '#a5d8ff', 2, ['#a5d8ff', '#1c7ed6', '#0b3d91']],
+  amethyst: ['ამეთვისტოს', '#9c36b5', '#5f3dc4', '#eebefa', 2, ['#eebefa', '#9c36b5', '#5f3dc4']],
+  diamond: ['ბრილიანტის', '#c5f6fa', '#3bc9db', '#ffffff', 3, ['#ffffff', '#c5f6fa', '#99e9f2', '#eebefa']],
+  galaxy: ['კოსმოსური', '#3b2a8f', '#1a1240', '#ffe066', 3, ['#1a1240', '#5f3dc4', '#e64980', '#4dabf7']],
+  lava: ['ლავის', '#ff6b00', '#2b2f36', '#ffd43b', 3, ['#ffd43b', '#ff6b00', '#c92a2a', '#2b2f36']],
+  rainbow: ['ცისარტყელას', '#ff6b6b', '#7048e8', '#ffd43b', 3, ['#ff6b6b', '#ffa94d', '#ffd43b', '#69db7c', '#4dabf7', '#9775fa']]
+};
+// ერთი SVG-ის გრადიენტები. id ყოველ ნახატში ახალია: დამალულ ეკრანზე დახატული სხვა SVG-ის გრადიენტზე მიბმა არ გამოჩნდება
+let BIT_UID = 0;
+function svgDefs() {
+  return {
+    id: 'cqg' + (++BIT_UID), n: 0, defs: '',
+    grad(stops) {
+      const id = this.id + '-' + (this.n++);
+      this.defs += '<linearGradient id="' + id + '" x1="0" y1="0" x2="1" y2="1">' + stops.map((c, i) => '<stop offset="' + (i / (stops.length - 1)).toFixed(2) + '" stop-color="' + c + '"/>').join('') + '</linearGradient>';
+      return 'url(#' + id + ')';
+    }
+  };
+}
+// პალიტრა ნახატისთვის: a — მთავარი (გრადიენტიც შეიძლება იყოს), b — მუქი, c — ღია, s — მთავარი მყარი ფერი
+const wbPaint = (k, G) => { const q = WB_PAL[k]; return { k, a: q[5] && G ? G.grad(q[5]) : q[1], b: q[2], c: q[3], s: q[1] }; };
+const wbPrice = (id, r) => { let h = 0; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return Math.round(RARITY[r].price * (0.85 + (h % 31) / 100) / 10) * 10; };
+// შაბლონები: [id, სახელი, საბაზო იშვიათობა, ნახატი (p, d, b), პალიტრები, { tall, front }]
+function wbGen(slot, list) {
+  const out = [];
+  list.forEach(([tid, name, r, f, pals, o]) => pals.forEach(k => {
+    const q = WB_PAL[k], id = tid + '-' + k, rar = Math.min(5, r + (q[4] || 0));
+    const w = { slot, id, name: q[0] + ' ' + name, rar, price: wbPrice(id, rar) };
+    const draw = fn => (d, b, G) => fn(wbPaint(k, G), d, b);
+    if (o && o.tall) w.tall = true;
+    if (slot === 'back') { w.back = draw(f); if (o && o.front) w.front = draw(o.front); } else w.svg = draw(f);
+    out.push(w);
+  }));
+  return out;
+}
+// ცალკე სახელიანი ვარიანტები: [vid, სახელი, იშვიათობა, ...პარამეტრები] → f(v, d, b, G)
+function wbVar(slot, tid, f, vars, o) {
+  return vars.map(v => {
+    const id = tid + '-' + v[0], w = { slot, id, name: v[1], rar: v[2], price: wbPrice(id, v[2]) };
+    if (o && o.tall) w.tall = true;
+    if (slot === 'back') { w.back = (d, b, G) => f(v, d, b, G); if (o && o.front) w.front = (d, b, G) => o.front(v, d, b, G); } else w.svg = (d, b, G) => f(v, d, b, G);
+    return w;
+  });
+}
+// ქუდები: თავი 2–10 × 3–9; ქუდი y -2.6…3.4-ზეა. tall — ქუდი ანტენას ფარავს
+const BEANIE = (a, b) => '<path d="M2.2 3.3C2.2.9 3.9.6 6 .6s3.8.3 3.8 2.7Z" fill="' + a + '"/>';
+const WB_HATS = wbGen('hat', [
+  ['cap', 'კეპი', 0, p => '<rect x="2.2" y="1.7" width="7.6" height="1.6" rx=".5" fill="' + p.a + '"/><rect x="7.4" y="2.7" width="3.6" height=".7" rx=".3" fill="' + p.b + '"/><circle cx="4.6" cy="2.45" r=".38" fill="' + p.c + '"/>',
+    ['blue', 'green', 'yellow', 'black', 'pink', 'violet', 'orange', 'white', 'gold']],
+  ['backcap', 'უკუღმა კეპი', 0, p => '<rect x="2.2" y="1.7" width="7.6" height="1.6" rx=".5" fill="' + p.a + '"/><rect x="1" y="2.7" width="3.6" height=".7" rx=".3" fill="' + p.b + '"/><rect x="6.6" y="2.3" width="1.6" height=".8" rx=".2" fill="' + p.c + '"/>',
+    ['red', 'black', 'teal', 'orange', 'neon']],
+  ['codecap', 'კოდერის კეპი', 1, p => '<rect x="2.2" y="1.7" width="7.6" height="1.6" rx=".5" fill="' + p.a + '"/><rect x="7.4" y="2.7" width="3.6" height=".7" rx=".3" fill="' + p.b + '"/><path d="M4.4 2.05 3.8 2.5l.6.45M5.9 2 5.5 3M6.7 2.05l.6.45-.6.45" fill="none" stroke="#3ddc97" stroke-width=".28" stroke-linecap="round" stroke-linejoin="round"/>',
+    ['black', 'blue', 'violet', 'green', 'galaxy']],
+  ['beanie', 'ნაქსოვი ქუდი', 0, p => BEANIE(p.a) + '<rect x="2" y="2.7" width="8" height=".9" rx=".35" fill="' + p.b + '"/><circle cx="6" cy=".45" r=".75" fill="' + p.c + '"/>',
+    ['red', 'blue', 'yellow', 'pink', 'violet', 'gray', 'orange', 'black'], { tall: true }],
+  ['sbeanie', 'ზოლიანი ნაქსოვი ქუდი', 1, p => BEANIE(p.a) + '<rect x="2.5" y="1.35" width="7" height=".45" fill="#fff"/><rect x="2.25" y="2.05" width="7.5" height=".45" fill="#fff"/><rect x="2" y="2.7" width="8" height=".9" rx=".35" fill="' + p.b + '"/><circle cx="6" cy=".45" r=".75" fill="#fff"/>',
+    ['red', 'blue', 'green', 'pink', 'black', 'candy'], { tall: true }],
+  ['tophat', 'ცილინდრი', 1, p => '<rect x="3.1" y="-1.6" width="5.8" height="4.5" rx=".3" fill="' + p.a + '"/><rect x="3.1" y="1.75" width="5.8" height=".8" fill="' + p.c + '"/><rect x="1.4" y="2.7" width="9.2" height=".75" rx=".35" fill="' + p.b + '"/><rect x="3.5" y="-1.3" width=".45" height="2.8" fill="#fff" opacity=".18"/>',
+    ['black', 'violet', 'blue', 'red', 'white', 'gold', 'galaxy'], { tall: true }],
+  ['cowboy', 'კოვბოის ქუდი', 1, p => '<path d="M3.2 3V.7c0-.9.9-1.2 1.6-.7.5.3.8.4 1.2.4s.7-.1 1.2-.4c.7-.5 1.6-.2 1.6.7V3Z" fill="' + p.a + '"/><rect x="3.2" y="2" width="5.6" height=".55" fill="' + p.c + '"/><ellipse cx="6" cy="3" rx="5.3" ry=".7" fill="' + p.b + '"/>',
+    ['brown', 'black', 'white', 'pink', 'gold'], { tall: true }],
+  ['beret', 'ბერეტი', 0, p => '<ellipse cx="5.5" cy="2.4" rx="4.4" ry="1.3" fill="' + p.a + '"/><ellipse cx="5.6" cy="3.05" rx="3.9" ry=".42" fill="' + p.b + '"/><rect x="5.2" y=".75" width=".5" height=".7" rx=".2" fill="' + p.a + '"/>',
+    ['red', 'black', 'blue', 'green', 'pink', 'violet'], { tall: true }],
+  ['fez', 'ფესი', 1, p => '<path d="M3.7 3.3 4.2.3h3.6l.5 3Z" fill="' + p.a + '"/><rect x="4.1" y=".1" width="3.8" height=".45" rx=".2" fill="' + p.b + '"/><path d="M6 .35C7 .5 7.9 1 8.4 1.6" fill="none" stroke="#212529" stroke-width=".18"/><rect x="8.2" y="1.5" width=".45" height="1.3" rx=".2" fill="#fcc419"/>',
+    ['red', 'black', 'blue', 'green'], { tall: true }],
+  ['crown', 'გვირგვინი', 1, p => '<polygon points="2.4,3.2 2.8,.6 4.5,2 6,-.1 7.5,2 9.2,.6 9.6,3.2" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".25"/>' +
+    '<g fill="' + ({ silver: '#4dabf7', bronze: '#37b24d', ice: '#fff', diamond: '#e599f7' }[p.k] || p.c) + '"><circle cx="6" cy="1.9" r=".42"/><circle cx="3.7" cy="2.55" r=".28"/><circle cx="8.3" cy="2.55" r=".28"/></g>',
+    ['silver', 'bronze', 'ice', 'ruby', 'emerald', 'sapphire', 'amethyst', 'diamond', 'galaxy', 'rainbow'], { tall: true }],
+  ['tiara', 'ტიარა', 1, p => '<path d="M2.7 3.4C3.6 2.3 4.7 1.9 6 1.9s2.4.4 3.3 1.5" fill="none" stroke="' + p.a + '" stroke-width=".45"/><polygon points="6,.3 6.75,1.8 5.25,1.8" fill="' + p.a + '"/><polygon points="4.2,1.25 4.75,2.2 3.7,2.4" fill="' + p.a + '"/><polygon points="7.8,1.25 8.3,2.4 7.25,2.2" fill="' + p.a + '"/><circle cx="6" cy="1.95" r=".4" fill="' + (p.k === 'diamond' ? '#e599f7' : '#f06595') + '"/>',
+    ['silver', 'gold', 'diamond', 'amethyst'], { tall: true }],
+  ['wizard', 'ჯადოქრის ქუდი', 2, p => '<polygon points="6,-2.6 9.6,3.2 2.4,3.2" fill="' + p.a + '"/><rect x="2.1" y="2.7" width="7.8" height=".6" rx=".3" fill="' + p.b + '"/><g fill="#ffe066"><circle cx="6.6" cy=".6" r=".45"/><circle cx="5.2" cy="2" r=".35"/><circle cx="7.3" cy="1.9" r=".25"/></g>',
+    ['blue', 'black', 'green', 'red', 'amethyst', 'galaxy'], { tall: true }],
+  ['witch', 'ალქაჯის ქუდი', 1, p => '<path d="M3.5 2.9 5.3-.6C5.6-1.3 6.3-1.6 7-1.4l1.5.5-1.2.3.6 3.5Z" fill="' + p.a + '"/><rect x="3.75" y="1.55" width="4.4" height=".6" fill="' + p.c + '"/><ellipse cx="6" cy="3" rx="5" ry=".65" fill="' + p.a + '"/><ellipse cx="6" cy="3.25" rx="4.5" ry=".28" fill="' + p.b + '"/>',
+    ['violet', 'green', 'black', 'orange'], { tall: true }],
+  ['party', 'დღესასწაულის ქუდი', 0, p => '<polygon points="6,-2.2 8.3,3.2 3.7,3.2" fill="' + p.a + '"/><polygon points="4.55,1.2 7.45,1.2 7.95,2.3 4.05,2.3" fill="' + p.c + '"/><polygon points="5.45,-.9 6.55,-.9 7,.1 5,.1" fill="' + p.c + '"/><circle cx="6" cy="-2.2" r=".6" fill="#ffd43b"/>',
+    ['blue', 'green', 'violet', 'yellow', 'pink', 'rainbow'], { tall: true }],
+  ['santa', 'საახალწლო ქუდი', 1, p => '<path d="M2.2 3.2C2.7.9 4.5-.2 6.6-.3c1.5-.1 2.7.5 3.3 1.6-.8-.3-1.5-.2-2 .3L9.8 3.2Z" fill="' + p.a + '"/><rect x="1.9" y="2.6" width="8.2" height="1" rx=".45" fill="#f8f9fa"/><circle cx="9.9" cy="1.4" r=".75" fill="#f8f9fa"/>',
+    ['red', 'green', 'blue', 'pink', 'black', 'gold'], { tall: true }],
+  ['knight', 'რაინდის ჩაფხუტი', 2, p => '<path d="M1.7 5V3.3C1.7 1.1 3.6 0 6 0s4.3 1.1 4.3 3.3V5H9.3V3.6H2.7V5Z" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".2"/><rect x="5.7" y="0" width=".6" height="3.6" fill="' + p.b + '"/>' +
+    '<path d="M6.1-.1C6.5-1.5 7.7-2.3 9.2-2.2c-.9.5-1.5 1.2-1.7 2.1Z" fill="' + ({ silver: '#e03131', gold: '#1c7ed6', black: '#9775fa', bronze: '#2f9e44' }[p.k] || p.c) + '"/>',
+    ['silver', 'gold', 'black', 'bronze'], { tall: true }],
+  ['viking', 'ვიკინგის ჩაფხუტი', 2, p => '<g fill="#f1e3c6" stroke="#c9b48a" stroke-width=".12"><path d="M2.6 2.5C1.2 2.1.4.9.7-.6c.4 1 1 1.6 2.3 1.7Z"/><path d="M9.4 2.5c1.4-.4 2.2-1.6 1.9-3.1-.4 1-1 1.6-2.3 1.7Z"/></g>' +
+    '<path d="M2.2 3.3C2.2 1.1 3.9 0 6 0s3.8 1.1 3.8 3.3Z" fill="' + p.a + '"/><rect x="2" y="2.6" width="8" height=".8" fill="' + p.b + '"/><rect x="5.6" y="0" width=".8" height="2.7" fill="' + p.b + '"/><g fill="' + p.c + '"><circle cx="3.2" cy="3" r=".18"/><circle cx="4.6" cy="3" r=".18"/><circle cx="7.4" cy="3" r=".18"/><circle cx="8.8" cy="3" r=".18"/></g>',
+    ['silver', 'gold', 'bronze', 'black'], { tall: true }],
+  ['hardhat', 'სამშენებლო ჩაფხუტი', 0, p => '<path d="M2.4 3C2.4 1 4 .1 6 .1s3.6.9 3.6 2.9Z" fill="' + p.a + '"/><rect x="1.6" y="2.75" width="8.8" height=".65" rx=".3" fill="' + p.a + '"/><rect x="5.5" y=".1" width="1" height="2.7" fill="' + p.b + '"/><rect x="1.6" y="3.15" width="8.8" height=".25" fill="' + p.b + '"/>',
+    ['yellow', 'orange', 'white', 'blue', 'red', 'green'], { tall: true }],
+  ['spacehelm', 'კოსმონავტის ჩაფხუტი', 2, p => '<circle cx="6" cy="5.6" r="5.2" fill="' + p.c + '" fill-opacity=".22" stroke="' + p.a + '" stroke-width=".35"/><path d="M3.1 2.4C3.9 1.5 4.9 1 6 1" fill="none" stroke="#fff" stroke-width=".35" stroke-linecap="round" opacity=".85"/>',
+    ['silver', 'blue', 'gold', 'pink', 'galaxy'], { tall: true }],
+  ['headband', 'თავსაკრავი', 0, p => '<rect x="1.9" y="3.1" width="8.2" height=".8" fill="' + p.a + '"/><path d="M10 3.3l1.3-.7.2 1.1ZM10 3.7l1.1 1 .4-.9Z" fill="' + p.a + '"/>',
+    ['red', 'blue', 'black', 'white', 'green', 'yellow', 'pink', 'rainbow']],
+  ['ninja', 'ნინძას თავსაკრავი', 1, p => '<rect x="1.9" y="3.05" width="8.2" height=".9" fill="' + p.a + '"/><path d="M10 3.3l1.5-.4-.3.8.6.7-1.8-.5Z" fill="' + p.a + '"/><rect x="4.3" y="3" width="3.4" height="1" rx=".2" fill="#ced4da" stroke="#868e96" stroke-width=".12"/><path d="M5.2 3.5h1.6" stroke="#495057" stroke-width=".2"/>',
+    ['blue', 'black', 'red', 'gray', 'violet']],
+  ['bandana', 'ბანდანა', 0, p => '<path d="M2 3.5C2 1.6 3.6.9 6 .9s4 .7 4 2.6Z" fill="' + p.a + '"/><g fill="#fff"><circle cx="4" cy="2.2" r=".25"/><circle cx="6" cy="1.7" r=".25"/><circle cx="8" cy="2.2" r=".25"/><circle cx="5" cy="2.9" r=".2"/><circle cx="7" cy="2.9" r=".2"/></g><path d="M9.9 2.8l1.3.4-.6.9ZM9.9 3.2l.9 1.2-.9.1Z" fill="' + p.a + '"/>',
+    ['red', 'blue', 'black', 'green', 'pink', 'yellow'], { tall: true }],
+  ['bunny', 'კურდღლის ყურები', 1, p => '<g fill="' + p.a + '"><rect x="3" y="-2.6" width="1.6" height="5.6" rx=".8"/><rect x="7.4" y="-2.6" width="1.6" height="5.6" rx=".8"/></g><g fill="' + (p.k === 'pink' ? '#fff' : '#ffa8c5') + '"><rect x="3.4" y="-2.1" width=".8" height="4" rx=".4"/><rect x="7.8" y="-2.1" width=".8" height="4" rx=".4"/></g>',
+    ['white', 'pink', 'gray', 'brown', 'black'], { tall: true }],
+  ['catears', 'კატის ყურები', 1, p => '<polygon points="2.3,3.3 2.9,.2 5,2.7" fill="' + p.a + '"/><polygon points="9.7,3.3 9.1,.2 7,2.7" fill="' + p.a + '"/><g fill="' + (p.k === 'pink' ? '#fff' : '#ffa8c5') + '"><polygon points="2.95,2.8 3.2,1.2 4.3,2.55"/><polygon points="9.05,2.8 8.8,1.2 7.7,2.55"/></g>',
+    ['black', 'orange', 'gray', 'white', 'pink', 'neon'], { tall: true }],
+  ['bearears', 'დათვის ყურები', 0, p => '<circle cx="3" cy="2.3" r="1.25" fill="' + p.a + '"/><circle cx="9" cy="2.3" r="1.25" fill="' + p.a + '"/><circle cx="3" cy="2.3" r=".6" fill="' + p.c + '"/><circle cx="9" cy="2.3" r=".6" fill="' + p.c + '"/>',
+    ['brown', 'black', 'white'], { tall: true }],
+  ['horns', 'რქები', 1, p => '<path d="M3.2 3.2C2.4 2.2 2.4.9 3.1-.2c.1 1.1.7 1.9 1.6 2.5Z" fill="' + p.a + '"/><path d="M8.8 3.2c.8-1 .8-2.3.1-3.4-.1 1.1-.7 1.9-1.6 2.5Z" fill="' + p.a + '"/>',
+    ['red', 'black', 'violet', 'gold', 'fire'], { tall: true }],
+  ['halo', 'შარავანდი', 2, p => '<ellipse cx="6" cy="-1.2" rx="2.9" ry=".8" fill="none" stroke="' + p.a + '" stroke-width=".6"/><ellipse cx="6" cy="-1.2" rx="2.9" ry=".8" fill="none" stroke="#fff" stroke-width=".18" opacity=".7"/>',
+    ['gold', 'silver', 'neon', 'diamond', 'rainbow'], { tall: true }],
+  ['unicorn', 'მარტორქის რქა', 2, p => '<polygon points="6,-2.6 7,3.2 5,3.2" fill="' + p.a + '"/><path d="M5.2 2.3 6.8 1.8M5.45.9l1.1-.35M5.7-.5l.6-.2" stroke="' + p.b + '" stroke-width=".22"/>',
+    ['gold', 'pink', 'silver', 'rainbow', 'galaxy'], { tall: true }],
+  ['propeller', 'პროპელერიანი ქუდი', 1, p => '<path d="M2.4 3.3C2.4 1.3 4 .4 6 .4s3.6.9 3.6 2.9Z" fill="' + p.a + '"/><path d="M6 .4C4.6.4 3.4 1 2.9 2.2L6 3.3Z" fill="' + p.b + '"/><path d="M6 .4c1.4 0 2.6.6 3.1 1.8L6 3.3Z" fill="' + p.c + '"/>' +
+    '<rect x="5.8" y="-.6" width=".4" height="1.1" fill="#495057"/><ellipse cx="4.8" cy="-.6" rx="1.2" ry=".3" fill="#e03131"/><ellipse cx="7.2" cy="-.6" rx="1.2" ry=".3" fill="#1c7ed6"/><circle cx="6" cy="-.6" r=".3" fill="#fcc419"/>',
+    ['red', 'blue', 'green', 'yellow'], { tall: true }],
+  ['gradcap', 'კურსდამთავრებულის ქუდი', 1, p => '<path d="M3.3 3.3V1.9h5.4v1.4Z" fill="' + p.a + '"/><polygon points="6,-.3 11,1.2 6,2.7 1,1.2" fill="' + p.a + '"/><polygon points="6,-.3 11,1.2 6,1.6 1,1.2" fill="#fff" opacity=".12"/><path d="M6 1.2 9.2 1.6V3.4" stroke="#fcc419" stroke-width=".22" fill="none"/><rect x="8.95" y="3.3" width=".5" height=".9" fill="#fcc419"/>',
+    ['black', 'blue', 'red', 'green', 'violet'], { tall: true }],
+  ['sombrero', 'სომბრერო', 1, p => '<ellipse cx="6" cy="2.9" rx="5.7" ry=".9" fill="' + p.a + '"/><path d="M3.7 2.9C3.7.5 4.6-.4 6-.4s2.3.9 2.3 3.3Z" fill="' + p.a + '"/><rect x="3.75" y="1.9" width="4.5" height=".55" fill="' + p.b + '"/><ellipse cx="6" cy="3.25" rx="5.4" ry=".25" fill="' + p.b + '"/>',
+    ['yellow', 'red', 'green', 'brown'], { tall: true }],
+  ['pirate', 'მეკობრის ქუდი', 2, p => '<path d="M1.5 3.3C2.3 1.2 3.8.2 6 .2s3.7 1 4.5 3.1Z" fill="' + p.a + '"/><rect x="1.5" y="2.8" width="9" height=".5" fill="#fcc419"/><circle cx="6" cy="1.5" r=".55" fill="#f8f9fa"/><rect x="5.7" y="1.95" width=".6" height=".35" fill="#f8f9fa"/>',
+    ['red', 'blue', 'brown', 'violet'], { tall: true }],
+  ['uniform', 'ფორმის ქუდი', 1, p => '<path d="M2.2 1.9 6 .5l3.8 1.4v1.3H2.2Z" fill="' + p.a + '"/><rect x="2" y="2.8" width="8" height=".5" fill="' + p.b + '"/><path d="M2.6 3.3h6.8l-.8.6H3.4Z" fill="#212529"/><polygon points="6,1.4 6.5,2 6,2.6 5.5,2" fill="#fcc419"/>',
+    ['blue', 'black', 'white', 'green', 'red'], { tall: true }],
+  ['sailor', 'მეზღვაურის ქუდი', 0, p => '<path d="M2.5 3.2C2.5 1.8 4 1.2 6 1.2s3.5.6 3.5 2Z" fill="#f8f9fa" stroke="#ced4da" stroke-width=".12"/><rect x="2.4" y="2.6" width="7.2" height=".7" fill="' + p.a + '"/><path d="M9.4 2.9l1 .8-.3.3Z" fill="' + p.a + '"/>',
+    ['blue', 'black', 'red'], { tall: true }],
+  ['flowers', 'ყვავილების გვირგვინი', 1, p => '<path d="M2.2 3.1C3.4 2.4 4.7 2.1 6 2.1s2.6.3 3.8 1" stroke="#2f9e44" stroke-width=".35" fill="none"/>' +
+    [[2.6, 2.85], [3.9, 2.4], [5.1, 2.2], [6.9, 2.2], [8.1, 2.4], [9.4, 2.85]].map(([x, y]) => '<circle cx="' + x + '" cy="' + y + '" r=".45" fill="' + p.a + '"/><circle cx="' + x + '" cy="' + y + '" r=".16" fill="#ffe066"/>').join(''),
+    ['pink', 'yellow', 'red', 'violet', 'white', 'blue']],
+  ['mushroom', 'სოკოს ქუდი', 1, p => '<path d="M1.4 3.3C1.4.4 3.6-1 6-1s4.6 1.4 4.6 4.3Z" fill="' + p.a + '"/><g fill="#fff"><circle cx="4" cy=".8" r=".6"/><circle cx="7.4" cy=".2" r=".5"/><circle cx="8.6" cy="2" r=".45"/><circle cx="5.6" cy="2.3" r=".4"/><circle cx="2.8" cy="2.4" r=".35"/></g>',
+    ['red', 'blue', 'green', 'violet', 'gold'], { tall: true }],
+  ['mohawk', 'იროკეზი', 1, p => '<path d="M4.4 3.1 4.6.6l.5 1 .3-2 .6 1.4.5-2.1.5 1.8.4-1.1.3 2.3.3-.6.2 2.6Z" fill="' + p.a + '"/>',
+    ['green', 'pink', 'blue', 'red', 'black', 'yellow', 'fire', 'rainbow'], { tall: true }],
+  ['spiky', 'აბურძგნული თმა', 1, p => '<path d="M1.8 3.6 1.2 1.2l1.5.6-.2-2 1.7 1.2.4-2.3 1.4 1.7 1-2 .8 2 1.5-1.5-.1 2.2 1.6-.6-.8 2 .2 1.1Z" fill="' + p.a + '"/>',
+    ['yellow', 'black', 'blue', 'red', 'white', 'pink', 'orange'], { tall: true }],
+  ['afro', 'აფრო ვარცხნილობა', 1, p => '<g fill="' + p.a + '"><circle cx="3.2" cy="2" r="1.6"/><circle cx="8.8" cy="2" r="1.6"/><circle cx="6" cy="1" r="2.4"/><circle cx="4.4" cy=".6" r="1.6"/><circle cx="7.6" cy=".6" r="1.6"/></g>',
+    ['black', 'brown', 'pink', 'blue', 'rainbow'], { tall: true }],
+  ['bow', 'ბაფთა', 0, p => '<g transform="translate(8.2 2.6) rotate(15) scale(1.4)"><polygon points="0,0 -1.6,-.9 -1.6,.9" fill="' + p.a + '"/><polygon points="0,0 1.6,-.9 1.6,.9" fill="' + p.a + '"/><circle r=".45" fill="' + p.b + '"/></g>',
+    ['red', 'pink', 'blue', 'yellow', 'violet', 'black', 'white']],
+  ['phones', 'ყურსასმენი', 1, p => '<path d="M2.1 5.2V3.6C2.1 1.9 3.8 1.1 6 1.1s3.9.8 3.9 2.5v1.6" fill="none" stroke="' + p.b + '" stroke-width=".6"/><rect x=".6" y="4.3" width="1.8" height="3.1" rx=".7" fill="' + p.a + '"/><rect x="9.6" y="4.3" width="1.8" height="3.1" rx=".7" fill="' + p.a + '"/>',
+    ['blue', 'black', 'white', 'green', 'gold', 'neon']],
+  ['ushanka', 'ყურებიანი ქუდი', 1, p => '<rect x="1.2" y="3" width="1.3" height="3.4" rx=".6" fill="' + p.c + '"/><rect x="9.5" y="3" width="1.3" height="3.4" rx=".6" fill="' + p.c + '"/><path d="M2.1 3.2C2.1 1.2 3.8.4 6 .4s3.9.8 3.9 2.8Z" fill="' + p.a + '"/><rect x="1.8" y="2.6" width="8.4" height="1" rx=".4" fill="' + p.c + '"/>',
+    ['brown', 'gray', 'black', 'red'], { tall: true }],
+  ['bucket', 'პანამა', 0, p => '<path d="M3 2.9 3.4.5C3.5 0 4-.2 6-.2s2.5.2 2.6.7L9 2.9Z" fill="' + p.a + '"/><path d="M1.6 3.4 3 2.5h6l1.4.9Z" fill="' + p.b + '"/>',
+    ['yellow', 'green', 'blue', 'white', 'pink', 'black'], { tall: true }],
+  ['catbeanie', 'კატის ნაქსოვი ქუდი', 1, p => '<polygon points="2.5,2 2.8,-.1 4.4,1" fill="' + p.a + '"/><polygon points="9.5,2 9.2,-.1 7.6,1" fill="' + p.a + '"/>' + BEANIE(p.a) + '<rect x="2" y="2.7" width="8" height=".9" rx=".35" fill="' + p.b + '"/>',
+    ['pink', 'black', 'gray', 'yellow'], { tall: true }],
+  ['cone', 'საგზაო კონუსი', 1, p => '<polygon points="6,-2.8 8.3,2.8 3.7,2.8" fill="' + p.a + '"/><polygon points="5.2,-.8 6.8,-.8 7.2,.3 4.8,.3" fill="#f8f9fa"/><polygon points="4.5,1 7.5,1 7.9,2 4.1,2" fill="#f8f9fa"/><rect x="2.8" y="2.7" width="6.4" height=".7" rx=".2" fill="' + p.b + '"/>',
+    ['orange', 'yellow', 'pink'], { tall: true }],
+  ['flame', 'ალის გვირგვინი', 2, p => '<path d="M2.4 3.3C2 2 2.6 1 3.3.4c0 .9.3 1.3.8 1.6C4 .7 4.7-.6 6-1.4c-.3 1.2.1 2 .7 2.5.2-.8.7-1.3 1.4-1.6-.2.9.1 1.4.5 1.9.2-.6.6-1 1.1-1.2.4 1.1.1 2.2-.1 3.1Z" fill="' + p.a + '"/>' +
+    '<path d="M3.6 3.3C3.4 2.6 3.7 2 4.2 1.6c.1.6.3.9.7 1.1.1-.8.5-1.6 1.2-2-.1.8.2 1.4.6 1.8.2-.5.6-.8 1-.9-.1.7.2 1.2.4 1.7Z" fill="' + p.c + '"/>',
+    ['fire', 'ice', 'toxic', 'neon', 'shadow'], { tall: true }],
+  ['antlers', 'ირმის რქები', 1, p => mirror('<path d="M3.6 3.1 3 1.6 2 1.2l.9.1-.6-1 .9.8.3-1.1.2 1.3.6.6-.1-1.2.6 1.1-.1 1.3.4.9Z" fill="' + p.a + '"/>'),
+    ['brown', 'gold', 'white', 'black'], { tall: true }],
+  ['jester', 'ჯამბაზის ქუდი', 1, p => '<path d="M2.2 3.3 1.4-.6 4 1.3 6-1.6 8 1.3l2.6-1.9-.8 3.9Z" fill="' + p.a + '"/><path d="M6-1.6 8 1.3l2.6-1.9-.8 3.9H6Z" fill="' + p.c + '"/><g fill="#ffd43b"><circle cx="1.4" cy="-.6" r=".45"/><circle cx="6" cy="-1.6" r=".45"/><circle cx="10.6" cy="-.6" r=".45"/></g>',
+    ['red', 'blue', 'violet', 'green'], { tall: true }]
+]);
+// ტანსაცმელი: სახელოები 2.1–9.9 × 8.9–10.1, ტანი 2.7–9.3 × 8.9–11.3
+const SHIRT = a => '<rect x="2.1" y="8.9" width="7.8" height="1.2" rx=".35" fill="' + a + '"/><rect x="2.7" y="8.9" width="6.6" height="2.4" rx=".3" fill="' + a + '"/>';
+const shirtTxt = (t, c) => { const n = t.replace(/&\w+;/g, 'x').length; return '<text x="6" y="' + (n > 3 ? 10.55 : 10.75) + '" font-size="' + [0, 1.7, 1.6, 1.3, 1.05, .9][Math.min(5, n)] + '" font-weight="800" text-anchor="middle" fill="' + c + '" font-family="Arial,Helvetica,sans-serif">' + t + '</text>'; };
+const WB_TOPS = wbGen('top', [
+  ['tee', 'მაისური', 0, p => SHIRT(p.a) + '<rect x="5.2" y="8.9" width="1.6" height=".45" fill="' + p.b + '"/>',
+    ['orange', 'yellow', 'lime', 'green', 'teal', 'blue', 'violet', 'pink', 'black', 'white', 'gray', 'brown', 'gold', 'neon', 'rainbow']],
+  ['stripes', 'ზოლიანი მაისური', 1, p => SHIRT(p.a) + '<rect x="2.7" y="9.55" width="6.6" height=".35" fill="#fff"/><rect x="2.7" y="10.35" width="6.6" height=".35" fill="#fff"/><rect x="2.1" y="9.55" width=".6" height=".35" fill="#fff"/><rect x="9.3" y="9.55" width=".6" height=".35" fill="#fff"/>',
+    ['red', 'blue', 'green', 'black', 'pink', 'indigo', 'yellow', 'orange']],
+  ['polka', 'წერტილებიანი მაისური', 1, p => SHIRT(p.a) + '<g fill="#fff">' + [[3.4, 9.5], [5, 10.2], [6.7, 9.5], [8.3, 10.2], [4.1, 10.9], [7.5, 10.9], [2.6, 9.4], [9.4, 9.4]].map(([x, y]) => '<circle cx="' + x + '" cy="' + y + '" r=".27"/>').join('') + '</g>',
+    ['red', 'blue', 'pink', 'black', 'green', 'violet']],
+  ['hoodie', 'ჰუდი', 0, p => '<rect x="2" y="8.8" width="8" height="1.4" rx=".5" fill="' + p.a + '"/><rect x="2.6" y="8.8" width="6.8" height="2.6" rx=".5" fill="' + p.a + '"/><rect x="4.3" y="10.2" width="3.4" height=".85" rx=".3" fill="' + p.b + '"/><rect x="5.1" y="9" width=".25" height=".9" fill="#f8f9fa"/><rect x="6.65" y="9" width=".25" height=".9" fill="#f8f9fa"/>',
+    ['red', 'blue', 'green', 'black', 'gray', 'pink', 'orange', 'yellow', 'galaxy']],
+  ['sweater', 'ნაქსოვი სვიტერი', 1, p => SHIRT(p.a) + '<path d="M2.7 9.9l.55.5.55-.5.55.5.55-.5.55.5.55-.5.55.5.55-.5.55.5.55-.5.55.5.55-.5" fill="none" stroke="#fff" stroke-width=".3"/><rect x="2.7" y="10.95" width="6.6" height=".35" fill="' + p.b + '"/>',
+    ['red', 'green', 'blue', 'brown', 'gray', 'violet']],
+  ['tank', 'მაიკა', 0, p => '<rect x="3.1" y="9.1" width="5.8" height="2.2" rx=".3" fill="' + p.a + '"/><rect x="3.4" y="8.8" width=".8" height=".6" fill="' + p.a + '"/><rect x="7.8" y="8.8" width=".8" height=".6" fill="' + p.a + '"/>',
+    ['white', 'black', 'red', 'blue', 'yellow']],
+  ['jersey', 'სპორტული მაისური', 1, p => SHIRT(p.a) + '<rect x="2.7" y="8.9" width=".35" height="2.4" fill="' + p.b + '"/><rect x="8.95" y="8.9" width=".35" height="2.4" fill="' + p.b + '"/>' +
+    shirtTxt(String({ red: 10, blue: 7, green: 9, yellow: 23, black: 1, white: 5 }[p.k]), p.k === 'yellow' || p.k === 'white' ? '#212529' : '#fff'),
+    ['red', 'blue', 'green', 'yellow', 'black', 'white']],
+  ['suit', 'პიჯაკი', 2, p => SHIRT(p.a) + '<polygon points="4.8,8.9 7.2,8.9 6,10.9" fill="#f8f9fa"/><polygon points="5.75,9.05 6.25,9.05 6.35,10.4 6,10.8 5.65,10.4" fill="' + (p.k === 'red' ? '#212529' : '#e03131') + '"/><path d="M4.8 8.9 5.6 10.4M7.2 8.9l-.8 1.5" stroke="' + p.b + '" stroke-width=".2"/><circle cx="6" cy="11" r=".14" fill="' + p.b + '"/>',
+    ['blue', 'gray', 'brown', 'violet', 'green', 'red']],
+  ['overalls', 'კომბინეზონი', 0, p => SHIRT('#f8f9fa') + '<rect x="3.6" y="9.7" width="4.8" height="1.6" fill="' + p.a + '"/><rect x="3.8" y="8.9" width=".6" height="1" fill="' + p.a + '"/><rect x="7.6" y="8.9" width=".6" height="1" fill="' + p.a + '"/><rect x="5.1" y="10" width="1.8" height=".7" fill="' + p.b + '"/><circle cx="4.1" cy="9.85" r=".18" fill="#fcc419"/><circle cx="7.9" cy="9.85" r=".18" fill="#fcc419"/>',
+    ['blue', 'red', 'green', 'pink', 'brown']],
+  ['chokha', 'ჩოხა', 3, p => {
+    const g = p.k === 'white' ? '#adb5bd' : '#dee2e6';
+    let s = SHIRT(p.a) + '<polygon points="5,8.9 7,8.9 6,10.1" fill="' + (p.k === 'black' ? '#495057' : '#212529') + '"/>';
+    for (let i = 0; i < 4; i++) s += '<rect x="' + (3.15 + i * .38).toFixed(2) + '" y="9.25" width=".22" height=".95" fill="' + g + '"/><rect x="' + (7.25 + i * .38).toFixed(2) + '" y="9.25" width=".22" height=".95" fill="' + g + '"/>';
+    return s + '<rect x="2.7" y="10.55" width="6.6" height=".3" fill="#212529"/><rect x="5.65" y="10.5" width=".7" height=".4" fill="#ced4da"/><rect x="5.85" y="10.9" width=".3" height=".5" fill="#adb5bd"/>';
+  }, ['black', 'white', 'brown', 'red', 'gray', 'blue']],
+  ['armor', 'აბჯარი', 2, p => SHIRT(p.b) + '<path d="M3 8.9h6v1.7c0 .5-.4.7-.8.7H3.8c-.4 0-.8-.2-.8-.7Z" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".15"/><path d="M6 9v2.2" stroke="' + p.b + '" stroke-width=".15"/><ellipse cx="2.6" cy="9.3" rx=".8" ry=".55" fill="' + p.a + '"/><ellipse cx="9.4" cy="9.3" rx=".8" ry=".55" fill="' + p.a + '"/>',
+    ['silver', 'gold', 'bronze', 'black', 'ruby']],
+  ['spacesuit', 'სკაფანდრი', 3, p => SHIRT('#f1f3f5') + '<rect x="2.1" y="9.45" width=".6" height=".35" fill="' + p.a + '"/><rect x="9.3" y="9.45" width=".6" height=".35" fill="' + p.a + '"/><rect x="4.3" y="9.4" width="3.4" height="1.4" rx=".2" fill="#495057"/><rect x="4.6" y="9.65" width=".5" height=".35" fill="#e03131"/><rect x="5.3" y="9.65" width=".5" height=".35" fill="#fcc419"/><rect x="6" y="9.65" width=".5" height=".35" fill="#37b24d"/><rect x="4.6" y="10.25" width="2.8" height=".25" fill="#4dabf7"/><rect x="2.7" y="10.95" width="6.6" height=".35" fill="' + p.a + '"/>',
+    ['blue', 'red', 'orange']],
+  ['hero', 'სუპერგმირის კოსტიუმი', 3, p => SHIRT(p.a) + '<polygon points="6,9.1 7.15,10 6,10.95 4.85,10" fill="' + (p.k === 'gold' ? '#e03131' : '#ffd43b') + '"/><polygon points="6.15,9.45 5.6,10.1 6,10.1 5.8,10.65 6.45,9.9 6.05,9.9" fill="' + (p.k === 'red' ? '#1c7ed6' : '#e03131') + '"/><rect x="2.7" y="11" width="6.6" height=".3" fill="#ffd43b"/>',
+    ['red', 'green', 'black', 'violet', 'gold']],
+  ['hawaii', 'ჰავაის პერანგი', 2, p => SHIRT(p.a) + '<polygon points="5,8.9 7,8.9 6,9.7" fill="' + p.b + '"/>' + [[3.6, 9.7], [6.7, 10.5], [8.3, 9.5], [4.5, 10.85], [2.5, 9.4]].map(([x, y]) => '<g fill="#fff"><circle cx="' + (x - .24) + '" cy="' + y + '" r=".24"/><circle cx="' + (x + .24) + '" cy="' + y + '" r=".24"/><circle cx="' + x + '" cy="' + (y - .24) + '" r=".24"/><circle cx="' + x + '" cy="' + (y + .24) + '" r=".24"/></g><circle cx="' + x + '" cy="' + y + '" r=".16" fill="#fcc419"/>').join(''),
+    ['blue', 'red', 'green', 'yellow', 'pink']],
+  ['camo', 'კამუფლაჟი', 1, p => SHIRT(p.a) + '<g fill="' + p.b + '"><path d="M3 9.3c.6-.4 1.3-.1 1.6.4-.4.5-1.2.6-1.6-.4Z"/><path d="M6.2 9.9c.7-.3 1.4 0 1.5.5-.5.4-1.3.4-1.5-.5Z"/><path d="M3.6 10.6c.5-.2 1.1 0 1.2.4-.4.4-1 .3-1.2-.4Z"/><path d="M8.2 9.1c.5-.1.9.2 1 .5-.4.3-.9.2-1-.5Z"/></g><g fill="' + p.c + '" opacity=".7"><path d="M5 9.2c.4-.2.9 0 1 .3-.3.3-.8.3-1-.3Z"/><path d="M7.5 10.8c.4-.2.9 0 1 .3-.3.3-.8.3-1-.3Z"/><path d="M2.3 9.6c.3-.1.5.1.5.3-.2.2-.4.1-.5-.3Z"/></g>',
+    ['green', 'brown', 'gray', 'pink', 'blue']],
+  ['starshirt', 'ვარსკვლავებიანი მაისური', 2, p => SHIRT(p.a) + '<g fill="#fff">' + [[3.3, 9.4, .2], [4.8, 10.6, .15], [6.2, 9.6, .25], [7.6, 10.4, .17], [8.5, 9.3, .14], [5.5, 11, .12], [2.5, 9.6, .12]].map(([x, y, r]) => '<circle cx="' + x + '" cy="' + y + '" r="' + r + '"/>').join('') + '</g><polygon points="7.05,9.2 7.2,9.55 7.55,9.55 7.27,9.75 7.38,10.1 7.05,9.88 6.72,10.1 6.83,9.75 6.55,9.55 6.9,9.55" fill="#ffe066"/>',
+    ['galaxy', 'shadow', 'sapphire', 'amethyst']],
+  ['xmas', 'საახალწლო სვიტერი', 2, p => SHIRT(p.a) + '<polygon points="6,9.15 7,10.55 5,10.55" fill="' + (p.k === 'green' ? '#f8f9fa' : '#2f9e44') + '"/><rect x="5.85" y="10.55" width=".3" height=".35" fill="#8d5524"/><circle cx="6" cy="9.1" r=".18" fill="#ffd43b"/><g fill="#fff"><circle cx="3.4" cy="9.6" r=".2"/><circle cx="8.6" cy="9.6" r=".2"/><circle cx="3.9" cy="10.8" r=".2"/><circle cx="8.1" cy="10.8" r=".2"/></g>',
+    ['red', 'green', 'blue']],
+  ['pajama', 'პიჟამა', 1, p => SHIRT(p.c) + '<g fill="' + p.a + '"><circle cx="3.5" cy="9.5" r=".22"/><circle cx="8.5" cy="10.6" r=".22"/><circle cx="7.6" cy="9.4" r=".18"/><circle cx="3.6" cy="10.8" r=".18"/></g><path d="M4.6 10.3a.45.45 0 1 0 .5-.6.35.35 0 1 1-.5.6Z" fill="' + p.a + '"/><path d="M6 8.9v2.4" stroke="' + p.b + '" stroke-width=".12"/><g fill="' + p.b + '"><circle cx="6.25" cy="9.4" r=".1"/><circle cx="6.25" cy="10" r=".1"/><circle cx="6.25" cy="10.6" r=".1"/></g>',
+    ['blue', 'pink', 'green']],
+  ['vest', 'ჟილეტი', 1, p => SHIRT('#f8f9fa') + '<path d="M2.9 8.9h2.3l.8 1.6.8-1.6h2.3v2.4H2.9Z" fill="' + p.a + '"/><g fill="' + p.c + '"><circle cx="6" cy="10.75" r=".12"/><circle cx="6" cy="11.1" r=".12"/></g>',
+    ['black', 'brown', 'red', 'blue']],
+  ['biker', 'ტყავის ქურთუკი', 2, p => SHIRT(p.a) + '<path d="M4.9 8.9 6.9 11.3" stroke="#ced4da" stroke-width=".18"/><polygon points="3.6,8.9 4.9,8.9 4.3,10" fill="' + p.b + '"/><polygon points="7.1,8.9 8.4,8.9 7.7,10" fill="' + p.b + '"/><rect x="2.7" y="10.9" width="6.6" height=".4" fill="' + p.b + '"/>',
+    ['black', 'brown', 'red']],
+  ['raincoat', 'საწვიმარი', 0, p => SHIRT(p.a) + '<path d="M6 8.9v2.4" stroke="' + p.b + '" stroke-width=".15"/><g fill="' + p.b + '"><circle cx="5.6" cy="9.5" r=".15"/><circle cx="5.6" cy="10.4" r=".15"/></g><rect x="3.3" y="10.3" width="1.2" height=".7" fill="' + p.b + '" opacity=".6"/><rect x="7.5" y="10.3" width="1.2" height=".7" fill="' + p.b + '" opacity=".6"/>',
+    ['yellow', 'red', 'blue']],
+  ['robe', 'ჯადოქრის მანტია', 2, p => SHIRT(p.a) + '<path d="M4.9 8.9 6 10.4 7.1 8.9" fill="none" stroke="#fcc419" stroke-width=".25"/><rect x="2.1" y="9.75" width=".6" height=".3" fill="#fcc419"/><rect x="9.3" y="9.75" width=".6" height=".3" fill="#fcc419"/><polygon points="7.9,10.2 8.05,10.55 8.4,10.55 8.12,10.75 8.23,11.1 7.9,10.88 7.57,11.1 7.68,10.75 7.4,10.55 7.75,10.55" fill="#fcc419"/>',
+    ['violet', 'blue', 'black']],
+  ['ninjasuit', 'ნინძას კოსტიუმი', 2, p => SHIRT('#25262b') + '<path d="M4.8 8.9 6 10.1 7.2 8.9" fill="none" stroke="#495057" stroke-width=".2"/><rect x="2.7" y="10.45" width="6.6" height=".4" fill="' + p.a + '"/><rect x="7.6" y="10.4" width=".5" height=".9" fill="' + p.a + '"/>',
+    ['red', 'blue', 'gray']],
+  ['uniform', 'ფორმა', 1, p => SHIRT(p.a) + '<rect x="3.3" y="9.5" width="1.3" height=".9" fill="' + p.b + '"/><rect x="7.4" y="9.5" width="1.3" height=".9" fill="' + p.b + '"/><polygon points="8,9.55 8.3,9.85 8,10.25 7.7,9.85" fill="#fcc419"/><path d="M6 8.9v2.4" stroke="' + p.b + '" stroke-width=".15"/>',
+    ['blue', 'green', 'black']]
+]).concat(
+  // პროგრამირების ენების მაისურები
+  wbVar('top', 'lang', v => SHIRT(v[3]) + shirtTxt(v[5], v[4]), [
+    ['js', 'JavaScript-ის მაისური', 2, '#f7df1e', '#212529', 'JS'], ['ts', 'TypeScript-ის მაისური', 2, '#3178c6', '#fff', 'TS'], ['py', 'Python-ის მაისური', 2, '#306998', '#ffd43b', 'Py'],
+    ['java', 'Java-ს მაისური', 2, '#f8f9fa', '#e76f00', 'Java'], ['c', 'C-ს მაისური', 2, '#5c6bc0', '#fff', 'C'], ['cpp', 'C++-ის მაისური', 2, '#00599c', '#fff', 'C++'],
+    ['cs', 'C#-ის მაისური', 2, '#68217a', '#fff', 'C#'], ['go', 'Go-ს მაისური', 2, '#00add8', '#fff', 'Go'], ['rs', 'Rust-ის მაისური', 2, '#2b2f36', '#f74c00', 'Rust'],
+    ['php', 'PHP-ის მაისური', 2, '#777bb4', '#fff', 'php'], ['rb', 'Ruby-ს მაისური', 2, '#cc342d', '#fff', 'Ruby'], ['swift', 'Swift-ის მაისური', 2, '#f05138', '#fff', 'Swift'],
+    ['kt', 'Kotlin-ის მაისური', 2, '#7f52ff', '#fff', 'Kt'], ['lua', 'Lua-ს მაისური', 2, '#000080', '#fff', 'Lua'], ['dart', 'Dart-ის მაისური', 2, '#0175c2', '#fff', 'Dart'],
+    ['html', 'HTML-ის მაისური', 2, '#e34f26', '#fff', 'HTML'], ['css', 'CSS-ის მაისური', 2, '#1572b6', '#fff', 'CSS'], ['code', 'კოდერის მაისური', 3, '#13163a', '#3ddc97', '&lt;/&gt;']
+  ]),
+  wbVar('top', 'coat', v => SHIRT('#f8f9fa') + '<polygon points="4.9,8.9 7.1,8.9 6,10.4" fill="#dee2e6"/><rect x="7.4" y="9.9" width="1.2" height=".9" fill="none" stroke="#ced4da" stroke-width=".12"/>' + v[3], [
+    ['doctor', 'ექიმის ხალათი', 1, '<rect x="3.6" y="9.7" width=".9" height=".3" fill="#e03131"/><rect x="3.9" y="9.4" width=".3" height=".9" fill="#e03131"/>'],
+    ['science', 'მეცნიერის ხალათი', 1, '<rect x="7.7" y="9.6" width=".18" height=".6" fill="#1c7ed6"/><rect x="8.05" y="9.6" width=".18" height=".6" fill="#e03131"/><path d="M3.8 9.5h.6v.5l.4.8h-1.4l.4-.8Z" fill="#69db7c"/>'],
+    ['chef', 'მზარეულის ქურთუკი', 1, '<g fill="#adb5bd"><circle cx="5.2" cy="9.9" r=".14"/><circle cx="6.8" cy="9.9" r=".14"/><circle cx="5.2" cy="10.6" r=".14"/><circle cx="6.8" cy="10.6" r=".14"/></g>']
+  ]),
+  wbVar('top', 'karate', v => SHIRT('#f8f9fa') + '<path d="M4.8 8.9 6 10.2 7.2 8.9" stroke="#ced4da" stroke-width=".18" fill="none"/><rect x="2.7" y="10.5" width="6.6" height=".42" fill="' + v[3] + '"/><rect x="5.6" y="10.4" width=".8" height=".95" fill="' + v[3] + '"/>', [
+    ['white', 'კიმონო თეთრი ქამრით', 0, '#e9ecef'], ['yellow', 'კიმონო ყვითელი ქამრით', 0, '#fcc419'], ['orange', 'კიმონო ნარინჯისფერი ქამრით', 1, '#fd7e14'],
+    ['green', 'კიმონო მწვანე ქამრით', 1, '#37b24d'], ['blue', 'კიმონო ლურჯი ქამრით', 2, '#1c7ed6'], ['brown', 'კიმონო ყავისფერი ქამრით', 3, '#8d5524'], ['black', 'კიმონო შავი ქამრით', 4, '#212529']
+  ]),
+  wbVar('top', 'flag', () => SHIRT('#f8f9fa') + '<rect x="5.6" y="8.9" width=".8" height="2.4" fill="#e03131"/><rect x="2.1" y="9.75" width="7.8" height=".7" fill="#e03131"/>' +
+    [[4.1, 9.3], [7.9, 9.3], [4.1, 10.85], [7.9, 10.85]].map(([x, y]) => '<rect x="' + (x - .25) + '" y="' + (y - .07) + '" width=".5" height=".14" fill="#e03131"/><rect x="' + (x - .07) + '" y="' + (y - .25) + '" width=".14" height=".5" fill="#e03131"/>').join(''), [
+    ['ge', 'საქართველოს დროშის მაისური', 3]
+  ])
+);
+// სათვალე და თვალები: ეკრანი 3–9 × 4–7.4, თვალების ცენტრები (4.6, 5.65) და (7.4, 5.65)
+const EYES_OFF = '<rect x="3.8" y="4.75" width="4.4" height="1.85" fill="#13163a"/>';   // ბიტის მწვანე თვალებს ფარავს
+const EYES_ON = '<rect x="4.2" y="5.2" width=".8" height="1" fill="#3ddc97"/><rect x="7" y="5.2" width=".8" height="1" fill="#3ddc97"/>';
+const starPts = (cx, cy, R, r) => Array.from({ length: 10 }, (_, i) => { const a = Math.PI / 5 * i - Math.PI / 2, q = i % 2 ? r : R; return (cx + q * Math.cos(a)).toFixed(2) + ',' + (cy + q * Math.sin(a)).toFixed(2); }).join(' ');
+const heartAt = (x, y, s, f) => '<path transform="translate(' + x + ' ' + y + ') scale(' + s + ')" d="M0 -.3c0-.6-1-.9-1.1-.3-.1.5.5.9 1.1 1.4.6-.5 1.2-.9 1.1-1.4-.1-.6-1.1-.3-1.1.3Z" fill="' + f + '"/>';
+const WB_EYES = wbGen('eyes', [
+  ['round', 'მრგვალი სათვალე', 0, p => '<g fill="none" stroke="' + p.a + '" stroke-width=".3"><circle cx="4.6" cy="5.65" r="1.05"/><circle cx="7.4" cy="5.65" r="1.05"/></g><rect x="5.6" y="5.45" width=".8" height=".3" fill="' + p.a + '"/>',
+    ['red', 'gold', 'pink', 'green', 'orange', 'cyan']],
+  ['square', 'კვადრატული სათვალე', 0, p => '<g fill="none" stroke="' + p.a + '" stroke-width=".3"><rect x="3.4" y="4.7" width="2.4" height="1.9" rx=".2"/><rect x="6.2" y="4.7" width="2.4" height="1.9" rx=".2"/></g><rect x="5.8" y="5.4" width=".4" height=".25" fill="' + p.a + '"/><rect x="2" y="5.2" width="1.4" height=".25" fill="' + p.a + '"/><rect x="8.6" y="5.2" width="1.4" height=".25" fill="' + p.a + '"/>',
+    ['red', 'cyan', 'yellow', 'white', 'pink', 'lime']],
+  ['shades', 'მზის სათვალე', 0, p => '<rect x="3.3" y="4.6" width="2.5" height="1.9" rx=".45" fill="' + p.a + '"/><rect x="6.2" y="4.6" width="2.5" height="1.9" rx=".45" fill="' + p.a + '"/><rect x="5.7" y="5.1" width=".6" height=".3" fill="' + p.b + '"/><rect x="3.6" y="4.85" width=".8" height=".35" fill="#fff" opacity=".55"/><rect x="6.5" y="4.85" width=".8" height=".35" fill="#fff" opacity=".55"/>',
+    ['blue', 'red', 'pink', 'green', 'violet', 'orange', 'gold', 'silver', 'neon', 'rainbow']],
+  ['aviator', 'ავიატორის სათვალე', 1, p => mirror('<path d="M3.2 4.75h2.5c0 1.2-.5 1.85-1.25 1.85S3.2 5.95 3.2 4.75Z" fill="' + p.a + '" stroke="#fcc419" stroke-width=".15"/><rect x="3.5" y="4.95" width=".6" height=".3" fill="#fff" opacity=".5"/>') + '<rect x="3.2" y="4.55" width="5.6" height=".2" fill="#fcc419"/>',
+    ['black', 'gold', 'blue', 'green', 'pink']],
+  ['hearts', 'გულიანი სათვალე', 1, p => heartAt(4.6, 5.6, 1.25, p.a) + heartAt(7.4, 5.6, 1.25, p.a) + '<rect x="5.55" y="5.35" width=".9" height=".2" fill="' + p.a + '"/>',
+    ['red', 'violet', 'gold', 'neon', 'rainbow']],
+  ['starglass', 'ვარსკვლავის სათვალე', 1, p => '<polygon points="' + starPts(4.6, 5.7, 1.25, .55) + '" fill="' + p.a + '"/><polygon points="' + starPts(7.4, 5.7, 1.25, .55) + '" fill="' + p.a + '"/><rect x="5.6" y="5.45" width=".8" height=".2" fill="' + p.a + '"/>',
+    ['yellow', 'pink', 'blue', 'gold', 'rainbow']],
+  ['ski', 'სათხილამურო სათვალე', 1, p => '<rect x="1.9" y="5.3" width="8.2" height=".6" fill="' + p.b + '"/><rect x="3.1" y="4.4" width="5.8" height="2.4" rx="1.1" fill="' + p.a + '" stroke="#212529" stroke-width=".25"/><path d="M3.8 5.1c.6-.4 1.3-.5 2-.4" stroke="#fff" stroke-width=".25" fill="none" opacity=".7"/>',
+    ['fire', 'ice', 'gold', 'neon', 'rainbow', 'blue']],
+  ['monocle', 'მონოკლი', 2, p => '<circle cx="7.4" cy="5.65" r="1.15" fill="#fff" fill-opacity=".15" stroke="' + p.a + '" stroke-width=".25"/><path d="M8.4 6.2c.5.8.3 1.8-.4 2.6" fill="none" stroke="' + p.a + '" stroke-width=".12"/>',
+    ['gold', 'silver', 'bronze']],
+  ['patch', 'სახვევი', 1, p => '<rect x="2" y="4.15" width="8" height=".3" fill="' + p.b + '" transform="rotate(-8 6 4.3)"/><rect x="6.35" y="4.6" width="2.1" height="2" rx=".7" fill="' + p.a + '"/>',
+    ['red', 'brown', 'violet']],
+  ['vr', 'VR სათვალე', 2, p => '<rect x="1.9" y="5.2" width="1" height=".7" fill="#212529"/><rect x="9.1" y="5.2" width="1" height=".7" fill="#212529"/><rect x="2.9" y="4.3" width="6.2" height="2.6" rx=".5" fill="' + p.a + '"/><rect x="3.2" y="4.55" width="5.6" height=".45" fill="#fff" opacity=".22"/><circle cx="8.3" cy="6.4" r=".2" fill="#3ddc97"/>',
+    ['white', 'black', 'red', 'blue']],
+  ['visor', 'ვიზორი', 2, p => '<rect x="2.9" y="4.6" width="6.2" height="1.9" rx=".9" fill="' + p.a + '" opacity=".85"/><rect x="3.4" y="4.85" width="2.4" height=".35" fill="#fff" opacity=".6"/>',
+    ['red', 'cyan', 'lime', 'gold', 'rainbow']],
+  ['pixel', 'პიქსელ სათვალე', 2, p => '<path d="M2.6 4.7h6.8v.5H8.8v1.2H7.2v-.5h-.4v-.7H5.2v.7h-.4v.5H3.2V5.2h-.6Z" fill="' + p.a + '"/><rect x="3.6" y="5.25" width=".4" height=".4" fill="#fff" opacity=".8"/><rect x="7.6" y="5.25" width=".4" height=".4" fill="#fff" opacity=".8"/>',
+    ['black', 'white', 'gold', 'neon']],
+  ['laser', 'ლაზერის თვალები', 3, p => '<path d="M4.6 5.65 12.4 9.4M7.4 5.65l5 2.4" stroke="' + p.s + '" stroke-width=".55" stroke-linecap="round" opacity=".85"/><path d="M4.6 5.65 12.4 9.4M7.4 5.65l5 2.4" stroke="#fff" stroke-width=".18" stroke-linecap="round"/><circle cx="4.6" cy="5.65" r=".75" fill="' + p.s + '"/><circle cx="7.4" cy="5.65" r=".75" fill="' + p.s + '"/>',
+    ['red', 'blue', 'green', 'violet', 'gold']],
+  ['sparkle', 'ვარსკვლავიანი თვალები', 1, p => EYES_OFF + '<polygon points="' + starPts(4.6, 5.7, .95, .4) + '" fill="' + p.a + '"/><polygon points="' + starPts(7.4, 5.7, .95, .4) + '" fill="' + p.a + '"/>',
+    ['yellow', 'pink', 'cyan', 'white']],
+  ['hypno', 'ჰიპნოზის თვალები', 2, p => EYES_OFF + [4.6, 7.4].map(x => '<g fill="none" stroke="' + p.a + '" stroke-width=".2"><circle cx="' + x + '" cy="5.65" r=".8"/><circle cx="' + x + '" cy="5.65" r=".45"/></g><circle cx="' + x + '" cy="5.65" r=".12" fill="' + p.a + '"/>').join(''),
+    ['white', 'pink', 'green', 'violet']],
+  ['cateye', 'კატის თვალის სათვალე', 1, p => mirror('<path d="M3.3 5C3.3 4.6 3.6 4.5 4 4.5h1.6c.2 0 .3.2.3.4v.8c0 .5-.4.9-.9.9h-.8c-.5 0-.9-.4-.9-.9Z" fill="none" stroke="' + p.a + '" stroke-width=".3"/><path d="M3.4 4.75 2.6 4.1" stroke="' + p.a + '" stroke-width=".3"/>') + '<rect x="5.9" y="5" width=".2" height=".25" fill="' + p.a + '"/>',
+    ['pink', 'red', 'white', 'gold', 'violet']],
+  ['snorkel', 'ყვინთვის ნიღაბი', 1, p => '<rect x="1.9" y="5.2" width="8.2" height=".55" fill="#212529"/><rect x="3" y="4.4" width="6" height="2.4" rx=".8" fill="#a5d8ff" fill-opacity=".35" stroke="' + p.a + '" stroke-width=".35"/><path d="M9.6 6.5V2.2c0-.4.3-.6.6-.6h.6" fill="none" stroke="' + p.a + '" stroke-width=".45"/>',
+    ['yellow', 'orange', 'blue']],
+  ['binary', 'ბინარული ვიზორი', 2, p => '<rect x="2.9" y="4.5" width="6.2" height="2" rx=".4" fill="#0b0f19" stroke="' + p.s + '" stroke-width=".18"/><text x="6" y="5.9" font-size=".95" text-anchor="middle" fill="' + p.s + '" font-family="Consolas,monospace" font-weight="700">0101</text>',
+    ['green', 'cyan', 'red', 'neon']],
+  ['glow', 'მანათობელი თვალები', 0, p => '<rect x="3.7" y="4.6" width="1.8" height="2.1" rx=".5" fill="' + p.a + '" opacity=".3"/><rect x="6.5" y="4.6" width="1.8" height="2.1" rx=".5" fill="' + p.a + '" opacity=".3"/><rect x="4" y="4.9" width="1.2" height="1.5" fill="' + p.a + '"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="' + p.a + '"/>',
+    ['blue', 'red', 'pink', 'yellow', 'white', 'violet', 'orange', 'rainbow']],
+  ['happy', 'ბედნიერი თვალები', 0, p => EYES_OFF + '<path d="M4 6.1l.6-.7.6.7M6.8 6.1l.6-.7.6.7" fill="none" stroke="' + p.a + '" stroke-width=".35"/>',
+    ['green', 'pink', 'yellow', 'cyan']],
+  ['sleepy', 'მძინარე თვალები', 0, p => EYES_OFF + '<path d="M4 5.9h1.2M6.8 5.9H8" stroke="' + p.a + '" stroke-width=".3"/><text x="9.5" y="3.6" font-size="1.1" fill="' + p.a + '" font-weight="800" font-family="Arial,sans-serif">Z</text><text x="10.5" y="2.7" font-size=".8" fill="' + p.a + '" font-weight="800" font-family="Arial,sans-serif">z</text>',
+    ['cyan', 'white']],
+  ['codeeyes', 'კოდის თვალები', 1, p => EYES_OFF + '<path d="M5.1 5 4.2 5.65l.9.65M6.9 5l.9.65-.9.65" stroke="' + p.a + '" stroke-width=".35" fill="none"/>',
+    ['lime', 'cyan', 'pink', 'yellow']],
+  ['masq', 'მასკარადის ნიღაბი', 2, p => '<path d="M2.7 4.9C1.8 4 1.6 2.9 2 2c.4.9 1 1.7 1.3 2.7Z" fill="' + p.c + '"/><path d="M2.6 5c.8-.7 2-.8 3.4 0 1.4-.8 2.6-.7 3.4 0-.1 1.2-.8 1.9-1.8 1.9-.8 0-1.3-.4-1.6-.9-.3.5-.8.9-1.6.9-1 0-1.7-.7-1.8-1.9Z" fill="' + p.a + '"/>' +
+    '<ellipse cx="4.6" cy="5.55" rx=".75" ry=".5" fill="#13163a"/><ellipse cx="7.4" cy="5.55" rx=".75" ry=".5" fill="#13163a"/><rect x="4.35" y="5.25" width=".5" height=".6" fill="#3ddc97"/><rect x="7.15" y="5.25" width=".5" height=".6" fill="#3ddc97"/>',
+    ['gold', 'red', 'violet', 'silver', 'black']],
+  ['heromask', 'გმირის ნიღაბი', 1, p => '<path d="M10 5.2l1.3-.5-.2 1.1ZM10 5.7l1.1.9.1-1Z" fill="' + p.a + '"/><rect x="1.9" y="4.6" width="8.2" height="1.9" rx=".7" fill="' + p.a + '"/><ellipse cx="4.6" cy="5.55" rx=".8" ry=".55" fill="#13163a"/><ellipse cx="7.4" cy="5.55" rx=".8" ry=".55" fill="#13163a"/>' + EYES_ON,
+    ['black', 'red', 'blue', 'green', 'violet']],
+  ['steam', 'სტიმპანკის სათვალე', 2, p => '<rect x="1.9" y="5.4" width="8.2" height=".5" fill="#6b3410"/>' + [4.6, 7.4].map(x => '<circle cx="' + x + '" cy="5.65" r="1.15" fill="#13163a" stroke="' + p.a + '" stroke-width=".4"/><circle cx="' + x + '" cy="5.65" r=".75" fill="#ff922b" opacity=".55"/>').join(''),
+    ['bronze', 'gold', 'silver']],
+  ['cyclops', 'ციკლოპის თვალი', 1, p => EYES_OFF + '<circle cx="6" cy="5.7" r="1.15" fill="' + p.a + '"/><circle cx="6" cy="5.7" r=".5" fill="#13163a"/><circle cx="6.35" cy="5.35" r=".25" fill="#fff"/>',
+    ['green', 'red', 'blue', 'yellow']]
+]).concat(
+  wbVar('eyes', 'v', v => v[3], [
+    ['3d', '3D სათვალე', 1, '<rect x="3.2" y="4.55" width="5.6" height="2" rx=".3" fill="#f8f9fa"/><rect x="3.5" y="4.8" width="2.1" height="1.5" fill="#fa5252" opacity=".85"/><rect x="6.4" y="4.8" width="2.1" height="1.5" fill="#22b8cf" opacity=".85"/>'],
+    ['coins', 'ფულის თვალები', 3, EYES_OFF + [4.6, 7.4].map(x => '<circle cx="' + x + '" cy="5.65" r=".85" fill="#fcc419" stroke="#e67700" stroke-width=".15"/><text x="' + x + '" y="6.03" font-size="1.05" text-anchor="middle" fill="#e67700" font-weight="800" font-family="Arial,sans-serif">$</text>').join('')],
+    ['wink', 'თვალის ჩაკვრა', 0, '<rect x="6.6" y="4.75" width="1.6" height="1.85" fill="#13163a"/><path d="M6.8 5.85l.6-.45.6.45" fill="none" stroke="#3ddc97" stroke-width=".35"/>']
+  ])
+);
+// კისერზე: თავი 9-ზე მთავრდება, ტანი 9-დან იწყება. ნახატი ტანსაცმლის ზემოთ იხატება
+const neckArc = n => Array.from({ length: n }, (_, i) => { const t = i / (n - 1), x = 3.4 + 5.2 * t; return [x, 8.95 + 1.15 * Math.sin(Math.PI * t)]; });
+const BOWTIE = (a, b) => '<polygon points="6,9.2 4.5,8.55 4.5,9.85" fill="' + a + '"/><polygon points="6,9.2 7.5,8.55 7.5,9.85" fill="' + a + '"/><rect x="5.65" y="8.85" width=".7" height=".7" fill="' + b + '"/>';
+const TIE = (a, b) => '<polygon points="5.45,8.8 6.55,8.8 6.3,9.35 5.7,9.35" fill="' + b + '"/><polygon points="5.7,9.35 6.3,9.35 6.65,10.9 6,11.5 5.35,10.9" fill="' + a + '"/>';
+const WB_NECK = wbGen('neck', [
+  ['bowtie', 'პეპელა', 0, p => BOWTIE(p.a, p.b), ['blue', 'cyan', 'pink', 'green', 'yellow', 'violet', 'white', 'orange', 'gold', 'rainbow']],
+  ['dotbow', 'წერტილებიანი პეპელა', 1, p => BOWTIE(p.a, p.b) + '<g fill="#fff"><circle cx="4.9" cy="8.95" r=".14"/><circle cx="5.2" cy="9.45" r=".14"/><circle cx="7.1" cy="8.95" r=".14"/><circle cx="6.8" cy="9.45" r=".14"/></g>', ['red', 'blue', 'green', 'pink']],
+  ['tie', 'ჰალსტუხი', 0, p => TIE(p.a, p.b), ['red', 'green', 'white', 'yellow', 'pink', 'violet', 'orange', 'gold']],
+  ['stripetie', 'ზოლიანი ჰალსტუხი', 1, p => TIE(p.a, p.b) + '<path d="M5.55 9.95l1-.4M5.5 10.65l1.15-.45" stroke="#fff" stroke-width=".2"/>', ['red', 'blue', 'green', 'violet']],
+  ['scarf', 'შარფი', 0, p => '<rect x="2.6" y="8.5" width="6.8" height="1.1" rx=".45" fill="' + p.a + '"/><rect x="3.4" y="8.5" width=".7" height="1.1" fill="#fff" opacity=".6"/><rect x="5.6" y="8.5" width=".7" height="1.1" fill="#fff" opacity=".6"/><rect x="7" y="9.3" width="1.3" height="2.3" rx=".35" fill="' + p.b + '"/>',
+    ['blue', 'green', 'yellow', 'pink', 'violet', 'black', 'orange', 'fire', 'rainbow']],
+  ['medal', 'მედალი', 1, p => '<polygon points="4.6,8.8 5.4,8.8 6,9.9 6.6,8.8 7.4,8.8 6.45,10.3 5.55,10.3" fill="#4dabf7"/><polygon points="5.4,8.8 6,9.9 6.6,8.8 6.3,8.8 6,9.4 5.7,8.8" fill="#e03131"/><circle cx="6" cy="10.6" r=".78" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".15"/><polygon points="' + starPts(6, 10.62, .42, .18) + '" fill="' + p.c + '"/>',
+    ['silver', 'bronze', 'ruby', 'sapphire', 'emerald', 'diamond']],
+  ['pearls', 'მარგალიტის ყელსაბამი', 1, p => neckArc(11).map(([x, y]) => '<circle cx="' + x.toFixed(2) + '" cy="' + y.toFixed(2) + '" r=".26" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".06"/>').join(''), ['white', 'pink', 'black', 'gold']],
+  ['lei', 'ყვავილების ყელსაბამი', 1, p => neckArc(7).map(([x, y], i) => '<circle cx="' + x.toFixed(2) + '" cy="' + y.toFixed(2) + '" r=".5" fill="' + (i % 2 ? p.c : p.a) + '"/><circle cx="' + x.toFixed(2) + '" cy="' + y.toFixed(2) + '" r=".16" fill="#ffd43b"/>').join(''), ['pink', 'yellow', 'red', 'violet', 'white']],
+  ['collar', 'საყელო ზარით', 0, p => '<rect x="3" y="8.65" width="6" height=".7" rx=".3" fill="' + p.a + '"/><circle cx="6" cy="9.75" r=".45" fill="#fcc419" stroke="#e67700" stroke-width=".12"/><rect x="5.75" y="9.75" width=".5" height=".12" fill="#e67700"/>', ['red', 'blue', 'pink', 'green', 'yellow']],
+  ['kerchief', 'ყელსახვევი', 0, p => '<polygon points="3.2,8.7 8.8,8.7 6,10.7" fill="' + p.a + '"/><rect x="3" y="8.5" width="6" height=".5" rx=".2" fill="' + p.b + '"/><g fill="#fff"><circle cx="5" cy="9.3" r=".13"/><circle cx="7" cy="9.3" r=".13"/><circle cx="6" cy="9.9" r=".13"/></g>', ['red', 'blue', 'orange', 'green', 'yellow', 'pink']],
+  ['neckphones', 'ყურსასმენი კისერზე', 1, p => '<path d="M3 9.6C3 8.6 4.3 8.3 6 8.3s3 .3 3 1.3" fill="none" stroke="' + p.b + '" stroke-width=".4"/><rect x="2.3" y="9.2" width="1.3" height="1.6" rx=".5" fill="' + p.a + '"/><rect x="8.4" y="9.2" width="1.3" height="1.6" rx=".5" fill="' + p.a + '"/>', ['black', 'white', 'red', 'blue', 'neon']],
+  ['camera', 'ფოტოაპარატი', 1, p => '<path d="M3.4 8.8 5 10M8.6 8.8 7 10" stroke="#212529" stroke-width=".2"/><rect x="4.6" y="9.8" width="2.8" height="1.6" rx=".25" fill="' + p.a + '"/><circle cx="6" cy="10.6" r=".55" fill="#212529" stroke="#adb5bd" stroke-width=".15"/><rect x="6.7" y="9.95" width=".4" height=".25" fill="#fff"/>', ['black', 'pink', 'blue', 'yellow']],
+  ['whistle', 'სასტვენი', 0, p => '<path d="M3.6 8.8 6 10.2 8.4 8.8" fill="none" stroke="' + p.a + '" stroke-width=".22"/><rect x="5.5" y="10.1" width="1.4" height=".7" rx=".3" fill="#ced4da"/><circle cx="5.8" cy="10.45" r=".22" fill="#495057"/>', ['red', 'blue', 'green']],
+  ['bigbow', 'დიდი ბაფთა', 0, p => '<path d="M5.6 9.3 5 10.6M6.4 9.3l.6 1.3" stroke="' + p.a + '" stroke-width=".35"/><ellipse cx="4.9" cy="9.1" rx="1.1" ry=".6" fill="' + p.a + '"/><ellipse cx="7.1" cy="9.1" rx="1.1" ry=".6" fill="' + p.a + '"/><circle cx="6" cy="9.1" r=".4" fill="' + p.b + '"/>', ['pink', 'red', 'blue', 'yellow', 'violet']],
+  ['amulet', 'ამულეტი', 1, p => '<path d="M3.6 8.8 6 10.1 8.4 8.8" fill="none" stroke="#8d5524" stroke-width=".18"/><polygon points="6,9.9 6.65,10.5 6,11.3 5.35,10.5" fill="' + p.a + '" stroke="#fcc419" stroke-width=".18"/><polygon points="6,9.9 6.65,10.5 6,10.6" fill="#fff" opacity=".4"/>',
+    ['ruby', 'sapphire', 'emerald', 'amethyst', 'diamond', 'galaxy']],
+  ['badge', 'კოდერის ბეჯი', 1, p => '<path d="M3.6 8.8 5.6 10.1M8.4 8.8 6.4 10.1" stroke="' + p.a + '" stroke-width=".25"/><rect x="5" y="10" width="2" height="1.4" rx=".15" fill="#f8f9fa" stroke="#ced4da" stroke-width=".08"/><rect x="5.25" y="10.2" width=".5" height=".5" fill="' + p.a + '"/><rect x="5.9" y="10.25" width=".9" height=".12" fill="#495057"/><rect x="5.9" y="10.5" width=".7" height=".12" fill="#adb5bd"/><rect x="5.25" y="10.9" width="1.5" height=".2" fill="' + p.a + '"/>',
+    ['blue', 'red', 'green', 'violet']],
+  ['longscarf', 'გრძელი შარფი', 1, p => '<rect x="2.6" y="8.5" width="6.8" height="1.1" rx=".45" fill="' + p.a + '"/><rect x="3.2" y="9.3" width="1.2" height="3.3" rx=".3" fill="' + p.a + '"/><rect x="3.2" y="10.2" width="1.2" height=".35" fill="#fff"/><rect x="3.2" y="11.1" width="1.2" height=".35" fill="#fff"/><path d="M3.35 12.6v.4M3.8 12.6v.4M4.25 12.6v.4" stroke="' + p.b + '" stroke-width=".15"/>',
+    ['red', 'blue', 'green', 'violet', 'rainbow']],
+  ['dogtag', 'ჟეტონი', 1, p => '<path d="M3.6 8.8 6 10.1 8.4 8.8" fill="none" stroke="' + p.b + '" stroke-width=".14" stroke-dasharray=".2 .1"/><rect x="5.5" y="10" width=".9" height="1.2" rx=".25" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".08"/><rect x="5.9" y="10.2" width=".9" height="1.2" rx=".25" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".08"/>', ['silver', 'gold']],
+  ['boa', 'ბუმბულის ბოა', 2, p => neckArc(9).map(([x, y], i) => '<circle cx="' + x.toFixed(2) + '" cy="' + (y - .1).toFixed(2) + '" r=".55" fill="' + (i % 2 ? p.c : p.a) + '"/>').join(''), ['pink', 'white', 'violet', 'gold', 'rainbow', 'galaxy']],
+  ['flower', 'ყვავილი მკერდზე', 0, p => '<path d="M3.9 10.1v.8" stroke="#2f9e44" stroke-width=".18"/><g fill="' + p.a + '"><circle cx="3.6" cy="9.6" r=".3"/><circle cx="4.2" cy="9.6" r=".3"/><circle cx="3.9" cy="9.3" r=".3"/><circle cx="3.9" cy="9.9" r=".3"/></g><circle cx="3.9" cy="9.6" r=".17" fill="#ffd43b"/>', ['red', 'pink', 'white', 'yellow']]
+]).concat(
+  wbVar('neck', 'chain', v => '<path d="M3.6 8.9 6 10.4 8.4 8.9" fill="none" stroke="#fcc419" stroke-width=".22" stroke-dasharray=".3 .12"/>' + v[3], [
+    ['star', 'ოქროს ჯაჭვი ვარსკვლავით', 2, '<polygon points="' + starPts(6, 10.75, .55, .24) + '" fill="#fcc419" stroke="#e67700" stroke-width=".1"/>'],
+    ['heart', 'ოქროს ჯაჭვი გულით', 2, heartAt(6, 10.8, .9, '#ff4d8d')],
+    ['dollar', 'ოქროს ჯაჭვი დოლარით', 3, '<circle cx="6" cy="10.75" r=".6" fill="#fcc419" stroke="#e67700" stroke-width=".12"/><text x="6" y="11.12" font-size=".95" text-anchor="middle" fill="#e67700" font-weight="800" font-family="Arial,sans-serif">$</text>'],
+    ['gem', 'ოქროს ჯაჭვი ბრილიანტით', 4, '<polygon points="5.4,10.4 6.6,10.4 6.9,10.75 6,11.6 5.1,10.75" fill="#c5f6fa" stroke="#3bc9db" stroke-width=".1"/><polygon points="5.4,10.4 6,10.4 5.7,10.75 5.1,10.75" fill="#fff"/>'],
+    ['code', 'კოდერის ჯაჭვი', 3, '<rect x="5.2" y="10.3" width="1.6" height="1" rx=".2" fill="#13163a" stroke="#fcc419" stroke-width=".12"/><path d="M5.75 10.5l-.3.3.3.3M6.25 10.5l.3.3-.3.3" stroke="#3ddc97" stroke-width=".15" fill="none"/>']
+  ]),
+  wbVar('neck', 'v', v => v[3], [
+    ['stetho', 'სტეტოსკოპი', 1, '<path d="M3.6 8.7c0 1.4.7 2 1.4 2.1M8.4 8.7c0 1.4-.7 2-1.4 2.1M5 10.8c.3.6.6.9 1 .9s.7-.3 1-.9" fill="none" stroke="#495057" stroke-width=".22"/><circle cx="6" cy="11.75" r=".35" fill="#ced4da" stroke="#868e96" stroke-width=".1"/>']
+  ])
+);
+// ზურგზე: ნახატი ბიტის უკან იხატება (back), ღვედები და მხარზე მჯდომი — წინ (front)
+const CAPE = (a, b) => '<path d="M2.7 8.7H9.3L10.7 12.9H1.3Z" fill="' + a + '"/><path d="M2.7 8.7H9.3L9.6 9.6H2.4Z" fill="' + b + '"/>';
+const flagGe = (x, y, w, h) => {
+  const cx = x + w / 2, cy = y + h / 2, t = h * .18, q = (px, py) => '<rect x="' + (px - w * .07).toFixed(2) + '" y="' + (py - t * .25).toFixed(2) + '" width="' + (w * .14).toFixed(2) + '" height="' + (t * .5).toFixed(2) + '"/><rect x="' + (px - t * .25).toFixed(2) + '" y="' + (py - h * .1).toFixed(2) + '" width="' + (t * .5).toFixed(2) + '" height="' + (h * .2).toFixed(2) + '"/>';
+  return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="#fff" stroke="#dee2e6" stroke-width=".06"/><g fill="#e03131"><rect x="' + (cx - t / 2).toFixed(2) + '" y="' + y + '" width="' + t.toFixed(2) + '" height="' + h + '"/><rect x="' + x + '" y="' + (cy - t / 2).toFixed(2) + '" width="' + w + '" height="' + t.toFixed(2) + '"/>' +
+    q(x + w * .25, y + h * .25) + q(x + w * .75, y + h * .25) + q(x + w * .25, y + h * .75) + q(x + w * .75, y + h * .75) + '</g>';
+};
+const WB_BACK = wbGen('back', [
+  ['backpack', 'ზურგჩანთა', 0, p => '<rect x="1.7" y="8.3" width="8.6" height="3.3" rx=".9" fill="' + p.a + '"/>',
+    ['red', 'blue', 'green', 'pink', 'violet', 'black', 'yellow', 'teal', 'gray', 'rainbow'], { front: p => '<rect x="3.45" y="9" width=".55" height="2.2" fill="' + p.b + '"/><rect x="8" y="9" width=".55" height="2.2" fill="' + p.b + '"/>' }],
+  ['cape', 'მოსასხამი', 2, p => CAPE(p.a, p.b), ['blue', 'black', 'violet', 'green', 'pink', 'gold', 'galaxy']],
+  ['royal', 'სამეფო მოსასხამი', 3, p => CAPE(p.a, p.b) + '<path d="M1.3 12.75h9.4" stroke="#f8f9fa" stroke-width=".4"/><rect x="2.2" y="8.45" width="7.6" height=".85" rx=".35" fill="#f8f9fa"/><g fill="#212529"><circle cx="2.7" cy="8.85" r=".1"/><circle cx="9.3" cy="8.85" r=".1"/><circle cx="2" cy="12.75" r=".1"/><circle cx="4" cy="12.75" r=".1"/><circle cx="8" cy="12.75" r=".1"/><circle cx="10" cy="12.75" r=".1"/></g>',
+    ['red', 'violet', 'blue', 'ruby']],
+  ['jetpack', 'რეაქტიული ზურგჩანთა', 3, p => mirror('<rect x="1.1" y="8" width="2" height="3.1" rx=".8" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".15"/><polygon points="1.35,11.1 2.1,12.9 2.85,11.1" fill="#ff922b"/><polygon points="1.7,11.1 2.1,12.2 2.5,11.1" fill="#ffd43b"/>'),
+    ['red', 'gold', 'black', 'blue', 'neon']],
+  ['wings', 'ფრთები', 3, p => mirror('<path d="M3 9.4C1.5 7.6-.1 7.5.1 8.8c.6.2 1 .5 1.1 1-.7 0-1 .4-.8.9.8-.1 1.6.1 2.5.6Z" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".15"/>'),
+    ['gold', 'black', 'pink', 'blue', 'rainbow']],
+  ['butterfly', 'პეპლის ფრთები', 2, p => mirror('<path d="M3.2 9.2C1.4 7.2-.2 7.6.2 9c.2.8 1.4 1 3 .6Z" fill="' + p.a + '"/><path d="M3.2 9.8C1.6 10 .5 10.9 1 11.8c.5.8 1.8.3 2.4-1.4Z" fill="' + p.c + '"/><circle cx="1.2" cy="8.8" r=".3" fill="#fff" opacity=".8"/>'),
+    ['blue', 'pink', 'yellow', 'violet', 'orange', 'green', 'rainbow', 'galaxy']],
+  ['bat', 'ღამურას ფრთები', 3, p => mirror('<path d="M3.2 9.1C2.4 8.1 1.2 7.6 0 7.8c.4.6.4 1.2.2 1.8.5-.3 1-.3 1.4 0-.1.5 0 1 .3 1.4.4-.6 1-.9 1.6-.9Z" fill="' + p.a + '"/>'),
+    ['black', 'violet', 'red']],
+  ['dragon', 'დრაკონის ფრთები', 3, p => mirror('<path d="M3.2 9C2.6 7.4 1.5 6.3 0 6c.3.8.3 1.6 0 2.4.6-.1 1.1 0 1.4.4-.3.6-.3 1.2 0 1.8.5-.5 1.1-.7 1.8-.6Z" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".15"/><path d="M3 9 .5 6.6M3 9.3 1.2 8.8" stroke="' + p.b + '" stroke-width=".12"/>'),
+    ['green', 'red', 'black', 'gold', 'ice']],
+  ['fairy', 'ფერიის ფრთები', 2, p => mirror('<path d="M3.2 9.2C2 7.6.6 7 .3 7.8c-.3.9 1.1 1.8 2.9 1.9Z" fill="' + p.s + '" fill-opacity=".55" stroke="' + p.s + '" stroke-width=".12"/><path d="M3.2 9.8C2.2 10.4 1.4 11.3 1.8 11.9c.4.5 1.2-.1 1.6-1.7Z" fill="' + p.s + '" fill-opacity=".55"/>'),
+    ['cyan', 'pink', 'lime', 'violet']],
+  ['flamewings', 'ალის ფრთები', 3, p => mirror('<path d="M3.2 9.6C1.8 9.2.6 8 .4 6.4c.5.6 1 .9 1.6 1-.4-.7-.5-1.5-.2-2.3.5 1.2 1.2 2 2 2.3Z" fill="' + p.a + '"/><path d="M3.2 9.4C2.4 9.1 1.8 8.5 1.6 7.6c.4.4.8.5 1.2.5Z" fill="' + p.c + '"/>'),
+    ['fire', 'ice', 'toxic']],
+  ['mech', 'მექანიკური ფრთები', 3, p => mirror('<path d="M3.1 8.6 .6 7.6l.4 1 2.1.6ZM3.1 9.4.3 9.3l.6.9 2.2-.1ZM3.1 10.2l-2.4.9.9.5 1.5-.7Z" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".12"/>'),
+    ['silver', 'gold', 'bronze']],
+  ['shield', 'ფარი', 2, p => '<circle cx="2.2" cy="9.8" r="1.7" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".25"/><circle cx="2.2" cy="9.8" r=".55" fill="' + p.c + '"/>',
+    ['red', 'blue', 'silver', 'gold']],
+  ['sword', 'ხმალი', 2, p => '<path d="M1.6 12.4 10.2 3.8" stroke="' + p.a + '" stroke-width=".55"/><path d="M9.6 3.2l1.2 1.2" stroke="#fcc419" stroke-width=".4"/><path d="M10.4 3.6 11.4 2.6" stroke="#6b3410" stroke-width=".45"/><circle cx="11.5" cy="2.5" r=".3" fill="#fcc419"/>',
+    ['silver', 'gold', 'diamond']],
+  ['saber', 'ლაზერული ხმალი', 3, p => '<path d="M1.6 12.4 10.2 3.8" stroke="' + p.s + '" stroke-width=".6" stroke-linecap="round" opacity=".9"/><path d="M1.6 12.4 10.2 3.8" stroke="#fff" stroke-width=".2" stroke-linecap="round"/><path d="M10.2 3.8 11.5 2.5" stroke="#495057" stroke-width=".55"/><path d="M10.5 3.5l.4.4" stroke="#ced4da" stroke-width=".55"/>',
+    ['blue', 'green', 'red', 'violet']],
+  ['guitar', 'გიტარა', 2, p => '<path d="M2.5 11.5 10.6 3.4" stroke="#6b3410" stroke-width=".5"/><rect x="10.2" y="2.4" width=".9" height="1.4" rx=".2" fill="#6b3410" transform="rotate(45 10.65 3.1)"/><ellipse cx="2.1" cy="11.6" rx="1.5" ry="1.15" fill="' + p.a + '" transform="rotate(-45 2.1 11.6)"/><circle cx="2.3" cy="11.4" r=".35" fill="#212529"/>',
+    ['red', 'blue', 'yellow', 'violet']],
+  ['quiver', 'კაპარჭი', 2, p => '<g transform="rotate(20 9.4 8.7)"><path d="M9 6.4V3.6M9.5 6.4V3.2M10 6.4V3.7" stroke="#6b3410" stroke-width=".14"/><g fill="#f8f9fa"><polygon points="9,3.6 8.75,3 9.25,3"/><polygon points="9.5,3.2 9.25,2.6 9.75,2.6"/><polygon points="10,3.7 9.75,3.1 10.25,3.1"/></g><rect x="8.6" y="6.2" width="1.6" height="5" rx=".5" fill="' + p.a + '"/></g>',
+    ['brown', 'green', 'red']],
+  ['shell', 'კუს ბაკანი', 1, p => '<ellipse cx="6" cy="9.4" rx="5.4" ry="3.1" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".25"/><path d="M.9 9.4h1.6M9.5 9.4h1.6M1.6 7.6l1.2 1M10.4 7.6l-1.2 1M1.6 11.2l1.2-1M10.4 11.2l-1.2-1" stroke="' + p.b + '" stroke-width=".2"/>',
+    ['green', 'brown', 'gold']],
+  ['balloons', 'ბუშტები', 1, p => '<path d="M3 9.5C2.2 7 1.4 5 1.3 3.2M3 9.5C2.8 6.5 2.6 4.4 3.1 2.4" stroke="#868e96" stroke-width=".08" fill="none"/><ellipse cx="1.3" cy="2.4" rx=".9" ry="1.1" fill="' + p.a + '"/><ellipse cx="3.1" cy="1.6" rx=".85" ry="1.05" fill="' + p.c + '"/><ellipse cx="1" cy="2" rx=".25" ry=".35" fill="#fff" opacity=".6"/>',
+    ['red', 'blue', 'pink', 'yellow', 'rainbow']],
+  ['skate', 'სკეიტბორდი', 1, p => '<g transform="rotate(-25 6 9.6)"><rect x="-.2" y="9" width="12.4" height="1.1" rx=".55" fill="' + p.a + '"/><g fill="#495057"><circle cx="1.3" cy="10.4" r=".35"/><circle cx="10.7" cy="10.4" r=".35"/></g></g>',
+    ['red', 'blue', 'black', 'green', 'rainbow']],
+  ['surf', 'სერფინგის დაფა', 1, p => '<g transform="rotate(15 9.6 5.5)"><ellipse cx="9.6" cy="5.5" rx="1.1" ry="5.6" fill="' + p.a + '"/><path d="M9.6 .3v10.4" stroke="#fff" stroke-width=".25"/></g>',
+    ['yellow', 'cyan', 'pink', 'orange']],
+  ['cattail', 'კატის კუდი', 1, p => '<path d="M8.8 11C11 11 11.6 9.4 11.2 8 11 7.2 11.4 6.6 11.9 6.8" fill="none" stroke="' + p.a + '" stroke-width=".55" stroke-linecap="round"/>',
+    ['orange', 'black', 'gray', 'white']],
+  ['dinotail', 'დინოზავრის კუდი', 1, p => '<path d="M8.6 9.8 12 12.4 8.6 11.6Z" fill="' + p.a + '"/><g fill="' + p.b + '"><polygon points="9.4,10.4 9.6,9.8 10,10.7"/><polygon points="10.4,11.1 10.7,10.5 11,11.5"/></g>',
+    ['green', 'violet', 'red']],
+  ['rocket', 'რაკეტა', 2, p => '<rect x="8.4" y="7.4" width="2.2" height="4.4" rx="1" fill="' + p.a + '"/><polygon points="8.4,8 9.5,5.8 10.6,8" fill="' + p.c + '"/><circle cx="9.5" cy="8.9" r=".4" fill="#4dabf7" stroke="#fff" stroke-width=".12"/><polygon points="8.8,11.8 9.5,13 10.2,11.8" fill="#ff922b"/>',
+    ['red', 'silver', 'blue']],
+  ['umbrella', 'ქოლგა', 1, p => '<path d="M8.8 11V2.4" stroke="#495057" stroke-width=".2"/><path d="M5.6 2.9a3.2 2.5 0 0 1 6.4 0Z" fill="' + p.a + '"/><path d="M7.7 2.9a1.1 2.5 0 0 1 2.2 0Z" fill="' + p.c + '" opacity=".55"/>',
+    ['red', 'blue', 'yellow', 'pink']],
+  ['parrot', 'თუთიყუში მხარზე', 2, () => '', ['red', 'green', 'blue'], {
+    front: p => '<ellipse cx="10.2" cy="8.2" rx=".75" ry="1" fill="' + p.a + '"/><circle cx="10.4" cy="7.1" r=".6" fill="' + p.a + '"/><polygon points="10.9,7 11.5,7.3 10.9,7.6" fill="#fcc419"/><circle cx="10.55" cy="6.95" r=".13" fill="#212529"/><path d="M9.6 8.2c.2.7.6 1 1.1 1.1" fill="none" stroke="' + p.c + '" stroke-width=".3"/><polygon points="9.8,9 9.5,10.2 10.2,9.2" fill="' + p.b + '"/>'
+  }]
+]).concat(
+  wbVar('back', 'v', v => v[3], [
+    ['nabadi', 'ნაბადი', 3, '<path d="M1 8.6H11L11.8 13H.2Z" fill="#212529"/><path d="M1 8.6h10l.3 1H.7Z" fill="#343a40"/>'],
+    ['flagge', 'საქართველოს დროშა', 3, '<path d="M3 11.4 1.1-1.6" stroke="#868e96" stroke-width=".22"/>' + flagGe(1.25, -2.5, 3.6, 2.3)],
+    ['flagpirate', 'მეკობრის დროშა', 2, '<path d="M3 11.4 1.1-1.6" stroke="#868e96" stroke-width=".22"/><rect x="1.25" y="-2.5" width="3.6" height="2.3" fill="#212529"/><circle cx="3.05" cy="-1.55" r=".5" fill="#f8f9fa"/><rect x="2.8" y="-1.15" width=".5" height=".35" fill="#f8f9fa"/><path d="M2.3-.6 3.8-1.9M2.3-1.9 3.8-.6" stroke="#f8f9fa" stroke-width=".18"/>'],
+    ['flagrace', 'ფინიშის დროშა', 1, '<path d="M3 11.4 1.1-1.6" stroke="#868e96" stroke-width=".22"/><rect x="1.25" y="-2.5" width="3.6" height="2.3" fill="#f8f9fa"/><g fill="#212529">' + [0, 1, 2, 3, 4, 5].map(i => [0, 1, 2, 3].map(j => (i + j) % 2 ? '' : '<rect x="' + (1.25 + i * .6).toFixed(2) + '" y="' + (-2.5 + j * .575).toFixed(3) + '" width=".6" height=".575"/>').join('')).join('') + '</g>']
+  ])
+);
+// ფეხსაცმელი: ბორბლები 2.4–5.2 და 6.8–9.6 × 11.2–12.6; mirror() მარცხენას მარჯვნივაც ხატავს
+const WB_FEET = wbGen('feet', [
+  ['sneakers', 'სპორტული ფეხსაცმელი', 0, p => mirror('<rect x="2.1" y="11" width="3.4" height="1.75" rx=".7" fill="' + p.a + '"/><rect x="2.1" y="12.35" width="3.4" height=".4" rx=".2" fill="#f8f9fa"/><rect x="2.5" y="11.55" width="2.4" height=".35" fill="#fff"/>'),
+    ['red', 'blue', 'black', 'green', 'pink', 'yellow', 'orange', 'violet', 'teal', 'gray', 'gold', 'rainbow']],
+  ['hightops', 'კედები', 1, p => mirror('<rect x="2.3" y="10.4" width="2.9" height="2.35" rx=".4" fill="' + p.a + '"/><rect x="2.1" y="12.3" width="3.4" height=".45" rx=".2" fill="#f8f9fa"/><circle cx="3.75" cy="11.4" r=".35" fill="#fff"/><path d="M2.8 10.75h1.6" stroke="#fff" stroke-width=".14"/>'),
+    ['red', 'black', 'blue', 'green', 'yellow', 'pink', 'orange', 'violet']],
+  ['boots', 'ჩექმები', 0, p => mirror('<rect x="2.2" y="10.5" width="3" height="2.2" rx=".4" fill="' + p.a + '"/><rect x="2.1" y="12.15" width="3.4" height=".6" rx=".25" fill="' + p.b + '"/>'),
+    ['black', 'red', 'white', 'pink', 'blue', 'gold']],
+  ['rainboots', 'რეზინის ჩექმები', 0, p => mirror('<rect x="2.3" y="10.2" width="2.9" height="2.5" rx=".5" fill="' + p.a + '"/><rect x="2.1" y="12.2" width="3.4" height=".55" rx=".25" fill="' + p.b + '"/><rect x="2.3" y="10.2" width="2.9" height=".45" fill="' + p.c + '"/>'),
+    ['yellow', 'red', 'green', 'blue', 'pink', 'violet']],
+  ['skates', 'გორგოლაჭები', 2, p => mirror('<rect x="2.1" y="10.9" width="3.4" height="1.6" rx=".6" fill="' + p.a + '"/><rect x="2.1" y="12.3" width="3.4" height=".3" fill="#495057"/><circle cx="2.8" cy="12.75" r=".28" fill="#ffd43b"/><circle cx="4.8" cy="12.75" r=".28" fill="#ffd43b"/>'),
+    ['red', 'blue', 'green', 'pink']],
+  ['iceskates', 'ციგურები', 1, p => mirror('<rect x="2.3" y="10.5" width="2.9" height="1.9" rx=".5" fill="' + p.a + '"/><path d="M2.8 12.4v.35M4.6 12.4v.35" stroke="#868e96" stroke-width=".18"/><path d="M2 12.8h3.7" stroke="#ced4da" stroke-width=".25"/>'),
+    ['white', 'black', 'pink']],
+  ['rocket', 'რაკეტა-ფეხსაცმელი', 3, p => mirror('<rect x="2.1" y="10.9" width="3.4" height="1.7" rx=".6" fill="' + p.a + '"/><rect x="2.1" y="11.5" width="3.4" height=".35" fill="#f8f9fa"/><polygon points="2.6,12.6 3.8,13 5,12.6" fill="#ff922b"/>'),
+    ['blue', 'gold', 'black', 'neon']],
+  ['flipflops', 'ჩუსტები', 0, p => mirror('<rect x="2.1" y="12.2" width="3.4" height=".55" rx=".25" fill="' + p.a + '"/><path d="M2.6 12.3 3.8 11.6 5 12.3" fill="none" stroke="' + p.b + '" stroke-width=".22"/>'),
+    ['blue', 'pink', 'yellow', 'green', 'orange', 'red']],
+  ['bunny', 'კურდღლის ფლოსტები', 1, p => mirror('<rect x="2.6" y="9.9" width=".55" height="1.6" rx=".27" fill="' + p.a + '"/><rect x="3.4" y="9.9" width=".55" height="1.6" rx=".27" fill="' + p.a + '"/><rect x="2.1" y="11" width="3.4" height="1.75" rx=".85" fill="' + p.a + '"/><circle cx="4.5" cy="11.7" r=".15" fill="#212529"/><circle cx="5.2" cy="11.95" r=".18" fill="#ff8cc8"/>'),
+    ['white', 'pink', 'gray']],
+  ['slippers', 'ფლოსტები', 0, p => mirror('<rect x="2.1" y="11.3" width="3.4" height="1.45" rx=".7" fill="' + p.a + '"/><rect x="2.1" y="11.3" width="3.4" height=".55" rx=".27" fill="' + p.c + '"/>'),
+    ['blue', 'pink', 'brown', 'gray']],
+  ['cleats', 'ბუცები', 1, p => mirror('<rect x="2.1" y="11.1" width="3.4" height="1.4" rx=".6" fill="' + p.a + '"/><path d="M2.6 11.5h2.4" stroke="#fff" stroke-width=".22"/><g fill="#495057"><rect x="2.5" y="12.5" width=".3" height=".3"/><rect x="3.6" y="12.5" width=".3" height=".3"/><rect x="4.7" y="12.5" width=".3" height=".3"/></g>'),
+    ['red', 'blue', 'black', 'green', 'orange', 'gold']],
+  ['clown', 'კლოუნის ფეხსაცმელი', 1, p => mirror('<ellipse cx="3.2" cy="12" rx="2.1" ry=".85" fill="' + p.a + '"/><circle cx="2.2" cy="11.8" r=".3" fill="#fff" opacity=".5"/>'),
+    ['red', 'yellow', 'green']],
+  ['treads', 'მუხლუხოები', 2, p => '<rect x="2" y="11" width="8" height="1.8" rx=".9" fill="#343a40"/><g fill="' + p.a + '">' + [3, 4.5, 6, 7.5, 9].map(x => '<circle cx="' + x + '" cy="11.9" r=".5"/>').join('') + '</g><path d="M2.6 11.15h6.8M2.6 12.65h6.8" stroke="#868e96" stroke-width=".15" stroke-dasharray=".25 .2"/>',
+    ['green', 'gray', 'gold']],
+  ['hover', 'ჰოვერ-ძრავები', 3, p => mirror('<rect x="2.2" y="11.1" width="3.2" height="1" rx=".5" fill="#495057"/><ellipse cx="3.8" cy="12.5" rx="1.5" ry=".35" fill="' + p.s + '" opacity=".8"/><ellipse cx="3.8" cy="12.45" rx=".8" ry=".18" fill="#fff" opacity=".8"/>'),
+    ['cyan', 'neon', 'lime', 'red', 'gold']],
+  ['tabi', 'ნინძას ფეხსაცმელი', 2, p => mirror('<rect x="2.2" y="10.8" width="3.1" height="1.9" rx=".5" fill="#25262b"/><path d="M4.6 11.6v1.1" stroke="#495057" stroke-width=".15"/><path d="M2.2 11.2h3.1" stroke="' + p.a + '" stroke-width=".25"/>'),
+    ['red', 'blue']],
+  ['wheels', 'ფერადი ბორბლები', 0, p => '<rect x="2.4" y="11.2" width="2.8" height="1.4" rx=".5" fill="' + p.a + '"/><rect x="6.8" y="11.2" width="2.8" height="1.4" rx=".5" fill="' + p.a + '"/><g fill="' + (p.k === 'white' ? '#adb5bd' : p.c) + '"><circle cx="3.8" cy="11.9" r=".35"/><circle cx="8.2" cy="11.9" r=".35"/></g>',
+    ['red', 'blue', 'green', 'yellow', 'pink', 'orange', 'white', 'violet', 'cyan', 'gold', 'neon', 'rainbow']],
+  ['blades', 'როლიკები', 1, p => mirror('<rect x="2.2" y="10.6" width="3" height="1.6" rx=".5" fill="' + p.a + '"/><rect x="2.2" y="12.1" width="3.2" height=".2" fill="#495057"/><g fill="' + p.c + '"><circle cx="2.6" cy="12.6" r=".25"/><circle cx="3.4" cy="12.6" r=".25"/><circle cx="4.2" cy="12.6" r=".25"/><circle cx="5" cy="12.6" r=".25"/></g>'),
+    ['blue', 'pink', 'black', 'lime', 'red']],
+  ['cowboy', 'კოვბოის ჩექმები', 1, p => mirror('<path d="M2.4 10.2h2.4v1.6l.9.5v.9H2.2v-1Z" fill="' + p.a + '"/><path d="M2.6 10.6l.7.5.7-.5" stroke="' + p.c + '" stroke-width=".15" fill="none"/><circle cx="2" cy="12.3" r=".3" fill="#fcc419"/>'),
+    ['brown', 'black', 'red']],
+  ['dino', 'დინოზავრის თათები', 1, p => mirror('<path d="M2.1 12.75c0-1.2.6-1.9 1.7-1.9s1.7.7 1.7 1.9Z" fill="' + p.a + '"/><g fill="#fff"><polygon points="2.3,12.75 2.5,12.25 2.7,12.75"/><polygon points="3.6,12.75 3.8,12.2 4,12.75"/><polygon points="4.9,12.75 5.1,12.25 5.3,12.75"/></g>'),
+    ['green', 'violet', 'orange']],
+  ['flamewheels', 'ალის ბორბლები', 3, p => mirror('<path d="M2.4 12.6C1.7 12 1.8 11.2 2.3 10.8c0 .5.2.7.5.8 0-.6.4-1.1.9-1.3-.1.5.1.9.4 1.1.1-.4.4-.6.7-.7 0 .6.4 1 .7 1.3Z" fill="' + p.a + '"/>'),
+    ['fire', 'ice', 'toxic']],
+  ['snowboard', 'სნოუბორდი', 1, p => '<rect x="1.4" y="12.3" width="9.2" height=".6" rx=".3" fill="' + p.a + '"/><path d="M2.2 12.6h7.6" stroke="' + (p.k === 'rainbow' ? '#fff' : p.c) + '" stroke-width=".15"/>',
+    ['red', 'blue', 'black', 'pink', 'green', 'rainbow']]
+]);
+// ანტენები: ღერო 5.6–6.4 × 0.6–3.2 (stem), თავზე — ნახატი (6; 0.5)-ის გარშემო
+const STAR_ANT = c => '<polygon points="6,-0.9 6.26,-0.16 7.05,-0.14 6.43,0.34 6.65,1.09 6,0.65 5.35,1.09 5.57,0.34 4.95,-0.14 5.74,-0.16" fill="' + c + '" stroke="rgba(0,0,0,.25)" stroke-width=".12"/>';
+const WB_ANT = wbGen('antenna', [
+  ['ball', 'ბურთულა', 0, (p, d) => stem(d) + '<circle cx="6" cy="0.5" r="0.95" fill="' + p.a + '"/><circle cx="5.7" cy=".2" r=".28" fill="#fff" opacity=".5"/>',
+    ['red', 'blue', 'green', 'pink', 'yellow', 'violet', 'white', 'cyan', 'gold', 'neon', 'galaxy', 'rainbow']],
+  ['star', 'ვარსკვლავი', 1, (p, d) => '<rect x="5.6" y="0.8" width=".8" height="2.4" fill="' + d + '"/>' + STAR_ANT(p.a), ['pink', 'blue', 'white', 'green', 'rainbow']],
+  ['flower', 'ყვავილი', 1, (p, d) => stem(d) + '<g fill="' + p.a + '"><circle cx="6" cy="-.75" r=".5"/><circle cx="6.65" cy="-.1" r=".5"/><circle cx="6" cy=".55" r=".5"/><circle cx="5.35" cy="-.1" r=".5"/></g><circle cx="6" cy="-.1" r=".38" fill="#ffd43b"/>',
+    ['red', 'yellow', 'blue', 'violet', 'white', 'orange']],
+  ['heart', 'გული', 1, (p, d) => '<rect x="5.6" y="1" width=".8" height="2.2" fill="' + d + '"/><path d="M6 1.4 C6 0.6 4.7 0.1 4.6 0.9 C4.5 1.5 5.4 1.9 6 2.4 C6.6 1.9 7.5 1.5 7.4 0.9 C7.3 0.1 6 0.6 6 1.4Z" fill="' + p.a + '" transform="translate(0 -1)"/>',
+    ['red', 'violet', 'gold', 'blue', 'rainbow']],
+  ['bolt', 'ელვა', 1, (p, d) => stem(d) + '<polygon points="6.5,-1.4 5,.6 5.9,.6 5.5,2 7.1,-.1 6.2,-.1 6.8,-1.4" fill="' + p.a + '" stroke="rgba(0,0,0,.25)" stroke-width=".12"/>', ['blue', 'red', 'neon', 'white']],
+  ['bulb', 'ნათურა', 1, (p, d) => stem(d) + '<circle cx="6" cy=".1" r="1.5" fill="' + p.s + '" opacity=".25"/><circle cx="6" cy=".1" r="1" fill="' + p.a + '"/><rect x="5.5" y=".9" width="1" height=".6" fill="#868e96"/><path d="M5.6.3l.4-.5.4.5" stroke="#e67700" stroke-width=".15" fill="none"/>',
+    ['yellow', 'white', 'cyan', 'pink']],
+  ['note', 'მუსიკის ნოტი', 1, (p, d) => stem(d) + '<path d="M6.3 .9V-1.6l1.5.5v.8l-1.1-.4V.9Z" fill="' + p.a + '"/><ellipse cx="5.85" cy="1" rx=".6" ry=".45" fill="' + p.a + '"/>', ['black', 'violet', 'blue', 'pink']],
+  ['flame', 'ალი', 2, (p, d) => stem(d) + '<path d="M6-2C6.9-1 7.4 0 7 .9c-.3.6-.6.8-1 .8s-.7-.2-1-.8C4.6 0 5.1-1 6-2Z" fill="' + p.a + '"/><path d="M6-.8c.4.5.6 1 .4 1.5-.1.3-.2.4-.4.4s-.3-.1-.4-.4c-.2-.5 0-1 .4-1.5Z" fill="' + p.c + '"/>',
+    ['fire', 'ice', 'toxic', 'neon', 'shadow']],
+  ['snow', 'ფიფქი', 1, (p, d) => stem(d) + '<g stroke="' + p.a + '" stroke-width=".22" stroke-linecap="round"><path d="M6-1.1v2.4M4.95-.5l2.1 1.2M4.95.7l2.1-1.2"/></g>', ['cyan', 'ice', 'white']],
+  ['gem', 'კრისტალი', 1, (p, d) => stem(d) + '<polygon points="5,0 5.6,-.7 6.4,-.7 7,0 6,1.3" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".1"/><polygon points="5,0 7,0 6,1.3" fill="#fff" opacity=".25"/>',
+    ['ruby', 'sapphire', 'emerald', 'amethyst', 'diamond']],
+  ['planet', 'პლანეტა', 2, (p, d) => stem(d) + '<circle cx="6" cy=".2" r=".85" fill="' + p.a + '"/><ellipse cx="6" cy=".2" rx="1.6" ry=".45" fill="none" stroke="' + p.c + '" stroke-width=".2" transform="rotate(-20 6 .2)"/>',
+    ['orange', 'violet', 'cyan', 'galaxy']],
+  ['moon', 'მთვარე', 1, (p, d) => stem(d) + '<path d="M5.97-.9A1.1 1.1 0 1 0 6.98.7 .95.95 0 0 1 5.97-.9Z" fill="' + p.a + '"/>', ['yellow', 'white', 'silver']],
+  ['sun', 'მზე', 1, (p, d) => stem(d) + '<g stroke="' + p.a + '" stroke-width=".2" stroke-linecap="round">' + Array.from({ length: 8 }, (_, i) => { const a = i * Math.PI / 4; return '<path d="M' + (6 + .95 * Math.cos(a)).toFixed(2) + ' ' + (.2 + .95 * Math.sin(a)).toFixed(2) + 'L' + (6 + 1.35 * Math.cos(a)).toFixed(2) + ' ' + (.2 + 1.35 * Math.sin(a)).toFixed(2) + '"/>'; }).join('') + '</g><circle cx="6" cy=".2" r=".7" fill="' + p.a + '"/>',
+    ['yellow', 'orange']],
+  ['dish', 'სატელიტური თეფში', 1, (p, d) => stem(d) + '<path d="M4.6-.4a1.6 1.6 0 0 0 2.8 1.6Z" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".08"/><path d="M6 .2 7.2-1" stroke="#868e96" stroke-width=".12"/><circle cx="7.25" cy="-1.05" r=".18" fill="#e03131"/>', ['silver', 'white', 'black']],
+  ['wifi', 'Wi-Fi', 1, (p, d) => stem(d) + '<circle cx="6" cy=".6" r=".25" fill="' + p.a + '"/><g fill="none" stroke="' + p.a + '" stroke-width=".25" stroke-linecap="round"><path d="M5.3 0a1 1 0 0 1 1.4 0"/><path d="M4.8-.5a1.7 1.7 0 0 1 2.4 0"/><path d="M4.3-1a2.4 2.4 0 0 1 3.4 0"/></g>',
+    ['green', 'blue', 'white', 'neon']],
+  ['qmark', 'კითხვის ნიშანი', 0, (p, d) => stem(d) + '<text x="6" y="1" font-size="2.4" font-weight="900" text-anchor="middle" fill="' + p.a + '" stroke="rgba(0,0,0,.25)" stroke-width=".08" font-family="Arial,sans-serif">?</text>', ['yellow', 'green', 'blue']],
+  ['emark', 'ძახილის ნიშანი', 0, (p, d) => stem(d) + '<text x="6" y="1" font-size="2.4" font-weight="900" text-anchor="middle" fill="' + p.a + '" stroke="rgba(0,0,0,.25)" stroke-width=".08" font-family="Arial,sans-serif">!</text>', ['red', 'orange']],
+  ['lolli', 'ლოლიპოპი', 1, (p, d) => stem(d) + '<circle cx="6" cy=".1" r="1" fill="' + p.a + '"/><path d="M5.4.1a.6.6 0 1 1 .6.6" fill="none" stroke="#fff" stroke-width=".22"/>', ['pink', 'red', 'cyan', 'rainbow']],
+  ['balloon', 'ბუშტი', 0, p => '<path d="M6 3.2C5.8 2.4 6.2 1.8 6 1" stroke="#868e96" stroke-width=".1" fill="none"/><ellipse cx="6" cy="-.2" rx="1" ry="1.25" fill="' + p.a + '"/><polygon points="6,1 5.8,1.25 6.2,1.25" fill="' + p.a + '"/><ellipse cx="5.65" cy="-.6" rx=".25" ry=".35" fill="#fff" opacity=".6"/>',
+    ['red', 'blue', 'yellow', 'pink', 'green']],
+  ['prop', 'პროპელერი', 1, (p, d) => stem(d) + '<ellipse cx="4.9" cy=".2" rx="1.1" ry=".28" fill="' + p.a + '"/><ellipse cx="7.1" cy=".2" rx="1.1" ry=".28" fill="' + p.c + '"/><circle cx="6" cy=".2" r=".3" fill="' + p.b + '"/>', ['red', 'blue', 'yellow']],
+  ['code', 'კოდის ანტენა', 1, (p, d) => stem(d) + '<rect x="4.4" y="-.9" width="3.2" height="1.8" rx=".4" fill="#13163a" stroke="' + p.a + '" stroke-width=".15"/><path d="M5.4-.4 4.9 0l.5.4M6.6-.4l.5.4-.5.4M6.15-.5l-.3 1" stroke="' + p.a + '" stroke-width=".18" fill="none"/>',
+    ['green', 'cyan', 'pink']],
+  ['atom', 'ატომი', 2, (p, d) => stem(d) + '<g fill="none" stroke="' + p.a + '" stroke-width=".16"><ellipse cx="6" cy=".1" rx="1.3" ry=".5"/><ellipse cx="6" cy=".1" rx="1.3" ry=".5" transform="rotate(60 6 .1)"/><ellipse cx="6" cy=".1" rx="1.3" ry=".5" transform="rotate(-60 6 .1)"/></g><circle cx="6" cy=".1" r=".25" fill="' + p.a + '"/>',
+    ['cyan', 'green', 'violet']],
+  ['apple', 'ვაშლი', 0, (p, d) => stem(d) + '<circle cx="6" cy=".2" r=".9" fill="' + p.a + '"/><path d="M6-.6c.1-.4.3-.6.6-.7" stroke="#6b3410" stroke-width=".15"/><ellipse cx="6.5" cy="-.75" rx=".35" ry=".18" fill="#2f9e44"/>', ['red', 'green', 'gold']],
+  ['donut', 'დონატი', 1, (p, d) => stem(d) + '<path d="M6-.8a1 1 0 1 1 0 2 1 1 0 1 1 0-2Zm0 .7a.3.3 0 1 0 0 .6.3.3 0 1 0 0-.6Z" fill-rule="evenodd" fill="#e6a157"/><path d="M6-.65a.85.85 0 1 1 0 1.7.85.85 0 1 1 0-1.7Zm0 .55a.3.3 0 1 0 0 .6.3.3 0 1 0 0-.6Z" fill-rule="evenodd" fill="' + p.a + '"/><g fill="#fff"><rect x="5.4" y="-.3" width=".25" height=".1"/><rect x="6.4" y=".5" width=".25" height=".1"/><rect x="6.5" y="-.2" width=".1" height=".25"/></g>',
+    ['pink', 'brown', 'yellow']],
+  ['crown', 'პატარა გვირგვინი', 2, (p, d) => stem(d) + '<polygon points="4.9,1 5,-.3 5.5,.2 6,-.6 6.5,.2 7,-.3 7.1,1" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".1"/>', ['gold', 'silver', 'diamond']],
+  ['eye', 'თვალი', 1, (p, d) => stem(d) + '<circle cx="6" cy=".2" r=".9" fill="#fff" stroke="#ced4da" stroke-width=".1"/><circle cx="6.2" cy=".3" r=".45" fill="' + p.a + '"/><circle cx="6.3" cy=".35" r=".2" fill="#111"/>', ['blue', 'green', 'red']],
+  ['sprout', 'ყლორტი', 0, (p, d) => '<rect x="5.6" y="1.4" width=".8" height="1.8" fill="' + d + '"/><path d="M6 1.6V.2" stroke="#2f9e44" stroke-width=".2"/><path d="M6 .6C5.3.7 4.6.3 4.5-.4c.7-.1 1.3.2 1.5 1Z" fill="' + p.a + '"/><path d="M6 .2c.5-.6 1.3-.8 1.9-.5-.2.7-1 1-1.9.5Z" fill="' + p.a + '"/>',
+    ['green', 'lime', 'pink']],
+  ['coin', 'მონეტა', 1, (p, d) => stem(d) + '<circle cx="6" cy=".1" r=".95" fill="' + p.a + '" stroke="' + p.b + '" stroke-width=".15"/><text x="6" y=".55" font-size="1.2" font-weight="800" text-anchor="middle" fill="' + p.b + '" font-family="Arial,sans-serif">$</text>', ['gold', 'silver', 'bronze']],
+  ['twin', 'ორმაგი ანტენა', 0, (p, d) => '<path d="M5.2 3.2 4.2.4M6.8 3.2l1-2.8" stroke="' + d + '" stroke-width=".5"/><circle cx="4.1" cy=".1" r=".65" fill="' + p.a + '"/><circle cx="7.9" cy=".1" r=".65" fill="' + p.a + '"/>',
+    ['orange', 'red', 'blue', 'green', 'pink']],
+  ['spring', 'ზამბარა', 1, (p, d) => '<path d="M6 3.2 5.2 2.8 6.8 2.3 5.2 1.8 6.8 1.3 5.2.8 6 .5" fill="none" stroke="' + d + '" stroke-width=".22"/><circle cx="6" cy=".1" r=".6" fill="' + p.a + '"/>', ['red', 'yellow', 'blue']],
+  ['winged', 'ფრთიანი გული', 2, (p, d) => stem(d) + '<g fill="#fff" stroke="#adb5bd" stroke-width=".08"><path d="M5.2.2C4.4-.4 3.7-.3 3.6.2c.4 0 .6.2.7.4-.4.1-.5.4-.4.6.5-.1 1-.1 1.4.1Z"/><path d="M6.8.2c.8-.6 1.5-.5 1.6 0-.4 0-.6.2-.7.4.4.1.5.4.4.6-.5-.1-1-.1-1.4.1Z"/></g>' + heartAt(6, .55, .85, p.a),
+    ['red', 'pink', 'gold']]
+]).concat(
+  wbVar('antenna', 'v', (v, d) => v[3].replace(/DARK/g, d), [   // DARK — ბიტის მუქი ფერი (ღერო)
+    ['flagge', 'საქართველოს დროშა', 2, '<rect x="5.6" y="-1.7" width=".35" height="4.9" fill="#868e96"/>' + flagGe(5.95, -1.7, 2.6, 1.7)],
+    ['flagpirate', 'მეკობრის დროშა', 1, '<rect x="5.6" y="-1.7" width=".35" height="4.9" fill="#868e96"/><rect x="5.95" y="-1.7" width="2.6" height="1.7" fill="#212529"/><circle cx="7.25" cy="-1.05" r=".38" fill="#f8f9fa"/><path d="M6.8-.45l.9-.5M6.8-.95l.9.5" stroke="#f8f9fa" stroke-width=".14"/>'],
+    ['flagrace', 'ფინიშის დროშა', 1, '<rect x="5.6" y="-1.7" width=".35" height="4.9" fill="#868e96"/><rect x="5.95" y="-1.7" width="2.6" height="1.7" fill="#f8f9fa"/><g fill="#212529">' + [0, 1, 2, 3].map(i => [0, 1, 2].map(j => (i + j) % 2 ? '' : '<rect x="' + (5.95 + i * .65).toFixed(2) + '" y="' + (-1.7 + j * .567).toFixed(3) + '" width=".65" height=".567"/>').join('')).join('') + '</g>'],
+    ['cherry', 'ალუბალი', 0, '<rect x="5.6" y="1.2" width=".8" height="2" fill="DARK"/><path d="M6 1.2C6.2.2 6.8-.4 7.4-.6M6 1.2c-.3-.6-.3-1.2.1-1.7" stroke="#2f9e44" stroke-width=".15" fill="none"/><circle cx="6.1" cy="-.4" r=".05" fill="#2f9e44"/><circle cx="5.5" cy=".05" r=".55" fill="#e03131"/><circle cx="7.4" cy="-.35" r=".55" fill="#c92a2a"/><circle cx="5.3" cy="-.15" r=".15" fill="#fff" opacity=".6"/>'],
+    ['rainbow', 'ცისარტყელა', 4, '<rect x="5.6" y="0.6" width=".8" height="2.6" fill="DARK"/>' + ['#ff6b6b', '#ffa94d', '#ffd43b', '#69db7c', '#4dabf7', '#9775fa'].map((c, i) => '<path d="M' + (3.6 + i * .22).toFixed(2) + ' 1A' + (2.4 - i * .22).toFixed(2) + ' ' + (2.4 - i * .22).toFixed(2) + ' 0 0 1 ' + (8.4 - i * .22).toFixed(2) + ' 1" fill="none" stroke="' + c + '" stroke-width=".24"/>').join('')],
+    ['cloud', 'წვიმის ღრუბელი', 1, '<rect x="5.6" y="0.6" width=".8" height="2.6" fill="DARK"/><g fill="#f1f3f5" stroke="#ced4da" stroke-width=".08"><circle cx="5.2" cy=".1" r=".65"/><circle cx="6.2" cy="-.3" r=".85"/><circle cx="7.1" cy=".2" r=".6"/></g><rect x="4.7" y=".1" width="2.9" height=".7" rx=".35" fill="#f1f3f5"/><g stroke="#4dabf7" stroke-width=".16" stroke-linecap="round"><path d="M5 1.2l-.2.5M6 1.3l-.2.5M7 1.2l-.2.5"/></g>']
+  ])
+);
+// ბიტის ფერები: 17 ტონი × 6 ვარიანტი + განსაკუთრებული (გრადიენტიანი) ფერები. ჩვეულებრივი ფერები უფასოა
+const hsl = (h, s, l) => {
+  s /= 100; l /= 100;
+  const f = n => { const k = (n + h / 30) % 12, c = l - s * Math.min(l, 1 - l) * Math.max(-1, Math.min(k - 3, 9 - k, 1)); return Math.round(255 * c).toString(16).padStart(2, '0'); };
+  return '#' + f(0) + f(8) + f(4);
+};
+const WB_COLORS = (() => {
+  const hues = [['red', 'წითელი', 356], ['coral', 'მარჯნისფერი', 10], ['orange', 'ნარინჯისფერი', 28], ['amber', 'ქარვისფერი', 42], ['yellow', 'ყვითელი', 51], ['lime', 'ლაიმისფერი', 85],
+    ['green', 'მწვანე', 135], ['emerald', 'ზურმუხტისფერი', 155], ['turq', 'ფირუზისფერი', 172], ['sky', 'ცისფერი', 195], ['blue', 'ლურჯი', 215], ['indigo', 'ინდიგო', 235],
+    ['violet', 'იისფერი', 262], ['grape', 'ყურძნისფერი', 285], ['pink', 'ვარდისფერი', 330], ['berry', 'ჟოლოსფერი', 345], ['brown', 'ყავისფერი', 24]];
+  // [id, სახელის პრეფიქსი, იშვიათობა, ტანი(h, s) → ფერი ან გრადიენტი, მუქი(h, s)]
+  const vars = [
+    ['light', 'ღია ', 0, (h, s) => hsl(h, s * .85, 72), (h, s) => hsl(h, s * .7, 42)],
+    ['', '', 0, (h, s) => hsl(h, s, 54), (h, s) => hsl(h, s * .8, 30)],
+    ['dark', 'მუქი ', 0, (h, s) => hsl(h, s * .8, 34), (h, s) => hsl(h, s * .7, 16)],
+    ['pastel', 'პასტელის ', 1, (h, s) => hsl(h, s * .7, 84), (h, s) => hsl(h, s * .45, 55)],
+    ['neon', 'ნეონის ', 2, (h, s) => [hsl(h, 100, 74), hsl(h, 100, 52)], (h, s) => hsl(h, 90, 24)],
+    ['metal', 'მეტალიკური ', 3, (h, s) => [hsl(h, s * .4, 86), hsl(h, s * .7, 54), hsl(h, s * .8, 28)], (h, s) => hsl(h, s * .6, 18)]
+  ];
+  const out = [];
+  hues.forEach(([hid, hname, h]) => vars.forEach(([vid, pre, rar, body, dark]) => {
+    const s = hid === 'brown' ? 55 : 82, b = body(h, s), id = 'c-' + hid + (vid ? '-' + vid : '');
+    out.push(Object.assign({ id, name: pre + hname, dark: dark(h, s), rar, price: rar ? wbPrice(id, rar) : 0 }, Array.isArray(b) ? { body: b[1], grad: b } : { body: b }));
+  }));
+  // განსაკუთრებული: [id, სახელი, იშვიათობა, გრადიენტი, მუქი]
+  [['gold', 'ოქრო', 4, ['#fff3bf', '#fcc419', '#e67700'], '#8a4b00'], ['silver', 'ვერცხლი', 3, ['#ffffff', '#ced4da', '#868e96'], '#495057'], ['bronze', 'ბრინჯაო', 3, ['#f1c27d', '#cd7f32', '#8c5225'], '#5c3317'],
+    ['candy', 'კანფეტი', 3, ['#ffdeeb', '#ff8cc8', '#a5d8ff'], '#c2255c'], ['fairy', 'ზღაპარი', 3, ['#d0bfff', '#a5d8ff', '#c3fae8'], '#5f3dc4'],
+    ['ice', 'ყინული', 4, ['#e3fafc', '#99e9f2', '#3bc9db'], '#0b7285'], ['sunset', 'დაისი', 4, ['#ffd43b', '#ff8787', '#9775fa'], '#5f3dc4'], ['ocean', 'ღრმა ოკეანე', 4, ['#99e9f2', '#1098ad', '#1864ab'], '#0b3d91'],
+    ['toxic', 'ტოქსიკური', 4, ['#f4fce3', '#a9e34b', '#2b8a3e'], '#1b5e20'], ['flame', 'ალი', 4, ['#ffd43b', '#ff6b00', '#e03131'], '#862e2e'], ['dark', 'სიბნელე', 4, ['#9775fa', '#343a40', '#111317'], '#000000'],
+    ['rainbow', 'ცისარტყელა', 5, ['#ff6b6b', '#ffa94d', '#ffd43b', '#69db7c', '#4dabf7', '#9775fa'], '#3b2a8f'], ['galaxy', 'გალაქტიკა', 5, ['#1a1240', '#5f3dc4', '#e64980', '#4dabf7'], '#0d0a24'],
+    ['lava', 'ლავა', 5, ['#ffd43b', '#ff6b00', '#c92a2a', '#2b2f36'], '#2b2f36'], ['diamond', 'ბრილიანტი', 5, ['#ffffff', '#c5f6fa', '#99e9f2', '#eebefa'], '#3bc9db'], ['aurora', 'ჩრდილოეთის ციალი', 5, ['#63e6be', '#4dabf7', '#9775fa', '#f783ac'], '#1a1240']
+  ].forEach(([sid, name, rar, grad, dark]) => { const id = 'c-' + sid; out.push({ id, name, body: grad[1], dark, grad, rar, price: wbPrice(id, rar) }); });
+  return out;
+})();
+// არსებულ ნივთებს იშვიათობა ფასით ენიჭება; შემდეგ ემატება გენერირებული ნივთები და ფერები
+WARDROBE.forEach(w => { if (w.price && w.rar == null) w.rar = rarOfPrice(w.price); });
+WARDROBE.push(...WB_HATS, ...WB_TOPS, ...WB_EYES, ...WB_NECK, ...WB_BACK, ...WB_FEET, ...WB_ANT);
+BIT_COLORS.forEach(c => { if (c.rar == null) c.rar = 0; });
+BIT_COLORS.push(...WB_COLORS);
+/* ===WARDROBE:END=== */
 const WARDROBE_BY = {};
 WARDROBE.forEach(w => { WARDROBE_BY[w.slot + ':' + w.id] = w; });
 const BIT_DEFAULT = { color: 'classic', hat: 'none', antenna: 'ball', eyes: 'none', neck: 'none', top: 'none', back: 'none', feet: 'none' };
@@ -15272,7 +15894,7 @@ const Progress = {
   save() { Store.set(SAVE_KEY, this.P); },
   /* ---- გარდერობი: საფულე = მოგებული XP − დახარჯული (წოდებას ხარჯვა არ ამცირებს) ---- */
   wallet() { return Math.max(0, this.totalXP() - (this.P.spent || 0)); },
-  owns(w) { return !w.price || w.slot === 'color' || this.P.settings.unlockAll || (this.P.owned || []).includes(w.slot + ':' + w.id); },
+  owns(w) { return !w.price || this.P.settings.unlockAll || (this.P.owned || []).includes(w.slot + ':' + w.id); },
   buy(w) {
     if (this.owns(w)) return true;
     if (this.wallet() < w.price) return false;
@@ -15481,16 +16103,15 @@ const LOGO_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 305 290" 
 function currentSkin(over) {
   const s = Object.assign({}, BIT_DEFAULT, Progress.P.skin, over || {});
   const col = BIT_COLORS.find(k => k.id === s.color) || BIT_COLORS[0];
-  return Object.assign(s, { body: col.body, dark: col.dark });
+  return Object.assign(s, { body: col.body, dark: col.dark, grad: col.grad });
 }
 function bitSVG(sk) {
   sk = Object.assign({}, BIT_DEFAULT, sk || currentSkin());
-  const d = sk.dark, b = sk.body;
+  const G = svgDefs(), d = sk.dark, b = sk.grad ? G.grad(sk.grad) : sk.body;   // G — ამ ნახატის გრადიენტები
   const it = slot => WARDROBE_BY[slot + ':' + sk[slot]] || WARDROBE_BY[slot + ':' + BIT_DEFAULT[slot]] || {};
-  const draw = (w, k) => (typeof w[k] === 'function' ? w[k](d, b) : w[k] || '');
+  const draw = (w, k) => (typeof w[k] === 'function' ? w[k](d, b, G) : w[k] || '');
   const hat = it('hat'), back = it('back');
-  return '<svg class="bitsvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 -3 12 16" shape-rendering="crispEdges" aria-hidden="true">' +
-    draw(back, 'back') + (hat.tall ? '' : draw(it('antenna'), 'svg')) +
+  const body = draw(back, 'back') + (hat.tall ? '' : draw(it('antenna'), 'svg')) +
     '<rect x="2" y="3" width="8" height="6" rx="1" fill="' + b + '"/>' +
     '<rect x="3" y="4" width="6" height="3.4" rx=".5" fill="#13163a"/>' +
     '<g class="eyes"><rect x="4" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/></g>' + draw(it('eyes'), 'svg') +
@@ -15498,7 +16119,8 @@ function bitSVG(sk) {
     '<rect x="1.1" y="5" width=".9" height="2.2" fill="' + d + '"/><rect x="10" y="5" width=".9" height="2.2" fill="' + d + '"/>' +
     '<rect x="3" y="9" width="6" height="2.2" fill="' + d + '"/><rect x="4.4" y="9.6" width="3.2" height=".9" fill="' + b + '"/>' + draw(it('top'), 'svg') + draw(back, 'front') + draw(it('neck'), 'svg') +
     '<rect x="2.4" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="6.8" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/>' + draw(it('feet'), 'svg') +
-    draw(hat, 'svg') + '</svg>';
+    draw(hat, 'svg');
+  return '<svg class="bitsvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 -3 12 16" shape-rendering="crispEdges" aria-hidden="true">' + (G.defs ? '<defs>' + G.defs + '</defs>' : '') + body + '</svg>';
 }
 const CHAR = {
   owl: { name: 'პროფესორი ლოგიკა', ic: '🦉' },
@@ -17538,14 +18160,42 @@ const Dict = {
 /* ---------- პროფილი ---------- */
 /* ---------- ბიტის გარდერობი: ფერები უფასოა, ნივთები XP-ით იყიდება; ნაყიდზე დაჭერა აცმევს, სხვაზე — „მოსინჯავს“ ---------- */
 const WB_SLOTS = [['color', '🎨', 'ფერი'], ['hat', '🎩', 'ქუდები'], ['top', '👕', 'ტანსაცმელი'], ['eyes', '🕶️', 'სათვალე'], ['neck', '🎀', 'კისერზე'], ['back', '🎒', 'ზურგზე'], ['feet', '👟', 'ფეხსაცმელი'], ['antenna', '📡', 'ანტენა']];
+const WB_SORTS = [['rar', 'იშვიათობით'], ['cheap', 'ჯერ იაფი'], ['dear', 'ჯერ ძვირი'], ['mine', 'ჯერ ჩემი']];
 const Wardrobe = {
-  tab: 'top', tryIt: null,
+  tab: 'top', tryIt: null, rar: 'all', sort: 'rar', gridKey: '',
   items(slot) { return slot === 'color' ? BIT_COLORS.map(c => Object.assign({ slot: 'color', price: 0 }, c)) : WARDROBE.filter(w => w.slot === slot); },
   find(slot, id) { return this.items(slot).find(w => w.id === id); },
+  // იშვიათობა (0–5); -1 — „არაფერი“ და უფასო საწყისი ნივთები, რომლებსაც იშვიათობა არ აქვთ
+  rarOf(w) { return w.rar == null ? -1 : w.rar; },
+  rarTag(r) { return r < 0 ? '' : '<span class="wb-rar r-' + RARITY[r].id + '">' + RARITY[r].name + '</span>'; },
+  list() {
+    let l = this.items(this.tab);
+    if (this.rar !== 'all') l = l.filter(w => this.rarOf(w) === +this.rar);
+    const mine = w => (Progress.owns(w) ? 0 : 1), r = w => this.rarOf(w);
+    const by = { rar: (a, b) => r(a) - r(b) || a.price - b.price, cheap: (a, b) => a.price - b.price, dear: (a, b) => b.price - a.price, mine: (a, b) => mine(a) - mine(b) || r(a) - r(b) }[this.sort];
+    return l.map((w, i) => [w, i]).sort((x, y) => by(x[0], y[0]) || x[1] - y[1]).map(x => x[0]);
+  },
+  // ნივთის მდგომარეობა: აცვია / მოსინჯვა / შენია / ფასი. wallet ერთხელ ითვლება (Progress.wallet() ყველა ლეველს გადაუვლის)
+  state(w, wallet) {
+    const P = Progress.P, own = Progress.owns(w), on = (P.skin[w.slot] || BIT_DEFAULT[w.slot]) === w.id, tr = this.tryIt;
+    const tag = on ? '<span class="wb-tag on">✓ აცვია</span>'
+      : own ? '<span class="wb-tag">' + (w.price ? 'შენია — ჩაცმა' : w.slot === 'color' ? 'უფასო' : 'ჩაცმა') + '</span>'
+        : '<span class="wb-tag buy' + (wallet >= w.price ? '' : ' poor') + '">💰 ' + w.price + ' XP</span>';
+    return { on, trying: !!tr && tr.slot === w.slot && tr.id === w.id, tag };
+  },
+  card(w, wallet) {
+    const st = this.state(w, wallet), r = this.rarOf(w);
+    return '<button class="wb-item' + (r >= 0 ? ' r-' + RARITY[r].id : '') + (st.on ? ' on' : '') + (st.trying ? ' trying' : '') + '" data-slot="' + w.slot + '" data-id="' + w.id + '" aria-pressed="' + st.on + '">' +
+      this.rarTag(r) + (w.slot === 'color' ? '<span class="wb-swatch" style="background:' + (w.grad ? 'linear-gradient(135deg,' + w.grad.join(',') + ')' : w.body) + '"></span>' : '') +
+      '<span class="wb-mini">' + bitSVG(currentSkin({ [w.slot]: w.id })) + '</span><b>' + esc(w.name) + '</b>' + st.tag + '</button>';
+  },
   render() {
     const P = Progress.P, wallet = Progress.wallet(), tr = this.tryIt, free = P.settings.unlockAll;
     $('#wb-wallet').textContent = '💰 ' + (free ? '∞' : wallet) + ' XP';
     $('#wb-bit').innerHTML = bitSVG(currentSkin(tr ? { [tr.slot]: tr.id } : null));
+    // მოსინჯვისას სცენა ნივთის იშვიათობის ფერს იღებს
+    const tri = tr ? this.rarOf(tr) : -1;
+    $('#wb-stage').className = 'wb-stage' + (tri >= 0 ? ' rar r-' + RARITY[tri].id : '');
     const r = Progress.rank();
     $('#wb-name').textContent = 'ბიტი · ' + r.ic + ' ' + r.name;
     // მოსინჯვა: ნივთი ბიტს უკვე აცვია ეკრანზე — აქ ყიდვა
@@ -17553,26 +18203,37 @@ const Wardrobe = {
     bar.classList.toggle('hidden', !tr);
     if (tr) {
       const can = wallet >= tr.price;
-      bar.innerHTML = '<div class="wb-try-t"><b>„' + esc(tr.name) + '“ — მოსინჯვა</b><small>' + (can ? 'ასე გამოიყურება ბიტი. მოგწონს? იყიდე და ჩაიცვას!' : 'აკლია ' + (tr.price - wallet) + ' XP — გაიარე ლეველები და დააგროვე!') + '</small></div>' +
+      bar.innerHTML = '<div class="wb-try-t">' + this.rarTag(tri) + '<b>„' + esc(tr.name) + '“ — მოსინჯვა</b><small>' + (can ? 'ასე გამოიყურება ბიტი. მოგწონს? იყიდე და ჩაიცვას!' : 'აკლია ' + (tr.price - wallet) + ' XP — გაიარე ლეველები და დააგროვე!') + '</small></div>' +
         '<button class="wb-buy" id="wb-buy"' + (can ? '' : ' disabled') + '>💰 ' + tr.price + ' XP — ყიდვა</button><button class="btn small ghost" id="wb-cancel" aria-label="გაუქმება">✕</button>';
       $('#wb-buy').addEventListener('click', () => this.buy());
       $('#wb-cancel').addEventListener('click', () => { this.tryIt = null; this.render(); });
     }
     $('#wb-tabs').innerHTML = WB_SLOTS.map(([sl, ic, nm]) => {
-      const own = this.items(sl).filter(w => w.price && Progress.owns(w)).length, all = this.items(sl).filter(w => w.price).length;
-      return '<button role="tab" data-tab="' + sl + '" class="' + (sl === this.tab ? 'on' : '') + '" aria-selected="' + (sl === this.tab) + '">' + ic + ' ' + nm + (all ? ' <small>' + own + '/' + all + '</small>' : '') + '</button>';
+      const paid = this.items(sl).filter(w => w.price), own = paid.filter(w => Progress.owns(w)).length;
+      return '<button role="tab" data-tab="' + sl + '" class="' + (sl === this.tab ? 'on' : '') + '" aria-selected="' + (sl === this.tab) + '">' + ic + ' ' + nm + (paid.length ? ' <small>' + own + '/' + paid.length + '</small>' : '') + '</button>';
     }).join('');
-    $('#wb-grid').innerHTML = this.items(this.tab).map(w => {
-      const own = Progress.owns(w), on = (P.skin[w.slot] || BIT_DEFAULT[w.slot]) === w.id, trying = tr && tr.slot === w.slot && tr.id === w.id;
-      const tag = on ? '<span class="wb-tag on">✓ აცვია</span>'
-        : own ? '<span class="wb-tag">' + (w.slot === 'color' ? 'უფასო' : w.price ? 'შენია — ჩაცმა' : 'ჩაცმა') + '</span>'
-          : '<span class="wb-tag buy' + (wallet >= w.price ? '' : ' poor') + '">💰 ' + w.price + ' XP</span>';
-      return '<button class="wb-item' + (on ? ' on' : '') + (trying ? ' trying' : '') + '" data-slot="' + w.slot + '" data-id="' + w.id + '" aria-pressed="' + on + '">' +
-        (w.slot === 'color' ? '<span class="wb-swatch" style="background:' + w.body + '"></span>' : '') +
-        '<span class="wb-mini">' + bitSVG(currentSkin({ [w.slot]: w.id })) + '</span><b>' + esc(w.name) + '</b>' + tag + '</button>';
-    }).join('');
+    // იშვიათობის ფილტრი და დალაგება
+    const all = this.items(this.tab), cnt = RARITY.map((_, i) => all.filter(w => this.rarOf(w) === i).length);
+    if (this.rar !== 'all' && !cnt[+this.rar]) this.rar = 'all';
+    $('#wb-filter').innerHTML = '<div class="wb-rars">' + [['all', 'ყველა', all.length]].concat(RARITY.map((q, i) => [String(i), q.name, cnt[i]])).filter(x => x[2]).map(([v, n, c]) =>
+      '<button data-rar="' + v + '" class="' + (v === this.rar ? 'on' : '') + (v === 'all' ? '' : ' r-' + RARITY[+v].id) + '" aria-pressed="' + (v === this.rar) + '"><i></i>' + n + ' <small>' + c + '</small></button>').join('') + '</div>' +
+      '<label class="wb-sort">დალაგება <select id="wb-sort">' + WB_SORTS.map(([v, n]) => '<option value="' + v + '"' + (v === this.sort ? ' selected' : '') + '>' + n + '</option>').join('') + '</select></label>';
+    // ბადე თავიდან მხოლოდ კატეგორიის, ფილტრის ან დალაგების შეცვლისას იხატება; სხვა დროს მხოლოდ მდგომარეობა ახლდება
+    const grid = $('#wb-grid'), key = this.tab + '|' + this.rar + '|' + this.sort;
+    if (key !== this.gridKey || !grid.children.length) {
+      this.gridKey = key;
+      grid.innerHTML = this.list().map(w => this.card(w, wallet)).join('');
+    } else {
+      $$('#wb-grid [data-slot]').forEach(b => {
+        const w = this.find(b.dataset.slot, b.dataset.id), st = this.state(w, wallet);
+        b.classList.toggle('on', st.on); b.classList.toggle('trying', st.trying); b.setAttribute('aria-pressed', st.on);
+        b.querySelector('.wb-tag').outerHTML = st.tag;
+      });
+    }
     $$('#wb-tabs [data-tab]').forEach(b => b.addEventListener('click', () => { this.tab = b.dataset.tab; Sound.click(); this.render(); }));
-    $$('#wb-grid [data-slot]').forEach(b => b.addEventListener('click', () => this.pick(b.dataset.slot, b.dataset.id)));
+    $$('#wb-filter [data-rar]').forEach(b => b.addEventListener('click', () => { this.rar = b.dataset.rar; Sound.click(); this.render(); }));
+    $('#wb-sort').addEventListener('change', e => { this.sort = e.target.value; this.render(); });
+    grid.onclick = e => { const b = e.target.closest('[data-slot]'); if (b) this.pick(b.dataset.slot, b.dataset.id); };
   },
   wear(slot, id) {
     const P = Progress.P;
@@ -17584,7 +18245,7 @@ const Wardrobe = {
     if (!w) return;
     Sound.click();
     if (Progress.owns(w)) { this.tryIt = null; this.wear(slot, id); }
-    else this.tryIt = this.tryIt === w ? null : w;
+    else this.tryIt = this.tryIt && this.tryIt.slot === w.slot && this.tryIt.id === w.id ? null : w;
     this.render();
   },
   buy() {
@@ -17594,7 +18255,7 @@ const Wardrobe = {
     this.tryIt = null;
     this.wear(w.slot, w.id);
     Sound.ach();
-    UI.toast('🛍️', 'ახალი ნივთი: ' + w.name, 'ბიტს უკვე აცვია! დარჩა ' + Progress.wallet() + ' XP.');
+    UI.toast('🛍️', 'ახალი ნივთი: ' + w.name, (this.rarOf(w) >= 0 ? RARITY[this.rarOf(w)].name + ' · ' : '') + 'ბიტს უკვე აცვია! დარჩა ' + Progress.wallet() + ' XP.');
     this.render();
     confetti($('#wb-stage'));
   },
@@ -17627,7 +18288,7 @@ const ProfileScreen = {
       stat(achN + '/' + ACHIEVEMENTS.length, 'მიღწევა') + stat(P.stats.runs, 'გაშვება') + stat(P.stats.hints, 'მინიშნება') +
       stat(fmtTime(P.stats.playMs), 'თამაშის დრო') + stat('🔥 ' + Progress.streakNow() + ' (' + (P.streak.best || 0) + ')', 'დღიანი სერია (რეკორდი)') + '</div>' +
       '<h3>მიღწევები</h3><div class="ach-grid">' + ACHIEVEMENTS.map(a => '<div class="ach' + (P.ach[a.id] ? '' : ' locked') + '"><span class="ic">' + a.ic + '</span><div><b>' + esc(a.t) + '</b><small>' + esc(a.d) + '</small></div></div>').join('') + '</div>' +
-      '<h3>ბიტის იერსახე</h3><div class="card wb-promo"><span class="wb-mini">' + bitSVG() + '</span><div style="flex:1;min-width:200px"><b>👕 ბიტის გარდერობი</b><p class="muted" style="margin:.2em 0 0">ფერები უფასოა, ქუდები და ტანსაცმელი XP-ით იყიდება. ხარჯვადი: 💰 ' + Progress.wallet() + ' XP · ნივთები: ' + (P.owned || []).length + '/' + WARDROBE.filter(w => w.price).length + '</p></div><button class="btn primary" id="pf-wardrobe">გარდერობის გახსნა</button></div>' +
+      '<h3>ბიტის იერსახე</h3><div class="card wb-promo"><span class="wb-mini">' + bitSVG() + '</span><div style="flex:1;min-width:200px"><b>👕 ბიტის გარდერობი</b><p class="muted" style="margin:.2em 0 0">' + (WARDROBE.length + BIT_COLORS.length) + ' ნივთი 6 იშვიათობით — ჩვეულებრივიდან მითიურამდე. ხარჯვადი: 💰 ' + Progress.wallet() + ' XP · შენი ნივთები: ' + (P.owned || []).length + '/' + (WARDROBE.filter(w => w.price).length + BIT_COLORS.filter(c => c.price).length) + '</p></div><button class="btn primary" id="pf-wardrobe">გარდერობის გახსნა</button></div>' +
       '<h3>რედაქტორის თემა</h3><div class="seg" id="pf-etheme">' + EDITOR_THEMES.map(t => '<button data-et="' + t.id + '" class="' + (P.etheme === t.id ? 'on' : '') + '"' + (Progress.unlockedReward(t) ? '' : ' disabled') + '>' + esc(t.name) + (Progress.unlockedReward(t) ? '' : ' 🔒' + t.xp) + '</button>').join('') + '</div>' +
       '<h3>ენები</h3><div class="lvl-list">' + COURSES.map(c => {
         const st = Progress.courseStats(c.id), ok = (c.id === 'js' ? Progress.isDone('10-5') : Progress.courseDone(c.id)) || !!P.certs[c.id];

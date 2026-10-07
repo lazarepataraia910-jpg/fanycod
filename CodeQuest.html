@@ -788,6 +788,39 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .proj-card small{display:block;color:var(--muted);font-size:.8rem;line-height:1.35}
 /* Pro */
 .pro-box{text-align:center}
+/* Pro-ს ფანჯარა: ღამის ცის თავი ოქროს გვირგვინით, ფასი, ფუნქციები, დიდი ოქროს ღილაკი */
+.modal:has(>.pw){max-width:470px;padding:0;border:0;border-radius:26px;overflow:hidden auto}
+.pw{position:relative}
+.pw-x{position:absolute;top:12px;right:12px;z-index:2;width:36px;height:36px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:1rem;transition:background .15s,transform .15s}
+.pw-x:hover{background:rgba(255,255,255,.28);transform:rotate(90deg)}
+.pw-top{position:relative;overflow:hidden;isolation:isolate;padding:30px 24px 22px;color:#fff;text-align:center;
+  background:radial-gradient(circle at 50% 18%,rgba(255,212,59,.42),transparent 42%),radial-gradient(circle at 0 110%,rgba(124,77,255,.55),transparent 50%),linear-gradient(150deg,#141836,#2a1a55 60%,#3b1a5c)}
+.pw-top::before{content:'';position:absolute;inset:0;z-index:-1;background-image:radial-gradient(rgba(255,255,255,.15) 1px,transparent 1.6px);background-size:20px 20px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 85%);mask-image:linear-gradient(180deg,#000,transparent 85%)}
+.pw-crown{width:92px;height:92px;margin:0 auto 12px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b 55%,#f5a800);font-size:2.9rem;line-height:1;box-shadow:0 0 0 6px rgba(255,212,59,.18),0 0 40px rgba(255,200,40,.55),0 6px 0 #c98f00;animation:hm-float 4s ease-in-out infinite}
+.pw-spark i{position:absolute;width:6px;height:6px;border-radius:50%;background:#ffe066;box-shadow:0 0 10px #ffd43b;animation:pw-tw 2.4s ease-in-out infinite}
+.pw-spark i:nth-child(1){left:22%;top:20%}.pw-spark i:nth-child(2){left:76%;top:16%;animation-delay:.5s}.pw-spark i:nth-child(3){left:14%;top:58%;width:4px;height:4px;animation-delay:1s}
+.pw-spark i:nth-child(4){left:84%;top:52%;width:4px;height:4px;animation-delay:1.5s}.pw-spark i:nth-child(5){left:64%;top:34%;width:3px;height:3px;animation-delay:.8s}
+@keyframes pw-tw{0%,100%{opacity:.25;transform:scale(.6)}50%{opacity:1;transform:scale(1.2)}}
+.pw-top h2{margin:0;font-size:1.75rem;font-weight:800;letter-spacing:-.02em}
+.pw-top h2 span{background:linear-gradient(90deg,#ffe066,#ff922b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pw-top p{max-width:340px;margin:8px auto 0;color:rgba(255,255,255,.78);font-size:.9rem;line-height:1.5}
+.pw-top p b{color:#ffe066}
+.pw-body{padding:18px 20px 20px}
+.pw-price{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 14px}
+.pw-price b{font-size:2.4rem;font-weight:800;line-height:1;letter-spacing:-.03em}
+.pw-price span{color:var(--muted);font-size:.78rem;font-weight:700;line-height:1.25;text-align:left}
+.pw-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.pw-list li{display:flex;align-items:center;gap:12px;padding:9px 12px;border:1px solid var(--border);border-radius:14px;background:var(--panel)}
+.pw-list li>span{flex:none;width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:color-mix(in srgb,#ffb703 16%,var(--panel2));font-size:1.15rem;line-height:1}
+.pw-list b{display:block;font-size:.9rem}
+.pw-list small{display:block;color:var(--muted);font-size:.76rem;line-height:1.35}
+.pw .pw-buy{position:relative;overflow:hidden;width:100%;margin-top:16px;padding:15px 20px;border:0;border-radius:16px;background:linear-gradient(180deg,#ffe066,#fcc419);color:#3d2a00;font-size:1.12rem;font-weight:800;box-shadow:0 6px 0 #d49b00,0 16px 28px -12px rgba(252,196,25,.75);transition:transform .15s,box-shadow .15s,filter .15s}
+.pw .pw-buy:hover{background:linear-gradient(180deg,#ffe066,#fcc419);transform:translateY(-2px);filter:brightness(1.04);box-shadow:0 8px 0 #d49b00,0 20px 30px -12px rgba(252,196,25,.85)}
+.pw .pw-buy:active{transform:translateY(5px);box-shadow:0 1px 0 #d49b00}
+.pw .pw-buy::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-100%);animation:hm-shine 3.5s ease-in-out 1s infinite}
+.pw-more{display:flex;justify-content:center;gap:6px;margin-top:10px}
+.pw-more .btn{color:var(--muted);font-weight:700}
+.pw-more .btn:hover{color:var(--text)}
 .pro-badge{width:78px;height:78px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;font-size:2.5rem;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b);box-shadow:0 5px 0 #d9a600}
 .pro-list{list-style:none;padding:0;margin:12px auto 0;max-width:380px;text-align:left;display:grid;gap:6px}
 .pro-list li{padding:8px 12px;border-radius:10px;background:var(--panel2)}
@@ -19581,10 +19614,19 @@ const Paywall = {
     const intro = ctx === 'studio'
       ? '<b>ვიდეოები და ნაბიჯ-ნაბიჯ პროექტები</b> Pro-ს ნაწილია. Pro ამასთან ერთად ყველა ფასიან ლეველსაც ხსნის (ყველა ენაზე პირველი ' + PRO.freeLevels + ' ლეველი უფასოა).'
       : (lv ? 'ეს <b>' + (lv.index + 1) + '-ე ლეველია</b>. ' : '') + 'ყველა ენაზე პირველი <b>' + PRO.freeLevels + ' ლეველი უფასოა</b> — დანარჩენს Pro ხსნის.';
-    const m = Modal.open('<div class="pro-box"><div class="pro-badge" aria-hidden="true">👑</div><h2 class="result-title">CodeQuest Pro</h2>' +
-      '<p>' + intro + '</p>' +
-      '<ul class="pro-list"><li>✅ ყველა ფასიანი ლეველი ყველა ენაზე (' + COURSES.length + ')</li><li>✅ ' + Object.values(STUDIO_VIDEOS).reduce((a, l) => a + l.length, 0) + ' ვიდეო საიტზევე, კოდის რედაქტორი ▶ Run-ით და 📒 ჩანაწერები</li><li>✅ ' + STUDIO_GUIDES.length + ' ნაბიჯ-ნაბიჯ პროექტი</li><li>✅ ერთჯერადი გადახდა — გამოწერის გარეშე</li><li>✅ კოდი ელფოსტაზე მოგივა და ნებისმიერ მოწყობილობაზე ჩასვამ</li></ul></div>' +
-      '<div class="modal-actions win-actions"><button class="btn" data-close>მოგვიანებით</button><button class="btn" data-a="key">🔑 მაქვს კოდი</button><button class="btn primary" data-a="buy">💳 ყიდვა' + price + '</button></div>');
+    // ფუნქციები: [ხატულა, სათაური, ახსნა]
+    const feats = [['🔓', 'ყველა ფასიანი ლეველი', COURSES.length + ' ენაზე — ყველა რუკა ბოლომდე'],
+      ['🎬', Object.values(STUDIO_VIDEOS).reduce((a, l) => a + l.length, 0) + ' ვიდეო საიტზევე', 'კოდის რედაქტორი ▶ Run-ით და 📒 ჩანაწერები'],
+      ['🛠️', STUDIO_GUIDES.length + ' ნაბიჯ-ნაბიჯ პროექტი', 'ააწყე ნამდვილი პროგრამები'],
+      ['💳', 'ერთჯერადი გადახდა', 'გამოწერის გარეშე — სამუდამოდ შენია'],
+      ['📧', 'კოდი ელფოსტაზე მოგივა', 'ნებისმიერ მოწყობილობაზე ჩასვამ']];
+    const m = Modal.open('<div class="pw"><button class="pw-x" data-close aria-label="დახურვა">✕</button>' +
+      '<div class="pw-top"><div class="pw-spark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="pw-crown" aria-hidden="true">👑</div>' +
+      '<h2>CodeQuest <span>Pro</span></h2><p>' + intro + '</p></div>' +
+      '<div class="pw-body">' + (PRO.price ? '<div class="pw-price"><b>' + esc(PRO.price) + '</b><span>ერთხელ<br>სამუდამოდ</span></div>' : '') +
+      '<ul class="pw-list">' + feats.map(([ic, t, d]) => '<li><span aria-hidden="true">' + ic + '</span><div><b>' + t + '</b><small>' + d + '</small></div></li>').join('') + '</ul>' +
+      '<button class="btn primary pw-buy" data-a="buy">💳 ყიდვა' + price + '</button>' +
+      '<div class="pw-more"><button class="btn ghost" data-a="key">🔑 მაქვს კოდი</button><button class="btn ghost" data-close>მოგვიანებით</button></div></div></div>');
     m.querySelector('[data-a=buy]').addEventListener('click', () => this.buy());
     m.querySelector('[data-a=key]').addEventListener('click', () => { Modal.close(m); this.keyForm(); });
   },

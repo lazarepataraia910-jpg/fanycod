@@ -18308,7 +18308,7 @@ const Desktop = {
   asset(k) { return this.rel && this.rel.assets ? this.rel.assets.find(a => a.name === this.files[k].file) || null : null; },
   url(k) { const a = this.asset(k); return a ? a.browser_download_url : 'https://github.com/' + this.repo + '/releases/latest/download/' + this.files[k].file; },
   async load() {
-    if (this.rel) return;
+    if (this.rel && !this.rel.missing) return;   // „ჯერ მზადდება“ — ყოველ გახსნაზე თავიდან ვამოწმებთ
     try {
       const r = await fetch('https://api.github.com/repos/' + this.repo + '/releases/latest', { headers: { Accept: 'application/vnd.github+json' } });
       if (r.ok) this.rel = await r.json(); else if (r.status === 404) this.rel = { missing: true };

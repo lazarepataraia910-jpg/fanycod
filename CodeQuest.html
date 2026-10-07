@@ -11584,7 +11584,8 @@ const WARDROBE = [
 ];
 /* ===WARDROBE:BEGIN=== */
 /* ---------- გარდერობის იშვიათობები და ნივთების გენერატორი ----------
-   ყოველ კატეგორიაში 100-ზე მეტი ნივთია: ფორმა (შაბლონი) × ფერი (პალიტრა). იშვიათობა = შაბლონის საბაზო იშვიათობა +
+   გენერატორი ქმნის ფორმას (შაბლონს) × ფერს (პალიტრას). მაღაზიაში ყოველი ფორმიდან მხოლოდ ერთი ჩანს (იხ. „მხოლოდ უნიკალური ნივთები“ ქვემოთ).
+   იშვიათობა = შაბლონის საბაზო იშვიათობა +
    პალიტრის ბონუსი (ოქრო, ბრილიანტი, ცისარტყელა...). ფასი იშვიათობაზეა დამოკიდებული.
    ⚠️ id = შაბლონი-პალიტრა. ნაყიდი ნივთები (P.owned) და ჩაცმული (P.skin) id-ით ინახება — არსებულ id-ს ნუ შეცვლი. */
 const RARITY = [
@@ -11653,7 +11654,7 @@ function wbGen(slot, list) {
   const out = [];
   list.forEach(([tid, name, r, f, pals, o]) => pals.forEach(k => {
     const q = WB_PAL[k], id = tid + '-' + k, rar = Math.min(5, r + (q[4] || 0));
-    const w = { slot, id, name: q[0] + ' ' + name, rar, price: wbPrice(id, rar) };
+    const w = { slot, id, name: q[0] + ' ' + name, rar, price: wbPrice(id, rar), tpl: tid, pal: k };
     const draw = fn => (d, b, G) => fn(wbPaint(k, G), d, b);
     if (o && o.tall) w.tall = true;
     if (slot === 'back') { w.back = draw(f); if (o && o.front) w.front = draw(o.front); } else w.svg = draw(f);
@@ -12158,7 +12159,7 @@ const WB_COLORS = (() => {
   const out = [];
   hues.forEach(([hid, hname, h]) => vars.forEach(([vid, pre, rar, body, dark]) => {
     const s = hid === 'brown' ? 55 : 82, b = body(h, s), id = 'c-' + hid + (vid ? '-' + vid : '');
-    out.push(Object.assign({ id, name: pre + hname, dark: dark(h, s), rar, price: rar ? wbPrice(id, rar) : 0 }, Array.isArray(b) ? { body: b[1], grad: b } : { body: b }));
+    out.push(Object.assign({ id, name: pre + hname, dark: dark(h, s), rar, uniq: hid === 'brown' && !vid, price: rar ? wbPrice(id, rar) : 0 }, Array.isArray(b) ? { body: b[1], grad: b } : { body: b }));
   }));
   // განსაკუთრებული: [id, სახელი, იშვიათობა, გრადიენტი, მუქი]
   [['gold', 'ოქრო', 4, ['#fff3bf', '#fcc419', '#e67700'], '#8a4b00'], ['silver', 'ვერცხლი', 3, ['#ffffff', '#ced4da', '#868e96'], '#495057'], ['bronze', 'ბრინჯაო', 3, ['#f1c27d', '#cd7f32', '#8c5225'], '#5c3317'],
@@ -12167,7 +12168,7 @@ const WB_COLORS = (() => {
     ['toxic', 'ტოქსიკური', 4, ['#f4fce3', '#a9e34b', '#2b8a3e'], '#1b5e20'], ['flame', 'ალი', 4, ['#ffd43b', '#ff6b00', '#e03131'], '#862e2e'], ['dark', 'სიბნელე', 4, ['#9775fa', '#343a40', '#111317'], '#000000'],
     ['rainbow', 'ცისარტყელა', 5, ['#ff6b6b', '#ffa94d', '#ffd43b', '#69db7c', '#4dabf7', '#9775fa'], '#3b2a8f'], ['galaxy', 'გალაქტიკა', 5, ['#1a1240', '#5f3dc4', '#e64980', '#4dabf7'], '#0d0a24'],
     ['lava', 'ლავა', 5, ['#ffd43b', '#ff6b00', '#c92a2a', '#2b2f36'], '#2b2f36'], ['diamond', 'ბრილიანტი', 5, ['#ffffff', '#c5f6fa', '#99e9f2', '#eebefa'], '#3bc9db'], ['aurora', 'ჩრდილოეთის ციალი', 5, ['#63e6be', '#4dabf7', '#9775fa', '#f783ac'], '#1a1240']
-  ].forEach(([sid, name, rar, grad, dark]) => { const id = 'c-' + sid; out.push({ id, name, body: grad[1], dark, grad, rar, price: wbPrice(id, rar) }); });
+  ].forEach(([sid, name, rar, grad, dark]) => { const id = 'c-' + sid; out.push({ id, name, body: grad[1], dark, grad, rar, price: wbPrice(id, rar), uniq: true }); });
   return out;
 })();
 // არსებულ ნივთებს იშვიათობა ფასით ენიჭება; შემდეგ ემატება გენერირებული ნივთები და ფერები
@@ -12175,6 +12176,25 @@ WARDROBE.forEach(w => { if (w.price && w.rar == null) w.rar = rarOfPrice(w.price
 WARDROBE.push(...WB_HATS, ...WB_TOPS, ...WB_EYES, ...WB_NECK, ...WB_BACK, ...WB_FEET, ...WB_ANT);
 BIT_COLORS.forEach(c => { if (c.rar == null) c.rar = 0; });
 BIT_COLORS.push(...WB_COLORS);
+/* ---------- მხოლოდ უნიკალური ნივთები ----------
+   მაღაზიაში ყოველი ფორმიდან ერთი ნივთი რჩება: ხელით დახატული, თუ არის, თორემ შაბლონის პირველი ფერი.
+   დანარჩენი ფერადი ასლები retired-ია: მაღაზიაში აღარ ჩანს, მაგრამ ვინც უკვე იყიდა ან აცვია, მისთვის რჩება
+   (id, ფასი და ნახატი არ იცვლება, ამიტომ ნაყიდი არაფერი იკარგება). */
+// ერთნაირი ფორმა სხვადასხვა სახელით: შაბლონი → ხელით დახატული ნივთი
+const WB_SAME = { 'top:tee': 'tshirt', 'hat:phones': 'headphones', 'eyes:shades': 'sun', 'eyes:round': 'nerd' };
+(() => {
+  const seen = new Set();
+  WARDROBE.forEach(w => {
+    let t = w.tpl || w.id;
+    if (/^karate-/.test(t)) t = 'karate';   // კიმონოები მხოლოდ ქამრის ფერით განსხვავდება
+    const k = w.slot + ':' + (WB_SAME[w.slot + ':' + t] || t);
+    if (seen.has(k)) { w.retired = true; return; }
+    seen.add(k);
+    // „ლურჯი კეპი“ → „კეპი“: ფერი აღარ მეორდება. ძვირფასი პალიტრის სახელი რჩება („ოქროს ჰალო“)
+    if (w.pal && !WB_PAL[w.pal][4]) w.name = w.name.slice(WB_PAL[w.pal][0].length + 1);
+  });
+  BIT_COLORS.forEach(c => { if (/^c-/.test(c.id) && !c.uniq) c.retired = true; });
+})();
 /* ===WARDROBE:END=== */
 const WARDROBE_BY = {};
 WARDROBE.forEach(w => { WARDROBE_BY[w.slot + ':' + w.id] = w; });
@@ -18393,7 +18413,10 @@ const WB_SLOTS = [['color', '🎨', 'ფერი'], ['hat', '🎩', 'ქუდ�
 const WB_SORTS = [['rar', 'იშვიათობით'], ['cheap', 'ჯერ იაფი'], ['dear', 'ჯერ ძვირი'], ['mine', 'ჯერ ჩემი']];
 const Wardrobe = {
   tab: 'top', tryIt: null, rar: 'all', sort: 'rar', gridKey: '',
-  items(slot) { return slot === 'color' ? BIT_COLORS.map(c => Object.assign({ slot: 'color', price: 0 }, c)) : WARDROBE.filter(w => w.slot === slot); },
+  items(slot) {
+    const P = Progress.P, mine = w => (P.owned || []).includes(slot + ':' + w.id) || (P.skin[slot] || BIT_DEFAULT[slot]) === w.id;
+    return (slot === 'color' ? BIT_COLORS.map(c => Object.assign({ slot: 'color', price: 0 }, c)) : WARDROBE.filter(w => w.slot === slot)).filter(w => !w.retired || mine(w));
+  },
   find(slot, id) { return this.items(slot).find(w => w.id === id); },
   // იშვიათობა (0–5); -1 — „არაფერი“ და უფასო საწყისი ნივთები, რომლებსაც იშვიათობა არ აქვთ
   rarOf(w) { return w.rar == null ? -1 : w.rar; },
@@ -18401,7 +18424,7 @@ const Wardrobe = {
   deals() {
     const day = todayStr();
     if (this.dealDay === day) return this.dealList;
-    const rng = mulberry32(hashStr('deals:' + day)), pool = WARDROBE.filter(w => w.price && w.rar >= 1).concat(BIT_COLORS.filter(c => c.price).map(c => Object.assign({ slot: 'color' }, c)));
+    const rng = mulberry32(hashStr('deals:' + day)), pool = WARDROBE.filter(w => w.price && w.rar >= 1 && !w.retired).concat(BIT_COLORS.filter(c => c.price && !c.retired).map(c => Object.assign({ slot: 'color' }, c)));
     const out = [];
     while (out.length < 6) { const w = pool[Math.floor(rng() * pool.length)]; if (!out.includes(w)) out.push(w); }
     this.dealDay = day;

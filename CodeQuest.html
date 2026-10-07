@@ -698,6 +698,27 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .pro-badge{width:78px;height:78px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;font-size:2.5rem;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b);box-shadow:0 5px 0 #d9a600}
 .pro-list{list-style:none;padding:0;margin:12px auto 0;max-width:380px;text-align:left;display:grid;gap:6px}
 .pro-list li{padding:8px 12px;border-radius:10px;background:var(--panel2)}
+/* ანგარიში */
+.acc{text-align:center}
+.acc-ic{width:64px;height:64px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;font-size:1.9rem;line-height:1;background:color-mix(in srgb,#12b886 16%,var(--panel2))}
+.acc-ic.av,#m-account .hm-ic.av{background:linear-gradient(135deg,#12b886,var(--accent));color:#fff;font-weight:800}
+.acc-sub{margin:.2em 0 .9em}
+.acc-form{display:grid;gap:10px;max-width:340px;margin:0 auto;text-align:left}
+.acc-form label{display:grid;gap:4px;font-weight:700;font-size:.9rem}
+.acc-form .txt{width:100%;font-size:1rem}
+.acc-form small{color:var(--muted);font-weight:400;font-size:.78rem;line-height:1.4}
+.acc-err{min-height:1.3em;margin:0;color:var(--bad);font-weight:600;font-size:.88rem}
+.acc-go{padding:.7em 1em;font-size:1rem}
+.acc-links{display:flex;flex-direction:column;align-items:center;gap:8px;margin:14px 0 0;font-size:.9rem}
+.acc-code{max-width:340px;margin:12px auto;padding:14px 18px;border:2px dashed var(--accent);border-radius:14px;background:var(--panel2);font:800 1.45rem/1.2 var(--mono);letter-spacing:.08em;user-select:all}
+.acc-check{display:flex;align-items:center;justify-content:center;gap:8px;margin:12px 0 4px;font-weight:700}
+.acc-st{margin:.1em 0 .6em;color:var(--muted);font-weight:700}
+.acc-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px}
+.acc-btns.col{flex-direction:column;align-items:stretch;max-width:360px;margin-left:auto;margin-right:auto}
+.acc-two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.acc-two div{padding:10px;border-radius:12px;background:var(--panel2);font-size:.88rem;line-height:1.5}
+.acc-del{margin-top:16px;text-align:left;font-size:.88rem}
+.acc-del summary{color:var(--muted);cursor:pointer}
 /* კომპიუტერის ვერსიის გადმოწერა */
 .dl-box{text-align:center}
 .dl-ic{width:78px;height:78px;margin:0 auto 6px;border-radius:22px;display:grid;place-items:center;font-size:2.4rem;background:linear-gradient(160deg,color-mix(in srgb,#0ea5e9 14%,var(--panel)),color-mix(in srgb,var(--accent) 18%,var(--panel)))}
@@ -975,6 +996,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
           <button class="hm-row hm-in" style="--d:4;--ti:#3b82f6" id="m-continue"><span class="hm-ic" aria-hidden="true">▶️</span><span class="hm-t"><b>გაგრძელება</b><small id="m-continue-sub">ბოლო ლეველიდან</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
           <button class="hm-row hm-in" style="--d:5" id="m-lang"><span class="hm-ic lb" id="m-lang-ic" aria-hidden="true"></span><span class="hm-t"><b id="m-lang-t">ენის არჩევა</b><small id="m-lang-sub">შეცვლა</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
           <div class="hm-card hm-favs hm-in hidden" style="--d:5" id="menu-favs" role="group" aria-label="რჩეული ენები"></div>
+          <button class="hm-row hm-in" style="--d:5;--ti:#12b886" id="m-account"><span class="hm-ic" id="m-account-ic" aria-hidden="true">👤</span><span class="hm-t"><b id="m-account-t">შესვლა / რეგისტრაცია</b><small id="m-account-sub">შეინახე პროგრესი ყველა მოწყობილობაზე</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
           <button class="hm-row hm-in hidden" style="--d:5;--ti:#0ea5e9" id="m-desktop"><span class="hm-ic" aria-hidden="true">💻</span><span class="hm-t"><b>კომპიუტერის ვერსია</b><small id="m-desktop-sub">გადმოწერე პროგრამა</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
         </div>
       </div>
@@ -15891,7 +15913,7 @@ const Progress = {
       P.plan500 = true; this.save();
     }
   },
-  save() { Store.set(SAVE_KEY, this.P); },
+  save() { Store.set(SAVE_KEY, this.P); Account.changed(); },   // ანგარიშით — სერვერზეც (რამდენიმე წამში)
   /* ---- გარდერობი: საფულე = მოგებული XP − დახარჯული (წოდებას ხარჯვა არ ამცირებს) ---- */
   wallet() { return Math.max(0, this.totalXP() - (this.P.spent || 0)); },
   owns(w) { return !w.price || this.P.settings.unlockAll || (this.P.owned || []).includes(w.slot + ':' + w.id); },
@@ -16572,6 +16594,7 @@ const Menu = {
   render() {
     $('#menu-logo').innerHTML = LOGO_SVG + '<span class="logo-tag" aria-hidden="true"><b>👕</b><i></i><i></i><i></i><i></i><i></i></span>';
     LogoTag.start();
+    Account.renderMenu();
     const P = Progress.P, r = Progress.rank(), xp = Progress.totalXP();
     const nr = r.name === 'ლეგენდა' ? null : Progress.nextRank();
     const cid = Progress.course(), c = COURSE_BY_ID[cid], st = Progress.courseStats(cid), nxt = Progress.nextIn(cid);
@@ -19005,6 +19028,399 @@ const Desktop = {
     if (dl) dl.addEventListener('click', () => UI.toast('⬇️', 'გადმოწერა დაიწყო', 'როცა ჩამოიტვირთება, გახსენი ფაილი ' + f.file + '.'));
   }
 };
+/* ---------- ანგარიში: რეგისტრაცია, შესვლა და პროგრესის შენახვა სერვერზე (api/account.js) ----------
+   სტუმარი თამაშობს როგორც ადრე: პროგრესი მხოლოდ ამ მოწყობილობაზეა. ანგარიშით პროგრესი, Pro და ბიტის ნივთები ყველა
+   მოწყობილობაზე ერთია: ყოველი ცვლილება რამდენიმე წამში სერვერზე ინახება (Progress.save → Account.changed). თუ სხვა
+   მოწყობილობამ უფრო ახალი შეინახა, პროგრესები ერთიანდება (mergeProgress — საუკეთესო რჩება, არაფერი იკარგება).
+   ელფოსტა არ გვჭირდება: დავიწყებული პაროლი აღდგენის კოდით აღდგება, რომელსაც რეგისტრაციისას ვაჩვენებთ. */
+const ACC_KEY = 'codequest.auth';   // { token, name, rev, dirty, at } — პროგრესისგან ცალკე: ნიშანი არც პროგრესის კოდში ხვდება, არც სერვერზე
+const ACC_NAME_RE = /^[A-Za-z0-9ა-ჰ_.-]{3,20}$/;
+// ორი პროგრესის გაერთიანება: a — ეს მოწყობილობა, b — ანგარიში. ლეველებიდან, მიღწევებიდან და ნივთებიდან საუკეთესო რჩება,
+// პარამეტრები და ბიტის იერსახე — ამ მოწყობილობისა (თუ აქ ბიტი ჯერ არ შეცვლილა — ანგარიშისა)
+function mergeProgress(a, b) {
+  const mx = (x, y) => Math.max(+x || 0, +y || 0);
+  const mn = (x, y) => (x && y ? Math.min(x, y) : x || y || undefined);
+  const keys = (x, y) => [...new Set(Object.keys(x || {}).concat(Object.keys(y || {})))];
+  // რიცხვი — მეტი, true — თუ ერთშია მაინც, მასივი — გაერთიანება, ობიექტი — ღრმად
+  const best = (x, y) => {
+    if (x == null) return y;
+    if (y == null) return x;
+    if (typeof x === 'number' && typeof y === 'number') return Math.max(x, y);
+    if (typeof x === 'boolean' || typeof y === 'boolean') return !!(x || y);
+    if (Array.isArray(x) && Array.isArray(y)) return x.concat(y).some(v => v && typeof v === 'object') ? (x.length >= y.length ? x : y) : [...new Set(x.concat(y))];
+    if (typeof x === 'object' && typeof y === 'object') { const o = {}; keys(x, y).forEach(k => { o[k] = best(x[k], y[k]); }); return o; }
+    return x;
+  };
+  const later = (x, y) => (((x && x.last) || '') >= ((y && y.last) || '') ? x : y) || {};
+  const m = mergeDeep(mergeDeep(defaultProgress(), b), a);
+  const la = a.levels || {}, lb = b.levels || {};
+  m.levels = {};
+  keys(la, lb).forEach(id => {
+    const x = la[id] || {}, y = lb[id] || {};
+    m.levels[id] = { done: !!(x.done || y.done), stars: mx(x.stars, y.stars), xp: mx(x.xp, y.xp), bestTime: mn(x.bestTime, y.bestTime), lines: mn(x.lines, y.lines), noHint: !!(x.noHint || y.noHint) };
+  });
+  m.ach = Object.assign({}, b.ach, a.ach);
+  m.bonusXP = mx(a.bonusXP, b.bonusXP);
+  m.spent = mx(a.spent, b.spent);
+  m.owned = [...new Set((b.owned || []).concat(a.owned || []))];
+  m.stats = best(a.stats, b.stats) || m.stats;
+  ['quiz', 'learned', 'certs', 'seen', 'worldFails', 'use', 'guides'].forEach(k => { m[k] = best(a[k], b[k]) || {}; });
+  m.speedrun = {};
+  keys(a.speedrun, b.speedrun).forEach(k => { m.speedrun[k] = mn((a.speedrun || {})[k], (b.speedrun || {})[k]); });
+  const sa = a.streak || {}, sb = b.streak || {};
+  m.streak = Object.assign({}, later(sa, sb), { best: mx(sa.best, sb.best), days: [...new Set((sa.days || []).concat(sb.days || []))].sort().slice(-60) });
+  m.daily = Object.assign({}, later(a.daily, b.daily), { count: mx((a.daily || {}).count, (b.daily || {}).count) });
+  const notes = {};
+  (b.notes || []).concat(a.notes || []).forEach(n => { if (n && n.id && (!notes[n.id] || (n.at || 0) >= (notes[n.id].at || 0))) notes[n.id] = n; });
+  m.notes = Object.values(notes).sort((x, y) => (y.at || 0) - (x.at || 0)).slice(0, 100);
+  m.favs = [...new Set((a.favs || []).concat(b.favs || []))];
+  m.codes = Object.assign({}, b.codes, a.codes);
+  m.sdDraft = Object.assign({}, b.sdDraft, a.sdDraft);
+  m.sandbox = a.sandbox || b.sandbox || null;
+  m.pro = a.pro || b.pro || null;
+  m.name = a.name || b.name || '';
+  if (b.skin && JSON.stringify(a.skin || {}) === JSON.stringify(defaultProgress().skin)) m.skin = Object.assign({}, defaultProgress().skin, b.skin);
+  ['started', 'certified', 'plan500'].forEach(k => { m[k] = !!(a[k] || b[k]); });
+  return m;
+}
+const hasProgress = P => !!P && (Object.keys(P.levels || {}).length > 0 || (P.bonusXP || 0) > 0 || (P.owned || []).length > 0 || !!P.pro);
+const progressSummary = P => {
+  const lv = Object.values(P.levels || {}), xp = lv.reduce((a, l) => a + (l.xp || 0), 0) + (P.bonusXP || 0);
+  return '<b>' + lv.filter(l => l.done).length + '</b> ლეველი · ⭐ <b>' + lv.reduce((a, l) => a + (l.stars || 0), 0) + '</b> · <b>' + xp + '</b> XP';
+};
+const Account = {
+  s: null, state: 'idle', timer: null, busy: false, again: false, ver: 0, applying: false,
+  ERR: {
+    offline: 'სერვერთან კავშირი ვერ დამყარდა. შეამოწმე ინტერნეტი (ანგარიში საიტზე და კომპიუტერის პროგრამაში მუშაობს).',
+    no_db: 'ანგარიშები ჯერ არ არის ჩართული: საიტის მფლობელმა ბაზა უნდა მიაერთოს.',
+    name_format: 'სახელი 3–20 სიმბოლოა: ასოები (ქართული ან ლათინური), ციფრები და _ . -',
+    name_taken: 'ეს სახელი უკვე დაკავებულია — სცადე სხვა.',
+    name_reserved: 'ეს სახელი არ შეიძლება — სცადე სხვა.',
+    pass_short: 'პაროლი მინიმუმ 8 სიმბოლო უნდა იყოს.',
+    pass_long: 'პაროლი ძალიან გრძელია.',
+    pass_name: 'პაროლი სახელს არ უნდა ემთხვეოდეს.',
+    pass_match: 'პაროლები ერთმანეთს არ ემთხვევა.',
+    bad_login: 'სახელი ან პაროლი არასწორია.',
+    bad_pass: 'პაროლი არასწორია.',
+    bad_recovery: 'სახელი ან აღდგენის კოდი არასწორია.',
+    rate_limited: 'ძალიან ბევრი მცდელობა. დაისვენე რამდენიმე წუთი და თავიდან სცადე.',
+    no_session: 'სესია ამოიწურა — შედი თავიდან.',
+    too_big: 'პროგრესი ძალიან დიდია შესანახად.',
+    server: 'სერვერზე შეცდომა მოხდა. სცადე ცოტა ხანში.'
+  },
+  msg(r) { return this.ERR[r.error] || this.ERR.server; },
+  init() {
+    const s = Store.get(ACC_KEY, null);
+    this.s = s && typeof s.token === 'string' && s.name ? s : null;
+    addEventListener('online', () => { if (this.s && this.s.dirty) this.push(); });
+    document.addEventListener('visibilitychange', () => { if (document.hidden && this.s && this.s.dirty && !this.busy) this.push(true); });
+    this.renderMenu();
+    if (this.s) this.pull();
+  },
+  keep() { if (this.s) Store.set(ACC_KEY, this.s); },
+  async api(action, data, keepalive) {
+    const body = JSON.stringify(Object.assign({ action }, data));
+    try {
+      const r = await fetch('/api/account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: !!keepalive && body.length < 60000 });
+      const j = await r.json().catch(() => ({ ok: false, error: 'server' }));
+      return Object.assign({ status: r.status }, j);
+    } catch (e) {
+      return { ok: false, error: 'offline' };
+    }
+  },
+  /* ---- სინქრონიზაცია ---- */
+  // პროგრესი შეიცვალა (Progress.save) — 4 წამში სერვერზე
+  changed() {
+    if (!this.s || this.applying) return;
+    this.ver++;
+    if (!this.s.dirty) { this.s.dirty = true; this.keep(); }
+    this.setState('dirty');
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.push(), 4000);
+  },
+  async push(keepalive) {
+    if (!this.s) return;
+    if (this.busy) { this.again = true; return; }
+    clearTimeout(this.timer);
+    const sent = this.s, v = this.ver;
+    this.busy = true; this.again = false; this.setState('saving');
+    const r = await this.api('save', { token: sent.token, rev: sent.rev || 0, data: Progress.P }, keepalive);
+    this.busy = false;
+    if (this.s !== sent) return;   // შენახვისას გამოვიდა ანგარიშიდან
+    if (r.ok) {
+      Object.assign(this.s, { rev: r.rev, at: Date.now(), dirty: this.ver !== v });
+      this.keep();
+      this.setState(this.s.dirty ? 'dirty' : 'saved');
+    } else if (r.error === 'conflict') {   // სხვა მოწყობილობამ შეინახა: ვაერთიანებთ და თავიდან ვინახავთ
+      this.absorb(r.data, r.rev);
+      this.again = true;
+    } else if (r.error === 'no_session') {
+      return this.expired();
+    } else {
+      this.setState(r.error === 'offline' ? 'offline' : 'error');
+      this.timer = setTimeout(() => this.push(), 30000);
+      return;
+    }
+    if (this.again || this.s.dirty) this.timer = setTimeout(() => this.push(), this.again ? 300 : 4000);
+  },
+  // გახსნისას: სერვერზე უფრო ახალი ხომ არ არის (სხვა მოწყობილობიდან)
+  async pull() {
+    const sent = this.s, r = await this.api('load', { token: sent.token });
+    if (this.s !== sent) return;
+    if (!r.ok) {
+      if (r.error === 'no_session') return this.expired();
+      return this.setState(r.error === 'offline' ? 'offline' : 'error');
+    }
+    this.s.name = r.name;
+    if (r.rev !== (this.s.rev || 0)) {
+      this.absorb(r.data, r.rev);
+      return this.push();
+    }
+    this.keep();
+    if (this.s.dirty) return this.push();
+    this.setState('saved');
+  },
+  absorb(data, rev) {
+    if (data && typeof data === 'object') this.apply(mergeProgress(Progress.P, data));
+    this.s.rev = rev;
+    this.keep();
+  },
+  // სხვა პროგრესის ჩატვირთვა Progress.load-ით (მიგრაციები); ობიექტი იგივე რჩება, რომ ღია ეკრანებმა ძველს არ მიმართონ
+  apply(data) {
+    this.applying = true;
+    try {
+      Store.set(SAVE_KEY, data);
+      const P = Progress.P;
+      Progress.load();
+      const fresh = Progress.P;
+      Object.keys(P).forEach(k => { if (!(k in fresh)) delete P[k]; });
+      Progress.P = Object.assign(P, fresh);
+      Store.set(SAVE_KEY, P);
+    } finally { this.applying = false; }
+    applySettings();
+    Paywall.restore();
+    this.refreshUI();
+  },
+  refreshUI() {
+    const R = { menu: Menu, map: MapScreen, profile: ProfileScreen, bit: Wardrobe, settings: SettingsScreen, courses: CoursesScreen }[UI.cur];
+    if (R) R.render();
+  },
+  expired() {
+    this.s = null;
+    Store.del(ACC_KEY);
+    clearTimeout(this.timer);
+    this.setState('idle');
+    UI.toast('🔒', 'სესია ამოიწურა', 'შედი თავიდან — პროგრესი ამ მოწყობილობაზე დარჩა.');
+  },
+  setState(st) {
+    this.state = st;
+    this.renderMenu();
+    const el = $('#acc-st');
+    if (el) el.textContent = this.statusText();
+  },
+  statusText() {
+    if (!this.s) return '';
+    const t = this.s.at ? new Date(this.s.at).toLocaleTimeString('ka-GE', { hour: '2-digit', minute: '2-digit', hour12: false }) : '';
+    return { saving: '⏳ ინახება…', dirty: '⏳ ინახება რამდენიმე წამში…', offline: '⚠️ ინტერნეტი არ არის — შევინახავ, როცა დაბრუნდება', error: '⚠️ ვერ შეინახა — თავიდან ვცდი' }[this.state] ||
+      '☁️ პროგრესი შენახულია' + (t ? ' · ' + t : '');
+  },
+  renderMenu() {
+    const b = $('#m-account');
+    if (!b) return;
+    const ic = $('#m-account-ic');
+    ic.textContent = this.s ? [...this.s.name][0] : '👤';
+    ic.classList.toggle('av', !!this.s);
+    $('#m-account-t').textContent = this.s ? this.s.name : 'შესვლა / რეგისტრაცია';
+    $('#m-account-sub').textContent = this.s ? this.statusText() : 'შეინახე პროგრესი ყველა მოწყობილობაზე';
+  },
+  /* ---- შესვლა და რეგისტრაცია ---- */
+  // შესვლის შემდეგ: ანგარიშის და ამ მოწყობილობის პროგრესი. ორივეს თუ აქვს, ვეკითხებით (ნაგულისხმევად — გაერთიანება)
+  async start(r, fresh) {
+    // rev 0, სანამ ანგარიშის პროგრესს არ ჩავტვირთავთ: თუ ჩატვირთვა ვერ მოხერხდა, შენახვა „კონფლიქტს“ მიიღებს და ჯერ გააერთიანებს
+    this.s = { token: r.token, name: r.name, rev: 0, dirty: false };
+    this.keep();
+    this.renderMenu();
+    if (fresh) { this.changed(); return this.push(); }   // ახალი ანგარიში: ამ მოწყობილობის პროგრესი ანგარიშში გადადის
+    const d = await this.api('load', { token: r.token });
+    if (!d.ok) { if (d.error === 'no_session') return this.expired(); this.changed(); return; }
+    const local = hasProgress(Progress.P), remote = hasProgress(d.data);
+    if (remote) {
+      const how = local ? await this.choose(d.data) : 'merge';
+      const base = how === 'merge' ? Progress.P : Object.assign(defaultProgress(), { settings: Progress.P.settings });
+      this.apply(mergeProgress(base, d.data));
+    }
+    this.s.rev = d.rev;
+    this.keep();
+    this.changed();
+    this.push();
+    UI.toast('👋', 'გამარჯობა, ' + r.name + '!', 'პროგრესი ახლა ყველა მოწყობილობაზე შეინახება.');
+  },
+  choose(remote) {
+    return new Promise(done => {
+      const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">🔀</div><h2 class="result-title">ორი პროგრესი</h2>' +
+        '<p>ამ მოწყობილობაზეც გაქვს პროგრესი და ანგარიშშიც. რა ვქნა?</p>' +
+        '<div class="acc-two"><div><small>💻 ეს მოწყობილობა</small><br>' + progressSummary(Progress.P) + '</div><div><small>☁️ ანგარიში</small><br>' + progressSummary(remote) + '</div></div>' +
+        '<div class="acc-btns col"><button class="btn primary" data-a="merge">🔀 გაერთიანება — არაფერი დაიკარგება</button><button class="btn" data-a="remote">☁️ მხოლოდ ანგარიშის პროგრესი</button></div></div>', { dismiss: false });
+      m.querySelectorAll('[data-a]').forEach(b => b.addEventListener('click', () => { Modal.close(m); done(b.dataset.a); }));
+    });
+  },
+  open() { if (this.s) this.panel(); else this.loginForm(); },
+  // ფორმის გაგზავნა: შემოწმება → სერვერი → შეცდომა იქვე ჩანს
+  bind(m, check, call, done) {
+    const form = m.querySelector('form'), err = m.querySelector('.acc-err'), btn = m.querySelector('.acc-go');
+    setTimeout(() => { const i = form.querySelector('input'); if (i) i.focus(); }, 60);
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (btn.disabled) return;
+      const f = Object.fromEntries(new FormData(form));
+      const bad = check && check(f);
+      if (bad) { err.textContent = this.ERR[bad] || bad; return; }
+      const label = btn.textContent;
+      btn.disabled = true; btn.textContent = '⏳'; err.textContent = '';
+      const r = await call(f);
+      btn.disabled = false; btn.textContent = label;
+      if (r.ok) done(r, f); else err.textContent = this.msg(r);
+    });
+  },
+  field(label, name, type, auto, hint) {
+    return '<label>' + label + '<input class="txt" name="' + name + '" type="' + type + '" autocomplete="' + auto + '" maxlength="' + (type === 'password' ? 100 : 20) + '" autocapitalize="off" spellcheck="false" required>' + (hint ? '<small>' + hint + '</small>' : '') + '</label>';
+  },
+  checkNew(f) {
+    if (!ACC_NAME_RE.test((f.name || '').trim())) return 'name_format';
+    if ((f.password || '').length < 8) return 'pass_short';
+    if (f.password !== f.password2) return 'pass_match';
+    if (f.password.toLowerCase() === f.name.trim().toLowerCase()) return 'pass_name';
+    return null;
+  },
+  loginForm(note) {
+    const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">👤</div><h2 class="result-title">შესვლა</h2>' +
+      '<p class="muted acc-sub">' + (note || 'შედი, რომ პროგრესი, Pro და ბიტის ნივთები ყველა მოწყობილობაზე გქონდეს.') + '</p>' +
+      '<form class="acc-form" novalidate>' + this.field('სახელი', 'name', 'text', 'username') + this.field('პაროლი', 'password', 'password', 'current-password') +
+      '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">შესვლა</button></form>' +
+      '<p class="acc-links"><button type="button" class="linklike" data-a="reg">ანგარიში არ გაქვს? დარეგისტრირდი</button><button type="button" class="linklike" data-a="reset">დაგავიწყდა პაროლი?</button></p>' +
+      '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
+    this.bind(m, f => (f.name.trim() && f.password ? null : 'bad_login'), f => this.api('login', { name: f.name, password: f.password }), r => { Modal.close(m); this.start(r, false); });
+    m.querySelector('[data-a=reg]').addEventListener('click', () => { Modal.close(m); this.registerForm(); });
+    m.querySelector('[data-a=reset]').addEventListener('click', () => { Modal.close(m); this.resetForm(); });
+  },
+  registerForm() {
+    const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">✨</div><h2 class="result-title">რეგისტრაცია</h2>' +
+      '<p class="muted acc-sub">ელფოსტა არ გვჭირდება. ამ მოწყობილობის პროგრესი ანგარიშში გადავა.</p>' +
+      '<form class="acc-form" novalidate>' + this.field('სახელი', 'name', 'text', 'username', '3–20 სიმბოლო: ასოები, ციფრები, _ . -  · სახელს სხვა მოთამაშეები ვერ ხედავენ, მაინც ნუ ჩაწერ სახელს და გვარს ერთად') +
+      this.field('პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო. ნუ გამოიყენებ იმავე პაროლს, რაც სხვაგან გაქვს') + this.field('გაიმეორე პაროლი', 'password2', 'password', 'new-password') +
+      '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">ანგარიშის შექმნა</button></form>' +
+      '<p class="acc-links"><button type="button" class="linklike" data-a="login">უკვე გაქვს ანგარიში? შედი</button></p>' +
+      '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
+    this.bind(m, f => this.checkNew(f), f => this.api('register', { name: f.name.trim(), password: f.password }), r => {
+      Modal.close(m);
+      this.start(r, true);
+      this.showRecovery(r.name, r.recovery, 'შექმნილია! ');
+    });
+    m.querySelector('[data-a=login]').addEventListener('click', () => { Modal.close(m); this.loginForm(); });
+  },
+  resetForm() {
+    const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">🔑</div><h2 class="result-title">პაროლის აღდგენა</h2>' +
+      '<p class="muted acc-sub">ჩაწერე აღდგენის კოდი, რომელიც რეგისტრაციისას მიიღე (მაგ. ABCD-EFGH-2345).</p>' +
+      '<form class="acc-form" novalidate>' + this.field('სახელი', 'name', 'text', 'username') + this.field('აღდგენის კოდი', 'recovery', 'text', 'off') +
+      this.field('ახალი პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო') + this.field('გაიმეორე ახალი პაროლი', 'password2', 'password', 'new-password') +
+      '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">პაროლის შეცვლა</button></form>' +
+      '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
+    m.querySelector('[name=recovery]').maxLength = 20;
+    this.bind(m, f => (!f.name.trim() ? 'name_format' : f.recovery.replace(/[^a-z0-9]/gi, '').length !== 12 ? 'bad_recovery' : this.checkNew(f)),
+      f => this.api('reset', { name: f.name.trim(), recovery: f.recovery, password: f.password }), r => {
+        Modal.close(m);
+        this.start(r, false);
+        this.showRecovery(r.name, r.recovery, 'პაროლი შეიცვალა! ძველი კოდი აღარ მუშაობს. ');
+      });
+  },
+  // აღდგენის კოდი ერთხელ ჩანს: კოპირება ან ფაილად შენახვა, და დახურვა მხოლოდ „ჩავიწერე“-ს შემდეგ
+  showRecovery(name, code, intro) {
+    const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">🔑</div><h2 class="result-title">შენი აღდგენის კოდი</h2>' +
+      '<p>' + esc(intro) + 'თუ პაროლი დაგავიწყდება, ამ კოდით აღადგენ. <b>ჩაიწერე ან შეინახე</b> — მეორედ ვეღარ ვაჩვენებთ.</p>' +
+      '<div class="acc-code">' + esc(code) + '</div>' +
+      '<div class="acc-btns"><button class="btn" data-a="copy">📋 კოპირება</button><button class="btn" data-a="file">📄 ფაილად შენახვა</button></div>' +
+      '<label class="acc-check"><input type="checkbox" id="acc-saved"> ჩავიწერე / შევინახე</label>' +
+      '<div class="modal-actions"><button class="btn primary" data-a="ok" disabled>მზადაა</button></div></div>', { dismiss: false });
+    const ok = m.querySelector('[data-a=ok]');
+    m.querySelector('#acc-saved').addEventListener('change', e => { ok.disabled = !e.target.checked; });
+    m.querySelector('[data-a=copy]').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(code); UI.toast('📋', 'დაკოპირდა!', 'ჩასვი სადმე უსაფრთხო ადგილას.'); } catch (e) { UI.toast('⚠️', 'ვერ დაკოპირდა', 'გადაიწერე ხელით.'); }
+    });
+    m.querySelector('[data-a=file]').addEventListener('click', () => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob(['CodeQuest\r\nსახელი: ' + name + '\r\nაღდგენის კოდი: ' + code + '\r\n'], { type: 'text/plain;charset=utf-8' }));
+      a.download = 'CodeQuest-აღდგენის-კოდი.txt';
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    });
+    ok.addEventListener('click', () => Modal.close(m));
+  },
+  /* ---- ანგარიშის პანელი ---- */
+  panel() {
+    const s = this.s;
+    const m = Modal.open('<div class="acc"><div class="acc-ic av" aria-hidden="true">' + esc([...s.name][0]) + '</div><h2 class="result-title">' + esc(s.name) + '</h2>' +
+      '<p class="acc-st" id="acc-st">' + esc(this.statusText()) + '</p>' +
+      '<ul class="pro-list"><li>☁️ პროგრესი, Pro და ბიტის ნივთები თავისით ინახება</li><li>💻 სხვა მოწყობილობაზე იგივე სახელით და პაროლით შედი</li></ul>' +
+      '<div class="acc-btns"><button class="btn" data-a="sync">☁️ ახლავე შენახვა</button><button class="btn" data-a="pass">🔑 პაროლის შეცვლა</button><button class="btn" data-a="out">🚪 გასვლა</button></div>' +
+      '<details class="acc-del"><summary>ანგარიშის წაშლა</summary><p class="muted">ანგარიში და მასში შენახული პროგრესი სამუდამოდ წაიშლება. ამ მოწყობილობაზე პროგრესი დარჩება.</p><button class="btn danger small" data-a="del">🗑️ ანგარიშის წაშლა</button></details>' +
+      '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
+    m.querySelector('[data-a=sync]').addEventListener('click', () => { this.changed(); this.push(); });
+    m.querySelector('[data-a=pass]').addEventListener('click', () => { Modal.close(m); this.passwordForm(); });
+    m.querySelector('[data-a=out]').addEventListener('click', () => { Modal.close(m); this.logout(); });
+    m.querySelector('[data-a=del]').addEventListener('click', () => { Modal.close(m); this.deleteForm(); });
+  },
+  passwordForm() {
+    const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">🔑</div><h2 class="result-title">პაროლის შეცვლა</h2>' +
+      '<form class="acc-form" novalidate>' + this.field('ახლანდელი პაროლი', 'current', 'password', 'current-password') +
+      this.field('ახალი პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო') + this.field('გაიმეორე ახალი პაროლი', 'password2', 'password', 'new-password') +
+      '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">შეცვლა</button></form>' +
+      '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
+    this.bind(m, f => this.checkNew(Object.assign({}, f, { name: this.s.name })), f => this.api('password', { token: this.s.token, password: f.current, newPassword: f.password }), r => {
+      this.s.token = r.token;
+      this.keep();
+      Modal.close(m);
+      UI.toast('🔑', 'პაროლი შეიცვალა', 'სხვა მოწყობილობებზე ახალი პაროლით შედი.');
+    });
+  },
+  deleteForm() {
+    const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">🗑️</div><h2 class="result-title">ანგარიშის წაშლა</h2>' +
+      '<p>ანგარიში „' + esc(this.s.name) + '“ და მასში შენახული პროგრესი <b>სამუდამოდ</b> წაიშლება. ამ მოწყობილობაზე პროგრესი დარჩება.</p>' +
+      '<form class="acc-form" novalidate>' + this.field('პაროლი დასადასტურებლად', 'password', 'password', 'current-password') +
+      '<p class="acc-err" role="alert"></p><button class="btn danger acc-go" type="submit">სამუდამოდ წაშლა</button></form>' +
+      '<div class="modal-actions"><button class="btn" data-close>გაუქმება</button></div></div>');
+    this.bind(m, f => (f.password ? null : 'bad_pass'), f => this.api('delete', { token: this.s.token, password: f.password }), () => {
+      Modal.close(m);
+      this.s = null;
+      Store.del(ACC_KEY);
+      clearTimeout(this.timer);
+      this.setState('idle');
+      UI.toast('🗑️', 'ანგარიში წაიშალა', 'ამ მოწყობილობაზე პროგრესი დარჩა.');
+    });
+  },
+  // გასვლა: ბოლო ცვლილებები ჯერ ინახება; ეს მოწყობილობა თავიდან იწყება (პარამეტრები რჩება) — პროგრესი ანგარიშშია
+  async logout(force) {
+    if (!this.s) return;
+    if (this.s.dirty && !force) {
+      await this.push();
+      if (this.s && this.s.dirty) {
+        const m = Modal.open('<h2>⚠️ ბოლო ცვლილებები ჯერ არ შენახულა</h2><p>სერვერთან კავშირი არ არის. თუ ახლა გახვალ, ბოლო ცვლილებები დაიკარგება.</p>' +
+          '<div class="modal-actions"><button class="btn" data-close>დარჩენა</button><button class="btn danger" data-a="out">მაინც გასვლა</button></div>');
+        m.querySelector('[data-a=out]').addEventListener('click', () => { Modal.close(m); this.logout(true); });
+        return;
+      }
+    }
+    const token = this.s.token;
+    this.s = null;
+    Store.del(ACC_KEY);
+    clearTimeout(this.timer);
+    this.api('logout', { token });
+    this.apply(Object.assign(defaultProgress(), { settings: Progress.P.settings }));
+    await ProLock.set(null);
+    this.setState('idle');
+    UI.show('menu');
+    UI.toast('👋', 'გამოხვედი ანგარიშიდან', 'შენი პროგრესი ანგარიშშია — შედი ხელახლა, როცა მოგინდება.');
+  }
+};
 const Game = {
   mode: 'level', base: null, cur: null, phaseIdx: 0, defs: [], maps: [], testIdx: 0, world: null,
   attempts: 0, failsTotal: 0, hintsUsed: 0, hintLevel: 0, start: 0, busy: false, stepSt: null, animToken: 0,
@@ -19941,6 +20357,7 @@ function init() {
     $('#m-desktop-sub').textContent = 'გადმოწერე ' + Desktop.files[Desktop.os()].name + '-ისთვის';
   }
   $('#m-desktop').addEventListener('click', () => { Sound.ensure(); Sound.click(); Desktop.open(); });
+  $('#m-account').addEventListener('click', () => { Sound.ensure(); Sound.click(); Account.open(); });
   $$('[data-go]').forEach(b => b.addEventListener('click', () => {
     const g = b.dataset.go;
     if (g === 'back') UI.show(UI.prev && UI.prev !== UI.cur ? UI.prev : 'menu'); else UI.show(g);
@@ -19983,6 +20400,7 @@ function init() {
   if (location.hash === '#test') testAll();
   Paywall.checkReturn();   // Dodo Payments-ის გადახდიდან დაბრუნება
   Paywall.restore();       // Pro: შენახული ხელმოწერილი ნიშნის შემოწმება
+  Account.init();          // ანგარიში: სხვა მოწყობილობაზე შენახული პროგრესის ჩატვირთვა
   if (location.hash === '#download' && !IS_DESKTOP) Desktop.open();   // პირდაპირი ბმული: .../CodeQuest.html#download
   if (location.hash === '#testgen') testGenerated();
 }

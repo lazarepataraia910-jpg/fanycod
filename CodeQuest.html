@@ -766,6 +766,44 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .cl-wait{padding:20px;text-align:center}
 .acc-legal{margin:2px 0 0;color:var(--muted);font-size:.78rem;line-height:1.45}
 .menu-foot a{color:inherit}
+/* ცოცხალი გაკვეთილი */
+.lv-page{max-width:1280px}
+.lv-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:16px}
+.lv-ht{flex:1;min-width:200px}
+.lv-ht b{display:block}
+.lv-ht small{color:var(--muted)}
+.lv-dot{flex:none;width:12px;height:12px;border-radius:50%;background:#e03131;animation:lv-pulse 1.6s infinite}
+@keyframes lv-pulse{0%{box-shadow:0 0 0 0 rgba(224,49,49,.55)}70%{box-shadow:0 0 0 10px rgba(224,49,49,0)}100%{box-shadow:0 0 0 0 rgba(224,49,49,0)}}
+.lv-lang{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.88rem}
+.lv-lang select{padding:6px 8px;border:1px solid var(--border);border-radius:10px;background:var(--panel);color:var(--text);font:inherit}
+.lv-langbadge{display:inline-flex;align-items:center;gap:6px;font-weight:700}
+.lv-st{font-weight:700;font-size:.85rem}
+.lv-st.live{color:var(--ok)}
+.lv-st.off{color:#e67700}
+.lv-st.end{color:var(--muted)}
+.lv-board{margin-bottom:20px}
+.lv-bh{display:flex;align-items:baseline;gap:10px;margin:0 0 8px}
+.lv-bh h3{margin:0}
+.lv-bh small{color:var(--muted)}
+.lv-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:stretch}
+@media (max-width:900px){.lv-row{grid-template-columns:1fr}}
+.lv-vsc{display:flex;flex-direction:column;margin-top:0}
+.lv-ed{flex:1}
+.lv-ed .CodeMirror{height:300px}
+.lv-browser{display:flex;flex-direction:column;min-height:300px;overflow:hidden;border:1px solid #c4c7c5;border-radius:12px;background:#fff;box-shadow:0 8px 26px rgba(0,0,0,.12)}
+.lv-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#dee1e6}
+.lv-url{flex:1;overflow:hidden;padding:4px 12px;border-radius:99px;background:#fff;color:#3c4043;font:12px/1.5 system-ui,sans-serif;text-overflow:ellipsis;white-space:nowrap}
+.lv-view{flex:1;display:flex;flex-direction:column;background:#fff;color:#202124}
+.lv-frame{flex:1;width:100%;min-height:300px;border:0;background:#fff}
+.lv-out{flex:1;max-height:380px;overflow:auto;margin:0;padding:14px 16px;color:#202124;font:14px/1.6 var(--mono);white-space:pre-wrap;word-break:break-word}
+.lv-out .dim{color:#80868b}
+.lv-out .err{color:#d93025}
+.lv-out .ok{color:#188038}
+.lv-hint{margin:auto;padding:20px;color:#80868b;font-size:.9rem;text-align:center}
+.lv-banner{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 0 4px;padding:12px 14px;border:1px solid color-mix(in srgb,#e03131 35%,var(--border));border-radius:14px;background:color-mix(in srgb,#e03131 10%,var(--panel))}
+.lv-banner b{flex:1}
+.cl-liverow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:12px}
+.lv-pick{display:grid;gap:6px;max-width:320px;margin:10px auto;font-weight:700;text-align:left}
 /* გარდერობის დღის შეთავაზება */
 .wb-deals{margin:0 0 12px;padding:12px;border:1px solid color-mix(in srgb,#f59f00 40%,var(--border));border-radius:16px;background:linear-gradient(135deg,color-mix(in srgb,#ffe066 18%,var(--panel)),var(--panel))}
 .wb-deals-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}
@@ -1243,6 +1281,11 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
   <section id="scr-class" class="screen" aria-label="კლასი">
     <div class="topbar"><button class="btn small" data-go="back">← უკან</button><h2>👩‍🏫 კლასი</h2></div>
     <div class="page" id="class-body"></div>
+  </section>
+
+  <section id="scr-live" class="screen" aria-label="ცოცხალი გაკვეთილი">
+    <div class="topbar"><button class="btn small" data-go="back">← უკან</button><h2>🔴 ცოცხალი გაკვეთილი</h2></div>
+    <div class="page lv-page" id="live-body"></div>
   </section>
 
   <section id="scr-profile" class="screen" aria-label="პროფილი">
@@ -16580,6 +16623,7 @@ const UI = {
     if (name === 'courses') CoursesScreen.render();
     if (name === 'studio') Studio.render();
     if (name === 'class') ClassScreen.render();
+    if (name === 'live') Live.render();
     if (name === 'game') Editor.refresh();
   },
   toast(ic, title, sub, cls) {
@@ -18408,10 +18452,10 @@ const ClassScreen = {
     body.innerHTML = '<div class="cl-grid">' +
       '<div class="card"><h3>🎒 მოსწავლისთვის</h3><p class="muted">მასწავლებლისგან მიღებული 6-ასოიანი კოდით შეუერთდი კლასს და ნახე კვირის რეიტინგი.</p>' +
       '<form class="cl-form" id="cl-join"><input class="txt" name="code" maxlength="8" placeholder="მაგ. K7VA3P" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="კლასის კოდი"><button class="btn primary">შეერთება</button></form><p class="acc-err" id="cl-join-err" role="alert"></p>' +
-      r.in.map(c => item(c, '🏫', 'მასწავლებელი: ' + esc(c.teacher || ''))).join('') + '</div>' +
+      r.in.map(c => item(c, '🏫', (c.live ? '🔴 გაკვეთილი მიმდინარეობს · ' : '') + 'მასწავლებელი: ' + esc(c.teacher || ''))).join('') + '</div>' +
       '<div class="card"><h3>👩‍🏫 მასწავლებლისთვის</h3><p class="muted">შექმენი კლასი, მოსწავლეებს კოდი უთხარი და ნახე, ვინ რამდენი გაიარა და სად შეჩერდა.</p>' +
       '<form class="cl-form" id="cl-new"><input class="txt" name="title" maxlength="40" placeholder="კლასის სახელი, მაგ. 5ა" autocomplete="off" aria-label="კლასის სახელი"><button class="btn primary">შექმნა</button></form><p class="acc-err" id="cl-new-err" role="alert"></p>' +
-      r.own.map(c => item(c, '📋', 'კოდი: <b class="cl-code-sm">' + esc(c.code) + '</b> · ' + c.count + ' მოსწავლე')).join('') + '</div></div>';
+      r.own.map(c => item(c, '📋', (c.live ? '🔴 გაკვეთილი · ' : '') + 'კოდი: <b class="cl-code-sm">' + esc(c.code) + '</b> · ' + c.count + ' მოსწავლე')).join('') + '</div></div>';
     $$('#class-body [data-open]').forEach(b => b.addEventListener('click', () => { Sound.click(); this.view = b.dataset.open; this.render(); }));
     $('#cl-join').addEventListener('submit', async e => {
       e.preventDefault();
@@ -18447,9 +18491,11 @@ const ClassScreen = {
     if (!r.owner) {
       const rows = r.rows.slice().sort((a, b) => b.week - a.week || b.xp - a.xp);
       body.innerHTML = head + '<div class="card"><h2 class="cl-title">🏫 ' + esc(r.name) + '</h2><p class="muted">მასწავლებელი: ' + esc(r.teacher || '') + '</p>' +
+        (r.live ? '<div class="lv-banner"><span class="lv-dot" aria-hidden="true"></span><b>მასწავლებელმა გაკვეთილი დაიწყო!</b><button class="btn primary" id="cl-live">შესვლა ▶</button></div>' : '') +
         '<h3>🏆 კვირის რეიტინგი</h3><p class="muted">ამ კვირაში (ორშაბათიდან) მოგებული XP. გაიარე ლეველები და აიწიე!</p>' +
         '<ol class="cl-board">' + rows.map((x, i) => '<li' + (x.me ? ' class="me"' : '') + '><span class="cl-place">' + (['🥇', '🥈', '🥉'][i] || i + 1) + '</span><b>' + esc(x.name) + (x.me ? ' (შენ)' : '') + '</b><span class="cl-wk">' + x.week + ' XP</span><small>სულ ' + x.xp + '</small></li>').join('') + '</ol>' +
         '<div class="modal-actions" style="justify-content:flex-start"><button class="btn small" id="cl-leave">კლასიდან გასვლა</button></div></div>';
+      if (r.live) $('#cl-live').addEventListener('click', () => Live.join(code, r.name, r.live, r.teacher));
       $('#cl-leave').addEventListener('click', () => this.confirm('კლასიდან გასვლა?', 'რეიტინგში აღარ გამოჩნდები. შენი პროგრესი არ წაიშლება.', 'გასვლა', async () => {
         await Account.api('classLeave', { token: Account.s.token, code });
         this.view = null;
@@ -18466,6 +18512,8 @@ const ClassScreen = {
       const th = (k, t) => '<th><button class="cl-sort' + (this.sort === k ? ' on' : '') + '" data-sort="' + k + '">' + t + '</button></th>';
       body.innerHTML = head + '<div class="card"><div class="cl-top"><div><h2 class="cl-title">📋 ' + esc(r.name) + '</h2><p class="muted">' + r.rows.length + ' მოსწავლე</p></div>' +
         '<div class="cl-codebox"><small>კლასის კოდი — უთხარი მოსწავლეებს</small><b>' + esc(r.code) + '</b><button class="btn small" id="cl-copy">📋 კოპირება</button></div></div>' +
+        '<div class="cl-liverow">' + (r.live ? '<button class="btn primary" id="cl-live">🔴 გაკვეთილზე დაბრუნება</button>' : '<button class="btn primary" id="cl-live">🔴 გაკვეთილის დაწყება</button>') +
+        '<span class="muted">მოსწავლეები ცოცხლად დაინახავენ შენს კოდს და შედეგს</span></div>' +
         (rows.length ? '<div class="cl-scroll"><table class="cl-table"><thead><tr>' + th('name', 'მოსწავლე') + th('week', 'ამ კვირაში') + th('xp', 'სულ XP') + th('done', 'ლეველი') + '<th>ახლა</th>' + th('at', 'ბოლოს') + '<th></th></tr></thead><tbody>' +
           rows.map(x => '<tr><td><button class="cl-name" data-more="' + esc(x.id) + '" title="ენების პროგრესი">' + esc(x.name) + '</button></td><td>' + x.week + '</td><td>' + x.xp + '</td><td>' + x.done + ' · ⭐ ' + x.stars + '</td><td class="cl-now">' + now(x) + '</td><td>' + (x.at ? agoStr(x.at) : '—') + '</td>' +
             '<td><button class="btn small ghost" data-kick="' + esc(x.id) + '" data-name="' + esc(x.name) + '" title="კლასიდან ამოშლა" aria-label="ამოშლა">✕</button></td></tr>' +
@@ -18480,6 +18528,7 @@ const ClassScreen = {
         await Account.api('classKick', { token: Account.s.token, code, member: b.dataset.kick });
         this.renderClass();
       })));
+      $('#cl-live').addEventListener('click', () => (r.live ? Live.resume(code, r.name, r.live) : Live.pickStart(code, r.name)));
       $('#cl-copy').addEventListener('click', async () => {
         try { await navigator.clipboard.writeText(r.code); UI.toast('📋', 'კოდი დაკოპირდა', r.code); } catch (e) { UI.toast('⚠️', 'ვერ დაკოპირდა', 'გადაიწერე: ' + r.code); }
       });
@@ -18553,6 +18602,215 @@ const Install = {
       (ios ? '<li>Safari-ში დააჭირე <b>გაზიარებას</b> (⬆️ ეკრანის ქვემოთ).</li><li>აირჩიე <b>„Add to Home Screen“</b> (მთავარ ეკრანზე დამატება).</li><li>დააჭირე <b>Add</b>.</li>'
         : '<li>ბრაუზერის მენიუში დააჭირე <b>⋮</b> (ზედა მარჯვენა კუთხე).</li><li>აირჩიე <b>„Install app“</b> ან <b>„Add to Home screen“</b>.</li><li>დაადასტურე.</li>') +
       '</ol><div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
+  }
+};
+/* ---------- ცოცხალი გაკვეთილი: მასწავლებლის დაფა მოსწავლეებთან ცოცხლად ----------
+   მასწავლებელი ირჩევს ენას, წერს და უშვებს კოდს. მოსწავლეები ხედავენ მის დაფას (კოდი და შედეგი) და გვერდით აქვთ საკუთარი.
+   მასწავლებლის დაფა ცვლილებიდან ~0.4 წამში იგზავნება (liveSet), მოსწავლეები კითხულობენ წამში ერთხელ (GET ?live=ID).
+   ▶ გაშვების შედეგი ჩნდება გვერდით, ბრაუზერის ფანჯარაში: ვებ-ენებისთვის — გვერდი, დანარჩენისთვის — პროგრამის გამოტანა. */
+const LIVE_KEY = 'codequest.live';   // მასწავლებლის გაკვეთილი ამ მოწყობილობაზე: { id, key, cls }
+// კოდის გაშვება და შედეგის ჩვენება მოცემულ ფანჯარაში (view). გაშვებები რიგდება — ერთდროულად ერთი
+const LiveRun = {
+  q: Promise.resolve(),
+  show(lang, code, view) { return (this.q = this.q.then(() => this.exec(lang, code, view)).catch(() => { })); },
+  async exec(lang, code, view) {
+    const c = COURSE_BY_ID[lang], L = c && LANGS[c.lang];
+    if (!L || !view) return;
+    if (L.kind === 'web') {
+      view.innerHTML = '<iframe class="lv-frame" sandbox="allow-scripts allow-modals" title="შედეგი"></iframe>';
+      view.firstChild.srcdoc = lang === 'react' ? ReactRun.doc(code, { mode: 'preview' }) : WebPreview.doc({ lang: 'html' }, code);
+      return;
+    }
+    const line = (t, cls) => '<span class="' + (cls || '') + '">' + esc(t) + '</span>';
+    view.innerHTML = '<pre class="lv-out">' + line('⏳ ეშვება…', 'dim') + '</pre>';
+    const out = view.firstChild, t0 = performance.now();
+    let js = code, names = null;
+    if (L.compile) {
+      const tries = [code];
+      if (RC_MAIN[lang] && lang !== 'py' && !/\bmain\s*\(/.test(code)) tries.push(RC_MAIN[lang](code, { c: '#include <stdio.h>\n#include <string.h>', cpp: '#include <iostream>\n#include <string>\nusing namespace std;' }[lang] || ''));
+      let err = null;
+      js = null;
+      for (const t of tries) { const r = L.compile(t, { allowed: [], vars: [], varTypes: {} }); if (!r.error) { js = r.code; names = r.vars; break; } err = err || r.error; }
+      if (js == null) { out.innerHTML = line('✘ ' + (err.line ? 'ხაზი ' + err.line + ': ' : '') + err.message, 'err'); return; }
+    } else names = extractVarNames(code);
+    const res = await CodeRunner.run({ code: js, lang: c.lang, map: parseMap({ grid: ['>'] }), allowed: [], vars: null, wantVars: false, varNames: names });
+    const logs = (res.events || []).filter(e => e.t === 'log').map(e => e.text);
+    let t = null;
+    if (res.timeout) t = Translator.halt({ kind: 'tired' });
+    else if (res.error) t = Translator.translate(res.error, { code: js, allowed: [], declared: names || [], vars: null });
+    else if (res.halted) t = Translator.halt(res.halted);
+    out.innerHTML = logs.map(x => line(x)).join('\n') + (logs.length ? '\n' : '') +
+      (t ? line('✘ ' + (t.line ? 'ხაზი ' + t.line + ': ' : '') + t.text, 'err') : line('✔ პროგრამა დასრულდა · ' + Math.round(performance.now() - t0) + ' ms', 'ok'));
+  }
+};
+const Live = {
+  o: null, eds: {}, ver: 0, run: 0, seenVer: -1, seenRun: -1, poll: null, pt: null, pushing: false, again: false, fails: 0,
+  langOpts(sel) { return COURSES.map(c => '<option value="' + c.id + '"' + (c.id === sel ? ' selected' : '') + '>' + esc(c.title) + '</option>').join(''); },
+  // მასწავლებელი: ენის არჩევა და დაწყება
+  pickStart(cls, name) {
+    const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">🔴</div><h2 class="result-title">გაკვეთილის დაწყება</h2>' +
+      '<p class="muted">მოსწავლეები დაინახავენ შენს დაფას ცოცხლად: რასაც წერ და რასაც უშვებ. მათ გვერდით საკუთარი დაფაც ექნებათ.</p>' +
+      '<label class="lv-pick">ენა <select class="txt" id="lv-pick">' + this.langOpts(Progress.course()) + '</select></label>' +
+      '<div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="go">🔴 დაწყება</button></div></div>');
+    m.querySelector('[data-a=go]').addEventListener('click', async e => {
+      e.target.disabled = true;
+      const lang = m.querySelector('#lv-pick').value;
+      const r = await Account.api('liveStart', { token: Account.s.token, code: cls, lang, src: STUDIO_START[lang] || '' });
+      if (!r.ok) { e.target.disabled = false; return UI.toast('⚠️', Account.msg(r)); }
+      Modal.close(m);
+      Store.set(LIVE_KEY, { id: r.id, key: r.key, cls });
+      this.open({ teacher: true, id: r.id, key: r.key, cls, name, teacherName: Account.s.name }, r.state);
+    });
+  },
+  // მასწავლებელი ბრუნდება გაკვეთილზე (გასაღები ამ მოწყობილობაზეა); სხვა მოწყობილობიდან — ახლის დაწყება
+  async resume(cls, name, id) {
+    const k = Store.get(LIVE_KEY, null);
+    if (!k || k.id !== id) return this.pickStart(cls, name);
+    const st = await this.fetchState(id);
+    if (!st || st.end) return this.pickStart(cls, name);
+    this.open({ teacher: true, id, key: k.key, cls, name, teacherName: Account.s.name }, st);
+  },
+  // მოსწავლე შედის
+  join(cls, name, id, teacherName) { this.open({ teacher: false, id, cls, name, teacherName }, null); },
+  async fetchState(id) {
+    try { const r = await fetch('/api/account?live=' + id + '&t=' + Math.floor(Date.now() / 1000)); return r.ok ? await r.json() : null; } catch (e) { return null; }
+  },
+  open(o, st) {
+    this.stop();
+    this.o = Object.assign(o, { lang: st ? st.lang : '' });
+    this.ver = st ? st.ver || 1 : 0;
+    this.run = st ? st.run || 0 : 0;
+    this.seenVer = this.seenRun = -1;
+    this.first = st;
+    this.mine = null;
+    UI.show('live');
+  },
+  stop() { clearTimeout(this.poll); clearTimeout(this.pt); this.poll = this.pt = null; },
+  render() {
+    const o = this.o, body = $('#live-body');
+    if (!o) { body.innerHTML = '<p class="muted cl-wait">გაკვეთილი არ არის.</p>'; return; }
+    if (!o.lang) {   // მოსწავლე: ჯერ დაფის მდგომარეობა
+      body.innerHTML = '<p class="muted cl-wait">⏳ ვუერთდები გაკვეთილს…</p>';
+      this.poll = setTimeout(() => this.tick(), 50);
+      return;
+    }
+    this.build();
+    if (o.teacher) {
+      const st = this.first || {};
+      this.eds.t.set(st.code != null ? st.code : STUDIO_START[o.lang] || '');
+      if (this.run) this.runBoard('t', true);
+      this.status('live');
+    } else this.poll = setTimeout(() => this.tick(), 1000);
+  },
+  build() {
+    const o = this.o, file = STUDIO_FILE[o.lang] || 'main.txt', c = COURSE_BY_ID[o.lang];
+    const board = (k, title, sub, mine) => '<section class="lv-board lv-' + k + '"><div class="lv-bh"><h3>' + title + '</h3><small>' + sub + '</small></div><div class="lv-row">' +
+      '<div class="vsc lv-vsc"><div class="vsc-title"><span class="vsc-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="vsc-name">' + esc(file) + (mine ? '' : ' — მხოლოდ სანახავად') + '</span></div>' +
+      '<div class="vsc-ed lv-ed" id="lv-ed-' + k + '"></div>' +
+      (mine ? '<div class="vsc-acts"><button class="vsc-run" id="lv-run-' + k + '" title="გაშვება (Ctrl+Enter)">▶ გაშვება</button>' + (k === 'm' ? '<button class="vsc-btn" id="lv-copy" title="მასწავლებლის კოდი ჩემს დაფაზე">📋 მასწავლებლის კოდი</button>' : '') + '</div>' : '') + '</div>' +
+      '<div class="lv-browser"><div class="lv-bar"><span class="vsc-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="lv-url">🔒 codequest.run/' + (k === 't' ? 'teacher' : 'me') + '/' + esc(file) + '</span></div>' +
+      '<div class="lv-view" id="lv-view-' + k + '"><p class="lv-hint">' + (mine ? 'დააჭირე ▶ გაშვებას — შედეგი აქ გამოჩნდება' : 'როცა მასწავლებელი კოდს გაუშვებს, შედეგი აქ გამოჩნდება') + '</p></div></div></div></section>';
+    $('#live-body').innerHTML = '<div class="lv-head card"><span class="lv-dot" aria-hidden="true"></span><div class="lv-ht"><b>ცოცხალი გაკვეთილი · ' + esc(o.name) + '</b><small>' +
+      (o.teacher ? 'მოსწავლეები ცოცხლად ხედავენ ყველაფერს, რასაც აქ წერ და უშვებ' : 'მასწავლებელი: ' + esc(o.teacherName || '')) + '</small></div>' +
+      (o.teacher ? '<label class="lv-lang">ენა <select id="lv-lang">' + this.langOpts(o.lang) + '</select></label><button class="btn small danger" id="lv-end">⏹ დასრულება</button>'
+        : '<span class="lv-langbadge">' + (c ? langBadge(c.lang, true) + ' ' + esc(c.title) : '') + '</span>') +
+      '<span class="lv-st" id="lv-st"></span></div>' +
+      (o.teacher ? board('t', '👩‍🏫 ჩემი დაფა', 'მოსწავლეები ამას ხედავენ', true)
+        : board('t', '👩‍🏫 მასწავლებლის დაფა', 'ცოცხლად', false) + board('m', '🧑‍💻 ჩემი დაფა', 'აქ შენ წერ და უშვებ', true));
+    this.eds = {};
+    this.mountEd('t', !o.teacher);
+    if (!o.teacher) {
+      this.mountEd('m', false);
+      this.eds.m.set(this.mine != null ? this.mine : STUDIO_START[o.lang] || '');
+      $('#lv-run-m').addEventListener('click', () => this.runBoard('m'));
+      $('#lv-copy').addEventListener('click', () => { this.eds.m.set(this.eds.t.get()); this.mine = this.eds.m.get(); UI.toast('📋', 'მასწავლებლის კოდი შენს დაფაზეა', 'შეცვალე და გაუშვი!'); });
+    } else {
+      $('#lv-run-t').addEventListener('click', () => this.runBoard('t'));
+      $('#lv-lang').addEventListener('change', e => {
+        this.o.lang = e.target.value;
+        this.build();
+        this.eds.t.set(STUDIO_START[this.o.lang] || '');
+        this.changed();
+      });
+      $('#lv-end').addEventListener('click', () => ClassScreen.confirm('დავასრულო გაკვეთილი?', 'მოსწავლეებს დაფა აღარ განუახლდებათ; მათი კოდი მათ დაფაზე დარჩება.', 'დასრულება', async () => {
+        await Account.api('liveEnd', { token: Account.s.token, code: this.o.cls });
+        Store.del(LIVE_KEY);
+        const cls = this.o.cls;
+        this.stop();
+        this.o = null;
+        ClassScreen.view = cls;
+        UI.show('class');
+      }));
+    }
+  },
+  mountEd(k, ro) {
+    const el = $('#lv-ed-' + k), L = LANGS[COURSE_BY_ID[this.o.lang].lang];
+    const run = () => this.runBoard(k);
+    if (window.CodeMirror) {
+      const cm = CodeMirror(el, {
+        value: '', mode: L.cm, theme: 'vsc', lineNumbers: true, matchBrackets: true, autoCloseBrackets: !ro, indentUnit: L.indent, tabSize: L.indent, readOnly: ro ? 'nocursor' : false, spellcheck: false,
+        extraKeys: ro ? {} : { 'Ctrl-Enter': run, 'Cmd-Enter': run, Tab: c => (c.somethingSelected() ? c.indentSelection('add') : c.replaceSelection(' '.repeat(L.indent), 'end')), 'Shift-Tab': c => c.indentSelection('subtract') }
+      });
+      cm.getInputField().setAttribute('aria-label', ro ? 'მასწავლებლის კოდი' : 'კოდის რედაქტორი');
+      this.eds[k] = { get: () => cm.getValue(), set: v => { if (cm.getValue() === v) return; const s = cm.getScrollInfo(); cm.setValue(v); cm.scrollTo(s.left, s.top); } };
+      if (!ro) cm.on('change', (c, ch) => { if (ch.origin !== 'setValue') this.edited(k); });
+    } else {
+      const ta = document.createElement('textarea');
+      ta.className = 'vsc-ta';
+      ta.spellcheck = false;
+      ta.readOnly = ro;
+      el.appendChild(ta);
+      this.eds[k] = { get: () => ta.value, set: v => { ta.value = v; } };
+      if (!ro) ta.addEventListener('input', () => this.edited(k));
+    }
+  },
+  edited(k) { if (k === 'm') this.mine = this.eds.m.get(); else if (this.o.teacher) this.changed(); },
+  async runBoard(k, auto) {
+    if (!this.o || !this.eds[k]) return;
+    if (k === 't' && this.o.teacher && !auto) { this.run++; this.changed(true); }
+    await LiveRun.show(this.o.lang, this.eds[k].get(), $('#lv-view-' + k));
+  },
+  // მასწავლებელი: ცვლილება — 0.4 წამში (▶-ზე მაშინვე) მოსწავლეებთან
+  changed(now) {
+    if (!this.o || !this.o.teacher) return;
+    this.ver++;
+    clearTimeout(this.pt);
+    this.pt = setTimeout(() => this.push(), now ? 0 : 400);
+  },
+  async push() {
+    if (!this.o || !this.o.teacher) return;
+    if (this.pushing) { this.again = true; return; }
+    this.pushing = true;
+    this.again = false;
+    const o = this.o;
+    const r = await Account.api('liveSet', { id: o.id, key: o.key, lang: o.lang, src: this.eds.t.get(), ver: this.ver, run: this.run, cls: o.name, teacher: o.teacherName });
+    this.pushing = false;
+    if (this.o !== o) return;
+    if (r.ok) this.status('live');
+    else if (r.error === 'live_none') { this.status('end'); return UI.toast('⏹', 'გაკვეთილი უკვე დასრულებულია'); }
+    else { this.status('off'); this.pt = setTimeout(() => this.push(), 3000); return; }
+    if (this.again) this.push();
+  },
+  // მოსწავლე: წამში ერთხელ — მასწავლებლის დაფის განახლება
+  async tick() {
+    const o = this.o;
+    if (!o || o.teacher || UI.cur !== 'live') return this.stop();
+    const st = await this.fetchState(o.id);
+    if (this.o !== o || UI.cur !== 'live') return;
+    if (!st) { this.fails++; this.status('off'); }
+    else {
+      this.fails = 0;
+      if (st.lang && st.lang !== o.lang) { o.lang = st.lang; this.mine = null; this.seenVer = this.seenRun = -1; this.build(); }
+      if (st.ver !== this.seenVer) { this.seenVer = st.ver; this.eds.t.set(st.code || ''); }
+      if (st.run !== this.seenRun) { this.seenRun = st.run; if (st.run > 0) this.runBoard('t', true); }
+      if (st.end) { this.status('end'); return this.stop(); }
+      this.status('live');
+    }
+    this.poll = setTimeout(() => this.tick(), this.fails ? 3000 : 1000);
+  },
+  status(s) {
+    const el = $('#lv-st');
+    if (el) { el.className = 'lv-st ' + s; el.textContent = { live: '● ცოცხლად', off: '⚠️ კავშირი შეწყდა — ვცდილობ თავიდან', end: '⏹ გაკვეთილი დასრულდა' }[s] || ''; }
   }
 };
 const ProfileScreen = {

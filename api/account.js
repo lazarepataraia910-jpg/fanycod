@@ -17,6 +17,10 @@
 //   sum:<სახელი>                 → მოკლე შეჯამება მასწავლებლისა და რეიტინგისთვის { name, xp, done, stars, course, next, courses, wk, wkBase, at }
 //   cls:<კოდი> → { name, owner, ownerName, at }; clsm:<კოდი> — მოსწავლეები (set); uown:/uin:<სახელი> — ჩემი / ნაწევრები კლასები (set)
 //   stat:lv                      → ანონიმური სტატისტიკა (hash): <ლეველი>|n — მცდელობა, |f — შეცდომები, |d — გავლა
+//   live:<ID> / livekey:<ID>     → ცოცხალი გაკვეთილი { lang, code, ver, run, end, cls, teacher } და მასწავლებლის გასაღების ჰეში (4 სთ)
+//
+// ცოცხალი გაკვეთილი: მასწავლებელი თავის დაფას liveSet-ით აგზავნის, მოსწავლეები კი წამში ერთხელ კითხულობენ GET /api/account?live=ID&t=<წამი>.
+// პასუხი Vercel-ის CDN-ში 1 წამით ინახება, ამიტომ 30 მოსწავლე ბაზას წამში მხოლოდ ერთხელ მიმართავს.
 'use strict';
 const crypto = require('crypto');
 const zlib = require('zlib');
@@ -28,6 +32,7 @@ const MAX_DATA = 2 * 1024 * 1024;   // პროგრესის JSON (შე�
 const NAME_RE = /^[A-Za-z0-9ა-ჰ_.-]{3,20}$/;
 const RESERVED = ['admin', 'administrator', 'root', 'system', 'support', 'moderator', 'codequest', 'bit', 'ბიტი', 'glitch', 'გლიჩი'];
 const RC_ABC = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';   // აღდგენის კოდი: I, O, 0, 1 არ არის, რომ არ აგერიოს
+const LIVE_SEC = 4 * 3600, LIVE_MAX = 20000;   // გაკვეთილის ხანგრძლივობა და დაფის კოდის მაქსიმალური ზომა
 
 class Fail extends Error { constructor(status, code) { super(code); this.status = status; this.code = code; } }
 
@@ -48,6 +53,9 @@ async function dbPipe(cmds) {
 const CAS = "local r = redis.call('GET', KEYS[1]) or '0'\n" +
   "if r ~= ARGV[1] then return {0, r} end\n" +
   "redis.call('SET', KEYS[1], ARGV[2])\nredis.call('SET', KEYS[2], ARGV[3])\nreturn {1, ARGV[2]}";
+// დაფის განახლება მხოლოდ მასწავლებლის გასაღებით (ერთ ნაბიჯში)
+const LIVE_SET = "-- live\nif redis.call('GET', KEYS[2]) ~= ARGV[1] then return 0 end\n" +
+  "redis.call('SET', KEYS[1], ARGV[2], 'EX', ARGV[3])\nredis.call('EXPIRE', KEYS[2], ARGV[3])\nreturn 1";
 
 /* ---------- ჰეშები ---------- */
 const scrypt = (s, salt) => new Promise((ok, no) => crypto.scrypt(String(s).normalize('NFC'), salt, 32, { N: 16384, r: 8, p: 1 }, (e, k) => (e ? no(e) : ok(k))));
@@ -104,6 +112,12 @@ async function saveSummary(u, name, s) {
   // კვირის საწყისი XP: ამ კვირის პირველ შენახვაზე — ბოლოს შენახული XP (ამ კვირაში მოგებული XP რეიტინგში ჩაითვლება)
   const wkBase = prev && prev.wk === wk ? prev.wkBase : prev ? Math.min(prev.xp, clean.xp) : clean.xp;
   await db(['SET', 'sum:' + u, JSON.stringify(Object.assign(clean, { name, wk, wkBase, at: Date.now() }))]);
+}
+const normLive = s => (/^[A-HJ-NP-Z2-9]{10}$/.test(String(s || '')) ? String(s) : '');
+// დაფის მდგომარეობა: ენა, კოდი, ვერსია (ver — ყოველ ცვლილებაზე), გაშვება (run — ყოველ ▶-ზე)
+function liveState(id, b, base) {
+  return { id, lang: /^[a-z]{1,10}$/.test(b.lang) ? b.lang : base.lang || 'js', code: String(b.src == null ? base.code || '' : b.src).slice(0, LIVE_MAX),
+    ver: int(b.ver, 1e9), run: int(b.run, 1e9), end: !!b.end, cls: base.cls || '', teacher: base.teacher || '', at: Date.now() };
 }
 async function getClass(code) { const s = code && await db(['GET', 'cls:' + code]); return s ? JSON.parse(s) : null; }
 async function dropClass(code, owner) {
@@ -286,8 +300,8 @@ const actions = {
     all.forEach((code, i) => {
       const c = meta[i] ? JSON.parse(meta[i]) : null;
       if (!c) gone.push([i < own.length ? 'uown:' + u : 'uin:' + u, code]);
-      else if (i < own.length) out.own.push({ code, name: c.name, count: cnt[i] || 0 });
-      else out.in.push({ code, name: c.name, teacher: c.ownerName });
+      else if (i < own.length) out.own.push({ code, name: c.name, count: cnt[i] || 0, live: !!c.live });
+      else out.in.push({ code, name: c.name, teacher: c.ownerName, live: !!c.live });
     });
     if (gone.length) await dbPipe(gone.map(([k, code]) => ['SREM', k, code]));   // მასწავლებელმა კლასი წაშალა
     return out;
@@ -307,7 +321,7 @@ const actions = {
       return owner ? { id: m, name: s.name || m, week, xp: s.xp || 0, done: s.done || 0, stars: s.stars || 0, streak: s.streak || 0, course: s.course || '', next: s.next || '', courses: s.courses || {}, at: s.at || 0 }
         : { name: s.name || m, week, xp: s.xp || 0, me: m === u };
     });
-    return { code, name: c.name, teacher: c.ownerName, owner, rows };
+    return { code, name: c.name, teacher: c.ownerName, owner, rows, live: c.live || '' };
   },
   async classKick(b) {
     const { u } = await session(b.token);
@@ -321,6 +335,39 @@ const actions = {
     const code = normCode(b.code), c = await getClass(code);
     if (!c || c.owner !== u) throw new Fail(403, 'class_none');
     await dropClass(code, u);
+    return {};
+  },
+  /* ---- ცოცხალი გაკვეთილი ---- */
+  // მასწავლებელი იწყებს: ახალი ID (მოსწავლეები კლასის ხედიდან იღებენ) და გასაღები (მხოლოდ მასწავლებელს)
+  async liveStart(b) {
+    const { u } = await session(b.token);
+    const code = normCode(b.code), c = await getClass(code);
+    if (!c || c.owner !== u) throw new Fail(403, 'class_none');
+    await limit('live', u, 30, 3600);
+    if (c.live) await db(['DEL', 'live:' + c.live, 'livekey:' + c.live]);   // წინა გაკვეთილი მთავრდება
+    const id = newCode(10), key = crypto.randomBytes(24).toString('base64url');
+    const st = liveState(id, Object.assign({}, b, { ver: 1, run: 0 }), { cls: c.name, teacher: c.ownerName, lang: 'js' });
+    await dbPipe([['SET', 'live:' + id, JSON.stringify(st), 'EX', LIVE_SEC], ['SET', 'livekey:' + id, sha(key), 'EX', LIVE_SEC], ['SET', 'cls:' + code, JSON.stringify(Object.assign(c, { live: id }))]]);
+    return { id, key, state: st };
+  },
+  // მასწავლებლის დაფა: კოდი, ენა, გაშვება — სესიის გარეშე, გაკვეთილის გასაღებით (ბაზაზე 1 ბრძანება)
+  async liveSet(b) {
+    const id = normLive(b.id);
+    if (!id) throw new Fail(404, 'live_none');
+    const st = liveState(id, b, { cls: cleanText(b.cls, 40), teacher: cleanText(b.teacher, 40) });
+    if (await db(['EVAL', LIVE_SET, 2, 'live:' + id, 'livekey:' + id, sha(String(b.key || '')), JSON.stringify(st), LIVE_SEC]) !== 1) throw new Fail(403, 'live_none');
+    return {};
+  },
+  async liveEnd(b) {
+    const { u } = await session(b.token);
+    const code = normCode(b.code), c = await getClass(code);
+    if (!c || c.owner !== u) throw new Fail(403, 'class_none');
+    if (c.live) {
+      const raw = await db(['GET', 'live:' + c.live]), st = raw ? JSON.parse(raw) : {};
+      await dbPipe([['SET', 'live:' + c.live, JSON.stringify(Object.assign(st, { end: true, at: Date.now() })), 'EX', 600], ['DEL', 'livekey:' + c.live]]);
+      delete c.live;
+      await db(['SET', 'cls:' + code, JSON.stringify(c)]);
+    }
     return {};
   },
   /* ---- ანონიმური სტატისტიკა: სად ჭედავენ მოთამაშეები (ანგარიშის და სახელის გარეშე) ---- */
@@ -353,6 +400,19 @@ const actions = {
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
+  // მოსწავლის დაფა: GET ?live=ID — ყველასთვის ერთნაირი პასუხი, CDN-ში 1 წამით (ბაზას წამში ერთხელ მიმართავს)
+  if (req.method === 'GET') {
+    const id = normLive(new URL(req.url || '/', 'http://x').searchParams.get('live'));
+    if (id && DB_URL && DB_TOKEN) {
+      try {
+        const raw = await db(['GET', 'live:' + id]);
+        res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=1');
+        return res.status(200).json(raw ? JSON.parse(raw) : { id, end: true, gone: true });
+      } catch (e) {
+        return res.status(500).json({ ok: false, error: 'server' });
+      }
+    }
+  }
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ ok: false, error: 'method_not_allowed' });

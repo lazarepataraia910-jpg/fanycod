@@ -808,6 +808,32 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .acc-two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
 .acc-two div{padding:10px;border-radius:12px;background:var(--panel2);font-size:.88rem;line-height:1.5}
 .acc-del{margin-top:16px;text-align:left;font-size:.88rem}
+/* ანგარიშის ფანჯარა (შესულისთვის): პროფილის ბარათი */
+.modal:has(>.accp){max-width:440px;padding:0;border:0;border-radius:24px;overflow:hidden auto}
+.accp{position:relative}
+.accp-x{position:absolute;top:12px;right:12px;z-index:1;width:36px;height:36px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;font-size:1rem;transition:background .15s,transform .15s}
+.accp-x:hover{background:rgba(255,255,255,.3);transform:rotate(90deg)}
+.accp-top{position:relative;overflow:hidden;isolation:isolate;padding:30px 20px 22px;color:#fff;text-align:center;background:radial-gradient(circle at 85% 0,rgba(255,255,255,.22),transparent 45%),linear-gradient(135deg,#12b886,#3d5afe 60%,#7048e8)}
+.accp-top::before{content:'';position:absolute;inset:0;z-index:-1;background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1.6px);background-size:20px 20px;-webkit-mask-image:linear-gradient(180deg,#000,transparent);mask-image:linear-gradient(180deg,#000,transparent)}
+.accp-av{width:84px;height:84px;margin:0 auto 10px;display:grid;place-items:center;border:4px solid rgba(255,255,255,.85);border-radius:50%;background:linear-gradient(135deg,#0ca678,#4263eb);font-size:2.3rem;font-weight:800;line-height:1;box-shadow:0 12px 26px rgba(20,20,80,.35)}
+.accp-top h2{margin:0;font-size:1.5rem;font-weight:800;overflow-wrap:anywhere}
+.accp-st{display:inline-block;margin:8px 0 0;padding:4px 12px;border-radius:999px;background:rgba(255,255,255,.18);font-size:.82rem;font-weight:700}
+.accp-body{padding:18px 18px 20px}
+.accp-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.accp-stats div{min-width:0;padding:10px 6px;border:1px solid var(--border);border-radius:14px;background:var(--panel2);text-align:center}
+.accp-stats b{display:block;font-size:.95rem;line-height:1.3;overflow-wrap:anywhere}
+.accp-stats small{color:var(--muted);font-size:.72rem}
+.accp-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.accp-act{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:10px;align-items:center;padding:12px;border:1px solid var(--border);border-radius:16px;background:var(--panel);text-align:left;transition:transform .15s,border-color .15s,box-shadow .15s}
+.accp-act:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--accent) 50%,var(--border));box-shadow:0 10px 20px -14px color-mix(in srgb,var(--accent) 80%,transparent)}
+.accp-act span{grid-row:1/3;width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:color-mix(in srgb,var(--accent) 12%,var(--panel2));font-size:1.2rem;line-height:1}
+.accp-act b{font-size:.9rem;line-height:1.2}
+.accp-act small{color:var(--muted);font-size:.74rem;line-height:1.3}
+.accp-act.out span{background:color-mix(in srgb,var(--bad) 13%,var(--panel2))}
+.accp-act.out:hover{border-color:color-mix(in srgb,var(--bad) 50%,var(--border));box-shadow:0 10px 20px -14px color-mix(in srgb,var(--bad) 80%,transparent)}
+.accp-info{margin:14px 0 0;padding:10px 12px;border-radius:12px;background:var(--panel2);color:var(--muted);font-size:.8rem;line-height:1.5}
+.accp .acc-del{margin-top:12px}
+@media (max-width:380px){.accp-acts{grid-template-columns:1fr}}
 .acc-del summary{color:var(--muted);cursor:pointer}
 /* კლასი */
 .cl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
@@ -967,34 +993,61 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
 /* ---- ენები და კურსები ---- */
 .lang-badge{display:inline-grid;place-items:center;min-width:46px;height:46px;padding:0 8px;border-radius:12px;font:800 1rem/1 var(--mono);background:var(--lb);color:var(--lc);flex:none;letter-spacing:-.02em}
 .lang-badge.sm{min-width:30px;height:24px;font-size:.72rem;border-radius:7px;padding:0 6px}
-.course-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:14px}
-.course-card{display:flex;flex-direction:column;gap:10px;text-align:left;padding:14px;border-radius:var(--radius);border:1px solid var(--border);background:var(--panel);box-shadow:var(--shadow);transition:border-color .15s,transform .15s;min-width:0}
-.course-card:hover{border-color:var(--lb);transform:translateY(-1px)}
-.course-card.sel{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}
-.course-card .head{display:flex;gap:12px;align-items:center}
-.course-card h3{margin:0;font-size:1.1rem}
-.course-card .sub{color:var(--muted);font-size:.85rem}
-.course-card p{margin:0;font-size:.9rem;color:var(--text)}
-.course-card .foot{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--muted);margin-top:auto}
-.course-card .progress{flex:1}
-.course-card .tag{font-size:.72rem;font-weight:700;color:var(--accent);text-transform:none}
+/* ენების გვერდი: ღამის ცის ზედა ბლოკი და ენის ფერის ბარათები */
+#scr-courses.active{background:radial-gradient(60% 30% at 100% 0,color-mix(in srgb,#7c4dff 10%,transparent),transparent 70%),var(--bg)}
+#scr-courses .page{max-width:1080px}
+.lp-hero{position:relative;overflow:hidden;isolation:isolate;display:flex;align-items:center;min-height:200px;padding:28px 30px;border-radius:26px;color:#fff;
+  background:radial-gradient(circle at 82% 30%,rgba(151,117,250,.5),transparent 45%),radial-gradient(circle at 0 115%,rgba(61,90,254,.55),transparent 50%),linear-gradient(140deg,#131735,#221a50 55%,#2c1452);box-shadow:0 22px 44px -26px rgba(34,26,80,.75)}
+.lp-hero::before{content:'';position:absolute;inset:0;z-index:-1;background-image:radial-gradient(rgba(255,255,255,.13) 1px,transparent 1.6px);background-size:22px 22px;-webkit-mask-image:linear-gradient(90deg,#000,transparent 75%);mask-image:linear-gradient(90deg,#000,transparent 75%)}
+.lp-txt{position:relative;max-width:540px}
+.lp-kick{display:inline-block;padding:5px 13px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(255,255,255,.1);color:#e5dbff;font-size:.8rem;font-weight:700}
+.lp-hero h1{margin:12px 0 6px;font-size:clamp(1.65rem,5vw,2.4rem);font-weight:800;line-height:1.12;letter-spacing:-.02em}
+.lp-hero p{margin:0;color:rgba(255,255,255,.75);font-size:.95rem}
+.lp-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.lp-stats span{padding:7px 12px;border:1px solid rgba(255,255,255,.16);border-radius:12px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.85);font-size:.82rem}
+.lp-stats b{margin-right:3px;color:#ffe066;font-size:1.05rem}
+.lp-deco{position:absolute;top:0;right:22px;bottom:0;z-index:-1;width:290px}
+.lp-deco span{position:absolute;left:var(--x);top:var(--y);rotate:var(--r);animation:mn-drift 6s ease-in-out var(--dl) infinite}
+.lp-deco .lang-badge{min-width:50px;height:50px;border-radius:15px;box-shadow:0 12px 22px rgba(0,0,0,.35)}
+.lang-tools{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin-top:18px}
+.lp-search{flex:1 1 260px;min-width:0;display:flex;align-items:center;gap:10px;height:52px;padding:0 16px;border:1px solid var(--border);border-radius:16px;background:var(--panel);box-shadow:var(--shadow);cursor:text;transition:border-color .15s,box-shadow .15s}
+.lp-search:focus-within{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 16%,transparent)}
+.lp-search input{flex:1;min-width:0;height:100%;padding:0;border:0;background:none;color:var(--text);font-size:1rem}
+.lp-search input:focus,.lp-search input:focus-visible{outline:none}
+.lp-sort{display:inline-flex;align-items:center;gap:6px;max-width:100%;height:52px;padding:0 8px 0 16px;border:1px solid var(--border);border-radius:16px;background:var(--panel);box-shadow:var(--shadow);color:var(--muted);font-size:.85rem;font-weight:700}
+.lp-sort select{min-width:0;max-width:100%;padding:.4em .3em;border:0;background:transparent;color:var(--text);font-weight:700}
+.sort-note{margin:10px 2px 0;font-size:.84rem}
+.fav-hint{margin:12px 0 0;padding:10px 14px;border:1px dashed color-mix(in srgb,#e0a100 55%,var(--border));border-radius:14px;background:color-mix(in srgb,#ffd43b 8%,var(--panel));font-size:.86rem}
+.lang-sec{display:flex;align-items:center;gap:10px;margin:28px 0 0;font-size:1.05rem;font-weight:800}
+.lang-sec::after{content:'';flex:1;height:1px;background:var(--border)}
+.lang-sec small{padding:1px 9px;border-radius:999px;background:var(--panel2);color:var(--muted);font-size:.75rem;font-weight:700}
+.course-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;margin-top:16px}
+.lang-sec+.course-grid{margin-top:12px}
+.course-card{position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;gap:12px;min-width:0;padding:18px 16px 14px;border:1px solid var(--border);border-radius:20px;text-align:left;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--lb) 13%,var(--panel)),var(--panel) 96px);box-shadow:0 1px 2px rgba(16,24,40,.05);transition:transform .18s,box-shadow .18s,border-color .18s}
+.course-card::before{content:'';position:absolute;top:0;right:0;left:0;height:4px;background:var(--lb)}
+.course-card::after{content:attr(data-mark);position:absolute;right:-4px;bottom:-16px;z-index:-1;color:var(--lb);font:800 5rem/1 var(--mono);letter-spacing:-.05em;opacity:.08;pointer-events:none;white-space:nowrap}
+.course-card:hover,.course-item:hover>.course-card{transform:translateY(-3px);border-color:color-mix(in srgb,var(--lb) 55%,var(--border));box-shadow:0 16px 30px -16px color-mix(in srgb,var(--lb) 75%,transparent)}
+.course-card.sel{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.course-card .head{display:flex;align-items:center;gap:12px;padding-right:30px}
+.course-card .head .lang-badge{min-width:52px;height:52px;border-radius:15px;font-size:1.02rem;box-shadow:0 8px 16px -8px color-mix(in srgb,var(--lb) 90%,transparent)}
+.course-card h3{margin:0;font-size:1.15rem;font-weight:800}
+.course-card .sub{color:var(--muted);font-size:.82rem;line-height:1.35}
+.course-card p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.5}
+.course-card .foot{display:flex;flex-direction:column;gap:7px;margin-top:auto;color:var(--muted);font-size:.8rem}
+.cc-row{display:flex;align-items:center;gap:8px}
+.cc-row .cnt{margin-right:auto}
+.cc-row .cnt b{color:var(--text)}
+.course-card .progress{height:8px;border:0;background:color-mix(in srgb,var(--lb) 15%,var(--panel2))}
+.course-card .progress>div{border-radius:inherit;background:var(--lb)}
+.course-card .meta{font-size:.76rem;white-space:nowrap}
+.course-card .tag{padding:2px 9px;border-radius:999px;background:var(--accent);color:#fff;font-size:.72rem;font-weight:800;white-space:nowrap}
+@media (max-width:640px){.lp-hero{min-height:0;padding:22px 20px}.lp-deco{right:-30px;width:100%;opacity:.22}.lp-sort{flex:1 1 100%}.lp-sort select{flex:1}}
 .course-head{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .course-head h2{margin:0}
 /* ენის არჩევა: ძებნა, დალაგება, რჩეულები ★ */
-.lang-tools{display:flex;gap:8px 12px;align-items:center;flex-wrap:wrap;margin-top:12px}
-.lang-tools input.txt{flex:1 1 200px;min-width:0}
-.lang-tools label{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;font-weight:600;color:var(--muted);max-width:100%}
-.lang-tools select{padding:.45em .5em;color:var(--text);min-width:0;max-width:100%}
-.sort-note{margin:8px 0 0;font-size:.85rem}
-.lang-sec{display:flex;align-items:baseline;gap:8px;margin:20px 0 0;font-size:1rem}
-.lang-sec small{color:var(--muted);font-weight:600}
-.lang-sec+.course-grid{margin-top:10px}
-.fav-hint{margin:12px 0 0;font-size:.88rem}
 .course-item{position:relative;display:flex;min-width:0}
 .course-item>.course-card{flex:1}
-.course-item:hover>.course-card{border-color:var(--lb);transform:translateY(-1px)}
-.course-card .head{padding-right:30px}
-.course-card .meta{font-size:.78rem;white-space:nowrap}
 .fav-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:transparent;color:var(--muted);font-size:1.3rem;line-height:1;transition:background .15s,color .15s}
 .course-item:hover>.fav-btn{transform:translateY(-1px)}
 .fav-btn:hover{background:var(--panel2);color:#d99a00}
@@ -1236,7 +1289,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
 
   <!-- ===== ენის არჩევა ===== -->
   <section id="scr-courses" class="screen" aria-label="ენის არჩევა">
-    <div class="topbar"><button class="btn small" data-go="menu">← მენიუ</button><h2>რომელი ენა ვისწავლოთ?</h2><button class="btn small" data-go="profile">პროფილი</button></div>
+    <div class="topbar"><button class="btn small" data-go="menu">← მენიუ</button><h2>🌐 ენები</h2><button class="btn small" data-go="profile">პროფილი</button></div>
     <div class="page" id="courses-body"></div>
   </section>
 
@@ -17678,10 +17731,18 @@ const CoursesScreen = {
   sortId() { const s = Progress.P.langSort; return LANG_SORTS.some(x => x[0] === s) ? s : 'used'; },
   render() {
     const sort = this.sortId();
-    $('#courses-body').innerHTML = '<p class="muted" style="margin:0">ბიტი ყველა ენაზე ლაპარაკობს! აირჩიე, რომლით გინდა სწავლა. პროგრესი და XP თითოეულ ენაში ცალკე ინახება, რანგი კი საერთოა.</p>' +
+    // ზედა ბლოკი: სათაური, მოკლე სტატისტიკა და მოფრენილი ენების ნიშნები
+    let lvTotal = 0, lvDone = 0, started = 0;
+    COURSES.forEach(c => { const s = Progress.courseStats(c.id); lvTotal += s.total; lvDone += s.done; if (s.done) started++; });
+    const deco = [['js', 6, 8, -10], ['py', 40, 2, 8], ['cpp', 74, 14, -6], ['html', 20, 44, 6], ['rs', 58, 48, -12], ['java', 86, 56, 10], ['go', 4, 74, 12], ['kt', 40, 80, -4], ['swift', 72, 84, 6]]
+      .filter(d => COURSE_BY_ID[d[0]]).map(([id, x, y, r], i) => '<span style="--x:' + x + '%;--y:' + y + '%;--r:' + r + 'deg;--dl:' + (i * .45).toFixed(2) + 's">' + langBadge(COURSE_BY_ID[id].lang) + '</span>').join('');
+    $('#courses-body').innerHTML = '<div class="lp-hero"><div class="lp-deco" aria-hidden="true">' + deco + '</div><div class="lp-txt">' +
+      '<span class="lp-kick">🌐 ' + COURSES.length + ' ენა · ' + lvTotal + ' ლეველი</span><h1>რომელი ენა ვისწავლოთ?</h1>' +
+      '<p>ბიტი ყველა ენაზე ლაპარაკობს! აირჩიე, რომლით გინდა სწავლა. პროგრესი და XP თითოეულ ენაში ცალკე ინახება, რანგი კი საერთოა.</p>' +
+      '<div class="lp-stats"><span><b>' + started + '</b> ენა დაწყებული</span><span><b>' + lvDone + '</b> ლეველი გავლილი</span><span><b>' + Progress.favs().length + '</b> ★ რჩეული</span></div></div></div>' +
       '<div class="lang-tools">' +
-      '<input class="txt" type="search" id="lang-q" placeholder="🔎 იპოვე ენა…" aria-label="ენის ძებნა" autocomplete="off" spellcheck="false" value="' + esc(this.q) + '">' +
-      '<label>დალაგება: <select id="lang-sort">' + LANG_SORTS.map(([id, t]) => '<option value="' + id + '"' + (id === sort ? ' selected' : '') + '>' + t + '</option>').join('') + '</select></label>' +
+      '<label class="lp-search"><span aria-hidden="true">🔎</span><input type="search" id="lang-q" placeholder="იპოვე ენა… (მაგ. ვებ, თამაში, Python)" aria-label="ენის ძებნა" autocomplete="off" spellcheck="false" value="' + esc(this.q) + '"></label>' +
+      '<label class="lp-sort">დალაგება <select id="lang-sort">' + LANG_SORTS.map(([id, t]) => '<option value="' + id + '"' + (id === sort ? ' selected' : '') + '>' + t + '</option>').join('') + '</select></label>' +
       '</div><div id="lang-list"></div>';
     $('#lang-q').addEventListener('input', e => { this.q = e.target.value; this.renderList(); });
     $('#lang-sort').addEventListener('change', e => { Progress.P.langSort = e.target.value; Progress.save(); Sound.click(); this.renderList(); });
@@ -17710,10 +17771,11 @@ const CoursesScreen = {
     const st = Progress.courseStats(c.id), pct = st.total ? Math.round(st.done / st.total * 100) : 0, fav = Progress.isFav(c.id), u = Progress.use(c.id);
     const meta = sort === 'recent' && u.t ? '🕒 ' + agoStr(u.t) : sort === 'used' && u.n ? '▶ ' + u.n + ' გაშვება' : sort === 'pop' && LANG_POP.includes(c.id) ? '🌍 #' + (LANG_POP.indexOf(c.id) + 1) : '';
     const t = fav ? 'რჩეულებიდან ამოღება' : 'რჩეულებში დამატება';
-    return '<div class="course-item"><button class="course-card' + (c.id === cur ? ' sel' : '') + '" data-course="' + c.id + '" style="--lb:' + LANGS[c.lang].color + '">' +
+    return '<div class="course-item"><button class="course-card' + (c.id === cur ? ' sel' : '') + '" data-course="' + c.id + '" data-mark="' + esc(LANGS[c.lang].badge) + '" style="--lb:' + LANGS[c.lang].color + '">' +
       '<div class="head">' + langBadge(c.lang) + '<div><h3>' + esc(c.title) + '</h3><div class="sub">' + esc(c.sub) + ' · ' + st.total + (LANGS[c.lang].kind === 'web' ? ' გაკვეთილი' : ' ლეველი') + '</div></div></div>' +
       '<p>' + esc(c.desc) + '</p>' +
-      '<div class="foot"><div class="progress"><div style="width:' + pct + '%"></div></div>' + (meta ? '<span class="meta">' + meta + '</span>' : '') + '<span>' + st.done + '/' + st.total + '</span>' + (c.id === cur ? '<span class="tag">● ახლა</span>' : '') + '</div></button>' +
+      '<div class="foot"><div class="cc-row">' + (meta ? '<span class="meta">' + meta + '</span>' : '') + '<span class="cnt">' + st.done + '/' + st.total + ' · <b>' + pct + '%</b></span>' + (c.id === cur ? '<span class="tag">▶ ახლა სწავლობ</span>' : '') + '</div>' +
+      '<div class="progress"><div style="width:' + pct + '%"></div></div></div></button>' +
       '<button class="fav-btn' + (fav ? ' on' : '') + '" data-fav="' + c.id + '" aria-pressed="' + fav + '" title="' + t + '" aria-label="' + esc(c.title) + ' — ' + t + '">' + (fav ? '★' : '☆') + '</button></div>';
   },
   renderList() {
@@ -20011,12 +20073,14 @@ const Account = {
   /* ---- ანგარიშის პანელი ---- */
   panel() {
     const s = this.s;
-    const m = Modal.open('<div class="acc"><div class="acc-ic av" aria-hidden="true">' + esc([...s.name][0]) + '</div><h2 class="result-title">' + esc(s.name) + '</h2>' +
-      '<p class="acc-st" id="acc-st">' + esc(this.statusText()) + '</p>' +
-      '<ul class="pro-list"><li>☁️ პროგრესი, Pro და ბიტის ნივთები თავისით ინახება</li><li>💻 სხვა მოწყობილობაზე იგივე სახელით და პაროლით შედი</li></ul>' +
-      '<div class="acc-btns"><button class="btn" data-a="class">👩‍🏫 კლასი</button><button class="btn" data-a="sync">☁️ ახლავე შენახვა</button><button class="btn" data-a="pass">🔑 პაროლის შეცვლა</button><button class="btn" data-a="out">🚪 გასვლა</button></div>' +
-      '<details class="acc-del"><summary>ანგარიშის წაშლა</summary><p class="muted">ანგარიში და მასში შენახული პროგრესი სამუდამოდ წაიშლება. ამ მოწყობილობაზე პროგრესი დარჩება.</p><button class="btn danger small" data-a="del">🗑️ ანგარიშის წაშლა</button></details>' +
-      '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
+    // პროფილის ბარათი: ფერადი თავი ავატარით, წოდება / XP / სერია, მოქმედებები ფილებად
+    const r = Progress.rank(), act = (a, ic, t, sub) => '<button class="accp-act' + (a === 'out' ? ' out' : '') + '" data-a="' + a + '"><span aria-hidden="true">' + ic + '</span><b>' + t + '</b><small>' + sub + '</small></button>';
+    const m = Modal.open('<div class="accp"><button class="accp-x" data-close aria-label="დახურვა">✕</button>' +
+      '<div class="accp-top"><div class="accp-av" aria-hidden="true">' + esc([...s.name][0]) + '</div><h2>' + esc(s.name) + '</h2><p class="accp-st" id="acc-st">' + esc(this.statusText()) + '</p></div>' +
+      '<div class="accp-body"><div class="accp-stats"><div><b>' + r.ic + ' ' + esc(r.name) + '</b><small>წოდება</small></div><div><b>⭐ ' + Progress.totalXP() + '</b><small>XP</small></div><div><b>🔥 ' + Progress.streakNow() + '</b><small>დღიანი სერია</small></div></div>' +
+      '<div class="accp-acts">' + act('class', '👩‍🏫', 'კლასი', 'შეუერთდი ან შექმენი') + act('sync', '☁️', 'ახლავე შენახვა', 'ღრუბელში') + act('pass', '🔑', 'პაროლის შეცვლა', 'უსაფრთხოება') + act('out', '🚪', 'გასვლა', 'ანგარიშიდან') + '</div>' +
+      '<p class="accp-info">☁️ პროგრესი, Pro და ბიტის ნივთები თავისით ინახება. 💻 სხვა მოწყობილობაზე იგივე სახელით და პაროლით შედი.</p>' +
+      '<details class="acc-del"><summary>ანგარიშის წაშლა</summary><p class="muted">ანგარიში და მასში შენახული პროგრესი სამუდამოდ წაიშლება. ამ მოწყობილობაზე პროგრესი დარჩება.</p><button class="btn danger small" data-a="del">🗑️ ანგარიშის წაშლა</button></details></div></div>');
     m.querySelector('[data-a=sync]').addEventListener('click', () => { this.changed(); this.push(); });
     m.querySelector('[data-a=class]').addEventListener('click', () => { Modal.close(m); UI.show('class'); });
     m.querySelector('[data-a=pass]').addEventListener('click', () => { Modal.close(m); this.passwordForm(); });

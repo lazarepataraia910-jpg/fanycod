@@ -530,6 +530,9 @@ details.card:not([open])>summary::after{content:"▸"}
 .theory-text{margin:.5em 0}
 pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-family:var(--mono);font-size:.9rem;white-space:pre-wrap;overflow:auto}
 .editor-card{padding:0;overflow:hidden;border-radius:14px}
+.starter-note{margin:0;padding:8px 14px;border-bottom:1px solid var(--border);background:color-mix(in srgb,var(--accent) 7%,var(--panel));font-size:.84rem;line-height:1.45}
+.starter-note.bug{border-bottom-color:color-mix(in srgb,var(--bad) 30%,var(--border));background:color-mix(in srgb,var(--bad) 9%,var(--panel))}
+.starter-note.bug b{color:var(--bad)}
 .editor-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 10px 5px 14px;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--muted);flex-wrap:wrap;font-weight:600}
 #editor .CodeMirror{height:auto;font-family:var(--mono);font-size:var(--fs);background:var(--code-bg);color:var(--code-text);line-height:1.55}
 #editor .CodeMirror-scroll{min-height:200px;max-height:460px}
@@ -1365,6 +1368,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
             <span>📝 შენი კოდი <span class="muted" id="g-lines"></span></span>
             <span><button class="btn small ghost" id="g-restore" title="საწყისი კოდის დაბრუნება">↺ საწყისი კოდი</button></span>
           </div>
+          <p class="starter-note hidden" id="g-starter-note"></p>
           <div id="editor"></div>
         </div>
         <div class="palette" id="g-palette" aria-label="ბრძანებების ჩასმა"></div>
@@ -20263,6 +20267,13 @@ const Game = {
     if (this.mode === 'sandbox') code = this.sbx.code || '';
     Editor.set(code);
     this.updateLines();
+    // წინასწარ დაწერილი კოდი ლეველის ნაწილია (გლიჩის ბაგი ან დასაწყისი) — რომ წინა ლეველიდან დარჩენილი ტექსტი არ ეგონოს
+    const st0 = String(lv.starter || ''), first = st0.split('\n')[0], sn = $('#g-starter-note');
+    const bug = this.mode !== 'sandbox' && /^\s*(\/\/|#|--|<!--|\/\*)/.test(first) && /გლიჩ|ბაგ/.test(first);
+    const part = this.mode !== 'sandbox' && !bug && (lv.lang || 'js') === 'js' && countLines(st0, lv.lang) >= 2;   // C/Go/React-ის ჩარჩო (main) ყოველ ლეველზეა — მასზე არა
+    sn.className = 'starter-note' + (bug ? ' bug' : '') + (bug || part ? '' : ' hidden');
+    sn.innerHTML = bug ? '🐞 <b>ბაგის ძებნა!</b> ეს კოდი გლიჩმა დაწერა და შიგ შეცდომა ჩამალა. გაუშვი, ნახე სად ცდება, და გაასწორე.'
+      : part ? '✍️ <b>კოდის დასაწყისი უკვე დაწერილია</b> — ეს ლეველის ნაწილია. გააგრძელე და დაამატე დანარჩენი.' : '';
     this.renderPalette();
     $('#g-vars').classList.toggle('hidden', !(lv.world >= 2) || !!lv.web);
     $('#g-html-box').classList.toggle('hidden', !(lv.web && lv.lang === 'css'));

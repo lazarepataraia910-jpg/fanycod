@@ -3,14 +3,168 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CodeQuest: ბიტის თავგადასავალი</title>
-<meta name="description" content="სასწავლო თამაში — ისწავლე პროგრამირება (JavaScript) ნულიდან, რობოტ ბიტთან ერთად.">
-<!-- GitHub Pages: საიტის მთავარი გვერდი თამაშზე გადადის (#test და სხვა პარამეტრები ინახება) -->
-<meta http-equiv="refresh" content="0; url=CodeQuest.html">
-<link rel="canonical" href="CodeQuest.html">
-<script>location.replace('CodeQuest.html' + location.search + location.hash);</script>
+<title>CodeQuest — ისწავლე პროგრამირება ნულიდან, ქართულად</title>
+<meta name="description" content="სასწავლო თამაში ბავშვებისთვის: 18 პროგრამირების ენა, 9000 ლეველი, რობოტი ბიტი და კლასები მასწავლებლებისთვის. უფასოდ, ქართულად.">
+<script>
+// თამაშის მოთამაშე (ან ბმული პარამეტრებით, მაგ. #download) პირდაპირ თამაშში გადადის; ?home — ეს გვერდი მაინც ჩანს
+(function () {
+  var q = location.search.replace(/^\?/, '');
+  if (/(^|&)home(=|&|$)/.test(q)) return;
+  var played = false;
+  try { var s = JSON.parse(localStorage.getItem('codequest.v1') || 'null'); played = !!(s && (s.started || (s.levels && Object.keys(s.levels).length))); } catch (e) { }
+  if (q || location.hash || played) location.replace('CodeQuest.html' + location.search + location.hash);
+})();
+</script>
+<link rel="canonical" href="https://codequest-lazare.vercel.app/">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#3d5afe">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CodeQuest">
+<meta property="og:title" content="CodeQuest — ისწავლე პროგრამირება ნულიდან, ქართულად">
+<meta property="og:description" content="სასწავლო თამაში ბავშვებისთვის: 18 პროგრამირების ენა, 9000 ლეველი, რობოტი ბიტი და კლასები მასწავლებლებისთვის. უფასოდ.">
+<meta property="og:image" content="https://codequest-lazare.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://codequest-lazare.vercel.app/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6fb;--panel:#fff;--panel2:#eef1f7;--text:#1b1f2e;--muted:#5b6478;--border:#e1e5ef;--accent:#3d5afe;--violet:#7c4dff;--ok:#2f9e44}
+@media (prefers-color-scheme:dark){:root{--bg:#121520;--panel:#1b1f2e;--panel2:#242a3b;--text:#eef1f8;--muted:#9aa3b8;--border:#2c3346}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 "Noto Sans Georgian",system-ui,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+header{background:radial-gradient(70% 90% at 85% 30%,#7c4dff 0,transparent 70%),linear-gradient(135deg,#2b3bab,#3d5afe 55%,#5f3dc4);color:#fff;overflow:hidden}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:800;font-size:1.25rem}
+.brand img{width:40px;height:40px}
+.nav a.small{color:#fff;opacity:.9;font-weight:700;text-decoration:none}
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:center;gap:24px;padding:28px 0 56px}
+.hero h1{margin:0;font-size:clamp(2.2rem,5.4vw,3.6rem);line-height:1.08;font-weight:800}
+.hero h1 span{color:#3ddc97}
+.hero p{margin:16px 0 0;font-size:clamp(1.05rem,2.2vw,1.3rem);opacity:.95}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:14px;font-weight:800;text-decoration:none;font-size:1.05rem}
+.btn.play{background:#3ddc97;color:#0b2e20;box-shadow:0 5px 0 #1f9f6a}
+.btn.play:hover{filter:brightness(1.05)}
+.btn.ghost{background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.35)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chips span{padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.14);font-weight:700;font-size:.92rem}
+.bits{position:relative;height:340px}
+.bits div{position:absolute;filter:drop-shadow(0 14px 16px rgba(0,0,0,.3))}
+.bits svg{width:100%;height:100%}
+.b0{left:32%;top:0;width:38%;height:86%;z-index:2}.b1{left:4%;top:34%;width:28%;height:62%}.b2{left:70%;top:36%;width:28%;height:62%}
+section{padding:56px 0}
+h2{margin:0 0 6px;font-size:clamp(1.5rem,3.2vw,2.1rem);line-height:1.2}
+.lead{margin:0 0 24px;color:var(--muted);font-size:1.05rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{padding:18px;border-radius:18px;background:var(--panel);border:1px solid var(--border);box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.muted{color:var(--muted)}
+.card .ic{font-size:1.8rem;line-height:1}
+.card h3{margin:8px 0 4px;font-size:1.08rem}
+.card p{margin:0;color:var(--muted);font-size:.95rem}
+.langs{display:flex;flex-wrap:wrap;gap:8px}
+.langs span{padding:6px 12px;border-radius:10px;background:var(--panel);border:1px solid var(--border);font-weight:700;font-size:.92rem}
+.alt{background:var(--panel2)}
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;padding:0;margin:0;list-style:none}
+.steps li{counter-increment:s;padding:18px;border-radius:18px;background:var(--panel);border:1px solid var(--border)}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;margin-bottom:8px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800}
+.pro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:center}
+.price{padding:22px;border-radius:20px;background:linear-gradient(135deg,#fff8db,#ffe066);color:#3d2a00;border:1px solid #f5d76e}
+.price b{font-size:2.2rem}
+.price ul{margin:10px 0 0;padding-left:1.2em}
+details{padding:14px 16px;border-radius:14px;background:var(--panel);border:1px solid var(--border);margin-bottom:10px}
+summary{font-weight:700;cursor:pointer}
+details p{margin:8px 0 0;color:var(--muted)}
+footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem;text-align:center}
+footer a{color:inherit}
+.final{text-align:center}
+.final .btn.play{margin-top:8px}
+@media (max-width:760px){.hero{grid-template-columns:1fr;padding-top:10px}.bits{height:260px}.pro{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-<p>თამაში იხსნება… თუ არ გაიხსნა, დააჭირე: <a href="CodeQuest.html">CodeQuest</a></p>
+<header>
+  <div class="wrap">
+    <nav class="nav"><a class="brand" href="./?home"><img src="icons/icon-192.png" alt="">CodeQuest</a><a class="small" href="CodeQuest.html">თამაში ▶</a></nav>
+    <div class="hero">
+      <div>
+        <h1>ისწავლე <span>პროგრამირება</span><br>ნულიდან — ქართულად</h1>
+        <p>სასწავლო თამაში ბავშვებისთვის: მართე რობოტი ბიტი კოდით, გაიარე კუნძულები და ბოსები და ააწყე ნამდვილი პროექტები.</p>
+        <div class="cta"><a class="btn play" href="CodeQuest.html">▶ ითამაშე უფასოდ</a><a class="btn ghost" href="CodeQuest.html#download">💻 კომპიუტერის ვერსია</a></div>
+        <div class="chips"><span>18 ენა</span><span>9000 ლეველი</span><span>ქართულად</span><span>ინსტალაციის გარეშე</span></div>
+      </div>
+      <div class="bits" aria-hidden="true"><div class="b1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -3 12 16" shape-rendering="crispEdges"><defs><linearGradient id="cqg2-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#ff6b6b"/><stop offset="0.20" stop-color="#ffa94d"/><stop offset="0.40" stop-color="#ffd43b"/><stop offset="0.60" stop-color="#69db7c"/><stop offset="0.80" stop-color="#4dabf7"/><stop offset="1.00" stop-color="#9775fa"/></linearGradient><linearGradient id="cqg2-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#fff3bf"/><stop offset="0.50" stop-color="#fcc419"/><stop offset="1.00" stop-color="#f08c00"/></linearGradient><linearGradient id="cqg2-2" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#1a1240"/><stop offset="0.33" stop-color="#5f3dc4"/><stop offset="0.67" stop-color="#e64980"/><stop offset="1.00" stop-color="#4dabf7"/></linearGradient></defs><rect x="2" y="3" width="8" height="6" rx="1" fill="#3d5afe"/><rect x="3" y="4" width="6" height="3.4" rx=".5" fill="#13163a"/><g class="eyes"><rect x="4" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/></g><rect x="5" y="7.8" width="2" height=".5" fill="#13163a"/><rect x="1.1" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="10" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="3" y="9" width="6" height="2.2" fill="#13163a"/><rect x="4.4" y="9.6" width="3.2" height=".9" fill="#3d5afe"/><rect x="2.1" y="8.9" width="7.8" height="1.2" rx=".35" fill="#306998"/><rect x="2.7" y="8.9" width="6.6" height="2.4" rx=".3" fill="#306998"/><text x="6" y="10.75" font-size="1.6" font-weight="800" text-anchor="middle" fill="#ffd43b" font-family="Arial,Helvetica,sans-serif">Py</text><rect x="2.6" y="8.5" width="6.8" height="1.1" rx=".45" fill="url(#cqg2-0)"/><rect x="3.4" y="8.5" width=".7" height="1.1" fill="#fff" opacity=".6"/><rect x="5.6" y="8.5" width=".7" height="1.1" fill="#fff" opacity=".6"/><rect x="7" y="9.3" width="1.3" height="2.3" rx=".35" fill="#7048e8"/><rect x="2.4" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="6.8" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="2.1" y="11" width="3.4" height="1.75" rx=".7" fill="url(#cqg2-1)"/><rect x="2.1" y="12.35" width="3.4" height=".4" rx=".2" fill="#f8f9fa"/><rect x="2.5" y="11.55" width="2.4" height=".35" fill="#fff"/><g transform="matrix(-1 0 0 1 12 0)"><rect x="2.1" y="11" width="3.4" height="1.75" rx=".7" fill="url(#cqg2-1)"/><rect x="2.1" y="12.35" width="3.4" height=".4" rx=".2" fill="#f8f9fa"/><rect x="2.5" y="11.55" width="2.4" height=".35" fill="#fff"/></g><polygon points="6,-2.6 9.6,3.2 2.4,3.2" fill="url(#cqg2-2)"/><rect x="2.1" y="2.7" width="7.8" height=".6" rx=".3" fill="#1a1240"/><g fill="#ffe066"><circle cx="6.6" cy=".6" r=".45"/><circle cx="5.2" cy="2" r=".35"/><circle cx="7.3" cy="1.9" r=".25"/></g></svg></div><div class="b0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -3 12 16" shape-rendering="crispEdges"><defs><linearGradient id="cqg1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#fff3bf"/><stop offset="0.50" stop-color="#fcc419"/><stop offset="1.00" stop-color="#f08c00"/></linearGradient><linearGradient id="cqg1-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#ffffff"/><stop offset="0.33" stop-color="#c5f6fa"/><stop offset="0.67" stop-color="#99e9f2"/><stop offset="1.00" stop-color="#eebefa"/></linearGradient></defs><path d="M3 9.4C1.5 7.6-.1 7.5.1 8.8c.6.2 1 .5 1.1 1-.7 0-1 .4-.8.9.8-.1 1.6.1 2.5.6Z" fill="url(#cqg1-0)" stroke="#e67700" stroke-width=".15"/><g transform="matrix(-1 0 0 1 12 0)"><path d="M3 9.4C1.5 7.6-.1 7.5.1 8.8c.6.2 1 .5 1.1 1-.7 0-1 .4-.8.9.8-.1 1.6.1 2.5.6Z" fill="url(#cqg1-0)" stroke="#e67700" stroke-width=".15"/></g><rect x="2" y="3" width="8" height="6" rx="1" fill="#3d5afe"/><rect x="3" y="4" width="6" height="3.4" rx=".5" fill="#13163a"/><g class="eyes"><rect x="4" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/></g><rect x="5" y="7.8" width="2" height=".5" fill="#13163a"/><rect x="1.1" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="10" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="3" y="9" width="6" height="2.2" fill="#13163a"/><rect x="4.4" y="9.6" width="3.2" height=".9" fill="#3d5afe"/><rect x="2.1" y="8.9" width="7.8" height="1.2" rx=".35" fill="#f7df1e"/><rect x="2.7" y="8.9" width="6.6" height="2.4" rx=".3" fill="#f7df1e"/><text x="6" y="10.75" font-size="1.6" font-weight="800" text-anchor="middle" fill="#212529" font-family="Arial,Helvetica,sans-serif">JS</text><rect x="2.4" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="6.8" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><polygon points="2.4,3.2 2.8,.6 4.5,2 6,-.1 7.5,2 9.2,.6 9.6,3.2" fill="url(#cqg1-1)" stroke="#3bc9db" stroke-width=".25"/><g fill="#e599f7"><circle cx="6" cy="1.9" r=".42"/><circle cx="3.7" cy="2.55" r=".28"/><circle cx="8.3" cy="2.55" r=".28"/></g></svg></div><div class="b2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -3 12 16" shape-rendering="crispEdges"><defs><linearGradient id="cqg3-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#1a1240"/><stop offset="0.33" stop-color="#5f3dc4"/><stop offset="0.67" stop-color="#e64980"/><stop offset="1.00" stop-color="#4dabf7"/></linearGradient><linearGradient id="cqg3-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#00f5ff"/><stop offset="1.00" stop-color="#ff2fd1"/></linearGradient></defs><path d="M2.7 8.7H9.3L10.7 12.9H1.3Z" fill="url(#cqg3-0)"/><path d="M2.7 8.7H9.3L9.6 9.6H2.4Z" fill="#1a1240"/><rect x="5.6" y="0.6" width=".8" height="2.6" fill="#13163a"/><circle cx="6" cy="0.5" r="0.95" fill="#ff8a00"/><rect x="2" y="3" width="8" height="6" rx="1" fill="#3d5afe"/><rect x="3" y="4" width="6" height="3.4" rx=".5" fill="#13163a"/><g class="eyes"><rect x="4" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/></g><rect x="3.3" y="4.6" width="2.5" height="1.9" rx=".45" fill="url(#cqg3-1)"/><rect x="6.2" y="4.6" width="2.5" height="1.9" rx=".45" fill="url(#cqg3-1)"/><rect x="5.7" y="5.1" width=".6" height=".3" fill="#7a00ff"/><rect x="3.6" y="4.85" width=".8" height=".35" fill="#fff" opacity=".55"/><rect x="6.5" y="4.85" width=".8" height=".35" fill="#fff" opacity=".55"/><rect x="5" y="7.8" width="2" height=".5" fill="#13163a"/><rect x="1.1" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="10" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="3" y="9" width="6" height="2.2" fill="#13163a"/><rect x="4.4" y="9.6" width="3.2" height=".9" fill="#3d5afe"/><rect x="2.1" y="8.9" width="7.8" height="1.2" rx=".35" fill="#2b2f36"/><rect x="2.7" y="8.9" width="6.6" height="2.4" rx=".3" fill="#2b2f36"/><polygon points="5,8.9 7,8.9 6,10.1" fill="#495057"/><rect x="3.15" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="7.25" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="3.53" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="7.63" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="3.91" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="8.01" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="4.29" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="8.39" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="2.7" y="10.55" width="6.6" height=".3" fill="#212529"/><rect x="5.65" y="10.5" width=".7" height=".4" fill="#ced4da"/><rect x="5.85" y="10.9" width=".3" height=".5" fill="#adb5bd"/><rect x="2.4" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="6.8" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="2.2" y="1.7" width="7.6" height="1.6" rx=".5" fill="#1c7ed6"/><rect x="7.4" y="2.7" width="3.6" height=".7" rx=".3" fill="#1864ab"/><circle cx="4.6" cy="2.45" r=".38" fill="#d0ebff"/></svg></div></div>
+    </div>
+  </div>
+</header>
+<main>
+  <section>
+    <div class="wrap">
+      <h2>რატომ CodeQuest?</h2>
+      <p class="lead">თამაშივით მხიარულია, მაგრამ ნამდვილ კოდს წერ — ისეთს, როგორსაც პროგრამისტები.</p>
+      <div class="grid">
+        <div class="card"><div class="ic">👀</div><h3>ნახე → ააწყე → შენით</h3><p>ყოველი თემა სამ ნაბიჯად: ჯერ ნახავ, მერე ბლოკებით ააწყობ, ბოლოს თავად დაწერ.</p></div>
+        <div class="card"><div class="ic">🇬🇪</div><h3>შეცდომები ქართულად</h3><p>თამაში ხსნის, რა მოხდა და რომელ ხაზზე — „ხაზის ბოლოს ; აკლია“.</p></div>
+        <div class="card"><div class="ic">🏆</div><h3>ვარსკვლავები და მიღწევები</h3><p>XP, წოდებები, დღის სერია, ქვიზები, სერტიფიკატები და 55 მიღწევა.</p></div>
+        <div class="card"><div class="ic">👕</div><h3>ბიტის გარდერობი</h3><p>1100-ზე მეტი ნივთი 6 იშვიათობით — ჩვეულებრივიდან მითიურამდე.</p></div>
+        <div class="card"><div class="ic">☁️</div><h3>ყველა მოწყობილობაზე</h3><p>ანგარიშით პროგრესი ყველგან ერთია: საიტზე, ტელეფონზე და კომპიუტერის პროგრამაში.</p></div>
+        <div class="card"><div class="ic">🛡️</div><h3>უსაფრთხო ბავშვებისთვის</h3><p>ელფოსტა არ გვჭირდება, რეკლამა არ არის, კოდი იზოლირებულად სრულდება.</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="alt">
+    <div class="wrap">
+      <h2>18 ენა — თითოეულში 500 ლეველი</h2>
+      <p class="lead">დაიწყე JavaScript-ით ან Python-ით და გადადი იქით, რაც გაინტერესებს: საიტები, აპები, თამაშები.</p>
+      <div class="langs"><span>JavaScript</span><span>Python</span><span>Java</span><span>C</span><span>C++</span><span>TypeScript</span><span>C#</span><span>Go</span><span>Rust</span><span>PHP</span><span>Ruby</span><span>Swift</span><span>Kotlin</span><span>Lua</span><span>Dart</span><span>HTML</span><span>CSS</span><span>React</span></div>
+    </div>
+  </section>
+  <section>
+    <div class="wrap">
+      <h2>👩‍🏫 მასწავლებლებისთვის</h2>
+      <p class="lead">შექმენი კლასი და ნახე, ვინ რამდენი გაიარა და სად შეჩერდა — უფასოდ.</p>
+      <ol class="steps">
+        <li><b>შექმენი ანგარიში</b><br><span class="muted">თამაშში: „შესვლა / რეგისტრაცია“ — მხოლოდ სახელი და პაროლი.</span></li>
+        <li><b>შექმენი კლასი</b><br>„👩‍🏫 კლასი“ → კლასის სახელი → მიიღებ 6-ასოიან კოდს.</li>
+        <li><b>მოსწავლეები უერთდებიან</b><br>კოდით შემოდიან და ხედავენ კლასის კვირის რეიტინგს.</li>
+        <li><b>ადევნე თვალი</b><br>XP, გავლილი ლეველები, ახლანდელი ლეველი და ბოლო აქტივობა.</li>
+      </ol>
+    </div>
+  </section>
+  <section class="alt">
+    <div class="wrap pro">
+      <div>
+        <h2>👑 CodeQuest Pro</h2>
+        <p class="lead">ყოველ ენაზე პირველი 100 ლეველი სამუდამოდ უფასოა. Pro ერთჯერადი გადახდაა და ხსნის დანარჩენს.</p>
+      </div>
+      <div class="price"><b>$9</b> · ერთხელ<ul><li>ყველა ლეველი ყველა ენაზე (9000)</li><li>180 ვიდეო საიტზევე (45 ქართულად)</li><li>კოდის რედაქტორი ▶ Run-ით და ჩანაწერებით</li><li>18 ნაბიჯ-ნაბიჯ პროექტი</li></ul></div>
+    </div>
+  </section>
+  <section>
+    <div class="wrap">
+      <h2>ხშირი კითხვები</h2>
+      <details><summary>მართლა უფასოა?</summary><p>დიახ: ყველა ენის პირველი 100 ლეველი, გარდერობი, მიღწევები, კლასები და კომპიუტერის ვერსია უფასოა. Pro მხოლოდ დამატებით ლეველებს, ვიდეოებს და პროექტებს ხსნის.</p></details>
+      <details><summary>რა ასაკისთვისაა?</summary><p>დამწყებთათვის: პირველი ლეველები მხოლოდ კითხვის უნარს მოითხოვს, ამიტომ დაწყება დაწყებითი კლასებიდანაც შეიძლება. უფროსები და დიდებიც სწრაფად გადადიან ნამდვილ ენებზე.</p></details>
+      <details><summary>რამის დაყენება მჭირდება?</summary><p>არა, თამაში ბრაუზერში მუშაობს — კომპიუტერზეც და ტელეფონზეც. თუ გინდა, დააყენე კომპიუტერის პროგრამა ან ტელეფონზე აპივით.</p></details>
+      <details><summary>უსაფრთხოა?</summary><p>რეგისტრაციას მხოლოდ სახელი და პაროლი სჭირდება, ელფოსტა — არა. რეკლამა და ჩატი არ არის. დეტალები — <a href="privacy.html">კონფიდენციალურობის პოლიტიკაში</a>.</p></details>
+      <details><summary>პროგრესი სხვა მოწყობილობაზე გადადის?</summary><p>დიახ, ანგარიშით თავისით. ანგარიშის გარეშე — „პარამეტრები → პროგრესის კოდი“.</p></details>
+    </div>
+  </section>
+  <section class="alt final">
+    <div class="wrap">
+      <h2>მზად ხარ? ბიტი გელოდება!</h2>
+      <a class="btn play" href="CodeQuest.html">▶ თამაშის დაწყება</a>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="wrap">CodeQuest © 2026 · Powered by <b>mysite</b> · <a href="privacy.html">კონფიდენციალურობა</a> · <a href="terms.html">წესები</a></div>
+</footer>
 </body>
 </html>

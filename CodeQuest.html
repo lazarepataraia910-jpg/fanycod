@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CodeQuest: ბიტის თავგადასავალი</title>
 <meta name="description" content="სასწავლო თამაში — ისწავლე პროგრამირება (JavaScript) ნულიდან, რობოტ ბიტთან ერთად.">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#3d5afe">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CodeQuest">
+<meta property="og:title" content="CodeQuest — ისწავლე პროგრამირება ნულიდან, ქართულად">
+<meta property="og:description" content="სასწავლო თამაში ბავშვებისთვის: 18 პროგრამირების ენა, 9000 ლეველი, რობოტი ბიტი და კლასები მასწავლებლებისთვის. უფასოდ.">
+<meta property="og:image" content="https://codequest-lazare.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://codequest-lazare.vercel.app/">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 305 290'%3E%3Ccircle cx='152' cy='24' r='18' fill='%23FF8A00'/%3E%3Crect x='146' y='38' width='12' height='30' fill='%2313163A'/%3E%3Crect x='9' y='142' width='34' height='67' rx='10' fill='%2313163A'/%3E%3Crect x='262' y='142' width='34' height='67' rx='10' fill='%2313163A'/%3E%3Crect x='32' y='63' width='240' height='219' rx='68' fill='%233D5AFE'/%3E%3Crect x='64' y='105' width='177' height='125' rx='40' fill='%2313163A'/%3E%3Cpolyline points='94,142 122,167 94,192' fill='none' stroke='%233DDC97' stroke-width='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='146' y1='193' x2='200' y2='193' stroke='%233DDC97' stroke-width='14' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -719,6 +731,53 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .acc-two div{padding:10px;border-radius:12px;background:var(--panel2);font-size:.88rem;line-height:1.5}
 .acc-del{margin-top:16px;text-align:left;font-size:.88rem}
 .acc-del summary{color:var(--muted);cursor:pointer}
+/* კლასი */
+.cl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.cl-grid .card h3,.cl-empty h3{margin-top:0}
+.cl-form{display:flex;gap:8px;margin:10px 0 2px}
+.cl-form .txt{flex:1;min-width:0;font-size:1rem}
+.cl-item{margin-top:8px}
+.cl-code-sm{font-family:var(--mono);letter-spacing:.06em}
+.cl-head{display:flex;gap:8px;margin-bottom:12px}
+.cl-title{margin:0}
+.cl-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.cl-codebox{display:grid;justify-items:center;gap:4px;padding:10px 16px;border:2px dashed var(--accent);border-radius:14px;background:var(--panel2)}
+.cl-codebox b{font:800 1.6rem/1.1 var(--mono);letter-spacing:.12em}
+.cl-codebox small{color:var(--muted);font-size:.75rem}
+.cl-scroll{overflow-x:auto;margin-top:12px}
+.cl-table{width:100%;border-collapse:collapse;font-size:.88rem}
+.cl-table th,.cl-table td{padding:8px 6px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
+.cl-table td.cl-now{min-width:170px;white-space:normal}
+.cl-sort{padding:0;border:0;background:none;color:var(--muted);font:inherit;font-weight:700;cursor:pointer}
+.cl-sort.on{color:var(--accent)}
+.cl-sort.on::after{content:' ▾'}
+.cl-name{padding:0;border:0;background:none;color:var(--text);font:inherit;font-weight:700;text-decoration:underline dotted;cursor:pointer}
+.cl-more td{background:var(--panel2);white-space:normal}
+.cl-course{display:inline-flex;align-items:center;gap:4px;margin:2px 10px 2px 0;font-size:.82rem}
+.cl-board{list-style:none;display:grid;gap:6px;margin:10px 0;padding:0}
+.cl-board li{display:grid;grid-template-columns:2.2em minmax(0,1fr) auto auto;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;background:var(--panel2)}
+.cl-board li.me{background:color-mix(in srgb,var(--accent) 16%,var(--panel));outline:2px solid var(--accent)}
+.cl-board b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cl-place{font-weight:800;text-align:center}
+.cl-wk{color:var(--accent);font-weight:800}
+.cl-board small{color:var(--muted)}
+.cl-empty{text-align:center}
+.cl-note{margin-top:10px;font-size:.8rem}
+.cl-wait{padding:20px;text-align:center}
+.acc-legal{margin:2px 0 0;color:var(--muted);font-size:.78rem;line-height:1.45}
+.menu-foot a{color:inherit}
+/* გარდერობის დღის შეთავაზება */
+.wb-deals{margin:0 0 12px;padding:12px;border:1px solid color-mix(in srgb,#f59f00 40%,var(--border));border-radius:16px;background:linear-gradient(135deg,color-mix(in srgb,#ffe066 18%,var(--panel)),var(--panel))}
+.wb-deals-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}
+.wb-deals-h small{color:var(--muted);font-size:.78rem}
+.wb-deals-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.wb-deal{display:grid;justify-items:center;gap:2px;padding:6px 4px 8px;border:2px solid var(--border);border-radius:12px;background:var(--panel);color:var(--text);font-size:.74rem;line-height:1.2;text-align:center}
+.wb-deal[class*=" r-"]{border-color:color-mix(in srgb,var(--rc) 60%,var(--border))}
+.wb-deal .wb-mini{width:48px;height:64px}
+.wb-deal[class*=" r-"] .wb-mini{background:radial-gradient(circle at 50% 42%,color-mix(in srgb,var(--rc) 36%,var(--panel)),color-mix(in srgb,var(--rc) 14%,var(--panel)) 72%)}
+.wb-deal b{max-height:2.4em;overflow:hidden;font-size:.74rem}
+.wb-deal s,.wb-tag.deal s{opacity:.6;font-weight:600}
+.wb-deal em{color:#c2410c;font-style:normal;font-weight:800}
 /* კომპიუტერის ვერსიის გადმოწერა */
 .dl-box{text-align:center}
 .dl-ic{width:78px;height:78px;margin:0 auto 6px;border-radius:22px;display:grid;place-items:center;font-size:2.4rem;background:linear-gradient(160deg,color-mix(in srgb,#0ea5e9 14%,var(--panel)),color-mix(in srgb,var(--accent) 18%,var(--panel)))}
@@ -997,6 +1056,8 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
           <button class="hm-row hm-in" style="--d:5" id="m-lang"><span class="hm-ic lb" id="m-lang-ic" aria-hidden="true"></span><span class="hm-t"><b id="m-lang-t">ენის არჩევა</b><small id="m-lang-sub">შეცვლა</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
           <div class="hm-card hm-favs hm-in hidden" style="--d:5" id="menu-favs" role="group" aria-label="რჩეული ენები"></div>
           <button class="hm-row hm-in" style="--d:5;--ti:#12b886" id="m-account"><span class="hm-ic" id="m-account-ic" aria-hidden="true">👤</span><span class="hm-t"><b id="m-account-t">შესვლა / რეგისტრაცია</b><small id="m-account-sub">შეინახე პროგრესი ყველა მოწყობილობაზე</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
+          <button class="hm-row hm-in hidden" style="--d:5;--ti:#f59f00" id="m-class"><span class="hm-ic" aria-hidden="true">👩‍🏫</span><span class="hm-t"><b>კლასი</b><small>შეუერთდი კლასს ან შექმენი შენი</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
+          <button class="hm-row hm-in hidden" style="--d:5;--ti:#7c4dff" id="m-install"><span class="hm-ic" aria-hidden="true">📱</span><span class="hm-t"><b>დააყენე ტელეფონზე</b><small>აპივით, ინტერნეტის გარეშეც</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
           <button class="hm-row hm-in hidden" style="--d:5;--ti:#0ea5e9" id="m-desktop"><span class="hm-ic" aria-hidden="true">💻</span><span class="hm-t"><b>კომპიუტერის ვერსია</b><small id="m-desktop-sub">გადმოწერე პროგრამა</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
         </div>
       </div>
@@ -1019,7 +1080,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
           <button class="hm-tile hm-wide hm-in" style="--d:12;--ti:#7c4dff" id="m-studio"><span class="hm-ic" aria-hidden="true">🎬</span><span class="hm-t"><b>ვიდეოები და პროექტები</b><small id="m-studio-sub">ყველა ენის ვიდეოები და ნაბიჯ-ნაბიჯ პროექტები</small></span><span class="pro-chip" id="m-studio-chip">👑 Pro</span></button>
         </div>
       </div>
-      <p class="menu-foot hm-in" style="--d:13">CodeQuest © <span id="hm-year">2026</span> · Powered by <b>mysite</b></p>
+      <p class="menu-foot hm-in" style="--d:13">CodeQuest © <span id="hm-year">2026</span> · Powered by <b>mysite</b> · <a href="https://codequest-lazare.vercel.app/privacy.html" target="_blank" rel="noopener">კონფიდენციალურობა</a> · <a href="https://codequest-lazare.vercel.app/terms.html" target="_blank" rel="noopener">წესები</a></p>
     </div>
   </section>
 
@@ -1171,11 +1232,17 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
         <p class="muted wb-note">🎨 ჩვეულებრივი ფერები უფასოა, დანარჩენი XP-ით იყიდება. რაც უფრო იშვიათია ნივთი, მით ძვირია: ჩვეულებრივი → არაჩვეულებრივი → იშვიათი → ეპიკური → ლეგენდარული → მითიური. XP-ის ხარჯვა წოდებას არ ამცირებს — ის მოგებულ XP-ს ითვლის.</p>
       </div>
       <div class="wb-shop">
+        <div class="wb-deals" id="wb-deals"></div>
         <div class="wb-tabs" id="wb-tabs" role="tablist" aria-label="კატეგორიები"></div>
         <div class="wb-filter" id="wb-filter" role="toolbar" aria-label="იშვიათობა და დალაგება"></div>
         <div class="wb-grid" id="wb-grid"></div>
       </div>
     </div>
+  </section>
+
+  <section id="scr-class" class="screen" aria-label="კლასი">
+    <div class="topbar"><button class="btn small" data-go="back">← უკან</button><h2>👩‍🏫 კლასი</h2></div>
+    <div class="page" id="class-body"></div>
   </section>
 
   <section id="scr-profile" class="screen" aria-label="პროფილი">
@@ -16512,6 +16579,7 @@ const UI = {
     if (name === 'settings') SettingsScreen.render();
     if (name === 'courses') CoursesScreen.render();
     if (name === 'studio') Studio.render();
+    if (name === 'class') ClassScreen.render();
     if (name === 'game') Editor.refresh();
   },
   toast(ic, title, sub, cls) {
@@ -18190,6 +18258,19 @@ const Wardrobe = {
   find(slot, id) { return this.items(slot).find(w => w.id === id); },
   // იშვიათობა (0–5); -1 — „არაფერი“ და უფასო საწყისი ნივთები, რომლებსაც იშვიათობა არ აქვთ
   rarOf(w) { return w.rar == null ? -1 : w.rar; },
+  // დღის შეთავაზება: ყოველდღე 6 ნივთი 30%-ით იაფად; ყველასთვის ერთნაირი (თარიღიდან), შუაღამისას იცვლება
+  deals() {
+    const day = todayStr();
+    if (this.dealDay === day) return this.dealList;
+    const rng = mulberry32(hashStr('deals:' + day)), pool = WARDROBE.filter(w => w.price && w.rar >= 1).concat(BIT_COLORS.filter(c => c.price).map(c => Object.assign({ slot: 'color' }, c)));
+    const out = [];
+    while (out.length < 6) { const w = pool[Math.floor(rng() * pool.length)]; if (!out.includes(w)) out.push(w); }
+    this.dealDay = day;
+    this.dealList = out;
+    return out;
+  },
+  isDeal(w) { return this.deals().some(d => d.slot === w.slot && d.id === w.id); },
+  price(w) { return w.price && this.isDeal(w) ? Math.round(w.price * 0.7 / 10) * 10 : w.price; },
   rarTag(r) { return r < 0 ? '' : '<span class="wb-rar r-' + RARITY[r].id + '">' + RARITY[r].name + '</span>'; },
   list() {
     let l = this.items(this.tab);
@@ -18203,7 +18284,7 @@ const Wardrobe = {
     const P = Progress.P, own = Progress.owns(w), on = (P.skin[w.slot] || BIT_DEFAULT[w.slot]) === w.id, tr = this.tryIt;
     const tag = on ? '<span class="wb-tag on">✓ აცვია</span>'
       : own ? '<span class="wb-tag">' + (w.price ? 'შენია — ჩაცმა' : w.slot === 'color' ? 'უფასო' : 'ჩაცმა') + '</span>'
-        : '<span class="wb-tag buy' + (wallet >= w.price ? '' : ' poor') + '">💰 ' + w.price + ' XP</span>';
+        : '<span class="wb-tag buy' + (this.isDeal(w) ? ' deal' : '') + (wallet >= this.price(w) ? '' : ' poor') + '">💰 ' + (this.isDeal(w) ? '<s>' + w.price + '</s> ' : '') + this.price(w) + ' XP</span>';
     return { on, trying: !!tr && tr.slot === w.slot && tr.id === w.id, tag };
   },
   card(w, wallet) {
@@ -18225,12 +18306,18 @@ const Wardrobe = {
     const bar = $('#wb-try');
     bar.classList.toggle('hidden', !tr);
     if (tr) {
-      const can = wallet >= tr.price;
-      bar.innerHTML = '<div class="wb-try-t">' + this.rarTag(tri) + '<b>„' + esc(tr.name) + '“ — მოსინჯვა</b><small>' + (can ? 'ასე გამოიყურება ბიტი. მოგწონს? იყიდე და ჩაიცვას!' : 'აკლია ' + (tr.price - wallet) + ' XP — გაიარე ლეველები და დააგროვე!') + '</small></div>' +
-        '<button class="wb-buy" id="wb-buy"' + (can ? '' : ' disabled') + '>💰 ' + tr.price + ' XP — ყიდვა</button><button class="btn small ghost" id="wb-cancel" aria-label="გაუქმება">✕</button>';
+      const cost = this.price(tr), can = wallet >= cost;
+      bar.innerHTML = '<div class="wb-try-t">' + this.rarTag(tri) + '<b>„' + esc(tr.name) + '“ — მოსინჯვა</b><small>' + (can ? 'ასე გამოიყურება ბიტი. მოგწონს? იყიდე და ჩაიცვას!' : 'აკლია ' + (cost - wallet) + ' XP — გაიარე ლეველები და დააგროვე!') + '</small></div>' +
+        '<button class="wb-buy" id="wb-buy"' + (can ? '' : ' disabled') + '>💰 ' + cost + ' XP — ყიდვა' + (cost < tr.price ? ' (−30%)' : '') + '</button><button class="btn small ghost" id="wb-cancel" aria-label="გაუქმება">✕</button>';
       $('#wb-buy').addEventListener('click', () => this.buy());
       $('#wb-cancel').addEventListener('click', () => { this.tryIt = null; this.render(); });
     }
+    $('#wb-deals').innerHTML = '<div class="wb-deals-h"><b>🛍️ დღის შეთავაზება · −30%</b><small>ხვალ ახალი ნივთები</small></div><div class="wb-deals-row">' + this.deals().map(w => {
+      const r2 = this.rarOf(w), own = Progress.owns(w);
+      return '<button class="wb-deal' + (r2 >= 0 ? ' r-' + RARITY[r2].id : '') + '" data-slot="' + w.slot + '" data-id="' + w.id + '"><span class="wb-mini">' + bitSVG(currentSkin({ [w.slot]: w.id })) + '</span><b>' + esc(w.name) + '</b>' +
+        (own ? '<span>✓ შენია</span>' : '<span><s>' + w.price + '</s> <em>' + this.price(w) + ' XP</em></span>') + '</button>';
+    }).join('') + '</div>';
+    $$('#wb-deals [data-slot]').forEach(b => b.addEventListener('click', () => { this.tab = b.dataset.slot; this.rar = 'all'; this.tryIt = null; this.pick(b.dataset.slot, b.dataset.id); }));
     $('#wb-tabs').innerHTML = WB_SLOTS.map(([sl, ic, nm]) => {
       const paid = this.items(sl).filter(w => w.price), own = paid.filter(w => Progress.owns(w)).length;
       return '<button role="tab" data-tab="' + sl + '" class="' + (sl === this.tab ? 'on' : '') + '" aria-selected="' + (sl === this.tab) + '">' + ic + ' ' + nm + (paid.length ? ' <small>' + own + '/' + paid.length + '</small>' : '') + '</button>';
@@ -18274,7 +18361,8 @@ const Wardrobe = {
   buy() {
     const w = this.tryIt;
     if (!w) return;
-    if (!Progress.buy(w)) { UI.toast('💰', 'XP არ გყოფნის', 'კიდევ ' + (w.price - Progress.wallet()) + ' XP გჭირდება — გაიარე ლეველები!'); return; }
+    const cost = this.price(w);
+    if (!Progress.buy(Object.assign({}, w, { price: cost }))) { UI.toast('💰', 'XP არ გყოფნის', 'კიდევ ' + (cost - Progress.wallet()) + ' XP გჭირდება — გაიარე ლეველები!'); return; }
     this.tryIt = null;
     this.wear(w.slot, w.id);
     Sound.ach();
@@ -18293,6 +18381,178 @@ const Wardrobe = {
     const P = Progress.P;
     P.skin = Object.assign({}, BIT_DEFAULT, { color: P.skin.color });
     this.tryIt = null; Progress.save(); Sound.click(); this.render();
+  }
+};
+/* ---------- კლასი: მასწავლებელი ქმნის კლასს და ხედავს მოსწავლეების პროგრესს, მოსწავლე 6-ასოიანი კოდით უერთდება ----------
+   მოსწავლე კლასელებისგან მხოლოდ სახელს და XP-ს ხედავს (კვირის რეიტინგი); დეტალებს მხოლოდ მასწავლებელი ხედავს. */
+const ClassScreen = {
+  view: null, sort: 'week',
+  err(id, r) { const e = $('#' + id); if (e) e.textContent = Account.msg(r); },
+  async render() {
+    const body = $('#class-body');
+    if (!Account.s) {
+      body.innerHTML = '<div class="card cl-empty"><div class="acc-ic" aria-hidden="true">👩‍🏫</div><h3>კლასი</h3><p class="muted">მასწავლებელი ქმნის კლასს, მოსწავლეები კოდით უერთდებიან. ამისთვის ანგარიში გჭირდება.</p><button class="btn primary" id="cl-login">👤 შესვლა / რეგისტრაცია</button></div>';
+      $('#cl-login').addEventListener('click', () => Account.open());
+      return;
+    }
+    if (this.view) return this.renderClass();
+    body.innerHTML = '<p class="muted cl-wait">⏳ იტვირთება…</p>';
+    const r = await Account.api('classes', { token: Account.s.token });
+    if (UI.cur !== 'class' || this.view || !Account.s) return;
+    if (!r.ok) {
+      if (r.error === 'no_session') return Account.expired();
+      body.innerHTML = '<div class="card"><p class="acc-err">' + esc(Account.msg(r)) + '</p></div>';
+      return;
+    }
+    const item = (c, ic, sub) => '<button class="hm-row cl-item" data-open="' + esc(c.code) + '"><span class="hm-ic" aria-hidden="true">' + ic + '</span><span class="hm-t"><b>' + esc(c.name) + '</b><small>' + sub + '</small></span><span class="hm-chev" aria-hidden="true">›</span></button>';
+    body.innerHTML = '<div class="cl-grid">' +
+      '<div class="card"><h3>🎒 მოსწავლისთვის</h3><p class="muted">მასწავლებლისგან მიღებული 6-ასოიანი კოდით შეუერთდი კლასს და ნახე კვირის რეიტინგი.</p>' +
+      '<form class="cl-form" id="cl-join"><input class="txt" name="code" maxlength="8" placeholder="მაგ. K7VA3P" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="კლასის კოდი"><button class="btn primary">შეერთება</button></form><p class="acc-err" id="cl-join-err" role="alert"></p>' +
+      r.in.map(c => item(c, '🏫', 'მასწავლებელი: ' + esc(c.teacher || ''))).join('') + '</div>' +
+      '<div class="card"><h3>👩‍🏫 მასწავლებლისთვის</h3><p class="muted">შექმენი კლასი, მოსწავლეებს კოდი უთხარი და ნახე, ვინ რამდენი გაიარა და სად შეჩერდა.</p>' +
+      '<form class="cl-form" id="cl-new"><input class="txt" name="title" maxlength="40" placeholder="კლასის სახელი, მაგ. 5ა" autocomplete="off" aria-label="კლასის სახელი"><button class="btn primary">შექმნა</button></form><p class="acc-err" id="cl-new-err" role="alert"></p>' +
+      r.own.map(c => item(c, '📋', 'კოდი: <b class="cl-code-sm">' + esc(c.code) + '</b> · ' + c.count + ' მოსწავლე')).join('') + '</div></div>';
+    $$('#class-body [data-open]').forEach(b => b.addEventListener('click', () => { Sound.click(); this.view = b.dataset.open; this.render(); }));
+    $('#cl-join').addEventListener('submit', async e => {
+      e.preventDefault();
+      const r2 = await Account.api('classJoin', { token: Account.s.token, code: e.target.elements.code.value });
+      if (!r2.ok) return this.err('cl-join-err', r2);
+      Account.s.sum = '';   // მასწავლებელმა შენი პროგრესი მაშინვე დაინახოს
+      Account.changed();
+      Account.push();
+      UI.toast('🏫', 'შეუერთდი კლასს „' + r2.name + '“', 'მასწავლებელი: ' + r2.teacher);
+      this.view = r2.code;
+      this.render();
+    });
+    $('#cl-new').addEventListener('submit', async e => {
+      e.preventDefault();
+      const r2 = await Account.api('classCreate', { token: Account.s.token, name: e.target.elements.title.value });
+      if (!r2.ok) return this.err('cl-new-err', r2);
+      this.view = r2.code;
+      this.render();
+    });
+  },
+  async renderClass() {
+    const body = $('#class-body'), code = this.view;
+    body.innerHTML = '<p class="muted cl-wait">⏳ იტვირთება…</p>';
+    const r = await Account.api('classView', { token: Account.s.token, code });
+    if (UI.cur !== 'class' || this.view !== code) return;
+    if (!r.ok) {
+      if (r.error === 'no_session') return Account.expired();
+      this.view = null;
+      UI.toast('⚠️', Account.msg(r));
+      return this.render();
+    }
+    const head = '<div class="cl-head"><button class="btn small" id="cl-back">← ყველა კლასი</button><button class="btn small" id="cl-reload">↻ განახლება</button></div>';
+    if (!r.owner) {
+      const rows = r.rows.slice().sort((a, b) => b.week - a.week || b.xp - a.xp);
+      body.innerHTML = head + '<div class="card"><h2 class="cl-title">🏫 ' + esc(r.name) + '</h2><p class="muted">მასწავლებელი: ' + esc(r.teacher || '') + '</p>' +
+        '<h3>🏆 კვირის რეიტინგი</h3><p class="muted">ამ კვირაში (ორშაბათიდან) მოგებული XP. გაიარე ლეველები და აიწიე!</p>' +
+        '<ol class="cl-board">' + rows.map((x, i) => '<li' + (x.me ? ' class="me"' : '') + '><span class="cl-place">' + (['🥇', '🥈', '🥉'][i] || i + 1) + '</span><b>' + esc(x.name) + (x.me ? ' (შენ)' : '') + '</b><span class="cl-wk">' + x.week + ' XP</span><small>სულ ' + x.xp + '</small></li>').join('') + '</ol>' +
+        '<div class="modal-actions" style="justify-content:flex-start"><button class="btn small" id="cl-leave">კლასიდან გასვლა</button></div></div>';
+      $('#cl-leave').addEventListener('click', () => this.confirm('კლასიდან გასვლა?', 'რეიტინგში აღარ გამოჩნდები. შენი პროგრესი არ წაიშლება.', 'გასვლა', async () => {
+        await Account.api('classLeave', { token: Account.s.token, code });
+        this.view = null;
+        this.render();
+      }));
+    } else {
+      const S = { week: (a, b) => b.week - a.week, xp: (a, b) => b.xp - a.xp, done: (a, b) => b.done - a.done, at: (a, b) => b.at - a.at, name: (a, b) => a.name.localeCompare(b.name, 'ka') };
+      const rows = r.rows.slice().sort((a, b) => (S[this.sort] || S.week)(a, b) || a.name.localeCompare(b.name, 'ka'));
+      // სად არის ახლა: კურსი და შემდეგი ლეველი (სადაც, სავარაუდოდ, შეჩერდა)
+      const now = x => {
+        const c = COURSE_BY_ID[x.course], lv = x.next && levelById(x.next);
+        return c ? langBadge(c.lang, true) + ' ' + (lv ? 'ლეველი ' + (lv.index + 1) + ' · ' + esc(lv.title || '') : x.next ? '' : '✓ კურსი დაასრულა') : '—';
+      };
+      const th = (k, t) => '<th><button class="cl-sort' + (this.sort === k ? ' on' : '') + '" data-sort="' + k + '">' + t + '</button></th>';
+      body.innerHTML = head + '<div class="card"><div class="cl-top"><div><h2 class="cl-title">📋 ' + esc(r.name) + '</h2><p class="muted">' + r.rows.length + ' მოსწავლე</p></div>' +
+        '<div class="cl-codebox"><small>კლასის კოდი — უთხარი მოსწავლეებს</small><b>' + esc(r.code) + '</b><button class="btn small" id="cl-copy">📋 კოპირება</button></div></div>' +
+        (rows.length ? '<div class="cl-scroll"><table class="cl-table"><thead><tr>' + th('name', 'მოსწავლე') + th('week', 'ამ კვირაში') + th('xp', 'სულ XP') + th('done', 'ლეველი') + '<th>ახლა</th>' + th('at', 'ბოლოს') + '<th></th></tr></thead><tbody>' +
+          rows.map(x => '<tr><td><button class="cl-name" data-more="' + esc(x.id) + '" title="ენების პროგრესი">' + esc(x.name) + '</button></td><td>' + x.week + '</td><td>' + x.xp + '</td><td>' + x.done + ' · ⭐ ' + x.stars + '</td><td class="cl-now">' + now(x) + '</td><td>' + (x.at ? agoStr(x.at) : '—') + '</td>' +
+            '<td><button class="btn small ghost" data-kick="' + esc(x.id) + '" data-name="' + esc(x.name) + '" title="კლასიდან ამოშლა" aria-label="ამოშლა">✕</button></td></tr>' +
+            '<tr class="cl-more hidden" data-for="' + esc(x.id) + '"><td colspan="7">' + (Object.keys(x.courses).length ? Object.entries(x.courses).map(([cid, n]) => COURSE_BY_ID[cid] ? '<span class="cl-course">' + langBadge(COURSE_BY_ID[cid].lang, true) + ' ' + n + '/' + courseLevels(cid).length + '</span>' : '').join('') : '<span class="muted">ჯერ არცერთი ლეველი</span>') +
+            (x.streak ? '<span class="cl-course">🔥 ' + x.streak + ' დღე ზედიზედ</span>' : '') + '</td></tr>').join('') +
+          '</tbody></table></div>' : '<p class="cl-empty">ჯერ არავინ შემოსულა. მოსწავლეებმა: <b>👩‍🏫 კლასი → შეერთება</b> და კოდი <b>' + esc(r.code) + '</b>.</p>') +
+        '<p class="muted cl-note">მოსწავლის მონაცემები ახლდება, როცა ის თამაშობს. სახელზე დაჭერით ჩანს ენების პროგრესი.</p>' +
+        '<div class="modal-actions" style="justify-content:flex-start"><button class="btn small danger" id="cl-del">კლასის წაშლა</button></div></div>';
+      $$('#class-body [data-sort]').forEach(b => b.addEventListener('click', () => { this.sort = b.dataset.sort; this.renderClass(); }));
+      $$('#class-body [data-more]').forEach(b => b.addEventListener('click', () => { const row = $('#class-body [data-for="' + b.dataset.more + '"]'); if (row) row.classList.toggle('hidden'); }));
+      $$('#class-body [data-kick]').forEach(b => b.addEventListener('click', () => this.confirm('ამოვშალო „' + b.dataset.name + '“ კლასიდან?', 'მოსწავლის ანგარიში და პროგრესი არ წაიშლება — უბრალოდ ამ კლასში აღარ იქნება.', 'ამოშლა', async () => {
+        await Account.api('classKick', { token: Account.s.token, code, member: b.dataset.kick });
+        this.renderClass();
+      })));
+      $('#cl-copy').addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(r.code); UI.toast('📋', 'კოდი დაკოპირდა', r.code); } catch (e) { UI.toast('⚠️', 'ვერ დაკოპირდა', 'გადაიწერე: ' + r.code); }
+      });
+      $('#cl-del').addEventListener('click', () => this.confirm('წავშალო კლასი „' + r.name + '“?', 'მოსწავლეების ანგარიშები და პროგრესი არ წაიშლება.', 'წაშლა', async () => {
+        await Account.api('classDelete', { token: Account.s.token, code });
+        this.view = null;
+        this.render();
+      }));
+    }
+    $('#cl-back').addEventListener('click', () => { this.view = null; this.render(); });
+    $('#cl-reload').addEventListener('click', () => this.render());
+  },
+  confirm(title, text, yes, then) {
+    const m = Modal.open('<h2>' + esc(title) + '</h2><p>' + esc(text) + '</p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn danger" data-a="yes">' + esc(yes) + '</button></div>');
+    m.querySelector('[data-a=yes]').addEventListener('click', () => { Modal.close(m); then(); });
+  }
+};
+/* ---------- ანონიმური სტატისტიკა: სად ჭედავენ მოთამაშეები ----------
+   იგზავნება მხოლოდ ლეველის id, შეცდომების რაოდენობა და გაიარა თუ არა — სახელის და ანგარიშის გარეშე.
+   ბაზის ლიმიტების დასაზოგად მონაწილეობს ყოველი მეოთხე სესია; ნახვა — პარამეტრები → დეველოპერისთვის (მფლობელის კოდით). */
+const Stats = {
+  on: Math.random() < 0.25 && location.protocol !== 'file:', q: [], t: null,
+  level(id, fails, done) {
+    if (!this.on || !id) return;
+    this.q.push([id, Math.min(50, fails | 0), done ? 1 : 0]);
+    if (this.q.length >= 15) this.flush();
+    else if (!this.t) this.t = setTimeout(() => this.flush(), 120000);
+  },
+  flush(keepalive) {
+    clearTimeout(this.t);
+    this.t = null;
+    if (!this.q.length) return;
+    const body = JSON.stringify({ action: 'stat', events: this.q.splice(0, 30) });
+    try { fetch('/api/account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: !!keepalive }).catch(() => { }); } catch (e) { }
+  }
+};
+const OwnerStats = {
+  open() {
+    const m = Modal.open('<h2>📊 სად ჭედავენ მოთამაშეები</h2><p class="muted">ანონიმური სტატისტიკა (ყოველი მეოთხე სესია): რამდენჯერ დაიწყეს ლეველი, რამდენმა გაიარა და საშუალოდ რამდენი შეცდომა დაუშვეს. მხოლოდ საიტის მფლობელისთვის — ჩაწერე მფლობელის კოდი (Vercel-ის OWNER_KEYS).</p>' +
+      '<form class="acc-form" novalidate><label>მფლობელის კოდი<input class="txt" name="key" type="password" autocomplete="off" required></label><p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">ჩვენება</button></form>' +
+      '<div id="os-out"></div><div class="modal-actions"><button class="btn" data-close>დახურვა</button></div>', { wide: true });
+    Account.bind(m, f => (f.key.trim() ? null : 'not_owner'), f => Account.api('report', { key: f.key.trim() }), r => {
+      m.querySelector('form').remove();
+      const label = id => { const lv = levelById(id), c = lv && COURSE_BY_ID[lv.course || 'js']; return lv ? (c ? langBadge(c.lang, true) + ' ' : '') + (lv.index + 1) + '. ' + esc(lv.title || '') : esc(id); };
+      m.querySelector('#os-out').innerHTML = '<p><b>' + r.plays + '</b> მცდელობა · <b>' + r.levels + '</b> ლეველი</p>' + (r.rows.length ?
+        '<div class="cl-scroll"><table class="cl-table"><thead><tr><th>ლეველი</th><th>დაიწყეს</th><th>გაიარეს</th><th>შეცდომა (საშ.)</th></tr></thead><tbody>' +
+        r.rows.map(x => '<tr><td class="cl-now">' + label(x.id) + '</td><td>' + x.n + '</td><td>' + Math.round(x.d / x.n * 100) + '%</td><td>' + (x.f / x.n).toFixed(1) + '</td></tr>').join('') + '</tbody></table></div>'
+        : '<p class="muted">ჯერ საკმარისი მონაცემი არ არის (ლეველს 3 მცდელობა მაინც სჭირდება).</p>');
+    });
+  }
+};
+/* ---------- ტელეფონზე დაყენება (PWA): manifest.webmanifest + sw.js ---------- */
+const Install = {
+  ev: null,
+  standalone: () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true,
+  init() {
+    if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register('sw.js').catch(() => { });
+    addEventListener('beforeinstallprompt', e => { e.preventDefault(); this.ev = e; this.show(); });
+    addEventListener('appinstalled', () => { this.ev = null; this.show(); UI.toast('📱', 'CodeQuest დაყენდა!', 'ახლა ტელეფონის მთავარი ეკრანიდან გახსენი.'); });
+    this.show();
+  },
+  show() { const b = $('#m-install'); if (b) b.classList.toggle('hidden', IS_DESKTOP || this.standalone() || !Desktop.mobile()); },
+  async open() {
+    const ev = this.ev;
+    if (ev) {   // Android Chrome: ბრაუზერის საკუთარი ფანჯარა; თუ ვერ გაიხსნა — ინსტრუქცია
+      this.ev = null;
+      try { await ev.prompt(); await ev.userChoice; return this.show(); } catch (e) { }
+    }
+    const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+    Modal.open('<div class="dl-box"><div class="dl-ic" aria-hidden="true">📱</div><h2 class="result-title">CodeQuest ტელეფონზე</h2><p>დააყენე როგორც აპი: ხატულა მთავარ ეკრანზე, სრული ეკრანი და ინტერნეტის გარეშეც იხსნება.</p><ol class="dl-steps">' +
+      (ios ? '<li>Safari-ში დააჭირე <b>გაზიარებას</b> (⬆️ ეკრანის ქვემოთ).</li><li>აირჩიე <b>„Add to Home Screen“</b> (მთავარ ეკრანზე დამატება).</li><li>დააჭირე <b>Add</b>.</li>'
+        : '<li>ბრაუზერის მენიუში დააჭირე <b>⋮</b> (ზედა მარჯვენა კუთხე).</li><li>აირჩიე <b>„Install app“</b> ან <b>„Add to Home screen“</b>.</li><li>დაადასტურე.</li>') +
+      '</ol><div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
   }
 };
 const ProfileScreen = {
@@ -18351,7 +18611,7 @@ const SettingsScreen = {
       '<p class="muted" style="margin-top:-.4em">დააკოპირე კოდი, რომ პროგრესი სხვა მოწყობილობაზე გადაიტანო ან შეინახო.</p>' +
       '<textarea class="code-io" id="st-export" readonly aria-label="ექსპორტის კოდი"></textarea><div class="modal-actions" style="justify-content:flex-start"><button class="btn small" id="st-copy">კოპირება</button></div>' +
       '<textarea class="code-io" id="st-import" placeholder="ჩასვი პროგრესის კოდი აქ..." aria-label="იმპორტის კოდი" style="margin-top:10px"></textarea><div class="modal-actions" style="justify-content:flex-start"><button class="btn small" id="st-import-btn">იმპორტი</button></div></div>' +
-      '<div class="card" style="margin-top:12px"><h3 style="margin-top:0">დეველოპერისთვის</h3><p class="muted" style="margin-top:-.4em">ავტომატური შემოწმება: ყოველი ლეველის სწორი პასუხი გაეშვება ყველა ტესტ-რუკაზე.</p><button class="btn" id="st-test">ყველა ლეველის შემოწმება</button></div>' +
+      '<div class="card" style="margin-top:12px"><h3 style="margin-top:0">დეველოპერისთვის</h3><p class="muted" style="margin-top:-.4em">ავტომატური შემოწმება: ყოველი ლეველის სწორი პასუხი გაეშვება ყველა ტესტ-რუკაზე.</p><button class="btn" id="st-test">ყველა ლეველის შემოწმება</button> <button class="btn" id="st-stats">📊 სად ჭედავენ მოთამაშეები</button></div>' +
       '<div class="card" style="margin-top:12px;border-color:var(--bad)"><h3 style="margin-top:0">პროგრესის განულება</h3><p class="muted" style="margin-top:-.4em">წაიშლება ყველა ვარსკვლავი, XP და მიღწევა.</p><button class="btn danger" id="st-reset">განულება</button></div>';
     const bindSeg = (id, fn) => $$('#' + id + ' button').forEach(b => b.addEventListener('click', () => { fn(b.dataset.v); Progress.save(); applySettings(); this.render(); }));
     bindSeg('st-learn', v => { s.learn = v === 'type' ? 'type' : 'blocks'; });
@@ -18371,6 +18631,7 @@ const SettingsScreen = {
       catch (e) { UI.toast('⚠️', 'კოდი არასწორია', 'შეამოწმე, მთლიანად ჩასვი თუ არა.'); }
     });
     $('#st-test').addEventListener('click', () => DevPanel.open());
+    $('#st-stats').addEventListener('click', () => OwnerStats.open());
     if ($('#st-pro-key')) { $('#st-pro-key').addEventListener('click', () => Paywall.keyForm()); $('#st-pro-buy').addEventListener('click', () => Paywall.open(null)); }
     if ($('#st-pro-off')) $('#st-pro-off').addEventListener('click', async () => { P.pro = null; Progress.save(); await ProLock.set(null); this.render(); UI.toast('👑', 'Pro გამოირთო ამ მოწყობილობაზე', 'კოდით ნებისმიერ დროს ისევ ჩართავ.'); });
     $('#st-reset').addEventListener('click', () => {
@@ -19106,14 +19367,19 @@ const Account = {
     rate_limited: 'ძალიან ბევრი მცდელობა. დაისვენე რამდენიმე წუთი და თავიდან სცადე.',
     no_session: 'სესია ამოიწურა — შედი თავიდან.',
     too_big: 'პროგრესი ძალიან დიდია შესანახად.',
-    server: 'სერვერზე შეცდომა მოხდა. სცადე ცოტა ხანში.'
+    server: 'სერვერზე შეცდომა მოხდა. სცადე ცოტა ხანში.',
+    class_none: 'კლასი ვერ მოიძებნა — შეამოწმე კოდი.',
+    class_own: 'ეს შენი კლასია — მასში მოსწავლეები უერთდებიან.',
+    class_full: 'კლასი სავსეა.',
+    class_limit: 'კლასების ლიმიტი ამოიწურა (შექმნა — 10, შეერთება — 5).',
+    not_owner: 'კოდი არასწორია.'
   },
   msg(r) { return this.ERR[r.error] || this.ERR.server; },
   init() {
     const s = Store.get(ACC_KEY, null);
     this.s = s && typeof s.token === 'string' && s.name ? s : null;
     addEventListener('online', () => { if (this.s && this.s.dirty) this.push(); });
-    document.addEventListener('visibilitychange', () => { if (document.hidden && this.s && this.s.dirty && !this.busy) this.push(true); });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) return; Stats.flush(true); if (this.s && this.s.dirty && !this.busy) this.push(true); });
     this.renderMenu();
     if (this.s) this.pull();
   },
@@ -19129,26 +19395,34 @@ const Account = {
     }
   },
   /* ---- სინქრონიზაცია ---- */
-  // პროგრესი შეიცვალა (Progress.save) — 4 წამში სერვერზე
+  // პროგრესი შეიცვალა (Progress.save) — სერვერზე მაქსიმუმ 15 წამში ერთხელ (ბაზის უფასო ლიმიტი ასე დიდხანს ჰყოფნის)
   changed() {
     if (!this.s || this.applying) return;
     this.ver++;
     if (!this.s.dirty) { this.s.dirty = true; this.keep(); }
     this.setState('dirty');
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => this.push(), 4000);
+    if (!this.timer) this.timer = setTimeout(() => this.push(), 15000);
+  },
+  // მოკლე შეჯამება მასწავლებლისა და კლასის რეიტინგისთვის (იგზავნება მხოლოდ მაშინ, როცა შეიცვალა)
+  summary() {
+    const courses = {};
+    let done = 0, stars = 0;
+    COURSES.forEach(c => { const st = Progress.courseStats(c.id); if (st.done) courses[c.id] = st.done; done += st.done; stars += st.stars; });
+    const cid = Progress.course(), nx = Progress.nextIn(cid);
+    return { xp: Progress.totalXP(), done, stars, streak: Progress.streakNow(), course: cid, next: nx ? nx.id : '', courses };
   },
   async push(keepalive) {
+    clearTimeout(this.timer);
+    this.timer = null;
     if (!this.s) return;
     if (this.busy) { this.again = true; return; }
-    clearTimeout(this.timer);
-    const sent = this.s, v = this.ver;
+    const sent = this.s, v = this.ver, sum = this.summary(), sj = JSON.stringify(sum);
     this.busy = true; this.again = false; this.setState('saving');
-    const r = await this.api('save', { token: sent.token, rev: sent.rev || 0, data: Progress.P }, keepalive);
+    const r = await this.api('save', { token: sent.token, rev: sent.rev || 0, data: Progress.P, summary: sj !== sent.sum ? sum : undefined }, keepalive);
     this.busy = false;
     if (this.s !== sent) return;   // შენახვისას გამოვიდა ანგარიშიდან
     if (r.ok) {
-      Object.assign(this.s, { rev: r.rev, at: Date.now(), dirty: this.ver !== v });
+      Object.assign(this.s, { rev: r.rev, at: Date.now(), dirty: this.ver !== v, sum: sj });
       this.keep();
       this.setState(this.s.dirty ? 'dirty' : 'saved');
     } else if (r.error === 'conflict') {   // სხვა მოწყობილობამ შეინახა: ვაერთიანებთ და თავიდან ვინახავთ
@@ -19161,7 +19435,7 @@ const Account = {
       this.timer = setTimeout(() => this.push(), 30000);
       return;
     }
-    if (this.again || this.s.dirty) this.timer = setTimeout(() => this.push(), this.again ? 300 : 4000);
+    if (this.again || this.s.dirty) this.timer = setTimeout(() => this.push(), this.again ? 300 : 15000);
   },
   // გახსნისას: სერვერზე უფრო ახალი ხომ არ არის (სხვა მოწყობილობიდან)
   async pull() {
@@ -19202,7 +19476,7 @@ const Account = {
     this.refreshUI();
   },
   refreshUI() {
-    const R = { menu: Menu, map: MapScreen, profile: ProfileScreen, bit: Wardrobe, settings: SettingsScreen, courses: CoursesScreen }[UI.cur];
+    const R = { menu: Menu, map: MapScreen, profile: ProfileScreen, bit: Wardrobe, settings: SettingsScreen, courses: CoursesScreen, class: ClassScreen }[UI.cur];
     if (R) R.render();
   },
   expired() {
@@ -19232,6 +19506,7 @@ const Account = {
     ic.classList.toggle('av', !!this.s);
     $('#m-account-t').textContent = this.s ? this.s.name : 'შესვლა / რეგისტრაცია';
     $('#m-account-sub').textContent = this.s ? this.statusText() : 'შეინახე პროგრესი ყველა მოწყობილობაზე';
+    $('#m-class').classList.toggle('hidden', !this.s);
   },
   /* ---- შესვლა და რეგისტრაცია ---- */
   // შესვლის შემდეგ: ანგარიშის და ამ მოწყობილობის პროგრესი. ორივეს თუ აქვს, ვეკითხებით (ნაგულისხმევად — გაერთიანება)
@@ -19308,7 +19583,7 @@ const Account = {
       '<p class="muted acc-sub">ელფოსტა არ გვჭირდება. ამ მოწყობილობის პროგრესი ანგარიშში გადავა.</p>' +
       '<form class="acc-form" novalidate>' + this.field('სახელი', 'name', 'text', 'username', '3–20 სიმბოლო: ასოები, ციფრები, _ . -  · სახელს სხვა მოთამაშეები ვერ ხედავენ, მაინც ნუ ჩაწერ სახელს და გვარს ერთად') +
       this.field('პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო. ნუ გამოიყენებ იმავე პაროლს, რაც სხვაგან გაქვს') + this.field('გაიმეორე პაროლი', 'password2', 'password', 'new-password') +
-      '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">ანგარიშის შექმნა</button></form>' +
+      '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">ანგარიშის შექმნა</button><p class="acc-legal">ანგარიშის შექმნით ეთანხმები <a href="https://codequest-lazare.vercel.app/terms.html" target="_blank" rel="noopener">წესებს</a> და <a href="https://codequest-lazare.vercel.app/privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკას</a>. 13 წლამდე ხარ? ანგარიში მშობელთან ერთად შექმენი.</p></form>' +
       '<p class="acc-links"><button type="button" class="linklike" data-a="login">უკვე გაქვს ანგარიში? შედი</button></p>' +
       '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
     this.bind(m, f => this.checkNew(f), f => this.api('register', { name: f.name.trim(), password: f.password }), r => {
@@ -19361,10 +19636,11 @@ const Account = {
     const m = Modal.open('<div class="acc"><div class="acc-ic av" aria-hidden="true">' + esc([...s.name][0]) + '</div><h2 class="result-title">' + esc(s.name) + '</h2>' +
       '<p class="acc-st" id="acc-st">' + esc(this.statusText()) + '</p>' +
       '<ul class="pro-list"><li>☁️ პროგრესი, Pro და ბიტის ნივთები თავისით ინახება</li><li>💻 სხვა მოწყობილობაზე იგივე სახელით და პაროლით შედი</li></ul>' +
-      '<div class="acc-btns"><button class="btn" data-a="sync">☁️ ახლავე შენახვა</button><button class="btn" data-a="pass">🔑 პაროლის შეცვლა</button><button class="btn" data-a="out">🚪 გასვლა</button></div>' +
+      '<div class="acc-btns"><button class="btn" data-a="class">👩‍🏫 კლასი</button><button class="btn" data-a="sync">☁️ ახლავე შენახვა</button><button class="btn" data-a="pass">🔑 პაროლის შეცვლა</button><button class="btn" data-a="out">🚪 გასვლა</button></div>' +
       '<details class="acc-del"><summary>ანგარიშის წაშლა</summary><p class="muted">ანგარიში და მასში შენახული პროგრესი სამუდამოდ წაიშლება. ამ მოწყობილობაზე პროგრესი დარჩება.</p><button class="btn danger small" data-a="del">🗑️ ანგარიშის წაშლა</button></details>' +
       '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
     m.querySelector('[data-a=sync]').addEventListener('click', () => { this.changed(); this.push(); });
+    m.querySelector('[data-a=class]').addEventListener('click', () => { Modal.close(m); UI.show('class'); });
     m.querySelector('[data-a=pass]').addEventListener('click', () => { Modal.close(m); this.passwordForm(); });
     m.querySelector('[data-a=out]').addEventListener('click', () => { Modal.close(m); this.logout(); });
     m.querySelector('[data-a=del]').addEventListener('click', () => { Modal.close(m); this.deleteForm(); });
@@ -19481,7 +19757,7 @@ const Game = {
     if (isPremium(lv) && !Progress.hasPro()) { Paywall.open(lv); return; }   // ფასიანი ლეველი — მხოლოდ Pro-ით
     this.cancelAnim();
     this.base = lv; this.mode = mode; this.phaseIdx = 0;
-    this.attempts = 0; this.failsTotal = 0; this.hintsUsed = 0; this.start = Date.now();
+    this.attempts = 0; this.failsTotal = 0; this.hintsUsed = 0; this.start = Date.now(); this.statDone = false;
     UI.show('game');
     const w = WORLDS[(lv.world || 1) - 1], L = LANGS[lv.lang || 'js'];
     const g = $('#scr-game');
@@ -20041,6 +20317,7 @@ const Game = {
     if (star3) stars = 3;
     const xp = Progress.xpFor(base, this.hintsUsed);
     const res = Progress.complete(base, { stars, xp, time, lines, hints: this.hintsUsed });
+    if (this.mode === 'level') { Stats.level(base.id, this.failsTotal, true); this.statDone = true; }
     delete P.codes[this.codeKey()]; Progress.save();
     Progress.checkAch({ time, fails: this.failsTotal, bossStars3: base.boss && stars === 3 });
     const tips = [];
@@ -20257,6 +20534,8 @@ const Game = {
   leave() {
     this.cancelAnim(); this.stepSt = null; this.setBusy(false);
     clearInterval(this.timerId);
+    // სტატისტიკა: ლეველი სცადა, მაგრამ ვერ გაიარა
+    if (this.mode === 'level' && this.base && this.attempts && !this.statDone) { Stats.level(this.base.id, this.failsTotal, false); this.statDone = true; }
     Progress.save();
     UI.show(this.mode === 'level' || this.mode === 'speedrun' ? 'map' : 'menu');
   }
@@ -20358,6 +20637,8 @@ function init() {
   }
   $('#m-desktop').addEventListener('click', () => { Sound.ensure(); Sound.click(); Desktop.open(); });
   $('#m-account').addEventListener('click', () => { Sound.ensure(); Sound.click(); Account.open(); });
+  $('#m-class').addEventListener('click', () => { Sound.ensure(); Sound.click(); UI.show('class'); });
+  $('#m-install').addEventListener('click', () => { Sound.ensure(); Sound.click(); Install.open(); });
   $$('[data-go]').forEach(b => b.addEventListener('click', () => {
     const g = b.dataset.go;
     if (g === 'back') UI.show(UI.prev && UI.prev !== UI.cur ? UI.prev : 'menu'); else UI.show(g);
@@ -20401,6 +20682,7 @@ function init() {
   Paywall.checkReturn();   // Dodo Payments-ის გადახდიდან დაბრუნება
   Paywall.restore();       // Pro: შენახული ხელმოწერილი ნიშნის შემოწმება
   Account.init();          // ანგარიში: სხვა მოწყობილობაზე შენახული პროგრესის ჩატვირთვა
+  Install.init();          // ტელეფონზე დაყენება (PWA)
   if (location.hash === '#download' && !IS_DESKTOP) Desktop.open();   // პირდაპირი ბმული: .../CodeQuest.html#download
   if (location.hash === '#testgen') testGenerated();
 }

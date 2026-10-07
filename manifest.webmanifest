@@ -1,0 +1,17 @@
+{
+  "name": "CodeQuest — ისწავლე პროგრამირება",
+  "short_name": "CodeQuest",
+  "description": "სასწავლო თამაში: 18 პროგრამირების ენა, 9000 ლეველი და რობოტი ბიტი — ქართულად.",
+  "lang": "ka",
+  "start_url": "/CodeQuest.html?app=1",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f6fb",
+  "theme_color": "#3d5afe",
+  "categories": ["education", "games", "kids"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -760,6 +760,75 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
 .sd-ideas{margin-top:14px}
 .sd-ideas ul{margin:6px 0 0;padding-left:1.2em}
 .sd-ideas li{margin:4px 0}
+/* ვიდეოების ბარათები */
+.sd-vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:10px}
+.sd-vcard{display:flex;flex-direction:column;padding:0;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--panel);text-align:left;box-shadow:var(--shadow);transition:transform .15s,border-color .15s;min-width:0}
+.sd-vcard:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--accent) 45%,var(--border))}
+.sd-thumb{position:relative;display:block;aspect-ratio:16/9;background:#111}
+.sd-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.sd-dur{position:absolute;right:6px;bottom:6px;padding:1px 6px;border-radius:4px;background:rgba(0,0,0,.82);color:#fff;font-size:.74rem;font-weight:700}
+.sd-kab{position:absolute;left:6px;top:6px;padding:1px 8px;border-radius:999px;background:#fff;color:#c92a2a;font-size:.72rem;font-weight:800;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.sd-play{position:absolute;inset:0;display:grid;place-items:center;font-size:2rem;color:#fff;background:rgba(0,0,0,.28);opacity:0;transition:opacity .15s}
+.sd-vcard:hover .sd-play,.sd-vcard.locked .sd-play{opacity:1}
+.sd-vcard.locked .sd-play{background:rgba(0,0,0,.45);font-size:1.6rem}
+.sd-vmeta{display:block;padding:9px 12px 11px}
+.sd-vmeta b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.9rem;line-height:1.35}
+.sd-vmeta small{display:block;margin-top:3px;color:var(--muted);font-size:.78rem}
+.linklike{border:0;background:none;padding:0;color:var(--accent);font:inherit;text-decoration:underline;cursor:pointer}
+/* ჩანაწერები */
+.sd-notes{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin-top:10px}
+.sd-nitem{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px}
+.sd-nt{flex:1 1 220px;min-width:0}
+.sd-nt b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sd-nt small{display:block;color:var(--muted);font-size:.8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sd-nb{display:flex;gap:6px}
+/* ვიდეოს ყურება */
+.sd-wbar{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.sd-player{position:relative;aspect-ratio:16/9;margin-top:12px;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+.sd-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.sd-winfo{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.sd-winfo>div{flex:1 1 260px;min-width:0}
+.sd-winfo b{display:block}
+.sd-winfo small{color:var(--muted)}
+/* VS Code-ის მსგავსი რედაქტორი (ყოველთვის მუქი) */
+.vsc{margin-top:14px;border:1px solid #2b2b2b;border-radius:12px;overflow:hidden;background:#1e1e1e;color:#cccccc;box-shadow:0 8px 26px rgba(0,0,0,.22)}
+.vsc-title{display:flex;align-items:center;gap:12px;padding:8px 12px;background:#323233;font:12px/1.4 system-ui,sans-serif;color:#cccccc}
+.vsc-dots{display:inline-flex;gap:7px}
+.vsc-dots i{width:12px;height:12px;border-radius:50%;background:#ff5f57}
+.vsc-dots i+i{background:#febc2e}.vsc-dots i+i+i{background:#28c840}
+.vsc-name{flex:1;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:48px}
+.vsc-tabs{display:flex;background:#252526}
+.vsc-tab{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#1e1e1e;color:#ffffff;font:13px var(--mono);border-top:2px solid #0078d4}
+.vsc-tab small{color:#9d9d9d}
+.vsc-ed .CodeMirror{height:auto;min-height:240px;font:14px/1.55 var(--mono)}
+.vsc-ed .CodeMirror-scroll{min-height:240px;max-height:520px}
+.vsc-ta{display:block;width:100%;min-height:240px;padding:10px 12px;border:0;resize:vertical;background:#1e1e1e;color:#d4d4d4;font:14px/1.55 var(--mono);tab-size:4;outline:none}
+.cm-s-vsc.CodeMirror{background:#1e1e1e;color:#d4d4d4}
+.cm-s-vsc .CodeMirror-gutters{background:#1e1e1e;border-right:0}
+.cm-s-vsc .CodeMirror-linenumber{color:#858585}
+.cm-s-vsc .CodeMirror-cursor{border-left:2px solid #aeafad}
+.cm-s-vsc div.CodeMirror-selected,.cm-s-vsc.CodeMirror-focused div.CodeMirror-selected{background:#264f78}
+.cm-s-vsc .CodeMirror-activeline-background{background:#2a2d2e}
+.cm-s-vsc .cm-keyword{color:#569cd6}.cm-s-vsc .cm-def{color:#dcdcaa}.cm-s-vsc .cm-variable{color:#9cdcfe}.cm-s-vsc .cm-variable-2{color:#9cdcfe}
+.cm-s-vsc .cm-variable-3,.cm-s-vsc .cm-type{color:#4ec9b0}.cm-s-vsc .cm-property{color:#9cdcfe}.cm-s-vsc .cm-operator{color:#d4d4d4}
+.cm-s-vsc .cm-string,.cm-s-vsc .cm-string-2{color:#ce9178}.cm-s-vsc .cm-number{color:#b5cea8}.cm-s-vsc .cm-comment{color:#6a9955}
+.cm-s-vsc .cm-atom,.cm-s-vsc .cm-builtin{color:#4fc1ff}.cm-s-vsc .cm-meta{color:#c586c0}.cm-s-vsc .cm-tag{color:#569cd6}
+.cm-s-vsc .cm-attribute{color:#9cdcfe}.cm-s-vsc .cm-bracket{color:#808080}.cm-s-vsc .cm-qualifier{color:#d7ba7d}
+.cm-s-vsc .CodeMirror-matchingbracket{color:#ffffff!important;background:#0e4a7a}
+.cm-s-vsc .vsc-errline{background:rgba(244,71,71,.22)}
+.vsc-acts{display:flex;gap:10px;flex-wrap:wrap;padding:10px 12px;background:#252526;border-top:1px solid #2b2b2b}
+.vsc-run{flex:1 1 220px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 18px;border:0;border-radius:10px;background:#16a34a;color:#fff;font-size:1.15rem;font-weight:800;letter-spacing:.02em;box-shadow:0 4px 0 #0f7a36;transition:transform .1s,filter .15s}
+.vsc-run:hover:not(:disabled){filter:brightness(1.08)}
+.vsc-run:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 #0f7a36}
+.vsc-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border:1px solid #3c3c3c;border-radius:10px;background:#333333;color:#ffffff;font-weight:700}
+.vsc-btn:hover{background:#3d3d3d}
+.vsc-term{border-top:1px solid #2b2b2b}
+.vsc-term-h{padding:6px 12px;font:11px/1.4 system-ui,sans-serif;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#bbbbbb;border-bottom:1px solid #2b2b2b}
+.vsc-out{margin:0;min-height:90px;max-height:280px;overflow:auto;padding:10px 12px;font:13px/1.55 var(--mono);color:#cccccc;white-space:pre-wrap;word-break:break-word}
+.vsc-out .dim{color:#7f7f7f}.vsc-out .err{color:#f48771}.vsc-out .ok{color:#89d185}
+.vsc-prev{display:block;width:100%;height:340px;border:0;background:#fff}
+.vsc-status{display:flex;justify-content:flex-end;gap:16px;padding:3px 12px;background:#0078d4;color:#fff;font:12px/1.5 system-ui,sans-serif}
+@media (max-width:520px){.vsc-name{padding-right:0}.vsc-run{font-size:1.05rem}.sd-vgrid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}}
 @media (max-width:520px){.sd-step{gap:10px}.sd-num{width:28px;height:28px;font-size:.85rem}.sd-ghead{gap:12px}.sd-gic.big{width:52px;height:52px;font-size:1.7rem}}
 .web{padding:0;overflow:hidden}
 .web-bar{display:flex;align-items:center;gap:10px;padding:7px 12px;border-bottom:1px solid var(--border);background:var(--panel2);font-size:.8rem;color:var(--muted)}
@@ -14998,7 +15067,9 @@ function defaultProgress() {
     pro: null,     // Pro: { key, at } — Dodo Payments-ის ლიცენზიის კოდი
     // ენების სია: რჩეულები (★, დამატების რიგით), გამოყენება { კურსი: { t: ბოლო დრო, n: გაშვებები, ms: თამაშის დრო } } და დალაგება
     favs: [], use: {}, langSort: 'used',
-    guides: {}     // 👑 ნაბიჯ-ნაბიჯ პროექტები: { id: [გავლილი ნაბიჯების ნომრები] }
+    guides: {},    // 👑 ნაბიჯ-ნაბიჯ პროექტები: { id: [გავლილი ნაბიჯების ნომრები] }
+    notes: [],     // 👑 ჩანაწერები ვიდეოს რედაქტორიდან: [{ id, lang, vid, title, code, at }]
+    sdDraft: {}    // 👑 რედაქტორის დრაფტი ყოველი ენისთვის: { ენა: კოდი }
   };
 }
 function mergeDeep(base, extra) {
@@ -15725,7 +15796,8 @@ const Menu = {
     $('#m-profile-sub').textContent = ACHIEVEMENTS.filter(a => P.ach[a.id]).length + ' / ' + ACHIEVEMENTS.length + ' მიღებული';
     // 👑 ვიდეოები და პროექტები
     const gDone = STUDIO_GUIDES.filter(g => Studio.done(g.id).length === g.steps.length).length;
-    $('#m-studio-sub').textContent = pro ? COURSES.length + ' ენის ვიდეოები · ' + STUDIO_GUIDES.length + ' პროექტი' + (gDone ? ' · ✓ ' + gDone + ' აწყობილი' : '') : 'ყველა ენის ვიდეოები და ნაბიჯ-ნაბიჯ პროექტები';
+    const nVid = Object.values(STUDIO_VIDEOS).reduce((a, l) => a + l.length, 0), nNotes = Studio.notes().length;
+    $('#m-studio-sub').textContent = pro ? nVid + ' ვიდეო · ' + STUDIO_GUIDES.length + ' პროექტი' + (nNotes ? ' · 📒 ' + nNotes + ' ჩანაწერი' : '') + (gDone ? ' · ✓ ' + gDone + ' აწყობილი' : '') : 'ვიდეოები, კოდის რედაქტორი ▶ Run-ით და პროექტები';
     $('#m-studio-chip').textContent = pro ? '👑 ✓' : '👑 Pro';
     $('#m-studio-chip').classList.toggle('on', pro);
     $('#hm-year').textContent = new Date().getFullYear();
@@ -16619,10 +16691,12 @@ function openCourse(id) {
 }
 
 /* ===STUDIO:BEGIN=== */
-/* ---------- 👑 Pro: ვიდეოები და ნაბიჯ-ნაბიჯ პროექტები ყველა ენაზე ----------
-   ვიდეოები — ბმულები YouTube-სა და TikTok-ზე (ძებნა და ჰეშთეგები, ასე ყოველთვის ახალია და არ „ფუჭდება“).
+/* ---------- 👑 Pro: ვიდეოები, კოდის რედაქტორი, ჩანაწერები და ნაბიჯ-ნაბიჯ პროექტები ყველა ენაზე ----------
+   ვიდეოები — STUDIO_VIDEOS: 10 ნამდვილი YouTube-ვიდეო ყოველ ენაზე, საიტზევე იყურება (youtube-nocookie ჩასმა).
+     ვიდეოს ქვემოთ — VS Code-ის მსგავსი რედაქტორი: ▶ Run (კოდი იმავე იზოლირებულ Worker-ში ეშვება, რაც ლეველებში;
+     HTML/CSS/React — გადახედვის iframe-ში) და 💾 Save → ჩანაწერები (P.notes). დრაფტი ყოველი ენისთვის: P.sdDraft.
    პროექტები — STUDIO_GUIDES: ნაბიჯები ახსნით და კოდით + მთლიანი კოდი. ნაბიჯების პროგრესი: P.guides[id] = [გავლილი ნაბიჯები]. */
-// [ძებნის სიტყვა ინგლისურად, ჰეშთეგი]
+// [ძებნის სიტყვა ინგლისურად, ჰეშთეგი] — „მეტი ვიდეო“ ბმულებისთვის
 const STUDIO_VIDEO = {
   js: ['JavaScript', 'javascript'], ts: ['TypeScript', 'typescript'], py: ['Python', 'python'], java: ['Java programming', 'java'],
   c: ['C programming', 'cprogramming'], cpp: ['C++', 'cpp'], cs: ['C#', 'csharp'], go: ['Golang', 'golang'], rs: ['Rust programming', 'rustlang'],
@@ -16631,6 +16705,248 @@ const STUDIO_VIDEO = {
 };
 // კოდის ბლოკის ენა → ფერადი სინტაქსი (hlCode)
 const STUDIO_HL = { python: 'py', ruby: 'rb', lua: 'lua', php: 'php', html: 'html', css: 'css' };
+// რედაქტორი: ფაილის სახელი და საწყისი კოდი
+const STUDIO_FILE = { js: 'main.js', ts: 'main.ts', py: 'main.py', java: 'Main.java', c: 'main.c', cpp: 'main.cpp', cs: 'Program.cs', go: 'main.go', rs: 'main.rs', php: 'index.php', rb: 'main.rb', swift: 'main.swift', kt: 'Main.kt', lua: 'main.lua', dart: 'main.dart', html: 'index.html', css: 'index.html', react: 'App.jsx' };
+const STUDIO_START = {
+  js: 'console.log("გამარჯობა!");\n',
+  ts: 'const name: string = "ბიტი";\nconsole.log("გამარჯობა, " + name + "!");\n',
+  py: 'print("გამარჯობა!")\n',
+  java: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("გამარჯობა!");\n    }\n}\n',
+  c: '#include <stdio.h>\n\nint main() {\n    printf("გამარჯობა!\\n");\n    return 0;\n}\n',
+  cpp: '#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "გამარჯობა!" << endl;\n    return 0;\n}\n',
+  cs: 'Console.WriteLine("გამარჯობა!");\n',
+  go: 'package main\n\nimport "fmt"\n\nfunc main() {\n    fmt.Println("გამარჯობა!")\n}\n',
+  rs: 'fn main() {\n    println!("გამარჯობა!");\n}\n',
+  php: '<?php\necho "გამარჯობა!\\n";\n',
+  rb: 'puts "გამარჯობა!"\n',
+  swift: 'print("გამარჯობა!")\n',
+  kt: 'fun main() {\n    println("გამარჯობა!")\n}\n',
+  lua: 'print("გამარჯობა!")\n',
+  dart: "void main() {\n  print('გამარჯობა!');\n}\n",
+  html: '<!DOCTYPE html>\n<html lang="ka">\n<head>\n  <meta charset="UTF-8">\n  <title>ჩემი გვერდი</title>\n</head>\n<body>\n  <h1>გამარჯობა!</h1>\n  <p>ეს ჩემი პირველი გვერდია.</p>\n</body>\n</html>\n',
+  css: '<!DOCTYPE html>\n<html lang="ka">\n<head>\n  <meta charset="UTF-8">\n  <style>\n    body { font-family: sans-serif; background: #eef1ff; }\n    h1 { color: #3d5afe; }\n  </style>\n</head>\n<body>\n  <h1>გამარჯობა, CSS!</h1>\n</body>\n</html>\n',
+  react: 'function App() {\n  const [count, setCount] = useState(0);\n  return (\n    <div>\n      <h1>გამარჯობა, React!</h1>\n      <button onClick={() => setCount(count + 1)}>დაჭერები: {count}</button>\n    </div>\n  );\n}\n'
+};
+const STUDIO_NOTES_MAX = 100, STUDIO_NOTE_CHARS = 20000;
+/* ნამდვილი YouTube-ვიდეოები (id, სათაური, არხი, ხანგრძლივობა, ka — ქართულენოვანი); შემოწმებულია, რომ საიტში ჩასმა ნებადართულია */
+const STUDIO_VIDEOS = {
+  js: [
+    {"id":"eFHbm98ejOU","t":"JavaScript სრული კურსი დამწყებთათვის!","ch":"Jortsoft","len":"2:26:33","ka":1},
+    {"id":"7AprupTWYf8","t":"JS-1 | შესავალი პროგრამირებაში","ch":"Novatori • ნოვატორი","len":"33:32","ka":1},
+    {"id":"ivMasFpjQPw","t":"JavaScript ქართულად, პირველი ნაწილი","ch":"Val Do","len":"16:44","ka":1},
+    {"id":"DHjqpvDnNGE","t":"JavaScript in 100 Seconds","ch":"Fireship","len":"2:36","ka":0},
+    {"id":"PkZNo7MFNFg","t":"Learn JavaScript - Full Course for Beginners","ch":"freeCodeCamp.org","len":"3:26:43","ka":0},
+    {"id":"W6NZfCO5SIk","t":"JavaScript Course for Beginners – Your First Step to Web Development","ch":"Programming with Mosh","len":"48:17","ka":0},
+    {"id":"lfmg-EJ8gm4","t":"JavaScript Full Course for free 🌐","ch":"Bro Code","len":"12:00:00","ka":0},
+    {"id":"hdI2bqOjy3c","t":"JavaScript Crash Course For Beginners","ch":"Traversy Media","len":"1:40:30","ka":0},
+    {"id":"3PHXvlpOkf4","t":"Build 15 JavaScript Projects - Vanilla JavaScript Course","ch":"freeCodeCamp.org","len":"8:23:57","ka":0},
+    {"id":"dtKciwk_si4","t":"10 JavaScript Projects in 10 Hours - Coding Challenge 🔥","ch":"Florin Pop","len":"9:17:09","ka":0}
+  ],
+  ts: [
+    {"id":"J11VfQktxXk","t":"TypeScript 30 წუთში!","ch":"Jortsoft","len":"32:58","ka":1},
+    {"id":"Rzk9-SWcb8g","t":"JS-15 | შესავალი Typescript-ში","ch":"Novatori • ნოვატორი","len":"31:04","ka":1},
+    {"id":"wn3ArmHbeLc","t":"REACT-12 | Typescript React-ში","ch":"Novatori • ნოვატორი","len":"20:58","ka":1},
+    {"id":"zQnBQ4tB3ZA","t":"TypeScript in 100 Seconds","ch":"Fireship","len":"2:25","ka":0},
+    {"id":"d56mG7DezGs","t":"TypeScript Tutorial for Beginners","ch":"Programming with Mosh","len":"1:04:28","ka":0},
+    {"id":"BwuLxPH8IDs","t":"TypeScript Course for Beginners - Learn TypeScript from Scratch!","ch":"Academind","len":"3:16:40","ka":0},
+    {"id":"30LWjhZzg50","t":"Learn TypeScript – Full Tutorial","ch":"freeCodeCamp.org","len":"4:46:25","ka":0},
+    {"id":"ahCwqrYpIuM","t":"TypeScript - The Basics","ch":"Fireship","len":"12:01","ka":0},
+    {"id":"jBmrduvKl5w","t":"How To Build Your First TypeScript Project - TODO List Application","ch":"Web Dev Simplified","len":"28:30","ka":0},
+    {"id":"-ONUyenGnWw","t":"This Is A Great Beginner React/TypeScript Project","ch":"Web Dev Simplified","len":"44:25","ka":0}
+  ],
+  py: [
+    {"id":"t4nX30Spvco","t":"Python პროგრამირება - გაკვეთილი 0","ch":"Goal-Oriented Academy • GOA","len":"1:10:01","ka":1},
+    {"id":"sszcwgmQeyU","t":"1.8 Hello World | Python - პროგრამირება | BitCamp","ch":"BitCamp","len":"3:44","ka":1},
+    {"id":"IIGRS26iCzw","t":"1.7 VS Code - სტრუქტურა | Python - პროგრამირება | BitCamp","ch":"BitCamp","len":"3:55","ka":1},
+    {"id":"x7X9w_GIm1s","t":"Python in 100 Seconds","ch":"Fireship","len":"2:24","ka":0},
+    {"id":"rfscVS0vtbw","t":"Learn Python - Full Course for Beginners [Tutorial]","ch":"freeCodeCamp.org","len":"4:26:52","ka":0},
+    {"id":"_uQrJ0TkZlc","t":"Python Full Course for Beginners","ch":"Programming with Mosh","len":"6:14:07","ka":0},
+    {"id":"kqtD5dpn9C8","t":"Python for Beginners - Learn Coding with Python in 1 Hour","ch":"Programming with Mosh","len":"1:00:06","ka":0},
+    {"id":"XKHEtdqhLK8","t":"Python Full Course for free 🐍","ch":"Bro Code","len":"12:00:00","ka":0},
+    {"id":"DLn3jOsNRVE","t":"5 Mini Python Projects - For Beginners","ch":"Tech With Tim","len":"1:41:08","ka":0},
+    {"id":"th4OBktqK1I","t":"Learn Python With This ONE Project!","ch":"Tech With Tim","len":"55:04","ka":0}
+  ],
+  java: [
+    {"id":"9bPwNyRmPbI","t":"java დამწყებთათვის 1","ch":"Giorgi Bakradze","len":"12:24","ka":1},
+    {"id":"PkWVkOJRX50","t":"Java - ლექცია 1","ch":"MasterCode","len":"2:34:37","ka":1},
+    {"id":"c3nzkfpFsaI","t":"გიორგი ვახტანგიშვილი - Introduction To Java 02","ch":"ჯეოლაბი","len":"1:27:48","ka":1},
+    {"id":"m4-HM_sCvtQ","t":"Java for the Haters in 100 Seconds","ch":"Fireship","len":"2:22","ka":0},
+    {"id":"eIrMbAQSU34","t":"Java Full Course for Beginners","ch":"Programming with Mosh","len":"2:30:48","ka":0},
+    {"id":"xk4_1vDrzzo","t":"Java Full Course for free ☕","ch":"Bro Code","len":"12:00:00","ka":0},
+    {"id":"grEKMHGYyns","t":"Learn Java 8 - Full Tutorial for Beginners","ch":"freeCodeCamp.org","len":"9:32:32","ka":0},
+    {"id":"jQo6n-i6wpo","t":"Build a Calculator in Java","ch":"Kenny Yip Coding","len":"36:41","ka":0},
+    {"id":"e0X00EoFQbE","t":"Build your first OOP application in Java with example - Building a School Management System","ch":"Rakshith Vasudev","len":"1:49:17","ka":0},
+    {"id":"A74TOX803D0","t":"Java Programming for Beginners – Full Course","ch":"freeCodeCamp.org","len":"4:11:00","ka":0}
+  ],
+  c: [
+    {"id":"rsXrJlk_MgQ","t":"კვირა 1 - C - ის საფუძვლები - CS50x საქართველო [BitCamp 101 - 2023]","ch":"BitCamp","len":"4:37:49","ka":1},
+    {"id":"EaAZma_mJxc","t":"c დამწყებთათვის 1","ch":"Giorgi Bakradze","len":"3:22","ka":1},
+    {"id":"YM0eLzUlW5g","t":"C/C++ დამწყებთათვის","ch":"Gio _rgi","len":"28:51","ka":1},
+    {"id":"U3aXWizDbQ4","t":"C in 100 Seconds","ch":"Fireship","len":"2:25","ka":0},
+    {"id":"KJgsSFOSQv0","t":"C Programming Tutorial for Beginners","ch":"freeCodeCamp.org","len":"3:46:13","ka":0},
+    {"id":"87SH2Cn0s9A","t":"C Programming Full Course for free ⚙️","ch":"Bro Code","len":"4:05:00","ka":0},
+    {"id":"ssJY5MDLjlo","t":"C Programming for Beginners | Full Course","ch":"Portfolio Courses","len":"5:48:38","ka":0},
+    {"id":"Bz4MxDeEM6k","t":"C Programming All-in-One Tutorial Series (10 HOURS!)","ch":"Caleb Curry","len":"10:12:22","ka":0},
+    {"id":"GpCQRVqGLFg","t":"CS50x საქართველო 2024 - ლექცია 1 - C","ch":"BitCamp","len":"3:04:11","ka":1},
+    {"id":"B2i3K_rwgmM","t":"CS50x 🔥✊ ლექცია 1 | C | BitCamp","ch":"BitCamp","len":"4:16:41","ka":1}
+  ],
+  cpp: [
+    {"id":"48qJNedcCYk","t":"c++ დამწყებთათვის - გაკვეთილი №1","ch":"Giorgi Bakradze","len":"3:26","ka":1},
+    {"id":"qHnc0wOjzg0","t":"c++ დამწყებთათვის - გაკვეთილი №2","ch":"Giorgi Bakradze","len":"3:25","ka":1},
+    {"id":"A8y9dH8bdHs","t":"C++ გაკვეთილები ქართულად-2","ch":"Geo Electronix","len":"8:44","ka":1},
+    {"id":"MNeX4EGtR5Y","t":"C++ in 100 Seconds","ch":"Fireship","len":"2:46","ka":0},
+    {"id":"vLnPwxZdW4Y","t":"C++ Tutorial for Beginners - Full Course","ch":"freeCodeCamp.org","len":"4:01:19","ka":0},
+    {"id":"-TkoO8Z07hI","t":"C++ Full Course for free ⚡️","ch":"Bro Code","len":"6:00:00","ka":0},
+    {"id":"8jLOx1hD3_o","t":"C++ Programming Course - Beginner to Advanced","ch":"freeCodeCamp.org","len":"31:07:30","ka":0},
+    {"id":"ZzaPdXTrSb8","t":"C++ Tutorial for Beginners - Learn C++ in 1 Hour","ch":"Programming with Mosh","len":"1:22:56","ka":0},
+    {"id":"DMWD7wfhgNY","t":"How to set up C++ in Visual Studio Code","ch":"Kenny Yip Coding","len":"6:53","ka":0},
+    {"id":"-bHK0qmp06c","t":"Carbon Lang… The C++ killer?","ch":"Fireship","len":"3:27","ka":0}
+  ],
+  cs: [
+    {"id":"STpHG2oIkI0","t":"შესავალი პროგრამირებაში c# 01","ch":"ჯეოლაბი","len":"1:27:01","ka":1},
+    {"id":"HI8wXi9F3Hs","t":"C# სრული კურსი დამწყებთათვის!","ch":"Jortsoft","len":"1:15:42","ka":1},
+    {"id":"_vAPIDJbsoM","t":"ვარლამ დადიანი ლექცია1 - C# - 2022წ","ch":"ჯეოლაბი","len":"1:35:36","ka":1},
+    {"id":"ravLFzIguCM","t":"C# in 100 Seconds","ch":"Fireship","len":"2:27","ka":0},
+    {"id":"GhQdlIFylQ8","t":"C# Tutorial - Full Course for Beginners","ch":"freeCodeCamp.org","len":"4:31:09","ka":0},
+    {"id":"gfkTfcpWqAY","t":"C# Tutorial For Beginners - Learn C# Basics in 1 Hour","ch":"Programming with Mosh","len":"1:10:32","ka":0},
+    {"id":"wxznTygnRfQ","t":"C# Full Course for free 🎵","ch":"Bro Code","len":"4:00:01","ka":0},
+    {"id":"BfEjDD8mWYg","t":"ASP.NET Core Crash Course - C# App in One Hour","ch":"freeCodeCamp.org","len":"1:00:44","ka":0},
+    {"id":"YrtFtdTTfv0","t":"Learn C# Programming – Full Course with Mini-Projects","ch":"freeCodeCamp.org","len":"8:17:11","ka":0},
+    {"id":"7RwMD97Le7I","t":"The C# Project Every Beginner Should Build","ch":"Code Monkey","len":"16:54","ka":0}
+  ],
+  go: [
+    {"id":"uy3W-9EGet4","t":"პირველი პროგრამა (Go-ს გაკვეთილები)","ch":"კოდების სამყარო","len":"9:26","ka":1},
+    {"id":"mWjTYt3sY9Y","t":"Go-ს შესახებ და ინსტალაცია (Go-ს გაკვეთილები)","ch":"კოდების სამყარო","len":"6:06","ka":1},
+    {"id":"tkqKy_d3OOI","t":"ცვლადები (Go-ს გაკვეთილები)","ch":"კოდების სამყარო","len":"14:47","ka":1},
+    {"id":"446E-r0rXHI","t":"Go in 100 Seconds","ch":"Fireship","len":"2:30","ka":0},
+    {"id":"YS4e4q9oBaU","t":"Learn Go Programming - Golang Tutorial for Beginners","ch":"freeCodeCamp.org","len":"6:39:58","ka":0},
+    {"id":"yyUHQIec83I","t":"Golang Tutorial for Beginners | Full Go Course","ch":"TechWorld with Nana","len":"3:24:59","ka":0},
+    {"id":"un6ZyFkqFKo","t":"Go Programming – Golang Course with Bonus Projects","ch":"freeCodeCamp.org","len":"9:32:48","ka":0},
+    {"id":"jFfo23yIWac","t":"Learn Go Programming by Building 11 Projects – Full Course","ch":"freeCodeCamp.org","len":"8:24:40","ka":0},
+    {"id":"XCZWyN9ZbEQ","t":"Full Golang Tutorial - Learn Go by Building a TodoList App","ch":"TechWorld with Nana","len":"1:34:56","ka":0},
+    {"id":"YzLrWHZa-Kc","t":"Golang Tutorial : Go Full Course","ch":"Derek Banas","len":"3:49:15","ka":0}
+  ],
+  rs: [
+    {"id":"C1GpDiQFOI0","t":"ვისწავლოთ რასტის (Rust) პროგრამირების ენა - სავარჯიშოები #1","ch":"KodBitz (ReMZ)","len":"37:57","ka":1},
+    {"id":"eBujPXkA8dg","t":"Option - ვისწავლოთ რასტის (Rust) პროგრამირების ენა - სავარჯიშოები","ch":"KodBitz (ReMZ)","len":"25:58","ka":1},
+    {"id":"xG7htr3T5L0","t":"Lifetimes - ვისწავლოთ რასტის (Rust) პროგრამირების ენა - სავარჯიშოები","ch":"KodBitz (ReMZ)","len":"27:18","ka":1},
+    {"id":"5C_HPTJg5ek","t":"Rust in 100 Seconds","ch":"Fireship","len":"2:29","ka":0},
+    {"id":"BpPEoZW5IiY","t":"Learn Rust Programming - Complete Course 🦀","ch":"freeCodeCamp.org","len":"13:59:10","ka":0},
+    {"id":"T_KrYLW4jw8","t":"Rust Tutorial #1 - Introduction To Rust Programming","ch":"Tech With Tim","len":"15:09","ka":0},
+    {"id":"ygL_xcavzQ4","t":"Rust Tutorial Full Course","ch":"Derek Banas","len":"2:35:11","ka":0},
+    {"id":"ZhedgZtd8gw","t":"Ultimate VS Code setup for Rust development (2025)","ch":"Let's Get Rusty","len":"7:32","ka":0},
+    {"id":"DeWIVXcSrYU","t":"Tests - ვისწავლოთ რასტის (Rust) პროგრამირების ენა - სავარჯიშოები","ch":"KodBitz (ReMZ)","len":"11:15","ka":1},
+    {"id":"AJIyRE2vZ_0","t":"Programming in Rust","ch":"Tsoding Daily","len":"2:28:16","ka":0}
+  ],
+  php: [
+    {"id":"H16bCSk-qXk","t":"PHP-ის კურსი აბსოლიტური დამწყებთათვის - PHP 7 საათში","ch":"აპოლო 11","len":"7:24:08","ka":1},
+    {"id":"L3X5x-WwMGs","t":"PHP OOP - ლექცია #1 - დავით მაღალდაძე","ch":"BitCamp","len":"2:36:37","ka":1},
+    {"id":"opzZZ4opp4g","t":"PHP 8 - რა არის ახალი","ch":"Omedia","len":"1:10:29","ka":1},
+    {"id":"a7_WFUlFS94","t":"PHP in 100 Seconds","ch":"Fireship","len":"2:21","ka":0},
+    {"id":"OK_JCtrrv-c","t":"PHP Programming Language Tutorial - Full Course","ch":"freeCodeCamp.org","len":"4:36:39","ka":0},
+    {"id":"zZ6vybT1HQs","t":"PHP Full Course for free 🐘","ch":"Bro Code","len":"4:00:00","ka":0},
+    {"id":"BUCiSSyIGGU","t":"PHP For Beginners | 3+ Hour Crash Course","ch":"Traversy Media","len":"3:15:36","ka":0},
+    {"id":"fw5ObX8P6as","t":"PHP For Beginners -  Complete Laracasts Course","ch":"Laracasts","len":"10:44:12","ka":0},
+    {"id":"SI69DXbYHXU","t":"PHP tutorial for beginners 🐘","ch":"Bro Code","len":"13:59","ka":0},
+    {"id":"l4_Vn-sTBL8","t":"🔥 PHP Full Course 2025 - Learn PHP from Scratch | PHP Tutorial for Beginners 🚀","ch":"Dani Krossing","len":"9:46:43","ka":0}
+  ],
+  rb: [
+    {"id":"UYm0kfnRTJk","t":"Ruby in 100 Seconds","ch":"Fireship","len":"2:37","ka":0},
+    {"id":"t_ispmWmdjY","t":"Ruby Programming Language - Full Course","ch":"freeCodeCamp.org","len":"4:02:51","ka":0},
+    {"id":"fmyvWz5TUWg","t":"Learn Ruby on Rails - Full Course","ch":"freeCodeCamp.org","len":"4:03:49","ka":0},
+    {"id":"YQM4kpUxUPk","t":"Ruby Programming Tutorial 1 - Getting Started","ch":"SapphireSteel Software","len":"3:52","ka":0},
+    {"id":"Aqomze-P4Cs","t":"Build a Ruby GUI in 10 minutes!","ch":"Beagles91755","len":"14:44","ka":0},
+    {"id":"CIe1DxrSrhs","t":"Introduction | Ruby | Tutorial 1","ch":"Giraffe Academy","len":"1:46","ka":0},
+    {"id":"XC1ccTyhLPI","t":"Ruby Beginner Tutorial 2 | How To Install Ruby On Windows","ch":"Automation Step by Step","len":"6:15","ka":0},
+    {"id":"ml5sNqftiK4","t":"Ruby Tutorial For Beginners - Getting Started With Ruby","ch":"ProgrammingKnowledge","len":"10:56","ka":0},
+    {"id":"runN4gPJJzU","t":"Programming Ruby 01 -- Why Ruby?","ch":"tutoriaLinux","len":"6:34","ka":0},
+    {"id":"WNG7BnU6rXk","t":"Ruby Beginner Tutorial 1 | What is Ruby | Introduction","ch":"Automation Step by Step","len":"1:50","ka":0}
+  ],
+  swift: [
+    {"id":"nAchMctX4YA","t":"Swift in 100 Seconds","ch":"Fireship","len":"2:25","ka":0},
+    {"id":"CwA1VWP0Ldw","t":"Swift Programming Tutorial | FULL COURSE | Absolute Beginner","ch":"Sean Allen","len":"10:32:30","ka":0},
+    {"id":"comQ1-x2a1Q","t":"Swift Tutorial - Full Course for Beginners","ch":"freeCodeCamp.org","len":"3:09:58","ka":0},
+    {"id":"8Xg7E9shq0U","t":"Swift Programming Tutorial – Full Course for Beginners","ch":"freeCodeCamp.org","len":"7:05:17","ka":0},
+    {"id":"n5X_V81OYnQ","t":"Learn the Essentials of Swift in one hour","ch":"Paul Hudson","len":"58:14","ka":0},
+    {"id":"xfvdxQJj7Vw","t":"How to code in Swift | Swift Basics #1","ch":"Swiftful Thinking","len":"18:25","ka":0},
+    {"id":"kr3SSplrJlw","t":"How to use Functions in Swift | Swift Basics #5","ch":"Swiftful Thinking","len":"36:25","ka":0},
+    {"id":"PDWNf4pBI64","t":"How to use Optionals in Swift | Swift Basics #6","ch":"Swiftful Thinking","len":"53:57","ka":0},
+    {"id":"F68lyXkkfCY","t":"How to create and use closures – Swift for Complete Beginners","ch":"Paul Hudson","len":"18:39","ka":0},
+    {"id":"H9mt8WjpZgM","t":"Codable, Decodable, and Encodable in Swift | Continued Learning #21","ch":"Swiftful Thinking","len":"35:23","ka":0}
+  ],
+  kt: [
+    {"id":"KjTNXTqLRTM","t":"01 მობილური პროგრამირება ANDROID (Kotlin) - ლუკა ჯანჯღავა 2024","ch":"ჯეოლაბი","len":"2:06:17","ka":1},
+    {"id":"4GoZGgzfF3Y","t":"გაკვეთილი_1 - რა არის ანდროიდი(კოტლინი)- JDK - Intelij_Idea --- ანდროიდის პროგრამირება(2023)","ch":"Irakli Dekanosidze","len":"21:23","ka":1},
+    {"id":"5PWYXSySlyY","t":"06 მობილური პროგრამირება ANDROID (Kotlin) - ლუკა ჯანჯღავა 2024","ch":"ჯეოლაბი","len":"1:45:01","ka":1},
+    {"id":"xT8oP0wy-A0","t":"Kotlin in 100 Seconds","ch":"Fireship","len":"2:22","ka":0},
+    {"id":"F9UC9DY-vIU","t":"Kotlin Course - Tutorial for Beginners","ch":"freeCodeCamp.org","len":"2:38:31","ka":0},
+    {"id":"EExSSotojVI","t":"Learn Kotlin Programming – Full Course for Beginners","ch":"freeCodeCamp.org","len":"13:18:56","ka":0},
+    {"id":"blKkRoZPxLc","t":"Android & Kotlin Development Masterclass – Full Course","ch":"freeCodeCamp.org","len":"60:50:13","ka":0},
+    {"id":"XLt_moCoauw","t":"Simple Kotlin App | Android Studio | 2024","ch":"Easy Tuto","len":"12:28","ka":0},
+    {"id":"dzUc9vrsldM","t":"Full 2025 Kotlin Crash Course For Beginners","ch":"Philipp Lackner","len":"3:11:50","ka":0},
+    {"id":"5flXf8nuq60","t":"Kotlin Crash Course","ch":"Traversy Media","len":"1:23:50","ka":0}
+  ],
+  lua: [
+    {"id":"jUuqBZwwkQw","t":"Lua in 100 Seconds","ch":"Fireship","len":"2:24","ka":0},
+    {"id":"iMacxZQMPXs","t":"Lua Tutorial","ch":"Derek Banas","len":"57:25","ka":0},
+    {"id":"I549C6SmUnk","t":"Game Development with LÖVE 2D and Lua – Full Course","ch":"freeCodeCamp.org","len":"11:11:52","ka":0},
+    {"id":"H1CSE86242U","t":"Learn to code with Lua!","ch":"Challacade","len":"41:48","ka":0},
+    {"id":"wttKHL90Ank","t":"[2021 Update!] Make Games with Love2D - Setup, Structure, and Development Basics","ch":"Challacade","len":"55:46","ka":0},
+    {"id":"S9Mpa_0wTrM","t":"Beginners Roblox Lua Scripting Tutorial - Crash Course","ch":"Omnidev","len":"19:20","ka":0},
+    {"id":"GE6Z1n57yDU","t":"How to ACTUALLY LEARN to Script in Roblox Studio (5 Steps to learn)","ch":"MikoLikesHat","len":"13:06","ka":0},
+    {"id":"1srFmjt1Ib0","t":"Full Lua Programming Crash Course - Beginner to Advanced","ch":"Steve's teacher","len":"3:40:40","ka":0},
+    {"id":"UE_4mNwcXco","t":"I Tried Learning Roblox Scripting In 7 Days","ch":"DeHapy","len":"16:44","ka":0},
+    {"id":"f-v00iiqFOw","t":"Learn LUA, The Basics | Episode 1","ch":"Pasieka","len":"12:52","ka":0}
+  ],
+  dart: [
+    {"id":"NrO0CJCbYLA","t":"Dart in 100 Seconds","ch":"Fireship","len":"2:31","ka":0},
+    {"id":"VPvVD8t02U8","t":"Flutter Course for Beginners – 37-hour Cross Platform App Development Tutorial","ch":"freeCodeCamp.org","len":"36:39:22","ka":0},
+    {"id":"CzRQ9mnmh44","t":"The Complete Dart & Flutter Developer Course | Full Tutorial For Beginners to Advanced","ch":"Rivaan Ranawat","len":"20:47:35","ka":0},
+    {"id":"HQ_ytw58tC4","t":"📱 FULL Flutter Beginner Course • Programming Basics / Widgets / Navigation / User Input / UI","ch":"Mitch Koko","len":"2:23:26","ka":0},
+    {"id":"pTJJsmejUOQ","t":"Flutter Course - Full Tutorial for Beginners (Build iOS and Android Apps)","ch":"freeCodeCamp.org","len":"1:45:53","ka":0},
+    {"id":"7JdcGBSWo50","t":"Build 5 Apps in 5 Minutes with Flutter… But should you?","ch":"Fireship","len":"8:53","ka":0},
+    {"id":"lHhRhPV--G0","t":"Flutter in 100 seconds","ch":"Fireship","len":"2:10","ka":0},
+    {"id":"Ej_Pcr4uC2Q","t":"Dart Programming Tutorial - Full Course","ch":"freeCodeCamp.org","len":"1:41:53","ka":0},
+    {"id":"TclK5gNM_PM","t":"🎓📱 FULL Flutter Masterclass: Beginner to Pro","ch":"Mitch Koko","len":"9:36:17","ka":0},
+    {"id":"Fqcsow_7go4","t":"Dart Programming Tutorial For Absolute Beginners | Master Dart In 8 Hours | Flutter Tutorial Pt 1","ch":"Rivaan Ranawat","len":"7:41:40","ka":0}
+  ],
+  html: [
+    {"id":"MVerGOe5ueU","t":"HTML სრული კურსი დამწყებთათვის!","ch":"Jortsoft","len":"1:23:16","ka":1},
+    {"id":"mZ2V58M5JS0","t":"HTML-1 | როგორ წავიკითხოთ და ვწეროთ HTML","ch":"Novatori • ნოვატორი","len":"40:26","ka":1},
+    {"id":"kUO3Ah6GNhQ","t":"კვირა 1 - HTML & CSS [Web 101 - 2023]","ch":"BitCamp","len":"2:53:37","ka":1},
+    {"id":"ok-plXXHlWw","t":"HTML in 100 Seconds","ch":"Fireship","len":"2:34","ka":0},
+    {"id":"qz0aGYrrlhU","t":"HTML Tutorial for Beginners: HTML Crash Course","ch":"Programming with Mosh","len":"1:09:34","ka":0},
+    {"id":"pQN-pnXPaVg","t":"HTML Full Course - Build a Website Tutorial","ch":"freeCodeCamp.org","len":"2:02:32","ka":0},
+    {"id":"HGTJBPNC-Gw","t":"HTML & CSS Full Course for free 🌎","ch":"Bro Code","len":"4:02:43","ka":0},
+    {"id":"kUMe1FH4CHE","t":"Learn HTML – Full Tutorial for Beginners","ch":"freeCodeCamp.org","len":"4:07:30","ka":0},
+    {"id":"kMT54MPz9oE","t":"HTML and CSS Tutorial - Create a Website for Beginners","ch":"freeCodeCamp.org","len":"2:09:15","ka":0},
+    {"id":"916GWv2Qs08","t":"HTML Tutorial - Website Crash Course for Beginners","ch":"freeCodeCamp.org","len":"45:20","ka":0}
+  ],
+  css: [
+    {"id":"EulLvyYUIG4","t":"CSS სრული კურსი დამწყებთათვის!","ch":"Jortsoft","len":"2:10:20","ka":1},
+    {"id":"q6XeNUapBJE","t":"რა არის CSS? (CSS ქართულად)","ch":"კოდების სამყარო","len":"5:10","ka":1},
+    {"id":"UR4lAlxuOhw","t":"პირველი საიტი CSS-ით - HTML-თან დაკავშირება და სინტაქსი (CSS ქართულად)","ch":"კოდების სამყარო","len":"9:39","ka":1},
+    {"id":"K74l26pE4YA","t":"CSS Flexbox in 100 Seconds","ch":"Fireship","len":"1:44","ka":0},
+    {"id":"HGTJBPNC-Gw","t":"HTML & CSS Full Course for free 🌎","ch":"Bro Code","len":"4:02:43","ka":0},
+    {"id":"OXGznpKZ_sA","t":"CSS Tutorial – Full Course for Beginners","ch":"freeCodeCamp.org","len":"11:08:10","ka":0},
+    {"id":"wRNinF7YQqQ","t":"Learn CSS in 1 hour 🎨","ch":"Bro Code","len":"1:00:00","ka":0},
+    {"id":"1PnVor36_40","t":"Learn CSS in 20 Minutes","ch":"Web Dev Simplified","len":"23:44","ka":0},
+    {"id":"jV8B24rSN5o","t":"CSS Grid Layout Crash Course","ch":"Traversy Media","len":"27:55","ka":0},
+    {"id":"zFZrkCIc2Oc","t":"CS50W - Lecture 0 - HTML and CSS","ch":"CS50","len":"2:03:32","ka":0}
+  ],
+  react: [
+    {"id":"g-jq0H2aP0I","t":"REACT-1 | შესავალი React-სა და Next-ში","ch":"Novatori • ნოვატორი","len":"43:39","ka":1},
+    {"id":"wn3ArmHbeLc","t":"REACT-12 | Typescript React-ში","ch":"Novatori • ნოვატორი","len":"20:58","ka":1},
+    {"id":"VFB1pQT1d6E","t":"TECH შაბათი: React - ის საფუძვლები - შეხვედრა #5","ch":"BitCamp","len":"2:21:43","ka":1},
+    {"id":"HyWYpM_S-2c","t":"React for the Haters in 100 Seconds","ch":"Fireship","len":"2:34","ka":0},
+    {"id":"Ke90Tje7VS0","t":"React JS - React Tutorial for Beginners","ch":"Programming with Mosh","len":"2:25:27","ka":0},
+    {"id":"SqcY0GlETPk","t":"React Tutorial for Beginners","ch":"Programming with Mosh","len":"1:20:04","ka":0},
+    {"id":"bMknfKXIFA8","t":"React Course - Beginner's Tutorial for React JavaScript Library [2022]","ch":"freeCodeCamp.org","len":"11:55:28","ka":0},
+    {"id":"CgkZ7MvWUAA","t":"React Full Course for free ⚛️","ch":"Bro Code","len":"4:43:02","ka":0},
+    {"id":"dCLhUialKPQ","t":"React JS 19 Full Course 2025 | Build an App and Master React in 2 Hours","ch":"JavaScript Mastery","len":"2:07:19","ka":0},
+    {"id":"TNhaISOUy6Q","t":"10 React Hooks Explained // Plus Build your own from Scratch","ch":"Fireship","len":"13:15","ka":0}
+  ]
+};
 /* გენერირებულია studio.md-დან: id, ენა, სათაური, აღწერა, სად გავუშვა (run/link), ნაბიჯები { title, text, hl, code }, მთლიანი კოდი (full) */
 const STUDIO_GUIDES = [
   {"id":"js-todo","lang":"js","icon":"📝","title":"საქმეების სია ბრაუზერში","desc":"ააწყე ნამდვილი To-do აპი: ჩაწერ საქმეს, დაამატებ სიაში, დაჭერით წაშლი — და გვერდის დახურვის შემდეგაც არაფერი დაიკარგება.","time":"30 წუთი","file":"index.html","run":"გჭირდება მხოლოდ ბრაუზერი და ტექსტური რედაქტორი (მაგ. Visual Studio Code). შექმენი ფაილი index.html, ჩასვი კოდი და გახსენი ბრაუზერში.","link":"https://code.visualstudio.com/","video":"javascript todo list app tutorial","ideas":["დაამატე ღილაკი „ყველაფრის წაშლა“","გავლილი საქმე ხაზგასმული გახადე (text-decoration: line-through) წაშლის ნაცვლად","აჩვენე, რამდენი საქმე დარჩა"],"steps":[{"title":"გვერდის ჩონჩხი","text":"ჯერ HTML-ით ავაწყოთ ის, რასაც მომხმარებელი ხედავს: სათაური, ტექსტის ველი, ღილაკი და ცარიელი სია. id-ები გვჭირდება, რომ JavaScript-მა ეს ელემენტები იპოვოს. კოდი <script> ბლოკში დაიწერება.","hl":"html","code":"<!DOCTYPE html>\n<html lang=\"ka\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>ჩემი საქმეები<\/title>\n<\/head>\n<body>\n  <h1>ჩემი საქმეები<\/h1>\n  <input id=\"task\" placeholder=\"ახალი საქმე...\">\n  <button id=\"add\">დამატება<\/button>\n  <ul id=\"list\"><\/ul>\n  <script>\n    // აქ დაიწერება JavaScript\n  <\/script>\n<\/body>\n<\/html>"},{"title":"ელემენტების პოვნა","text":"document.getElementById() გვერდზე ელემენტს id-ით პოულობს. სამივეს ცვლადებში ვინახავთ, რომ ბევრჯერ არ ვეძებოთ. ეს ხაზები <script>-ის შიგნით ჩაწერე.","hl":"js","code":"const input = document.getElementById('task');\nconst button = document.getElementById('add');\nconst list = document.getElementById('list');"},{"title":"საქმის დამატება","text":"ფუნქცია addTask ქმნის ახალ <li> ელემენტს და სიაში სვამს. ღილაკზე დაჭერისას (click) ველიდან ვიღებთ ტექსტს: trim() თავში და ბოლოში ჰარებს აშორებს, ცარიელ ტექსტს კი არ ვამატებთ.","hl":"js","code":"function addTask(text) {\n  const li = document.createElement('li');\n  li.textContent = text;\n  list.appendChild(li);\n}\n\nbutton.addEventListener('click', () => {\n  const text = input.value.trim();\n  if (text === '') return;\n  addTask(text);\n  input.value = '';\n});"},{"title":"წაშლა და Enter კლავიში","text":"საქმეზე დაჭერით ის უნდა გაქრეს: addTask-ში <li>-ს ვუმატებთ click-ის მსმენელს, რომელიც li.remove()-ს იძახებს. Enter-ზე დაჭერა კი ღილაკზე დაჭერას გაიმეორებს.","hl":"js","code":"// addTask-ის შიგნით, list.appendChild(li)-ის წინ:\nli.addEventListener('click', () => {\n  li.remove();\n  save();\n});\n\ninput.addEventListener('keydown', (e) => {\n  if (e.key === 'Enter') button.click();\n});"},{"title":"შენახვა localStorage-ში","text":"ბრაუზერს აქვს პატარა საცავი — localStorage. ის მხოლოდ ტექსტს ინახავს, ამიტომ სიას JSON.stringify-ით ტექსტად ვაქცევთ, ჩატვირთვისას კი JSON.parse-ით უკან ვაბრუნებთ. save() გამოიძახე ყოველი დამატებისა და წაშლის შემდეგ.","hl":"js","code":"function save() {\n  const tasks = [...list.querySelectorAll('li')].map(li => li.textContent);\n  localStorage.setItem('tasks', JSON.stringify(tasks));\n}\n\nconst saved = JSON.parse(localStorage.getItem('tasks') || '[]');\nsaved.forEach(text => addTask(text));"}],"full":"<!DOCTYPE html>\n<html lang=\"ka\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>ჩემი საქმეები<\/title>\n<\/head>\n<body>\n  <h1>ჩემი საქმეები<\/h1>\n  <input id=\"task\" placeholder=\"ახალი საქმე...\">\n  <button id=\"add\">დამატება<\/button>\n  <ul id=\"list\"><\/ul>\n  <script>\n    const input = document.getElementById('task');\n    const button = document.getElementById('add');\n    const list = document.getElementById('list');\n\n    function save() {\n      const tasks = [...list.querySelectorAll('li')].map(li => li.textContent);\n      localStorage.setItem('tasks', JSON.stringify(tasks));\n    }\n\n    function addTask(text) {\n      const li = document.createElement('li');\n      li.textContent = text;\n      li.addEventListener('click', () => {\n        li.remove();\n        save();\n      });\n      list.appendChild(li);\n    }\n\n    button.addEventListener('click', () => {\n      const text = input.value.trim();\n      if (text === '') return;\n      addTask(text);\n      save();\n      input.value = '';\n    });\n\n    input.addEventListener('keydown', (e) => {\n      if (e.key === 'Enter') button.click();\n    });\n\n    const saved = JSON.parse(localStorage.getItem('tasks') || '[]');\n    saved.forEach(text => addTask(text));\n  <\/script>\n<\/body>\n<\/html>","fullHl":"html"},
@@ -16653,46 +16969,60 @@ const STUDIO_GUIDES = [
   {"id":"react-stopwatch","lang":"react","icon":"⏱️","title":"წამზომი React-ით","desc":"ააწყე წამზომი დაწყების, პაუზისა და თავიდან დაწყების ღილაკებით. ისწავლი კომპონენტს, useState-ს და useEffect-ს.","time":"30 წუთი","file":"stopwatch.html","run":"შექმენი ფაილი stopwatch.html, ჩასვი კოდი და გახსენი ბრაუზერში. React და Babel ინტერნეტიდან ჩაიტვირთება, ამიტომ ინტერნეტი საჭიროა.","link":"https://react.dev/learn","video":"react stopwatch useState useEffect tutorial","ideas":["დაამატე „წრე“ ღილაკი, რომელიც დროს სიაში ინახავს","აჩვენე მეათედი წამებიც (setInterval 100 მილიწამით)","60 წამის შემდეგ ფერი შეცვალე"],"steps":[{"title":"გვერდი React-ით","text":"React-ს და Babel-ს ინტერნეტიდან ვტვირთავთ. Babel JSX-ს (HTML-ის მსგავს კოდს JavaScript-ში) ბრაუზერისთვის გასაგებად თარგმნის — ამიტომ ჩვენი სკრიპტის ტიპია text/babel. აპი <div id=\"root\">-ში გამოჩნდება.","hl":"html","code":"<!DOCTYPE html>\n<html lang=\"ka\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>წამზომი<\/title>\n  <script src=\"https://unpkg.com/react@18/umd/react.development.js\"><\/script>\n  <script src=\"https://unpkg.com/react-dom@18/umd/react-dom.development.js\"><\/script>\n  <script src=\"https://unpkg.com/@babel/standalone/babel.min.js\"><\/script>\n<\/head>\n<body>\n  <div id=\"root\"><\/div>\n  <script type=\"text/babel\">\n    // აქ დაიწერება React-ის კოდი\n  <\/script>\n<\/body>\n<\/html>"},{"title":"კომპონენტი და მდგომარეობა","text":"კომპონენტი ფუნქციაა, რომელიც JSX-ს აბრუნებს. useState ქმნის მდგომარეობას: seconds — წამები, setSeconds — მისი შეცვლის ფუნქცია. როცა მდგომარეობა იცვლება, React ეკრანს თავად ანახლებს.","hl":"jsx","code":"function Stopwatch() {\n  const [seconds, setSeconds] = React.useState(0);\n  const [running, setRunning] = React.useState(false);\n}"},{"title":"წამების დათვლა: useEffect","text":"useEffect კოდს გამოსახვის შემდეგ უშვებს. როცა running ჩაირთვება, setInterval ყოველ წამს seconds-ს 1-ით ზრდის. დაბრუნებული ფუნქცია (clearInterval) ტაიმერს აჩერებს, როცა running გამოირთვება.","hl":"jsx","code":"  React.useEffect(() => {\n    if (!running) return;\n    const id = setInterval(() => setSeconds(s => s + 1), 1000);\n    return () => clearInterval(id);\n  }, [running]);"},{"title":"წუთები და წამები","text":"წამებს წუთებად და წამებად ვყოფთ. padStart(2, '0') ერთციფრა რიცხვს წინ ნულს უმატებს: 7 → 07.","hl":"jsx","code":"  const min = Math.floor(seconds / 60);\n  const sec = String(seconds % 60).padStart(2, '0');"},{"title":"ღილაკები და გამოსახვა","text":"return-ში JSX-ია. { } ფრჩხილებში JavaScript იწერება. onClick ღილაკზე დაჭერისას სრულდება. ბოლო ხაზი კომპონენტს root-ში ხატავს.","hl":"jsx","code":"  return (\n    <div style={{ fontFamily: 'sans-serif', textAlign: 'center', marginTop: 40 }}>\n      <h1>⏱️ {min}:{sec}<\/h1>\n      <button onClick={() => setRunning(!running)}>{running ? 'პაუზა' : 'დაწყება'}<\/button>\n      <button onClick={() => { setRunning(false); setSeconds(0); }}>თავიდან<\/button>\n    <\/div>\n  );\n\nReactDOM.createRoot(document.getElementById('root')).render(<Stopwatch />);"}],"full":"<!DOCTYPE html>\n<html lang=\"ka\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>წამზომი<\/title>\n  <script src=\"https://unpkg.com/react@18/umd/react.development.js\"><\/script>\n  <script src=\"https://unpkg.com/react-dom@18/umd/react-dom.development.js\"><\/script>\n  <script src=\"https://unpkg.com/@babel/standalone/babel.min.js\"><\/script>\n<\/head>\n<body>\n  <div id=\"root\"><\/div>\n  <script type=\"text/babel\">\n    function Stopwatch() {\n      const [seconds, setSeconds] = React.useState(0);\n      const [running, setRunning] = React.useState(false);\n\n      React.useEffect(() => {\n        if (!running) return;\n        const id = setInterval(() => setSeconds(s => s + 1), 1000);\n        return () => clearInterval(id);\n      }, [running]);\n\n      const min = Math.floor(seconds / 60);\n      const sec = String(seconds % 60).padStart(2, '0');\n\n      return (\n        <div style={{ fontFamily: 'sans-serif', textAlign: 'center', marginTop: 40 }}>\n          <h1>⏱️ {min}:{sec}<\/h1>\n          <button onClick={() => setRunning(!running)}>{running ? 'პაუზა' : 'დაწყება'}<\/button>\n          <button onClick={() => { setRunning(false); setSeconds(0); }}>თავიდან<\/button>\n        <\/div>\n      );\n    }\n\n    ReactDOM.createRoot(document.getElementById('root')).render(<Stopwatch />);\n  <\/script>\n<\/body>\n<\/html>","fullHl":"html"}
 ];
 const Studio = {
-  lang: null, guide: null,
-  open(guideId) { this.guide = guideId || null; UI.show('studio'); },
+  lang: null, guide: null, video: null, noteId: null, ed: null, saveT: null,
+  open(guideId) { this.guide = guideId || null; this.video = null; UI.show('studio'); },
   done(id) { const d = (Progress.P.guides || {})[id]; return Array.isArray(d) ? d : []; },
-  // ვიდეოების ბმულები ენისთვის
-  links(c) {
-    const v = STUDIO_VIDEO[c.id] || [c.title, c.id], g = STUDIO_GUIDES.find(x => x.lang === c.id);
-    const yt = q => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q);
+  notes() { return Array.isArray(Progress.P.notes) ? Progress.P.notes : []; },
+  videos(lang) { return STUDIO_VIDEOS[lang] || []; },
+  // „მეტი ვიდეო“: ძებნის ბმულები YouTube-სა და TikTok-ზე
+  more(c) {
+    const v = STUDIO_VIDEO[c.id] || [c.title, c.id];
     return [
-      { ic: '💬', t: 'ქართულად', s: 'YouTube: „' + c.title + ' ქართულად“', u: yt(c.title + ' ქართულად') },
-      { ic: '🎓', t: 'სრული კურსი', s: 'YouTube: დამწყებთათვის, ინგლისურად', u: yt(v[0] + ' full course for beginners') },
-      { ic: '🆓', t: 'freeCodeCamp', s: 'უფასო გრძელი კურსები', u: 'https://www.youtube.com/@freecodecamp/search?query=' + encodeURIComponent(v[0]) },
-      g ? { ic: g.icon, t: 'ვიდეოები ამ პროექტზე', s: '„' + g.title + '“', u: yt(g.video) } : null,
-      { ic: '⚡', t: 'მოკლე ვიდეოები', s: 'YouTube · #' + v[1], u: 'https://www.youtube.com/hashtag/' + v[1] },
-      { ic: '🎵', t: 'TikTok', s: '#' + v[1] + ' · 13 წლიდან', u: 'https://www.tiktok.com/tag/' + v[1] }
-    ].filter(Boolean);
+      { t: '🔎 YouTube ქართულად', u: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(c.title + ' ქართულად') },
+      { t: '🎓 სრული კურსები', u: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(v[0] + ' full course for beginners') },
+      { t: '⚡ #' + v[1], u: 'https://www.youtube.com/hashtag/' + v[1] },
+      { t: '🎵 TikTok #' + v[1] + ' (13+)', u: 'https://www.tiktok.com/tag/' + v[1] }
+    ];
   },
   lock() { Sound.click(); Paywall.open(null, 'studio'); },
   render() {
     const pro = Progress.hasPro(), chip = $('#sd-pro');
     chip.textContent = pro ? '👑 Pro ✓' : '👑 Pro';
     chip.classList.toggle('on', pro);
+    if (this.video && pro) return this.renderWatch();
     if (this.guide && pro && STUDIO_GUIDES.some(g => g.id === this.guide)) return this.renderGuide();
-    this.guide = null;
+    this.guide = null; this.video = null; this.ed = null;
     const favs = Progress.favs(), ids = favs.concat(COURSES.map(c => c.id).filter(id => !favs.includes(id)));
     const cid = COURSE_BY_ID[this.lang] ? this.lang : Progress.course(), c = COURSE_BY_ID[cid];
     this.lang = cid;
     let html = pro
-      ? '<p class="muted" style="margin:0">აირჩიე ენა: უყურე ვიდეოებს სოციალურ მედიაში და ააწყე ნამდვილი პროექტი ნაბიჯ-ნაბიჯ — ბიტის თამაშის გარეთ, ნამდვილ პროგრამებში.</p>'
-      : '<div class="card sd-lock"><div class="sd-lock-ic" aria-hidden="true">👑</div><div class="sd-lock-t"><b>ეს გვერდი Pro-სთვისაა</b><span>' + COURSES.length + ' ენის ვიდეოები სოციალურ მედიაში და ' + STUDIO_GUIDES.length + ' პროექტი ნაბიჯ-ნაბიჯ ახსნით. Pro ამასთან ერთად ყველა ფასიან ლეველსაც ხსნის.</span></div>' +
+      ? '<p class="muted" style="margin:0">აირჩიე ენა და ვიდეო: უყურე აქვე, ქვემოთ რედაქტორში შენ თვითონ დაწერე იგივე კოდი, გაუშვი ▶ Run-ით და შეინახე 💾 ჩანაწერებში.</p>'
+      : '<div class="card sd-lock"><div class="sd-lock-ic" aria-hidden="true">👑</div><div class="sd-lock-t"><b>ეს გვერდი Pro-სთვისაა</b><span>' + COURSES.length + ' ენის ვიდეოები (ყოველ ენაზე 10) საიტზევე, კოდის რედაქტორი ▶ Run-ით, ჩანაწერები და ' + STUDIO_GUIDES.length + ' ნაბიჯ-ნაბიჯ პროექტი. Pro ამასთან ერთად ყველა ფასიან ლეველსაც ხსნის.</span></div>' +
         '<div class="sd-lock-b"><button class="btn" data-a="key">🔑 მაქვს კოდი</button><button class="pro-btn" data-a="buy">👑 Pro' + (PRO.price ? ' · ' + esc(PRO.price) : '') + '</button></div></div>';
     html += '<div class="sd-langs" role="group" aria-label="ენა">' + ids.map(id => {
       const x = COURSE_BY_ID[id];
       return '<button class="sd-lang' + (id === cid ? ' on' : '') + '" data-lang="' + id + '" aria-pressed="' + (id === cid) + '">' + langBadge(x.lang, true) + esc(x.title) + (favs.includes(id) ? ' <span class="sd-star" aria-label="რჩეული">★</span>' : '') + '</button>';
     }).join('') + '</div>';
     html += '<div class="card sd-head">' + langBadge(c.lang) + '<div><h2>' + esc(c.title) + '</h2><p class="muted">' + esc(c.sub) + '</p></div></div>';
-    html += '<h3 class="lang-sec">📺 ვიდეოები სოციალურ მედიაში</h3><div class="sd-vids">' + this.links(c).map(l => {
-      const inner = '<span class="sd-vic" aria-hidden="true">' + l.ic + '</span><span class="sd-vt"><b>' + esc(l.t) + '</b><small>' + esc(l.s) + '</small></span><span class="sd-go" aria-hidden="true">' + (pro ? '↗' : '🔒') + '</span>';
-      return pro ? '<a class="sd-vid" href="' + esc(l.u) + '" target="_blank" rel="noopener noreferrer">' + inner + '</a>' : '<button class="sd-vid locked" data-a="lock">' + inner + '</button>';
+    // ვიდეოები
+    const vs = this.videos(cid);
+    html += '<h3 class="lang-sec">📺 ვიდეოები <small>' + vs.length + '</small></h3>' + (vs.length ? '<div class="sd-vgrid">' + vs.map(v =>
+      '<button class="sd-vcard' + (pro ? '' : ' locked') + '" data-video="' + esc(v.id) + '" aria-label="' + esc(v.t) + (pro ? '' : ' (Pro)') + '">' +
+      '<span class="sd-thumb"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/' + esc(v.id) + '/mqdefault.jpg">' + (v.ka ? '<span class="sd-kab">ქართულად</span>' : '') +
+      '<span class="sd-dur">' + esc(v.len || '') + '</span><span class="sd-play" aria-hidden="true">' + (pro ? '▶' : '🔒') + '</span></span>' +
+      '<span class="sd-vmeta"><b>' + esc(v.t) + '</b><small>' + esc(v.ch) + '</small></span></button>').join('') + '</div>' : '<p class="muted">ამ ენის ვიდეოები მალე დაემატება.</p>');
+    html += '<p class="muted sd-note">ვიდეოები YouTube-იდანაა და სხვა ავტორებს ეკუთვნის. მეტი: ' + this.more(c).map(l => pro ? '<a href="' + esc(l.u) + '" target="_blank" rel="noopener noreferrer">' + esc(l.t) + '</a>' : '<button class="linklike" data-a="lock">' + esc(l.t) + ' 🔒</button>').join(' · ') + '</p>';
+    // ჩანაწერები
+    const ns = this.notes().filter(n => n.lang === cid);
+    html += '<h3 class="lang-sec" id="sd-notes">📒 ჩემი ჩანაწერები <small>' + (pro ? ns.length : '🔒') + '</small></h3>';
+    if (!pro) html += '<p class="muted">Pro-ით ვიდეოს ქვემოთ დაწერილ კოდს 💾 Save ღილაკით აქ შეინახავ.</p>';
+    else if (!ns.length) html += '<p class="muted">ჯერ ცარიელია. გახსენი ვიდეო, ქვემოთ რედაქტორში დაწერე კოდი და დააჭირე 💾 Save.</p>';
+    else html += '<div class="sd-notes">' + ns.map(n => {
+      const v = this.videos(n.lang).find(x => x.id === n.vid);
+      return '<div class="card sd-nitem"><div class="sd-nt"><b>' + esc(n.title) + '</b><small>' + new Date(n.at).toLocaleDateString('ka-GE') + ' · ' + String(n.code).split('\n').length + ' ხაზი' + (v ? ' · ' + esc(v.t) : '') + '</small></div>' +
+        '<div class="sd-nb"><button class="btn small primary" data-note="' + esc(n.id) + '">📂 გახსნა</button><button class="btn small" data-ncopy="' + esc(n.id) + '" title="კოპირება">📋</button><button class="btn small" data-ndel="' + esc(n.id) + '" title="წაშლა" aria-label="წაშლა">🗑️</button></div></div>';
     }).join('') + '</div>';
-    html += '<p class="muted sd-note">ვიდეოები YouTube-სა და TikTok-ზე გაიხსნება და სხვა ავტორებს ეკუთვნის. TikTok 13 წლიდანაა — უმცროსებმა მშობელთან ერთად უყურეთ.</p>';
+    // პროექტები
     const gs = STUDIO_GUIDES.filter(g => g.lang === cid);
     html += '<h3 class="lang-sec">🛠️ ააწყე ნაბიჯ-ნაბიჯ</h3>' + (gs.length ? '<div class="sd-guides">' + gs.map(g => {
       const d = this.done(g.id).length, n = g.steps.length;
@@ -16702,12 +17032,179 @@ const Studio = {
     const body = $('#studio-body');
     body.innerHTML = html;
     $$('[data-lang]', body).forEach(b => b.addEventListener('click', () => { Sound.click(); this.lang = b.dataset.lang; this.render(); }));
+    $$('[data-video]', body).forEach(b => b.addEventListener('click', () => { if (!Progress.hasPro()) return this.lock(); Sound.click(); this.noteId = null; this.video = b.dataset.video; this.render(); window.scrollTo(0, 0); }));
     $$('[data-guide]', body).forEach(b => b.addEventListener('click', () => { if (!Progress.hasPro()) return this.lock(); Sound.click(); this.guide = b.dataset.guide; this.render(); window.scrollTo(0, 0); }));
+    $$('[data-note]', body).forEach(b => b.addEventListener('click', () => this.openNote(b.dataset.note)));
+    $$('[data-ncopy]', body).forEach(b => b.addEventListener('click', () => { const n = this.notes().find(x => x.id === b.dataset.ncopy); if (n) this.copy(n.code); }));
+    $$('[data-ndel]', body).forEach(b => b.addEventListener('click', () => this.delNote(b.dataset.ndel)));
     $$('[data-a=lock]', body).forEach(b => b.addEventListener('click', () => this.lock()));
     const buy = $('[data-a=buy]', body), key = $('[data-a=key]', body);
     if (buy) buy.addEventListener('click', () => Paywall.buy());
     if (key) key.addEventListener('click', () => Paywall.keyForm());
   },
+  /* ---- ვიდეო + რედაქტორი ---- */
+  renderWatch() {
+    const lang = this.lang, c = COURSE_BY_ID[lang], v = this.videos(lang).find(x => x.id === this.video);
+    if (!Progress.hasPro() || !v) { this.video = null; return this.render(); }
+    const L = LANGS[c.lang], web = L.kind === 'web', file = STUDIO_FILE[lang] || 'main.txt', nn = this.notes().length;
+    const body = $('#studio-body');
+    body.innerHTML = '<div class="sd-wbar"><button class="btn small" data-a="back">← ' + esc(c.title) + '-ის ვიდეოები</button><button class="btn small" data-a="notes">📒 ჩანაწერები (' + nn + ')</button></div>' +
+      '<div class="sd-player"><iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(v.id) + '?rel=0&modestbranding=1" title="' + esc(v.t) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>' +
+      '<div class="sd-winfo"><div><b>' + esc(v.t) + '</b><small>' + esc(v.ch) + ' · ' + esc(v.len || '') + (v.ka ? ' · ქართულად' : '') + '</small></div><a class="btn small" href="https://www.youtube.com/watch?v=' + encodeURIComponent(v.id) + '" target="_blank" rel="noopener noreferrer">YouTube-ზე ↗</a></div>' +
+      '<div class="vsc" role="region" aria-label="კოდის რედაქტორი">' +
+      '<div class="vsc-title"><span class="vsc-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="vsc-name">' + esc(file) + ' — CodeQuest Code</span></div>' +
+      '<div class="vsc-tabs"><span class="vsc-tab">' + langBadge(c.lang, true) + ' ' + esc(file) + (this.noteId ? ' <small>· ჩანაწერი</small>' : '') + '</span></div>' +
+      '<div class="vsc-ed" id="vsc-ed"></div>' +
+      '<div class="vsc-acts"><button class="vsc-run" id="vsc-run" title="გაშვება (Ctrl+Enter)">▶ Run</button><button class="vsc-btn" id="vsc-save" title="შენახვა (Ctrl+S)">💾 Save</button><button class="vsc-btn" id="vsc-reset" title="საწყისი კოდი">↺</button></div>' +
+      '<div class="vsc-term"><div class="vsc-term-h">' + (web ? 'გადახედვა' : 'Terminal') + '</div>' + (web ? '<iframe class="vsc-prev" id="vsc-prev" title="გადახედვა" sandbox="allow-scripts allow-modals"></iframe>' : '<pre class="vsc-out" id="vsc-out" aria-live="polite"><span class="dim">დააჭირე ▶ Run — შედეგი აქ გამოჩნდება.</span></pre>') + '</div>' +
+      '<div class="vsc-status"><span id="vsc-pos">Ln 1, Col 1</span><span>UTF-8</span><span>' + esc(L.name) + '</span></div></div>' +
+      '<p class="muted sd-note">' + (lang === 'react' ? 'React-ში დაწერე function App() { ... } — useState, useEffect და სხვა hook-ები პირდაპირ ხელმისაწვდომია, import არ სჭირდება. ' : web ? '' : 'კოდი ბრაუზერშივე ეშვება: ენის ძირითადი ნაწილი მუშაობს (ცვლადები, პირობები, ციკლები, ფუნქციები, სიები), კლავიატურიდან შეყვანა (input) და ბიბლიოთეკები — ჯერ არა. ') + 'Ctrl+Enter — გაშვება, Ctrl+S — შენახვა.</p>';
+    const draft = (Progress.P.sdDraft || {})[lang];
+    const start = this.noteCode != null ? this.noteCode : typeof draft === 'string' ? draft : STUDIO_START[lang] || '';
+    this.noteCode = null;
+    this.mountEditor($('#vsc-ed'), start, L);
+    $('[data-a=back]', body).addEventListener('click', () => { Sound.click(); this.video = null; this.noteId = null; this.render(); window.scrollTo(0, 0); });
+    $('[data-a=notes]', body).addEventListener('click', () => { Sound.click(); this.video = null; this.render(); const h = $('#sd-notes'); if (h) h.scrollIntoView({ block: 'start' }); });
+    $('#vsc-run').addEventListener('click', () => this.runCode());
+    $('#vsc-save').addEventListener('click', () => this.saveNote());
+    $('#vsc-reset').addEventListener('click', () => {
+      const m = Modal.open('<h2>საწყისი კოდი?</h2><p>რედაქტორში ახლანდელი კოდი წაიშლება (შენახული ჩანაწერები არ იცვლება).</p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="yes">დიახ</button></div>');
+      m.querySelector('[data-a=yes]').addEventListener('click', () => { Modal.close(m); this.noteId = null; this.edSet(STUDIO_START[lang] || ''); });
+    });
+    if (web) this.runCode();
+  },
+  mountEditor(el, code, L) {
+    const keys = { 'Ctrl-Enter': () => this.runCode(), 'Cmd-Enter': () => this.runCode(), 'Ctrl-S': () => this.saveNote(), 'Cmd-S': () => this.saveNote() };
+    if (window.CodeMirror) {
+      const cm = this.ed = CodeMirror(el, {
+        value: code, mode: L.cm, theme: 'vsc', lineNumbers: true, matchBrackets: true, autoCloseBrackets: true, indentUnit: L.indent, tabSize: L.indent, viewportMargin: Infinity, spellcheck: false,
+        extraKeys: Object.assign({ Tab: c => (c.somethingSelected() ? c.indentSelection('add') : c.replaceSelection(' '.repeat(L.indent), 'end')), 'Shift-Tab': c => c.indentSelection('subtract') }, keys)
+      });
+      cm.getInputField().setAttribute('aria-label', 'კოდის რედაქტორი');
+      cm.on('change', () => this.draft());
+      cm.on('cursorActivity', () => { const p = cm.getCursor(), s = $('#vsc-pos'); if (s) s.textContent = 'Ln ' + (p.line + 1) + ', Col ' + (p.ch + 1); });
+    } else {
+      const ta = this.ed = document.createElement('textarea');
+      ta.className = 'vsc-ta'; ta.value = code; ta.spellcheck = false; ta.setAttribute('aria-label', 'კოდის რედაქტორი');
+      ta.addEventListener('input', () => this.draft());
+      ta.addEventListener('keydown', e => {
+        if (e.key === 'Tab') { e.preventDefault(); ta.setRangeText(' '.repeat(L.indent), ta.selectionStart, ta.selectionEnd, 'end'); this.draft(); }
+        else if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); this.runCode(); }
+        else if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) { e.preventDefault(); this.saveNote(); }
+      });
+      el.appendChild(ta);
+    }
+  },
+  edGet() { return !this.ed ? '' : this.ed.getValue ? this.ed.getValue() : this.ed.value; },
+  edSet(v) { if (!this.ed) return; if (this.ed.setValue) this.ed.setValue(v); else { this.ed.value = v; this.draft(); } },
+  // დრაფტი ყოველი ენისთვის (ვიდეოს შეცვლისას კოდი არ იკარგება)
+  draft() {
+    const P = Progress.P;
+    if (!P.sdDraft || typeof P.sdDraft !== 'object') P.sdDraft = {};
+    P.sdDraft[this.lang] = this.edGet().slice(0, STUDIO_NOTE_CHARS);
+    clearTimeout(this.saveT);
+    this.saveT = setTimeout(() => Progress.save(), 800);
+  },
+  // ▶ Run: სხვა ენა ჯერ JavaScript-ში ითარგმნება, მერე იზოლირებულ Worker-ში ეშვება (ლიმიტებით: 10 000 ნაბიჯი / 3 წამი)
+  async runCode() {
+    if (!this.ed || !Progress.hasPro()) return;
+    const lang = this.lang, code = this.edGet(), L = LANGS[COURSE_BY_ID[lang].lang];
+    Sound.ensure();
+    if (L.kind === 'web') {
+      const f = $('#vsc-prev');
+      if (f) f.srcdoc = lang === 'react' ? ReactRun.doc(code, { mode: 'preview' }) : WebPreview.doc({ lang: 'html' }, code);
+      return;
+    }
+    const out = $('#vsc-out'), btn = $('#vsc-run');
+    if (!out) return;
+    const line = (t, cls) => '<span class="' + (cls || '') + '">' + esc(t) + '</span>';
+    out.innerHTML = line('$ run ' + (STUDIO_FILE[lang] || ''), 'dim') + '\n';
+    btn.disabled = true;
+    const t0 = performance.now();
+    let js = code, names = null;
+    if (L.compile) {
+      const tries = [code];
+      if (RC_MAIN[lang] && lang !== 'py' && !/\bmain\s*\(/.test(code)) tries.push(RC_MAIN[lang](code, { c: '#include <stdio.h>\n#include <string.h>', cpp: '#include <iostream>\n#include <string>\nusing namespace std;' }[lang] || ''));
+      let err = null; js = null;
+      for (const t of tries) { const r = L.compile(t, { allowed: [], vars: [], varTypes: {} }); if (!r.error) { js = r.code; names = r.vars; break; } err = err || r.error; }
+      if (js == null) { btn.disabled = false; out.innerHTML += line('✘ ' + (err.line ? 'ხაზი ' + err.line + ': ' : '') + err.message, 'err'); if (err.line) this.markLine(err.line); return; }
+    } else names = extractVarNames(code);
+    const res = await CodeRunner.run({ code: js, lang: COURSE_BY_ID[lang].lang, map: parseMap({ grid: ['>'] }), allowed: [], vars: null, wantVars: false, varNames: names });
+    btn.disabled = false;
+    const logs = (res.events || []).filter(e => e.t === 'log').map(e => e.text);
+    out.innerHTML += logs.map(t => line(t)).join('\n') + (logs.length ? '\n' : '');
+    let t = null;
+    if (res.timeout) t = Translator.halt({ kind: 'tired' });
+    else if (res.error) t = Translator.translate(res.error, { code: js, allowed: [], declared: names || [], vars: null });
+    else if (res.halted) t = Translator.halt(res.halted);
+    if (t) { out.innerHTML += line('✘ ' + t.text, 'err'); if (t.line) this.markLine(t.line); }
+    else out.innerHTML += line('✔ პროგრამა დასრულდა · ' + Math.round(performance.now() - t0) + ' ms', 'ok');
+    out.scrollTop = out.scrollHeight;
+  },
+  markLine(n) {
+    if (!this.ed || !this.ed.addLineClass) return;
+    const i = n - 1;
+    if (i < 0 || i >= this.ed.lineCount()) return;
+    this.ed.addLineClass(i, 'background', 'vsc-errline');
+    this.ed.scrollIntoView({ line: i, ch: 0 }, 60);
+    setTimeout(() => { if (this.ed && this.ed.removeLineClass) this.ed.removeLineClass(i, 'background', 'vsc-errline'); }, 3000);
+  },
+  /* ---- 💾 ჩანაწერები ---- */
+  saveNote() {
+    if (!this.ed || !Progress.hasPro()) return;
+    const code = this.edGet();
+    if (!code.trim()) { UI.toast('📒', 'რედაქტორი ცარიელია', 'ჯერ დაწერე კოდი.'); return; }
+    const P = Progress.P, v = this.videos(this.lang).find(x => x.id === this.video), cur = this.noteId && this.notes().find(n => n.id === this.noteId);
+    const def = cur ? cur.title : COURSE_BY_ID[this.lang].title + ' · ' + (v ? v.t.slice(0, 40) : 'კოდი') + ' · ' + new Date().toLocaleDateString('ka-GE');
+    const m = Modal.open('<h2>💾 ჩანაწერის შენახვა</h2><p class="muted">ჩანაწერები ამ ბრაუზერში ინახება — „ვიდეოები და პროექტები“ გვერდზე, „📒 ჩემი ჩანაწერები“-ში.</p>' +
+      '<input class="txt" id="sd-ntitle" style="width:100%" maxlength="80" aria-label="ჩანაწერის სახელი" value="' + esc(def) + '">' +
+      '<div class="modal-actions"><button class="btn" data-close>გაუქმება</button>' + (cur ? '<button class="btn" data-a="new">➕ ახალი ჩანაწერი</button><button class="btn primary" data-a="upd">💾 განახლება</button>' : '<button class="btn primary" data-a="new">💾 შენახვა</button>') + '</div>');
+    const inp = m.querySelector('#sd-ntitle');
+    setTimeout(() => { inp.focus(); inp.select(); }, 60);
+    const go = upd => {
+      const title = inp.value.trim() || def, text = code.slice(0, STUDIO_NOTE_CHARS);
+      if (!Array.isArray(P.notes)) P.notes = [];
+      if (upd && cur) Object.assign(cur, { title, code: text, at: Date.now() });
+      else {
+        const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+        P.notes.unshift({ id, lang: this.lang, vid: this.video, title, code: text, at: Date.now() });
+        P.notes = P.notes.slice(0, STUDIO_NOTES_MAX);
+        this.noteId = id;
+      }
+      Progress.save(); Modal.close(m); Sound.ok ? Sound.ok() : Sound.click();
+      UI.toast('💾', upd ? 'ჩანაწერი განახლდა' : 'შენახულია ჩანაწერებში', '„' + title + '“');
+      const b = $('[data-a=notes]'); if (b) b.textContent = '📒 ჩანაწერები (' + this.notes().length + ')';
+    };
+    const nb = m.querySelector('[data-a=new]'), ub = m.querySelector('[data-a=upd]');
+    nb.addEventListener('click', () => go(false));
+    if (ub) ub.addEventListener('click', () => go(true));
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(!!cur); });
+  },
+  openNote(id) {
+    const n = this.notes().find(x => x.id === id);
+    if (!n || !Progress.hasPro()) return;
+    Sound.click();
+    const vs = this.videos(n.lang);
+    this.lang = n.lang; this.noteId = n.id; this.noteCode = n.code;
+    this.video = vs.some(x => x.id === n.vid) ? n.vid : vs.length ? vs[0].id : null;
+    if (!this.video) { this.noteCode = null; UI.toast('📒', 'ვიდეო ვერ მოიძებნა'); return; }
+    const P = Progress.P;
+    if (!P.sdDraft || typeof P.sdDraft !== 'object') P.sdDraft = {};
+    P.sdDraft[n.lang] = n.code;
+    this.render(); window.scrollTo(0, 0);
+  },
+  delNote(id) {
+    const n = this.notes().find(x => x.id === id);
+    if (!n) return;
+    const m = Modal.open('<h2>წავშალო ჩანაწერი?</h2><p>„' + esc(n.title) + '“ სამუდამოდ წაიშლება.</p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn danger" data-a="yes">🗑️ წაშლა</button></div>');
+    m.querySelector('[data-a=yes]').addEventListener('click', () => {
+      Progress.P.notes = this.notes().filter(x => x.id !== id);
+      if (this.noteId === id) this.noteId = null;
+      Progress.save(); Modal.close(m); this.render();
+      const h = $('#sd-notes'); if (h) h.scrollIntoView({ block: 'start' });
+    });
+  },
+  /* ---- ნაბიჯ-ნაბიჯ პროექტები ---- */
   code(src, fence) { return '<pre class="sd-code"><code>' + hlCode(src, STUDIO_HL[fence] || 'js') + '</code></pre>'; },
   renderGuide() {
     if (!Progress.hasPro() || !STUDIO_GUIDES.some(x => x.id === this.guide)) { this.guide = null; return this.render(); }
@@ -17437,7 +17934,7 @@ const Paywall = {
       : (lv ? 'ეს <b>' + (lv.index + 1) + '-ე ლეველია</b>. ' : '') + 'ყველა ენაზე პირველი <b>' + PRO.freeLevels + ' ლეველი უფასოა</b> — დანარჩენს Pro ხსნის.';
     const m = Modal.open('<div class="pro-box"><div class="pro-badge" aria-hidden="true">👑</div><h2 class="result-title">CodeQuest Pro</h2>' +
       '<p>' + intro + '</p>' +
-      '<ul class="pro-list"><li>✅ ყველა ფასიანი ლეველი ყველა ენაზე (' + COURSES.length + ')</li><li>✅ ' + COURSES.length + ' ენის ვიდეოები სოციალურ მედიაში და ' + STUDIO_GUIDES.length + ' ნაბიჯ-ნაბიჯ პროექტი</li><li>✅ ერთჯერადი გადახდა — გამოწერის გარეშე</li><li>✅ კოდი ელფოსტაზე მოგივა და ნებისმიერ მოწყობილობაზე ჩასვამ</li></ul></div>' +
+      '<ul class="pro-list"><li>✅ ყველა ფასიანი ლეველი ყველა ენაზე (' + COURSES.length + ')</li><li>✅ ' + Object.values(STUDIO_VIDEOS).reduce((a, l) => a + l.length, 0) + ' ვიდეო საიტზევე, კოდის რედაქტორი ▶ Run-ით და 📒 ჩანაწერები</li><li>✅ ' + STUDIO_GUIDES.length + ' ნაბიჯ-ნაბიჯ პროექტი</li><li>✅ ერთჯერადი გადახდა — გამოწერის გარეშე</li><li>✅ კოდი ელფოსტაზე მოგივა და ნებისმიერ მოწყობილობაზე ჩასვამ</li></ul></div>' +
       '<div class="modal-actions win-actions"><button class="btn" data-close>მოგვიანებით</button><button class="btn" data-a="key">🔑 მაქვს კოდი</button><button class="btn primary" data-a="buy">💳 ყიდვა' + price + '</button></div>');
     m.querySelector('[data-a=buy]').addEventListener('click', () => this.buy());
     m.querySelector('[data-a=key]').addEventListener('click', () => { Modal.close(m); this.keyForm(); });
@@ -18355,7 +18852,7 @@ const Game = {
 // Pro-ს შემოწმების მქონე ფუნქციები კონსოლიდან ვერ ჩანაცვლდება
 const lockMethods = (obj, names) => names.forEach(k => Object.defineProperty(obj, k, { value: obj[k], writable: false, configurable: false }));
 lockMethods(Game, ['openLevel', 'setup']);
-lockMethods(Studio, ['open', 'render', 'renderGuide']);
+lockMethods(Studio, ['open', 'render', 'renderGuide', 'renderWatch', 'runCode', 'saveNote', 'openNote']);
 lockMethods(Paywall, ['restore', 'validate']);
 
 /* =====================================================================

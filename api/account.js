@@ -131,6 +131,20 @@ function isOwnerKey(key) {
     .some(k => crypto.timingSafeEqual(crypto.createHash('sha256').update(k).digest(), h));
 }
 
+// Pro: კლასები და ცოცხალი გაკვეთილი მხოლოდ Pro-თია. თამაში აგზავნის license.js-ის ხელმოწერილ ნიშანს (P.pro.token),
+// აქ ის მოწმდება იგივე საჯარო გასაღებით, რაც თამაშშია (PRO.pub). გასაღების შეცვლისას ორივე ადგილას შეცვალე.
+const PRO_PUB = { kty: 'EC', crv: 'P-256', x: 'fLZ_2UY_wXEOQuLdneJnViBQBysM_qj2VlNT4sfNZS4', y: '0uLSGAjTAWmDSQeI-82sS_I76iny23NsGZlAqov_SS0' };
+let proKey = null;
+function isPro(token) {
+  try {
+    const p = String(token || '').split('.');
+    if (p.length !== 2 || p[0].length > 500 || p[1].length > 200) return false;
+    proKey = proKey || crypto.createPublicKey({ key: PRO_PUB, format: 'jwk' });
+    return crypto.verify('sha256', Buffer.from(p[0]), { key: proKey, dsaEncoding: 'ieee-p1363' }, Buffer.from(p[1], 'base64url'));
+  } catch (e) { return false; }
+}
+function needPro(b) { if (!isPro(b.pro)) throw new Fail(403, 'pro_required'); }
+
 /* ---------- მომხმარებელი და სესია ---------- */
 const keyOf = name => String(name).normalize('NFC').toLowerCase();
 async function getUser(u) { const s = await db(['GET', 'user:' + u]); return s ? JSON.parse(s) : null; }
@@ -259,8 +273,9 @@ const actions = {
       ['DEL', 'uin:' + u], ['DEL', 'uown:' + u], ['DEL', 'sess:' + sha(b.token)]]));
     return {};
   },
-  /* ---- კლასები: მასწავლებელი ქმნის, მოსწავლე 6-ასოიანი კოდით უერთდება ---- */
+  /* ---- კლასები (Pro): მასწავლებელი ქმნის, მოსწავლე 6-ასოიანი კოდით უერთდება ---- */
   async classCreate(b) {
+    needPro(b);
     const { u, user } = await session(b.token);
     const name = cleanText(b.name, 40) || 'ჩემი კლასი';
     if (await db(['SCARD', 'uown:' + u]) >= 10) throw new Fail(400, 'class_limit');
@@ -274,6 +289,7 @@ const actions = {
     throw new Fail(500, 'server');
   },
   async classJoin(b) {
+    needPro(b);
     const { u } = await session(b.token);
     await limit('join', u, 30, 3600);   // კოდის გამოცნობის წინააღმდეგ
     const code = normCode(b.code), c = await getClass(code);
@@ -292,6 +308,7 @@ const actions = {
     return {};
   },
   async classes(b) {
+    needPro(b);
     const { u } = await session(b.token);
     const [own, inn] = (await dbPipe([['SMEMBERS', 'uown:' + u], ['SMEMBERS', 'uin:' + u]])).map(x => x || []);
     const all = own.concat(inn), meta = all.length ? await dbPipe(all.map(c => ['GET', 'cls:' + c])) : [];
@@ -308,6 +325,7 @@ const actions = {
   },
   // მასწავლებელი ხედავს დეტალებს, მოსწავლე — მხოლოდ სახელებს და XP-ს (კვირის რეიტინგი)
   async classView(b) {
+    needPro(b);
     const { u } = await session(b.token);
     const code = normCode(b.code), c = await getClass(code);
     if (!c) throw new Fail(404, 'class_none');
@@ -340,6 +358,7 @@ const actions = {
   /* ---- ცოცხალი გაკვეთილი ---- */
   // მასწავლებელი იწყებს: ახალი ID (მოსწავლეები კლასის ხედიდან იღებენ) და გასაღები (მხოლოდ მასწავლებელს)
   async liveStart(b) {
+    needPro(b);
     const { u } = await session(b.token);
     const code = normCode(b.code), c = await getClass(code);
     if (!c || c.owner !== u) throw new Fail(403, 'class_none');

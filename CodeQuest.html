@@ -942,6 +942,10 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .lv-hint{margin:auto;padding:20px;color:#80868b;font-size:.9rem;text-align:center}
 .lv-banner{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 0 4px;padding:12px 14px;border:1px solid color-mix(in srgb,#e03131 35%,var(--border));border-radius:14px;background:color-mix(in srgb,#e03131 10%,var(--panel))}
 .lv-banner b{flex:1}
+.cl-lock{max-width:560px;margin:0 auto}
+.cl-crown{width:76px;height:76px;margin:0 auto 8px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b 55%,#f5a800);font-size:2.3rem;line-height:1;box-shadow:0 0 0 6px rgba(255,212,59,.16),0 5px 0 #c98f00}
+.cl-lock-l{display:grid;gap:8px;margin:12px 0;padding:0;list-style:none;text-align:left}
+.cl-lock-l li{padding:9px 12px;border:1px solid var(--border);border-radius:12px;background:var(--panel2);font-size:.9rem}
 .cl-liverow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:12px}
 .lv-pick{display:grid;gap:6px;max-width:320px;margin:10px auto;font-weight:700;text-align:left}
 /* გარდერობის დღის შეთავაზება */
@@ -1284,7 +1288,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
         <div class="mn-card streak-card mn-in" style="--d:2" id="menu-streak"></div>
         <div class="mn-card hm-favs mn-in hidden" style="--d:3" id="menu-favs" role="group" aria-label="რჩეული ენები"></div>
         <div class="mn-more mn-in" style="--d:4">
-          <button class="mn-mini hidden" style="--ti:#f59f00" id="m-class" type="button"><span class="ic" aria-hidden="true">👩‍🏫</span><span class="t"><b>კლასი</b><small>შეუერთდი კლასს ან შექმენი შენი</small></span><span class="go" aria-hidden="true">›</span></button>
+          <button class="mn-mini hidden" style="--ti:#f59f00" id="m-class" type="button"><span class="ic" aria-hidden="true">👩‍🏫</span><span class="t"><b>კლასი</b><small id="m-class-sub">შეუერთდი კლასს ან შექმენი შენი</small></span><span class="go" aria-hidden="true">›</span></button>
           <button class="mn-mini hidden" style="--ti:#7c4dff" id="m-install" type="button"><span class="ic" aria-hidden="true">📱</span><span class="t"><b>დააყენე ტელეფონზე</b><small>აპივით, ინტერნეტის გარეშეც</small></span><span class="go" aria-hidden="true">›</span></button>
           <button class="mn-mini hidden" style="--ti:#0ea5e9" id="m-desktop" type="button"><span class="ic" aria-hidden="true">💻</span><span class="t"><b>კომპიუტერის ვერსია</b><small id="m-desktop-sub">გადმოწერე პროგრამა</small></span><span class="go" aria-hidden="true">›</span></button>
         </div>
@@ -16811,10 +16815,15 @@ const Status = {
   }
 };
 const UI = {
-  cur: 'menu', prev: 'menu',
-  show(name) {
+  cur: 'menu', prev: 'menu', hist: [],
+  // back — „უკან“ ან ჩანაცვლება: მიმდინარე ეკრანი ისტორიაში აღარ ემატება
+  show(name, back) {
     if (name === 'course') name = 'map';   // ყველა ენას ერთნაირი რუკა აქვს
-    if (this.cur !== name) this.prev = this.cur;
+    if (this.cur !== name) {
+      this.prev = this.cur;
+      if (!back) { this.hist.push(this.cur); if (this.hist.length > 30) this.hist.shift(); }
+    }
+    if (name === 'menu') this.hist = [];   // მენიუ — საწყისი წერტილი
     this.cur = name;
     $$('.screen').forEach(s => s.classList.toggle('active', s.id === 'scr-' + name));
     window.scrollTo(0, 0);
@@ -16828,6 +16837,12 @@ const UI = {
     if (name === 'class') ClassScreen.render();
     if (name === 'live') Live.render();
     if (name === 'game') Editor.refresh();
+  },
+  // „← უკან“: წინა ეკრანი ისტორიიდან (იგივე ეკრანს ვტოვებთ), ცარიელზე — მენიუ
+  back() {
+    let t;
+    do t = this.hist.pop(); while (t === this.cur);
+    this.show(t || 'menu', true);
   },
   toast(ic, title, sub, cls) {
     const t = document.createElement('div');
@@ -18648,6 +18663,14 @@ const Wardrobe = {
    მოსწავლე კლასელებისგან მხოლოდ სახელს და XP-ს ხედავს (კვირის რეიტინგი); დეტალებს მხოლოდ მასწავლებელი ხედავს. */
 const ClassScreen = {
   view: null, sort: 'week',
+  // Pro-ს გარეშე: რას აკეთებს კლასი და Pro-ს გახსნა
+  lock() {
+    this.view = null;
+    $('#class-body').innerHTML = '<div class="card cl-empty cl-lock"><div class="cl-crown" aria-hidden="true">👑</div><h3>კლასი — Pro</h3>' +
+      '<ul class="cl-lock-l"><li>👩‍🏫 მასწავლებელი ქმნის კლასს და ხედავს, ვინ რამდენი გაიარა</li><li>🔴 ატარებს ცოცხალ გაკვეთილს — მოსწავლეები მის დაფას ცოცხლად ხედავენ</li><li>🎒 მოსწავლეები 6-ასოიანი კოდით უერთდებიან და ხედავენ კვირის რეიტინგს</li></ul>' +
+      '<p class="muted">კლასი Pro-ს ნაწილია: Pro სჭირდება მასწავლებელსაც და ყველა მოსწავლესაც.</p><button class="btn primary" id="cl-pro">👑 Pro-ს გახსნა</button></div>';
+    $('#cl-pro').addEventListener('click', () => Paywall.open(null, 'class'));
+  },
   err(id, r) { const e = $('#' + id); if (e) e.textContent = Account.msg(r); },
   async render() {
     const body = $('#class-body');
@@ -18656,12 +18679,14 @@ const ClassScreen = {
       $('#cl-login').addEventListener('click', () => Account.open());
       return;
     }
+    if (!Progress.hasPro()) return this.lock();
     if (this.view) return this.renderClass();
     body.innerHTML = '<p class="muted cl-wait">⏳ იტვირთება…</p>';
     const r = await Account.api('classes', { token: Account.s.token });
     if (UI.cur !== 'class' || this.view || !Account.s) return;
     if (!r.ok) {
       if (r.error === 'no_session') return Account.expired();
+      if (r.error === 'pro_required') return this.lock();
       body.innerHTML = '<div class="card"><p class="acc-err">' + esc(Account.msg(r)) + '</p></div>';
       return;
     }
@@ -18900,24 +18925,30 @@ const Live = {
     this.seenVer = this.seenRun = -1;
     this.first = st;
     this.mine = null;
+    this.eds = {};
     UI.show('live');
   },
   stop() { clearTimeout(this.poll); clearTimeout(this.pt); this.poll = this.pt = null; },
   render() {
     const o = this.o, body = $('#live-body');
+    clearTimeout(this.poll);
     if (!o) { body.innerHTML = '<p class="muted cl-wait">გაკვეთილი არ არის.</p>'; return; }
     if (!o.lang) {   // მოსწავლე: ჯერ დაფის მდგომარეობა
       body.innerHTML = '<p class="muted cl-wait">⏳ ვუერთდები გაკვეთილს…</p>';
       this.poll = setTimeout(() => this.tick(), 50);
       return;
     }
+    const keep = o.teacher && this.eds.t ? this.eds.t.get() : null;   // გაკვეთილზე დაბრუნება — კოდი, რაც დაფაზე ეწერა
     this.build();
     if (o.teacher) {
       const st = this.first || {};
-      this.eds.t.set(st.code != null ? st.code : STUDIO_START[o.lang] || '');
+      this.eds.t.set(keep != null ? keep : st.code != null ? st.code : STUDIO_START[o.lang] || '');
       if (this.run) this.runBoard('t', true);
       this.status('live');
-    } else this.poll = setTimeout(() => this.tick(), 1000);
+    } else {
+      this.seenVer = this.seenRun = -1;   // ახალი დაფა — მასწავლებლის კოდი თავიდან ჩაიწერება
+      this.poll = setTimeout(() => this.tick(), 300);
+    }
   },
   build() {
     const o = this.o, file = STUDIO_FILE[o.lang] || 'main.txt', c = COURSE_BY_ID[o.lang];
@@ -18956,7 +18987,7 @@ const Live = {
         this.stop();
         this.o = null;
         ClassScreen.view = cls;
-        UI.show('class');
+        UI.show('class', true);
       }));
     }
   },
@@ -19611,13 +19642,16 @@ const Paywall = {
   // ctx: 'studio' — ვიდეოებისა და პროექტების გვერდიდან
   open(lv, ctx) {
     const price = PRO.price ? ' · ' + esc(PRO.price) : '';
-    const intro = ctx === 'studio'
+    const intro = ctx === 'class'
+      ? '<b>კლასი და ცოცხალი გაკვეთილი</b> Pro-ს ნაწილია: Pro სჭირდება მასწავლებელსაც და მოსწავლესაც. ამასთან ერთად Pro ყველა ფასიან ლეველს, ვიდეოებს და პროექტებს ხსნის.'
+      : ctx === 'studio'
       ? '<b>ვიდეოები და ნაბიჯ-ნაბიჯ პროექტები</b> Pro-ს ნაწილია. Pro ამასთან ერთად ყველა ფასიან ლეველსაც ხსნის (ყველა ენაზე პირველი ' + PRO.freeLevels + ' ლეველი უფასოა).'
       : (lv ? 'ეს <b>' + (lv.index + 1) + '-ე ლეველია</b>. ' : '') + 'ყველა ენაზე პირველი <b>' + PRO.freeLevels + ' ლეველი უფასოა</b> — დანარჩენს Pro ხსნის.';
     // ფუნქციები: [ხატულა, სათაური, ახსნა]
     const feats = [['🔓', 'ყველა ფასიანი ლეველი', COURSES.length + ' ენაზე — ყველა რუკა ბოლომდე'],
       ['🎬', Object.values(STUDIO_VIDEOS).reduce((a, l) => a + l.length, 0) + ' ვიდეო საიტზევე', 'კოდის რედაქტორი ▶ Run-ით და 📒 ჩანაწერები'],
       ['🛠️', STUDIO_GUIDES.length + ' ნაბიჯ-ნაბიჯ პროექტი', 'ააწყე ნამდვილი პროგრამები'],
+      ['👩‍🏫', 'კლასი და ცოცხალი გაკვეთილი', 'მასწავლებლის დაფა მოსწავლეებთან ცოცხლად'],
       ['💳', 'ერთჯერადი გადახდა', 'გამოწერის გარეშე — სამუდამოდ შენია'],
       ['📧', 'კოდი ელფოსტაზე მოგივა', 'ნებისმიერ მოწყობილობაზე ჩასვამ']];
     const m = Modal.open('<div class="pw"><button class="pw-x" data-close aria-label="დახურვა">✕</button>' +
@@ -19856,7 +19890,8 @@ const Account = {
     class_own: 'ეს შენი კლასია — მასში მოსწავლეები უერთდებიან.',
     class_full: 'კლასი სავსეა.',
     class_limit: 'კლასების ლიმიტი ამოიწურა (შექმნა — 10, შეერთება — 5).',
-    not_owner: 'კოდი არასწორია.'
+    not_owner: 'კოდი არასწორია.',
+    pro_required: '👑 კლასი Pro-ს ნაწილია — Pro სჭირდება მასწავლებელსაც და მოსწავლესაც.'
   },
   msg(r) { return this.ERR[r.error] || this.ERR.server; },
   init() {
@@ -19869,7 +19904,9 @@ const Account = {
   },
   keep() { if (this.s) Store.set(ACC_KEY, this.s); },
   async api(action, data, keepalive) {
-    const body = JSON.stringify(Object.assign({ action }, data));
+    // კლასი და ცოცხალი გაკვეთილი Pro-ს ნაწილია — სერვერი Pro-ს ხელმოწერილ ნიშანს ამოწმებს
+    const pro = /^(class|live)/.test(action) && Progress.P.pro && Progress.P.pro.token;
+    const body = JSON.stringify(Object.assign({ action }, pro ? { pro } : {}, data));
     try {
       const r = await fetch('/api/account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: !!keepalive && body.length < 60000 });
       const j = await r.json().catch(() => ({ ok: false, error: 'server' }));
@@ -19993,6 +20030,7 @@ const Account = {
     b.title = this.s ? this.s.name + ' — ' + this.statusText() : 'შესვლა ან რეგისტრაცია — შეინახე პროგრესი ყველა მოწყობილობაზე';
     $('#mn-hi').textContent = this.s ? '👋 გამარჯობა, ' + this.s.name + '!' : '🎮 ბიტის თავგადასავალი';
     $('#m-class').classList.toggle('hidden', !this.s);
+    $('#m-class-sub').textContent = Progress.hasPro() ? 'შეუერთდი კლასს ან შექმენი შენი' : '👑 Pro · კლასი და ცოცხალი გაკვეთილი';
   },
   /* ---- შესვლა და რეგისტრაცია ---- */
   // შესვლის შემდეგ: ანგარიშის და ამ მოწყობილობის პროგრესი. ორივეს თუ აქვს, ვეკითხებით (ნაგულისხმევად — გაერთიანება)
@@ -21136,7 +21174,7 @@ function init() {
   $('#m-install').addEventListener('click', () => { Sound.ensure(); Sound.click(); Install.open(); });
   $$('[data-go]').forEach(b => b.addEventListener('click', () => {
     const g = b.dataset.go;
-    if (g === 'back') UI.show(UI.prev && UI.prev !== UI.cur ? UI.prev : 'menu'); else UI.show(g);
+    if (g === 'back') UI.back(); else UI.show(g);
   }));
   $('#map-dict').addEventListener('click', () => { const c = Progress.course(); if (c === 'js') Dict.open(); else Cheat.open(COURSE_BY_ID[c].lang); });
   $('#map-fav').addEventListener('click', () => { toggleFavCourse(Progress.course()); MapScreen.favBtn(); });

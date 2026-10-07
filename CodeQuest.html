@@ -599,6 +599,19 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .pro-badge{width:78px;height:78px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;font-size:2.5rem;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b);box-shadow:0 5px 0 #d9a600}
 .pro-list{list-style:none;padding:0;margin:12px auto 0;max-width:380px;text-align:left;display:grid;gap:6px}
 .pro-list li{padding:8px 12px;border-radius:10px;background:var(--panel2)}
+/* კომპიუტერის ვერსიის გადმოწერა */
+.dl-box{text-align:center}
+.dl-ic{width:78px;height:78px;margin:0 auto 6px;border-radius:22px;display:grid;place-items:center;font-size:2.4rem;background:linear-gradient(160deg,color-mix(in srgb,#0ea5e9 14%,var(--panel)),color-mix(in srgb,var(--accent) 18%,var(--panel)))}
+.dl-main{margin-top:16px;padding:12px 22px;border-radius:12px;font-size:1.02rem;text-decoration:none}
+.dl-main:disabled{opacity:.55;cursor:default}
+.dl-meta{margin:6px 0 0;font-size:.84rem}
+.dl-steps{margin:14px auto 0;max-width:420px;padding-left:1.4em;text-align:left;display:grid;gap:6px;font-size:.9rem;line-height:1.45}
+.dl-steps code{font-family:var(--mono);font-size:.85em;padding:1px 5px;border-radius:5px;background:var(--panel2)}
+.dl-other{margin:14px 0 0;font-size:.88rem}
+.dl-other button{padding:2px 4px;border:0;background:none;color:var(--accent);font:inherit;font-weight:700;cursor:pointer}
+.dl-other button:hover{text-decoration:underline}
+.dl-note{max-width:420px;margin:10px auto 0;text-align:left;font-size:.82rem;line-height:1.45}
+.dl-warn{margin:12px auto 0;max-width:420px;padding:8px 12px;border-radius:10px;background:color-mix(in srgb,#f59f00 14%,var(--panel));font-size:.88rem}
 .pro-chip{display:inline-block;margin:6px 0 0 4px;padding:1px 10px;border-radius:999px;background:linear-gradient(90deg,#ffd43b,#ffb703);color:#3d2a00;font-size:.75rem;font-weight:800}
 .pro-tag{margin-left:4px;font-size:.8rem}
 /* გამარჯვების ფანჯარა */
@@ -863,6 +876,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
           <button class="hm-row hm-in" style="--d:4;--ti:#3b82f6" id="m-continue"><span class="hm-ic" aria-hidden="true">▶️</span><span class="hm-t"><b>გაგრძელება</b><small id="m-continue-sub">ბოლო ლეველიდან</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
           <button class="hm-row hm-in" style="--d:5" id="m-lang"><span class="hm-ic lb" id="m-lang-ic" aria-hidden="true"></span><span class="hm-t"><b id="m-lang-t">ენის არჩევა</b><small id="m-lang-sub">შეცვლა</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
           <div class="hm-card hm-favs hm-in hidden" style="--d:5" id="menu-favs" role="group" aria-label="რჩეული ენები"></div>
+          <button class="hm-row hm-in hidden" style="--d:5;--ti:#0ea5e9" id="m-desktop"><span class="hm-ic" aria-hidden="true">💻</span><span class="hm-t"><b>კომპიუტერის ვერსია</b><small id="m-desktop-sub">გადმოწერე პროგრამა</small></span><span class="hm-chev" aria-hidden="true">›</span></button>
         </div>
       </div>
       <div class="hm-col hm-right">
@@ -10736,6 +10750,10 @@ const courseLevels = id => coursePlan(id).levels;
 let ALL_CACHE = null;
 const ALL_LEVELS = () => ALL_CACHE || (ALL_CACHE = [].concat(...COURSES.map(c => coursePlan(c.id).levels), PROJECTS));
 
+// კომპიუტერის ვერსიაში (desktop/ — Electron) თამაში მისამართზე codequest://app/ იხსნება
+const SITE_URL = 'https://codequest-lazare.vercel.app';
+const IS_DESKTOP = location.protocol === 'codequest:';
+
 /* ---------- Pro: ყოველ ენაზე პირველი 100 ლეველი უფასოა, დანარჩენს ერთჯერადი გადახდა ხსნის (Dodo Payments) ---------- */
 const PRO = {
   freeLevels: 100,
@@ -17943,6 +17961,13 @@ const Paywall = {
     if (!PRO.payLink) { UI.toast('⚙️', 'გადახდა ჯერ არ არის ჩართული', 'საიტის მფლობელმა Dodo Payments-ის ბმული უნდა დაამატოს.'); return; }
     // გადახდის შემდეგ Dodo აქ დაგვაბრუნებს (?status=succeeded&payment_id=...&email=...)
     const u = new URL(PRO.payLink);
+    if (IS_DESKTOP) {
+      // პროგრამაში გადახდა ჩვეულებრივ ბრაუზერში იხსნება; კოდი ელფოსტაზე მოდის და აქ ჩაისმება
+      u.searchParams.set('redirect_url', SITE_URL + '/CodeQuest.html?pro=return');
+      window.open(u.toString(), '_blank');
+      this.keyForm('💳 გადახდის გვერდი ბრაუზერში გაიხსნა. გადახდის შემდეგ ლიცენზიის კოდი ელფოსტაზე მოგივა — ჩასვი აქ.');
+      return;
+    }
     u.searchParams.set('redirect_url', location.origin + location.pathname + '?pro=return');
     location.href = u.toString();
   },
@@ -18007,6 +18032,72 @@ const Paywall = {
     history.replaceState(null, '', location.pathname + location.hash);
     if (ok) this.keyForm('🎉 გადახდა მიღებულია, მადლობა! ლიცენზიის კოდი ' + (email ? 'გამოგიგზავნეს მისამართზე <b>' + esc(email) + '</b>' : 'ელფოსტაზე გამოგიგზავნეს') + ' — ჩასვი აქ:');
     else UI.toast('⚠️', 'გადახდა არ დასრულდა', 'თანხა არ ჩამოგეჭრება. შეგიძლია თავიდან სცადო.');
+  }
+};
+/* ---------- კომპიუტერის ვერსია: გადმოწერა ----------
+   პროგრამა desktop/ საქაღალდეშია (Electron). GitHub Actions აწყობს Windows/macOS/Linux ფაილებს და დებს Releases-ში;
+   ბმული .../releases/latest/download/<ფაილი> ყოველთვის ბოლო ვერსიაზე მიდის. ზომას და ვერსიას GitHub-ის API გვეუბნება. */
+const Desktop = {
+  repo: 'lazarepataraia910-jpg/fanycod',
+  files: {
+    win: { name: 'Windows', icon: '🪟', file: 'CodeQuest-Setup.exe', steps: [
+      'გახსენი გადმოწერილი ფაილი <b>CodeQuest-Setup.exe</b> — პროგრამა თავისით დაყენდება და გაიხსნება.',
+      'თუ ცისფერი ფანჯარა „Windows protected your PC“ გამოჩნდა, დააჭირე <b>More info</b> → <b>Run anyway</b>. ასე ყველა ახალ პროგრამაზე ხდება, რომელსაც ფასიანი ხელმოწერა არ აქვს.',
+      'შემდეგ CodeQuest სამუშაო მაგიდის ხატულით გაიხსნება.'] },
+    mac: { name: 'macOS', icon: '🍎', file: 'CodeQuest.dmg', steps: [
+      'გახსენი <b>CodeQuest.dmg</b> და CodeQuest-ის ხატულა გადაიტანე საქაღალდეში <b>Applications</b>.',
+      'პირველად გახსნისას თუ macOS გაფრთხილებას აჩვენებს: <b>System Settings → Privacy &amp; Security</b> → ქვემოთ <b>Open Anyway</b>.',
+      'მუშაობს Apple-ის ორივე ტიპის კომპიუტერზე (M-ჩიპი და Intel).'] },
+    linux: { name: 'Linux', icon: '🐧', file: 'CodeQuest.AppImage', steps: [
+      'მიეცი ფაილს გაშვების უფლება: მარჯვენა კლიკი → Properties → <b>Allow executing</b> (ან ტერმინალში <code>chmod +x CodeQuest.AppImage</code>).',
+      'გაუშვი ორმაგი დაწკაპუნებით.'] }
+  },
+  rel: null,   // GitHub-ის ბოლო რელიზი; { missing: true } — ჯერ არ არის
+  mobile: () => /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1),
+  os() {
+    const ua = navigator.userAgent, p = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+    if (/Win/i.test(p) || /Windows/.test(ua)) return 'win';
+    if (/Mac/i.test(p) || /Mac OS X/.test(ua)) return 'mac';
+    if (/Linux|X11|CrOS/i.test(p + ' ' + ua)) return 'linux';
+    return 'win';
+  },
+  asset(k) { return this.rel && this.rel.assets ? this.rel.assets.find(a => a.name === this.files[k].file) || null : null; },
+  url(k) { const a = this.asset(k); return a ? a.browser_download_url : 'https://github.com/' + this.repo + '/releases/latest/download/' + this.files[k].file; },
+  async load() {
+    if (this.rel) return;
+    try {
+      const r = await fetch('https://api.github.com/repos/' + this.repo + '/releases/latest', { headers: { Accept: 'application/vnd.github+json' } });
+      if (r.ok) this.rel = await r.json(); else if (r.status === 404) this.rel = { missing: true };
+    } catch (e) { }
+  },
+  open(k) {
+    const m = Modal.open('<div class="dl-box"></div>');
+    this.fill(m, this.files[k] ? k : this.os());
+    this.load().then(() => { if (m.isConnected) this.fill(m, m._k); });
+  },
+  fill(m, k) {
+    m._k = k;
+    const f = this.files[k], a = this.asset(k), rel = this.rel;
+    const ver = rel && rel.tag_name ? String(rel.tag_name).replace(/^desktop-v/, '') : '';
+    const waiting = !!rel && (rel.missing || (Array.isArray(rel.assets) && !a));   // რელიზი ჯერ იწყობა
+    const meta = a ? f.file + ' · ' + Math.max(1, Math.round(a.size / 1048576)) + ' MB' + (ver ? ' · ვერსია ' + esc(ver) : '')
+      : waiting ? '⏳ ' + f.name + '-ის ვერსია ჯერ მზადდება — სცადე რამდენიმე წუთში.' : f.file;
+    m.innerHTML = '<div class="dl-box"><div class="dl-ic" aria-hidden="true">💻</div><h2 class="result-title">CodeQuest კომპიუტერისთვის</h2>' +
+      '<p>თამაში ცალკე პროგრამად — ბრაუზერის გარეშე, საკუთარ ფანჯარაში.</p>' +
+      '<ul class="pro-list"><li>🖥️ ხატულა სამუშაო მაგიდაზე — ერთი დაწკაპუნებით იხსნება</li><li>📴 ლეველები ინტერნეტის გარეშეც მუშაობს</li>' +
+      '<li>🔄 თავისით ახლდება: ახალი ლეველები და ფუნქციები მაშინვე ჩანს</li><li>👑 Pro აქაც მუშაობს — ჩასვი იგივე ლიცენზიის კოდი</li></ul>' +
+      (this.mobile() ? '<p class="dl-warn">📱 ეს პროგრამა კომპიუტერისთვისაა — გახსენი ეს გვერდი კომპიუტერიდან.</p>' : '') +
+      (waiting ? '<button class="btn primary dl-main" disabled>⬇️ გადმოწერე ' + f.name + '-ისთვის</button>'
+        : '<a class="btn primary dl-main" href="' + esc(this.url(k)) + '" data-dl>⬇️ გადმოწერე ' + f.name + '-ისთვის</a>') +
+      '<p class="muted dl-meta">' + meta + '</p>' +
+      '<ol class="dl-steps">' + f.steps.map(s => '<li>' + s + '</li>').join('') + '</ol>' +
+      '<p class="muted dl-other">სხვა სისტემა: ' + Object.keys(this.files).filter(x => x !== k).map(x => '<button type="button" data-os="' + x + '">' + this.files[x].icon + ' ' + this.files[x].name + '</button>').join(' · ') + '</p>' +
+      '<p class="muted dl-note">💾 პროგრამაში პროგრესი ცალკე ინახება. გადასატანად: აქ <b>პარამეტრები → პროგრესის კოდი → კოპირება</b>, პროგრამაში — იგივე ადგილას ჩასვი და <b>იმპორტი</b>.</p>' +
+      '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>';
+    m.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => Modal.close(m)));
+    m.querySelectorAll('[data-os]').forEach(b => b.addEventListener('click', () => this.fill(m, b.dataset.os)));
+    const dl = m.querySelector('[data-dl]');
+    if (dl) dl.addEventListener('click', () => UI.toast('⬇️', 'გადმოწერა დაიწყო', 'როცა ჩამოიტვირთება, გახსენი ფაილი ' + f.file + '.'));
   }
 };
 const Game = {
@@ -18936,6 +19027,12 @@ function init() {
   $('#m-settings').addEventListener('click', () => UI.show('settings'));
   $('#m-pro').addEventListener('click', () => { if (!Progress.hasPro()) Paywall.buy(); });
   $('#m-studio').addEventListener('click', () => { Sound.ensure(); Sound.click(); Studio.open(); });
+  // კომპიუტერის ვერსიის გადმოწერა: კომპიუტერიდან შემოსულს ვაჩვენებთ (ტელეფონზე და თავად პროგრამაში — არა)
+  if (!IS_DESKTOP && !Desktop.mobile()) {
+    $('#m-desktop').classList.remove('hidden');
+    $('#m-desktop-sub').textContent = 'გადმოწერე ' + Desktop.files[Desktop.os()].name + '-ისთვის';
+  }
+  $('#m-desktop').addEventListener('click', () => { Sound.ensure(); Sound.click(); Desktop.open(); });
   $$('[data-go]').forEach(b => b.addEventListener('click', () => {
     const g = b.dataset.go;
     if (g === 'back') UI.show(UI.prev && UI.prev !== UI.cur ? UI.prev : 'menu'); else UI.show(g);
@@ -18978,6 +19075,7 @@ function init() {
   if (location.hash === '#test') testAll();
   Paywall.checkReturn();   // Dodo Payments-ის გადახდიდან დაბრუნება
   Paywall.restore();       // Pro: შენახული ხელმოწერილი ნიშნის შემოწმება
+  if (location.hash === '#download' && !IS_DESKTOP) Desktop.open();   // პირდაპირი ბმული: .../CodeQuest.html#download
   if (location.hash === '#testgen') testGenerated();
 }
 window.CodeQuest = { testAll, testGenerated, Drill, levelById, courseLevels, courseChapters, LEVELS, WORLDS, COURSES, LANGS, Progress, Game, CodeRunner };

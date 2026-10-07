@@ -1,0 +1,74 @@
+# კომპიუტერის ვერსია: desktop/-ის ცვლილებისას აწყობს Windows/macOS/Linux ფაილებს და დებს GitHub Releases-ში (ტეგი desktop-v<ვერსია>).
+# საიტის „კომპიუტერის ვერსია“ ბმულები .../releases/latest/download/<ფაილი>-ზე მიდის, ამიტომ ფაილების სახელები არ იცვლება.
+# ახალი ვერსიისთვის desktop/package.json-ში version გაზარდე. თამაშის ცვლილებებს (CodeQuest.html) პროგრამა საიტიდან თავად იღებს.
+name: Desktop app
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'desktop/**'
+      - '.github/workflows/desktop.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: desktop-release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: desktop/package-lock.json
+      - run: npm ci
+      - run: npm run dist
+      - name: macOS — ხელმოწერის შემოწმება (ad-hoc)
+        if: runner.os == 'macOS'
+        run: codesign --verify --deep --strict --verbose=2 dist/mac-universal/CodeQuest.app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-${{ runner.os }}
+          path: |
+            desktop/dist/CodeQuest-Setup.exe
+            desktop/dist/CodeQuest.dmg
+            desktop/dist/CodeQuest.AppImage
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          pattern: desktop-*
+          merge-multiple: true
+      - name: GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ls -la out
+          test -f out/CodeQuest-Setup.exe   # Windows-ის ფაილის გარეშე რელიზს არ ვქმნით
+          TAG="desktop-v$(node -p "require('./desktop/package.json').version")"
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" --target "$GITHUB_SHA" --latest --title "CodeQuest — კომპიუტერის ვერსია ${TAG#desktop-v}" --notes "CodeQuest კომპიუტერისთვის: Windows (CodeQuest-Setup.exe), macOS (CodeQuest.dmg) და Linux (CodeQuest.AppImage). გადმოწერა და ინსტრუქცია: https://codequest-lazare.vercel.app/CodeQuest.html#download"
+          fi
+          gh release upload "$TAG" out/* --clobber

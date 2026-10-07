@@ -1,0 +1,59 @@
+{
+  "name": "codequest-desktop",
+  "productName": "CodeQuest",
+  "version": "1.0.0",
+  "description": "CodeQuest — ისწავლე პროგრამირება ნულიდან (კომპიუტერის ვერსია)",
+  "author": "CodeQuest",
+  "homepage": "https://codequest-lazare.vercel.app",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "bundle": "node bundle.js",
+    "start": "npm run bundle && electron .",
+    "dist": "npm run bundle && electron-builder --publish never"
+  },
+  "devDependencies": {
+    "electron": "^44.6.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "app.codequest.desktop",
+    "productName": "CodeQuest",
+    "copyright": "CodeQuest",
+    "compression": "maximum",
+    "electronLanguages": ["en-US"],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "app/**/*",
+      "build/icon.png"
+    ],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "artifactName": "CodeQuest-Setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "CodeQuest",
+      "deleteAppDataOnUninstall": false
+    },
+    "mac": {
+      "target": [{ "target": "dmg", "arch": ["universal"] }],
+      "category": "public.app-category.education",
+      "identity": "-",
+      "hardenedRuntime": false,
+      "artifactName": "CodeQuest.${ext}"
+    },
+    "linux": {
+      "target": [{ "target": "AppImage", "arch": ["x64"] }],
+      "category": "Education",
+      "artifactName": "CodeQuest.${ext}"
+    }
+  }
+}

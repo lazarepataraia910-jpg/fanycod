@@ -1,0 +1,4 @@
+# კომპიუტერის ვერსია (desktop/): დამოკიდებულებები, აწყობილი ფაილები და bundle.js-ის შედეგი
+desktop/node_modules/
+desktop/dist/
+desktop/app/

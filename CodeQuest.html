@@ -166,7 +166,7 @@ html[data-theme="dark"] #scr-menu,html[data-theme="dark"] #scr-map{--violet:#9d8
 .mn-cont .ic{flex:none;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.14)}
 .mn-cont .t{flex:1;min-width:0}
 .mn-cont b{display:block;font-size:.95rem}
-.mn-cont small{display:block;overflow:hidden;color:rgba(255,255,255,.7);font-size:.76rem;text-overflow:ellipsis;white-space:nowrap}
+.mn-cont small{display:block;color:rgba(255,255,255,.7);font-size:.76rem;line-height:1.35}
 /* წოდების ზოლი */
 .mn-rank{grid-column:1/-1;width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:10px 14px;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:rgba(255,255,255,.07);text-align:left}
 #hm-rank-ic{flex:none;width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.12);font-size:1.3rem;line-height:1}
@@ -186,7 +186,7 @@ html[data-theme="dark"] #scr-menu,html[data-theme="dark"] #scr-map{--violet:#9d8
 .mn-mini .ic{flex:none;width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:color-mix(in srgb,var(--ti) 16%,var(--panel));font-size:1.2rem;line-height:1}
 .mn-mini .t{flex:1;min-width:0}
 .mn-mini b{display:block;font-size:.93rem}
-.mn-mini small{display:block;overflow:hidden;color:var(--muted);font-size:.76rem;text-overflow:ellipsis;white-space:nowrap}
+.mn-mini small{display:block;color:var(--muted);font-size:.76rem;line-height:1.35}
 .mn-mini .go{flex:none;color:var(--muted);font-size:1.4rem;line-height:1;transition:transform .15s}
 .mn-mini:hover .go{transform:translateX(3px);color:var(--ti)}
 /* რეჟიმები */
@@ -200,12 +200,13 @@ html[data-theme="dark"] #scr-menu,html[data-theme="dark"] #scr-map{--violet:#9d8
 .mn-em{position:absolute;right:-4px;top:-6px;z-index:-1;font-size:4.3rem;line-height:1;transform:rotate(12deg);filter:drop-shadow(0 8px 10px rgba(0,0,0,.18));transition:transform .25s}
 .mn-mode:hover .mn-em{transform:rotate(0) scale(1.1)}
 .mn-mode b{font-size:1.05rem;font-weight:800;line-height:1.2}
-.mn-mode small{display:-webkit-box;overflow:hidden;font-size:.78rem;line-height:1.35;opacity:.92;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.mn-mode small{font-size:.78rem;line-height:1.35;opacity:.92}
 .mn-mode.done::after{content:'✓';position:absolute;left:14px;top:14px;width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:#fff;color:var(--c3);font-weight:900}
 .mn-mode .pro-chip{position:absolute;left:12px;top:12px;margin:0}
 .mn-mode .pro-chip.on{background:rgba(255,255,255,.92);color:var(--c3)}
 .menu-foot{margin:2px 0 0;color:var(--muted);font-size:.8rem;text-align:center}
-@media (max-width:560px){.mn-word{display:none}.mn-acc-t{max-width:6.5em}.mn-acc-t small{display:none}}
+@media (max-width:560px){.mn-word{display:none}.mn-acc-t{max-width:8em}.mn-acc-t small{display:none}}
+@media (max-width:400px){.mn-pro .pro-pr{display:none}.mn-pro{padding:9px 13px}}
 @media (min-width:720px){
   .mn-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
   .mn-hero{grid-template-columns:minmax(0,1fr) auto;justify-items:start;align-items:center;column-gap:24px;padding:30px 32px 18px;text-align:left}
@@ -213,9 +214,9 @@ html[data-theme="dark"] #scr-menu,html[data-theme="dark"] #scr-map{--violet:#9d8
   .mn-hero-bit{grid-row:1;grid-column:2;margin:0 18px 0 12px}
   .mn-bit{width:160px;height:213px}
   .mn-bubble{left:auto;right:calc(100% - 26px);top:-18px;border-radius:14px 14px 4px 14px}
-  .mn-cta{flex-direction:row;align-items:stretch;max-width:none}
+  .mn-cta{flex-direction:row;flex-wrap:wrap;align-items:stretch;max-width:none}
   .mn-play{flex:none}
-  .mn-cont{flex:0 1 300px}
+  .mn-cont{flex:1 1 220px;max-width:360px}
   .mn-rank{flex-wrap:nowrap}
   .mn-rank-st{flex-basis:auto;flex-direction:column;align-items:flex-end;gap:2px}
 }
@@ -251,7 +252,7 @@ html[data-theme="dark"] #scr-menu,html[data-theme="dark"] #scr-map{--violet:#9d8
 .hm-row:active:not(:disabled){transform:translateY(0);box-shadow:var(--hm-sh)}
 .hm-t{flex:1;min-width:0}
 .hm-t b{display:block;font-weight:700;font-size:.98rem}
-.hm-t small{display:block;margin-top:1px;color:var(--muted);font-size:.8rem;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hm-t small{display:block;margin-top:1px;color:var(--muted);font-size:.8rem;line-height:1.35}
 .hm-chev{flex:none;color:var(--muted);font-size:1.4rem;line-height:1;transition:transform .18s,color .18s}
 .hm-row:hover:not(:disabled) .hm-chev{transform:translateX(3px);color:var(--accent)}
 /* გამოჩენის ანიმაცია (backwards — რომ hover-ის transform არ გადაფაროს) */
@@ -404,7 +405,7 @@ button.menu-logo:hover svg,button.menu-logo:focus-visible svg{transform:scale(1.
 .mp-stat small{display:block;color:var(--muted);font-size:.72rem}
 .mp-go{justify-content:flex-start;text-align:left;padding:13px 18px}
 .mp-go .hm-t b{font-size:1.05rem}
-.mp-go .hm-t small{color:rgba(255,255,255,.85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-go .hm-t small{color:rgba(255,255,255,.85)}
 .mp-pro{display:flex;align-items:center;gap:12px;width:100%;padding:13px 16px;border-radius:16px;text-align:left;border:1px solid color-mix(in srgb,#ffb703 45%,var(--border));background:linear-gradient(135deg,color-mix(in srgb,#ffe066 24%,var(--panel)),color-mix(in srgb,#ffb703 14%,var(--panel)));box-shadow:var(--hm-sh);transition:transform .18s,box-shadow .18s}
 .mp-pro:hover{transform:translateY(-2px);box-shadow:var(--hm-sh2)}
 .mp-pro .hm-ic{background:linear-gradient(135deg,#ffe066,#ffb703);box-shadow:0 3px 0 #d9a600}
@@ -444,7 +445,7 @@ html[data-theme="dark"] .island-blob{border-color:var(--panel);background:radial
 .island.locked .island-card>*{opacity:.6}
 .island-name{font-weight:800;font-size:.98rem;line-height:1.3}
 .map-wrap.narrow .island-name{font-size:.88rem}
-.island-sub{font-size:.78rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.island-sub{font-size:.78rem;line-height:1.35;color:var(--muted)}
 .island-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 8px;margin-top:7px;font-size:.74rem;font-weight:700;color:var(--muted)}
 .map-wrap.narrow .island-meta{justify-content:center}
 .island-tags:empty{display:none}
@@ -570,7 +571,8 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .btn.run{flex:2.2 1 0;font-size:1.08rem;font-weight:800;border-radius:14px;padding:.7em 1em;background:#1f9d55;border-color:#1f9d55;color:#fff;box-shadow:0 4px 0 #15723d;transition:transform .08s,box-shadow .08s,background .15s}
 .btn.run:hover:not(:disabled){background:#1b8c4b;border-color:#1b8c4b}
 .btn.run:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 #15723d}
-.btn.tool{flex-direction:column;gap:0;font-size:.74rem;padding:.35em .2em;border-radius:14px;box-shadow:0 3px 0 var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn.tool{flex-direction:column;gap:0;font-size:.74rem;padding:.35em .45em;border-radius:14px;box-shadow:0 3px 0 var(--border);white-space:nowrap}
+.controls .btn.tool{flex:1 0 auto}
 .btn.tool .ic{font-size:1.15rem;line-height:1.25}
 .btn.tool:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 var(--border)}
 @media (max-width:520px){.controls{flex-wrap:wrap}.btn.run{flex:1 1 100%}}
@@ -1170,7 +1172,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
 .sd-vcard:hover .sd-play,.sd-vcard.locked .sd-play{opacity:1}
 .sd-vcard.locked .sd-play{background:rgba(0,0,0,.45);font-size:1.6rem}
 .sd-vmeta{display:block;padding:9px 12px 11px}
-.sd-vmeta b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.9rem;line-height:1.35}
+.sd-vmeta b{display:block;font-size:.9rem;line-height:1.35}
 .sd-vmeta small{display:block;margin-top:3px;color:var(--muted);font-size:.78rem}
 .linklike{border:0;background:none;padding:0;color:var(--accent);font:inherit;text-decoration:underline;cursor:pointer}
 /* ჩანაწერები */
@@ -16944,7 +16946,7 @@ const Menu = {
     $('#hm-levels').parentNode.title = c.title + ' — შენი პროგრესი';
     const pb = $('#m-pro'), pro = Progress.hasPro();
     pb.classList.toggle('on', pro);
-    pb.innerHTML = pro ? '👑 Pro ✓' : '👑 Pro · ' + PRO.price + '<span class="pro-more"> — ყველა ლეველი</span>';
+    pb.innerHTML = pro ? '👑 Pro ✓' : '👑 Pro<span class="pro-pr"> · ' + PRO.price + '</span><span class="pro-more"> — ყველა ლეველი</span>';
     pb.title = pro ? 'Pro ჩართულია' : 'Pro-ს ყიდვა';
     $('#menu-streak').innerHTML = Streak.card();
     // გაგრძელება და ენა
@@ -20019,6 +20021,11 @@ const Account = {
     return { saving: '⏳ ინახება…', dirty: '⏳ ინახება რამდენიმე წამში…', offline: '⚠️ ინტერნეტი არ არის — შევინახავ, როცა დაბრუნდება', error: '⚠️ ვერ შეინახა — თავიდან ვცდი' }[this.state] ||
       '☁️ პროგრესი შენახულია' + (t ? ' · ' + t : '');
   },
+  // მენიუს ზედა ზოლისთვის — მოკლედ, რომ არ მოიჭრას (სრული ტექსტი title-შია)
+  statusShort() {
+    const t = this.s && this.s.at ? new Date(this.s.at).toLocaleTimeString('ka-GE', { hour: '2-digit', minute: '2-digit', hour12: false }) : '';
+    return { saving: '⏳ ინახება…', dirty: '⏳ ინახება…', offline: '⚠️ ინტერნეტი არ არის', error: '⚠️ ვერ შეინახა' }[this.state] || '☁️ შენახულია' + (t ? ' · ' + t : '');
+  },
   renderMenu() {
     const b = $('#m-account');
     if (!b) return;
@@ -20026,7 +20033,7 @@ const Account = {
     ic.textContent = this.s ? [...this.s.name][0] : '👤';
     ic.classList.toggle('av', !!this.s);
     $('#m-account-t').textContent = this.s ? this.s.name : 'შესვლა';
-    $('#m-account-sub').textContent = this.s ? this.statusText() : 'ან რეგისტრაცია';
+    $('#m-account-sub').textContent = this.s ? this.statusShort() : 'ან რეგისტრაცია';
     b.title = this.s ? this.s.name + ' — ' + this.statusText() : 'შესვლა ან რეგისტრაცია — შეინახე პროგრესი ყველა მოწყობილობაზე';
     $('#mn-hi').textContent = this.s ? '👋 გამარჯობა, ' + this.s.name + '!' : '🎮 ბიტის თავგადასავალი';
     $('#m-class').classList.toggle('hidden', !this.s);

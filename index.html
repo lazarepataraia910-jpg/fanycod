@@ -9,7 +9,7 @@
 // თამაშის მოთამაშე (ან ბმული პარამეტრებით, მაგ. #download) პირდაპირ თამაშში გადადის; ?home — ეს გვერდი მაინც ჩანს
 (function () {
   var q = location.search.replace(/^\?/, '');
-  if (/(^|&)home(=|&|$)/.test(q)) return;
+  if (/(^|&)home(=|&|$)/.test(q) || /^#(why|langs|teachers|pro|faq)$/.test(location.hash)) return;
   var played = false;
   try { var s = JSON.parse(localStorage.getItem('codequest.v1') || 'null'); played = !!(s && (s.started || (s.levels && Object.keys(s.levels).length))); } catch (e) { }
   if (q || location.hash || played) location.replace('CodeQuest.html' + location.search + location.hash);
@@ -24,7 +24,8 @@
 <meta property="og:site_name" content="CodeQuest">
 <meta property="og:title" content="CodeQuest — ისწავლე პროგრამირება ნულიდან, ქართულად">
 <meta property="og:description" content="სასწავლო თამაში ბავშვებისთვის: 18 პროგრამირების ენა, 9000 ლეველი, რობოტი ბიტი და კლასები მასწავლებლებისთვის. უფასოდ.">
-<meta property="og:image" content="https://codequest-lazare.vercel.app/og.png">
+<meta property="og:image" content="https://codequest-lazare.vercel.app/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://codequest-lazare.vercel.app/">
@@ -43,7 +44,25 @@ header{background:radial-gradient(70% 90% at 85% 30%,#7c4dff 0,transparent 70%),
 .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0}
 .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:800;font-size:1.25rem}
 .brand img{width:40px;height:40px}
-.nav a.small{color:#fff;opacity:.9;font-weight:700;text-decoration:none}
+html{scroll-behavior:smooth}
+.nav{position:relative}
+.links{display:flex;align-items:center;gap:4px}
+.links a{padding:8px 11px;border-radius:10px;color:#fff;font-weight:700;text-decoration:none;opacity:.88;transition:background .15s,opacity .15s}
+.links a:hover,.links a:focus-visible{opacity:1;background:rgba(255,255,255,.14)}
+.links a.go{margin-left:6px;padding:9px 15px;background:#3ddc97;color:#0b2e20;opacity:1;box-shadow:0 3px 0 #1f9f6a}
+.burger{display:none;flex:none;width:46px;height:46px;padding:0;border:0;border-radius:13px;background:rgba(255,255,255,.14);color:#fff;cursor:pointer}
+.burger span{display:block;width:20px;height:2px;margin:4px auto;border-radius:2px;background:currentColor;transition:transform .2s,opacity .2s}
+.nav.open .burger span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nav.open .burger span:nth-child(2){opacity:0}
+.nav.open .burger span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+section{scroll-margin-top:12px}
+@media (max-width:820px){
+  .burger{display:block}
+  .links{position:absolute;top:calc(100% - 6px);right:0;left:0;z-index:30;display:none;flex-direction:column;align-items:stretch;gap:2px;padding:10px;border-radius:18px;background:#24308f;box-shadow:0 20px 44px rgba(10,14,40,.45)}
+  .nav.open .links{display:flex}
+  .links a{padding:13px 14px;font-size:1.05rem}
+  .links a.go{margin:6px 0 0;text-align:center}
+}
 .hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:center;gap:24px;padding:28px 0 56px}
 .hero h1{margin:0;font-size:clamp(2.2rem,5.4vw,3.6rem);line-height:1.08;font-weight:800}
 .hero h1 span{color:#3ddc97}
@@ -91,7 +110,7 @@ footer a{color:inherit}
 <body>
 <header>
   <div class="wrap">
-    <nav class="nav"><a class="brand" href="./?home"><img src="icons/icon-192.png" alt="">CodeQuest</a><a class="small" href="CodeQuest.html">თამაში ▶</a></nav>
+    <nav class="nav" aria-label="მთავარი მენიუ"><a class="brand" href="./?home" aria-label="CodeQuest — მთავარი გვერდი"><img src="icons/icon-192.png" alt="" width="40" height="40">CodeQuest</a><button class="burger" type="button" aria-label="მენიუ" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button><div class="links" id="menu"><a href="#why">რატომ CodeQuest</a><a href="#langs">ენები</a><a href="#teachers">მასწავლებლებს</a><a href="#pro">Pro</a><a href="#faq">კითხვები</a><a class="go" href="CodeQuest.html">თამაში ▶</a></div></nav>
     <div class="hero">
       <div>
         <h1>ისწავლე <span>პროგრამირება</span><br>ნულიდან — ქართულად</h1>
@@ -104,7 +123,7 @@ footer a{color:inherit}
   </div>
 </header>
 <main>
-  <section>
+  <section id="why">
     <div class="wrap">
       <h2>რატომ CodeQuest?</h2>
       <p class="lead">თამაშივით მხიარულია, მაგრამ ნამდვილ კოდს წერ — ისეთს, როგორსაც პროგრამისტები.</p>
@@ -118,14 +137,14 @@ footer a{color:inherit}
       </div>
     </div>
   </section>
-  <section class="alt">
+  <section class="alt" id="langs">
     <div class="wrap">
       <h2>18 ენა — თითოეულში 500 ლეველი</h2>
       <p class="lead">დაიწყე JavaScript-ით ან Python-ით და გადადი იქით, რაც გაინტერესებს: საიტები, აპები, თამაშები.</p>
       <div class="langs"><span>JavaScript</span><span>Python</span><span>Java</span><span>C</span><span>C++</span><span>TypeScript</span><span>C#</span><span>Go</span><span>Rust</span><span>PHP</span><span>Ruby</span><span>Swift</span><span>Kotlin</span><span>Lua</span><span>Dart</span><span>HTML</span><span>CSS</span><span>React</span></div>
     </div>
   </section>
-  <section>
+  <section id="teachers">
     <div class="wrap">
       <h2>👩‍🏫 მასწავლებლებისთვის</h2>
       <p class="lead">შექმენი კლასი, ჩაატარე ცოცხალი გაკვეთილი და ნახე, ვინ რამდენი გაიარა და სად შეჩერდა. კლასი 👑 Pro-ს ნაწილია: Pro სჭირდება მასწავლებელსაც და მოსწავლეებსაც.</p>
@@ -137,16 +156,16 @@ footer a{color:inherit}
       </ol>
     </div>
   </section>
-  <section class="alt">
+  <section class="alt" id="pro">
     <div class="wrap pro">
       <div>
         <h2>👑 CodeQuest Pro</h2>
         <p class="lead">ყოველ ენაზე პირველი 100 ლეველი სამუდამოდ უფასოა. Pro ერთჯერადი გადახდაა და ხსნის დანარჩენს.</p>
       </div>
-      <div class="price"><b>$9</b> · ერთხელ<ul><li>ყველა ლეველი ყველა ენაზე (9000)</li><li>180 ვიდეო საიტზევე (45 ქართულად)</li><li>კოდის რედაქტორი ▶ Run-ით და ჩანაწერებით</li><li>18 ნაბიჯ-ნაბიჯ პროექტი</li></ul></div>
+      <div class="price"><b>$9</b> · ერთხელ<ul><li>ყველა ლეველი ყველა ენაზე (9000)</li><li>180 ვიდეო საიტზევე (45 ქართულად)</li><li>კოდის რედაქტორი ▶ Run-ით და ჩანაწერებით</li><li>18 ნაბიჯ-ნაბიჯ პროექტი</li><li>კლასები და ცოცხალი გაკვეთილები</li></ul></div>
     </div>
   </section>
-  <section>
+  <section id="faq">
     <div class="wrap">
       <h2>ხშირი კითხვები</h2>
       <details><summary>მართლა უფასოა?</summary><p>დიახ: ყველა ენის პირველი 100 ლეველი, გარდერობი, მიღწევები და კომპიუტერის ვერსია უფასოა. Pro ხსნის დამატებით ლეველებს, ვიდეოებს, პროექტებს, კლასებს და ცოცხალ გაკვეთილებს.</p></details>
@@ -164,7 +183,19 @@ footer a{color:inherit}
   </section>
 </main>
 <footer>
-  <div class="wrap">CodeQuest © 2026 · Powered by <b>mysite</b> · <a href="privacy.html">კონფიდენციალურობა</a> · <a href="terms.html">წესები</a></div>
+  <div class="wrap">CodeQuest © <span id="year">2026</span> · Powered by <b>mysite</b> · <a href="CodeQuest.html">თამაში</a> · <a href="privacy.html">კონფიდენციალურობა</a> · <a href="terms.html">წესები</a></div>
 </footer>
+<script>
+// ტელეფონის მენიუ (☰) და ფუტერის წელი
+(function () {
+  var nav = document.querySelector('.nav'), btn = nav.querySelector('.burger');
+  function set(open) { nav.classList.toggle('open', open); btn.setAttribute('aria-expanded', String(open)); }
+  btn.addEventListener('click', function () { set(!nav.classList.contains('open')); });
+  nav.querySelectorAll('.links a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+  document.addEventListener('click', function (e) { if (!nav.contains(e.target)) set(false); });
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
 </body>
 </html>

@@ -2,7 +2,8 @@
 // ბაზა — Upstash Redis: Vercel → Storage → Create Database → Upstash for Redis → Connect Project.
 // ცვლადები Vercel თავად ამატებს: KV_REST_API_URL და KV_REST_API_TOKEN (ან UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN).
 //
-// ყველა მოთხოვნა: POST /api/account { action, ... }. სესიის ნიშანი (token) body-შია, არა cookie-ში, ამიტომ CSRF-ის საფრთხე
+// ყველა მოთხოვნა: POST /api/account { action, ... }. ვებზე სესიის ნიშანი HttpOnly cookie-შია (SameSite=Strict + Origin-ის შემოწმება — CSRF-ის წინააღმდეგ);
+// კომპიუტერის პროგრამა (Origin-ის გარეშე) ნიშანს body-ში აგზავნის. ძველი კომენტარი: სესიის ნიშანი (token) body-შია, არა cookie-ში, ამიტომ CSRF-ის საფრთხე
 // არ არის და კომპიუტერის პროგრამაც (desktop/, /api/* საიტზე გადაეგზავნება) ზუსტად ისევე მუშაობს.
 // უსაფრთხოება:
 //   • პაროლი და აღდგენის კოდი ინახება მხოლოდ scrypt-ის ჰეშით (შემთხვევითი მარილით), სესიის ნიშანი — sha256-ით;
@@ -86,16 +87,19 @@ const LIVE_SET = "-- live\nif redis.call('GET', KEYS[2]) ~= ARGV[1] then return 
   "redis.call('SET', KEYS[1], ARGV[2], 'EX', ARGV[3])\nredis.call('EXPIRE', KEYS[2], ARGV[3])\nreturn 1";
 
 /* ---------- ჰეშები ---------- */
-const scrypt = (s, salt) => new Promise((ok, no) => crypto.scrypt(String(s).normalize('NFC'), salt, 32, { N: 16384, r: 8, p: 1 }, (e, k) => (e ? no(e) : ok(k))));
+// s2 — OWASP-ის რეკომენდაცია (N=2^14, r=8, p=5 ≈ N=2^17, p=1); s1 — ძველი ჰეშები, შესვლისას s2-ად გადაიწერება
+const SCRYPT = { s1: { N: 16384, r: 8, p: 1 }, s2: { N: 16384, r: 8, p: 5 } };
+const scrypt = (s, salt, v = 's2') => new Promise((ok, no) => crypto.scrypt(String(s).normalize('NFC'), salt, 32, SCRYPT[v], (e, k) => (e ? no(e) : ok(k))));
 const DUMMY = crypto.randomBytes(16);
 async function hashSecret(s) {
   const salt = crypto.randomBytes(16);
-  return 's1$' + salt.toString('base64') + '$' + (await scrypt(s, salt)).toString('base64');
+  return 's2$' + salt.toString('base64') + '$' + (await scrypt(s, salt)).toString('base64');
 }
+const oldHash = stored => String(stored || '').startsWith('s1$');
 async function checkSecret(s, stored) {
   const [v, salt, h] = String(stored || '').split('$');
-  if (v !== 's1' || !salt || !h) { await scrypt(s, DUMMY); return false; }   // იგივე დრო, რომ არ ჩანდეს, სახელი არსებობს თუ არა
-  const k = await scrypt(s, Buffer.from(salt, 'base64')), want = Buffer.from(h, 'base64');
+  if (!SCRYPT[v] || !salt || !h) { await scrypt(s, DUMMY); return false; }   // იგივე დრო, რომ არ ჩანდეს, სახელი არსებობს თუ არა
+  const k = await scrypt(s, Buffer.from(salt, 'base64'), v), want = Buffer.from(h, 'base64');
   return want.length === k.length && crypto.timingSafeEqual(k, want);
 }
 const sha = s => crypto.createHash('sha256').update(String(s)).digest('hex');
@@ -203,11 +207,17 @@ function checkName(name) {
   if (RESERVED.includes(keyOf(name))) throw new Fail(400, 'name_reserved');
   return name;
 }
+// ყველაზე გავრცელებული პაროლები — ჯერ მათ ცდიან; ასევე 4-ზე ნაკლები განსხვავებული სიმბოლო (11111111, abababab)
+const WEAK = new Set(['12345678', '123456789', '1234567890', '12341234', '11223344', '12121212', '123123123', '87654321', '98765432', '00000000', '11111111',
+  'password', 'password1', 'passw0rd', 'qwerty12', 'qwerty123', 'qwertyui', 'asdfghjk', 'zxcvbnm1', '1q2w3e4r', '1qaz2wsx', 'qazwsxed', 'abc12345', 'abcd1234',
+  'iloveyou', 'sunshine', 'princess', 'football', 'superman', 'batman123', 'minecraft', 'codequest', 'codequest1', 'paroli12', 'paroli123', 'parolparol',
+  'georgia1', 'sakartvelo', 'tbilisi1', 'bit12345', 'glitch123']);
 function checkPass(pass, name) {
   pass = String(pass || '');
   if (pass.length < 8) throw new Fail(400, 'pass_short');
   if (pass.length > 100) throw new Fail(400, 'pass_long');
   if (name && keyOf(pass) === keyOf(name)) throw new Fail(400, 'pass_name');
+  if (WEAK.has(keyOf(pass)) || new Set(keyOf(pass)).size < 4) throw new Fail(400, 'pass_common');
   return pass;
 }
 
@@ -237,6 +247,7 @@ const actions = {
     const user = await getUser(u);
     const good = await checkSecret(String(b.password || ''), user && user.pw);
     if (!user || !good) throw new Fail(401, 'bad_login');
+    if (oldHash(user.pw)) { user.pw = await hashSecret(String(b.password)); await putUser(u, user); }   // ძველი (s1) ჰეში — უფრო ძლიერად
     const p = await db(['GET', 'progrev:' + u]);
     return { name: user.name, token: await newSession(u, user.pwv), rev: +p || 0 };
   },

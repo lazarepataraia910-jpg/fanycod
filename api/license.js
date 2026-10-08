@@ -46,6 +46,18 @@ function burst(ip) {
 }
 const clientIp = req => String(req.headers['x-real-ip'] || String(req.headers['x-forwarded-for'] || '').split(',')[0] || 'unknown').trim();
 
+const DB_URL = String(process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || '').replace(/\/+$/, '');
+const DB_TOKEN = String(process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || '');
+async function tooMany(ip) {
+  if (!DB_URL || !DB_TOKEN) return false;
+  try {
+    const k = 'rl:lic:' + sha(ip).toString('hex').slice(0, 32);
+    const r = await fetch(DB_URL + '/pipeline', { method: 'POST', headers: { Authorization: 'Bearer ' + DB_TOKEN, 'Content-Type': 'application/json' }, body: JSON.stringify([['SET', k, 0, 'EX', 900, 'NX'], ['INCR', k]]) });
+    const j = await r.json();
+    return Array.isArray(j) && j[1] && j[1].result > 60;
+  } catch (e) { return false; }   // ბაზის შეცდომამ ყიდვა არ უნდა დაბლოკოს
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   const origin = String(req.headers.origin || '');
@@ -59,6 +71,7 @@ module.exports = async (req, res) => {
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) { body = {}; } }
   const key = String((body && body.license_key) || '').trim();
   if (!key || key.length > 200) return res.status(400).json({ valid: false, error: 'bad_key' });
+  if (await tooMany(clientIp(req))) return res.status(429).json({ valid: false, error: 'rate_limited' });
 
   if (isOwnerKey(key)) return ok(res, key);
 

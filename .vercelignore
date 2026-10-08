@@ -1,3 +1,6 @@
 # Vercel-ზე მხოლოდ საიტი იდება; კომპიუტერის პროგრამა GitHub Releases-შია
 desktop
 tools
+.github
+screenshots
+.nojekyll

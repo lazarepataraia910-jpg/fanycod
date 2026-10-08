@@ -30,7 +30,27 @@ function ok(res, key) {
   return res.status(200).json(token ? { valid: true, token } : { valid: true, token: null, error: 'no_signing_key' });
 }
 
+/* ---------- ვინ შეიძლება მოგვმართოს (CORS) და IP-ზე ზოგადი ლიმიტი ---------- */
+// ბრაუზერიდან — მხოლოდ ჩვენი საიტი (და ლოკალური ტესტი). Origin-ის გარეშე მოდის კომპიუტერის პროგრამა (Electron-ის proxy) და სერვერები.
+// ქვიშის ყუთის iframe-ები (მოსწავლის / მასწავლებლის კოდი) Origin: null-ს აგზავნიან — უარი.
+const SITE = 'https://codequest-lazare.vercel.app';
+const ORIGINS = [SITE].concat(String(process.env.EXTRA_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean));
+const originOk = o => ORIGINS.includes(o) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d{1,5})?$/.test(o);
+// ერთ სერვერულ ასლზე: IP-დან წუთში მაქსიმუმ 600 მოთხოვნა (ბაზის ბრძანებების გარეშე, რომ შეტევამ ლიმიტი არ ამოწუროს)
+const HITS = new Map();
+function burst(ip) {
+  const now = Date.now();
+  let h = HITS.get(ip);
+  if (!h || now - h.t > 60000) { if (HITS.size > 5000) HITS.clear(); h = { t: now, n: 0 }; HITS.set(ip, h); }
+  return ++h.n > 600;
+}
+const clientIp = req => String(req.headers['x-real-ip'] || String(req.headers['x-forwarded-for'] || '').split(',')[0] || 'unknown').trim();
+
 module.exports = async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  const origin = String(req.headers.origin || '');
+  if (origin && !originOk(origin)) return res.status(403).json({ valid: false, error: 'bad_origin' });
+  if (burst(clientIp(req))) return res.status(429).json({ valid: false, error: 'rate_limited' });
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ valid: false, error: 'method_not_allowed' });

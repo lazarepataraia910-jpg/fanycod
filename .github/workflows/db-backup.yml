@@ -1,0 +1,70 @@
+# ბაზის (Upstash Redis) ყოველდღიური დაშიფრული სარეზერვო ასლი და აღდგენის შემოწმება.
+# GitHub → Settings → Secrets and variables → Actions → New repository secret:
+#   UPSTASH_URL         — Vercel-ის KV_REST_API_URL
+#   UPSTASH_READ_TOKEN  — Vercel-ის KV_REST_API_READ_ONLY_TOKEN (მხოლოდ კითხვის უფლება)
+#   BACKUP_KEY          — დაშიფვრის პაროლი (მინიმუმ 16 სიმბოლო). შეინახე სადმე უსაფრთხოდ: მის გარეშე ასლი ვერ გაიხსნება.
+#   სურვილით: RESTORE_TEST_URL და RESTORE_TEST_TOKEN — ცალკე ცარიელი სატესტო ბაზა: ასლი იქ სრულად აღდგება და შემოწმდება.
+# ასლი ინახება 30 დღე (Actions → DB backup → Artifacts). საჯარო რეპოშიც უსაფრთხოა — AES-256-ით დაშიფრულია.
+# აღდგენა: BACKUP_KEY=… UPSTASH_URL=… UPSTASH_TOKEN=<ჩაწერის ტოკენი> node tools/db-restore.js <ფაილი.cqb> --yes --verify
+name: DB backup
+
+on:
+  schedule:
+    - cron: '17 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency: db-backup
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      HAS_RESTORE_TEST: ${{ secrets.RESTORE_TEST_URL != '' && secrets.RESTORE_TEST_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Backup (read-only token)
+        id: backup
+        env:
+          UPSTASH_URL: ${{ secrets.UPSTASH_URL }}
+          UPSTASH_TOKEN: ${{ secrets.UPSTASH_READ_TOKEN }}
+          BACKUP_KEY: ${{ secrets.BACKUP_KEY }}
+        run: |
+          if [ -z "$UPSTASH_URL" ] || [ -z "$UPSTASH_TOKEN" ] || [ -z "$BACKUP_KEY" ]; then
+            echo "::warning::Backup secrets are not set (UPSTASH_URL, UPSTASH_READ_TOKEN, BACKUP_KEY) — skipping"
+            echo "skip=1" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          FILE="codequest-db-$(date -u +%Y%m%d-%H%M).cqb"
+          node tools/db-backup.js "$FILE"
+          echo "file=$FILE" >> "$GITHUB_OUTPUT"
+
+      - name: Test restore — decrypt and check (nothing is written)
+        if: steps.backup.outputs.skip != '1'
+        env:
+          BACKUP_KEY: ${{ secrets.BACKUP_KEY }}
+        run: node tools/db-restore.js "${{ steps.backup.outputs.file }}" --dry-run
+
+      - name: Test restore — full restore into the scratch DB and compare
+        if: steps.backup.outputs.skip != '1' && env.HAS_RESTORE_TEST == 'true'
+        env:
+          BACKUP_KEY: ${{ secrets.BACKUP_KEY }}
+          UPSTASH_URL: ${{ secrets.RESTORE_TEST_URL }}
+          UPSTASH_TOKEN: ${{ secrets.RESTORE_TEST_TOKEN }}
+        run: node tools/db-restore.js "${{ steps.backup.outputs.file }}" --yes --verify
+
+      - uses: actions/upload-artifact@v4
+        if: steps.backup.outputs.skip != '1'
+        with:
+          name: ${{ steps.backup.outputs.file }}
+          path: ${{ steps.backup.outputs.file }}
+          retention-days: 30
+          if-no-files-found: error

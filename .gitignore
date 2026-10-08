@@ -2,3 +2,9 @@
 desktop/node_modules/
 desktop/dist/
 desktop/app/
+
+# საიდუმლოებები და ბაზის ასლები — რეპოში არასდროს
+.env
+.env.*
+*.cqb
+pro-secrets.txt

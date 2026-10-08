@@ -34,6 +34,34 @@ const RESERVED = ['admin', 'administrator', 'root', 'system', 'support', 'modera
 const RC_ABC = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';   // აღდგენის კოდი: I, O, 0, 1 არ არის, რომ არ აგერიოს
 const LIVE_SEC = 4 * 3600, LIVE_MAX = 20000;   // გაკვეთილის ხანგრძლივობა და დაფის კოდის მაქსიმალური ზომა
 
+/* ---------- ვინ შეიძლება მოგვმართოს (CORS) და IP-ზე ზოგადი ლიმიტი ---------- */
+// ბრაუზერიდან — მხოლოდ ჩვენი საიტი (და ლოკალური ტესტი). Origin-ის გარეშე მოდის კომპიუტერის პროგრამა (Electron-ის proxy) და სერვერები.
+// ქვიშის ყუთის iframe-ები (მოსწავლის / მასწავლებლის კოდი) Origin: null-ს აგზავნიან — უარი.
+const SITE = 'https://codequest-lazare.vercel.app';
+const ORIGINS = [SITE].concat(String(process.env.EXTRA_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean));
+const originOk = o => ORIGINS.includes(o) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d{1,5})?$/.test(o);
+// ერთ სერვერულ ასლზე: IP-დან წუთში მაქსიმუმ 600 მოთხოვნა (ბაზის ბრძანებების გარეშე, რომ შეტევამ ლიმიტი არ ამოწუროს)
+const HITS = new Map();
+function burst(ip) {
+  const now = Date.now();
+  let h = HITS.get(ip);
+  if (!h || now - h.t > 60000) { if (HITS.size > 5000) HITS.clear(); h = { t: now, n: 0 }; HITS.set(ip, h); }
+  return ++h.n > 600;
+}
+const clientIp = req => String(req.headers['x-real-ip'] || String(req.headers['x-forwarded-for'] || '').split(',')[0] || 'unknown').trim();
+
+/* ---------- სესია ვებზე: HttpOnly cookie (JavaScript-ს ტოკენი აღარ ხელეწიფება, XSS ვერ მოიპარავს) ---------- */
+// კომპიუტერის პროგრამა (Origin-ის გარეშე) ტოკენს ისევ JSON-ში იღებს.
+const COOKIE = 'cq_s';
+function readCookie(req) {
+  const m = String(req.headers.cookie || '').match(/(?:^|;\s*)cq_s=([A-Za-z0-9_-]{30,100})(?:;|$)/);
+  return m ? m[1] : '';
+}
+function setCookie(req, res, token) {
+  const local = /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(String(req.headers.host || '')) && req.headers['x-forwarded-proto'] !== 'https';
+  res.setHeader('Set-Cookie', COOKIE + '=' + (token || '') + '; Path=/api; HttpOnly; SameSite=Strict; Max-Age=' + (token ? SESSION_SEC : 0) + (local ? '' : '; Secure'));
+}
+
 class Fail extends Error { constructor(status, code) { super(code); this.status = status; this.code = code; } }
 
 /* ---------- Upstash Redis REST ---------- */
@@ -344,6 +372,7 @@ const actions = {
   async classKick(b) {
     const { u } = await session(b.token);
     const code = normCode(b.code), c = await getClass(code), m = keyOf(String(b.member || ''));
+    if (!m || m.length > 40) throw new Fail(400, 'bad_request');
     if (!c || c.owner !== u) throw new Fail(403, 'class_none');
     await dbPipe([['SREM', 'clsm:' + code, m], ['SREM', 'uin:' + m, code]]);
     return {};
@@ -419,6 +448,9 @@ const actions = {
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
+  const origin = String(req.headers.origin || '');
+  if (origin && !originOk(origin)) return res.status(403).json({ ok: false, error: 'bad_origin' });
+  if (burst(clientIp(req))) return res.status(429).json({ ok: false, error: 'rate_limited' });
   // მოსწავლის დაფა: GET ?live=ID — ყველასთვის ერთნაირი პასუხი, CDN-ში 1 წამით (ბაზას წამში ერთხელ მიმართავს)
   if (req.method === 'GET') {
     const id = normLive(new URL(req.url || '/', 'http://x').searchParams.get('live'));
@@ -441,10 +473,20 @@ module.exports = async (req, res) => {
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) { body = null; } }
   const act = body && typeof body === 'object' && Object.prototype.hasOwnProperty.call(actions, body.action) ? actions[body.action] : null;
   if (!act) return res.status(400).json({ ok: false, error: 'bad_request' });
-  const ip = String(req.headers['x-real-ip'] || String(req.headers['x-forwarded-for'] || '').split(',')[0] || 'unknown').trim();
+  const ip = clientIp(req);
+  // ვებ-ბრაუზერი (Origin ჩვენი საიტია): ტოკენი cookie-დან; ძველი ვერსიის ტოკენი (JSON-ში) cookie-ში გადადის
+  const web = !!origin, bodyTok = typeof body.token === 'string' && body.token ? body.token : '';
+  if (!bodyTok && web) { const c = readCookie(req); if (c) body.token = c; }
   try {
-    return res.status(200).json(Object.assign({ ok: true }, await act(body, ip)));
+    const out = Object.assign({ ok: true }, await act(body, ip));
+    if (web) {
+      if (out.token) { setCookie(req, res, out.token); delete out.token; out.cookie = true; }
+      else if (bodyTok && (body.action === 'me' || body.action === 'load' || body.action === 'save')) { setCookie(req, res, bodyTok); out.cookie = true; }
+      if (body.action === 'logout' || body.action === 'delete') setCookie(req, res, '');
+    }
+    return res.status(200).json(out);
   } catch (e) {
+    if (web && e instanceof Fail && e.code === 'no_session') setCookie(req, res, '');
     if (e instanceof Fail) return res.status(e.status).json(Object.assign({ ok: false, error: e.code }, e.extra || {}));
     console.error('account', body.action, e && e.message);
     return res.status(500).json({ ok: false, error: 'server' });

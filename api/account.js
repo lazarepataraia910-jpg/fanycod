@@ -2,6 +2,7 @@
 // ბაზა — Upstash Redis: Vercel → Storage → Create Database → Upstash for Redis → Connect Project.
 // ცვლადები Vercel თავად ამატებს: KV_REST_API_URL და KV_REST_API_TOKEN (ან UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN).
 //
+// Pro: proActivate — ლიცენზია ანგარიშს ებმება (იხ. „Pro: ანგარიშზე მიბმული“).
 // ყველა მოთხოვნა: POST /api/account { action, ... }. ვებზე სესიის ნიშანი HttpOnly cookie-შია (SameSite=Strict + Origin-ის შემოწმება — CSRF-ის წინააღმდეგ);
 // კომპიუტერის პროგრამა (Origin-ის გარეშე) ნიშანს body-ში აგზავნის. ძველი კომენტარი: სესიის ნიშანი (token) body-შია, არა cookie-ში, ამიტომ CSRF-ის საფრთხე
 // არ არის და კომპიუტერის პროგრამაც (desktop/, /api/* საიტზე გადაეგზავნება) ზუსტად ისევე მუშაობს.
@@ -41,6 +42,8 @@ const LIVE_SEC = 4 * 3600, LIVE_MAX = 20000;   // გაკვეთილის
 const SITE = 'https://codequest-lazare.vercel.app';
 const ORIGINS = [SITE].concat(String(process.env.EXTRA_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean));
 const originOk = o => ORIGINS.includes(o) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d{1,5})?$/.test(o);
+// Origin იგივე ჰოსტია, რომელსაც მოთხოვნა მიმართავს (მაგ. codequest-git-main-lazare.vercel.app) — სხვა საიტი ამას ვერ გააყალბებს
+const sameHost = (req, o) => { try { return new URL(o).host === String(req.headers['x-forwarded-host'] || req.headers.host || ''); } catch (e) { return false; } };
 // ერთ სერვერულ ასლზე: IP-დან წუთში მაქსიმუმ 600 მოთხოვნა (ბაზის ბრძანებების გარეშე, რომ შეტევამ ლიმიტი არ ამოწუროს)
 const HITS = new Map();
 function burst(ip) {
@@ -163,19 +166,33 @@ function isOwnerKey(key) {
     .some(k => crypto.timingSafeEqual(crypto.createHash('sha256').update(k).digest(), h));
 }
 
-// Pro: კლასები და ცოცხალი გაკვეთილი მხოლოდ Pro-თია. თამაში აგზავნის license.js-ის ხელმოწერილ ნიშანს (P.pro.token),
-// აქ ის მოწმდება იგივე საჯარო გასაღებით, რაც თამაშშია (PRO.pub). გასაღების შეცვლისას ორივე ადგილას შეცვალე.
-const PRO_PUB = { kty: 'EC', crv: 'P-256', x: 'fLZ_2UY_wXEOQuLdneJnViBQBysM_qj2VlNT4sfNZS4', y: '0uLSGAjTAWmDSQeI-82sS_I76iny23NsGZlAqov_SS0' };
+/* ---------- Pro: ანგარიშზე მიბმული ---------- */
+// Pro-ს ყიდვას და გააქტიურებას ანგარიში სჭირდება. ლიცენზიის კოდი ერთ ანგარიშს ებმება: prokey:<sha256(კოდი)> → ანგარიში
+// (მფლობელის კოდები, OWNER_KEYS — გამონაკლისი, ნებისმიერ ანგარიშზე მუშაობს). ანგარიშზე ინახება user.pro = { kh, at, owner }.
+// თამაშს ვაძლევთ ხელმოწერილ ნიშანს: base64url({ v: 2, u: ანგარიში, kh, iat }) + '.' + ECDSA P-256 (PRO_PRIVATE_KEY);
+// თამაში მას PRO.pub-ით ამოწმებს და მხოლოდ იმავე ანგარიშით შესულს უღებს Pro-ს. კლასები სერვერზე user.pro-ს ამოწმებს.
+const DODO = { live: 'https://live.dodopayments.com', test: 'https://test.dodopayments.com' };
 let proKey = null;
-function isPro(token) {
-  try {
-    const p = String(token || '').split('.');
-    if (p.length !== 2 || p[0].length > 500 || p[1].length > 200) return false;
-    proKey = proKey || crypto.createPublicKey({ key: PRO_PUB, format: 'jwk' });
-    return crypto.verify('sha256', Buffer.from(p[0]), { key: proKey, dsaEncoding: 'ieee-p1363' }, Buffer.from(p[1], 'base64url'));
-  } catch (e) { return false; }
+function signPro(u, kh) {
+  const pk = String(process.env.PRO_PRIVATE_KEY || '').replace(/\s+/g, '');
+  if (!pk) return null;
+  proKey = proKey || crypto.createPrivateKey({ key: Buffer.from(pk, 'base64'), format: 'der', type: 'pkcs8' });
+  const payload = Buffer.from(JSON.stringify({ v: 2, u, kh: String(kh).slice(0, 16), iat: Math.floor(Date.now() / 1000) })).toString('base64url');
+  return payload + '.' + crypto.sign('sha256', Buffer.from(payload), { key: proKey, dsaEncoding: 'ieee-p1363' }).toString('base64url');
 }
-function needPro(b) { if (!isPro(b.pro)) throw new Fail(403, 'pro_required'); }
+const proToken = (u, user) => (user && user.pro ? signPro(u, user.pro.kh) || undefined : undefined);
+// ლიცენზიის კოდის შემოწმება Dodo Payments-თან (DODO_MODE=live — ნამდვილი გადახდები)
+async function dodoValid(key) {
+  let r;
+  try {
+    r = await fetch((DODO[process.env.DODO_MODE] || DODO.test) + '/licenses/validate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ license_key: key }), signal: AbortSignal.timeout(10000) });
+  } catch (e) { throw new Fail(502, 'pro_upstream'); }
+  if (r.status === 400 || r.status === 404 || r.status === 422) return false;
+  if (!r.ok) throw new Fail(502, 'pro_upstream');
+  const d = await r.json().catch(() => ({}));
+  return d.valid === true;
+}
+function needPro(user) { if (!user || !user.pro) throw new Fail(403, 'pro_required'); }
 
 /* ---------- მომხმარებელი და სესია ---------- */
 const keyOf = name => String(name).normalize('NFC').toLowerCase();
@@ -268,11 +285,11 @@ const actions = {
   async me(b) {
     const { u, user } = await session(b.token, true);
     const p = await db(['GET', 'progrev:' + u]);
-    return { name: user.name, rev: +p || 0 };
+    return { name: user.name, rev: +p || 0, pro: proToken(u, user) };
   },
   async load(b) {
     const { u, user } = await session(b.token, true);
-    return Object.assign({ name: user.name }, await loadProgress(u));
+    return Object.assign({ name: user.name, pro: proToken(u, user) }, await loadProgress(u));
   },
   async save(b) {
     const { u, user } = await session(b.token);
@@ -308,14 +325,37 @@ const actions = {
     if (!await checkSecret(String(b.password || ''), user.pw)) throw new Fail(401, 'bad_pass');
     const [own, inn] = await dbPipe([['SMEMBERS', 'uown:' + u], ['SMEMBERS', 'uin:' + u]]);
     for (const code of own || []) await dropClass(code, u);   // მასწავლებლის კლასებიც იშლება
+    if (user.pro && !user.pro.owner && (await db(['GET', 'prokey:' + user.pro.kh])) === u) await db(['DEL', 'prokey:' + user.pro.kh]);
     await dbPipe((inn || []).map(code => ['SREM', 'clsm:' + code, u]).concat([['DEL', 'user:' + u], ['DEL', 'prog:' + u], ['DEL', 'progrev:' + u], ['DEL', 'sum:' + u],
       ['DEL', 'uin:' + u], ['DEL', 'uown:' + u], ['DEL', 'sess:' + sha(b.token)]]));
     return {};
   },
+  /* ---- Pro: ლიცენზიის კოდის გააქტიურება შესულ ანგარიშზე ---- */
+  async proActivate(b, ip) {
+    const { u, user } = await session(b.token);
+    await limit('proact-ip', ip, 60, 900);
+    await limit('proact', u, 20, 3600);
+    const key = String(b.key || '').trim();
+    if (!key || key.length > 200) throw new Fail(400, 'pro_invalid');
+    const kh = crypto.createHash('sha256').update(key).digest('hex'), owner = isOwnerKey(key);
+    if (!owner) {
+      const bound = await db(['GET', 'prokey:' + kh]);
+      if (bound && bound !== u) throw new Fail(409, 'pro_taken');   // ერთი ლიცენზია — ერთი ანგარიში
+      if (!bound) {
+        if (!(await dodoValid(key))) throw new Fail(400, 'pro_invalid');
+        if (await db(['SET', 'prokey:' + kh, u, 'NX']) !== 'OK' && (await db(['GET', 'prokey:' + kh])) !== u) throw new Fail(409, 'pro_taken');
+      }
+    }
+    const token = signPro(u, kh);
+    if (!token) throw new Fail(503, 'no_signing_key');
+    user.pro = Object.assign({ kh, at: (user.pro && user.pro.at) || Date.now() }, owner ? { owner: true } : {});
+    await putUser(u, user);
+    return { pro: token };   // არა token: ვებზე token სესიის cookie-ში გადადის
+  },
   /* ---- კლასები (Pro): მასწავლებელი ქმნის, მოსწავლე 6-ასოიანი კოდით უერთდება ---- */
   async classCreate(b) {
-    needPro(b);
     const { u, user } = await session(b.token);
+    needPro(user);
     const name = cleanText(b.name, 40) || 'ჩემი კლასი';
     if (await db(['SCARD', 'uown:' + u]) >= 10) throw new Fail(400, 'class_limit');
     for (let i = 0; i < 5; i++) {
@@ -328,8 +368,8 @@ const actions = {
     throw new Fail(500, 'server');
   },
   async classJoin(b) {
-    needPro(b);
-    const { u } = await session(b.token);
+    const { u, user } = await session(b.token);
+    needPro(user);
     await limit('join', u, 30, 3600);   // კოდის გამოცნობის წინააღმდეგ
     const code = normCode(b.code), c = await getClass(code);
     if (!c) throw new Fail(404, 'class_none');
@@ -347,8 +387,8 @@ const actions = {
     return {};
   },
   async classes(b) {
-    needPro(b);
-    const { u } = await session(b.token);
+    const { u, user } = await session(b.token);
+    needPro(user);
     const [own, inn] = (await dbPipe([['SMEMBERS', 'uown:' + u], ['SMEMBERS', 'uin:' + u]])).map(x => x || []);
     const all = own.concat(inn), meta = all.length ? await dbPipe(all.map(c => ['GET', 'cls:' + c])) : [];
     const cnt = own.length ? await dbPipe(own.map(c => ['SCARD', 'clsm:' + c])) : [];
@@ -364,8 +404,8 @@ const actions = {
   },
   // მასწავლებელი ხედავს დეტალებს, მოსწავლე — მხოლოდ სახელებს და XP-ს (კვირის რეიტინგი)
   async classView(b) {
-    needPro(b);
-    const { u } = await session(b.token);
+    const { u, user } = await session(b.token);
+    needPro(user);
     const code = normCode(b.code), c = await getClass(code);
     if (!c) throw new Fail(404, 'class_none');
     const owner = c.owner === u;
@@ -398,8 +438,8 @@ const actions = {
   /* ---- ცოცხალი გაკვეთილი ---- */
   // მასწავლებელი იწყებს: ახალი ID (მოსწავლეები კლასის ხედიდან იღებენ) და გასაღები (მხოლოდ მასწავლებელს)
   async liveStart(b) {
-    needPro(b);
-    const { u } = await session(b.token);
+    const { u, user } = await session(b.token);
+    needPro(user);
     const code = normCode(b.code), c = await getClass(code);
     if (!c || c.owner !== u) throw new Fail(403, 'class_none');
     await limit('live', u, 30, 3600);
@@ -460,7 +500,7 @@ const actions = {
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   const origin = String(req.headers.origin || '');
-  if (origin && !originOk(origin)) return res.status(403).json({ ok: false, error: 'bad_origin' });
+  if (origin && !originOk(origin) && !sameHost(req, origin)) return res.status(403).json({ ok: false, error: 'bad_origin' });
   if (burst(clientIp(req))) return res.status(429).json({ ok: false, error: 'rate_limited' });
   // მოსწავლის დაფა: GET ?live=ID — ყველასთვის ერთნაირი პასუხი, CDN-ში 1 წამით (ბაზას წამში ერთხელ მიმართავს)
   if (req.method === 'GET') {
@@ -491,7 +531,8 @@ module.exports = async (req, res) => {
   try {
     const out = Object.assign({ ok: true }, await act(body, ip));
     if (web) {
-      if (out.token) { setCookie(req, res, out.token); delete out.token; out.cookie = true; }
+      // სესიის ახალი ნიშანი მხოლოდ ამ მოქმედებებიდან მოდის — ის cookie-ში გადადის და JSON-ში აღარ ჩანს
+      if (out.token && /^(register|login|reset|password)$/.test(body.action)) { setCookie(req, res, out.token); delete out.token; out.cookie = true; }
       else if (bodyTok && (body.action === 'me' || body.action === 'load' || body.action === 'save')) { setCookie(req, res, bodyTok); out.cookie = true; }
       if (body.action === 'logout' || body.action === 'delete') setCookie(req, res, '');
     }

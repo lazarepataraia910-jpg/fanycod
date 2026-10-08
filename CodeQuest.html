@@ -822,6 +822,7 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .pw .pw-buy:active{transform:translateY(5px);box-shadow:0 1px 0 #d49b00}
 .pw .pw-buy::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-100%);animation:hm-shine 3.5s ease-in-out 1s infinite}
 .pw-more{display:flex;justify-content:center;gap:6px;margin-top:10px}
+.pw-need{margin:14px 0 0;padding:10px 12px;border:1px dashed color-mix(in srgb,var(--accent) 45%,var(--border));border-radius:12px;background:color-mix(in srgb,var(--accent) 6%,var(--panel));font-size:.86rem;text-align:center}
 .pw-more .btn{color:var(--muted);font-weight:700}
 .pw-more .btn:hover{color:var(--text)}
 .pro-badge{width:78px;height:78px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;font-size:2.5rem;background:radial-gradient(circle at 35% 30%,#fff8db,#ffd43b);box-shadow:0 5px 0 #d9a600}
@@ -11206,13 +11207,12 @@ const PRO = {
   // ⚠️ ეს სატესტო ბმულია (test.checkout...) — ნამდვილი გაყიდვებისთვის Live Mode-ის ბმულით შეცვალე და Vercel-ში DODO_MODE=live
   payLink: 'https://test.checkout.dodopayments.com/buy/pdt_0NpAlHj8uygXzZpR6gnNG?quantity=1',
   price: '$9',               // ღილაკზე გამოსაჩენი ფასი
-  api: '/api/license',       // Vercel-ის ფუნქცია (api/license.js): კოდს Dodo-სთან ამოწმებს და Pro-ს ნიშანს ხელს აწერს
   // ხელმოწერის შესამოწმებელი საჯარო გასაღები (ECDSA P-256). საიდუმლო ნაწილი მხოლოდ Vercel-შია (PRO_PRIVATE_KEY).
   pub: Object.freeze({ kty: 'EC', crv: 'P-256', x: 'fLZ_2UY_wXEOQuLdneJnViBQBysM_qj2VlNT4sfNZS4', y: '0uLSGAjTAWmDSQeI-82sS_I76iny23NsGZlAqov_SS0' })
 };
 Object.freeze(PRO);   // ფასი, უფასო ლეველების რაოდენობა და გასაღები კონსოლიდან არ იცვლება
 const isPremium = lv => !!lv && !lv.project && lv.index >= PRO.freeLevels;
-// Pro ჩართულია მხოლოდ მაშინ, როცა შენახულ ნიშანს (token) სერვერის ხელმოწერა აქვს. P.pro-ს ხელით შეცვლა (მაგ. კონსოლიდან)
+// Pro ანგარიშს ებმება: ჩართულია მხოლოდ მაშინ, როცა ნიშანს (token) სერვერის ხელმოწერა აქვს და მასში შესული ანგარიშია. P.pro-ს ხელით შეცვლა (მაგ. კონსოლიდან)
 // Pro-ს აღარ რთავს: ხელმოწერა მხოლოდ სერვერს შეუძლია. შემოწმების ფუნქციები ჩატვირთვისას ინახება, რომ მერე ვერ შეცვალონ.
 const ProLock = (() => {
   const subtle = typeof crypto !== 'undefined' && crypto.subtle ? crypto.subtle : null;
@@ -11220,19 +11220,23 @@ const ProLock = (() => {
   const enc = typeof TextEncoder !== 'undefined' ? new TextEncoder() : null;
   const bytes = s => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
   let ok = false, keyP = null;
-  async function check(token) {
+  // ნიშანი: base64url({ v: 2, u: ანგარიში, kh, iat }) + '.' + ხელმოწერა. Pro მხოლოდ იმავე ანგარიშით შესულს ერთვება
+  async function check(token, user) {
     try {
-      if (!verify || !enc || typeof token !== 'string') return false;
+      if (!verify || !enc || typeof token !== 'string' || !user) return false;
       const parts = token.split('.');
       if (parts.length !== 2) return false;
       keyP = keyP || importKey('jwk', PRO.pub, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']);
-      return (await verify({ name: 'ECDSA', hash: 'SHA-256' }, await keyP, bytes(parts[1]), enc.encode(parts[0]))) === true;
+      if ((await verify({ name: 'ECDSA', hash: 'SHA-256' }, await keyP, bytes(parts[1]), enc.encode(parts[0]))) !== true) return false;
+      const p = JSON.parse(new TextDecoder().decode(bytes(parts[0])));
+      return p.v === 2 && p.u === String(user).normalize('NFC').toLowerCase();
     } catch (e) { return false; }
   }
   return Object.freeze({
     has: () => ok,
-    // pro — { key, token }; აბრუნებს, ჩაირთო თუ არა Pro
-    async set(pro) { ok = !!(pro && await check(pro.token)); return ok; }
+    // pro — { token }; user — შესული ანგარიში. set: ჩართვა/გამორთვა; offer: მხოლოდ ჩართავს (არასწორი ნიშანი მიმდინარეს არ აქრობს)
+    async set(pro, user) { ok = !!(pro && await check(pro.token, user)); return ok; },
+    async offer(pro, user) { if (pro && await check(pro.token, user)) ok = true; return ok; }
   });
 })();
 
@@ -16236,7 +16240,7 @@ const Progress = {
   save() { Store.set(SAVE_KEY, this.P); Account.changed(); },   // ანგარიშით — სერვერზეც (რამდენიმე წამში)
   /* ---- გარდერობი: საფულე = მოგებული XP − დახარჯული (წოდებას ხარჯვა არ ამცირებს) ---- */
   wallet() { return Math.max(0, this.totalXP() - (this.P.spent || 0)); },
-  owns(w) { return !w.price || this.P.settings.unlockAll || (this.P.owned || []).includes(w.slot + ':' + w.id); },
+  owns(w) { return !w.price || (this.P.owned || []).includes(w.slot + ':' + w.id); },   // მასწავლებლის რეჟიმი ნივთებს არ აუფასოებს
   buy(w) {
     if (this.owns(w)) return true;
     if (this.wallet() < w.price) return false;
@@ -16302,7 +16306,7 @@ const Progress = {
   nextLevel() { return LEVELS.find(l => !this.isDone(l.id) && this.isUnlocked(l)) || LEVELS[0]; },
   baseXP(lv) { if (lv.drill) return Drill.xp(lv); return lv.final ? 1000 : lv.boss ? 300 : lv.project ? 200 : 100; },
   xpFor(lv, hints) { const b = this.baseXP(lv); return Math.max(Math.round(b * 0.2), b - 20 * hints); },
-  unlockedReward(item) { return this.P.settings.unlockAll || this.totalXP() >= item.xp; },
+  unlockedReward(item) { return this.totalXP() >= item.xp; },   // XP-ის ჯილდოები მხოლოდ ნამდვილი XP-ით (მასწავლებლის რეჟიმი მხოლოდ ლეველებს ხსნის)
   complete(lv, r) {
     const old = this.P.levels[lv.id] || {};
     const rec = {
@@ -18574,8 +18578,8 @@ const Wardrobe = {
       '<span class="wb-mini">' + bitSVG(currentSkin({ [w.slot]: w.id })) + '</span><b>' + esc(w.name) + '</b>' + st.tag + '</button>';
   },
   render() {
-    const P = Progress.P, wallet = Progress.wallet(), tr = this.tryIt, free = P.settings.unlockAll;
-    $('#wb-wallet').textContent = '💰 ' + (free ? '∞' : wallet) + ' XP';
+    const P = Progress.P, wallet = Progress.wallet(), tr = this.tryIt;
+    $('#wb-wallet').textContent = '💰 ' + wallet + ' XP';
     $('#wb-bit').innerHTML = bitSVG(currentSkin(tr ? { [tr.slot]: tr.id } : null));
     // მოსინჯვისას სცენა ნივთის იშვიათობის ფერს იღებს
     const tri = tr ? this.rarOf(tr) : -1;
@@ -19115,17 +19119,17 @@ const SettingsScreen = {
   render() {
     const P = Progress.P, s = P.settings;
     const seg = (id, opts, val) => '<div class="seg" id="' + id + '">' + opts.map(([v, l]) => '<button data-v="' + v + '" class="' + (String(val) === String(v) ? 'on' : '') + '">' + l + '</button>').join('') + '</div>';
-    const pro = Progress.hasPro() && P.pro && P.pro.key;
+    const pro = Progress.hasPro();
     $('#settings-body').innerHTML = '<div class="card" style="margin-bottom:12px"><div class="set-row" style="border:0;padding:4px 0"><label>👑 CodeQuest Pro<br><small class="muted">' +
-      (pro ? 'აქტიურია · კოდი …' + esc(P.pro.key.slice(-4)) : 'ყველა ენაზე პირველი ' + PRO.freeLevels + ' ლეველი უფასოა; Pro დანარჩენს ხსნის.') + '</small></label>' +
-      '<span>' + (pro ? '<button class="btn small" id="st-pro-off">გამორთვა ამ მოწყობილობაზე</button>' : '<button class="btn small" id="st-pro-key">🔑 კოდის ჩასმა</button> <button class="btn small primary" id="st-pro-buy">💳 ყიდვა</button>') + '</span></div></div>' +
+      (pro ? 'აქტიურია · ანგარიში ' + esc(Account.s ? Account.s.name : '') + (P.pro && P.pro.key ? ' · კოდი …' + esc(P.pro.key.slice(-4)) : '') : 'ყველა ენაზე პირველი ' + PRO.freeLevels + ' ლეველი უფასოა; Pro დანარჩენს ხსნის.') + '</small></label>' +
+      '<span>' + (pro ? '<span class="chip">👤 ანგარიშზე მიბმული</span>' : '<button class="btn small" id="st-pro-key">🔑 კოდის ჩასმა</button> <button class="btn small primary" id="st-pro-buy">💳 ყიდვა</button>') + '</span></div></div>' +
       '<div class="card">' +
       '<div class="set-row"><label>სწავლის სტილი<br><small class="muted">ახალი თემის მე-2 ნაბიჯი: ბლოკების აწყობა ან კოდის ასო-ასო გადაწერა</small></label>' + seg('st-learn', [['blocks', '🧩 ააწყე ბლოკებით'], ['type', '✍️ გადაწერე ასო-ასო']], s.learn === 'type' ? 'type' : 'blocks') + '</div>' +
       '<div class="set-row"><label>თემა</label>' + seg('st-theme', [['light', '☀️ ნათელი'], ['dark', '🌙 მუქი']], s.theme) + '</div>' +
       '<div class="set-row"><label>ხმა</label>' + seg('st-sound', [[1, 'ჩართული'], [0, 'გამორთული']], s.sound ? 1 : 0) + '</div>' +
       '<div class="set-row"><label>ანიმაციის სიჩქარე</label>' + seg('st-speed', [[1, '🐢 ნელი'], [2, 'ჩვეულებრივი'], [3, '🐇 სწრაფი']], s.speed) + '</div>' +
       '<div class="set-row"><label for="st-font">შრიფტის ზომა: <span id="st-font-v">' + s.font + '</span>px</label><input type="range" id="st-font" min="13" max="21" value="' + s.font + '" style="accent-color:var(--accent)"></div>' +
-      '<div class="set-row"><label>მასწავლებლის რეჟიმი<br><small class="muted">ყველა ლეველისა და ჯილდოს გახსნა (Pro ლეველების გარდა)</small></label>' + seg('st-unlock', [[1, 'ჩართული'], [0, 'გამორთული']], s.unlockAll ? 1 : 0) + '</div>' +
+      '<div class="set-row"><label>მასწავლებლის რეჟიმი<br><small class="muted">ყველა ლეველის გახსნა (Pro ლეველების გარდა). XP და გარდერობის ნივთები ჩვეულებრივად გროვდება</small></label>' + seg('st-unlock', [[1, 'ჩართული'], [0, 'გამორთული']], s.unlockAll ? 1 : 0) + '</div>' +
       '</div><div class="card" style="margin-top:12px"><h3 style="margin-top:0">პროგრესის კოდი</h3>' +
       '<p class="muted" style="margin-top:-.4em">დააკოპირე კოდი, რომ პროგრესი სხვა მოწყობილობაზე გადაიტანო ან შეინახო.</p>' +
       '<textarea class="code-io" id="st-export" readonly aria-label="ექსპორტის კოდი"></textarea><div class="modal-actions" style="justify-content:flex-start"><button class="btn small" id="st-copy">კოპირება</button></div>' +
@@ -19152,7 +19156,6 @@ const SettingsScreen = {
     $('#st-test').addEventListener('click', () => DevPanel.open());
     $('#st-stats').addEventListener('click', () => OwnerStats.open());
     if ($('#st-pro-key')) { $('#st-pro-key').addEventListener('click', () => Paywall.keyForm()); $('#st-pro-buy').addEventListener('click', () => Paywall.open(null)); }
-    if ($('#st-pro-off')) $('#st-pro-off').addEventListener('click', async () => { P.pro = null; Progress.save(); await ProLock.set(null); this.render(); UI.toast('👑', 'Pro გამოირთო ამ მოწყობილობაზე', 'კოდით ნებისმიერ დროს ისევ ჩართავ.'); });
     $('#st-reset').addEventListener('click', () => {
       const m = Modal.open('<h2>ნამდვილად გინდა განულება?</h2><p>ყველა პროგრესი, XP და მიღწევა სამუდამოდ წაიშლება. სანამ წაშლი, შეგიძლია პროგრესის კოდი შეინახო.</p><div class="modal-actions"><button class="btn" data-close autofocus>არა, დავტოვოთ</button><button class="btn danger" data-a="yes">კი, განულდეს</button></div>');
       m.querySelector('[data-a=yes]').addEventListener('click', () => { Progress.reset(); Modal.close(m); applySettings(); UI.toast('🧹', 'პროგრესი განულდა'); this.render(); });
@@ -19666,18 +19669,26 @@ const Paywall = {
       ['🛠️', STUDIO_GUIDES.length + ' ნაბიჯ-ნაბიჯ პროექტი', 'ააწყე ნამდვილი პროგრამები'],
       ['👩‍🏫', 'კლასი და ცოცხალი გაკვეთილი', 'მასწავლებლის დაფა მოსწავლეებთან ცოცხლად'],
       ['💳', 'ერთჯერადი გადახდა', 'გამოწერის გარეშე — სამუდამოდ შენია'],
-      ['📧', 'კოდი ელფოსტაზე მოგივა', 'ნებისმიერ მოწყობილობაზე ჩასვამ']];
+      ['👤', 'შენს ანგარიშს ებმება', 'ყველა მოწყობილობაზე, სადაც შეხვალ']];
     const m = Modal.open('<div class="pw"><button class="pw-x" data-close aria-label="დახურვა">✕</button>' +
       '<div class="pw-top"><div class="pw-spark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div class="pw-crown" aria-hidden="true">👑</div>' +
       '<h2>CodeQuest <span>Pro</span></h2><p>' + intro + '</p></div>' +
       '<div class="pw-body">' + (PRO.price ? '<div class="pw-price"><b>' + esc(PRO.price) + '</b><span>ერთხელ<br>სამუდამოდ</span></div>' : '') +
       '<ul class="pw-list">' + feats.map(([ic, t, d]) => '<li><span aria-hidden="true">' + ic + '</span><div><b>' + t + '</b><small>' + d + '</small></div></li>').join('') + '</ul>' +
-      '<button class="btn primary pw-buy" data-a="buy">💳 ყიდვა' + price + '</button>' +
+      (Account.s ? '' : '<p class="pw-need">👤 Pro ანგარიშს ებმება — საყიდლად ჯერ შედი ან დარეგისტრირდი.</p>') +
+      '<button class="btn primary pw-buy" data-a="buy">' + (Account.s ? '💳 ყიდვა' + price : '👤 შესვლა და ყიდვა' + price) + '</button>' +
       '<div class="pw-more"><button class="btn ghost" data-a="key">🔑 მაქვს კოდი</button><button class="btn ghost" data-close>მოგვიანებით</button></div></div></div>');
     m.querySelector('[data-a=buy]').addEventListener('click', () => this.buy());
     m.querySelector('[data-a=key]').addEventListener('click', () => { Modal.close(m); this.keyForm(); });
   },
+  // Pro ანგარიშს ებმება — ყიდვას და კოდის ჩასმას ანგარიში სჭირდება. შესვლის / რეგისტრაციის შემდეგ then თავისით გაგრძელდება
+  needAccount(then) {
+    Modal.closeAll();
+    Account.after = then;
+    Account.loginForm('👑 Pro შენს ანგარიშს ებმება და ყველა მოწყობილობაზე იმუშავებს, სადაც შეხვალ. ჯერ შედი ან დარეგისტრირდი — მერე ყიდვა გაგრძელდება.');
+  },
   buy() {
+    if (!Account.s) return this.needAccount(() => this.buy());
     if (!PRO.payLink) { UI.toast('⚙️', 'გადახდა ჯერ არ არის ჩართული', 'საიტის მფლობელმა Dodo Payments-ის ბმული უნდა დაამატოს.'); return; }
     // გადახდის შემდეგ Dodo აქ დაგვაბრუნებს (?status=succeeded&payment_id=...&email=...)
     const u = new URL(PRO.payLink);
@@ -19692,7 +19703,9 @@ const Paywall = {
     location.href = u.toString();
   },
   keyForm(intro) {
+    if (!Account.s) return this.needAccount(() => this.keyForm(intro));
     const m = Modal.open('<h2>🔑 ლიცენზიის კოდი</h2>' + (intro ? '<p>' + intro + '</p>' : '<p class="muted">კოდი ყიდვის შემდეგ ელფოსტაზე მოგივიდა.</p>') +
+      '<p class="muted" style="font-size:.86rem">👤 Pro მიებმება ანგარიშს <b>' + esc(Account.s.name) + '</b> — ერთი კოდი, ერთი ანგარიში.</p>' +
       '<input class="txt" id="pro-key" style="width:100%;font-family:var(--mono)" placeholder="მაგ. ABCD-1234-..." autocomplete="off" spellcheck="false">' +
       '<p class="muted" id="pro-msg" style="min-height:1.4em;font-size:.88rem"></p>' +
       '<div class="modal-actions"><button class="btn" data-close>დახურვა</button><button class="btn primary" data-a="ok">გააქტიურება</button></div>');
@@ -19702,41 +19715,42 @@ const Paywall = {
       const key = inp.value.trim();
       if (!key) { msg.textContent = 'ჩასვი კოდი.'; return; }
       btn.disabled = true; msg.textContent = 'ვამოწმებ...';
-      const r = await this.validate(key);
-      const on = r.valid && r.token ? await ProLock.set({ key, token: r.token }) : false;
+      const r = await this.activate(key);
       btn.disabled = false;
-      if (on) {
-        Progress.P.pro = { key, token: r.token, at: Date.now() }; Progress.save();
+      if (r.ok) {
         Modal.close(m); Sound.ach(); confetti(document.body);
-        UI.toast('👑', 'Pro გააქტიურდა!', 'ყველა ლეველი, ვიდეოები და პროექტები ყველა ენაზე ღიაა.');
+        UI.toast('👑', 'Pro გააქტიურდა!', 'მიება ანგარიშს ' + Account.s.name + ' — ყველა მოწყობილობაზე, სადაც შეხვალ.');
         this.refresh();
-      } else msg.textContent = r.valid ? 'კოდი სწორია, მაგრამ სერვერის ხელმოწერა ვერ შემოწმდა (Vercel-ში PRO_PRIVATE_KEY უნდა იყოს დაყენებული).' : r.error || 'კოდი არასწორია ან ვადაგასულია. შეამოწმე და თავიდან სცადე.';
+      } else msg.textContent = Account.msg(r);
     };
     btn.addEventListener('click', go);
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
   },
-  async validate(key) {
-    try {
-      const res = await fetch(PRO.api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ license_key: key }) });
-      if (!res.ok && res.status !== 400) return { valid: false, error: 'შემოწმება ვერ მოხერხდა (' + res.status + '). სცადე მოგვიანებით.' };
-      const j = await res.json();
-      return { valid: !!j.valid, token: typeof j.token === 'string' ? j.token : null, final: res.ok };
-    } catch (e) {
-      return { valid: false, error: 'სერვერთან კავშირი ვერ დამყარდა. კოდის შემოწმება მხოლოდ საიტზე (Vercel) მუშაობს.' };
-    }
+  // კოდის გააქტიურება შესულ ანგარიშზე (სერვერი კოდს ამოწმებს და ანგარიშს აბამს)
+  async activate(key) {
+    if (!Account.s) return { ok: false, error: 'no_session' };
+    const r = await Account.api('proActivate', { token: Account.s.token, key });
+    if (!r.ok) return r;
+    if (!r.pro || !Account.s || !(await ProLock.offer({ token: r.pro }, Account.s.name))) return { ok: false, error: 'server' };
+    Progress.P.pro = { key, token: r.pro, at: (Progress.P.pro && Progress.P.pro.at) || Date.now() };
+    Progress.save();
+    return { ok: true };
   },
-  // ჩატვირთვისას: შენახული ნიშნის შემოწმება. ძველ შენახვას (ნიშნის გარეშე) ან უცხო ნიშანს კოდი სერვერზე თავიდან ამოწმებს;
-  // თუ სერვერი პირდაპირ იტყვის, რომ კოდი არასწორია — Pro ამ მოწყობილობიდან იშლება
+  // Pro მხოლოდ ანგარიშით: შესულს — შენახული (ამ ანგარიშის) ნიშანი ან სერვერიდან მიღებული; ძველი, ანგარიშზე
+  // მიუბმელი Pro (კოდით) ერთხელ ავტომატურად ებმება შესულ ანგარიშს. ანგარიშის გარეშე Pro გამორთულია.
   async restore() {
-    const P = Progress.P, pro = P.pro;
-    if (!pro || typeof pro.key !== 'string' || !pro.key) { if (pro) { P.pro = null; Progress.save(); } return; }
-    if (await ProLock.set(pro)) return this.refresh();
-    const r = await this.validate(pro.key);
-    if (r.valid && r.token && await ProLock.set({ key: pro.key, token: r.token })) {
-      P.pro = { key: pro.key, token: r.token, at: pro.at || Date.now() }; Progress.save();
-      return this.refresh();
+    const P = Progress.P, name = Account.s && Account.s.name;
+    if (!name) { await ProLock.set(null); return this.refresh(); }
+    if (P.pro && await ProLock.offer(P.pro, name)) return this.refresh();
+    if (ProLock.has() || this.busy) return this.refresh();
+    if (P.pro && typeof P.pro.key === 'string' && P.pro.key) {
+      this.busy = true;
+      const r = await this.activate(P.pro.key);
+      this.busy = false;
+      if (r.ok) UI.toast('👑', 'Pro შენს ანგარიშს მიება', 'ახლა ყველა მოწყობილობაზე იმუშავებს, სადაც ' + name + '-ით შეხვალ.');
+      else if (r.error === 'pro_taken' || r.error === 'pro_invalid') { P.pro = null; Progress.save(); UI.toast('⚠️', 'Pro ამ ანგარიშზე ვერ გააქტიურდა', Account.msg(r)); }
     }
-    if (!r.valid && r.final) { P.pro = null; Progress.save(); this.refresh(); }
+    this.refresh();
   },
   refresh() {
     if (UI.cur === 'map') MapScreen.render();
@@ -19905,7 +19919,12 @@ const Account = {
     class_full: 'კლასი სავსეა.',
     class_limit: 'კლასების ლიმიტი ამოიწურა (შექმნა — 10, შეერთება — 5).',
     not_owner: 'კოდი არასწორია.',
-    pro_required: '👑 კლასი Pro-ს ნაწილია — Pro სჭირდება მასწავლებელსაც და მოსწავლესაც.'
+    pro_required: '👑 კლასი Pro-ს ნაწილია — Pro სჭირდება მასწავლებელსაც და მოსწავლესაც.',
+    pro_taken: 'ეს კოდი უკვე სხვა ანგარიშზეა გააქტიურებული. ერთი Pro — ერთი ანგარიში.',
+    pro_invalid: 'კოდი არასწორია ან აღარ მოქმედებს. შეამოწმე და თავიდან სცადე.',
+    pro_upstream: 'კოდის შემოწმება ახლა ვერ მოხერხდა — სცადე ცოტა ხანში.',
+    no_signing_key: 'სერვერზე Pro-ს ხელმოწერის გასაღები არ არის (Vercel → PRO_PRIVATE_KEY).',
+    bad_origin: 'მოთხოვნა უცნობი მისამართიდან მოვიდა — გახსენი თამაში codequest-lazare.vercel.app-ზე.'
   },
   msg(r) { return this.ERR[r.error] || this.ERR.server; },
   init() {
@@ -19918,9 +19937,7 @@ const Account = {
   },
   keep() { if (this.s) Store.set(ACC_KEY, this.s); },
   async api(action, data, keepalive) {
-    // კლასი და ცოცხალი გაკვეთილი Pro-ს ნაწილია — სერვერი Pro-ს ხელმოწერილ ნიშანს ამოწმებს
-    const pro = /^(class|live)/.test(action) && Progress.P.pro && Progress.P.pro.token;
-    const body = JSON.stringify(Object.assign({ action }, pro ? { pro } : {}, data));
+    const body = JSON.stringify(Object.assign({ action }, data));
     try {
       const r = await fetch('/api/account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: !!keepalive && body.length < 60000 });
       const j = await r.json().catch(() => ({ ok: false, error: 'server' }));
@@ -19968,6 +19985,7 @@ const Account = {
     } else if (r.error === 'no_session') {
       return this.expired();
     } else {
+      this.err = r.error || 'server';
       this.setState(r.error === 'offline' ? 'offline' : 'error');
       this.timer = setTimeout(() => this.push(), 30000);
       return;
@@ -19980,9 +19998,11 @@ const Account = {
     if (this.s !== sent) return;
     if (!r.ok) {
       if (r.error === 'no_session') return this.expired();
+      this.err = r.error || 'server';
       return this.setState(r.error === 'offline' ? 'offline' : 'error');
     }
     this.s.name = r.name;
+    if (r.pro) this.gotPro(r.pro);
     if (r.rev !== (this.s.rev || 0)) {
       this.absorb(r.data, r.rev);
       return this.push();
@@ -20020,6 +20040,7 @@ const Account = {
     this.s = null;
     Store.del(ACC_KEY);
     clearTimeout(this.timer);
+    ProLock.set(null).then(() => Paywall.refresh());
     this.setState('idle');
     UI.toast('🔒', 'სესია ამოიწურა', 'შედი თავიდან — პროგრესი ამ მოწყობილობაზე დარჩა.');
   },
@@ -20032,7 +20053,7 @@ const Account = {
   statusText() {
     if (!this.s) return '';
     const t = this.s.at ? new Date(this.s.at).toLocaleTimeString('ka-GE', { hour: '2-digit', minute: '2-digit', hour12: false }) : '';
-    return { saving: '⏳ ინახება…', dirty: '⏳ ინახება რამდენიმე წამში…', offline: '⚠️ ინტერნეტი არ არის — შევინახავ, როცა დაბრუნდება', error: '⚠️ ვერ შეინახა — თავიდან ვცდი' }[this.state] ||
+    return { saving: '⏳ ინახება…', dirty: '⏳ ინახება რამდენიმე წამში…', offline: '⚠️ ინტერნეტი არ არის — შევინახავ, როცა დაბრუნდება', error: '⚠️ ვერ შეინახა — თავიდან ვცდი' + (this.err ? ' (' + this.err + ')' : '') }[this.state] ||
       '☁️ პროგრესი შენახულია' + (t ? ' · ' + t : '');
   },
   // მენიუს ზედა ზოლისთვის — მოკლედ, რომ არ მოიჭრას (სრული ტექსტი title-შია)
@@ -20073,8 +20094,15 @@ const Account = {
     this.keep();
     this.changed();
     this.push();
+    if (d.pro) this.gotPro(d.pro);
+    Paywall.restore();
     UI.toast('👋', 'გამარჯობა, ' + r.name + '!', 'პროგრესი ახლა ყველა მოწყობილობაზე შეინახება.');
+    this.runAfter();
   },
+  // გადადებული მოქმედება შესვლის / რეგისტრაციის შემდეგ (მაგ. Pro-ს ყიდვა)
+  runAfter() { const f = this.after; this.after = null; if (f) setTimeout(f, 300); },
+  // სერვერმა თქვა, რომ ამ ანგარიშს Pro აქვს (ხელმოწერილი ნიშანი) — ჩავრთავთ
+  async gotPro(token) { if (this.s && await ProLock.offer({ token }, this.s.name)) Paywall.refresh(); },
   choose(remote) {
     return new Promise(done => {
       const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">🔀</div><h2 class="result-title">ორი პროგრესი</h2>' +
@@ -20134,7 +20162,8 @@ const Account = {
     this.bind(m, f => this.checkNew(f), f => this.api('register', { name: f.name.trim(), password: f.password }), r => {
       Modal.close(m);
       this.start(r, true);
-      this.showRecovery(r.name, r.recovery, 'შექმნილია! ');
+      Paywall.restore();
+      this.showRecovery(r.name, r.recovery, 'შექმნილია! ', () => this.runAfter());
     });
     m.querySelector('[data-a=login]').addEventListener('click', () => { Modal.close(m); this.loginForm(); });
   },
@@ -20154,7 +20183,7 @@ const Account = {
       });
   },
   // აღდგენის კოდი ერთხელ ჩანს: კოპირება ან ფაილად შენახვა, და დახურვა მხოლოდ „ჩავიწერე“-ს შემდეგ
-  showRecovery(name, code, intro) {
+  showRecovery(name, code, intro, then) {
     const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">🔑</div><h2 class="result-title">შენი აღდგენის კოდი</h2>' +
       '<p>' + esc(intro) + 'თუ პაროლი დაგავიწყდება, ამ კოდით აღადგენ. <b>ჩაიწერე ან შეინახე</b> — მეორედ ვეღარ ვაჩვენებთ.</p>' +
       '<div class="acc-code">' + esc(code) + '</div>' +
@@ -20173,7 +20202,7 @@ const Account = {
       a.click();
       setTimeout(() => URL.revokeObjectURL(a.href), 2000);
     });
-    ok.addEventListener('click', () => Modal.close(m));
+    ok.addEventListener('click', () => { Modal.close(m); if (then) then(); });
   },
   /* ---- ანგარიშის პანელი ---- */
   panel() {
@@ -21098,7 +21127,7 @@ const Game = {
 const lockMethods = (obj, names) => names.forEach(k => Object.defineProperty(obj, k, { value: obj[k], writable: false, configurable: false }));
 lockMethods(Game, ['openLevel', 'setup']);
 lockMethods(Studio, ['open', 'render', 'renderGuide', 'renderWatch', 'runCode', 'saveNote', 'openNote']);
-lockMethods(Paywall, ['restore', 'validate']);
+lockMethods(Paywall, ['restore', 'activate']);
 
 /* =====================================================================
    გენერირებული ლეველების შემოწმება
@@ -21233,9 +21262,9 @@ function init() {
   Menu.render();
   Progress.checkAch();
   if (location.hash === '#test') testAll();
-  Paywall.checkReturn();   // Dodo Payments-ის გადახდიდან დაბრუნება
-  Paywall.restore();       // Pro: შენახული ხელმოწერილი ნიშნის შემოწმება
   Account.init();          // ანგარიში: სხვა მოწყობილობაზე შენახული პროგრესის ჩატვირთვა
+  Paywall.checkReturn();   // Dodo Payments-ის გადახდიდან დაბრუნება (კოდის ჩასმას ანგარიში სჭირდება)
+  Paywall.restore();       // Pro: ანგარიშზე მიბმული ხელმოწერილი ნიშანი
   Install.init();          // ტელეფონზე დაყენება (PWA)
   if (location.hash === '#download' && !IS_DESKTOP) Desktop.open();   // პირდაპირი ბმული: .../CodeQuest.html#download
   if (location.hash === '#testgen') testGenerated();

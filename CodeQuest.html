@@ -889,6 +889,62 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .cl-codebox b{font:800 1.6rem/1.1 var(--mono);letter-spacing:.12em}
 .cl-codebox small{color:var(--muted);font-size:.75rem}
 .cl-scroll{overflow-x:auto;margin-top:12px}
+/* 📊 მფლობელის სტატისტიკა: ფილები, ერთი სერიის დიაგრამები (ფერი — --accent, ვალიდირებული ორივე თემაში), ცხრილები */
+#scr-owner .page{max-width:1120px}
+.ow-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+#ow-upd{font-size:.8rem}
+.ow-loading{opacity:.55;pointer-events:none;transition:opacity .2s}
+.ow-login{max-width:460px;margin:24px auto;text-align:center}
+.ow-login-ic{font-size:2.6rem;line-height:1}
+.ow-login h2{margin:.3em 0 .2em}
+.ow-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.ow-tabs button{padding:9px 16px;border:1px solid var(--border);border-radius:999px;background:var(--panel);font-weight:700}
+.ow-tabs button.on{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.ow-filter{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:12px}
+.ow-note{font-size:.82rem}
+.ow-search{flex:1 1 260px;height:46px}
+.ow-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
+.ow-tile{padding:14px 16px;border:1px solid var(--border);border-radius:16px;background:var(--panel)}
+.ow-tile small{display:block;color:var(--muted);font-size:.8rem;font-weight:700}
+.ow-tile b{display:block;margin-top:2px;font-size:1.7rem;font-weight:800;line-height:1.15}
+.ow-tile span{display:block;margin-top:3px;color:var(--muted);font-size:.78rem;line-height:1.35}
+.ow-grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:0 14px}
+.ow-card{margin-bottom:14px;padding:16px 18px;border-radius:18px}
+.ow-card h3{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 2px;font-size:1.02rem}
+.ow-sub{margin:0 0 12px;font-size:.82rem;line-height:1.45}
+.ow-hbars{display:grid;gap:4px}
+.ow-hrow{display:grid;grid-template-columns:minmax(110px,180px) minmax(0,1fr) 52px;align-items:center;gap:10px;padding:4px 6px;border-radius:8px}
+.ow-hrow:hover,.ow-hrow:focus-visible{background:var(--panel2)}
+.ow-hl{display:flex;align-items:center;gap:6px;min-width:0;font-size:.86rem;font-weight:700;overflow-wrap:anywhere}
+.ow-track{height:14px}
+.ow-track i{display:block;height:100%;border-radius:0 4px 4px 0;background:var(--accent)}
+.ow-hv{font-size:.85rem;font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+.ow-chart{position:relative;width:100%}
+.ow-svg{display:block;max-width:100%;overflow:visible}
+.ow-grid{stroke:var(--border);stroke-width:1}
+.ow-base{stroke:color-mix(in srgb,var(--muted) 45%,var(--border));stroke-width:1}
+.ow-tick{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
+.ow-bar{fill:var(--accent);transition:opacity .15s}
+.ow-hit{fill:transparent}
+.ow-col{outline:none}
+.ow-col:hover .ow-bar,.ow-col:focus .ow-bar{opacity:.72}
+.ow-col:focus-visible .ow-hit{stroke:var(--accent);stroke-width:1.5}
+.ow-tip{position:fixed;z-index:200;max-width:280px;padding:8px 11px;border:1px solid var(--border);border-radius:10px;background:var(--panel);color:var(--muted);box-shadow:0 10px 26px rgba(0,0,0,.18);font-size:.8rem;line-height:1.45;pointer-events:none}
+.ow-tip b{color:var(--text)}
+.ow-tip .ow-tip-h b{font-size:.98rem}
+.ow-table th{font-size:.78rem;color:var(--muted)}
+.ow-table .ow-num{font-variant-numeric:tabular-nums}
+.ow-warn{display:inline-block;margin-left:4px;padding:0 7px;border-radius:999px;background:color-mix(in srgb,#fab219 20%,var(--panel));color:var(--text);font-size:.74rem;font-weight:700}
+.ow-all summary{font-weight:700;cursor:pointer}
+.ow-cls{display:grid;gap:8px}
+.ow-count{display:grid;justify-items:end;line-height:1.15}
+.ow-count b{font-size:1.15rem}
+.ow-count small{color:var(--muted);font-size:.72rem}
+.ow-live{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:color-mix(in srgb,var(--bad) 12%,var(--panel));color:var(--bad);font-size:.72rem;font-weight:800;vertical-align:middle}
+.ow-chead{margin-top:10px}
+.ow-chead h3{margin:0}
+.ow-chead p{margin:6px 0 0}
+@media (max-width:560px){.ow-hrow{grid-template-columns:minmax(90px,120px) minmax(0,1fr) 44px}.ow-tile b{font-size:1.4rem}.ow-tools small{display:none}}
 .cl-table{width:100%;border-collapse:collapse;font-size:.88rem}
 .cl-table th,.cl-table td{padding:8px 6px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
 .cl-table td.cl-now{min-width:170px;white-space:normal}
@@ -1467,6 +1523,11 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
         <div class="wb-grid" id="wb-grid"></div>
       </div>
     </div>
+  </section>
+
+  <section id="scr-owner" class="screen" aria-label="სტატისტიკა">
+    <div class="topbar"><button class="btn small" data-go="back">← უკან</button><h2>📊 სტატისტიკა</h2><span class="ow-tools hidden" id="ow-tools"><small class="muted" id="ow-upd"></small><button class="btn small" id="ow-refresh" title="მონაცემების განახლება">↻ განახლება</button><button class="btn small ghost" id="ow-lock" title="კოდის დავიწყება ამ გვერდზე">🔒 დაკეტვა</button></span></div>
+    <div class="page" id="owner-body"></div>
   </section>
 
   <section id="scr-class" class="screen" aria-label="კლასი">
@@ -16845,6 +16906,7 @@ const UI = {
     if (name === 'studio') Studio.render();
     if (name === 'class') ClassScreen.render();
     if (name === 'live') Live.render();
+    if (name === 'owner') OwnerDash.render();
     if (name === 'game') Editor.refresh();
   },
   // „← უკან“: წინა ეკრანი ისტორიიდან (იგივე ეკრანს ვტოვებთ), ცარიელზე — მენიუ
@@ -18824,22 +18886,209 @@ const Stats = {
     try { fetch('/api/account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: !!keepalive }).catch(() => { }); } catch (e) { }
   }
 };
-const OwnerStats = {
-  open() {
-    const m = Modal.open('<h2>📊 სად ჭედავენ მოთამაშეები</h2><p class="muted">ანონიმური სტატისტიკა (ყოველი მეოთხე სესია): რამდენჯერ დაიწყეს ლეველი, რამდენმა გაიარა და საშუალოდ რამდენი შეცდომა დაუშვეს. მხოლოდ საიტის მფლობელისთვის — ჩაწერე მფლობელის კოდი (Vercel-ის OWNER_KEYS).</p>' +
-      '<form class="acc-form" novalidate><label>მფლობელის კოდი<input class="txt" name="key" type="password" autocomplete="off" required></label><p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">ჩვენება</button></form>' +
-      '<div id="os-out"></div><div class="modal-actions"><button class="btn" data-close>დახურვა</button></div>', { wide: true });
-    Account.bind(m, f => (f.key.trim() ? null : 'not_owner'), f => Account.api('report', { key: f.key.trim() }), r => {
-      m.querySelector('form').remove();
-      const label = id => { const lv = levelById(id), c = lv && COURSE_BY_ID[lv.course || 'js']; return lv ? (c ? langBadge(c.lang, true) + ' ' : '') + (lv.index + 1) + '. ' + esc(lv.title || '') : esc(id); };
-      m.querySelector('#os-out').innerHTML = '<p><b>' + r.plays + '</b> მცდელობა · <b>' + r.levels + '</b> ლეველი</p>' + (r.rows.length ?
-        '<div class="cl-scroll"><table class="cl-table"><thead><tr><th>ლეველი</th><th>დაიწყეს</th><th>გაიარეს</th><th>შეცდომა (საშ.)</th></tr></thead><tbody>' +
-        r.rows.map(x => '<tr><td class="cl-now">' + label(x.id) + '</td><td>' + x.n + '</td><td>' + Math.round(x.d / x.n * 100) + '%</td><td>' + (x.f / x.n).toFixed(1) + '</td></tr>').join('') + '</tbody></table></div>'
-        : '<p class="muted">ჯერ საკმარისი მონაცემი არ არის (ლეველს 3 მცდელობა მაინც სჭირდება).</p>');
+/* ---------- 📊 მფლობელის სტატისტიკა (მხოლოდ OWNER_KEYS კოდით) ----------
+   მიმოხილვა (ანგარიშები, Pro, კლასები, ენების პოპულარობა, რთული ლეველები), ენები (კუნძულების დიაგრამა, სად იჭედებიან,
+   ყველა ლეველის ცხრილი) და კლასები (საიტის ყველა კლასი → მოსწავლეები). კოდი მხოლოდ მეხსიერებაშია — გვერდის განახლებისას ისევ იკითხება. */
+const OwnerDash = {
+  key: '', data: null, tab: 'overview', lang: 'js', cls: null, clsData: null, q: '', sort: 'count', busy: false,
+  open() { UI.show('owner'); },
+  nf: n => Number(n || 0).toLocaleString('en-US'),
+  pct: (a, b) => (b ? Math.round(a / b * 100) : 0),
+  async load() {
+    if (this.busy) return;
+    this.busy = true;
+    const body = $('#owner-body');
+    body.classList.add('ow-loading');   // განახლებისას წინა ხედი რჩება (ჩამქრალი)
+    const r = await Account.api('ownerStats', { key: this.key });
+    this.busy = false;
+    body.classList.remove('ow-loading');
+    if (!r.ok) {
+      if (r.error === 'not_owner') { this.key = ''; this.data = null; }
+      this.err = Account.msg(r);
+      return this.render();
+    }
+    this.err = '';
+    this.data = r;
+    if (this.cls) await this.loadClass(this.cls, true);
+    this.render();
+  },
+  async loadClass(code, quiet) {
+    this.cls = code;
+    if (!quiet) { this.clsData = null; this.render(); }
+    const r = await Account.api('ownerClass', { key: this.key, code });
+    if (this.cls !== code) return;
+    this.clsData = r.ok ? r : { error: Account.msg(r) };
+    if (!quiet) this.render();
+  },
+  render() {
+    const body = $('#owner-body');
+    $('#ow-tools').classList.toggle('hidden', !this.data);
+    if (!this.key || !this.data) return this.login(body);
+    $('#ow-upd').textContent = 'განახლდა ' + new Date(this.data.at).toLocaleTimeString('ka-GE', { hour: '2-digit', minute: '2-digit', hour12: false });
+    const tabs = [['overview', '🌍 მიმოხილვა'], ['langs', '🗣️ ენები'], ['classes', '🏫 კლასები']];
+    body.innerHTML = '<div class="ow-tabs" role="tablist">' + tabs.map(([k, t]) => '<button role="tab" data-tab="' + k + '" aria-selected="' + (this.tab === k) + '" class="' + (this.tab === k ? 'on' : '') + '">' + t + '</button>').join('') + '</div>' +
+      (this.err ? '<p class="acc-err">' + esc(this.err) + '</p>' : '') + '<div id="ow-view"></div>';
+    $$('#owner-body [data-tab]').forEach(b => b.addEventListener('click', () => { this.tab = b.dataset.tab; Sound.click(); this.render(); }));
+    ({ overview: () => this.overview(), langs: () => this.langs(), classes: () => this.classes() })[this.tab]();
+  },
+  login(body) {
+    body.innerHTML = '<div class="card ow-login"><div class="ow-login-ic" aria-hidden="true">📊</div><h2>მფლობელის სტატისტიკა</h2>' +
+      '<p class="muted">ანგარიშები, Pro, ენები, ლეველები და საიტის ყველა კლასი. გასახსნელად ჩაწერე მფლობელის კოდი (Vercel-ის <code>OWNER_KEYS</code>).</p>' +
+      '<form class="acc-form" novalidate><label>მფლობელის კოდი<input class="txt" name="key" type="password" autocomplete="off" required></label>' +
+      '<p class="acc-err" role="alert">' + esc(this.err || '') + '</p><button class="btn primary acc-go" type="submit">📊 გახსნა</button></form></div>';
+    const f = body.querySelector('form'), btn = f.querySelector('button');
+    setTimeout(() => f.elements.key.focus(), 60);
+    f.addEventListener('submit', async e => {
+      e.preventDefault();
+      const k = f.elements.key.value.trim();
+      if (!k) return;
+      this.key = k; btn.disabled = true; btn.textContent = '⏳';
+      await this.load();
     });
+  },
+  /* ---- საერთო ნაწილები ---- */
+  tile(label, value, sub) { return '<div class="ow-tile"><small>' + label + '</small><b>' + value + '</b>' + (sub ? '<span>' + sub + '</span>' : '') + '</div>'; },
+  // ერთი სერიის ჰორიზონტალური ზოლები (HTML): [{ label(html), value, text, tip }]
+  hbars(rows) {
+    const max = Math.max(1, ...rows.map(r => r.value));
+    return '<div class="ow-hbars">' + rows.map((r, i) => '<div class="ow-hrow" tabindex="0" data-tip="' + i + '"><span class="ow-hl">' + r.label + '</span><span class="ow-track"><i style="width:' + Math.max(1.5, r.value / max * 100) + '%"></i></span><span class="ow-hv">' + r.text + '</span></div>').join('') + '</div>';
+  },
+  // ერთი სერიის სვეტოვანი დიაგრამა (SVG): ზომა კონტეინერიდან, ზემოთ 4px მომრგვალებული, 2px ჰაერი სვეტებს შორის
+  columns(el, items) {
+    const W = Math.max(280, el.clientWidth), H = 220, L = 46, R = 8, T = 10, B = 26, pw = W - L - R, ph = H - T - B;
+    const max = Math.max(1, ...items.map(x => x.value)), step = niceStep(max / 3), top = Math.max(step, Math.ceil(max / step) * step);
+    const slot = pw / items.length, bw = Math.max(1, Math.min(24, slot - 2)), y = v => T + ph - v / top * ph;
+    let s = '<svg class="ow-svg" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(el.dataset.title || '') + '">';
+    for (let v = 0; v <= top + 1e-9; v += step) s += '<line class="ow-grid" x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v).toFixed(1) + '" y2="' + y(v).toFixed(1) + '"/><text class="ow-tick" x="' + (L - 6) + '" y="' + (y(v) + 4).toFixed(1) + '" text-anchor="end">' + this.nf(v) + '</text>';
+    const every = Math.ceil(items.length / Math.max(2, Math.min(10, Math.floor(pw / 40))));   // ქვედა ნიშნები ~40px-ში ერთხელ
+    items.forEach((it, i) => {
+      const x = L + i * slot + (slot - bw) / 2, h = Math.max(it.value ? 2 : 0, ph - (y(it.value) - T)), yy = T + ph - h, r = Math.min(4, bw / 2, h);
+      s += '<g class="ow-col" tabindex="0" data-tip="' + i + '"><rect class="ow-hit" x="' + (L + i * slot).toFixed(1) + '" y="' + T + '" width="' + slot.toFixed(1) + '" height="' + ph + '"/>' +
+        (h ? '<path class="ow-bar" d="M' + x.toFixed(1) + ' ' + (T + ph) + 'V' + (yy + r).toFixed(1) + 'Q' + x.toFixed(1) + ' ' + yy.toFixed(1) + ' ' + (x + r).toFixed(1) + ' ' + yy.toFixed(1) + 'H' + (x + bw - r).toFixed(1) + 'Q' + (x + bw).toFixed(1) + ' ' + yy.toFixed(1) + ' ' + (x + bw).toFixed(1) + ' ' + (yy + r).toFixed(1) + 'V' + (T + ph) + 'Z"/>' : '') + '</g>';
+      if (i % every === 0 || i === items.length - 1) s += '<text class="ow-tick" x="' + (L + i * slot + slot / 2).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + esc(it.short) + '</text>';
+    });
+    s += '<line class="ow-base" x1="' + L + '" x2="' + (W - R) + '" y1="' + (T + ph) + '" y2="' + (T + ph) + '"/></svg>';
+    el.innerHTML = s;
+  },
+  // ერთი მინიშნება ყველა დიაგრამისთვის: მნიშვნელობა წინ (მუქად), აღწერა უკან; კლავიატურითაც (focus)
+  tips(root, lines) {
+    let tip = $('#ow-tip');
+    if (!tip) { tip = document.createElement('div'); tip.id = 'ow-tip'; tip.className = 'ow-tip hidden'; tip.setAttribute('role', 'tooltip'); document.body.appendChild(tip); }
+    const show = (el, x, y) => {
+      const d = lines(+el.dataset.tip);
+      tip.textContent = '';
+      d.forEach(([v, t], i) => { const row = document.createElement('div'); if (i === 0) row.className = 'ow-tip-h'; const b = document.createElement('b'); b.textContent = v; row.appendChild(b); if (t) row.appendChild(document.createTextNode(' ' + t)); tip.appendChild(row); });
+      tip.classList.remove('hidden');
+      const r = tip.getBoundingClientRect();
+      tip.style.left = Math.max(8, Math.min(innerWidth - r.width - 8, x - r.width / 2)) + 'px';
+      tip.style.top = Math.max(8, y - r.height - 12) + 'px';
+    };
+    root.querySelectorAll('[data-tip]').forEach(el => {
+      el.addEventListener('pointermove', e => show(el, e.clientX, e.clientY));
+      el.addEventListener('pointerleave', () => tip.classList.add('hidden'));
+      el.addEventListener('focus', () => { const r = el.getBoundingClientRect(); show(el, r.left + r.width / 2, r.top); });
+      el.addEventListener('blur', () => tip.classList.add('hidden'));
+    });
+  },
+  // ლეველების სტატისტიკა ენის მიხედვით: [{ lv, n, f, d }] (მხოლოდ ის ლეველები, რომლებზეც მონაცემია)
+  courseRows(cid) {
+    const L = this.data.levels;
+    return courseLevels(cid).map(lv => { const x = L[lv.id]; return x ? { lv, n: x[0], f: x[1], d: x[2] } : null; }).filter(Boolean);
+  },
+  levelRow(r, showLang) {
+    const done = this.pct(r.d, r.n), hard = r.n >= 5 && done < 50, c = COURSE_BY_ID[r.lv.course || 'js'];
+    return '<tr><td class="ow-num">' + (showLang && c ? langBadge(c.lang, true) + ' ' : '') + (r.lv.index + 1) + '</td><td class="cl-now">' + esc(r.lv.title || r.lv.id) + '</td><td class="ow-num">' + this.nf(r.n) + '</td><td class="ow-num">' + done + '%' + (hard ? ' <span class="ow-warn">⚠️ რთული</span>' : '') + '</td><td class="ow-num">' + (r.f / r.n).toFixed(1) + '</td></tr>';
+  },
+  table(head, rows) { return '<div class="cl-scroll"><table class="cl-table ow-table"><thead><tr>' + head.map(h => '<th>' + h + '</th>').join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table></div>'; },
+  /* ---- მიმოხილვა ---- */
+  overview() {
+    const D = this.data, A = D.accounts, all = Object.values(D.levels), n = all.reduce((a, x) => a + x[0], 0), d = all.reduce((a, x) => a + x[2], 0);
+    const students = D.classes.reduce((a, c) => a + c.count, 0), live = D.classes.filter(c => c.live).length;
+    const langs = COURSES.map(c => ({ c, p: D.courses[c.id] || { players: 0, done: 0 } })).filter(x => x.p.players).sort((a, b) => b.p.players - a.p.players);
+    const hard = [];
+    COURSES.forEach(c => this.courseRows(c.id).forEach(r => { if (r.n >= 3) hard.push(r); }));
+    hard.sort((a, b) => a.d / a.n - b.d / b.n || b.n - a.n);
+    $('#ow-view').innerHTML = '<div class="ow-tiles">' +
+      this.tile('ანგარიშები', this.nf(A.total), '+' + this.nf(A.new7) + ' ბოლო 7 დღეში') +
+      this.tile('აქტიური (7 დღე)', this.nf(A.active7), this.pct(A.active7, A.total) + '% ანგარიშებიდან') +
+      this.tile('👑 Pro', this.nf(A.pro), A.proOwner ? 'მათ შორის მფლობელის კოდით: ' + A.proOwner : 'ლიცენზიით') +
+      this.tile('კლასები', this.nf(D.classes.length), this.nf(students) + ' მოსწავლე' + (live ? ' · 🔴 ' + live + ' გაკვეთილი ახლა' : '')) +
+      this.tile('ლეველის მცდელობა', this.nf(n), this.pct(d, n) + '% გავიდა · ანონიმური, ~25%') +
+      '</div>' +
+      '<div class="ow-grid2"><div class="card ow-card"><h3>ენების პოპულარობა</h3><p class="muted ow-sub">მოთამაშეები (ანგარიშები), რომლებსაც ამ ენაზე ერთი ლეველი მაინც აქვთ გავლილი</p>' +
+      (langs.length ? this.hbars(langs.map(x => ({ label: langBadge(x.c.lang, true) + ' ' + esc(x.c.title), value: x.p.players, text: this.nf(x.p.players) }))) : '<p class="muted">ჯერ მონაცემი არ არის.</p>') + '</div>' +
+      '<div class="card ow-card"><h3>სად იჭედებიან ყველაზე ხშირად</h3><p class="muted ow-sub">ყველა ენა · ლეველები, რომლებზეც 3 მცდელობა მაინც დაგროვდა</p>' +
+      (hard.length ? this.table(['#', 'ლეველი', 'მცდელობა', 'გავიდა', 'შეცდ.'], hard.slice(0, 8).map(r => this.levelRow(r, true))) : '<p class="muted">ჯერ საკმარისი მონაცემი არ არის — ლეველს 3 მცდელობა მაინც სჭირდება.</p>') + '</div></div>';
+    this.tips($('#ow-view'), i => { const x = langs[i]; return [[this.nf(x.p.players) + ' მოთამაშე', ''], [x.c.title, '· საშ. ' + (x.p.done / x.p.players).toFixed(1) + ' გავლილი ლეველი']]; });
+  },
+  /* ---- ენები ---- */
+  langs() {
+    const D = this.data, sums = {};
+    COURSES.forEach(c => { sums[c.id] = this.courseRows(c.id).reduce((a, r) => a + r.n, 0); });
+    if (!COURSE_BY_ID[this.lang]) this.lang = 'js';
+    const c = COURSE_BY_ID[this.lang], rows = this.courseRows(c.id), p = D.courses[c.id] || { players: 0, done: 0 };
+    const n = rows.reduce((a, r) => a + r.n, 0), d = rows.reduce((a, r) => a + r.d, 0), f = rows.reduce((a, r) => a + r.f, 0);
+    const by = {}; rows.forEach(r => { by[r.lv.id] = r; });
+    const chs = courseChapters(c.id).map((ch, i) => {
+      const rs = ch.levels.map(l => by[l.id]).filter(Boolean), cn = rs.reduce((a, r) => a + r.n, 0), cd = rs.reduce((a, r) => a + r.d, 0), cf = rs.reduce((a, r) => a + r.f, 0);
+      return { value: cn, short: String(i + 1), name: (ch.icon || '') + ' ' + (ch.name || ''), range: ch.levels.length ? (ch.levels[0].index + 1) + '–' + (ch.levels[ch.levels.length - 1].index + 1) : '', d: cd, f: cf };
+    });
+    const hard = rows.filter(r => r.n >= 3).sort((a, b) => a.d / a.n - b.d / b.n || b.n - a.n).slice(0, 10);
+    $('#ow-view').innerHTML = '<div class="ow-filter"><label class="lp-sort">ენა <select id="ow-lang">' +
+      COURSES.map(x => '<option value="' + x.id + '"' + (x.id === c.id ? ' selected' : '') + '>' + esc(x.title) + ' — ' + this.nf(sums[x.id]) + ' მცდელობა</option>').join('') + '</select></label>' +
+      '<span class="muted ow-note">ანონიმური სტატისტიკა: ყოველი მეოთხე სესია (≈25%), სახელების გარეშე</span></div>' +
+      '<div class="ow-tiles">' + this.tile('მოთამაშეები', this.nf(p.players), p.players ? 'საშ. ' + (p.done / p.players).toFixed(1) + ' გავლილი ლეველი' : 'ანგარიშებით') +
+      this.tile('მცდელობები', this.nf(n), this.nf(rows.length) + ' / ' + courseLevels(c.id).length + ' ლეველზე') +
+      this.tile('გავიდა', this.pct(d, n) + '%', this.nf(d) + ' გავლა') +
+      this.tile('შეცდომა (საშ.)', n ? (f / n).toFixed(1) : '0', 'ერთ მცდელობაზე') + '</div>' +
+      '<div class="card ow-card"><h3>' + langBadge(c.lang, true) + ' მცდელობები კუნძულების მიხედვით</h3><p class="muted ow-sub">სადაც სვეტი ეცემა, იქ მოთამაშეები ჩერდებიან. მიიტანე მაუსი — კუნძულის სახელი, გავლის % და შეცდომები</p>' +
+      (n ? '<div class="ow-chart" id="ow-chart" data-title="' + esc(c.title) + ': მცდელობები კუნძულების მიხედვით"></div>' : '<p class="muted">ამ ენაზე ჯერ მონაცემი არ არის.</p>') + '</div>' +
+      '<div class="card ow-card"><h3>სად იჭედებიან</h3><p class="muted ow-sub">ყველაზე დაბალი გავლის % (3+ მცდელობა)</p>' +
+      (hard.length ? this.table(['#', 'ლეველი', 'მცდელობა', 'გავიდა', 'შეცდ.'], hard.map(r => this.levelRow(r))) : '<p class="muted">ჯერ საკმარისი მონაცემი არ არის.</p>') + '</div>' +
+      (rows.length ? '<details class="card ow-card ow-all"><summary>ყველა ლეველი, რომელზეც მონაცემია (' + rows.length + ') — ცხრილი</summary>' + this.table(['#', 'ლეველი', 'მცდელობა', 'გავიდა', 'შეცდ.'], rows.map(r => this.levelRow(r))) + '</details>' : '');
+    $('#ow-lang').addEventListener('change', e => { this.lang = e.target.value; this.render(); });
+    const el = $('#ow-chart');
+    if (el) {
+      this.columns(el, chs);
+      this.tips(el, i => { const x = chs[i]; return [[this.nf(x.value) + ' მცდელობა', ''], [x.name, '· ლეველები ' + x.range], [this.pct(x.d, x.value) + '%', 'გავიდა · შეცდ. ' + (x.value ? (x.f / x.value).toFixed(1) : '0')]]; });
+    }
+  },
+  /* ---- კლასები ---- */
+  classes() {
+    if (this.cls) return this.classView();
+    const D = this.data, q = this.q.trim().toLowerCase();
+    let list = D.classes.filter(c => !q || (c.name + ' ' + c.teacher + ' ' + c.code).toLowerCase().includes(q));
+    list = list.sort({ count: (a, b) => b.count - a.count || b.at - a.at, new: (a, b) => b.at - a.at, name: (a, b) => a.name.localeCompare(b.name, 'ka') }[this.sort]);
+    const students = D.classes.reduce((a, c) => a + c.count, 0);
+    $('#ow-view').innerHTML = '<div class="ow-filter"><label class="lp-search ow-search"><span aria-hidden="true">🔎</span><input type="search" id="ow-q" placeholder="იპოვე კლასი, მასწავლებელი ან კოდი" value="' + esc(this.q) + '" autocomplete="off"></label>' +
+      '<label class="lp-sort">დალაგება <select id="ow-sort">' + [['count', 'მოსწავლეების რაოდენობით'], ['new', 'ახალი ჯერ'], ['name', 'სახელით']].map(([v, t]) => '<option value="' + v + '"' + (v === this.sort ? ' selected' : '') + '>' + t + '</option>').join('') + '</select></label></div>' +
+      '<div class="ow-tiles">' + this.tile('კლასები', this.nf(D.classes.length)) + this.tile('მოსწავლეები', this.nf(students)) + this.tile('🔴 ცოცხალი ახლა', this.nf(D.classes.filter(c => c.live).length)) + '</div>' +
+      (list.length ? '<div class="ow-cls">' + list.map(c => '<button class="hm-row cl-item" data-cls="' + esc(c.code) + '"><span class="hm-ic" aria-hidden="true">🏫</span><span class="hm-t"><b>' + esc(c.name) + (c.live ? ' <span class="ow-live">🔴 გაკვეთილი</span>' : '') + '</b><small>მასწავლებელი: ' + esc(c.teacher || '') + ' · კოდი ' + esc(c.code) + (c.at ? ' · ' + agoStr(c.at) : '') + '</small></span><span class="ow-count"><b>' + c.count + '</b><small>მოსწავლე</small></span><span class="hm-chev" aria-hidden="true">›</span></button>').join('') + '</div>'
+        : '<p class="muted">' + (D.classes.length ? 'ასეთი კლასი ვერ ვიპოვე.' : 'ჯერ არც ერთი კლასი არ შექმნილა.') + '</p>');
+    const qi = $('#ow-q');
+    qi.addEventListener('input', () => { this.q = qi.value; const pos = qi.selectionStart; this.render(); const n = $('#ow-q'); n.focus(); n.setSelectionRange(pos, pos); });
+    $('#ow-sort').addEventListener('change', e => { this.sort = e.target.value; this.render(); });
+    $$('#ow-view [data-cls]').forEach(b => b.addEventListener('click', () => { Sound.click(); this.loadClass(b.dataset.cls); }));
+  },
+  classView() {
+    const r = this.clsData, v = $('#ow-view');
+    const back = '<button class="btn small ghost" id="ow-back">← ყველა კლასი</button>';
+    if (!r) { v.innerHTML = back + '<p class="muted cl-wait">⏳ იტვირთება…</p>'; return $('#ow-back').addEventListener('click', () => { this.cls = null; this.render(); }); }
+    if (r.error) { v.innerHTML = back + '<p class="acc-err">' + esc(r.error) + '</p>'; return $('#ow-back').addEventListener('click', () => { this.cls = null; this.render(); }); }
+    const rows = r.rows.slice().sort((a, b) => b.week - a.week || b.xp - a.xp), wk = rows.reduce((a, x) => a + x.week, 0), done = rows.reduce((a, x) => a + x.done, 0), act = rows.filter(x => x.week > 0).length;
+    v.innerHTML = back + '<div class="card ow-card ow-chead"><div class="ow-chead-t"><h3>🏫 ' + esc(r.name) + (r.live ? ' <span class="ow-live">🔴 გაკვეთილი მიმდინარეობს</span>' : '') + '</h3>' +
+      '<p class="muted">მასწავლებელი: <b>' + esc(r.teacher || '') + '</b> · კოდი <b class="cl-code-sm">' + esc(r.code) + '</b>' + (r.at ? ' · შეიქმნა ' + agoStr(r.at) : '') + '</p></div></div>' +
+      '<div class="ow-tiles">' + this.tile('მოსწავლეები', this.nf(rows.length)) + this.tile('აქტიური ამ კვირაში', this.nf(act), this.pct(act, rows.length) + '%') +
+      this.tile('XP ამ კვირაში', this.nf(wk), rows.length ? 'საშ. ' + this.nf(Math.round(wk / rows.length)) : '') + this.tile('გავლილი ლეველები', this.nf(done), rows.length ? 'საშ. ' + (done / rows.length).toFixed(1) : '') + '</div>' +
+      '<div class="card ow-card"><h3>მოსწავლეები</h3>' + (rows.length ? this.table(['მოსწავლე', 'ამ კვირაში', 'XP', 'ლეველი', '⭐', '🔥', 'ენა', 'ბოლოს'], rows.map(x => {
+        const c = COURSE_BY_ID[x.course];
+        return '<tr><td><b>' + esc(x.name) + '</b></td><td class="ow-num">' + this.nf(x.week) + '</td><td class="ow-num">' + this.nf(x.xp) + '</td><td class="ow-num">' + x.done + '</td><td class="ow-num">' + x.stars + '</td><td class="ow-num">' + x.streak + '</td><td>' + (c ? langBadge(c.lang, true) + ' ' + esc(c.title) : '—') + '</td><td>' + (x.at ? agoStr(x.at) : '—') + '</td></tr>';
+      })) : '<p class="muted">ამ კლასში ჯერ მოსწავლე არ არის.</p>') + '</div>';
+    $('#ow-back').addEventListener('click', () => { this.cls = null; this.clsData = null; this.render(); });
   }
 };
-/* ---------- ტელეფონზე დაყენება (PWA): manifest.webmanifest + sw.js ---------- */
+// სუფთა დანაყოფი ღერძისთვის: 1, 2, 5 × 10ⁿ
+function niceStep(x) { const p = Math.pow(10, Math.floor(Math.log10(Math.max(x, 1)))), m = x / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 5 ? 5 : 10) * p; }/* ---------- ტელეფონზე დაყენება (PWA): manifest.webmanifest + sw.js ---------- */
 const Install = {
   ev: null,
   standalone: () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true,
@@ -19137,7 +19386,7 @@ const SettingsScreen = {
       '<p class="muted" style="margin-top:-.4em">დააკოპირე კოდი, რომ პროგრესი სხვა მოწყობილობაზე გადაიტანო ან შეინახო.</p>' +
       '<textarea class="code-io" id="st-export" readonly aria-label="ექსპორტის კოდი"></textarea><div class="modal-actions" style="justify-content:flex-start"><button class="btn small" id="st-copy">კოპირება</button></div>' +
       '<textarea class="code-io" id="st-import" placeholder="ჩასვი პროგრესის კოდი აქ..." aria-label="იმპორტის კოდი" style="margin-top:10px"></textarea><div class="modal-actions" style="justify-content:flex-start"><button class="btn small" id="st-import-btn">იმპორტი</button></div></div>' +
-      '<div class="card" style="margin-top:12px"><h3 style="margin-top:0">დეველოპერისთვის</h3><p class="muted" style="margin-top:-.4em">ავტომატური შემოწმება: ყოველი ლეველის სწორი პასუხი გაეშვება ყველა ტესტ-რუკაზე.</p><button class="btn" id="st-test">ყველა ლეველის შემოწმება</button> <button class="btn" id="st-stats">📊 სად ჭედავენ მოთამაშეები</button></div>' +
+      '<div class="card" style="margin-top:12px"><h3 style="margin-top:0">დეველოპერისთვის</h3><p class="muted" style="margin-top:-.4em">ავტომატური შემოწმება: ყოველი ლეველის სწორი პასუხი გაეშვება ყველა ტესტ-რუკაზე.</p><button class="btn" id="st-test">ყველა ლეველის შემოწმება</button> <button class="btn" id="st-stats">📊 სტატისტიკა (მფლობელი)</button></div>' +
       '<div class="card" style="margin-top:12px;border-color:var(--bad)"><h3 style="margin-top:0">პროგრესის განულება</h3><p class="muted" style="margin-top:-.4em">წაიშლება ყველა ვარსკვლავი, XP და მიღწევა.</p><button class="btn danger" id="st-reset">განულება</button></div>';
     const bindSeg = (id, fn) => $$('#' + id + ' button').forEach(b => b.addEventListener('click', () => { fn(b.dataset.v); Progress.save(); applySettings(); this.render(); }));
     bindSeg('st-learn', v => { s.learn = v === 'type' ? 'type' : 'blocks'; });
@@ -19158,7 +19407,7 @@ const SettingsScreen = {
       catch (e) { UI.toast('⚠️', 'კოდი არასწორია', 'შეამოწმე, მთლიანად ჩასვი თუ არა.'); }
     });
     $('#st-test').addEventListener('click', () => DevPanel.open());
-    $('#st-stats').addEventListener('click', () => OwnerStats.open());
+    $('#st-stats').addEventListener('click', () => OwnerDash.open());
     if ($('#st-pro-key')) { $('#st-pro-key').addEventListener('click', () => Paywall.keyForm()); $('#st-pro-buy').addEventListener('click', () => Paywall.open(null)); }
     $('#st-reset').addEventListener('click', () => {
       const m = Modal.open('<h2>ნამდვილად გინდა განულება?</h2><p>ყველა პროგრესი, XP და მიღწევა სამუდამოდ წაიშლება. სანამ წაშლი, შეგიძლია პროგრესის კოდი შეინახო.</p><div class="modal-actions"><button class="btn" data-close autofocus>არა, დავტოვოთ</button><button class="btn danger" data-a="yes">კი, განულდეს</button></div>');
@@ -21228,6 +21477,10 @@ function init() {
   $('#m-account').addEventListener('click', () => { Sound.ensure(); Sound.click(); Account.open(); });
   $('#m-class').addEventListener('click', () => { Sound.ensure(); Sound.click(); UI.show('class'); });
   $('#m-install').addEventListener('click', () => { Sound.ensure(); Sound.click(); Install.open(); });
+  // 📊 მფლობელის სტატისტიკა
+  $('#ow-refresh').addEventListener('click', () => OwnerDash.load());
+  $('#ow-lock').addEventListener('click', () => { Object.assign(OwnerDash, { key: '', data: null, cls: null, clsData: null, err: '' }); OwnerDash.render(); });
+  addEventListener('resize', () => { if (UI.cur !== 'owner' || OwnerDash.tab !== 'langs' || !OwnerDash.data) return; clearTimeout(OwnerDash.rt); OwnerDash.rt = setTimeout(() => OwnerDash.render(), 200); });
   $$('[data-go]').forEach(b => b.addEventListener('click', () => {
     const g = b.dataset.go;
     if (g === 'back') UI.back(); else UI.show(g);

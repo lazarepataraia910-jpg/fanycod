@@ -154,6 +154,29 @@ function liveState(id, b, base) {
   return { id, lang: /^[a-z]{1,10}$/.test(b.lang) ? b.lang : base.lang || 'js', code: String(b.src == null ? base.code || '' : b.src).slice(0, LIVE_MAX),
     ver: int(b.ver, 1e9), run: int(b.run, 1e9), end: !!b.end, cls: base.cls || '', teacher: base.teacher || '', at: Date.now() };
 }
+// კლასის ხედი: full — მასწავლებლის / მფლობელის დეტალები, თორემ მხოლოდ სახელი და XP (მოსწავლის რეიტინგი)
+async function classDetail(code, c, full, u) {
+  const members = (await db(['SMEMBERS', 'clsm:' + code])) || [];
+  const sums = members.length ? await dbPipe(members.map(m => ['GET', 'sum:' + m])) : [];
+  const wk = weekId();
+  const rows = members.map((m, i) => {
+    const s = sums[i] ? JSON.parse(sums[i]) : {}, week = s.wk === wk ? Math.max(0, (s.xp || 0) - (s.wkBase || 0)) : 0;
+    return full ? { id: m, name: s.name || m, week, xp: s.xp || 0, done: s.done || 0, stars: s.stars || 0, streak: s.streak || 0, course: s.course || '', next: s.next || '', courses: s.courses || {}, at: s.at || 0 }
+      : { name: s.name || m, week, xp: s.xp || 0, me: m === u };
+  });
+  return { code, name: c.name, teacher: c.ownerName, owner: full, rows, live: c.live || '', at: c.at || 0 };
+}
+// ყველა გასაღები პრეფიქსით (SCAN — ბაზას არ ბლოკავს)
+async function scanKeys(prefix) {
+  const out = [];
+  let cur = '0', guard = 0;
+  do {
+    const [next, keys] = await db(['SCAN', cur, 'MATCH', prefix + '*', 'COUNT', '1000']);
+    cur = String(next);
+    (keys || []).forEach(k => { if (k.startsWith(prefix)) out.push(k); });
+  } while (cur !== '0' && ++guard < 1000);
+  return out;
+}
 async function getClass(code) { const s = code && await db(['GET', 'cls:' + code]); return s ? JSON.parse(s) : null; }
 async function dropClass(code, owner) {
   const members = (await db(['SMEMBERS', 'clsm:' + code])) || [];
@@ -410,15 +433,7 @@ const actions = {
     if (!c) throw new Fail(404, 'class_none');
     const owner = c.owner === u;
     if (!owner && !(await db(['SISMEMBER', 'clsm:' + code, u]))) throw new Fail(403, 'class_none');
-    const members = (await db(['SMEMBERS', 'clsm:' + code])) || [];
-    const sums = members.length ? await dbPipe(members.map(m => ['GET', 'sum:' + m])) : [];
-    const wk = weekId();
-    const rows = members.map((m, i) => {
-      const s = sums[i] ? JSON.parse(sums[i]) : {}, week = s.wk === wk ? Math.max(0, (s.xp || 0) - (s.wkBase || 0)) : 0;
-      return owner ? { id: m, name: s.name || m, week, xp: s.xp || 0, done: s.done || 0, stars: s.stars || 0, streak: s.streak || 0, course: s.course || '', next: s.next || '', courses: s.courses || {}, at: s.at || 0 }
-        : { name: s.name || m, week, xp: s.xp || 0, me: m === u };
-    });
-    return { code, name: c.name, teacher: c.ownerName, owner, rows, live: c.live || '' };
+    return classDetail(code, c, owner, u);
   },
   async classKick(b) {
     const { u } = await session(b.token);
@@ -482,6 +497,52 @@ const actions = {
     });
     if (cmds.length) await dbPipe(cmds);
     return {};
+  },
+  /* ---- მფლობელის სტატისტიკა (OWNER_KEYS) ---- */
+  // ერთი მოთხოვნით: ლეველების ანონიმური სტატისტიკა, ანგარიშები (სულ / აქტიური / Pro), ენების პოპულარობა, ყველა კლასი
+  async ownerStats(b, ip) {
+    await limit('owner', ip, 120, 3600);
+    if (!isOwnerKey(String(b.key || '').trim())) throw new Fail(403, 'not_owner');
+    // ლეველები: { id: [მცდელობა, შეცდომები, გავლა] }
+    const flat = (await db(['HGETALL', 'stat:lv'])) || [], levels = {};
+    for (let i = 0; i + 1 < flat.length; i += 2) {
+      const [id, k] = String(flat[i]).split('|'), j = { n: 0, f: 1, d: 2 }[k];
+      if (j == null) continue;
+      (levels[id] = levels[id] || [0, 0, 0])[j] = +flat[i + 1] || 0;
+    }
+    // ანგარიშები და მათი შეჯამებები (პაროლის ჰეშები სერვერს არ ტოვებს — მხოლოდ რაოდენობები)
+    const ukeys = await scanKeys('user:'), wk = weekId(), now = Date.now();
+    const acc = { total: ukeys.length, pro: 0, proOwner: 0, week: 0, active7: 0, new7: 0, xp: 0 }, courses = {};
+    for (let i = 0; i < ukeys.length; i += 200) {
+      const part = ukeys.slice(i, i + 200);
+      const got = await dbPipe(part.map(k => ['GET', k]).concat(part.map(k => ['GET', 'sum:' + k.slice(5)])));
+      part.forEach((k, j) => {
+        const user = got[j] ? JSON.parse(got[j]) : null, s = got[part.length + j] ? JSON.parse(got[part.length + j]) : null;
+        if (user && user.pro) { acc.pro++; if (user.pro.owner) acc.proOwner++; }
+        if (user && now - (user.at || 0) < 7 * 86400000) acc.new7++;
+        if (!s) return;
+        acc.xp += s.xp || 0;
+        if (s.wk === wk) acc.week++;
+        if (now - (s.at || 0) < 7 * 86400000) acc.active7++;
+        Object.entries(s.courses || {}).forEach(([cid, done]) => { const c = courses[cid] = courses[cid] || { players: 0, done: 0 }; if (done > 0) { c.players++; c.done += done; } });
+      });
+    }
+    // კლასები
+    const codes = (await scanKeys('cls:')).map(k => k.slice(4));
+    const metas = codes.length ? await dbPipe(codes.map(c => ['GET', 'cls:' + c]).concat(codes.map(c => ['SCARD', 'clsm:' + c]))) : [];
+    const classes = codes.map((code, i) => {
+      const c = metas[i] ? JSON.parse(metas[i]) : null;
+      return c && { code, name: c.name, teacher: c.ownerName, count: metas[codes.length + i] || 0, live: !!c.live, at: c.at || 0 };
+    }).filter(Boolean);
+    return { levels, accounts: acc, courses, classes, week: wk, at: now };
+  },
+  // ნებისმიერი კლასის დეტალები (მასწავლებლის ხედი)
+  async ownerClass(b, ip) {
+    await limit('owner', ip, 120, 3600);
+    if (!isOwnerKey(String(b.key || '').trim())) throw new Fail(403, 'not_owner');
+    const code = normCode(b.code), c = await getClass(code);
+    if (!c) throw new Fail(404, 'class_none');
+    return classDetail(code, c, true, '');
   },
   // მხოლოდ საიტის მფლობელისთვის (OWNER_KEYS): ლეველები, რომლებზეც ყველაზე ხშირად ჩერდებიან
   async report(b, ip) {

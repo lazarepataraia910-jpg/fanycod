@@ -16252,9 +16252,11 @@ const Progress = {
   rec(id) { return this.P.levels[id] || null; },
   isDone(id) { const r = this.P.levels[id]; return !!(r && r.done); },
   hasPro() { return ProLock.has(); },   // მხოლოდ ხელმოწერილი ნიშნით (იხ. ProLock)
+  // მასწავლებლის რეჟიმი (ყველა ლეველი ერთბაშად) — მხოლოდ Pro-თი
+  teacherMode() { return !!this.P.settings.unlockAll && this.hasPro(); },
   isUnlocked(lv) {
     if (!lv) return false;
-    if (this.P.settings.unlockAll || lv.index === 0 || this.isDone(lv.id)) return true;
+    if (this.teacherMode() || lv.index === 0 || this.isDone(lv.id)) return true;
     if (lv.project) return this.isDone(lv.world + '-5');   // პროექტი სამყაროს ბოსის შემდეგ იხსნება
     return this.isDone(courseLevels(lv.course)[lv.index - 1].id);
   },
@@ -19129,7 +19131,8 @@ const SettingsScreen = {
       '<div class="set-row"><label>ხმა</label>' + seg('st-sound', [[1, 'ჩართული'], [0, 'გამორთული']], s.sound ? 1 : 0) + '</div>' +
       '<div class="set-row"><label>ანიმაციის სიჩქარე</label>' + seg('st-speed', [[1, '🐢 ნელი'], [2, 'ჩვეულებრივი'], [3, '🐇 სწრაფი']], s.speed) + '</div>' +
       '<div class="set-row"><label for="st-font">შრიფტის ზომა: <span id="st-font-v">' + s.font + '</span>px</label><input type="range" id="st-font" min="13" max="21" value="' + s.font + '" style="accent-color:var(--accent)"></div>' +
-      '<div class="set-row"><label>მასწავლებლის რეჟიმი<br><small class="muted">ყველა ლეველის გახსნა (Pro ლეველების გარდა). XP და გარდერობის ნივთები ჩვეულებრივად გროვდება</small></label>' + seg('st-unlock', [[1, 'ჩართული'], [0, 'გამორთული']], s.unlockAll ? 1 : 0) + '</div>' +
+      '<div class="set-row"><label>მასწავლებლის რეჟიმი <span class="pro-chip' + (Progress.hasPro() ? ' on' : '') + '" style="margin:0">👑 Pro</span><br><small class="muted">ყველა ლეველის ერთბაშად გახსნა — ნებისმიერი თემის საჩვენებლად. XP და გარდერობის ნივთები ჩვეულებრივად გროვდება</small></label>' +
+        (Progress.hasPro() ? seg('st-unlock', [[1, 'ჩართული'], [0, 'გამორთული']], s.unlockAll ? 1 : 0) : '<button class="btn small" id="st-unlock-pro">👑 Pro-ს გახსნა</button>') + '</div>' +
       '</div><div class="card" style="margin-top:12px"><h3 style="margin-top:0">პროგრესის კოდი</h3>' +
       '<p class="muted" style="margin-top:-.4em">დააკოპირე კოდი, რომ პროგრესი სხვა მოწყობილობაზე გადაიტანო ან შეინახო.</p>' +
       '<textarea class="code-io" id="st-export" readonly aria-label="ექსპორტის კოდი"></textarea><div class="modal-actions" style="justify-content:flex-start"><button class="btn small" id="st-copy">კოპირება</button></div>' +
@@ -19141,7 +19144,8 @@ const SettingsScreen = {
     bindSeg('st-theme', v => { s.theme = v; });
     bindSeg('st-sound', v => { s.sound = v === '1'; if (s.sound) Sound.click(); });
     bindSeg('st-speed', v => { s.speed = +v; });
-    bindSeg('st-unlock', v => { s.unlockAll = v === '1'; });
+    bindSeg('st-unlock', v => { s.unlockAll = v === '1' && Progress.hasPro(); });
+    if ($('#st-unlock-pro')) $('#st-unlock-pro').addEventListener('click', () => Paywall.open(null, 'teacher'));
     $('#st-font').addEventListener('input', e => { s.font = +e.target.value; $('#st-font-v').textContent = s.font; Progress.save(); applySettings(); });
     $('#st-export').value = Progress.exportCode();
     $('#st-copy').addEventListener('click', async () => {
@@ -19658,7 +19662,9 @@ const Paywall = {
   // ctx: 'studio' — ვიდეოებისა და პროექტების გვერდიდან
   open(lv, ctx) {
     const price = PRO.price ? ' · ' + esc(PRO.price) : '';
-    const intro = ctx === 'class'
+    const intro = ctx === 'teacher'
+      ? '<b>მასწავლებლის რეჟიმი</b> Pro-ს ნაწილია: ყველა ლეველი ერთბაშად იხსნება, რომ ნებისმიერი თემა მაშინვე აჩვენო. Pro ამასთან ერთად კლასებს, ცოცხალ გაკვეთილებს, ვიდეოებს და ყველა ფასიან ლეველს ხსნის.'
+      : ctx === 'class'
       ? '<b>კლასი და ცოცხალი გაკვეთილი</b> Pro-ს ნაწილია: Pro სჭირდება მასწავლებელსაც და მოსწავლესაც. ამასთან ერთად Pro ყველა ფასიან ლეველს, ვიდეოებს და პროექტებს ხსნის.'
       : ctx === 'studio'
       ? '<b>ვიდეოები და ნაბიჯ-ნაბიჯ პროექტები</b> Pro-ს ნაწილია. Pro ამასთან ერთად ყველა ფასიან ლეველსაც ხსნის (ყველა ენაზე პირველი ' + PRO.freeLevels + ' ლეველი უფასოა).'
@@ -19667,7 +19673,7 @@ const Paywall = {
     const feats = [['🔓', 'ყველა ფასიანი ლეველი', COURSES.length + ' ენაზე — ყველა რუკა ბოლომდე'],
       ['🎬', Object.values(STUDIO_VIDEOS).reduce((a, l) => a + l.length, 0) + ' ვიდეო საიტზევე', 'კოდის რედაქტორი ▶ Run-ით და 📒 ჩანაწერები'],
       ['🛠️', STUDIO_GUIDES.length + ' ნაბიჯ-ნაბიჯ პროექტი', 'ააწყე ნამდვილი პროგრამები'],
-      ['👩‍🏫', 'კლასი და ცოცხალი გაკვეთილი', 'მასწავლებლის დაფა მოსწავლეებთან ცოცხლად'],
+      ['👩‍🏫', 'კლასი, ცოცხალი გაკვეთილი, მასწავლებლის რეჟიმი', 'დაფა მოსწავლეებთან ცოცხლად და ყველა ლეველი ერთბაშად'],
       ['💳', 'ერთჯერადი გადახდა', 'გამოწერის გარეშე — სამუდამოდ შენია'],
       ['👤', 'შენს ანგარიშს ებმება', 'ყველა მოწყობილობაზე, სადაც შეხვალ']];
     const m = Modal.open('<div class="pw"><button class="pw-x" data-close aria-label="დახურვა">✕</button>' +

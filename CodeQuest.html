@@ -18695,7 +18695,7 @@ const Wardrobe = {
   },
   wear(slot, id) {
     const P = Progress.P;
-    P.skin[slot] = id; P.stats.styled = true;
+    P.skin[slot] = id; P.skinAt = Date.now(); P.stats.styled = true;
     Progress.save(); Progress.checkAch();
   },
   pick(slot, id) {
@@ -18722,12 +18722,13 @@ const Wardrobe = {
   random() {
     const P = Progress.P;
     WB_SLOTS.forEach(([sl]) => { const own = this.items(sl).filter(w => Progress.owns(w)); P.skin[sl] = own[Math.floor(Math.random() * own.length)].id; });
+    P.skinAt = Date.now();
     P.stats.styled = true; this.tryIt = null;
     Progress.save(); Progress.checkAch(); Sound.click(); this.render();
   },
   reset() {
     const P = Progress.P;
-    P.skin = Object.assign({}, BIT_DEFAULT, { color: P.skin.color });
+    P.skin = Object.assign({}, BIT_DEFAULT, { color: P.skin.color }); P.skinAt = Date.now();
     this.tryIt = null; Progress.save(); Sound.click(); this.render();
   }
 };
@@ -20140,7 +20141,10 @@ function mergeProgress(a, b) {
   m.sandbox = a.sandbox || b.sandbox || null;
   m.pro = a.pro || b.pro || null;
   m.name = a.name || b.name || '';
-  if (b.skin && JSON.stringify(a.skin || {}) === JSON.stringify(defaultProgress().skin)) m.skin = Object.assign({}, defaultProgress().skin, b.skin);
+  // ბიტის სკინი: იმარჯვებს ის მოწყობილობა, სადაც ბოლოს შეიცვალა (skinAt); ძველ შენახვებში დრო არ არის — მაშინ ადგილობრივი რჩება, თუ ნაგულისხმევი არ არის
+  const ta = +a.skinAt || 0, tb = +b.skinAt || 0;
+  if (b.skin && (tb > ta || (!ta && !tb && JSON.stringify(a.skin || {}) === JSON.stringify(defaultProgress().skin)))) m.skin = Object.assign({}, defaultProgress().skin, b.skin);
+  m.skinAt = Math.max(ta, tb);
   ['started', 'certified', 'plan500'].forEach(k => { m[k] = !!(a[k] || b[k]); });
   return m;
 }
@@ -20186,7 +20190,11 @@ const Account = {
     const s = Store.get(ACC_KEY, null);
     this.s = s && s.name && (s.token == null || typeof s.token === 'string') ? s : null;
     addEventListener('online', () => { if (this.s && this.s.dirty) this.push(); });
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) return; Stats.flush(true); if (this.s && this.s.dirty && !this.busy) this.push(true); });
+    document.addEventListener('visibilitychange', () => {
+      // დაბრუნებისას: სხვა მოწყობილობაზე შეცვლილი (მაგ. ბიტის სკინი) ჩამოვტვირთოთ, მაქსიმუმ წუთში ერთხელ
+      if (!document.hidden) { if (this.s && !this.busy && Date.now() - (this.pulled || 0) > 60000) this.pull(); return; }
+      Stats.flush(true); if (this.s && this.s.dirty && !this.busy) this.push(true);
+    });
     this.renderMenu();
     if (this.s) this.pull();
   },
@@ -20249,6 +20257,7 @@ const Account = {
   },
   // გახსნისას: სერვერზე უფრო ახალი ხომ არ არის (სხვა მოწყობილობიდან)
   async pull() {
+    this.pulled = Date.now();
     const sent = this.s, r = await this.api('load', { token: sent.token });
     if (this.s !== sent) return;
     if (!r.ok) {

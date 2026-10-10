@@ -16910,6 +16910,7 @@ const UI = {
     if (name === 'live') Live.render();
     if (name === 'owner') OwnerDash.render();
     if (name === 'game') Editor.refresh();
+    Account.fresh();
   },
   // „← უკან“: წინა ეკრანი ისტორიიდან (იგივე ეკრანს ვტოვებთ), ცარიელზე — მენიუ
   back() {
@@ -18698,7 +18699,7 @@ const Wardrobe = {
   wear(slot, id) {
     const P = Progress.P;
     P.skin[slot] = id; P.skinAt = Date.now(); P.stats.styled = true;
-    Progress.save(); Progress.checkAch();
+    Progress.save(); Account.soon(); Progress.checkAch();
   },
   pick(slot, id) {
     const w = this.find(slot, id);
@@ -18726,7 +18727,7 @@ const Wardrobe = {
     WB_SLOTS.forEach(([sl]) => { const own = this.items(sl).filter(w => Progress.owns(w)); P.skin[sl] = own[Math.floor(Math.random() * own.length)].id; });
     P.skinAt = Date.now();
     P.stats.styled = true; this.tryIt = null;
-    Progress.save(); Progress.checkAch(); Sound.click(); this.render();
+    Progress.save(); Account.soon(); Progress.checkAch(); Sound.click(); this.render();
   },
   reset() {
     const P = Progress.P;
@@ -20143,9 +20144,9 @@ function mergeProgress(a, b) {
   m.sandbox = a.sandbox || b.sandbox || null;
   m.pro = a.pro || b.pro || null;
   m.name = a.name || b.name || '';
-  // ბიტის სკინი: იმარჯვებს ის მოწყობილობა, სადაც ბოლოს შეიცვალა (skinAt); ძველ შენახვებში დრო არ არის — მაშინ ადგილობრივი რჩება, თუ ნაგულისხმევი არ არის
-  const ta = +a.skinAt || 0, tb = +b.skinAt || 0;
-  if (b.skin && (tb > ta || (!ta && !tb && JSON.stringify(a.skin || {}) === JSON.stringify(defaultProgress().skin)))) m.skin = Object.assign({}, defaultProgress().skin, b.skin);
+  // ბიტის სკინი: იმარჯვებს ის მოწყობილობა, სადაც ბოლოს შეიცვალა (skinAt); თანაბარ დროზე (ძველი შენახვები დროის გარეშე) — ანგარიშში შენახული, თუ ნაგულისხმევი არ არის: ასე ორივე მოწყობილობა ერთ სკინზე ჩერდება
+  const ta = +a.skinAt || 0, tb = +b.skinAt || 0, skinB = Object.assign({}, defaultProgress().skin, b.skin);
+  if (b.skin && (tb > ta || (tb === ta && JSON.stringify(skinB) !== JSON.stringify(defaultProgress().skin)))) m.skin = skinB;
   m.skinAt = Math.max(ta, tb);
   ['started', 'certified', 'plan500'].forEach(k => { m[k] = !!(a[k] || b[k]); });
   return m;
@@ -20193,13 +20194,23 @@ const Account = {
     this.s = s && s.name && (s.token == null || typeof s.token === 'string') ? s : null;
     addEventListener('online', () => { if (this.s && this.s.dirty) this.push(); });
     document.addEventListener('visibilitychange', () => {
-      // დაბრუნებისას: სხვა მოწყობილობაზე შეცვლილი (მაგ. ბიტის სკინი) ჩამოვტვირთოთ, მაქსიმუმ წუთში ერთხელ
-      if (!document.hidden) { if (this.s && !this.busy && Date.now() - (this.pulled || 0) > 60000) this.pull(); return; }
+      // დაბრუნებისას: სხვა მოწყობილობაზე შეცვლილი (მაგ. ბიტის სკინი) ჩამოვტვირთოთ (fresh)
+      if (!document.hidden) return this.fresh(true);
       Stats.flush(true); if (this.s && this.s.dirty && !this.busy) this.push(true);
     });
+    // ორი მოწყობილობა ერთდროულად ღიაა: შეხებაზე მაშინვე, შემდეგ 20 წამში ერთხელ (მხოლოდ ბოლო შეხებიდან 1 წუთი — დავიწყებული ჩანართი ბაზას არ ტვირთავს)
+    addEventListener('pointerdown', () => { this.act = Date.now(); this.fresh(); }, { passive: true, capture: true });
+    setInterval(() => { if (Date.now() - (this.act || 0) < 60000) this.fresh(); }, 20000);
     this.renderMenu();
     if (this.s) this.pull();
   },
+  // სხვა მოწყობილობაზე შეცვლილის (მაგ. ბიტის სკინი) ჩამოტვირთვა, მაქსიმუმ 10 წამში ერთხელ; any — ნებისმიერ ეკრანზე (დაბრუნებისას), თორემ მხოლოდ იქ, სადაც ბიტი ჩანს
+  fresh(any) {
+    if (!this.s || this.busy || document.hidden || Date.now() - (this.pulled || 0) < 10000) return;
+    if (any || UI.cur === 'menu' || UI.cur === 'bit' || UI.cur === 'profile') this.pull();
+  },
+  // მნიშვნელოვანი ცვლილება (სკინი) — შენახვა 1.5 წამში, რომ მეორე მოწყობილობამ მალე დაინახოს
+  soon() { if (!this.s || !this.s.dirty) return; clearTimeout(this.timer); this.timer = setTimeout(() => this.push(), 1500); },
   keep() { if (this.s) Store.set(ACC_KEY, this.s); },
   async api(action, data, keepalive) {
     const body = JSON.stringify(Object.assign({ action }, data));
@@ -20260,7 +20271,7 @@ const Account = {
   // გახსნისას: სერვერზე უფრო ახალი ხომ არ არის (სხვა მოწყობილობიდან)
   async pull() {
     this.pulled = Date.now();
-    const sent = this.s, r = await this.api('load', { token: sent.token });
+    const sent = this.s, r = await this.api('load', { token: sent.token, rev: sent.rev || 0 });   // rev: თუ არაფერი შეცვლილა, სერვერი მონაცემს აღარ აგზავნის
     if (this.s !== sent) return;
     if (!r.ok) {
       if (r.error === 'no_session') return this.expired();

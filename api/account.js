@@ -311,8 +311,10 @@ const actions = {
     return { name: user.name, rev: +p || 0, pro: proToken(u, user) };
   },
   async load(b) {
-    const { u, user } = await session(b.token, true);
-    return Object.assign({ name: user.name, pro: proToken(u, user) }, await loadProgress(u));
+    // rev — მოწყობილობის ვერსია: თუ ანგარიშში იგივეა, მონაცემს არ ვაგზავნით (ხშირი შემოწმება ორ მოწყობილობას შორის — იაფი)
+    const light = b.rev != null, { u, user } = await session(b.token, !light), head = { name: user.name, pro: proToken(u, user) };
+    if (light) { const rev = +(await db(['GET', 'progrev:' + u])) || 0; if (rev === Math.floor(+b.rev)) return Object.assign(head, { rev }); }
+    return Object.assign(head, await loadProgress(u));
   },
   async save(b) {
     const { u, user } = await session(b.token);

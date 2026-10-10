@@ -20085,7 +20085,7 @@ const Desktop = {
       '<p class="muted dl-meta">' + meta + '</p>' +
       '<ol class="dl-steps">' + f.steps.map(s => '<li>' + s + '</li>').join('') + '</ol>' +
       '<p class="muted dl-other">სხვა სისტემა: ' + Object.keys(this.files).filter(x => x !== k).map(x => '<button type="button" data-os="' + x + '">' + this.files[x].icon + ' ' + this.files[x].name + '</button>').join(' · ') + '</p>' +
-      '<p class="muted dl-note">💾 პროგრამაში პროგრესი ცალკე ინახება. გადასატანად: აქ <b>პარამეტრები → პროგრესის კოდი → კოპირება</b>, პროგრამაში — იგივე ადგილას ჩასვი და <b>იმპორტი</b>.</p>' +
+      '<p class="muted dl-note">💾 პროგრამაში პროგრესი მხოლოდ კომპიუტერში ინახება (ანგარიშით შესვლისას ანგარიშის პროგრესი ერთხელ გადმოვა). შემდეგ გადასატანად: <b>პარამეტრები → პროგრესის კოდი → კოპირება</b>, მეორე მხარეს — იგივე ადგილას ჩასვი და <b>იმპორტი</b>.</p>' +
       '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>';
     m.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => Modal.close(m)));
     m.querySelectorAll('[data-os]').forEach(b => b.addEventListener('click', () => this.fill(m, b.dataset.os)));
@@ -20098,6 +20098,7 @@ const Desktop = {
    მოწყობილობაზე ერთია: ყოველი ცვლილება რამდენიმე წამში სერვერზე ინახება (Progress.save → Account.changed). თუ სხვა
    მოწყობილობამ უფრო ახალი შეინახა, პროგრესები ერთიანდება (mergeProgress — საუკეთესო რჩება, არაფერი იკარგება).
    ელფოსტა არ გვჭირდება: დავიწყებული პაროლი აღდგენის კოდით აღდგება, რომელსაც რეგისტრაციისას ვაჩვენებთ. */
+// 💻 კომპიუტერის პროგრამაში (IS_DESKTOP) ანგარიში მხოლოდ Pro-სთვის და კლასისთვისაა: პროგრესი სერვერზე არ იგზავნება (მხოლოდ მოკლე შეჯამება — action summary)
 const ACC_KEY = 'codequest.auth';   // { name, rev, dirty, at } (+ token მხოლოდ კომპიუტერის პროგრამაში; ვებზე ტოკენი HttpOnly cookie-შია) — პროგრესისგან ცალკე: ნიშანი არც პროგრესის კოდში ხვდება, არც სერვერზე
 const ACC_NAME_RE = /^[A-Za-z0-9ა-ჰ_.-]{3,20}$/;
 // ორი პროგრესის გაერთიანება: a — ეს მოწყობილობა, b — ანგარიში. ლეველებიდან, მიღწევებიდან და ნივთებიდან საუკეთესო რჩება,
@@ -20206,7 +20207,7 @@ const Account = {
   },
   // სხვა მოწყობილობაზე შეცვლილის (მაგ. ბიტის სკინი) ჩამოტვირთვა, მაქსიმუმ 10 წამში ერთხელ; any — ნებისმიერ ეკრანზე (დაბრუნებისას), თორემ მხოლოდ იქ, სადაც ბიტი ჩანს
   fresh(any) {
-    if (!this.s || this.busy || document.hidden || Date.now() - (this.pulled || 0) < 10000) return;
+    if (IS_DESKTOP || !this.s || this.busy || document.hidden || Date.now() - (this.pulled || 0) < 10000) return;   // პროგრამაში პროგრესი ადგილობრივია — ჩამოსატვირთი არაფერია
     if (any || UI.cur === 'menu' || UI.cur === 'bit' || UI.cur === 'profile') this.pull();
   },
   // მნიშვნელოვანი ცვლილება (სკინი) — შენახვა 1.5 წამში, რომ მეორე მოწყობილობამ მალე დაინახოს
@@ -20248,7 +20249,9 @@ const Account = {
     if (this.busy) { this.again = true; return; }
     const sent = this.s, v = this.ver, sum = this.summary(), sj = JSON.stringify(sum);
     this.busy = true; this.again = false; this.setState('saving');
-    const r = await this.api('save', { token: sent.token, rev: sent.rev || 0, data: Progress.P, summary: sj !== sent.sum ? sum : undefined }, keepalive);
+    // 💻 კომპიუტერის პროგრამა: პროგრესი მხოლოდ კომპიუტერში ინახება. სერვერზე — მხოლოდ მოკლე შეჯამება (კლასის რეიტინგი, სტატისტიკა) და მხოლოდ მაშინ, როცა შეიცვალა
+    const r = IS_DESKTOP ? Object.assign({ rev: sent.rev || 0 }, sj !== sent.sum ? await this.api('summary', { token: sent.token, summary: sum }, keepalive) : { ok: true })
+      : await this.api('save', { token: sent.token, rev: sent.rev || 0, data: Progress.P, summary: sj !== sent.sum ? sum : undefined }, keepalive);
     this.busy = false;
     if (this.s !== sent) return;   // შენახვისას გამოვიდა ანგარიშიდან
     if (r.ok) {
@@ -20271,7 +20274,7 @@ const Account = {
   // გახსნისას: სერვერზე უფრო ახალი ხომ არ არის (სხვა მოწყობილობიდან)
   async pull() {
     this.pulled = Date.now();
-    const sent = this.s, r = await this.api('load', { token: sent.token, rev: sent.rev || 0 });   // rev: თუ არაფერი შეცვლილა, სერვერი მონაცემს აღარ აგზავნის
+    const sent = this.s, r = await this.api(IS_DESKTOP ? 'me' : 'load', { token: sent.token, rev: sent.rev || 0 });   // rev: თუ არაფერი შეცვლილა, სერვერი მონაცემს აღარ აგზავნის
     if (this.s !== sent) return;
     if (!r.ok) {
       if (r.error === 'no_session') return this.expired();
@@ -20280,7 +20283,7 @@ const Account = {
     }
     this.s.name = r.name;
     if (r.pro) this.gotPro(r.pro);
-    if (r.rev !== (this.s.rev || 0)) {
+    if (!IS_DESKTOP && r.rev !== (this.s.rev || 0)) {
       this.absorb(r.data, r.rev);
       return this.push();
     }
@@ -20330,11 +20333,13 @@ const Account = {
   statusText() {
     if (!this.s) return '';
     const t = this.s.at ? new Date(this.s.at).toLocaleTimeString('ka-GE', { hour: '2-digit', minute: '2-digit', hour12: false }) : '';
+    if (IS_DESKTOP) return '💾 პროგრესი ამ კომპიუტერში ინახება';
     return { saving: '⏳ ინახება…', dirty: '⏳ ინახება რამდენიმე წამში…', offline: '⚠️ ინტერნეტი არ არის — შევინახავ, როცა დაბრუნდება', error: '⚠️ ვერ შეინახა — თავიდან ვცდი' + (this.err ? ' (' + this.err + ')' : '') }[this.state] ||
       '☁️ პროგრესი შენახულია' + (t ? ' · ' + t : '');
   },
   // მენიუს ზედა ზოლისთვის — მოკლედ, რომ არ მოიჭრას (სრული ტექსტი title-შია)
   statusShort() {
+    if (IS_DESKTOP) return '💾 ამ კომპიუტერში';
     const t = this.s && this.s.at ? new Date(this.s.at).toLocaleTimeString('ka-GE', { hour: '2-digit', minute: '2-digit', hour12: false }) : '';
     return { saving: '⏳ ინახება…', dirty: '⏳ ინახება…', offline: '⚠️ ინტერნეტი არ არის', error: '⚠️ ვერ შეინახა' }[this.state] || '☁️ შენახულია' + (t ? ' · ' + t : '');
   },
@@ -20346,7 +20351,7 @@ const Account = {
     ic.classList.toggle('av', !!this.s);
     $('#m-account-t').textContent = this.s ? this.s.name : 'შესვლა';
     $('#m-account-sub').textContent = this.s ? this.statusShort() : 'ან რეგისტრაცია';
-    b.title = this.s ? this.s.name + ' — ' + this.statusText() : 'შესვლა ან რეგისტრაცია — შეინახე პროგრესი ყველა მოწყობილობაზე';
+    b.title = this.s ? this.s.name + ' — ' + this.statusText() : (IS_DESKTOP ? 'შესვლა ან რეგისტრაცია — Pro-სთვის და კლასისთვის' : 'შესვლა ან რეგისტრაცია — შეინახე პროგრესი ყველა მოწყობილობაზე');
     $('#mn-hi').textContent = this.s ? '👋 გამარჯობა, ' + this.s.name + '!' : '🎮 ბიტის თავგადასავალი';
     $('#m-class').classList.toggle('hidden', !this.s);
     $('#m-class-sub').textContent = Progress.hasPro() ? 'შეუერთდი კლასს ან შექმენი შენი' : '👑 Pro · კლასი და ცოცხალი გაკვეთილი';
@@ -20373,7 +20378,7 @@ const Account = {
     this.push();
     if (d.pro) this.gotPro(d.pro);
     Paywall.restore();
-    UI.toast('👋', 'გამარჯობა, ' + r.name + '!', 'პროგრესი ახლა ყველა მოწყობილობაზე შეინახება.');
+    UI.toast('👋', 'გამარჯობა, ' + r.name + '!', IS_DESKTOP ? '💾 პროგრესი ამ კომპიუტერში ინახება. ანგარიშით Pro და კლასი მუშაობს.' : 'პროგრესი ახლა ყველა მოწყობილობაზე შეინახება.');
     this.runAfter();
   },
   // გადადებული მოქმედება შესვლის / რეგისტრაციის შემდეგ (მაგ. Pro-ს ყიდვა)
@@ -20419,7 +20424,7 @@ const Account = {
   },
   loginForm(note) {
     const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">👤</div><h2 class="result-title">შესვლა</h2>' +
-      '<p class="muted acc-sub">' + (note || 'შედი, რომ პროგრესი, Pro და ბიტის ნივთები ყველა მოწყობილობაზე გქონდეს.') + '</p>' +
+      '<p class="muted acc-sub">' + (note || (IS_DESKTOP ? 'შედი, რომ Pro და კლასი ამ კომპიუტერზეც გქონდეს. 💾 პროგრესი ამ კომპიუტერში ინახება.' : 'შედი, რომ პროგრესი, Pro და ბიტის ნივთები ყველა მოწყობილობაზე გქონდეს.')) + '</p>' +
       '<form class="acc-form" novalidate>' + this.field('სახელი', 'name', 'text', 'username') + this.field('პაროლი', 'password', 'password', 'current-password') +
       '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">შესვლა</button></form>' +
       '<p class="acc-links"><button type="button" class="linklike" data-a="reg">ანგარიში არ გაქვს? დარეგისტრირდი</button><button type="button" class="linklike" data-a="reset">დაგავიწყდა პაროლი?</button></p>' +
@@ -20430,7 +20435,7 @@ const Account = {
   },
   registerForm() {
     const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">✨</div><h2 class="result-title">რეგისტრაცია</h2>' +
-      '<p class="muted acc-sub">ელფოსტა არ გვჭირდება. ამ მოწყობილობის პროგრესი ანგარიშში გადავა.</p>' +
+      '<p class="muted acc-sub">' + (IS_DESKTOP ? 'ელფოსტა არ გვჭირდება. 💾 პროგრესი ამ კომპიუტერში რჩება; ანგარიში Pro-სთვის და კლასისთვისაა.' : 'ელფოსტა არ გვჭირდება. ამ მოწყობილობის პროგრესი ანგარიშში გადავა.') + '</p>' +
       '<form class="acc-form" novalidate>' + this.field('სახელი', 'name', 'text', 'username', '3–20 სიმბოლო: ასოები, ციფრები, _ . -  · სახელს სხვა მოთამაშეები ვერ ხედავენ, მაინც ნუ ჩაწერ სახელს და გვარს ერთად') +
       this.field('პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო. ნუ გამოიყენებ იმავე პაროლს, რაც სხვაგან გაქვს') + this.field('გაიმეორე პაროლი', 'password2', 'password', 'new-password') +
       '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">ანგარიშის შექმნა</button><p class="acc-legal">ანგარიშის შექმნით ეთანხმები <a href="https://codequest-lazare.vercel.app/terms.html" target="_blank" rel="noopener">წესებს</a> და <a href="https://codequest-lazare.vercel.app/privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკას</a>. 13 წლამდე ხარ? ანგარიში მშობელთან ერთად შექმენი.</p></form>' +
@@ -20489,10 +20494,12 @@ const Account = {
     const m = Modal.open('<div class="accp"><button class="accp-x" data-close aria-label="დახურვა">✕</button>' +
       '<div class="accp-top"><div class="accp-av" aria-hidden="true">' + esc([...s.name][0]) + '</div><h2>' + esc(s.name) + '</h2><p class="accp-st" id="acc-st">' + esc(this.statusText()) + '</p></div>' +
       '<div class="accp-body"><div class="accp-stats"><div><b>' + r.ic + ' ' + esc(r.name) + '</b><small>წოდება</small></div><div><b>⭐ ' + Progress.totalXP() + '</b><small>XP</small></div><div><b>🔥 ' + Progress.streakNow() + '</b><small>დღიანი სერია</small></div></div>' +
-      '<div class="accp-acts">' + act('class', '👩‍🏫', 'კლასი', 'შეუერთდი ან შექმენი') + act('sync', '☁️', 'ახლავე შენახვა', 'ღრუბელში') + act('pass', '🔑', 'პაროლის შეცვლა', 'უსაფრთხოება') + act('out', '🚪', 'გასვლა', 'ანგარიშიდან') + '</div>' +
-      '<p class="accp-info">☁️ პროგრესი, Pro და ბიტის ნივთები თავისით ინახება. 💻 სხვა მოწყობილობაზე იგივე სახელით და პაროლით შედი.</p>' +
+      '<div class="accp-acts">' + act('class', '👩‍🏫', 'კლასი', 'შეუერთდი ან შექმენი') + (IS_DESKTOP ? act('backup', '💾', 'პროგრესის ასლი', 'პარამეტრებში') : act('sync', '☁️', 'ახლავე შენახვა', 'ღრუბელში')) + act('pass', '🔑', 'პაროლის შეცვლა', 'უსაფრთხოება') + act('out', '🚪', 'გასვლა', 'ანგარიშიდან') + '</div>' +
+      '<p class="accp-info">' + (IS_DESKTOP ? '💾 პროგრესი და ბიტის ნივთები ამ კომპიუტერში ინახება, სერვერზე არ იგზავნება. 👤 ანგარიშით Pro და კლასი მუშაობს. სხვა მოწყობილობაზე გადასატანად: პარამეტრები → პროგრესის კოდი.'
+        : '☁️ პროგრესი, Pro და ბიტის ნივთები თავისით ინახება. 💻 სხვა მოწყობილობაზე იგივე სახელით და პაროლით შედი.') + '</p>' +
       '<details class="acc-del"><summary>ანგარიშის წაშლა</summary><p class="muted">ანგარიში და მასში შენახული პროგრესი სამუდამოდ წაიშლება. ამ მოწყობილობაზე პროგრესი დარჩება.</p><button class="btn danger small" data-a="del">🗑️ ანგარიშის წაშლა</button></details></div></div>');
-    m.querySelector('[data-a=sync]').addEventListener('click', () => { this.changed(); this.push(); });
+    if (IS_DESKTOP) m.querySelector('[data-a=backup]').addEventListener('click', () => { Modal.close(m); UI.show('settings'); });
+    else m.querySelector('[data-a=sync]').addEventListener('click', () => { this.changed(); this.push(); });
     m.querySelector('[data-a=class]').addEventListener('click', () => { Modal.close(m); UI.show('class'); });
     m.querySelector('[data-a=pass]').addEventListener('click', () => { Modal.close(m); this.passwordForm(); });
     m.querySelector('[data-a=out]').addEventListener('click', () => { Modal.close(m); this.logout(); });

@@ -330,6 +330,12 @@ const actions = {
     const now = await loadProgress(u);   // სხვა მოწყობილობამ უფრო ახალი შეინახა — თამაში გააერთიანებს და თავიდან შეინახავს
     throw Object.assign(new Fail(409, 'conflict'), { extra: { rev: now.rev, data: now.data } });
   },
+  // კომპიუტერის პროგრამა: პროგრესი კომპიუტერში რჩება — სერვერზე მხოლოდ მოკლე შეჯამება (კლასის რეიტინგი, მფლობელის სტატისტიკა)
+  async summary(b) {
+    const { u, user } = await session(b.token, true);
+    await saveSummary(u, user.name, b.summary);
+    return {};
+  },
   async logout(b) {
     if (typeof b.token === 'string' && b.token.length <= 100) await db(['DEL', 'sess:' + sha(b.token)]);
     return {};

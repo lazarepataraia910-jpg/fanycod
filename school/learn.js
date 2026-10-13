@@ -146,14 +146,16 @@
     const a = acc();
     if (!a) return false;
     for (const t of [obj(game().pro).token, get(KEY + '.pro')]) if (t && await verifyPro(t, a.name)) return true;
-    const asked = obj(get(KEY + '.proAsk'));
-    if (!fresh && asked.name === a.name && Date.now() - asked.at < 600000) return false;
-    set(KEY + '.proAsk', { name: a.name, at: Date.now() });
+    const asked = obj(get(KEY + '.proNo'));
+    if (!fresh && asked.name === a.name && Date.now() - asked.at < 180000) return false;
     try {
       const j = await (await fetch('/api/account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'me', token: a.token }) })).json();
       if (j.ok && j.pro && await verifyPro(j.pro, a.name)) { set(KEY + '.pro', j.pro); return true; }
       expired = j.error === 'no_session';   // სესია ამოიწურა — თავიდან შესვლაა საჭირო
-    } catch (e) { /* ინტერნეტი არ არის */ }
+      // „Pro არ არის“ ვიმახსოვრებთ მხოლოდ სერვერის ნამდვილი პასუხის შემდეგ. ადრე ეს კითხვამდე იწერებოდა: თუ მომხმარებელი
+      // პასუხამდე სხვა გვერდზე გადადიოდა, Pro-ანგარიში 10 წუთით დაკეტილი რჩებოდა
+      if (j.ok) set(KEY + '.proNo', { name: a.name, at: Date.now() });
+    } catch (e) { /* ინტერნეტი არ არის ან გვერდი დაიხურა — არაფერს ვიმახსოვრებთ */ }
     return false;
   }
   let proOk = false, proAt = 0, expired = false, proP = null;
@@ -163,9 +165,12 @@
     if (!lock || proOk) return;
     proAt = Date.now();
     if (await proCheck(fresh)) { proOk = true; document.documentElement.classList.add('pro'); lock.hidden = true; lesson(); paint(); return; }
-    const a = expired ? null : acc(), li = $('#lock-in');
+    const a = expired ? null : acc(), li = $('#lock-in'), again = $('#lock-again'), note = $('#lock-note');
     lock.hidden = false;
-    if (a) { li.hidden = true; $('#lock-note').textContent = 'შესული ხარ, როგორც ' + a.name + '. ამ ანგარიშს Pro ჯერ არ აქვს. ყიდვის ან კოდის გააქტიურების შემდეგ დაბრუნდი ამ გვერდზე და თავი თვითონ გაიხსნება.'; } else li.href = loginUrl();
+    li.hidden = !!a; again.hidden = !a;
+    if (a) note.textContent = 'შესული ხარ, როგორც ' + a.name + '. ამ ანგარიშზე Pro ვერ ვიპოვე. თუ Pro სხვა ანგარიშზე გაქვს, თამაშში იმ ანგარიშით შედი; თუ ახლახან იყიდე, დააჭირე „თავიდან შემოწმებას“.';
+    else { li.href = loginUrl(); note.textContent = 'Pro უკვე გაქვს? შედი იმავე ანგარიშით, რომელზეც Pro გაქვს — თავი თვითონ გაიხსნება. თამაშში შესვლა ამ მისამართზე ცალკე ხდება.'; }
+    if (!again.dataset.on) { again.dataset.on = 1; again.addEventListener('click', async () => { again.disabled = true; note.textContent = 'ვამოწმებ…'; await gate(true); again.disabled = false; }); }
   }
 
   /* ---------- თავის გვერდი ---------- */

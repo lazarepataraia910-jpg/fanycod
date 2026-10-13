@@ -328,7 +328,7 @@ function build() {
         // 👑 შინაარსი დამალულია, სანამ learn.js Pro-ს არ დაადასტურებს (.pro კლასი); Pro-ს გარეშე ჩანს #lock
         '<section class="lock" id="lock" hidden><span class="lock-ic" aria-hidden="true">👑</span><h2>ეს ' + (it.kind === 'quiz' ? 'ქვიზი' : it.kind === 'project' ? 'პროექტი' : 'თავი') + ' CodeQuest Pro-ს ნაწილია</h2>' +
         '<p>Pro ხსნის სკოლის ყველა კურსს და თამაშის ყველა ლეველს, ვიდეოს და პროექტს. ერთჯერადი გადახდა, გამოწერის გარეშე.</p>' +
-        '<p class="lock-a"><a class="btn primary big" href="/CodeQuest.html?pro=open">👑 Pro-ს ყიდვა' + esc(PRO.price) + '</a><a class="btn big" id="lock-in" href="/learn/dashboard/">უკვე მაქვს Pro — შესვლა</a></p><p class="lock-note" id="lock-note"></p></section>' +
+        '<p class="lock-a"><a class="btn primary big" href="/CodeQuest.html?pro=open">👑 Pro-ს ყიდვა' + esc(PRO.price) + '</a><a class="btn big" id="lock-in" href="/learn/dashboard/">უკვე მაქვს Pro — შესვლა</a><button type="button" class="btn big" id="lock-again" hidden>🔄 თავიდან შემოწმება</button></p><p class="lock-note" id="lock-note"></p></section>' +
         '<noscript><p class="muted">თავის სანახავად JavaScript და Pro-ანგარიშია საჭირო.</p></noscript>\n<div class="gated">\n' + d.html + '\n' +
         (it.kind === 'quiz' ? '' : '<div class="done-box"><button type="button" class="btn primary" id="mark-done">✓ დასრულებულად მონიშვნა · +' + xp + ' XP</button><button type="button" class="btn" id="mark-bm" aria-pressed="false">🔖 სანიშნე</button></div>' +
           '<details class="note"><summary>📝 ჩემი შენიშვნა</summary><textarea id="note" maxlength="1000" rows="4" placeholder="ჩაიწერე, რაც არ გინდა დაგავიწყდეს…" aria-label="პირადი შენიშვნა"></textarea><small class="muted" id="note-st"></small></details>') +

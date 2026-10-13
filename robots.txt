@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://codequest-lazare.vercel.app/sitemap.xml
+Sitemap: https://codequest.space/sitemap.xml

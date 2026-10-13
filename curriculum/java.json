@@ -1,0 +1,32 @@
+{
+  "order": 10,
+  "title": "Java",
+  "description": "ობიექტზე ორიენტირებული კლასიკა: დიდი სისტემები, Android და კორპორატიული აპლიკაციები.",
+  "icon": "☕",
+  "color": "#e76f00",
+  "topic": "ენები",
+  "lang": "java",
+  "learn": [
+    "კლასები, ობიექტები და ინტერფეისები",
+    "კოლექციები, გამონაკლისები და ნაკადები",
+    "დიდი აპლიკაციის აწყობა"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

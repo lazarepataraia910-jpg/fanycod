@@ -12,11 +12,11 @@
 <meta property="og:site_name" content="CodeQuest">
 <meta property="og:title" content="CodeQuest — ისწავლე პროგრამირება ნულიდან, ქართულად">
 <meta property="og:description" content="სასწავლო თამაში ბავშვებისთვის: 18 პროგრამირების ენა, 9000 ლეველი, რობოტი ბიტი და კლასები მასწავლებლებისთვის. უფასოდ.">
-<meta property="og:image" content="https://codequest-lazare.vercel.app/og.jpg">
+<meta property="og:image" content="https://codequest.space/og.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:url" content="https://codequest-lazare.vercel.app/">
+<meta property="og:url" content="https://codequest.space/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 305 290'%3E%3Ccircle cx='152' cy='24' r='18' fill='%23FF8A00'/%3E%3Crect x='146' y='38' width='12' height='30' fill='%2313163A'/%3E%3Crect x='9' y='142' width='34' height='67' rx='10' fill='%2313163A'/%3E%3Crect x='262' y='142' width='34' height='67' rx='10' fill='%2313163A'/%3E%3Crect x='32' y='63' width='240' height='219' rx='68' fill='%233D5AFE'/%3E%3Crect x='64' y='105' width='177' height='125' rx='40' fill='%2313163A'/%3E%3Cpolyline points='94,142 122,167 94,192' fill='none' stroke='%233DDC97' stroke-width='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='146' y1='193' x2='200' y2='193' stroke='%233DDC97' stroke-width='14' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -183,6 +183,7 @@ html[data-theme="dark"] #scr-menu,html[data-theme="dark"] #scr-map{--violet:#9d8
 .mn-more{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
 .mn-more:not(:has(>:not(.hidden))){display:none}
 .mn-mini{display:flex;align-items:center;gap:12px;min-width:0;padding:10px 14px 10px 10px;border:1px solid var(--border);border-radius:18px;background:var(--panel);text-align:left;transition:transform .15s,border-color .15s}
+a.mn-mini{color:inherit;text-decoration:none}
 .mn-mini:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--ti) 60%,var(--border))}
 .mn-mini .ic{flex:none;width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:color-mix(in srgb,var(--ti) 16%,var(--panel));font-size:1.2rem;line-height:1}
 .mn-mini .t{flex:1;min-width:0}
@@ -1350,6 +1351,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
         <div class="mn-card streak-card mn-in" style="--d:2" id="menu-streak"></div>
         <div class="mn-card hm-favs mn-in hidden" style="--d:3" id="menu-favs" role="group" aria-label="რჩეული ენები"></div>
         <div class="mn-more mn-in" style="--d:4">
+          <a class="mn-mini" style="--ti:#12b886" id="m-school" href="/learn/"><span class="ic" aria-hidden="true">📚</span><span class="t"><b>სკოლა: ისწავლე კოდინგი</b><small>თავები, ქვიზები, სავარჯიშოები</small></span><span class="go" aria-hidden="true">›</span></a>
           <button class="mn-mini hidden" style="--ti:#f59f00" id="m-class" type="button"><span class="ic" aria-hidden="true">👩‍🏫</span><span class="t"><b>კლასი</b><small id="m-class-sub">შეუერთდი კლასს ან შექმენი შენი</small></span><span class="go" aria-hidden="true">›</span></button>
           <button class="mn-mini hidden" style="--ti:#7c4dff" id="m-install" type="button"><span class="ic" aria-hidden="true">📱</span><span class="t"><b>დააყენე ტელეფონზე</b><small>აპივით, ინტერნეტის გარეშეც</small></span><span class="go" aria-hidden="true">›</span></button>
           <button class="mn-mini hidden" style="--ti:#0ea5e9" id="m-desktop" type="button"><span class="ic" aria-hidden="true">💻</span><span class="t"><b>კომპიუტერის ვერსია</b><small id="m-desktop-sub">გადმოწერე პროგრამა</small></span><span class="go" aria-hidden="true">›</span></button>
@@ -16278,6 +16280,11 @@ function mergeDeep(base, extra) {
   for (const k of Object.keys(extra)) out[k] = mergeDeep(base[k], extra[k]);
   return out;
 }
+// 📚 სკოლა (/learn) თავის პროგრესს ცალკე ინახავს (codequest.school), XP კი საერთოა. რიცხვები იგივეა, რაც school/learn.js-ში: თავი 20, ქვიზი (≥70%) 50, პროექტი 100
+function schoolXP() {
+  const s = Store.get('codequest.school', null) || {}, d = Object.keys(s.done || {});
+  return d.filter(k => !k.endsWith('/project')).length * 20 + d.filter(k => k.endsWith('/project')).length * 100 + Object.values(s.quiz || {}).filter(p => p >= 70).length * 50;
+}
 const Progress = {
   P: defaultProgress(),
   load() {
@@ -16327,7 +16334,7 @@ const Progress = {
   worldDone(w) { return LEVELS.filter(l => l.world === w).every(l => this.isDone(l.id)); },
   worldStars(w) { return LEVELS.filter(l => l.world === w).reduce((a, l) => a + ((this.P.levels[l.id] || {}).stars || 0), 0); },
   totalStars() { return LEVELS.reduce((a, l) => a + ((this.P.levels[l.id] || {}).stars || 0), 0); },
-  totalXP() { return ALL_LEVELS().reduce((a, l) => a + ((this.P.levels[l.id] || {}).xp || 0), 0) + (this.P.bonusXP || 0); },
+  totalXP() { return ALL_LEVELS().reduce((a, l) => a + ((this.P.levels[l.id] || {}).xp || 0), 0) + (this.P.bonusXP || 0) + schoolXP(); },
   /* ---- კურსები (ენები) ---- */
   course() { return COURSE_BY_ID[this.P.course] ? this.P.course : 'js'; },
   courseStats(id) {
@@ -20283,6 +20290,7 @@ const Account = {
     }
     this.s.name = r.name;
     if (r.pro) this.gotPro(r.pro);
+    if (r.sv && r.sv !== this.s.sv) this.syncSchool();
     if (!IS_DESKTOP && r.rev !== (this.s.rev || 0)) {
       this.absorb(r.data, r.rev);
       return this.push();
@@ -20290,6 +20298,13 @@ const Account = {
     this.keep();
     if (this.s.dirty) return this.push();
     this.setState('saved');
+  },
+  // 📚 სკოლის (/learn) პროგრესი სხვა მოწყობილობიდან — მხოლოდ მაშინ, როცა სერვერზე შეიცვალა (sv). XP-ში ითვლება (schoolXP)
+  async syncSchool() {
+    const sent = this.s, r = await this.api('school', { token: sent.token, state: Store.get('codequest.school', null) || {} });
+    if (!r.ok || this.s !== sent) return;
+    Store.set('codequest.school', r.state);
+    sent.sv = r.sv; this.keep(); this.refreshUI();
   },
   absorb(data, rev) {
     if (data && typeof data === 'object') this.apply(mergeProgress(Progress.P, data));
@@ -21551,6 +21566,14 @@ function init() {
   Progress.checkAch();
   if (location.hash === '#test') testAll();
   Account.init();          // ანგარიში: სხვა მოწყობილობაზე შენახული პროგრესის ჩატვირთვა
+  // სკოლიდან (/learn/…) მოსული მოთამაშე: შესვლის ფანჯარა, შესვლის შემდეგ კი უკან დაბრუნება. მისამართი მხოლოდ ჩვენი /learn/ გვერდი შეიძლება იყოს
+  (() => {
+    const q = new URLSearchParams(location.search), to = q.get('to') || '';
+    if (!q.get('acc') || !/^\/learn\/[a-z0-9\/-]*$/.test(to)) return;
+    const back = () => { location.href = to; };
+    if (Account.s) back(); else { Account.after = back; Account.loginForm('შედი ან დარეგისტრირდი — სკოლის პროგრესი ანგარიშში შეინახება და ყველა მოწყობილობაზე გექნება.'); }
+  })();
+  if (IS_DESKTOP) $('#m-school').href = SITE_URL + '/learn/';   // პროგრამაში სკოლა ბრაუზერში იხსნება
   Paywall.checkReturn();   // Dodo Payments-ის გადახდიდან დაბრუნება (კოდის ჩასმას ანგარიში სჭირდება)
   Paywall.restore();       // Pro: ანგარიშზე მიბმული ხელმოწერილი ნიშანი
   Install.init();          // ტელეფონზე დაყენება (PWA)

@@ -1,0 +1,32 @@
+{
+  "order": 9,
+  "title": "Python",
+  "description": "მარტივი და ძლიერი ენა: სკრიპტები, ავტომატიზაცია, მონაცემები და ვებ-სერვისები.",
+  "icon": "🐍",
+  "color": "#3776ab",
+  "topic": "ენები",
+  "lang": "python",
+  "learn": [
+    "Python-ის სინტაქსი და მონაცემთა სტრუქტურები",
+    "ფაილები, მოდულები და ბიბლიოთეკები",
+    "ავტომატიზაცია და ვებ-სერვისები"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

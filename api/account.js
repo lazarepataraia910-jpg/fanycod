@@ -269,6 +269,32 @@ async function loadProgress(u) {
   return { rev: +rev || 0, data: data ? unpack(data) : null };
 }
 
+/* ---------- სკოლის (/learn) პროგრესი ---------- */
+// done: { id: დღე }, quiz: { id: საუკეთესო % }, marks: { id: { on, at, t } }, notes: { id: { t, at, h } }; id — კურსი/მოდული/თავი
+const SCHOOL_MAX = 400000, SCH_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(?:-[a-z0-9]+)*){2}$/, SCH_DAY = /^\d{4}-\d{2}-\d{2}$/;
+// მოწყობილობიდან მოსულს არ ვენდობით: მხოლოდ ცნობილი ველები, სწორი id-ები და შეზღუდული ზომა
+function cleanSchool(s) {
+  const out = { done: {}, quiz: {}, marks: {}, notes: {} };
+  const each = (o, max, fn) => { if (o && typeof o === 'object' && !Array.isArray(o)) Object.keys(o).slice(0, max).forEach(k => { if (k.length <= 120 && SCH_ID.test(k)) fn(k, o[k]); }); };
+  if (!s || typeof s !== 'object') return out;
+  each(s.done, 12000, (k, v) => { if (typeof v === 'string' && SCH_DAY.test(v)) out.done[k] = v; });
+  each(s.quiz, 3000, (k, v) => { const p = int(v, 100); if (p) out.quiz[k] = p; });
+  each(s.marks, 500, (k, v) => { if (v && typeof v === 'object') out.marks[k] = { on: v.on ? 1 : 0, at: int(v.at, 9e15), t: String(v.t || '').slice(0, 120) }; });
+  each(s.notes, 200, (k, v) => { if (v && typeof v === 'object') out.notes[k] = { t: String(v.t || '').slice(0, 1000), at: int(v.at, 9e15), h: String(v.h || '').slice(0, 120) }; });
+  return out;
+}
+// გაერთიანება (იგივე წესი: school/learn.js → merge): დასრულებული რჩება დასრულებული, ქვიზიდან — საუკეთესო, სანიშნე და შენიშვნა — ბოლოს შეცვლილი
+function mergeSchool(a, b) {
+  const m = { done: {}, quiz: {}, marks: {}, notes: {} };
+  for (const s of [a, b]) {
+    if (!s) continue;
+    for (const k of Object.keys(s.done || {})) if (!m.done[k] || s.done[k] < m.done[k]) m.done[k] = s.done[k];
+    for (const k of Object.keys(s.quiz || {})) m.quiz[k] = Math.max(m.quiz[k] || 0, s.quiz[k]);
+    for (const f of ['marks', 'notes']) for (const k of Object.keys(s[f] || {})) if (!m[f][k] || s[f][k].at > m[f][k].at) m[f][k] = s[f][k];
+  }
+  return m;
+}
+
 /* ---------- მოქმედებები ---------- */
 const actions = {
   async register(b, ip) {
@@ -308,11 +334,11 @@ const actions = {
   async me(b) {
     const { u, user } = await session(b.token, true);
     const p = await db(['GET', 'progrev:' + u]);
-    return { name: user.name, rev: +p || 0, pro: proToken(u, user) };
+    return { name: user.name, rev: +p || 0, pro: proToken(u, user), sv: user.sv || 0 };
   },
   async load(b) {
     // rev — მოწყობილობის ვერსია: თუ ანგარიშში იგივეა, მონაცემს არ ვაგზავნით (ხშირი შემოწმება ორ მოწყობილობას შორის — იაფი)
-    const light = b.rev != null, { u, user } = await session(b.token, !light), head = { name: user.name, pro: proToken(u, user) };
+    const light = b.rev != null, { u, user } = await session(b.token, !light), head = { name: user.name, pro: proToken(u, user), sv: user.sv || 0 };
     if (light) { const rev = +(await db(['GET', 'progrev:' + u])) || 0; if (rev === Math.floor(+b.rev)) return Object.assign(head, { rev }); }
     return Object.assign(head, await loadProgress(u));
   },
@@ -336,6 +362,19 @@ const actions = {
     await saveSummary(u, user.name, b.summary);
     return {};
   },
+  // 📚 სკოლა (/learn): მისი პროგრესი თამაშისგან ცალკე ინახება (school:<ანგარიში>). მოწყობილობა თავის მდგომარეობას აგზავნის,
+  // სერვერი აერთიანებს და გაერთიანებულს აბრუნებს — ორი მოწყობილობა კონფლიქტის გარეშე თანაბრდება.
+  // sv — ბოლო ცვლილების დრო (me / load-შიც ბრუნდება): თამაში მისით იგებს, რომ სკოლის XP შეიცვალა
+  async school(b) {
+    const { u, user } = await session(b.token, true);
+    const raw = await db(['GET', 'school:' + u]), cur = raw ? unpack(raw) : null, next = mergeSchool(cur, cleanSchool(b.state)), json = JSON.stringify(next);
+    if (json !== JSON.stringify(mergeSchool(cur, null))) {   // არაფერი შეცვლილა (ან ორივე ცარიელია) — ბაზაში არ ვწერთ
+      if (json.length > SCHOOL_MAX) throw new Fail(413, 'too_big');
+      user.sv = Date.now();
+      await dbPipe([['SET', 'school:' + u, pack(next)], ['SET', 'user:' + u, JSON.stringify(user)]]);
+    }
+    return { state: next, sv: user.sv || 0 };
+  },
   async logout(b) {
     if (typeof b.token === 'string' && b.token.length <= 100) await db(['DEL', 'sess:' + sha(b.token)]);
     return {};
@@ -357,7 +396,7 @@ const actions = {
     const [own, inn] = await dbPipe([['SMEMBERS', 'uown:' + u], ['SMEMBERS', 'uin:' + u]]);
     for (const code of own || []) await dropClass(code, u);   // მასწავლებლის კლასებიც იშლება
     if (user.pro && !user.pro.owner && (await db(['GET', 'prokey:' + user.pro.kh])) === u) await db(['DEL', 'prokey:' + user.pro.kh]);
-    await dbPipe((inn || []).map(code => ['SREM', 'clsm:' + code, u]).concat([['DEL', 'user:' + u], ['DEL', 'prog:' + u], ['DEL', 'progrev:' + u], ['DEL', 'sum:' + u],
+    await dbPipe((inn || []).map(code => ['SREM', 'clsm:' + code, u]).concat([['DEL', 'user:' + u], ['DEL', 'prog:' + u], ['DEL', 'progrev:' + u], ['DEL', 'sum:' + u], ['DEL', 'school:' + u],
       ['DEL', 'uin:' + u], ['DEL', 'uown:' + u], ['DEL', 'sess:' + sha(b.token)]]));
     return {};
   },

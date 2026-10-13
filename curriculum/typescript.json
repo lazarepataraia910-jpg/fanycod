@@ -1,0 +1,32 @@
+{
+  "order": 5,
+  "title": "TypeScript",
+  "description": "JavaScript ტიპებით: ნაკლები შეცდომა, უკეთესი ავტოშევსება და დიდი პროექტებისთვის მზა კოდი.",
+  "icon": "🔷",
+  "color": "#3178c6",
+  "topic": "ვები",
+  "lang": "ts",
+  "learn": [
+    "ტიპები, ინტერფეისები და გენერიკები",
+    "არსებული JavaScript-ის გადაყვანა TypeScript-ზე",
+    "ტიპებით დაცული არქიტექტურა"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

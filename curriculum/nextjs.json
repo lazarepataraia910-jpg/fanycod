@@ -1,0 +1,32 @@
+{
+  "order": 7,
+  "title": "Next.js",
+  "description": "სრულფასოვანი React-აპლიკაციები: მარშრუტები, სერვერული კომპონენტები, მონაცემების ჩატვირთვა და გაშვება.",
+  "icon": "▲",
+  "color": "#9aa7b8",
+  "topic": "ვები",
+  "lang": "tsx",
+  "learn": [
+    "App Router და გვერდების სტრუქტურა",
+    "სერვერული და კლიენტის კომპონენტები",
+    "მონაცემები, ქეშირება და გაშვება"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

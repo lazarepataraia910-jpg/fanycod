@@ -1,0 +1,32 @@
+{
+  "order": 12,
+  "title": "C++",
+  "description": "სიჩქარე და კონტროლი: თამაშის ძრავები, სისტემური პროგრამები და თანამედროვე C++.",
+  "icon": "⚙️",
+  "color": "#00599c",
+  "topic": "ენები",
+  "lang": "cpp",
+  "learn": [
+    "კლასები, შაბლონები და STL",
+    "მეხსიერების უსაფრთხო მართვა",
+    "თანამედროვე C++ და წარმადობა"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

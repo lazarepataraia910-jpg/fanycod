@@ -1,0 +1,32 @@
+{
+  "order": 15,
+  "title": "Rust",
+  "description": "უსაფრთხო სისტემური ენა: მეხსიერების მართვა შეცდომების გარეშე და მაღალი წარმადობა.",
+  "icon": "🦀",
+  "color": "#dea584",
+  "topic": "ენები",
+  "lang": "rust",
+  "learn": [
+    "საკუთრება (ownership) და სესხება",
+    "ტიპები, trait-ები და შეცდომების დამუშავება",
+    "უსაფრთხო კონკურენტული კოდი"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

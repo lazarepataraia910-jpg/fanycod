@@ -1,0 +1,32 @@
+{
+  "order": 19,
+  "title": "SQL და მონაცემთა ბაზები",
+  "description": "მონაცემების შენახვა და ამოღება: ცხრილები, მოთხოვნები, კავშირები და ბაზის დიზაინი.",
+  "icon": "🗄️",
+  "color": "#4f9bd9",
+  "topic": "მონაცემები",
+  "lang": "sql",
+  "learn": [
+    "SELECT, JOIN და აგრეგაცია",
+    "ბაზის დიზაინი და ნორმალიზაცია",
+    "ინდექსები, ტრანზაქციები და წარმადობა"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

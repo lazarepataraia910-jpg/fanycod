@@ -1,0 +1,32 @@
+{
+  "order": 6,
+  "title": "React",
+  "description": "ინტერფეისების აწყობა კომპონენტებით: state, props, hooks და რეალური აპლიკაციის არქიტექტურა.",
+  "icon": "⚛️",
+  "color": "#61dafb",
+  "topic": "ვები",
+  "lang": "jsx",
+  "learn": [
+    "კომპონენტები, props და state",
+    "Hooks და მონაცემების ნაკადი",
+    "დიდი აპლიკაციის ორგანიზება და ოპტიმიზაცია"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

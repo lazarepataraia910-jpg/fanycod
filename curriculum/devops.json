@@ -1,0 +1,32 @@
+{
+  "order": 23,
+  "title": "DevOps (Docker, CI/CD, Kubernetes)",
+  "description": "კოდიდან მომხმარებლამდე: კონტეინერები, ავტომატური ტესტები და გაშვება, სერვერების მართვა.",
+  "icon": "🚢",
+  "color": "#2496ed",
+  "topic": "ინსტრუმენტები",
+  "lang": "yaml",
+  "learn": [
+    "კონტეინერები Docker-ით",
+    "ავტომატური ტესტები და გაშვება (CI/CD)",
+    "Kubernetes და მონიტორინგი"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

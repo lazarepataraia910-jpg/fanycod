@@ -1,0 +1,32 @@
+{
+  "order": 13,
+  "title": "C# და .NET",
+  "description": "Microsoft-ის ეკოსისტემა: დესკტოპ და ვებ-აპლიკაციები, თამაშები Unity-ში.",
+  "icon": "🎯",
+  "color": "#9b4f96",
+  "topic": "ენები",
+  "lang": "csharp",
+  "learn": [
+    "C#-ის სინტაქსი და ობიექტზე ორიენტირება",
+    "LINQ, async და .NET ბიბლიოთეკები",
+    "ვებ-სერვისები ASP.NET-ით"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

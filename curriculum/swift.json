@@ -1,0 +1,32 @@
+{
+  "order": 18,
+  "title": "Swift (iOS)",
+  "description": "აპლიკაციები iPhone-ისა და iPad-ისთვის: Swift-ის ენა და SwiftUI.",
+  "icon": "🍎",
+  "color": "#f05138",
+  "topic": "მობილური",
+  "lang": "swift",
+  "learn": [
+    "Swift-ის ენა",
+    "ინტერფეისი SwiftUI-ით",
+    "მონაცემები, ქსელი და App Store"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

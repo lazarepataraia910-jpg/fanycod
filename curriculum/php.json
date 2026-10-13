@@ -1,0 +1,32 @@
+{
+  "order": 16,
+  "title": "PHP და Laravel",
+  "description": "ვების ერთ-ერთი ყველაზე გავრცელებული სერვერული ენა და მისი თანამედროვე ფრეიმვორკი.",
+  "icon": "🐘",
+  "color": "#777bb4",
+  "topic": "Backend",
+  "lang": "php",
+  "learn": [
+    "PHP-ის საფუძვლები და ობიექტები",
+    "Laravel: მარშრუტები, მოდელები, შაბლონები",
+    "ბაზა, ავთენტიფიკაცია და გაშვება"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

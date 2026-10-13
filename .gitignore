@@ -3,6 +3,9 @@ desktop/node_modules/
 desktop/dist/
 desktop/app/
 
+# სკოლის აწყობილი გვერდები: school/build.js ქმნის curriculum/ და content/ ფაილებიდან (Vercel-ზე ყოველ deploy-ზე)
+learn/
+
 # საიდუმლოებები და ბაზის ასლები — რეპოში არასდროს
 .env
 .env.*

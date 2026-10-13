@@ -1,0 +1,32 @@
+{
+  "order": 21,
+  "title": "Git და GitHub",
+  "description": "კოდის ვერსიების მართვა და გუნდური მუშაობა: commit, branch, merge და pull request.",
+  "icon": "🌿",
+  "color": "#f05032",
+  "topic": "ინსტრუმენტები",
+  "lang": "bash",
+  "learn": [
+    "commit, branch და merge",
+    "მუშაობა GitHub-ზე და pull request",
+    "ისტორიის გასწორება და გუნდური პროცესი"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

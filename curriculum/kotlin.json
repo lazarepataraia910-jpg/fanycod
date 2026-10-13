@@ -1,0 +1,32 @@
+{
+  "order": 17,
+  "title": "Kotlin (Android)",
+  "description": "Android-აპლიკაციების აწყობა თანამედროვე ენით: ეკრანები, მონაცემები და გამოქვეყნება.",
+  "icon": "🤖",
+  "color": "#7f52ff",
+  "topic": "მობილური",
+  "lang": "kotlin",
+  "learn": [
+    "Kotlin-ის ენა",
+    "ეკრანები Jetpack Compose-ით",
+    "მონაცემები, ქსელი და გამოქვეყნება"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

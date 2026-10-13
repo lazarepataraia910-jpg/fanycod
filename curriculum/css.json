@@ -1,0 +1,32 @@
+{
+  "order": 3,
+  "title": "CSS",
+  "description": "გვერდის იერსახე: ფერები, შრიფტები, განლაგება Flexbox-ით და Grid-ით, ანიმაციები და რესპონსიული დიზაინი.",
+  "icon": "🎨",
+  "color": "#2965f1",
+  "topic": "ვები",
+  "lang": "css",
+  "learn": [
+    "სელექტორები, ფერები და ტიპოგრაფია",
+    "განლაგება Flexbox-ით და Grid-ით",
+    "რესპონსიული დიზაინი და ანიმაციები"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

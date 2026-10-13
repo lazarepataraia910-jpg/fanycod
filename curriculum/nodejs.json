@@ -1,0 +1,32 @@
+{
+  "order": 8,
+  "title": "Node.js და Express",
+  "description": "სერვერი JavaScript-ით: API-ები, ფაილები, მონაცემთა ბაზასთან კავშირი და ავთენტიფიკაცია.",
+  "icon": "🟢",
+  "color": "#68a063",
+  "topic": "Backend",
+  "lang": "js",
+  "learn": [
+    "სერვერის აწყობა Node.js-ით და Express-ით",
+    "REST API და მონაცემთა ბაზა",
+    "ავთენტიფიკაცია, ტესტები და გაშვება"
+  ],
+  "levels": [
+    {
+      "slug": "beginner",
+      "modules": []
+    },
+    {
+      "slug": "intermediate",
+      "modules": []
+    },
+    {
+      "slug": "advanced",
+      "modules": []
+    },
+    {
+      "slug": "expert",
+      "modules": []
+    }
+  ]
+}

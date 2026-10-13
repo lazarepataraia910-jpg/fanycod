@@ -1,0 +1,90 @@
+[
+  {
+    "slug": "frontend",
+    "title": "Frontend",
+    "icon": "🖥️",
+    "description": "ყველაფერი, რასაც მომხმარებელი ბრაუზერში ხედავს: გვერდები, დიზაინი და ინტერაქცია.",
+    "steps": [
+      "programming-basics",
+      "html",
+      "css",
+      "javascript",
+      "typescript",
+      "react",
+      "nextjs",
+      "git"
+    ]
+  },
+  {
+    "slug": "backend",
+    "title": "Backend",
+    "icon": "🗄️",
+    "description": "სერვერი, მონაცემთა ბაზა და API — საიტის უხილავი ნაწილი.",
+    "steps": [
+      "programming-basics",
+      "javascript",
+      "nodejs",
+      "sql",
+      "git",
+      "linux",
+      "devops",
+      "web-security"
+    ]
+  },
+  {
+    "slug": "full-stack",
+    "title": "Full-stack",
+    "icon": "🧰",
+    "description": "ორივე მხარე ერთად: ინტერფეისიდან სერვერამდე და გაშვებამდე.",
+    "steps": [
+      "html",
+      "css",
+      "javascript",
+      "typescript",
+      "react",
+      "nodejs",
+      "sql",
+      "git",
+      "devops"
+    ]
+  },
+  {
+    "slug": "python-ai",
+    "title": "Python და AI",
+    "icon": "🤖",
+    "description": "Python-ით მონაცემების ანალიზამდე და მანქანურ სწავლებამდე.",
+    "steps": [
+      "programming-basics",
+      "python",
+      "sql",
+      "algorithms",
+      "data-science-ai"
+    ]
+  },
+  {
+    "slug": "mobile",
+    "title": "მობილური",
+    "icon": "📱",
+    "description": "აპლიკაციები ტელეფონისთვის: აირჩიე Android ან iOS.",
+    "steps": [
+      "programming-basics",
+      [
+        "kotlin",
+        "swift"
+      ],
+      "git"
+    ]
+  },
+  {
+    "slug": "systems",
+    "title": "სისტემური",
+    "icon": "⚙️",
+    "description": "კომპიუტერთან ახლოს: მეხსიერება, წარმადობა და ოპერაციული სისტემა.",
+    "steps": [
+      "c",
+      "cpp",
+      "rust",
+      "linux"
+    ]
+  }
+]

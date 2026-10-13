@@ -11,3 +11,6 @@ learn/
 .env.*
 *.cqb
 pro-secrets.txt
+
+# Microsoft Store-ის პაკეტი და გვერდის მასალა (აწყობს PWABuilder; რეპოში არ ინახება)
+store/

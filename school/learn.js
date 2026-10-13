@@ -7,6 +7,8 @@
   const set = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* სავსეა ან მიუწვდომელია — გვერდი მაინც მუშაობს */ } };
   const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const KEY = 'codequest.school', GAME = 'codequest.v1', AUTH = 'codequest.auth';
+  // კომპიუტერის პროგრამა (Electron, codequest://app): გვერდები საიტიდან მოდის, პროგრესი კი მხოლოდ კომპიუტერში ინახება — სერვერზე არ იგზავნება
+  const DESKTOP = location.protocol === 'codequest:', SITE = 'https://codequest.space';
   const XP = { chapter: 20, quiz: 50, project: 100 }, PASS = 70;   // იგივე რიცხვები: school/build.js და CodeQuest.html (schoolXP)
   const day = (off = 0) => { const d = new Date(); d.setDate(d.getDate() + off); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
 
@@ -51,7 +53,7 @@
   let syncT = null, syncing = false;
   async function sync(keepalive) {
     const a = acc();
-    if (!a || syncing) return;
+    if (DESKTOP || !a || syncing) return;
     syncing = true;
     try {
       const body = JSON.stringify({ action: 'school', token: a.token, state: S });
@@ -88,6 +90,8 @@
     nt.addEventListener('click', () => nt.setAttribute('aria-expanded', String(nav.classList.toggle('open'))));
     const a = acc(), b = $('#acc-b');
     if (a) { b.textContent = '👤 ' + a.name; b.title = a.name + ' — ჩემი დაფა'; } else { b.href = loginUrl(); b.title = 'შესვლა CodeQuest-ის ანგარიშით — პროგრესი ყველა მოწყობილობაზე'; }
+    // პროგრამაში მხოლოდ სკოლა და თამაში იხსნება; დანარჩენი ბმულები (წესები, მთავარი გვერდი) — ბრაუზერში
+    if (DESKTOP) $$('a[href^="/"]').forEach(l => { if (!/^\/(learn\/|school\/|CodeQuest\.html)/.test(l.getAttribute('href'))) l.href = SITE + l.getAttribute('href'); });
     $('#search-b').addEventListener('click', openSearch);
     document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openSearch(); } });
   }
@@ -117,6 +121,46 @@
       if (bm) { const on = !!(S.marks[id] && S.marks[id].on); bm.setAttribute('aria-pressed', String(on)); bm.textContent = on ? '🔖 სანიშნეშია' : '🔖 სანიშნე'; }
     }
     if (dashboard.render) dashboard.render();   // სინქრონის შემდეგ დაფაც განახლდეს
+  }
+
+  /* ---------- 👑 Pro: თავები, ქვიზები და პროექტები მხოლოდ Pro-ანგარიშისთვის ---------- */
+  // ნიშანს (token) სერვერი აწერს ხელს; აქ მოწმდება იმავე საჯარო გასაღებით, რაც თამაშში (ProLock) — localStorage-ის ხელით შეცვლა Pro-ს არ რთავს.
+  // შენიშვნა: თავის ტექსტი გვერდის HTML-შია (Google-ისთვის), ანუ ეს დაცვა ისეთივეა, როგორიც თამაშში — ჩვეულებრივ მომხმარებელს აჩერებს, კოდის მცოდნეს ვერა.
+  async function verifyPro(token, name) {
+    try {
+      const [x, y] = (document.documentElement.dataset.pro || '').split('.'), [body, sig] = String(token).split('.');
+      const bytes = s => Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
+      const key = await crypto.subtle.importKey('jwk', { kty: 'EC', crv: 'P-256', x, y }, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']);
+      if (!sig || (await crypto.subtle.verify({ name: 'ECDSA', hash: 'SHA-256' }, key, bytes(sig), new TextEncoder().encode(body))) !== true) return false;
+      const p = JSON.parse(new TextDecoder().decode(bytes(body)));
+      return p.v === 2 && p.u === String(name).normalize('NFC').toLowerCase();
+    } catch (e) { return false; }
+  }
+  // ჯერ ამ მოწყობილობაზე შენახული ნიშანი (თამაშის ან სკოლის); თუ არ არის — სერვერი, მაქსიმუმ 10 წუთში ერთხელ (fresh: ყიდვიდან დაბრუნებისას მაშინვე)
+  async function hasPro(fresh) {
+    const a = acc();
+    if (!a) return false;
+    for (const t of [obj(game().pro).token, get(KEY + '.pro')]) if (t && await verifyPro(t, a.name)) return true;
+    const asked = obj(get(KEY + '.proAsk'));
+    if (!fresh && asked.name === a.name && Date.now() - asked.at < 600000) return false;
+    set(KEY + '.proAsk', { name: a.name, at: Date.now() });
+    try {
+      const j = await (await fetch('/api/account', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'me', token: a.token }) })).json();
+      if (j.ok && j.pro && await verifyPro(j.pro, a.name)) { set(KEY + '.pro', j.pro); return true; }
+      expired = j.error === 'no_session';   // სესია ამოიწურა — თავიდან შესვლაა საჭირო
+    } catch (e) { /* ინტერნეტი არ არის */ }
+    return false;
+  }
+  let proOk = false, proAt = 0, expired = false, proP = null;
+  const proCheck = fresh => (fresh || !proP ? (proP = hasPro(fresh)) : proP);   // გვერდზე ერთი შემოწმება: gate და sync ერთსა და იმავე პასუხს ელოდება
+  async function gate(fresh) {
+    const lock = $('#lock');
+    if (!lock || proOk) return;
+    proAt = Date.now();
+    if (await proCheck(fresh)) { proOk = true; document.documentElement.classList.add('pro'); lock.hidden = true; lesson(); paint(); return; }
+    const a = expired ? null : acc(), li = $('#lock-in');
+    lock.hidden = false;
+    if (a) { li.hidden = true; $('#lock-note').textContent = 'შესული ხარ, როგორც ' + a.name + '. ამ ანგარიშს Pro ჯერ არ აქვს. ყიდვის ან კოდის გააქტიურების შემდეგ დაბრუნდი ამ გვერდზე და თავი თვითონ გაიხსნება.'; } else li.href = loginUrl();
   }
 
   /* ---------- თავის გვერდი ---------- */
@@ -273,7 +317,7 @@
     let data;
     try { data = await (await fetch('/learn/data.json')).json(); } catch (e) { box.innerHTML = '<p class="muted">მონაცემები ვერ ჩაიტვირთა. შეამოწმე ინტერნეტი და განაახლე გვერდი.</p>'; return; }
     const a = acc();
-    $('#dash-hi').innerHTML = a ? 'გამარჯობა, <b>' + esc(a.name) + '</b>! პროგრესი შენს ანგარიშში ინახება.' : 'პროგრესი ამ ბრაუზერში ინახება. <a href="' + esc(loginUrl()) + '">შედი ანგარიშში</a>, რომ ყველა მოწყობილობაზე გქონდეს.';
+    $('#dash-hi').innerHTML = a ? 'გამარჯობა, <b>' + esc(a.name) + '</b>! ' + (DESKTOP ? 'პროგრესი ამ კომპიუტერში ინახება.' : 'პროგრესი შენს ანგარიშში ინახება.') : 'სკოლის თავები 👑 CodeQuest Pro-ს ნაწილია. <a href="' + esc(loginUrl()) + '">შედი ანგარიშში</a>, რომ გაიხსნას და პროგრესი შეინახოს.';
     const render = () => {
       const title = {}; data.courses.forEach(c => c.items.forEach(it => { title[it[0]] = it[1]; }));
       const chapters = Object.keys(S.done).filter(k => !k.endsWith('/project')).length, quizN = Object.values(S.quiz).filter(p => p >= PASS).length, best = obj(game().streak).best || 0;
@@ -300,8 +344,10 @@
   }
 
   /* ---------- გაშვება ---------- */
-  header(); lesson(); catalog(); paint(); dashboard();
+  header(); catalog(); paint(); dashboard(); gate();   // თავის გვერდს gate() ხსნის (lesson), როცა Pro დადასტურდება
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && !proOk && Date.now() - proAt > 5000) gate(true); });   // ყიდვიდან დაბრუნებისას
   const sy = get(KEY + '.sync') || {};
-  if (acc() && (sy.dirty || Date.now() - (sy.at || 0) > 600000)) sync();   // სხვა მოწყობილობის პროგრესი — მაქსიმუმ 10 წუთში ერთხელ
+  // სხვა მოწყობილობის პროგრესი — მაქსიმუმ 10 წუთში ერთხელ და მხოლოდ Pro-ანგარიშით (სერვერი სხვას მაინც უარს ეუბნება)
+  if (!DESKTOP && acc() && (sy.dirty || Date.now() - (sy.at || 0) > 600000)) proCheck().then(ok => { if (ok) sync(); });
   document.addEventListener('visibilitychange', () => { if (document.hidden && (get(KEY + '.sync') || {}).dirty) { clearTimeout(syncT); sync(true); } });
 })();

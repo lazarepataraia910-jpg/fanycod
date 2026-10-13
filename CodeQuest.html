@@ -1351,7 +1351,7 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
         <div class="mn-card streak-card mn-in" style="--d:2" id="menu-streak"></div>
         <div class="mn-card hm-favs mn-in hidden" style="--d:3" id="menu-favs" role="group" aria-label="რჩეული ენები"></div>
         <div class="mn-more mn-in" style="--d:4">
-          <a class="mn-mini" style="--ti:#12b886" id="m-school" href="/learn/"><span class="ic" aria-hidden="true">📚</span><span class="t"><b>სკოლა: ისწავლე კოდინგი</b><small>თავები, ქვიზები, სავარჯიშოები</small></span><span class="go" aria-hidden="true">›</span></a>
+          <a class="mn-mini" style="--ti:#12b886" id="m-school" href="/learn/"><span class="ic" aria-hidden="true">📚</span><span class="t"><b>სკოლა: ისწავლე კოდინგი</b><small id="m-school-sub">👑 Pro · თავები, ქვიზები, სავარჯიშოები</small></span><span class="go" aria-hidden="true">›</span></a>
           <button class="mn-mini hidden" style="--ti:#f59f00" id="m-class" type="button"><span class="ic" aria-hidden="true">👩‍🏫</span><span class="t"><b>კლასი</b><small id="m-class-sub">შეუერთდი კლასს ან შექმენი შენი</small></span><span class="go" aria-hidden="true">›</span></button>
           <button class="mn-mini hidden" style="--ti:#7c4dff" id="m-install" type="button"><span class="ic" aria-hidden="true">📱</span><span class="t"><b>დააყენე ტელეფონზე</b><small>აპივით, ინტერნეტის გარეშეც</small></span><span class="go" aria-hidden="true">›</span></button>
           <button class="mn-mini hidden" style="--ti:#0ea5e9" id="m-desktop" type="button"><span class="ic" aria-hidden="true">💻</span><span class="t"><b>კომპიუტერის ვერსია</b><small id="m-desktop-sub">გადმოწერე პროგრამა</small></span><span class="go" aria-hidden="true">›</span></button>
@@ -19926,6 +19926,8 @@ const Paywall = {
       ? '<b>მასწავლებლის რეჟიმი</b> Pro-ს ნაწილია: ყველა ლეველი ერთბაშად იხსნება, რომ ნებისმიერი თემა მაშინვე აჩვენო. Pro ამასთან ერთად კლასებს, ცოცხალ გაკვეთილებს, ვიდეოებს და ყველა ფასიან ლეველს ხსნის.'
       : ctx === 'class'
       ? '<b>კლასი და ცოცხალი გაკვეთილი</b> Pro-ს ნაწილია: Pro სჭირდება მასწავლებელსაც და მოსწავლესაც. ამასთან ერთად Pro ყველა ფასიან ლეველს, ვიდეოებს და პროექტებს ხსნის.'
+      : ctx === 'school'
+      ? '<b>სკოლა „ისწავლე კოდინგი“</b> Pro-ს ნაწილია: კურსები მოკლე თავებით, გასაშვები კოდით, სავარჯიშოებით და ქვიზებით. Pro ამასთან ერთად თამაშის ყველა ფასიან ლეველს, ვიდეოებს და პროექტებს ხსნის.'
       : ctx === 'studio'
       ? '<b>ვიდეოები და ნაბიჯ-ნაბიჯ პროექტები</b> Pro-ს ნაწილია. Pro ამასთან ერთად ყველა ფასიან ლეველსაც ხსნის (ყველა ენაზე პირველი ' + PRO.freeLevels + ' ლეველი უფასოა).'
       : (lv ? 'ეს <b>' + (lv.index + 1) + '-ე ლეველია</b>. ' : '') + 'ყველა ენაზე პირველი <b>' + PRO.freeLevels + ' ლეველი უფასოა</b> — დანარჩენს Pro ხსნის.';
@@ -19933,6 +19935,7 @@ const Paywall = {
     const feats = [['🔓', 'ყველა ფასიანი ლეველი', COURSES.length + ' ენაზე — ყველა რუკა ბოლომდე'],
       ['🎬', Object.values(STUDIO_VIDEOS).reduce((a, l) => a + l.length, 0) + ' ვიდეო საიტზევე', 'კოდის რედაქტორი ▶ Run-ით და 📒 ჩანაწერები'],
       ['🛠️', STUDIO_GUIDES.length + ' ნაბიჯ-ნაბიჯ პროექტი', 'ააწყე ნამდვილი პროგრამები'],
+      ['📚', 'სკოლა „ისწავლე კოდინგი“', 'კურსები: თავები, ქვიზები და სავარჯიშოები'],
       ['👩‍🏫', 'კლასი, ცოცხალი გაკვეთილი, მასწავლებლის რეჟიმი', 'დაფა მოსწავლეებთან ცოცხლად და ყველა ლეველი ერთბაშად'],
       ['💳', 'ერთჯერადი გადახდა', 'გამოწერის გარეშე — სამუდამოდ შენია'],
       ['👤', 'შენს ანგარიშს ებმება', 'ყველა მოწყობილობაზე, სადაც შეხვალ']];
@@ -20290,7 +20293,7 @@ const Account = {
     }
     this.s.name = r.name;
     if (r.pro) this.gotPro(r.pro);
-    if (r.sv && r.sv !== this.s.sv) this.syncSchool();
+    if (!IS_DESKTOP && r.sv && r.sv !== this.s.sv) this.syncSchool();
     if (!IS_DESKTOP && r.rev !== (this.s.rev || 0)) {
       this.absorb(r.data, r.rev);
       return this.push();
@@ -20370,6 +20373,7 @@ const Account = {
     $('#mn-hi').textContent = this.s ? '👋 გამარჯობა, ' + this.s.name + '!' : '🎮 ბიტის თავგადასავალი';
     $('#m-class').classList.toggle('hidden', !this.s);
     $('#m-class-sub').textContent = Progress.hasPro() ? 'შეუერთდი კლასს ან შექმენი შენი' : '👑 Pro · კლასი და ცოცხალი გაკვეთილი';
+    $('#m-school-sub').textContent = (Progress.hasPro() ? '' : '👑 Pro · ') + 'თავები, ქვიზები, სავარჯიშოები';
   },
   /* ---- შესვლა და რეგისტრაცია ---- */
   // შესვლის შემდეგ: ანგარიშის და ამ მოწყობილობის პროგრესი. ორივეს თუ აქვს, ვეკითხებით (ნაგულისხმევად — გაერთიანება)
@@ -21569,11 +21573,13 @@ function init() {
   // სკოლიდან (/learn/…) მოსული მოთამაშე: შესვლის ფანჯარა, შესვლის შემდეგ კი უკან დაბრუნება. მისამართი მხოლოდ ჩვენი /learn/ გვერდი შეიძლება იყოს
   (() => {
     const q = new URLSearchParams(location.search), to = q.get('to') || '';
+    if (q.get('pro') === 'open') Paywall.open(null, 'school');
     if (!q.get('acc') || !/^\/learn\/[a-z0-9\/-]*$/.test(to)) return;
     const back = () => { location.href = to; };
     if (Account.s) back(); else { Account.after = back; Account.loginForm('შედი ან დარეგისტრირდი — სკოლის პროგრესი ანგარიშში შეინახება და ყველა მოწყობილობაზე გექნება.'); }
   })();
-  if (IS_DESKTOP) $('#m-school').href = SITE_URL + '/learn/';   // პროგრამაში სკოლა ბრაუზერში იხსნება
+  // სკოლა პროგრამის შიგნით იხსნება 1.0.2 ვერსიიდან (desktop/main.js); უფრო ძველ პროგრამაში — ბრაუზერში
+  if (IS_DESKTOP && /CodeQuestDesktop\/1\.0\.[01](?!\d)/.test(navigator.userAgent)) $('#m-school').href = SITE_URL + '/learn/';
   Paywall.checkReturn();   // Dodo Payments-ის გადახდიდან დაბრუნება (კოდის ჩასმას ანგარიში სჭირდება)
   Paywall.restore();       // Pro: ანგარიშზე მიბმული ხელმოწერილი ნიშანი
   Install.init();          // ტელეფონზე დაყენება (PWA)

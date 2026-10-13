@@ -30,6 +30,14 @@ const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g,
 const read = f => { try { return fs.readFileSync(f, 'utf8'); } catch (e) { return null; } };
 const rel = f => path.relative(ROOT, f).replace(/\\/g, '/');
 
+// 👑 სკოლის თავები Pro-ს ნაწილია (შემოწმება — school/learn.js). ხელმოწერის საჯარო გასაღები და ფასი ერთ ადგილას წერია: CodeQuest.html → PRO.
+// გასაღების გარეშე გვერდები ყველასთვის ჩაიკეტებოდა, ამიტომ მისი ვერპოვნა აწყობას აჩერებს (deploy ჩავარდება, საიტი ძველ ვერსიაზე რჩება)
+const PRO = (() => {
+  const g = read(path.join(ROOT, 'CodeQuest.html')) || '', k = /pub: Object\.freeze\(\{ kty: 'EC', crv: 'P-256', x: '([\w-]+)', y: '([\w-]+)' \}\)/.exec(g), p = /price: '([^']*)'/.exec(g);
+  if (!k) throw new Error('CodeQuest.html-ში Pro-ს საჯარო გასაღები (PRO.pub) ვერ მოიძებნა');
+  return { key: k[1] + '.' + k[2], price: p && p[1] ? ' · ' + p[1] : '' };
+})();
+
 /* ---------- MDX-ის ქვესიმრავლე: frontmatter + Markdown + <Exercise> <Hint> <Solution> <Quiz> ---------- */
 function frontmatter(src) {
   const m = /^﻿?---\r?\n([\s\S]*?)\r?\n---\r?\n?/.exec(src), meta = {};
@@ -219,7 +227,7 @@ function shell(o) {
   const langs = o.langs || [], modes = [...new Set(langs.flatMap(l => LANGS[l][2]))];
   const cm = langs.length ? ['codemirror.min.js', 'addon/runmode/runmode.min.js', ...modes.map(modeFile)] : [];
   const canon = SITE + url(o.path), title = o.title + ' · ისწავლე კოდინგი', nav = (p, t) => '<a href="' + url(p) + '"' + (o.nav === p ? ' aria-current="page"' : '') + '>' + t + '</a>';
-  return '<!DOCTYPE html>\n<html lang="ka" data-theme="dark">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>' + esc(title) + '</title>\n' +
+  return '<!DOCTYPE html>\n<html lang="ka" data-theme="dark" data-pro="' + PRO.key + '">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>' + esc(title) + '</title>\n' +
     '<meta name="description" content="' + esc(o.desc) + '">\n<link rel="canonical" href="' + canon + '">\n' + (o.noindex ? '<meta name="robots" content="noindex">\n' : '') +
     '<meta property="og:type" content="' + (o.article ? 'article' : 'website') + '">\n<meta property="og:site_name" content="ისწავლე კოდინგი · CodeQuest">\n<meta property="og:locale" content="ka_GE">\n<meta property="og:title" content="' + esc(title) + '">\n' +
     '<meta property="og:description" content="' + esc(o.desc) + '">\n<meta property="og:url" content="' + canon + '">\n<meta property="og:image" content="' + SITE + '/og.jpg">\n<meta name="twitter:card" content="summary_large_image">\n' +
@@ -262,7 +270,7 @@ function build() {
 
   // მთავარი
   add('', { title: 'ისწავლე კოდინგი ნულიდან — ქართულად', nav: '', cls: 'home', desc: 'პროგრამირების ონლაინ სკოლა ქართულად: ' + total.courses + ' კურსი ნულიდან პროფესიონალურ დონემდე. მოკლე თავები, ცოცხალი კოდი, სავარჯიშოები და ქვიზები.',
-    body: '<section class="hero"><p class="eyebrow"><span class="dot"></span> უფასო · ქართულად · ბრაუზერში</p><h1>ისწავლე კოდინგი ნულიდან — <span class="hl">ქართულად</span></h1>' +
+    body: '<section class="hero"><p class="eyebrow"><span class="dot"></span> 👑 CodeQuest Pro · ქართულად · ბრაუზერში</p><h1>ისწავლე კოდინგი ნულიდან — <span class="hl">ქართულად</span></h1>' +
       '<p class="lead">მოკლე თავები მარტივი ენით, კოდი, რომელსაც იქვე გაუშვებ, სავარჯიშოები და ქვიზები. დაიწყე პირველი თავით და იარე საკუთარი ტემპით.</p>' +
       '<p class="hero-a"><a class="btn primary big" id="hero-go" href="' + url(courses.find(c => c.items.length) ? courses.find(c => c.items.length).items[0].id : 'courses') + '">დაიწყე პირველი თავით →</a><a class="btn big" href="/learn/courses/">ყველა კურსი</a></p>' +
       '<div class="term" aria-hidden="true"><div class="term-h"><i></i><i></i><i></i><span>first.js</span></div><pre><span class="k">let</span> name = <span class="s">"ნინო"</span>;\nconsole.log(<span class="s">"გამარჯობა, "</span> + name + <span class="s">"!"</span>);\n<span class="c">// → გამარჯობა, ნინო!</span></pre></div></section>' +
@@ -270,12 +278,12 @@ function build() {
       '<section><h2>როგორ მუშაობს</h2><ol class="steps"><li><b>წაიკითხე მოკლე თავი</b><span>ახსნა მარტივი ენით და ცხოვრებისეული მაგალითით — 5–8 წუთში.</span></li><li><b>გაუშვი და შეცვალე კოდი</b><span>ყველა მაგალითი იქვე ეშვება. შეცვალე და ნახე, რა მოხდება.</span></li><li><b>შეამოწმე თავი</b><span>სავარჯიშო, მინი-ქვიზი და XP ყოველ დასრულებულ თავზე.</span></li></ol></section>' +
       '<section><div class="sec-h"><h2>კურსები</h2><a href="/learn/courses/">ყველა ' + total.courses + ' კურსი →</a></div><div class="grid">' + courses.filter(c => c.items.length).concat(courses.filter(c => !c.items.length)).slice(0, 6).map(courseCard).join('') + '</div></section>' +
       '<section><div class="sec-h"><h2>სასწავლო გზები</h2><a href="/learn/roadmaps/">ყველა გზა →</a></div><div class="chips">' + roadmaps.map(r => '<a class="chip" href="/learn/roadmaps/#' + esc(r.slug) + '"><span aria-hidden="true">' + esc(r.icon || '🧭') + '</span> ' + esc(r.title) + '</a>').join('') + '</div></section>' +
-      '<section class="cta"><h2>მზად ხარ პირველი ხაზისთვის?</h2><p>რეგისტრაცია არ არის საჭირო — პროგრესი ბრაუზერში ინახება. ანგარიშით კი ყველა მოწყობილობაზე გექნება.</p><a class="btn primary big" href="/learn/courses/">აირჩიე კურსი</a></section>' });
+      '<section class="cta"><h2>მზად ხარ პირველი ხაზისთვის?</h2><p>სკოლა CodeQuest Pro-ს ნაწილია: ერთჯერადი გადახდა ხსნის ყველა კურსს და თამაშის ყველა ლეველს, ვიდეოს და პროექტს. პროგრესი შენს ანგარიშში ინახება.</p><p class="lock-a"><a class="btn primary big" href="/CodeQuest.html?pro=open">👑 Pro' + esc(PRO.price) + '</a><a class="btn big" href="/learn/courses/">ნახე კურსები</a></p></section>' });
 
   // კატალოგი
   const topics = [...new Set(courses.map(c => c.topic).filter(Boolean))];
   add('courses', { title: 'კურსების კატალოგი', nav: 'courses', desc: 'ყველა კურსი: ' + courses.map(c => c.title).slice(0, 8).join(', ') + ' და სხვა. აირჩიე თემა და დაიწყე.',
-    body: '<section class="head"><h1>კურსები</h1><p class="lead">' + total.courses + ' კურსი, თითოში 4 დონე: დამწყებიდან ექსპერტამდე. ' + total.ready + ' კურსი უკვე ღიაა, დანარჩენი ემატება.</p></section>' +
+    body: '<section class="head"><h1>კურსები</h1><p class="lead">' + total.courses + ' კურსი, თითოში 4 დონე: დამწყებიდან ექსპერტამდე. ' + total.ready + ' კურსი უკვე ღიაა, დანარჩენი ემატება. თავები 👑 CodeQuest Pro-ს ნაწილია.</p></section>' +
       '<div class="filters"><input type="search" id="cat-q" placeholder="მოძებნე კურსი…" aria-label="კურსის ძებნა"><div class="chips" role="group" aria-label="თემა"><button type="button" class="chip on" data-topic="">ყველა</button>' + topics.map(t => '<button type="button" class="chip" data-topic="' + esc(t) + '">' + esc(t) + '</button>').join('') + '<button type="button" class="chip" data-topic="@open">მხოლოდ ღია</button></div></div>' +
       '<div class="grid" id="cat">' + courses.map(courseCard).join('') + '</div><p class="empty" id="cat-empty" hidden>ასეთი კურსი ვერ მოიძებნა.</p>' });
 
@@ -295,7 +303,7 @@ function build() {
     const bar = '<div class="cbar" data-course="' + c.slug + '" data-total="' + c.items.length + '" style="--cc:' + esc(c.color || '#3dffa2') + '" role="progressbar" aria-label="კურსის პროგრესი" aria-valuemin="0" aria-valuemax="100"><i></i></div>';
     add(c.slug, { title: c.title, nav: 'courses', bar, desc: (c.description || c.title) + (c.planned ? ' ' + c.planned + ' თავი 4 დონეზე.' : ''),
       body: '<section class="head course-h" style="--cc:' + esc(c.color || '#3dffa2') + '"><span class="c-ic big" aria-hidden="true">' + esc(c.icon || '📘') + '</span><div><p class="crumbs"><a href="/learn/courses/">კურსები</a> ›</p><h1>' + esc(c.title) + '</h1><p class="lead">' + esc(c.description || '') + '</p>' +
-        '<p class="facts">' + (c.syllabus ? '<span>4 დონე</span><span>' + mods + ' მოდული</span><span>' + c.planned + ' თავი</span>' + (chN ? '<span>' + chN + ' ღიაა · ⏱ ' + time(c.minutes) + '</span>' : '<span class="soon">მალე</span>') : '<span class="soon">მალე</span><span>სილაბუსი მზადდება</span>') + '</p>' +
+        '<p class="facts"><span>👑 Pro</span>' + (c.syllabus ? '<span>4 დონე</span><span>' + mods + ' მოდული</span><span>' + c.planned + ' თავი</span>' + (chN ? '<span>' + chN + ' ღიაა · ⏱ ' + time(c.minutes) + '</span>' : '<span class="soon">მალე</span>') : '<span class="soon">მალე</span><span>სილაბუსი მზადდება</span>') + '</p>' +
         (c.items.length ? '<p><a class="btn primary big" id="course-go" href="' + url(c.items[0].id) + '">დაიწყე</a></p>' : '') + '</div></section>' +
         (Array.isArray(c.learn) && c.learn.length ? '<section><h2>რას ისწავლი</h2><ul class="learn">' + c.learn.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></section>' : '') +
         (c.syllabus ? '<section><h2>სილაბუსი</h2>' + c.levels.filter(l => l.modules.length || l.project).map((l, li) => '<details class="lvl"' + (li === 0 ? ' open' : '') + '><summary><b>' + l.title + '</b><small>' + l.modules.length + ' მოდული · ' + l.modules.reduce((a, m) => a + m.chapters.length, 0) + ' თავი</small></summary>' +
@@ -313,11 +321,16 @@ function build() {
       const tags = Array.isArray(d.meta.tags) ? d.meta.tags : [];
       const body = '<div class="lesson">' + side + '<article class="doc" data-item="' + it.id + '" data-kind="' + it.kind + '" data-title="' + esc(it.title) + '">' +
         '<p class="crumbs"><a href="' + url(c.slug) + '">' + esc(c.title) + '</a> › ' + lvl.title + (m ? ' › ' + esc(m.title) : '') + '</p><h1>' + esc(it.title) + '</h1>' +
-        '<p class="meta">' + (it.kind === 'chapter' ? '<span>' + esc(d.meta.difficulty || lvl.title) + '</span><span>⏱ ' + time(d.minutes) + '</span>' : it.kind === 'quiz' ? '<span>' + d.questions + ' კითხვა</span><span>გასავლელად 70%</span>' : '<span>პრაქტიკული პროექტი</span>') + '<span>+' + xp + ' XP</span>' + tags.map(t => '<span class="tag">#' + esc(t) + '</span>').join('') + '</p>' +
-        '<button type="button" class="btn small side-t" id="side-t" aria-expanded="false" aria-controls="side">☰ თავების სია</button>\n' + d.html + '\n' +
+        '<p class="meta">' + (it.kind === 'chapter' ? '<span>' + esc(d.meta.difficulty || lvl.title) + '</span><span>⏱ ' + time(d.minutes) + '</span>' : it.kind === 'quiz' ? '<span>' + d.questions + ' კითხვა</span><span>გასავლელად 70%</span>' : '<span>პრაქტიკული პროექტი</span>') + '<span>+' + xp + ' XP</span><span>👑 Pro</span>' + tags.map(t => '<span class="tag">#' + esc(t) + '</span>').join('') + '</p>' +
+        '<button type="button" class="btn small side-t" id="side-t" aria-expanded="false" aria-controls="side">☰ თავების სია</button>\n' +
+        // 👑 შინაარსი დამალულია, სანამ learn.js Pro-ს არ დაადასტურებს (.pro კლასი); Pro-ს გარეშე ჩანს #lock
+        '<section class="lock" id="lock" hidden><span class="lock-ic" aria-hidden="true">👑</span><h2>ეს ' + (it.kind === 'quiz' ? 'ქვიზი' : it.kind === 'project' ? 'პროექტი' : 'თავი') + ' CodeQuest Pro-ს ნაწილია</h2>' +
+        '<p>Pro ხსნის სკოლის ყველა კურსს და თამაშის ყველა ლეველს, ვიდეოს და პროექტს. ერთჯერადი გადახდა, გამოწერის გარეშე.</p>' +
+        '<p class="lock-a"><a class="btn primary big" href="/CodeQuest.html?pro=open">👑 Pro-ს ყიდვა' + esc(PRO.price) + '</a><a class="btn big" id="lock-in" href="/learn/dashboard/">უკვე მაქვს Pro — შესვლა</a></p><p class="lock-note" id="lock-note"></p></section>' +
+        '<noscript><p class="muted">თავის სანახავად JavaScript და Pro-ანგარიშია საჭირო.</p></noscript>\n<div class="gated">\n' + d.html + '\n' +
         (it.kind === 'quiz' ? '' : '<div class="done-box"><button type="button" class="btn primary" id="mark-done">✓ დასრულებულად მონიშვნა · +' + xp + ' XP</button><button type="button" class="btn" id="mark-bm" aria-pressed="false">🔖 სანიშნე</button></div>' +
           '<details class="note"><summary>📝 ჩემი შენიშვნა</summary><textarea id="note" maxlength="1000" rows="4" placeholder="ჩაიწერე, რაც არ გინდა დაგავიწყდეს…" aria-label="პირადი შენიშვნა"></textarea><small class="muted" id="note-st"></small></details>') +
-        '<nav class="pn" aria-label="წინა და შემდეგი">' + (prev ? '<a class="prev" href="' + url(prev.id) + '"><small>← წინა</small><b>' + esc(prev.title) + '</b></a>' : '<span></span>') + (next ? '<a class="next" href="' + url(next.id) + '"><small>შემდეგი →</small><b>' + esc(next.title) + '</b></a>' : '<a class="next" href="' + url(c.slug) + '"><small>სილაბუსი →</small><b>' + esc(c.title) + '</b></a>') + '</nav></article>' +
+        '</div>\n<nav class="pn" aria-label="წინა და შემდეგი">' + (prev ? '<a class="prev" href="' + url(prev.id) + '"><small>← წინა</small><b>' + esc(prev.title) + '</b></a>' : '<span></span>') + (next ? '<a class="next" href="' + url(next.id) + '"><small>შემდეგი →</small><b>' + esc(next.title) + '</b></a>' : '<a class="next" href="' + url(c.slug) + '"><small>სილაბუსი →</small><b>' + esc(c.title) + '</b></a>') + '</nav></article>' +
         '<aside class="toc" aria-label="ამ გვერდზე">' + (d.toc.length ? '<b>ამ გვერდზე</b><ul>' + d.toc.map(t => '<li><a href="#' + t.id + '">' + esc(t.text) + '</a></li>').join('') + '</ul>' : '') + '</aside></div>';
       add(it.id, { title: it.title + ' — ' + c.title, nav: 'courses', article: true, cls: 'lesson-page', bar, langs: d.langs, desc, body });
     });

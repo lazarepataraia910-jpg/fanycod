@@ -2,6 +2,7 @@
 // თამაში იხსნება მისამართზე codequest://app/CodeQuest.html:
 //   • ინტერნეტით — ყოველთვის ახალი ვერსია საიტიდან (და ასლი კომპიუტერში ინახება);
 //   • ინტერნეტის გარეშე — ბოლოს შენახული ან აპთან მოყოლილი ასლი (app/CodeQuest.html).
+// სკოლა (/learn/*) ასევე საიტიდან იხსნება პროგრამის შიგნით (ნანახი გვერდები — ინტერნეტის გარეშეც).
 // origin ყოველთვის ერთია, ამიტომ პროგრესი (localStorage) არ იკარგება. /api/* საიტზე გადაეგზავნება (Pro-ს კოდის შემოწმება),
 // CodeMirror, React და შრიფტები (/_ext/*) ერთხელ ჩამოიტვირთება და მერე კომპიუტერიდან იხსნება.
 'use strict';
@@ -112,11 +113,32 @@ async function api(req, u) {
   }
 }
 
+/* ---------- სკოლა (/learn/*, /school/*): საიტიდან; ნანახი გვერდის ასლი კომპიუტერში რჩება და ინტერნეტის გარეშეც იხსნება ---------- */
+async function site(u) {
+  const p = u.pathname.endsWith('/') ? u.pathname + 'index.html' : u.pathname, f = path.join(DATA, 'site', keyOf(p + u.search));
+  try {
+    const r = await fetchTimeout(SITE + u.pathname + u.search, 15000);
+    if (!r.ok) return new Response('Not found', { status: r.status, headers: { 'content-type': 'text/plain' } });
+    const type = r.headers.get('content-type') || 'application/octet-stream';
+    let body = Buffer.from(await r.arrayBuffer());
+    if (type.includes('text/html')) body = Buffer.from(rewrite(body.toString('utf8')));   // CDN-ის ფაილები — /_ext/-იდან, როგორც თამაშში
+    writeAtomic(f + '.bin', body);
+    writeAtomic(f + '.json', JSON.stringify({ type }));
+    return new Response(body, { headers: { 'content-type': type, 'cache-control': 'no-store' } });
+  } catch (e) {
+    const meta = readJson(f + '.json');
+    if (meta) { try { return new Response(fs.readFileSync(f + '.bin'), { headers: { 'content-type': meta.type, 'cache-control': 'no-store' } }); } catch (x) { } }
+    return new Response('<!DOCTYPE html><meta charset="utf-8"><title>CodeQuest</title><body style="font:16px system-ui,sans-serif;padding:48px 20px;text-align:center"><h2>📡 ინტერნეტი არ არის</h2>' +
+      '<p>სკოლის ეს გვერდი ჯერ არ გაგიხსნია, ამიტომ ინტერნეტის გარეშე ვერ ჩაიტვირთება.</p><p><a href="/CodeQuest.html">← თამაშში დაბრუნება</a></p>', { status: 503, headers: { 'content-type': 'text/html; charset=utf-8' } });
+  }
+}
+
 async function handle(req) {
   const u = new URL(req.url);
   if (u.host !== 'app') return notFound();
   if (u.pathname.startsWith('/api/')) return api(req, u);
   if (u.pathname.startsWith('/_ext/')) return ext(u.pathname.slice(6) + u.search);
+  if (u.pathname.startsWith('/learn/') || u.pathname.startsWith('/school/')) return site(u);
   if (u.pathname === '/' || u.pathname === '/index.html' || u.pathname === '/CodeQuest.html') return page();
   return notFound();
 }

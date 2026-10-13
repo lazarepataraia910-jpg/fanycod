@@ -367,6 +367,7 @@ const actions = {
   // sv — ბოლო ცვლილების დრო (me / load-შიც ბრუნდება): თამაში მისით იგებს, რომ სკოლის XP შეიცვალა
   async school(b) {
     const { u, user } = await session(b.token, true);
+    needPro(user);   // 👑 სკოლა Pro-ს ნაწილია
     const raw = await db(['GET', 'school:' + u]), cur = raw ? unpack(raw) : null, next = mergeSchool(cur, cleanSchool(b.state)), json = JSON.stringify(next);
     if (json !== JSON.stringify(mergeSchool(cur, null))) {   // არაფერი შეცვლილა (ან ორივე ცარიელია) — ბაზაში არ ვწერთ
       if (json.length > SCHOOL_MAX) throw new Fail(413, 'too_big');

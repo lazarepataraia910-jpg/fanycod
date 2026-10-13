@@ -222,6 +222,15 @@ details.note small{display:block;padding:0 14px 10px}
 .q-x{margin:12px 0 0;padding:10px 14px;border-radius:10px;background:var(--panel2);color:var(--muted);font-size:.93rem}
 .quiz-res{padding:20px;border:1px solid var(--accent);border-radius:14px;background:color-mix(in srgb,var(--accent) 10%,var(--panel));text-align:center}
 .quiz-res b{display:block;font-size:1.8rem}
+/* 👑 Pro: თავის შინაარსი დამალულია, სანამ learn.js Pro-ს არ დაადასტურებს */
+.gated{display:none}
+.pro .gated{display:block}
+.lock{margin:8px 0 28px;padding:30px 22px;border:1px solid var(--warn);border-radius:18px;background:linear-gradient(135deg,color-mix(in srgb,var(--warn) 12%,var(--panel)),var(--panel));text-align:center}
+.lock-ic{display:block;font-size:2.6rem;line-height:1}
+.lock h2{margin:.4em 0}
+.lock p{max-width:58ch;margin:0 auto 14px;color:var(--muted)}
+.lock-a{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.lock-note:empty{display:none}
 .done-box{display:flex;flex-wrap:wrap;gap:10px;margin:2.2em 0 1em;padding-top:1.4em;border-top:1px solid var(--border)}
 #mark-bm[aria-pressed=true]{border-color:var(--warn);color:var(--warn)}
 .pn{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:1.6em}

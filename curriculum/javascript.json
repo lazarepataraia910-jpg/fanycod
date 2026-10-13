@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "დავალებების სია",
+        "description": "To-Do აპი ბრაუზერში: დამატება, მონიშვნა და წაშლა DOM-ით და მოვლენებით."
+      },
+      "modules": [
+        {
+          "slug": "js-intro",
+          "title": "JavaScript-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "where-js-runs",
+              "title": "სად ეშვება JavaScript"
+            },
+            {
+              "slug": "browser-console",
+              "title": "ბრაუზერის კონსოლი"
+            },
+            {
+              "slug": "adding-scripts",
+              "title": "სკრიპტის მიერთება გვერდზე"
+            },
+            {
+              "slug": "let-and-const",
+              "title": "let და const"
+            },
+            {
+              "slug": "data-types",
+              "title": "მონაცემთა ტიპები"
+            }
+          ]
+        },
+        {
+          "slug": "js-operators",
+          "title": "ოპერატორები",
+          "chapters": [
+            {
+              "slug": "arithmetic",
+              "title": "არითმეტიკა"
+            },
+            {
+              "slug": "comparisons",
+              "title": "შედარება"
+            },
+            {
+              "slug": "logical-operators",
+              "title": "ლოგიკური ოპერატორები"
+            },
+            {
+              "slug": "template-strings",
+              "title": "სტრიქონის შაბლონები"
+            },
+            {
+              "slug": "type-coercion",
+              "title": "ტიპების გარდაქმნა"
+            }
+          ]
+        },
+        {
+          "slug": "control-flow",
+          "title": "მართვის ნაკადი",
+          "chapters": [
+            {
+              "slug": "if-else",
+              "title": "if და else"
+            },
+            {
+              "slug": "switch",
+              "title": "switch"
+            },
+            {
+              "slug": "ternary",
+              "title": "ტერნარული ოპერატორი"
+            },
+            {
+              "slug": "truthy-and-falsy",
+              "title": "truthy და falsy"
+            },
+            {
+              "slug": "nullish-operators",
+              "title": "?? და ?."
+            }
+          ]
+        },
+        {
+          "slug": "js-loops",
+          "title": "ციკლები",
+          "chapters": [
+            {
+              "slug": "for-loop",
+              "title": "for ციკლი"
+            },
+            {
+              "slug": "while-loop",
+              "title": "while ციკლი"
+            },
+            {
+              "slug": "for-of",
+              "title": "for...of"
+            },
+            {
+              "slug": "for-in",
+              "title": "for...in"
+            },
+            {
+              "slug": "break-and-continue",
+              "title": "break და continue"
+            }
+          ]
+        },
+        {
+          "slug": "js-functions",
+          "title": "ფუნქციები",
+          "chapters": [
+            {
+              "slug": "declaring-functions",
+              "title": "ფუნქციის გამოცხადება"
+            },
+            {
+              "slug": "parameters",
+              "title": "პარამეტრები"
+            },
+            {
+              "slug": "return-values",
+              "title": "დაბრუნებული მნიშვნელობა"
+            },
+            {
+              "slug": "arrow-functions",
+              "title": "ისრიანი ფუნქციები"
+            },
+            {
+              "slug": "function-scope",
+              "title": "ხილვადობა"
+            }
+          ]
+        },
+        {
+          "slug": "js-arrays",
+          "title": "მასივები",
+          "chapters": [
+            {
+              "slug": "creating-arrays",
+              "title": "მასივის შექმნა და ინდექსი"
+            },
+            {
+              "slug": "adding-and-removing",
+              "title": "დამატება და წაშლა"
+            },
+            {
+              "slug": "slice-and-splice",
+              "title": "slice და splice"
+            },
+            {
+              "slug": "searching-arrays",
+              "title": "ძებნა მასივში"
+            },
+            {
+              "slug": "iterating-arrays",
+              "title": "მასივის გავლა"
+            }
+          ]
+        },
+        {
+          "slug": "js-objects",
+          "title": "ობიექტები",
+          "chapters": [
+            {
+              "slug": "object-literals",
+              "title": "ობიექტის ლიტერალი"
+            },
+            {
+              "slug": "object-properties",
+              "title": "თვისებები"
+            },
+            {
+              "slug": "object-methods",
+              "title": "მეთოდები"
+            },
+            {
+              "slug": "this-basics",
+              "title": "this-ის საფუძველი"
+            },
+            {
+              "slug": "iterating-objects",
+              "title": "ობიექტის გავლა"
+            }
+          ]
+        },
+        {
+          "slug": "js-strings",
+          "title": "სტრიქონები",
+          "chapters": [
+            {
+              "slug": "string-methods",
+              "title": "სტრიქონის მეთოდები"
+            },
+            {
+              "slug": "search-and-replace",
+              "title": "ძებნა და ჩანაცვლება"
+            },
+            {
+              "slug": "split-and-join",
+              "title": "split და join"
+            },
+            {
+              "slug": "trim-and-pad",
+              "title": "trim და pad"
+            },
+            {
+              "slug": "numbers-and-text",
+              "title": "რიცხვი და ტექსტი"
+            }
+          ]
+        },
+        {
+          "slug": "dom-basics",
+          "title": "DOM-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-dom",
+              "title": "რა არის DOM"
+            },
+            {
+              "slug": "finding-elements",
+              "title": "ელემენტის პოვნა"
+            },
+            {
+              "slug": "changing-content",
+              "title": "შინაარსის შეცვლა"
+            },
+            {
+              "slug": "classes-and-styles",
+              "title": "კლასები და სტილი"
+            },
+            {
+              "slug": "creating-elements",
+              "title": "ელემენტის შექმნა და წაშლა"
+            }
+          ]
+        },
+        {
+          "slug": "events-basics",
+          "title": "მოვლენების საფუძვლები",
+          "chapters": [
+            {
+              "slug": "event-listeners",
+              "title": "მოვლენის მოსმენა"
+            },
+            {
+              "slug": "click-and-input",
+              "title": "click და input"
+            },
+            {
+              "slug": "event-object",
+              "title": "event ობიექტი"
+            },
+            {
+              "slug": "form-submit",
+              "title": "ფორმის გაგზავნა"
+            },
+            {
+              "slug": "keyboard-events",
+              "title": "კლავიატურის მოვლენები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "ამინდის აპი",
+        "description": "აპი, რომელიც ღია API-დან იღებს ამინდს, ინახავს ბოლო ქალაქებს და ამუშავებს შეცდომებს."
+      },
+      "modules": [
+        {
+          "slug": "array-methods",
+          "title": "მასივის მეთოდები",
+          "chapters": [
+            {
+              "slug": "map",
+              "title": "map"
+            },
+            {
+              "slug": "filter",
+              "title": "filter"
+            },
+            {
+              "slug": "reduce",
+              "title": "reduce"
+            },
+            {
+              "slug": "sort",
+              "title": "sort"
+            },
+            {
+              "slug": "find-some-every",
+              "title": "find, some და every"
+            }
+          ]
+        },
+        {
+          "slug": "modern-syntax",
+          "title": "თანამედროვე სინტაქსი",
+          "chapters": [
+            {
+              "slug": "destructuring",
+              "title": "დესტრუქტურიზაცია"
+            },
+            {
+              "slug": "spread-and-rest",
+              "title": "spread და rest"
+            },
+            {
+              "slug": "default-parameters",
+              "title": "ნაგულისხმევი პარამეტრები"
+            },
+            {
+              "slug": "object-shorthand",
+              "title": "თვისებების მოკლე ჩანაწერი"
+            },
+            {
+              "slug": "import-and-export",
+              "title": "import და export"
+            }
+          ]
+        },
+        {
+          "slug": "scope-and-closures",
+          "title": "ხილვადობა და closure",
+          "chapters": [
+            {
+              "slug": "scope-chain",
+              "title": "ხილვადობის ჯაჭვი"
+            },
+            {
+              "slug": "closures",
+              "title": "closure"
+            },
+            {
+              "slug": "hoisting",
+              "title": "hoisting"
+            },
+            {
+              "slug": "iife-and-module-pattern",
+              "title": "IIFE და მოდულის ნიმუში"
+            },
+            {
+              "slug": "var-pitfalls",
+              "title": "var-ის ხაფანგები"
+            }
+          ]
+        },
+        {
+          "slug": "this-and-prototypes",
+          "title": "this და პროტოტიპები",
+          "chapters": [
+            {
+              "slug": "this-in-context",
+              "title": "this სხვადასხვა კონტექსტში"
+            },
+            {
+              "slug": "bind-call-apply",
+              "title": "bind, call და apply"
+            },
+            {
+              "slug": "prototypes",
+              "title": "პროტოტიპი"
+            },
+            {
+              "slug": "prototype-chain",
+              "title": "პროტოტიპული ჯაჭვი"
+            },
+            {
+              "slug": "classes",
+              "title": "კლასები"
+            }
+          ]
+        },
+        {
+          "slug": "async-basics",
+          "title": "ასინქრონული კოდის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "callbacks",
+              "title": "callback"
+            },
+            {
+              "slug": "promises",
+              "title": "Promise"
+            },
+            {
+              "slug": "then-and-catch",
+              "title": "then და catch"
+            },
+            {
+              "slug": "async-await",
+              "title": "async და await"
+            },
+            {
+              "slug": "async-errors",
+              "title": "შეცდომები ასინქრონულ კოდში"
+            }
+          ]
+        },
+        {
+          "slug": "fetch-and-apis",
+          "title": "fetch და API",
+          "chapters": [
+            {
+              "slug": "fetch-basics",
+              "title": "fetch"
+            },
+            {
+              "slug": "working-with-json",
+              "title": "მუშაობა JSON-თან"
+            },
+            {
+              "slug": "request-methods",
+              "title": "მოთხოვნის მეთოდები"
+            },
+            {
+              "slug": "network-errors",
+              "title": "ქსელის შეცდომები"
+            },
+            {
+              "slug": "loading-states",
+              "title": "ჩატვირთვის მდგომარეობა"
+            }
+          ]
+        },
+        {
+          "slug": "dom-in-depth",
+          "title": "DOM სიღრმეში",
+          "chapters": [
+            {
+              "slug": "event-delegation",
+              "title": "მოვლენების დელეგირება"
+            },
+            {
+              "slug": "bubbling-and-capturing",
+              "title": "bubbling და capturing"
+            },
+            {
+              "slug": "working-with-forms",
+              "title": "მუშაობა ფორმებთან"
+            },
+            {
+              "slug": "dataset",
+              "title": "dataset"
+            },
+            {
+              "slug": "fragments-and-templates",
+              "title": "ფრაგმენტები და შაბლონები"
+            }
+          ]
+        },
+        {
+          "slug": "browser-storage",
+          "title": "ბრაუზერის მეხსიერება",
+          "chapters": [
+            {
+              "slug": "local-storage",
+              "title": "localStorage"
+            },
+            {
+              "slug": "session-storage",
+              "title": "sessionStorage"
+            },
+            {
+              "slug": "cookies",
+              "title": "cookie"
+            },
+            {
+              "slug": "storing-json",
+              "title": "JSON-ის შენახვა"
+            },
+            {
+              "slug": "data-expiry",
+              "title": "მონაცემების ვადა"
+            }
+          ]
+        },
+        {
+          "slug": "js-error-handling",
+          "title": "შეცდომების დამუშავება",
+          "chapters": [
+            {
+              "slug": "try-catch",
+              "title": "try და catch"
+            },
+            {
+              "slug": "error-object",
+              "title": "Error ობიექტი"
+            },
+            {
+              "slug": "custom-errors",
+              "title": "საკუთარი შეცდომები"
+            },
+            {
+              "slug": "finally",
+              "title": "finally"
+            },
+            {
+              "slug": "debugging-with-devtools",
+              "title": "გამართვა DevTools-ით"
+            }
+          ]
+        },
+        {
+          "slug": "dates-and-timers",
+          "title": "თარიღები და ტაიმერები",
+          "chapters": [
+            {
+              "slug": "date-object",
+              "title": "Date ობიექტი"
+            },
+            {
+              "slug": "formatting-with-intl",
+              "title": "ფორმატირება Intl-ით"
+            },
+            {
+              "slug": "timeouts-and-intervals",
+              "title": "setTimeout და setInterval"
+            },
+            {
+              "slug": "request-animation-frame",
+              "title": "requestAnimationFrame"
+            },
+            {
+              "slug": "debounce-and-throttle",
+              "title": "debounce და throttle"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "სტატიების აპი",
+        "description": "ერთგვერდიანი აპი საკუთარი როუტერით, მოდულებით, ტესტებით და ასინქრონული მონაცემებით."
+      },
+      "modules": [
+        {
+          "slug": "event-loop",
+          "title": "მოვლენების ციკლი",
+          "chapters": [
+            {
+              "slug": "call-stack",
+              "title": "გამოძახებების სტეკი"
+            },
+            {
+              "slug": "task-queue",
+              "title": "დავალებების რიგი"
+            },
+            {
+              "slug": "microtasks",
+              "title": "მიკროდავალებები"
+            },
+            {
+              "slug": "rendering-and-the-loop",
+              "title": "რენდერი და ციკლი"
+            },
+            {
+              "slug": "avoiding-blocking",
+              "title": "ბლოკირების თავიდან აცილება"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-async",
+          "title": "ასინქრონულობა სიღრმეში",
+          "chapters": [
+            {
+              "slug": "promise-combinators",
+              "title": "Promise.all, race და allSettled"
+            },
+            {
+              "slug": "parallel-and-sequential",
+              "title": "პარალელური და მიმდევრობითი"
+            },
+            {
+              "slug": "abort-controller",
+              "title": "გაუქმება AbortController-ით"
+            },
+            {
+              "slug": "retry-and-timeout",
+              "title": "გამეორება და ვადა"
+            },
+            {
+              "slug": "async-iterators",
+              "title": "ასინქრონული იტერატორები"
+            }
+          ]
+        },
+        {
+          "slug": "iterators-and-generators",
+          "title": "იტერატორები და გენერატორები",
+          "chapters": [
+            {
+              "slug": "iteration-protocol",
+              "title": "იტერაციის პროტოკოლი"
+            },
+            {
+              "slug": "generators",
+              "title": "გენერატორები"
+            },
+            {
+              "slug": "symbols",
+              "title": "Symbol"
+            },
+            {
+              "slug": "lazy-evaluation",
+              "title": "ზარმაცი გამოთვლა"
+            },
+            {
+              "slug": "custom-iterables",
+              "title": "საკუთარი იტერირებადი"
+            }
+          ]
+        },
+        {
+          "slug": "oop-in-js",
+          "title": "ობიექტზე ორიენტირება",
+          "chapters": [
+            {
+              "slug": "classes-in-depth",
+              "title": "კლასები სიღრმეში"
+            },
+            {
+              "slug": "inheritance",
+              "title": "მემკვიდრეობა"
+            },
+            {
+              "slug": "private-fields",
+              "title": "პირადი ველები"
+            },
+            {
+              "slug": "getters-and-setters",
+              "title": "getter და setter"
+            },
+            {
+              "slug": "composition",
+              "title": "კომპოზიცია მემკვიდრეობის ნაცვლად"
+            }
+          ]
+        },
+        {
+          "slug": "functional-js",
+          "title": "ფუნქციური სტილი",
+          "chapters": [
+            {
+              "slug": "pure-functions",
+              "title": "სუფთა ფუნქციები"
+            },
+            {
+              "slug": "immutability",
+              "title": "უცვლელობა"
+            },
+            {
+              "slug": "currying",
+              "title": "currying"
+            },
+            {
+              "slug": "function-composition",
+              "title": "ფუნქციების კომპოზიცია"
+            },
+            {
+              "slug": "immutable-updates",
+              "title": "უცვლელი განახლებები"
+            }
+          ]
+        },
+        {
+          "slug": "modules-and-bundlers",
+          "title": "მოდულები და ამწყობები",
+          "chapters": [
+            {
+              "slug": "es-modules",
+              "title": "ES მოდულები სიღრმეში"
+            },
+            {
+              "slug": "dynamic-import",
+              "title": "დინამიკური import"
+            },
+            {
+              "slug": "npm",
+              "title": "npm"
+            },
+            {
+              "slug": "bundlers",
+              "title": "ამწყობი Vite"
+            },
+            {
+              "slug": "tree-shaking",
+              "title": "tree shaking"
+            }
+          ]
+        },
+        {
+          "slug": "web-apis",
+          "title": "ვებ-API-ები",
+          "chapters": [
+            {
+              "slug": "intersection-observer",
+              "title": "Intersection Observer"
+            },
+            {
+              "slug": "history-api",
+              "title": "History API"
+            },
+            {
+              "slug": "clipboard-and-share",
+              "title": "Clipboard და Share"
+            },
+            {
+              "slug": "geolocation",
+              "title": "Geolocation"
+            },
+            {
+              "slug": "web-workers",
+              "title": "Web Workers"
+            }
+          ]
+        },
+        {
+          "slug": "js-data-structures",
+          "title": "მონაცემთა სტრუქტურები",
+          "chapters": [
+            {
+              "slug": "map-and-set",
+              "title": "Map და Set"
+            },
+            {
+              "slug": "weakmap",
+              "title": "WeakMap"
+            },
+            {
+              "slug": "typed-arrays",
+              "title": "typed arrays"
+            },
+            {
+              "slug": "structured-clone",
+              "title": "structuredClone"
+            },
+            {
+              "slug": "json-pitfalls",
+              "title": "JSON-ის ხაფანგები"
+            }
+          ]
+        },
+        {
+          "slug": "regular-expressions",
+          "title": "რეგულარული გამოსახულებები",
+          "chapters": [
+            {
+              "slug": "regex-basics",
+              "title": "საფუძვლები"
+            },
+            {
+              "slug": "regex-groups",
+              "title": "ჯგუფები"
+            },
+            {
+              "slug": "regex-flags",
+              "title": "ალმები"
+            },
+            {
+              "slug": "regex-replace",
+              "title": "ძებნა და ჩანაცვლება regex-ით"
+            },
+            {
+              "slug": "common-patterns",
+              "title": "ხშირი ნიმუშები"
+            }
+          ]
+        },
+        {
+          "slug": "js-testing",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "unit-tests",
+              "title": "ერთეულის ტესტი"
+            },
+            {
+              "slug": "test-runner",
+              "title": "ტესტების გამშვები Vitest"
+            },
+            {
+              "slug": "mocking",
+              "title": "იმიტაცია"
+            },
+            {
+              "slug": "testing-the-dom",
+              "title": "DOM-ის ტესტირება"
+            },
+            {
+              "slug": "testable-code",
+              "title": "ტესტირებადი კოდი"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "ოფლაინ ჩანაწერების აპი",
+        "description": "PWA, რომელიც ინტერნეტის გარეშეც მუშაობს: service worker, IndexedDB და სინქრონიზაცია."
+      },
+      "modules": [
+        {
+          "slug": "js-engine",
+          "title": "ძრავა შიგნიდან",
+          "chapters": [
+            {
+              "slug": "v8-overview",
+              "title": "V8-ის აგებულება"
+            },
+            {
+              "slug": "jit-compilation",
+              "title": "JIT კომპილაცია"
+            },
+            {
+              "slug": "hidden-classes",
+              "title": "ფარული კლასები"
+            },
+            {
+              "slug": "garbage-collection",
+              "title": "ნაგვის შეგროვება"
+            },
+            {
+              "slug": "memory-leaks",
+              "title": "მეხსიერების გაჟონვა"
+            }
+          ]
+        },
+        {
+          "slug": "js-performance",
+          "title": "წარმადობა",
+          "chapters": [
+            {
+              "slug": "profiling",
+              "title": "პროფაილინგი"
+            },
+            {
+              "slug": "long-tasks",
+              "title": "გრძელი დავალებები"
+            },
+            {
+              "slug": "virtualization",
+              "title": "სიების ვირტუალიზაცია"
+            },
+            {
+              "slug": "lazy-loading-code",
+              "title": "კოდის გადადებული ჩატვირთვა"
+            },
+            {
+              "slug": "core-web-vitals",
+              "title": "Core Web Vitals"
+            }
+          ]
+        },
+        {
+          "slug": "design-patterns",
+          "title": "დიზაინის ნიმუშები",
+          "chapters": [
+            {
+              "slug": "module-pattern",
+              "title": "მოდული"
+            },
+            {
+              "slug": "observer-pattern",
+              "title": "დამკვირვებელი"
+            },
+            {
+              "slug": "pub-sub",
+              "title": "pub/sub"
+            },
+            {
+              "slug": "state-machines",
+              "title": "მდგომარეობის მანქანა"
+            },
+            {
+              "slug": "command-pattern",
+              "title": "ბრძანება"
+            }
+          ]
+        },
+        {
+          "slug": "metaprogramming",
+          "title": "მეტაპროგრამირება",
+          "chapters": [
+            {
+              "slug": "proxy",
+              "title": "Proxy"
+            },
+            {
+              "slug": "reflect",
+              "title": "Reflect"
+            },
+            {
+              "slug": "well-known-symbols",
+              "title": "ცნობილი სიმბოლოები"
+            },
+            {
+              "slug": "decorators",
+              "title": "დეკორატორები"
+            },
+            {
+              "slug": "tagged-templates",
+              "title": "tagged templates"
+            }
+          ]
+        },
+        {
+          "slug": "js-security",
+          "title": "უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "xss",
+              "title": "XSS"
+            },
+            {
+              "slug": "csrf",
+              "title": "CSRF"
+            },
+            {
+              "slug": "csp",
+              "title": "CSP"
+            },
+            {
+              "slug": "secure-storage",
+              "title": "უსაფრთხო შენახვა"
+            },
+            {
+              "slug": "dependency-security",
+              "title": "დამოკიდებულებების უსაფრთხოება"
+            }
+          ]
+        },
+        {
+          "slug": "app-architecture",
+          "title": "აპლიკაციის არქიტექტურა",
+          "chapters": [
+            {
+              "slug": "state-management",
+              "title": "მდგომარეობის მართვა"
+            },
+            {
+              "slug": "components-without-framework",
+              "title": "კომპონენტები ფრეიმვორკის გარეშე"
+            },
+            {
+              "slug": "monorepo",
+              "title": "monorepo"
+            },
+            {
+              "slug": "api-layer",
+              "title": "API შრე"
+            },
+            {
+              "slug": "central-error-handling",
+              "title": "შეცდომების ცენტრალური დამუშავება"
+            }
+          ]
+        },
+        {
+          "slug": "progressive-web-apps",
+          "title": "PWA",
+          "chapters": [
+            {
+              "slug": "service-workers",
+              "title": "service worker"
+            },
+            {
+              "slug": "caching-strategies",
+              "title": "ქეშირების სტრატეგიები"
+            },
+            {
+              "slug": "offline-first",
+              "title": "ჯერ ოფლაინ"
+            },
+            {
+              "slug": "push-notifications",
+              "title": "push შეტყობინებები"
+            },
+            {
+              "slug": "background-sync",
+              "title": "ფონური სინქრონიზაცია"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-browser-apis",
+          "title": "ბრაუზერის რთული API-ები",
+          "chapters": [
+            {
+              "slug": "websockets",
+              "title": "WebSocket"
+            },
+            {
+              "slug": "server-sent-events",
+              "title": "Server-Sent Events"
+            },
+            {
+              "slug": "indexeddb",
+              "title": "IndexedDB"
+            },
+            {
+              "slug": "webassembly-intro",
+              "title": "WebAssembly-ის შესავალი"
+            },
+            {
+              "slug": "streams-api",
+              "title": "Streams API"
+            }
+          ]
+        },
+        {
+          "slug": "js-tooling",
+          "title": "ხელსაწყოები",
+          "chapters": [
+            {
+              "slug": "eslint",
+              "title": "ESLint"
+            },
+            {
+              "slug": "prettier",
+              "title": "Prettier"
+            },
+            {
+              "slug": "typescript-intro",
+              "title": "TypeScript-ის გაცნობა"
+            },
+            {
+              "slug": "ci-for-tests",
+              "title": "ტესტები CI-ში"
+            },
+            {
+              "slug": "versioning-and-releases",
+              "title": "ვერსიები და გამოშვება"
+            }
+          ]
+        },
+        {
+          "slug": "language-evolution",
+          "title": "ენის განვითარება",
+          "chapters": [
+            {
+              "slug": "tc39-process",
+              "title": "TC39 და ეტაპები"
+            },
+            {
+              "slug": "new-features",
+              "title": "ახალი შესაძლებლობები"
+            },
+            {
+              "slug": "polyfill-and-transpile",
+              "title": "polyfill და transpile"
+            },
+            {
+              "slug": "compatibility-tables",
+              "title": "თავსებადობის ცხრილები"
+            },
+            {
+              "slug": "reading-ecmascript-spec",
+              "title": "სპეციფიკაციის კითხვა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

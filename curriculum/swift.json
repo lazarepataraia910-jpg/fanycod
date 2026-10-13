@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "დავალებების აპი",
+        "description": "iPhone-ის აპი SwiftUI-ზე: სია, დამატება, მონიშვნა და მდგომარეობა."
+      },
+      "modules": [
+        {
+          "slug": "swift-intro",
+          "title": "Swift-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-swift",
+              "title": "რა არის Swift"
+            },
+            {
+              "slug": "xcode",
+              "title": "Xcode"
+            },
+            {
+              "slug": "playground",
+              "title": "Playground"
+            },
+            {
+              "slug": "let-and-var",
+              "title": "let და var"
+            },
+            {
+              "slug": "basic-types",
+              "title": "ძირითადი ტიპები"
+            }
+          ]
+        },
+        {
+          "slug": "control-flow",
+          "title": "მართვის ნაკადი",
+          "chapters": [
+            {
+              "slug": "if",
+              "title": "if"
+            },
+            {
+              "slug": "switch",
+              "title": "switch"
+            },
+            {
+              "slug": "loops",
+              "title": "ციკლები"
+            },
+            {
+              "slug": "ranges",
+              "title": "დიაპაზონები"
+            },
+            {
+              "slug": "guard",
+              "title": "guard"
+            }
+          ]
+        },
+        {
+          "slug": "functions",
+          "title": "ფუნქციები",
+          "chapters": [
+            {
+              "slug": "func",
+              "title": "func"
+            },
+            {
+              "slug": "argument-labels",
+              "title": "არგუმენტის სახელები"
+            },
+            {
+              "slug": "default-values",
+              "title": "ნაგულისხმევი მნიშვნელობები"
+            },
+            {
+              "slug": "returning-tuples",
+              "title": "რამდენიმე მნიშვნელობის დაბრუნება"
+            },
+            {
+              "slug": "closures-intro",
+              "title": "closure-ის შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "collections",
+          "title": "კოლექციები",
+          "chapters": [
+            {
+              "slug": "arrays",
+              "title": "Array"
+            },
+            {
+              "slug": "dictionaries",
+              "title": "Dictionary"
+            },
+            {
+              "slug": "sets",
+              "title": "Set"
+            },
+            {
+              "slug": "iterating",
+              "title": "გავლა"
+            },
+            {
+              "slug": "map-filter-reduce",
+              "title": "map, filter და reduce"
+            }
+          ]
+        },
+        {
+          "slug": "optionals",
+          "title": "Optional",
+          "chapters": [
+            {
+              "slug": "optional-basics",
+              "title": "Optional"
+            },
+            {
+              "slug": "if-let",
+              "title": "if let"
+            },
+            {
+              "slug": "guard-let",
+              "title": "guard let"
+            },
+            {
+              "slug": "nil-coalescing",
+              "title": "??"
+            },
+            {
+              "slug": "optional-chaining",
+              "title": "optional chaining"
+            }
+          ]
+        },
+        {
+          "slug": "structs-and-classes",
+          "title": "struct და class",
+          "chapters": [
+            {
+              "slug": "structs",
+              "title": "struct"
+            },
+            {
+              "slug": "classes",
+              "title": "class"
+            },
+            {
+              "slug": "properties",
+              "title": "თვისებები"
+            },
+            {
+              "slug": "methods",
+              "title": "მეთოდები"
+            },
+            {
+              "slug": "initializers",
+              "title": "ინიციალიზატორები"
+            }
+          ]
+        },
+        {
+          "slug": "enums-and-protocols",
+          "title": "enum და protocol",
+          "chapters": [
+            {
+              "slug": "enums",
+              "title": "enum"
+            },
+            {
+              "slug": "associated-values",
+              "title": "ასოცირებული მნიშვნელობები"
+            },
+            {
+              "slug": "protocols",
+              "title": "protocol"
+            },
+            {
+              "slug": "extensions",
+              "title": "extension"
+            },
+            {
+              "slug": "value-and-reference",
+              "title": "მნიშვნელობის და მითითების ტიპები"
+            }
+          ]
+        },
+        {
+          "slug": "swiftui-intro",
+          "title": "SwiftUI-ს შესავალი",
+          "chapters": [
+            {
+              "slug": "what-is-swiftui",
+              "title": "რა არის SwiftUI"
+            },
+            {
+              "slug": "views",
+              "title": "View"
+            },
+            {
+              "slug": "text-image-button",
+              "title": "Text, Image და Button"
+            },
+            {
+              "slug": "stacks",
+              "title": "VStack, HStack და ZStack"
+            },
+            {
+              "slug": "modifiers",
+              "title": "მოდიფიკატორები"
+            }
+          ]
+        },
+        {
+          "slug": "swiftui-state",
+          "title": "მდგომარეობა SwiftUI-ში",
+          "chapters": [
+            {
+              "slug": "state",
+              "title": "@State"
+            },
+            {
+              "slug": "binding",
+              "title": "@Binding"
+            },
+            {
+              "slug": "textfield-and-toggle",
+              "title": "TextField და Toggle"
+            },
+            {
+              "slug": "list",
+              "title": "List"
+            },
+            {
+              "slug": "navigation-basics",
+              "title": "ნავიგაციის საფუძველი"
+            }
+          ]
+        },
+        {
+          "slug": "xcode-basics",
+          "title": "Xcode-თან მუშაობა",
+          "chapters": [
+            {
+              "slug": "project-structure",
+              "title": "პროექტის სტრუქტურა"
+            },
+            {
+              "slug": "simulator",
+              "title": "სიმულატორი"
+            },
+            {
+              "slug": "previews",
+              "title": "preview"
+            },
+            {
+              "slug": "assets",
+              "title": "რესურსები"
+            },
+            {
+              "slug": "debugging",
+              "title": "გამართვა"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "ამინდის აპი",
+        "description": "აპი, რომელიც ამინდს API-დან იღებს, ინახავს ბოლო მონაცემებს და რამდენიმე ეკრანი აქვს."
+      },
+      "modules": [
+        {
+          "slug": "swiftui-layout",
+          "title": "განლაგება",
+          "chapters": [
+            {
+              "slug": "stacks-in-depth",
+              "title": "stack-ები სიღრმეში"
+            },
+            {
+              "slug": "grids",
+              "title": "Grid და LazyVGrid"
+            },
+            {
+              "slug": "geometry-reader",
+              "title": "GeometryReader"
+            },
+            {
+              "slug": "scrollview",
+              "title": "ScrollView"
+            },
+            {
+              "slug": "adaptive-layouts",
+              "title": "ეკრანზე მორგება"
+            }
+          ]
+        },
+        {
+          "slug": "navigation",
+          "title": "ნავიგაცია",
+          "chapters": [
+            {
+              "slug": "navigation-stack",
+              "title": "NavigationStack"
+            },
+            {
+              "slug": "sheets",
+              "title": "sheet"
+            },
+            {
+              "slug": "tabview",
+              "title": "TabView"
+            },
+            {
+              "slug": "passing-data",
+              "title": "მონაცემების გადაცემა"
+            },
+            {
+              "slug": "deep-links",
+              "title": "deep link"
+            }
+          ]
+        },
+        {
+          "slug": "data-flow",
+          "title": "მონაცემთა ნაკადი",
+          "chapters": [
+            {
+              "slug": "observable",
+              "title": "@Observable"
+            },
+            {
+              "slug": "environment",
+              "title": "@Environment"
+            },
+            {
+              "slug": "mvvm",
+              "title": "MVVM"
+            },
+            {
+              "slug": "passing-dependencies",
+              "title": "დამოკიდებულებების გადაცემა"
+            },
+            {
+              "slug": "state-ownership",
+              "title": "ვის ეკუთვნის state"
+            }
+          ]
+        },
+        {
+          "slug": "concurrency",
+          "title": "კონკურენტულობა",
+          "chapters": [
+            {
+              "slug": "async-await",
+              "title": "async და await"
+            },
+            {
+              "slug": "tasks",
+              "title": "Task"
+            },
+            {
+              "slug": "actors-basics",
+              "title": "actor-ის საფუძველი"
+            },
+            {
+              "slug": "main-actor",
+              "title": "MainActor"
+            },
+            {
+              "slug": "async-errors",
+              "title": "ასინქრონული შეცდომები"
+            }
+          ]
+        },
+        {
+          "slug": "networking",
+          "title": "ქსელი",
+          "chapters": [
+            {
+              "slug": "urlsession",
+              "title": "URLSession"
+            },
+            {
+              "slug": "codable",
+              "title": "Codable"
+            },
+            {
+              "slug": "api-client",
+              "title": "API კლიენტი"
+            },
+            {
+              "slug": "loading-states",
+              "title": "ჩატვირთვის მდგომარეობა"
+            },
+            {
+              "slug": "async-image",
+              "title": "AsyncImage"
+            }
+          ]
+        },
+        {
+          "slug": "persistence",
+          "title": "მონაცემების შენახვა",
+          "chapters": [
+            {
+              "slug": "userdefaults",
+              "title": "UserDefaults"
+            },
+            {
+              "slug": "swiftdata",
+              "title": "SwiftData"
+            },
+            {
+              "slug": "filemanager",
+              "title": "FileManager"
+            },
+            {
+              "slug": "keychain",
+              "title": "Keychain"
+            },
+            {
+              "slug": "data-migrations",
+              "title": "მიგრაციები"
+            }
+          ]
+        },
+        {
+          "slug": "error-handling",
+          "title": "შეცდომების დამუშავება",
+          "chapters": [
+            {
+              "slug": "throws",
+              "title": "throws"
+            },
+            {
+              "slug": "do-catch",
+              "title": "do და catch"
+            },
+            {
+              "slug": "result-type",
+              "title": "Result"
+            },
+            {
+              "slug": "custom-errors",
+              "title": "საკუთარი შეცდომები"
+            },
+            {
+              "slug": "showing-errors",
+              "title": "შეცდომის ჩვენება მომხმარებლისთვის"
+            }
+          ]
+        },
+        {
+          "slug": "lists-and-forms",
+          "title": "სიები და ფორმები",
+          "chapters": [
+            {
+              "slug": "advanced-lists",
+              "title": "List სიღრმეში"
+            },
+            {
+              "slug": "forms",
+              "title": "Form"
+            },
+            {
+              "slug": "searchable",
+              "title": "ძებნა"
+            },
+            {
+              "slug": "swipe-actions",
+              "title": "swipe მოქმედებები"
+            },
+            {
+              "slug": "pull-to-refresh",
+              "title": "განახლება ჩამოწევით"
+            }
+          ]
+        },
+        {
+          "slug": "testing",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "swift-testing",
+              "title": "Swift Testing და XCTest"
+            },
+            {
+              "slug": "unit-tests",
+              "title": "ერთეულის ტესტები"
+            },
+            {
+              "slug": "ui-tests",
+              "title": "UI ტესტები"
+            },
+            {
+              "slug": "mocks",
+              "title": "იმიტაცია"
+            },
+            {
+              "slug": "preview-driven",
+              "title": "preview, როგორც შემოწმება"
+            }
+          ]
+        },
+        {
+          "slug": "app-lifecycle",
+          "title": "აპის სასიცოცხლო ციკლი",
+          "chapters": [
+            {
+              "slug": "app-struct",
+              "title": "App"
+            },
+            {
+              "slug": "scenes",
+              "title": "scene"
+            },
+            {
+              "slug": "lifecycle-events",
+              "title": "სასიცოცხლო ციკლის მოვლენები"
+            },
+            {
+              "slug": "background-work",
+              "title": "ფონური სამუშაო"
+            },
+            {
+              "slug": "app-settings",
+              "title": "პარამეტრები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "ფოტო დღიური",
+        "description": "აპი კამერით, რუკით, ვიჯეტით და შეტყობინებებით."
+      },
+      "modules": [
+        {
+          "slug": "advanced-swift",
+          "title": "Swift სიღრმეში",
+          "chapters": [
+            {
+              "slug": "generics",
+              "title": "გენერიკები"
+            },
+            {
+              "slug": "associated-types",
+              "title": "ასოცირებული ტიპები"
+            },
+            {
+              "slug": "opaque-types",
+              "title": "some და any"
+            },
+            {
+              "slug": "property-wrappers",
+              "title": "property wrapper"
+            },
+            {
+              "slug": "result-builders",
+              "title": "result builder"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-concurrency",
+          "title": "კონკურენტულობა სიღრმეში",
+          "chapters": [
+            {
+              "slug": "structured-concurrency",
+              "title": "სტრუქტურირებული კონკურენტულობა"
+            },
+            {
+              "slug": "task-groups",
+              "title": "task group"
+            },
+            {
+              "slug": "actors-in-depth",
+              "title": "actor სიღრმეში"
+            },
+            {
+              "slug": "sendable",
+              "title": "Sendable"
+            },
+            {
+              "slug": "async-sequence",
+              "title": "AsyncSequence"
+            }
+          ]
+        },
+        {
+          "slug": "animations",
+          "title": "ანიმაციები",
+          "chapters": [
+            {
+              "slug": "animation-basics",
+              "title": "ანიმაცია"
+            },
+            {
+              "slug": "transitions",
+              "title": "transition"
+            },
+            {
+              "slug": "matched-geometry",
+              "title": "matchedGeometryEffect"
+            },
+            {
+              "slug": "custom-shapes",
+              "title": "საკუთარი ფიგურები"
+            },
+            {
+              "slug": "canvas",
+              "title": "Canvas"
+            }
+          ]
+        },
+        {
+          "slug": "uikit-interop",
+          "title": "UIKit-თან მუშაობა",
+          "chapters": [
+            {
+              "slug": "uikit-basics",
+              "title": "UIKit-ის საფუძველი"
+            },
+            {
+              "slug": "representable",
+              "title": "UIViewRepresentable"
+            },
+            {
+              "slug": "view-controllers",
+              "title": "view controller"
+            },
+            {
+              "slug": "auto-layout",
+              "title": "Auto Layout"
+            },
+            {
+              "slug": "mixing-frameworks",
+              "title": "ფრეიმვორკების შერევა"
+            }
+          ]
+        },
+        {
+          "slug": "system-features",
+          "title": "სისტემის შესაძლებლობები",
+          "chapters": [
+            {
+              "slug": "notifications",
+              "title": "შეტყობინებები"
+            },
+            {
+              "slug": "location-and-maps",
+              "title": "მდებარეობა და რუკა"
+            },
+            {
+              "slug": "camera-and-photos",
+              "title": "კამერა და ფოტოები"
+            },
+            {
+              "slug": "widgets",
+              "title": "ვიჯეტები"
+            },
+            {
+              "slug": "app-intents",
+              "title": "App Intents"
+            }
+          ]
+        },
+        {
+          "slug": "architecture",
+          "title": "არქიტექტურა",
+          "chapters": [
+            {
+              "slug": "mvvm-in-depth",
+              "title": "MVVM სიღრმეში"
+            },
+            {
+              "slug": "unidirectional",
+              "title": "ცალმხრივი არქიტექტურა"
+            },
+            {
+              "slug": "dependency-injection",
+              "title": "დამოკიდებულებების ჩანერგვა"
+            },
+            {
+              "slug": "swift-packages",
+              "title": "მოდულები Swift Package-ებით"
+            },
+            {
+              "slug": "navigation-architecture",
+              "title": "ნავიგაციის არქიტექტურა"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-networking",
+          "title": "ქსელი სიღრმეში",
+          "chapters": [
+            {
+              "slug": "client-design",
+              "title": "კლიენტის დიზაინი"
+            },
+            {
+              "slug": "websockets",
+              "title": "WebSocket"
+            },
+            {
+              "slug": "background-downloads",
+              "title": "ფონური ჩამოტვირთვა"
+            },
+            {
+              "slug": "caching",
+              "title": "ქეშირება"
+            },
+            {
+              "slug": "offline",
+              "title": "ოფლაინ რეჟიმი"
+            }
+          ]
+        },
+        {
+          "slug": "accessibility",
+          "title": "ხელმისაწვდომობა",
+          "chapters": [
+            {
+              "slug": "voiceover",
+              "title": "VoiceOver"
+            },
+            {
+              "slug": "dynamic-type",
+              "title": "Dynamic Type"
+            },
+            {
+              "slug": "accessibility-modifiers",
+              "title": "ხელმისაწვდომობის მოდიფიკატორები"
+            },
+            {
+              "slug": "contrast-and-motion",
+              "title": "კონტრასტი და მოძრაობა"
+            },
+            {
+              "slug": "accessibility-audit",
+              "title": "აუდიტი"
+            }
+          ]
+        },
+        {
+          "slug": "app-store",
+          "title": "App Store",
+          "chapters": [
+            {
+              "slug": "signing",
+              "title": "ხელმოწერა და პროფილები"
+            },
+            {
+              "slug": "testflight",
+              "title": "TestFlight"
+            },
+            {
+              "slug": "app-store-connect",
+              "title": "App Store Connect"
+            },
+            {
+              "slug": "review-guidelines",
+              "title": "განხილვის წესები"
+            },
+            {
+              "slug": "storekit",
+              "title": "შიდა შესყიდვები StoreKit-ით"
+            }
+          ]
+        },
+        {
+          "slug": "performance",
+          "title": "წარმადობა",
+          "chapters": [
+            {
+              "slug": "instruments",
+              "title": "Instruments"
+            },
+            {
+              "slug": "swiftui-performance",
+              "title": "SwiftUI-ს წარმადობა"
+            },
+            {
+              "slug": "arc",
+              "title": "მეხსიერება და ARC"
+            },
+            {
+              "slug": "launch-time",
+              "title": "გაშვების დრო"
+            },
+            {
+              "slug": "energy",
+              "title": "ენერგია"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "მრავალპლატფორმიანი აპი",
+        "description": "ერთი კოდი iPhone-ისთვის, საათისთვის და ვიჯეტისთვის, მკაცრი კონკურენტულობით."
+      },
+      "modules": [
+        {
+          "slug": "swift-internals",
+          "title": "Swift შიგნიდან",
+          "chapters": [
+            {
+              "slug": "arc-in-depth",
+              "title": "ARC სიღრმეში"
+            },
+            {
+              "slug": "copy-on-write",
+              "title": "copy-on-write"
+            },
+            {
+              "slug": "method-dispatch",
+              "title": "მეთოდის გამოძახება"
+            },
+            {
+              "slug": "existentials",
+              "title": "existential და გენერიკების ფასი"
+            },
+            {
+              "slug": "runtime",
+              "title": "runtime"
+            }
+          ]
+        },
+        {
+          "slug": "swiftui-internals",
+          "title": "SwiftUI შიგნიდან",
+          "chapters": [
+            {
+              "slug": "view-identity",
+              "title": "view-ს იდენტობა"
+            },
+            {
+              "slug": "diffing",
+              "title": "შედარება"
+            },
+            {
+              "slug": "attribute-graph",
+              "title": "attribute graph"
+            },
+            {
+              "slug": "layout-protocol",
+              "title": "Layout protocol"
+            },
+            {
+              "slug": "custom-containers",
+              "title": "საკუთარი კონტეინერები"
+            }
+          ]
+        },
+        {
+          "slug": "concurrency-internals",
+          "title": "კონკურენტულობა შიგნიდან",
+          "chapters": [
+            {
+              "slug": "executors",
+              "title": "executor"
+            },
+            {
+              "slug": "isolation",
+              "title": "იზოლაციის მოდელი"
+            },
+            {
+              "slug": "strict-concurrency",
+              "title": "მკაცრი კონკურენტულობა"
+            },
+            {
+              "slug": "reentrancy",
+              "title": "reentrancy"
+            },
+            {
+              "slug": "migrating-to-swift-6",
+              "title": "გადასვლა Swift 6-ზე"
+            }
+          ]
+        },
+        {
+          "slug": "macros",
+          "title": "მაკროსები",
+          "chapters": [
+            {
+              "slug": "swift-macros",
+              "title": "Swift მაკროსები"
+            },
+            {
+              "slug": "swiftsyntax",
+              "title": "SwiftSyntax"
+            },
+            {
+              "slug": "macro-kinds",
+              "title": "მაკროსის სახეები"
+            },
+            {
+              "slug": "testing-macros",
+              "title": "მაკროსის ტესტირება"
+            },
+            {
+              "slug": "when-to-use-macros",
+              "title": "როდის გამოვიყენოთ"
+            }
+          ]
+        },
+        {
+          "slug": "large-apps",
+          "title": "დიდი აპები",
+          "chapters": [
+            {
+              "slug": "modular-architecture",
+              "title": "მოდულური არქიტექტურა"
+            },
+            {
+              "slug": "build-times",
+              "title": "აწყობის დრო"
+            },
+            {
+              "slug": "design-system",
+              "title": "დიზაინ-სისტემა"
+            },
+            {
+              "slug": "api-contracts",
+              "title": "API კონტრაქტები"
+            },
+            {
+              "slug": "feature-flags",
+              "title": "feature flag"
+            }
+          ]
+        },
+        {
+          "slug": "apple-platforms",
+          "title": "Apple-ის პლატფორმები",
+          "chapters": [
+            {
+              "slug": "macos",
+              "title": "macOS"
+            },
+            {
+              "slug": "watchos",
+              "title": "watchOS"
+            },
+            {
+              "slug": "visionos",
+              "title": "visionOS"
+            },
+            {
+              "slug": "sharing-code",
+              "title": "კოდის გაზიარება"
+            },
+            {
+              "slug": "platform-adaptation",
+              "title": "პლატფორმაზე მორგება"
+            }
+          ]
+        },
+        {
+          "slug": "graphics-and-ml",
+          "title": "გრაფიკა და მანქანური სწავლება",
+          "chapters": [
+            {
+              "slug": "metal-intro",
+              "title": "Metal-ის შესავალი"
+            },
+            {
+              "slug": "core-ml",
+              "title": "Core ML"
+            },
+            {
+              "slug": "vision",
+              "title": "Vision"
+            },
+            {
+              "slug": "arkit",
+              "title": "ARKit"
+            },
+            {
+              "slug": "core-animation",
+              "title": "Core Animation"
+            }
+          ]
+        },
+        {
+          "slug": "security",
+          "title": "უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "keychain-in-depth",
+              "title": "Keychain სიღრმეში"
+            },
+            {
+              "slug": "transport-security",
+              "title": "ქსელის უსაფრთხოება"
+            },
+            {
+              "slug": "certificate-pinning",
+              "title": "certificate pinning"
+            },
+            {
+              "slug": "biometrics",
+              "title": "ბიომეტრია"
+            },
+            {
+              "slug": "privacy-manifests",
+              "title": "კონფიდენციალურობის მანიფესტი"
+            }
+          ]
+        },
+        {
+          "slug": "release-engineering",
+          "title": "გამოშვების ინჟინერია",
+          "chapters": [
+            {
+              "slug": "ci",
+              "title": "CI"
+            },
+            {
+              "slug": "automation",
+              "title": "ავტომატიზაცია"
+            },
+            {
+              "slug": "phased-release",
+              "title": "ეტაპობრივი გამოშვება"
+            },
+            {
+              "slug": "crash-analytics",
+              "title": "ავარიების ანალიზი"
+            },
+            {
+              "slug": "experiments",
+              "title": "ექსპერიმენტები"
+            }
+          ]
+        },
+        {
+          "slug": "swift-evolution",
+          "title": "ენის განვითარება",
+          "chapters": [
+            {
+              "slug": "evolution-process",
+              "title": "Swift Evolution"
+            },
+            {
+              "slug": "server-side-swift",
+              "title": "Swift სერვერზე"
+            },
+            {
+              "slug": "open-source-toolchain",
+              "title": "ღია ხელსაწყოები"
+            },
+            {
+              "slug": "migration-strategies",
+              "title": "მიგრაციის სტრატეგიები"
+            },
+            {
+              "slug": "career",
+              "title": "კარიერა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

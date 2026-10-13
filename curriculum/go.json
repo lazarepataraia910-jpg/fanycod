@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "დავალებების მენეჯერი",
+        "description": "ბრძანებათა ხაზის პროგრამა დავალებებით, სტრუქტურებით და ფაილში შენახვით."
+      },
+      "modules": [
+        {
+          "slug": "go-intro",
+          "title": "Go-ს საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-go",
+              "title": "რა არის Go"
+            },
+            {
+              "slug": "installing-go",
+              "title": "დაყენება"
+            },
+            {
+              "slug": "first-program",
+              "title": "პირველი პროგრამა"
+            },
+            {
+              "slug": "run-and-build",
+              "title": "go run და go build"
+            },
+            {
+              "slug": "package-main",
+              "title": "პაკეტი main"
+            }
+          ]
+        },
+        {
+          "slug": "variables",
+          "title": "ცვლადები",
+          "chapters": [
+            {
+              "slug": "var-and-short-declaration",
+              "title": "var და :="
+            },
+            {
+              "slug": "basic-types",
+              "title": "ძირითადი ტიპები"
+            },
+            {
+              "slug": "zero-values",
+              "title": "ნულოვანი მნიშვნელობები"
+            },
+            {
+              "slug": "constants",
+              "title": "მუდმივები"
+            },
+            {
+              "slug": "type-conversion",
+              "title": "ტიპის გარდაქმნა"
+            }
+          ]
+        },
+        {
+          "slug": "control-flow",
+          "title": "მართვის ნაკადი",
+          "chapters": [
+            {
+              "slug": "if",
+              "title": "if"
+            },
+            {
+              "slug": "for",
+              "title": "for"
+            },
+            {
+              "slug": "switch",
+              "title": "switch"
+            },
+            {
+              "slug": "range",
+              "title": "range"
+            },
+            {
+              "slug": "defer",
+              "title": "defer"
+            }
+          ]
+        },
+        {
+          "slug": "functions",
+          "title": "ფუნქციები",
+          "chapters": [
+            {
+              "slug": "declaring-functions",
+              "title": "ფუნქციის გამოცხადება"
+            },
+            {
+              "slug": "multiple-returns",
+              "title": "რამდენიმე დაბრუნებული მნიშვნელობა"
+            },
+            {
+              "slug": "named-returns",
+              "title": "სახელდებული დაბრუნება"
+            },
+            {
+              "slug": "variadic-functions",
+              "title": "ცვლადი რაოდენობის არგუმენტები"
+            },
+            {
+              "slug": "functions-as-values",
+              "title": "ფუნქცია, როგორც მნიშვნელობა"
+            }
+          ]
+        },
+        {
+          "slug": "arrays-and-slices",
+          "title": "მასივები და slice",
+          "chapters": [
+            {
+              "slug": "arrays",
+              "title": "მასივი"
+            },
+            {
+              "slug": "slices",
+              "title": "slice"
+            },
+            {
+              "slug": "append",
+              "title": "append"
+            },
+            {
+              "slug": "len-and-cap",
+              "title": "სიგრძე და ტევადობა"
+            },
+            {
+              "slug": "copy",
+              "title": "copy"
+            }
+          ]
+        },
+        {
+          "slug": "maps",
+          "title": "map",
+          "chapters": [
+            {
+              "slug": "map-basics",
+              "title": "map"
+            },
+            {
+              "slug": "checking-keys",
+              "title": "გასაღების შემოწმება"
+            },
+            {
+              "slug": "deleting-keys",
+              "title": "წაშლა"
+            },
+            {
+              "slug": "iterating-maps",
+              "title": "map-ის გავლა"
+            },
+            {
+              "slug": "maps-of-slices",
+              "title": "map და slice ერთად"
+            }
+          ]
+        },
+        {
+          "slug": "strings",
+          "title": "სტრიქონები",
+          "chapters": [
+            {
+              "slug": "strings-and-runes",
+              "title": "string და rune"
+            },
+            {
+              "slug": "strings-package",
+              "title": "strings პაკეტი"
+            },
+            {
+              "slug": "fmt-formatting",
+              "title": "ფორმატირება fmt-ით"
+            },
+            {
+              "slug": "strconv",
+              "title": "strconv"
+            },
+            {
+              "slug": "bytes",
+              "title": "bytes"
+            }
+          ]
+        },
+        {
+          "slug": "structs",
+          "title": "სტრუქტურები",
+          "chapters": [
+            {
+              "slug": "struct-basics",
+              "title": "struct"
+            },
+            {
+              "slug": "methods",
+              "title": "მეთოდები"
+            },
+            {
+              "slug": "pointer-receivers",
+              "title": "მაჩვენებლიანი მიმღები"
+            },
+            {
+              "slug": "embedding",
+              "title": "ჩაშენება"
+            },
+            {
+              "slug": "constructor-functions",
+              "title": "კონსტრუქტორის ფუნქცია"
+            }
+          ]
+        },
+        {
+          "slug": "pointers",
+          "title": "მაჩვენებლები",
+          "chapters": [
+            {
+              "slug": "pointer-basics",
+              "title": "მაჩვენებელი"
+            },
+            {
+              "slug": "address-and-dereference",
+              "title": "მისამართი და განმისამართება"
+            },
+            {
+              "slug": "pointer-or-value",
+              "title": "მაჩვენებელი თუ მნიშვნელობა"
+            },
+            {
+              "slug": "nil",
+              "title": "nil"
+            },
+            {
+              "slug": "new-function",
+              "title": "new"
+            }
+          ]
+        },
+        {
+          "slug": "errors",
+          "title": "შეცდომები",
+          "chapters": [
+            {
+              "slug": "error-type",
+              "title": "error ტიპი"
+            },
+            {
+              "slug": "checking-errors",
+              "title": "შეცდომის შემოწმება"
+            },
+            {
+              "slug": "custom-errors",
+              "title": "საკუთარი შეცდომა"
+            },
+            {
+              "slug": "wrapping-errors",
+              "title": "შეცდომის შეფუთვა"
+            },
+            {
+              "slug": "panic-and-recover",
+              "title": "panic და recover"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "REST API",
+        "description": "სერვისი net/http-ით, მონაცემთა ბაზით, კონკურენტული დამუშავებით და ტესტებით."
+      },
+      "modules": [
+        {
+          "slug": "interfaces",
+          "title": "ინტერფეისები",
+          "chapters": [
+            {
+              "slug": "interface-basics",
+              "title": "ინტერფეისი"
+            },
+            {
+              "slug": "implicit-implementation",
+              "title": "ფარული იმპლემენტაცია"
+            },
+            {
+              "slug": "empty-interface",
+              "title": "any"
+            },
+            {
+              "slug": "type-assertions",
+              "title": "ტიპის მტკიცება"
+            },
+            {
+              "slug": "type-switch",
+              "title": "type switch"
+            }
+          ]
+        },
+        {
+          "slug": "packages-and-modules",
+          "title": "პაკეტები და მოდულები",
+          "chapters": [
+            {
+              "slug": "packages",
+              "title": "პაკეტები"
+            },
+            {
+              "slug": "go-mod",
+              "title": "go mod"
+            },
+            {
+              "slug": "exported-names",
+              "title": "ექსპორტირებული სახელები"
+            },
+            {
+              "slug": "dependencies",
+              "title": "დამოკიდებულებები"
+            },
+            {
+              "slug": "project-layout",
+              "title": "პროექტის სტრუქტურა"
+            }
+          ]
+        },
+        {
+          "slug": "goroutines",
+          "title": "goroutine-ები",
+          "chapters": [
+            {
+              "slug": "goroutine-basics",
+              "title": "goroutine"
+            },
+            {
+              "slug": "waitgroup",
+              "title": "WaitGroup"
+            },
+            {
+              "slug": "channels",
+              "title": "არხები"
+            },
+            {
+              "slug": "buffered-channels",
+              "title": "ბუფერიანი არხები"
+            },
+            {
+              "slug": "select",
+              "title": "select"
+            }
+          ]
+        },
+        {
+          "slug": "concurrency-patterns",
+          "title": "კონკურენტულობის ნიმუშები",
+          "chapters": [
+            {
+              "slug": "worker-pool",
+              "title": "მუშების აუზი"
+            },
+            {
+              "slug": "pipelines",
+              "title": "კონვეიერი"
+            },
+            {
+              "slug": "fan-in-and-out",
+              "title": "fan-in და fan-out"
+            },
+            {
+              "slug": "context",
+              "title": "context"
+            },
+            {
+              "slug": "mutex",
+              "title": "mutex"
+            }
+          ]
+        },
+        {
+          "slug": "generics",
+          "title": "გენერიკები",
+          "chapters": [
+            {
+              "slug": "type-parameters",
+              "title": "ტიპის პარამეტრები"
+            },
+            {
+              "slug": "constraints",
+              "title": "შეზღუდვები"
+            },
+            {
+              "slug": "generic-functions",
+              "title": "generic ფუნქციები"
+            },
+            {
+              "slug": "generic-types",
+              "title": "generic ტიპები"
+            },
+            {
+              "slug": "when-to-use-generics",
+              "title": "როდის გამოვიყენოთ"
+            }
+          ]
+        },
+        {
+          "slug": "standard-library",
+          "title": "სტანდარტული ბიბლიოთეკა",
+          "chapters": [
+            {
+              "slug": "os-and-io",
+              "title": "os და io"
+            },
+            {
+              "slug": "bufio",
+              "title": "bufio"
+            },
+            {
+              "slug": "time",
+              "title": "time"
+            },
+            {
+              "slug": "encoding-json",
+              "title": "encoding/json"
+            },
+            {
+              "slug": "filepath",
+              "title": "filepath"
+            }
+          ]
+        },
+        {
+          "slug": "http",
+          "title": "HTTP",
+          "chapters": [
+            {
+              "slug": "http-server",
+              "title": "net/http სერვერი"
+            },
+            {
+              "slug": "handlers",
+              "title": "handler"
+            },
+            {
+              "slug": "routing",
+              "title": "მარშრუტები"
+            },
+            {
+              "slug": "http-middleware",
+              "title": "middleware"
+            },
+            {
+              "slug": "http-client",
+              "title": "HTTP კლიენტი"
+            }
+          ]
+        },
+        {
+          "slug": "testing",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "go-test",
+              "title": "go test"
+            },
+            {
+              "slug": "table-driven-tests",
+              "title": "ცხრილური ტესტები"
+            },
+            {
+              "slug": "subtests",
+              "title": "ქვეტესტები"
+            },
+            {
+              "slug": "benchmarks",
+              "title": "ბენჩმარკები"
+            },
+            {
+              "slug": "test-doubles",
+              "title": "იმიტაცია ინტერფეისებით"
+            }
+          ]
+        },
+        {
+          "slug": "databases",
+          "title": "მონაცემთა ბაზები",
+          "chapters": [
+            {
+              "slug": "database-sql",
+              "title": "database/sql"
+            },
+            {
+              "slug": "queries",
+              "title": "მოთხოვნები"
+            },
+            {
+              "slug": "transactions",
+              "title": "ტრანზაქციები"
+            },
+            {
+              "slug": "query-generators",
+              "title": "sqlc და ORM"
+            },
+            {
+              "slug": "migrations",
+              "title": "მიგრაციები"
+            }
+          ]
+        },
+        {
+          "slug": "tooling",
+          "title": "ხელსაწყოები",
+          "chapters": [
+            {
+              "slug": "gofmt",
+              "title": "gofmt"
+            },
+            {
+              "slug": "go-vet",
+              "title": "go vet"
+            },
+            {
+              "slug": "linters",
+              "title": "linter"
+            },
+            {
+              "slug": "delve",
+              "title": "გამართვა Delve-ით"
+            },
+            {
+              "slug": "build-flags",
+              "title": "აწყობის პარამეტრები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "gRPC მიკროსერვისი",
+        "description": "სერვისი gRPC-ით, დაკვირვებადობით, შეტყობინებებით და Docker-ით."
+      },
+      "modules": [
+        {
+          "slug": "advanced-concurrency",
+          "title": "კონკურენტულობა სიღრმეში",
+          "chapters": [
+            {
+              "slug": "sync-primitives",
+              "title": "sync პრიმიტივები"
+            },
+            {
+              "slug": "atomic",
+              "title": "atomic"
+            },
+            {
+              "slug": "errgroup",
+              "title": "errgroup"
+            },
+            {
+              "slug": "rate-limiting",
+              "title": "სიხშირის შეზღუდვა"
+            },
+            {
+              "slug": "race-detector",
+              "title": "race detector"
+            }
+          ]
+        },
+        {
+          "slug": "memory",
+          "title": "მეხსიერება",
+          "chapters": [
+            {
+              "slug": "stack-and-heap",
+              "title": "stack და heap"
+            },
+            {
+              "slug": "escape-analysis",
+              "title": "escape ანალიზი"
+            },
+            {
+              "slug": "garbage-collector",
+              "title": "ნაგვის შემგროვებელი"
+            },
+            {
+              "slug": "sync-pool",
+              "title": "sync.Pool"
+            },
+            {
+              "slug": "pprof",
+              "title": "პროფაილინგი pprof-ით"
+            }
+          ]
+        },
+        {
+          "slug": "web-services",
+          "title": "ვებ-სერვისები",
+          "chapters": [
+            {
+              "slug": "routers-and-frameworks",
+              "title": "როუტერები და ფრეიმვორკები"
+            },
+            {
+              "slug": "request-validation",
+              "title": "შემოწმება"
+            },
+            {
+              "slug": "jwt-auth",
+              "title": "ავთენტიფიკაცია JWT-ით"
+            },
+            {
+              "slug": "openapi",
+              "title": "OpenAPI"
+            },
+            {
+              "slug": "graceful-shutdown",
+              "title": "რბილი გათიშვა"
+            }
+          ]
+        },
+        {
+          "slug": "grpc",
+          "title": "gRPC",
+          "chapters": [
+            {
+              "slug": "protobuf",
+              "title": "protobuf"
+            },
+            {
+              "slug": "grpc-services",
+              "title": "gRPC სერვისი"
+            },
+            {
+              "slug": "grpc-streaming",
+              "title": "streaming"
+            },
+            {
+              "slug": "interceptors",
+              "title": "interceptor"
+            },
+            {
+              "slug": "grpc-gateway",
+              "title": "gateway"
+            }
+          ]
+        },
+        {
+          "slug": "cli-apps",
+          "title": "CLI პროგრამები",
+          "chapters": [
+            {
+              "slug": "cobra",
+              "title": "cobra"
+            },
+            {
+              "slug": "configuration",
+              "title": "კონფიგურაცია"
+            },
+            {
+              "slug": "flags",
+              "title": "ალმები"
+            },
+            {
+              "slug": "cross-compiling",
+              "title": "სხვა პლატფორმისთვის აწყობა"
+            },
+            {
+              "slug": "distribution",
+              "title": "გავრცელება"
+            }
+          ]
+        },
+        {
+          "slug": "architecture",
+          "title": "არქიტექტურა",
+          "chapters": [
+            {
+              "slug": "clean-architecture",
+              "title": "სუფთა არქიტექტურა"
+            },
+            {
+              "slug": "dependency-injection",
+              "title": "დამოკიდებულებების ჩანერგვა"
+            },
+            {
+              "slug": "domain-packages",
+              "title": "დომენის პაკეტები"
+            },
+            {
+              "slug": "error-design",
+              "title": "შეცდომების დიზაინი"
+            },
+            {
+              "slug": "app-configuration",
+              "title": "აპის კონფიგურაცია"
+            }
+          ]
+        },
+        {
+          "slug": "observability",
+          "title": "დაკვირვებადობა",
+          "chapters": [
+            {
+              "slug": "structured-logging",
+              "title": "სტრუქტურირებული ლოგები"
+            },
+            {
+              "slug": "metrics",
+              "title": "მეტრიკები"
+            },
+            {
+              "slug": "tracing",
+              "title": "tracing"
+            },
+            {
+              "slug": "health-endpoints",
+              "title": "health endpoint"
+            },
+            {
+              "slug": "profiling-in-production",
+              "title": "პროფაილინგი production-ში"
+            }
+          ]
+        },
+        {
+          "slug": "messaging",
+          "title": "შეტყობინებები",
+          "chapters": [
+            {
+              "slug": "kafka-clients",
+              "title": "Kafka"
+            },
+            {
+              "slug": "nats",
+              "title": "NATS"
+            },
+            {
+              "slug": "queues",
+              "title": "რიგები"
+            },
+            {
+              "slug": "outbox",
+              "title": "outbox ნიმუში"
+            },
+            {
+              "slug": "idempotency",
+              "title": "იდემპოტენტობა"
+            }
+          ]
+        },
+        {
+          "slug": "cloud",
+          "title": "ღრუბელი",
+          "chapters": [
+            {
+              "slug": "docker-images",
+              "title": "Docker image"
+            },
+            {
+              "slug": "kubernetes-client",
+              "title": "Kubernetes კლიენტი"
+            },
+            {
+              "slug": "operators-intro",
+              "title": "ოპერატორების შესავალი"
+            },
+            {
+              "slug": "serverless",
+              "title": "serverless"
+            },
+            {
+              "slug": "cloud-sdks",
+              "title": "ღრუბლის SDK"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-testing",
+          "title": "ტესტირება სიღრმეში",
+          "chapters": [
+            {
+              "slug": "integration-tests",
+              "title": "ინტეგრაციის ტესტები"
+            },
+            {
+              "slug": "testcontainers",
+              "title": "Testcontainers"
+            },
+            {
+              "slug": "fuzzing",
+              "title": "fuzzing"
+            },
+            {
+              "slug": "golden-files",
+              "title": "golden ფაილები"
+            },
+            {
+              "slug": "test-design",
+              "title": "ტესტების დიზაინი"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "განაწილებული საცავი",
+        "description": "key-value საცავი რეპლიკაციით, კონსენსუსით და საკუთარი ქსელური პროტოკოლით."
+      },
+      "modules": [
+        {
+          "slug": "runtime",
+          "title": "runtime შიგნიდან",
+          "chapters": [
+            {
+              "slug": "scheduler",
+              "title": "დამგეგმავი"
+            },
+            {
+              "slug": "goroutine-stacks",
+              "title": "goroutine-ის სტეკი"
+            },
+            {
+              "slug": "gc-internals",
+              "title": "GC შიგნიდან"
+            },
+            {
+              "slug": "channel-internals",
+              "title": "არხები შიგნიდან"
+            },
+            {
+              "slug": "netpoller",
+              "title": "netpoller"
+            }
+          ]
+        },
+        {
+          "slug": "performance",
+          "title": "წარმადობა",
+          "chapters": [
+            {
+              "slug": "benchmark-methodology",
+              "title": "ბენჩმარკის მეთოდიკა"
+            },
+            {
+              "slug": "reducing-allocations",
+              "title": "გამოყოფების შემცირება"
+            },
+            {
+              "slug": "inlining",
+              "title": "inlining"
+            },
+            {
+              "slug": "assembly",
+              "title": "ასემბლერი"
+            },
+            {
+              "slug": "pgo",
+              "title": "PGO"
+            }
+          ]
+        },
+        {
+          "slug": "unsafe-and-cgo",
+          "title": "unsafe და cgo",
+          "chapters": [
+            {
+              "slug": "unsafe",
+              "title": "unsafe"
+            },
+            {
+              "slug": "cgo",
+              "title": "cgo"
+            },
+            {
+              "slug": "memory-layout",
+              "title": "მეხსიერების განლაგება"
+            },
+            {
+              "slug": "reflection",
+              "title": "reflection"
+            },
+            {
+              "slug": "linkname-risks",
+              "title": "linkname და რისკები"
+            }
+          ]
+        },
+        {
+          "slug": "distributed-systems",
+          "title": "განაწილებული სისტემები",
+          "chapters": [
+            {
+              "slug": "raft",
+              "title": "Raft"
+            },
+            {
+              "slug": "consistent-hashing",
+              "title": "consistent hashing"
+            },
+            {
+              "slug": "distributed-locks",
+              "title": "განაწილებული საკეტები"
+            },
+            {
+              "slug": "leader-election",
+              "title": "ლიდერის არჩევა"
+            },
+            {
+              "slug": "crdt-intro",
+              "title": "CRDT-ის შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "systems-programming",
+          "title": "სისტემური პროგრამირება",
+          "chapters": [
+            {
+              "slug": "tcp-and-udp",
+              "title": "TCP და UDP"
+            },
+            {
+              "slug": "custom-protocols",
+              "title": "საკუთარი პროტოკოლი"
+            },
+            {
+              "slug": "file-formats",
+              "title": "ფაილის ფორმატები"
+            },
+            {
+              "slug": "mmap",
+              "title": "mmap"
+            },
+            {
+              "slug": "ebpf-intro",
+              "title": "eBPF-ის შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "compiler-tools",
+          "title": "კომპილატორის ხელსაწყოები",
+          "chapters": [
+            {
+              "slug": "go-ast",
+              "title": "go/ast"
+            },
+            {
+              "slug": "code-generation",
+              "title": "კოდის გენერაცია"
+            },
+            {
+              "slug": "analyzers",
+              "title": "ანალიზატორები"
+            },
+            {
+              "slug": "compiler-stages",
+              "title": "კომპილაციის ეტაპები"
+            },
+            {
+              "slug": "toolchain",
+              "title": "toolchain"
+            }
+          ]
+        },
+        {
+          "slug": "kubernetes-operators",
+          "title": "Kubernetes ოპერატორები",
+          "chapters": [
+            {
+              "slug": "controller-pattern",
+              "title": "controller ნიმუში"
+            },
+            {
+              "slug": "crds",
+              "title": "CRD"
+            },
+            {
+              "slug": "operator-sdk",
+              "title": "operator SDK"
+            },
+            {
+              "slug": "reconciliation",
+              "title": "reconciliation"
+            },
+            {
+              "slug": "testing-operators",
+              "title": "ოპერატორის ტესტირება"
+            }
+          ]
+        },
+        {
+          "slug": "large-codebases",
+          "title": "დიდი კოდბაზა",
+          "chapters": [
+            {
+              "slug": "monorepo",
+              "title": "monorepo"
+            },
+            {
+              "slug": "api-versioning",
+              "title": "API-ს ვერსიები"
+            },
+            {
+              "slug": "module-management",
+              "title": "მოდულების მართვა"
+            },
+            {
+              "slug": "code-review",
+              "title": "კოდის მიმოხილვა"
+            },
+            {
+              "slug": "standards",
+              "title": "სტანდარტები"
+            }
+          ]
+        },
+        {
+          "slug": "security",
+          "title": "უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "secure-coding",
+              "title": "უსაფრთხო კოდი"
+            },
+            {
+              "slug": "crypto-packages",
+              "title": "კრიპტოგრაფიის პაკეტები"
+            },
+            {
+              "slug": "govulncheck",
+              "title": "მოწყვლადობების შემოწმება"
+            },
+            {
+              "slug": "sandboxing",
+              "title": "იზოლაცია"
+            },
+            {
+              "slug": "auditing",
+              "title": "აუდიტი"
+            }
+          ]
+        },
+        {
+          "slug": "go-evolution",
+          "title": "ენის განვითარება",
+          "chapters": [
+            {
+              "slug": "proposal-process",
+              "title": "წინადადებების პროცესი"
+            },
+            {
+              "slug": "generics-evolution",
+              "title": "გენერიკების განვითარება"
+            },
+            {
+              "slug": "iterators",
+              "title": "იტერატორები"
+            },
+            {
+              "slug": "compatibility-promise",
+              "title": "თავსებადობის პირობა"
+            },
+            {
+              "slug": "career",
+              "title": "კარიერა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

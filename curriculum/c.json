@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "მოსწავლეების ჟურნალი",
+        "description": "პროგრამა, რომელიც მოსწავლეებს და ქულებს ინახავს ფაილში და საშუალოს ითვლის."
+      },
+      "modules": [
+        {
+          "slug": "c-intro",
+          "title": "C-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-c",
+              "title": "რა არის C"
+            },
+            {
+              "slug": "installing-a-compiler",
+              "title": "კომპილატორის დაყენება"
+            },
+            {
+              "slug": "first-program",
+              "title": "პირველი პროგრამა"
+            },
+            {
+              "slug": "compiling",
+              "title": "კომპილაცია"
+            },
+            {
+              "slug": "main-and-return",
+              "title": "main და return"
+            }
+          ]
+        },
+        {
+          "slug": "variables",
+          "title": "ცვლადები",
+          "chapters": [
+            {
+              "slug": "declaring-variables",
+              "title": "ცვლადის გამოცხადება"
+            },
+            {
+              "slug": "basic-types",
+              "title": "int, float და char"
+            },
+            {
+              "slug": "printf",
+              "title": "printf"
+            },
+            {
+              "slug": "scanf",
+              "title": "scanf"
+            },
+            {
+              "slug": "constants",
+              "title": "მუდმივები"
+            }
+          ]
+        },
+        {
+          "slug": "operators",
+          "title": "ოპერატორები",
+          "chapters": [
+            {
+              "slug": "arithmetic",
+              "title": "არითმეტიკა"
+            },
+            {
+              "slug": "comparison",
+              "title": "შედარება"
+            },
+            {
+              "slug": "logical",
+              "title": "ლოგიკური ოპერატორები"
+            },
+            {
+              "slug": "increment-and-decrement",
+              "title": "ინკრემენტი და დეკრემენტი"
+            },
+            {
+              "slug": "type-casting",
+              "title": "ტიპის გარდაქმნა"
+            }
+          ]
+        },
+        {
+          "slug": "control-flow",
+          "title": "მართვის ნაკადი",
+          "chapters": [
+            {
+              "slug": "if-else",
+              "title": "if და else"
+            },
+            {
+              "slug": "switch",
+              "title": "switch"
+            },
+            {
+              "slug": "while-loop",
+              "title": "while"
+            },
+            {
+              "slug": "for-loop",
+              "title": "for"
+            },
+            {
+              "slug": "do-while",
+              "title": "do-while"
+            }
+          ]
+        },
+        {
+          "slug": "functions",
+          "title": "ფუნქციები",
+          "chapters": [
+            {
+              "slug": "defining-functions",
+              "title": "ფუნქციის განსაზღვრა"
+            },
+            {
+              "slug": "parameters",
+              "title": "პარამეტრები"
+            },
+            {
+              "slug": "return-values",
+              "title": "დაბრუნებული მნიშვნელობა"
+            },
+            {
+              "slug": "prototypes",
+              "title": "პროტოტიპები"
+            },
+            {
+              "slug": "scope",
+              "title": "ხილვადობა"
+            }
+          ]
+        },
+        {
+          "slug": "arrays",
+          "title": "მასივები",
+          "chapters": [
+            {
+              "slug": "array-basics",
+              "title": "მასივი"
+            },
+            {
+              "slug": "iterating-arrays",
+              "title": "მასივის გავლა"
+            },
+            {
+              "slug": "arrays-and-functions",
+              "title": "მასივი ფუნქციაში"
+            },
+            {
+              "slug": "two-dimensional-arrays",
+              "title": "ორგანზომილებიანი მასივი"
+            },
+            {
+              "slug": "out-of-bounds",
+              "title": "საზღვრების შეცდომები"
+            }
+          ]
+        },
+        {
+          "slug": "strings",
+          "title": "სტრიქონები",
+          "chapters": [
+            {
+              "slug": "char-arrays",
+              "title": "char მასივი"
+            },
+            {
+              "slug": "null-terminator",
+              "title": "ნულოვანი დასასრული"
+            },
+            {
+              "slug": "string-h",
+              "title": "string.h"
+            },
+            {
+              "slug": "string-io",
+              "title": "სტრიქონის შეტანა და გამოტანა"
+            },
+            {
+              "slug": "string-mistakes",
+              "title": "ხშირი შეცდომები"
+            }
+          ]
+        },
+        {
+          "slug": "pointers-intro",
+          "title": "მაჩვენებლების შესავალი",
+          "chapters": [
+            {
+              "slug": "what-is-a-pointer",
+              "title": "რა არის მაჩვენებელი"
+            },
+            {
+              "slug": "address-of",
+              "title": "მისამართის ოპერატორი"
+            },
+            {
+              "slug": "dereferencing",
+              "title": "განმისამართება"
+            },
+            {
+              "slug": "pointers-and-arrays",
+              "title": "მაჩვენებელი და მასივი"
+            },
+            {
+              "slug": "null-pointer",
+              "title": "NULL"
+            }
+          ]
+        },
+        {
+          "slug": "structs-intro",
+          "title": "სტრუქტურების შესავალი",
+          "chapters": [
+            {
+              "slug": "struct",
+              "title": "struct"
+            },
+            {
+              "slug": "accessing-members",
+              "title": "წევრებზე წვდომა"
+            },
+            {
+              "slug": "structs-and-functions",
+              "title": "struct ფუნქციაში"
+            },
+            {
+              "slug": "typedef",
+              "title": "typedef"
+            },
+            {
+              "slug": "array-of-structs",
+              "title": "სტრუქტურების მასივი"
+            }
+          ]
+        },
+        {
+          "slug": "files",
+          "title": "ფაილები",
+          "chapters": [
+            {
+              "slug": "opening-files",
+              "title": "ფაილის გახსნა და დახურვა"
+            },
+            {
+              "slug": "reading-text",
+              "title": "ტექსტის წაკითხვა"
+            },
+            {
+              "slug": "writing-text",
+              "title": "ტექსტის ჩაწერა"
+            },
+            {
+              "slug": "checking-errors",
+              "title": "შეცდომების შემოწმება"
+            },
+            {
+              "slug": "binary-files",
+              "title": "ბინარული ფაილები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "ტექსტური მონაცემთა ბაზა",
+        "description": "პროგრამა ჩანაწერების შესანახად დინამიკური მეხსიერებით, ბმული სიით და რამდენიმე ფაილით."
+      },
+      "modules": [
+        {
+          "slug": "pointers-in-depth",
+          "title": "მაჩვენებლები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "pointer-arithmetic",
+              "title": "მაჩვენებლის არითმეტიკა"
+            },
+            {
+              "slug": "pointer-to-pointer",
+              "title": "მაჩვენებელი მაჩვენებელზე"
+            },
+            {
+              "slug": "const-pointers",
+              "title": "const და მაჩვენებლები"
+            },
+            {
+              "slug": "function-pointers",
+              "title": "ფუნქციის მაჩვენებელი"
+            },
+            {
+              "slug": "void-pointers",
+              "title": "void მაჩვენებელი"
+            }
+          ]
+        },
+        {
+          "slug": "dynamic-memory",
+          "title": "დინამიკური მეხსიერება",
+          "chapters": [
+            {
+              "slug": "stack-and-heap",
+              "title": "stack და heap"
+            },
+            {
+              "slug": "malloc-and-free",
+              "title": "malloc და free"
+            },
+            {
+              "slug": "calloc-and-realloc",
+              "title": "calloc და realloc"
+            },
+            {
+              "slug": "memory-leaks",
+              "title": "მეხსიერების გაჟონვა"
+            },
+            {
+              "slug": "valgrind",
+              "title": "valgrind"
+            }
+          ]
+        },
+        {
+          "slug": "safe-strings",
+          "title": "სტრიქონების უსაფრთხო დამუშავება",
+          "chapters": [
+            {
+              "slug": "bounded-functions",
+              "title": "ზომით შეზღუდული ფუნქციები"
+            },
+            {
+              "slug": "strtok",
+              "title": "strtok"
+            },
+            {
+              "slug": "snprintf",
+              "title": "snprintf"
+            },
+            {
+              "slug": "string-to-number",
+              "title": "სტრიქონის რიცხვად ქცევა"
+            },
+            {
+              "slug": "buffer-overflow",
+              "title": "ბუფერის გადავსება"
+            }
+          ]
+        },
+        {
+          "slug": "structs-in-depth",
+          "title": "სტრუქტურები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "nested-structs",
+              "title": "ჩადგმული სტრუქტურები"
+            },
+            {
+              "slug": "pointers-to-structs",
+              "title": "მაჩვენებელი სტრუქტურაზე"
+            },
+            {
+              "slug": "unions",
+              "title": "union"
+            },
+            {
+              "slug": "enums",
+              "title": "enum"
+            },
+            {
+              "slug": "bit-fields",
+              "title": "ბიტური ველები"
+            }
+          ]
+        },
+        {
+          "slug": "preprocessor",
+          "title": "პრეპროცესორი",
+          "chapters": [
+            {
+              "slug": "include",
+              "title": "#include"
+            },
+            {
+              "slug": "define",
+              "title": "#define"
+            },
+            {
+              "slug": "macros",
+              "title": "მაკროსები"
+            },
+            {
+              "slug": "conditional-compilation",
+              "title": "პირობითი კომპილაცია"
+            },
+            {
+              "slug": "header-guards",
+              "title": "header guard"
+            }
+          ]
+        },
+        {
+          "slug": "multi-file-programs",
+          "title": "რამდენიმე ფაილი",
+          "chapters": [
+            {
+              "slug": "header-files",
+              "title": "header ფაილები"
+            },
+            {
+              "slug": "extern",
+              "title": "extern"
+            },
+            {
+              "slug": "static",
+              "title": "static"
+            },
+            {
+              "slug": "makefile",
+              "title": "Makefile"
+            },
+            {
+              "slug": "creating-libraries",
+              "title": "ბიბლიოთეკის შექმნა"
+            }
+          ]
+        },
+        {
+          "slug": "data-structures",
+          "title": "მონაცემთა სტრუქტურები",
+          "chapters": [
+            {
+              "slug": "linked-list",
+              "title": "ბმული სია"
+            },
+            {
+              "slug": "stack",
+              "title": "სტეკი"
+            },
+            {
+              "slug": "queue",
+              "title": "რიგი"
+            },
+            {
+              "slug": "binary-tree",
+              "title": "ორობითი ხე"
+            },
+            {
+              "slug": "hash-table",
+              "title": "ჰეშ-ცხრილი"
+            }
+          ]
+        },
+        {
+          "slug": "algorithms",
+          "title": "ალგორითმები",
+          "chapters": [
+            {
+              "slug": "sorting",
+              "title": "დალაგება"
+            },
+            {
+              "slug": "searching",
+              "title": "ძებნა"
+            },
+            {
+              "slug": "recursion",
+              "title": "რეკურსია"
+            },
+            {
+              "slug": "qsort",
+              "title": "qsort"
+            },
+            {
+              "slug": "complexity",
+              "title": "სირთულე"
+            }
+          ]
+        },
+        {
+          "slug": "debugging",
+          "title": "გამართვა",
+          "chapters": [
+            {
+              "slug": "gdb",
+              "title": "gdb"
+            },
+            {
+              "slug": "assert",
+              "title": "assert"
+            },
+            {
+              "slug": "compiler-warnings",
+              "title": "კომპილატორის გაფრთხილებები"
+            },
+            {
+              "slug": "sanitizers",
+              "title": "sanitizer"
+            },
+            {
+              "slug": "core-dumps",
+              "title": "core dump"
+            }
+          ]
+        },
+        {
+          "slug": "io-in-depth",
+          "title": "შეტანა-გამოტანა სიღრმეში",
+          "chapters": [
+            {
+              "slug": "standard-streams",
+              "title": "სტანდარტული ნაკადები"
+            },
+            {
+              "slug": "buffering",
+              "title": "ბუფერიზაცია"
+            },
+            {
+              "slug": "formatted-io",
+              "title": "ფორმატირებული I/O"
+            },
+            {
+              "slug": "command-line-arguments",
+              "title": "ბრძანების არგუმენტები"
+            },
+            {
+              "slug": "environment-variables",
+              "title": "გარემოს ცვლადები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "მარტივი shell",
+        "description": "ბრძანებათა გარსი, რომელიც პროგრამებს უშვებს, აერთებს pipe-ით და ამუშავებს სიგნალებს."
+      },
+      "modules": [
+        {
+          "slug": "system-calls",
+          "title": "სისტემური გამოძახებები",
+          "chapters": [
+            {
+              "slug": "what-is-a-syscall",
+              "title": "რა არის სისტემური გამოძახება"
+            },
+            {
+              "slug": "file-descriptors",
+              "title": "ფაილის დესკრიპტორი"
+            },
+            {
+              "slug": "read-and-write",
+              "title": "read და write"
+            },
+            {
+              "slug": "open-and-close",
+              "title": "open და close"
+            },
+            {
+              "slug": "errno",
+              "title": "errno"
+            }
+          ]
+        },
+        {
+          "slug": "processes",
+          "title": "პროცესები",
+          "chapters": [
+            {
+              "slug": "fork",
+              "title": "fork"
+            },
+            {
+              "slug": "exec",
+              "title": "exec"
+            },
+            {
+              "slug": "wait",
+              "title": "wait"
+            },
+            {
+              "slug": "signals",
+              "title": "სიგნალები"
+            },
+            {
+              "slug": "pipes",
+              "title": "pipe"
+            }
+          ]
+        },
+        {
+          "slug": "threads",
+          "title": "ნაკადები",
+          "chapters": [
+            {
+              "slug": "pthreads",
+              "title": "pthreads"
+            },
+            {
+              "slug": "mutex",
+              "title": "mutex"
+            },
+            {
+              "slug": "condition-variables",
+              "title": "პირობის ცვლადები"
+            },
+            {
+              "slug": "race-conditions",
+              "title": "რბოლის პირობა"
+            },
+            {
+              "slug": "thread-safety",
+              "title": "ნაკადური უსაფრთხოება"
+            }
+          ]
+        },
+        {
+          "slug": "networking",
+          "title": "ქსელი",
+          "chapters": [
+            {
+              "slug": "sockets",
+              "title": "socket"
+            },
+            {
+              "slug": "tcp-server",
+              "title": "TCP სერვერი"
+            },
+            {
+              "slug": "tcp-client",
+              "title": "TCP კლიენტი"
+            },
+            {
+              "slug": "select-and-poll",
+              "title": "select და poll"
+            },
+            {
+              "slug": "writing-a-protocol",
+              "title": "პროტოკოლის დაწერა"
+            }
+          ]
+        },
+        {
+          "slug": "memory-in-depth",
+          "title": "მეხსიერება სიღრმეში",
+          "chapters": [
+            {
+              "slug": "memory-layout",
+              "title": "მეხსიერების განლაგება"
+            },
+            {
+              "slug": "alignment",
+              "title": "გასწორება"
+            },
+            {
+              "slug": "custom-allocator",
+              "title": "საკუთარი ალოკატორი"
+            },
+            {
+              "slug": "mmap",
+              "title": "mmap"
+            },
+            {
+              "slug": "cache-effects",
+              "title": "ქეშის გავლენა"
+            }
+          ]
+        },
+        {
+          "slug": "bit-manipulation",
+          "title": "ბიტებთან მუშაობა",
+          "chapters": [
+            {
+              "slug": "bitwise-operators",
+              "title": "ბიტური ოპერატორები"
+            },
+            {
+              "slug": "masks",
+              "title": "ნიღბები"
+            },
+            {
+              "slug": "endianness",
+              "title": "ბაიტების რიგი"
+            },
+            {
+              "slug": "fixed-width-types",
+              "title": "ფიქსირებული სიგანის ტიპები"
+            },
+            {
+              "slug": "binary-formats",
+              "title": "ბინარული ფორმატები"
+            }
+          ]
+        },
+        {
+          "slug": "build-systems",
+          "title": "აწყობის სისტემები",
+          "chapters": [
+            {
+              "slug": "make-in-depth",
+              "title": "make სიღრმეში"
+            },
+            {
+              "slug": "cmake",
+              "title": "CMake"
+            },
+            {
+              "slug": "static-and-dynamic-libraries",
+              "title": "სტატიკური და დინამიკური ბიბლიოთეკები"
+            },
+            {
+              "slug": "linking",
+              "title": "ბმა"
+            },
+            {
+              "slug": "cross-compilation",
+              "title": "სხვა პლატფორმისთვის აწყობა"
+            }
+          ]
+        },
+        {
+          "slug": "undefined-behavior",
+          "title": "განუსაზღვრელი ქცევა",
+          "chapters": [
+            {
+              "slug": "what-is-ub",
+              "title": "რა არის განუსაზღვრელი ქცევა"
+            },
+            {
+              "slug": "integer-overflow",
+              "title": "მთელი რიცხვის გადავსება"
+            },
+            {
+              "slug": "strict-aliasing",
+              "title": "strict aliasing"
+            },
+            {
+              "slug": "sequence-points",
+              "title": "შესრულების რიგი"
+            },
+            {
+              "slug": "optimizer-surprises",
+              "title": "ოპტიმიზატორის სიურპრიზები"
+            }
+          ]
+        },
+        {
+          "slug": "testing",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "unit-testing",
+              "title": "ერთეულის ტესტები"
+            },
+            {
+              "slug": "mocking",
+              "title": "იმიტაცია"
+            },
+            {
+              "slug": "fuzzing",
+              "title": "fuzzing"
+            },
+            {
+              "slug": "static-analysis",
+              "title": "სტატიკური ანალიზი"
+            },
+            {
+              "slug": "coverage",
+              "title": "დაფარვა"
+            }
+          ]
+        },
+        {
+          "slug": "standards",
+          "title": "სტანდარტები",
+          "chapters": [
+            {
+              "slug": "c-versions",
+              "title": "C89-დან C23-მდე"
+            },
+            {
+              "slug": "newer-features",
+              "title": "ახალი შესაძლებლობები"
+            },
+            {
+              "slug": "portability",
+              "title": "გადატანადობა"
+            },
+            {
+              "slug": "compiler-extensions",
+              "title": "კომპილატორის გაფართოებები"
+            },
+            {
+              "slug": "misra",
+              "title": "MISRA"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "HTTP სერვერი ნულიდან",
+        "description": "სერვერი საკუთარი ალოკატორით, ასინქრონული I/O-თი და ტესტებით."
+      },
+      "modules": [
+        {
+          "slug": "os-internals",
+          "title": "ოპერაციული სისტემა შიგნიდან",
+          "chapters": [
+            {
+              "slug": "kernel-and-user-space",
+              "title": "ბირთვი და მომხმარებლის სივრცე"
+            },
+            {
+              "slug": "scheduler",
+              "title": "დამგეგმავი"
+            },
+            {
+              "slug": "virtual-memory",
+              "title": "ვირტუალური მეხსიერება"
+            },
+            {
+              "slug": "file-systems",
+              "title": "ფაილური სისტემები"
+            },
+            {
+              "slug": "device-drivers",
+              "title": "მოწყობილობის დრაივერები"
+            }
+          ]
+        },
+        {
+          "slug": "embedded",
+          "title": "ჩაშენებული სისტემები",
+          "chapters": [
+            {
+              "slug": "microcontrollers",
+              "title": "მიკროკონტროლერები"
+            },
+            {
+              "slug": "registers",
+              "title": "რეგისტრები"
+            },
+            {
+              "slug": "interrupts",
+              "title": "წყვეტები"
+            },
+            {
+              "slug": "timers",
+              "title": "ტაიმერები"
+            },
+            {
+              "slug": "bare-metal",
+              "title": "bare metal"
+            }
+          ]
+        },
+        {
+          "slug": "performance",
+          "title": "წარმადობა",
+          "chapters": [
+            {
+              "slug": "profiling",
+              "title": "პროფაილინგი"
+            },
+            {
+              "slug": "cache-optimization",
+              "title": "ქეშის ოპტიმიზაცია"
+            },
+            {
+              "slug": "simd",
+              "title": "SIMD"
+            },
+            {
+              "slug": "branch-prediction",
+              "title": "განშტოების წინასწარმეტყველება"
+            },
+            {
+              "slug": "inline-assembly",
+              "title": "ჩაშენებული ასემბლერი"
+            }
+          ]
+        },
+        {
+          "slug": "compilers",
+          "title": "კომპილატორი",
+          "chapters": [
+            {
+              "slug": "compilation-stages",
+              "title": "კომპილაციის ეტაპები"
+            },
+            {
+              "slug": "reading-assembly",
+              "title": "ასემბლერის კითხვა"
+            },
+            {
+              "slug": "abi",
+              "title": "ABI"
+            },
+            {
+              "slug": "linker-scripts",
+              "title": "linker script"
+            },
+            {
+              "slug": "lto",
+              "title": "LTO"
+            }
+          ]
+        },
+        {
+          "slug": "security",
+          "title": "უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "exploiting-overflows",
+              "title": "გადავსების გამოყენება"
+            },
+            {
+              "slug": "stack-protection",
+              "title": "სტეკის დაცვა"
+            },
+            {
+              "slug": "aslr",
+              "title": "ASLR"
+            },
+            {
+              "slug": "cert-c",
+              "title": "CERT-ის წესები"
+            },
+            {
+              "slug": "hardening",
+              "title": "გამაგრება"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-concurrency",
+          "title": "კონკურენტულობა სიღრმეში",
+          "chapters": [
+            {
+              "slug": "lock-free",
+              "title": "lock-free სტრუქტურები"
+            },
+            {
+              "slug": "atomics",
+              "title": "atomic"
+            },
+            {
+              "slug": "memory-ordering",
+              "title": "მეხსიერების რიგი"
+            },
+            {
+              "slug": "thread-pools",
+              "title": "ნაკადების აუზი"
+            },
+            {
+              "slug": "async-io",
+              "title": "ასინქრონული I/O"
+            }
+          ]
+        },
+        {
+          "slug": "interop",
+          "title": "სხვა ენებთან მუშაობა",
+          "chapters": [
+            {
+              "slug": "c-from-other-languages",
+              "title": "C სხვა ენებიდან"
+            },
+            {
+              "slug": "ffi",
+              "title": "FFI"
+            },
+            {
+              "slug": "library-api-design",
+              "title": "ბიბლიოთეკის API"
+            },
+            {
+              "slug": "abi-stability",
+              "title": "ABI-ს სტაბილურობა"
+            },
+            {
+              "slug": "bindings",
+              "title": "bindings"
+            }
+          ]
+        },
+        {
+          "slug": "large-projects",
+          "title": "დიდი პროექტები",
+          "chapters": [
+            {
+              "slug": "code-organization",
+              "title": "კოდის ორგანიზება"
+            },
+            {
+              "slug": "designing-apis",
+              "title": "API-ს დიზაინი"
+            },
+            {
+              "slug": "doxygen",
+              "title": "დოკუმენტაცია Doxygen-ით"
+            },
+            {
+              "slug": "versioning",
+              "title": "ვერსიები"
+            },
+            {
+              "slug": "code-review",
+              "title": "კოდის მიმოხილვა"
+            }
+          ]
+        },
+        {
+          "slug": "real-systems",
+          "title": "ნამდვილი სისტემები",
+          "chapters": [
+            {
+              "slug": "linux-kernel-code",
+              "title": "Linux-ის ბირთვის კოდი"
+            },
+            {
+              "slug": "sqlite-architecture",
+              "title": "SQLite-ის არქიტექტურა"
+            },
+            {
+              "slug": "redis-internals",
+              "title": "Redis შიგნიდან"
+            },
+            {
+              "slug": "git-internals",
+              "title": "Git შიგნიდან"
+            },
+            {
+              "slug": "lessons-learned",
+              "title": "გაკვეთილები"
+            }
+          ]
+        },
+        {
+          "slug": "c-future",
+          "title": "C-ის მომავალი",
+          "chapters": [
+            {
+              "slug": "c23",
+              "title": "C23"
+            },
+            {
+              "slug": "safer-c",
+              "title": "უფრო უსაფრთხო C"
+            },
+            {
+              "slug": "c-and-rust",
+              "title": "C და Rust"
+            },
+            {
+              "slug": "tooling-evolution",
+              "title": "ხელსაწყოების განვითარება"
+            },
+            {
+              "slug": "systems-career",
+              "title": "კარიერა სისტემურ პროგრამირებაში"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

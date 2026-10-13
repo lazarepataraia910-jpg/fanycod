@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "სამუშაო გარემო",
+        "description": "საკუთარი ტერმინალის მოწყობა: ფაილების სტრუქტურა, მეტსახელები და პარამეტრების ფაილები."
+      },
+      "modules": [
+        {
+          "slug": "linux-intro",
+          "title": "Linux-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-linux",
+              "title": "რა არის Linux"
+            },
+            {
+              "slug": "distributions",
+              "title": "დისტრიბუციები"
+            },
+            {
+              "slug": "opening-a-terminal",
+              "title": "ტერმინალის გახსნა"
+            },
+            {
+              "slug": "shell-and-prompt",
+              "title": "shell და prompt"
+            },
+            {
+              "slug": "first-commands",
+              "title": "პირველი ბრძანებები"
+            }
+          ]
+        },
+        {
+          "slug": "navigation",
+          "title": "ნავიგაცია",
+          "chapters": [
+            {
+              "slug": "pwd",
+              "title": "pwd"
+            },
+            {
+              "slug": "ls",
+              "title": "ls"
+            },
+            {
+              "slug": "cd",
+              "title": "cd"
+            },
+            {
+              "slug": "absolute-and-relative-paths",
+              "title": "აბსოლუტური და ფარდობითი გზები"
+            },
+            {
+              "slug": "directory-tree",
+              "title": "საქაღალდეების ხე"
+            }
+          ]
+        },
+        {
+          "slug": "files-and-directories",
+          "title": "ფაილები და საქაღალდეები",
+          "chapters": [
+            {
+              "slug": "mkdir-and-touch",
+              "title": "mkdir და touch"
+            },
+            {
+              "slug": "cp",
+              "title": "cp"
+            },
+            {
+              "slug": "mv",
+              "title": "mv"
+            },
+            {
+              "slug": "rm",
+              "title": "rm"
+            },
+            {
+              "slug": "wildcards",
+              "title": "ნიმუშები სახელებში"
+            }
+          ]
+        },
+        {
+          "slug": "viewing-files",
+          "title": "ფაილის ნახვა",
+          "chapters": [
+            {
+              "slug": "cat",
+              "title": "cat"
+            },
+            {
+              "slug": "less",
+              "title": "less"
+            },
+            {
+              "slug": "head-and-tail",
+              "title": "head და tail"
+            },
+            {
+              "slug": "wc",
+              "title": "wc"
+            },
+            {
+              "slug": "file-command",
+              "title": "file"
+            }
+          ]
+        },
+        {
+          "slug": "editing-files",
+          "title": "ფაილის რედაქტირება",
+          "chapters": [
+            {
+              "slug": "nano",
+              "title": "nano"
+            },
+            {
+              "slug": "vim-basics",
+              "title": "vim-ის საფუძველი"
+            },
+            {
+              "slug": "echo-and-redirect",
+              "title": "echo და ჩაწერა ფაილში"
+            },
+            {
+              "slug": "config-files",
+              "title": "პარამეტრების ფაილები"
+            },
+            {
+              "slug": "choosing-an-editor",
+              "title": "რედაქტორის არჩევა"
+            }
+          ]
+        },
+        {
+          "slug": "getting-help",
+          "title": "დახმარების პოვნა",
+          "chapters": [
+            {
+              "slug": "man",
+              "title": "man"
+            },
+            {
+              "slug": "help-flag",
+              "title": "--help"
+            },
+            {
+              "slug": "tldr",
+              "title": "tldr"
+            },
+            {
+              "slug": "apropos",
+              "title": "apropos"
+            },
+            {
+              "slug": "searching-online",
+              "title": "პასუხის ძებნა"
+            }
+          ]
+        },
+        {
+          "slug": "permissions-basics",
+          "title": "უფლებების საფუძვლები",
+          "chapters": [
+            {
+              "slug": "users-and-groups",
+              "title": "მომხმარებლები და ჯგუფები"
+            },
+            {
+              "slug": "rwx",
+              "title": "წაკითხვა, ჩაწერა და გაშვება"
+            },
+            {
+              "slug": "chmod",
+              "title": "chmod"
+            },
+            {
+              "slug": "chown",
+              "title": "chown"
+            },
+            {
+              "slug": "sudo",
+              "title": "sudo"
+            }
+          ]
+        },
+        {
+          "slug": "searching",
+          "title": "ძებნა",
+          "chapters": [
+            {
+              "slug": "find",
+              "title": "find"
+            },
+            {
+              "slug": "grep",
+              "title": "grep"
+            },
+            {
+              "slug": "locate",
+              "title": "locate"
+            },
+            {
+              "slug": "which",
+              "title": "which"
+            },
+            {
+              "slug": "grep-patterns",
+              "title": "grep-ის ნიმუშები"
+            }
+          ]
+        },
+        {
+          "slug": "pipes-and-redirects",
+          "title": "pipe და გადამისამართება",
+          "chapters": [
+            {
+              "slug": "standard-streams",
+              "title": "სტანდარტული ნაკადები"
+            },
+            {
+              "slug": "output-redirect",
+              "title": "გამოტანის გადამისამართება"
+            },
+            {
+              "slug": "pipes",
+              "title": "pipe"
+            },
+            {
+              "slug": "tee",
+              "title": "tee"
+            },
+            {
+              "slug": "chaining-commands",
+              "title": "ბრძანებების დაკავშირება"
+            }
+          ]
+        },
+        {
+          "slug": "packages",
+          "title": "პაკეტები",
+          "chapters": [
+            {
+              "slug": "package-managers",
+              "title": "პაკეტების მმართველი"
+            },
+            {
+              "slug": "apt",
+              "title": "apt"
+            },
+            {
+              "slug": "updating",
+              "title": "განახლება"
+            },
+            {
+              "slug": "removing-software",
+              "title": "პროგრამის წაშლა"
+            },
+            {
+              "slug": "snap-and-flatpak",
+              "title": "snap და flatpak"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "სარეზერვო ასლების სკრიპტი",
+        "description": "სკრიპტი, რომელიც ფაილებს არქივავს, სერვერზე აგზავნის და გრაფიკით ეშვება."
+      },
+      "modules": [
+        {
+          "slug": "text-processing",
+          "title": "ტექსტის დამუშავება",
+          "chapters": [
+            {
+              "slug": "cut",
+              "title": "cut"
+            },
+            {
+              "slug": "sort-and-uniq",
+              "title": "sort და uniq"
+            },
+            {
+              "slug": "tr",
+              "title": "tr"
+            },
+            {
+              "slug": "sed",
+              "title": "sed"
+            },
+            {
+              "slug": "awk",
+              "title": "awk"
+            }
+          ]
+        },
+        {
+          "slug": "processes",
+          "title": "პროცესები",
+          "chapters": [
+            {
+              "slug": "ps",
+              "title": "ps"
+            },
+            {
+              "slug": "top-and-htop",
+              "title": "top და htop"
+            },
+            {
+              "slug": "kill",
+              "title": "kill"
+            },
+            {
+              "slug": "jobs",
+              "title": "ფონური და წინა პლანის პროცესები"
+            },
+            {
+              "slug": "nice",
+              "title": "პრიორიტეტი nice-ით"
+            }
+          ]
+        },
+        {
+          "slug": "bash-basics",
+          "title": "Bash-სკრიპტების საფუძვლები",
+          "chapters": [
+            {
+              "slug": "creating-scripts",
+              "title": "სკრიპტის შექმნა"
+            },
+            {
+              "slug": "script-variables",
+              "title": "ცვლადები"
+            },
+            {
+              "slug": "script-arguments",
+              "title": "არგუმენტები"
+            },
+            {
+              "slug": "if-in-bash",
+              "title": "პირობები"
+            },
+            {
+              "slug": "exit-codes",
+              "title": "დასრულების კოდები"
+            }
+          ]
+        },
+        {
+          "slug": "bash-loops-and-functions",
+          "title": "ციკლები და ფუნქციები Bash-ში",
+          "chapters": [
+            {
+              "slug": "bash-loops",
+              "title": "for და while"
+            },
+            {
+              "slug": "case",
+              "title": "case"
+            },
+            {
+              "slug": "bash-functions",
+              "title": "ფუნქციები"
+            },
+            {
+              "slug": "bash-arrays",
+              "title": "მასივები"
+            },
+            {
+              "slug": "reading-input",
+              "title": "შეტანის წაკითხვა"
+            }
+          ]
+        },
+        {
+          "slug": "environment",
+          "title": "გარემო",
+          "chapters": [
+            {
+              "slug": "environment-variables",
+              "title": "გარემოს ცვლადები"
+            },
+            {
+              "slug": "path",
+              "title": "PATH"
+            },
+            {
+              "slug": "bashrc",
+              "title": ".bashrc და .profile"
+            },
+            {
+              "slug": "aliases",
+              "title": "მეტსახელები"
+            },
+            {
+              "slug": "shell-options",
+              "title": "shell-ის პარამეტრები"
+            }
+          ]
+        },
+        {
+          "slug": "archives-and-transfer",
+          "title": "არქივები და გადაცემა",
+          "chapters": [
+            {
+              "slug": "tar",
+              "title": "tar"
+            },
+            {
+              "slug": "gzip-and-zip",
+              "title": "gzip და zip"
+            },
+            {
+              "slug": "scp",
+              "title": "scp"
+            },
+            {
+              "slug": "rsync",
+              "title": "rsync"
+            },
+            {
+              "slug": "curl-and-wget",
+              "title": "curl და wget"
+            }
+          ]
+        },
+        {
+          "slug": "networking-basics",
+          "title": "ქსელის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "ip-command",
+              "title": "ip"
+            },
+            {
+              "slug": "ping",
+              "title": "ping"
+            },
+            {
+              "slug": "dns-lookup",
+              "title": "DNS-ის შემოწმება"
+            },
+            {
+              "slug": "ports",
+              "title": "პორტები"
+            },
+            {
+              "slug": "network-services",
+              "title": "ქსელური სერვისები"
+            }
+          ]
+        },
+        {
+          "slug": "ssh",
+          "title": "SSH",
+          "chapters": [
+            {
+              "slug": "ssh-connections",
+              "title": "SSH კავშირი"
+            },
+            {
+              "slug": "ssh-keys",
+              "title": "გასაღებები"
+            },
+            {
+              "slug": "ssh-config",
+              "title": "config ფაილი"
+            },
+            {
+              "slug": "port-forwarding",
+              "title": "პორტის გადამისამართება"
+            },
+            {
+              "slug": "sftp",
+              "title": "sftp"
+            }
+          ]
+        },
+        {
+          "slug": "disks-and-filesystems",
+          "title": "დისკები და ფაილური სისტემები",
+          "chapters": [
+            {
+              "slug": "df-and-du",
+              "title": "df და du"
+            },
+            {
+              "slug": "mount",
+              "title": "mount"
+            },
+            {
+              "slug": "filesystem-types",
+              "title": "ფაილური სისტემის ტიპები"
+            },
+            {
+              "slug": "links",
+              "title": "მყარი და რბილი ბმულები"
+            },
+            {
+              "slug": "inodes",
+              "title": "inode"
+            }
+          ]
+        },
+        {
+          "slug": "scheduling-and-logs",
+          "title": "დაგეგმვა და ლოგები",
+          "chapters": [
+            {
+              "slug": "cron",
+              "title": "cron"
+            },
+            {
+              "slug": "systemd-timers",
+              "title": "systemd ტაიმერები"
+            },
+            {
+              "slug": "journalctl",
+              "title": "ლოგები journalctl-ით"
+            },
+            {
+              "slug": "logrotate",
+              "title": "logrotate"
+            },
+            {
+              "slug": "at",
+              "title": "at"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "ვებ-სერვერი",
+        "description": "სერვერი Nginx-ით, HTTPS-ით, საკუთარი სერვისით და firewall-ით."
+      },
+      "modules": [
+        {
+          "slug": "systemd",
+          "title": "systemd",
+          "chapters": [
+            {
+              "slug": "services",
+              "title": "სერვისები"
+            },
+            {
+              "slug": "unit-files",
+              "title": "unit ფაილები"
+            },
+            {
+              "slug": "systemctl",
+              "title": "systemctl"
+            },
+            {
+              "slug": "writing-a-service",
+              "title": "საკუთარი სერვისი"
+            },
+            {
+              "slug": "targets",
+              "title": "target"
+            }
+          ]
+        },
+        {
+          "slug": "users-and-security",
+          "title": "მომხმარებლები და უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "managing-users",
+              "title": "მომხმარებლების მართვა"
+            },
+            {
+              "slug": "sudoers",
+              "title": "sudoers"
+            },
+            {
+              "slug": "pam",
+              "title": "PAM"
+            },
+            {
+              "slug": "firewall",
+              "title": "firewall"
+            },
+            {
+              "slug": "fail2ban",
+              "title": "fail2ban"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-bash",
+          "title": "Bash სიღრმეში",
+          "chapters": [
+            {
+              "slug": "strict-mode",
+              "title": "მკაცრი რეჟიმი"
+            },
+            {
+              "slug": "traps",
+              "title": "trap"
+            },
+            {
+              "slug": "parameter-expansion",
+              "title": "პარამეტრის გაშლა"
+            },
+            {
+              "slug": "process-substitution",
+              "title": "პროცესის ჩანაცვლება"
+            },
+            {
+              "slug": "debugging-scripts",
+              "title": "სკრიპტის გამართვა"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-networking",
+          "title": "ქსელი სიღრმეში",
+          "chapters": [
+            {
+              "slug": "routing",
+              "title": "მარშრუტიზაცია"
+            },
+            {
+              "slug": "nftables",
+              "title": "nftables"
+            },
+            {
+              "slug": "tcpdump",
+              "title": "tcpdump"
+            },
+            {
+              "slug": "netcat",
+              "title": "netcat"
+            },
+            {
+              "slug": "wireguard",
+              "title": "VPN WireGuard-ით"
+            }
+          ]
+        },
+        {
+          "slug": "storage",
+          "title": "შენახვა",
+          "chapters": [
+            {
+              "slug": "partitions",
+              "title": "დანაყოფები"
+            },
+            {
+              "slug": "lvm",
+              "title": "LVM"
+            },
+            {
+              "slug": "raid",
+              "title": "RAID"
+            },
+            {
+              "slug": "tuning-filesystems",
+              "title": "ფაილური სისტემის მომართვა"
+            },
+            {
+              "slug": "swap",
+              "title": "swap"
+            }
+          ]
+        },
+        {
+          "slug": "performance",
+          "title": "წარმადობა",
+          "chapters": [
+            {
+              "slug": "load-average",
+              "title": "load average"
+            },
+            {
+              "slug": "vmstat-and-iostat",
+              "title": "vmstat და iostat"
+            },
+            {
+              "slug": "strace",
+              "title": "strace"
+            },
+            {
+              "slug": "perf",
+              "title": "perf"
+            },
+            {
+              "slug": "tuning",
+              "title": "მომართვა"
+            }
+          ]
+        },
+        {
+          "slug": "web-server",
+          "title": "ვებ-სერვერი",
+          "chapters": [
+            {
+              "slug": "nginx",
+              "title": "Nginx"
+            },
+            {
+              "slug": "virtual-hosts",
+              "title": "ვირტუალური ჰოსტები"
+            },
+            {
+              "slug": "reverse-proxy",
+              "title": "reverse proxy"
+            },
+            {
+              "slug": "tls-certificates",
+              "title": "TLS სერტიფიკატები"
+            },
+            {
+              "slug": "serving-apps",
+              "title": "აპლიკაციის მომსახურება"
+            }
+          ]
+        },
+        {
+          "slug": "containers-on-linux",
+          "title": "კონტეინერები Linux-ზე",
+          "chapters": [
+            {
+              "slug": "namespaces",
+              "title": "namespace"
+            },
+            {
+              "slug": "cgroups",
+              "title": "cgroup"
+            },
+            {
+              "slug": "docker-on-linux",
+              "title": "Docker Linux-ზე"
+            },
+            {
+              "slug": "podman",
+              "title": "podman"
+            },
+            {
+              "slug": "chroot",
+              "title": "chroot"
+            }
+          ]
+        },
+        {
+          "slug": "automation-tools",
+          "title": "ავტომატიზაციის ხელსაწყოები",
+          "chapters": [
+            {
+              "slug": "makefiles",
+              "title": "Makefile"
+            },
+            {
+              "slug": "ansible-intro",
+              "title": "Ansible-ის შესავალი"
+            },
+            {
+              "slug": "tmux",
+              "title": "tmux"
+            },
+            {
+              "slug": "shell-productivity",
+              "title": "სწრაფი მუშაობა shell-ში"
+            },
+            {
+              "slug": "managing-dotfiles",
+              "title": "პარამეტრების ფაილების მართვა"
+            }
+          ]
+        },
+        {
+          "slug": "troubleshooting",
+          "title": "გაუმართაობის პოვნა",
+          "chapters": [
+            {
+              "slug": "method",
+              "title": "მეთოდიკა"
+            },
+            {
+              "slug": "boot-problems",
+              "title": "ჩატვირთვის პრობლემები"
+            },
+            {
+              "slug": "disk-full",
+              "title": "სავსე დისკი"
+            },
+            {
+              "slug": "network-down",
+              "title": "ქსელი არ მუშაობს"
+            },
+            {
+              "slug": "failed-services",
+              "title": "სერვისი არ ეშვება"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "მდგრადი კლასტერი",
+        "description": "რამდენიმე სერვერი დატვირთვის განაწილებით, ავტომატური გადართვით და მონიტორინგით."
+      },
+      "modules": [
+        {
+          "slug": "kernel",
+          "title": "ბირთვი",
+          "chapters": [
+            {
+              "slug": "kernel-architecture",
+              "title": "ბირთვის აგებულება"
+            },
+            {
+              "slug": "kernel-modules",
+              "title": "მოდულები"
+            },
+            {
+              "slug": "syscalls",
+              "title": "სისტემური გამოძახებები"
+            },
+            {
+              "slug": "proc-and-sys",
+              "title": "/proc და /sys"
+            },
+            {
+              "slug": "sysctl",
+              "title": "sysctl"
+            }
+          ]
+        },
+        {
+          "slug": "boot-process",
+          "title": "ჩატვირთვის პროცესი",
+          "chapters": [
+            {
+              "slug": "bios-and-uefi",
+              "title": "BIOS და UEFI"
+            },
+            {
+              "slug": "bootloader",
+              "title": "ჩამტვირთავი"
+            },
+            {
+              "slug": "initramfs",
+              "title": "initramfs"
+            },
+            {
+              "slug": "init",
+              "title": "init"
+            },
+            {
+              "slug": "recovery",
+              "title": "აღდგენა"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-security",
+          "title": "უსაფრთხოება სიღრმეში",
+          "chapters": [
+            {
+              "slug": "selinux-and-apparmor",
+              "title": "SELinux და AppArmor"
+            },
+            {
+              "slug": "capabilities",
+              "title": "capabilities"
+            },
+            {
+              "slug": "auditd",
+              "title": "auditd"
+            },
+            {
+              "slug": "hardening",
+              "title": "გამაგრება"
+            },
+            {
+              "slug": "intrusion-detection",
+              "title": "შეჭრის აღმოჩენა"
+            }
+          ]
+        },
+        {
+          "slug": "performance-engineering",
+          "title": "წარმადობის ინჟინერია",
+          "chapters": [
+            {
+              "slug": "ebpf-tools",
+              "title": "eBPF ხელსაწყოები"
+            },
+            {
+              "slug": "flame-graphs",
+              "title": "flame graph"
+            },
+            {
+              "slug": "scheduler-tuning",
+              "title": "დამგეგმავის მომართვა"
+            },
+            {
+              "slug": "memory-tuning",
+              "title": "მეხსიერების მომართვა"
+            },
+            {
+              "slug": "io-tuning",
+              "title": "I/O-ს მომართვა"
+            }
+          ]
+        },
+        {
+          "slug": "high-availability",
+          "title": "მაღალი ხელმისაწვდომობა",
+          "chapters": [
+            {
+              "slug": "clustering",
+              "title": "კლასტერი"
+            },
+            {
+              "slug": "load-balancers",
+              "title": "დატვირთვის გამანაწილებელი"
+            },
+            {
+              "slug": "keepalived",
+              "title": "keepalived"
+            },
+            {
+              "slug": "distributed-storage",
+              "title": "განაწილებული შენახვა"
+            },
+            {
+              "slug": "failover-testing",
+              "title": "გადართვის ტესტირება"
+            }
+          ]
+        },
+        {
+          "slug": "storage-internals",
+          "title": "შენახვა შიგნიდან",
+          "chapters": [
+            {
+              "slug": "vfs",
+              "title": "VFS"
+            },
+            {
+              "slug": "page-cache",
+              "title": "page cache"
+            },
+            {
+              "slug": "block-layer",
+              "title": "ბლოკური შრე"
+            },
+            {
+              "slug": "modern-filesystems",
+              "title": "თანამედროვე ფაილური სისტემები"
+            },
+            {
+              "slug": "zfs",
+              "title": "ZFS"
+            }
+          ]
+        },
+        {
+          "slug": "network-internals",
+          "title": "ქსელი შიგნიდან",
+          "chapters": [
+            {
+              "slug": "network-stack",
+              "title": "ქსელის სტეკი"
+            },
+            {
+              "slug": "network-namespaces",
+              "title": "ქსელის namespace"
+            },
+            {
+              "slug": "bridges-and-vlans",
+              "title": "bridge და VLAN"
+            },
+            {
+              "slug": "traffic-control",
+              "title": "traffic control"
+            },
+            {
+              "slug": "xdp",
+              "title": "XDP"
+            }
+          ]
+        },
+        {
+          "slug": "packaging",
+          "title": "შეფუთვა",
+          "chapters": [
+            {
+              "slug": "building-packages",
+              "title": "პაკეტის აწყობა"
+            },
+            {
+              "slug": "repositories",
+              "title": "რეპოზიტორიები"
+            },
+            {
+              "slug": "custom-images",
+              "title": "საკუთარი image"
+            },
+            {
+              "slug": "immutable-systems",
+              "title": "უცვლელი სისტემები"
+            },
+            {
+              "slug": "nixos",
+              "title": "NixOS"
+            }
+          ]
+        },
+        {
+          "slug": "fleet-management",
+          "title": "ბევრი სერვერის მართვა",
+          "chapters": [
+            {
+              "slug": "config-at-scale",
+              "title": "კონფიგურაცია მასშტაბზე"
+            },
+            {
+              "slug": "image-pipelines",
+              "title": "image-ების კონვეიერი"
+            },
+            {
+              "slug": "patching",
+              "title": "განახლებების სტრატეგია"
+            },
+            {
+              "slug": "fleet-monitoring",
+              "title": "მონიტორინგი"
+            },
+            {
+              "slug": "incident-response",
+              "title": "ინციდენტზე რეაგირება"
+            }
+          ]
+        },
+        {
+          "slug": "linux-career",
+          "title": "კარიერა",
+          "chapters": [
+            {
+              "slug": "sysadmin-to-sre",
+              "title": "ადმინისტრატორიდან SRE-მდე"
+            },
+            {
+              "slug": "certifications",
+              "title": "სერტიფიკატები"
+            },
+            {
+              "slug": "contributing",
+              "title": "წვლილი ღია კოდში"
+            },
+            {
+              "slug": "kernel-docs",
+              "title": "ბირთვის დოკუმენტაცია"
+            },
+            {
+              "slug": "trends",
+              "title": "ტენდენციები"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "მონაცემების კვლევა",
+        "description": "ნამდვილი მონაცემების გაწმენდა, ანალიზი და გრაფიკებით წარდგენა."
+      },
+      "modules": [
+        {
+          "slug": "ds-intro",
+          "title": "მონაცემთა მეცნიერების საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-data-science",
+              "title": "რა არის მონაცემთა მეცნიერება"
+            },
+            {
+              "slug": "ai-ml-dl",
+              "title": "AI, მანქანური და ღრმა სწავლება"
+            },
+            {
+              "slug": "jupyter",
+              "title": "Jupyter"
+            },
+            {
+              "slug": "python-for-data",
+              "title": "Python მონაცემებისთვის"
+            },
+            {
+              "slug": "project-stages",
+              "title": "პროექტის ეტაპები"
+            }
+          ]
+        },
+        {
+          "slug": "numpy",
+          "title": "NumPy",
+          "chapters": [
+            {
+              "slug": "numpy-arrays",
+              "title": "მასივები"
+            },
+            {
+              "slug": "indexing",
+              "title": "ინდექსაცია"
+            },
+            {
+              "slug": "array-operations",
+              "title": "ოპერაციები მასივებზე"
+            },
+            {
+              "slug": "broadcasting",
+              "title": "broadcasting"
+            },
+            {
+              "slug": "numpy-statistics",
+              "title": "სტატისტიკა NumPy-ით"
+            }
+          ]
+        },
+        {
+          "slug": "pandas-basics",
+          "title": "pandas-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "dataframe",
+              "title": "DataFrame"
+            },
+            {
+              "slug": "loading-data",
+              "title": "მონაცემების ჩატვირთვა"
+            },
+            {
+              "slug": "selecting-and-filtering",
+              "title": "არჩევა და ფილტრი"
+            },
+            {
+              "slug": "new-columns",
+              "title": "ახალი სვეტები"
+            },
+            {
+              "slug": "sorting-data",
+              "title": "დალაგება"
+            }
+          ]
+        },
+        {
+          "slug": "data-cleaning",
+          "title": "მონაცემების გაწმენდა",
+          "chapters": [
+            {
+              "slug": "missing-values",
+              "title": "გამოტოვებული მნიშვნელობები"
+            },
+            {
+              "slug": "duplicates",
+              "title": "დუბლიკატები"
+            },
+            {
+              "slug": "fixing-types",
+              "title": "ტიპების გასწორება"
+            },
+            {
+              "slug": "outliers",
+              "title": "გამონაკლისი მნიშვნელობები"
+            },
+            {
+              "slug": "cleaning-text",
+              "title": "ტექსტის გაწმენდა"
+            }
+          ]
+        },
+        {
+          "slug": "visualization",
+          "title": "ვიზუალიზაცია",
+          "chapters": [
+            {
+              "slug": "matplotlib-basics",
+              "title": "matplotlib"
+            },
+            {
+              "slug": "line-and-bar-charts",
+              "title": "ხაზოვანი და სვეტოვანი გრაფიკი"
+            },
+            {
+              "slug": "histograms",
+              "title": "ჰისტოგრამა"
+            },
+            {
+              "slug": "scatter-plots",
+              "title": "გაბნევის დიაგრამა"
+            },
+            {
+              "slug": "styling-charts",
+              "title": "გრაფიკის გაფორმება"
+            }
+          ]
+        },
+        {
+          "slug": "statistics-basics",
+          "title": "სტატისტიკის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "mean-and-median",
+              "title": "საშუალო და მედიანა"
+            },
+            {
+              "slug": "spread",
+              "title": "გაფანტვა"
+            },
+            {
+              "slug": "distributions",
+              "title": "განაწილებები"
+            },
+            {
+              "slug": "correlation",
+              "title": "კორელაცია"
+            },
+            {
+              "slug": "sampling",
+              "title": "შერჩევა"
+            }
+          ]
+        },
+        {
+          "slug": "grouping-and-joining",
+          "title": "დაჯგუფება და გაერთიანება",
+          "chapters": [
+            {
+              "slug": "groupby",
+              "title": "groupby"
+            },
+            {
+              "slug": "aggregations",
+              "title": "აგრეგაცია"
+            },
+            {
+              "slug": "pivot-tables",
+              "title": "კრებსითი ცხრილი"
+            },
+            {
+              "slug": "merging",
+              "title": "ცხრილების გაერთიანება"
+            },
+            {
+              "slug": "time-series-basics",
+              "title": "დროითი მწკრივის საფუძველი"
+            }
+          ]
+        },
+        {
+          "slug": "probability",
+          "title": "ალბათობა",
+          "chapters": [
+            {
+              "slug": "probability-basics",
+              "title": "ალბათობის საფუძველი"
+            },
+            {
+              "slug": "conditional-probability",
+              "title": "პირობითი ალბათობა"
+            },
+            {
+              "slug": "bayes",
+              "title": "ბაიესის თეორემა"
+            },
+            {
+              "slug": "random-variables",
+              "title": "შემთხვევითი სიდიდეები"
+            },
+            {
+              "slug": "normal-distribution",
+              "title": "ნორმალური განაწილება"
+            }
+          ]
+        },
+        {
+          "slug": "ml-intro",
+          "title": "მანქანური სწავლების შესავალი",
+          "chapters": [
+            {
+              "slug": "what-is-ml",
+              "title": "რა არის მანქანური სწავლება"
+            },
+            {
+              "slug": "supervised-and-unsupervised",
+              "title": "მასწავლებლით და მის გარეშე"
+            },
+            {
+              "slug": "train-and-test",
+              "title": "სასწავლო და სატესტო ნაკრები"
+            },
+            {
+              "slug": "first-model",
+              "title": "პირველი მოდელი"
+            },
+            {
+              "slug": "overfitting",
+              "title": "ზედმეტად მორგება"
+            }
+          ]
+        },
+        {
+          "slug": "data-ethics",
+          "title": "მონაცემების ეთიკა",
+          "chapters": [
+            {
+              "slug": "bias-in-data",
+              "title": "მიკერძოება მონაცემებში"
+            },
+            {
+              "slug": "data-privacy",
+              "title": "კონფიდენციალურობა"
+            },
+            {
+              "slug": "responsible-ai-intro",
+              "title": "პასუხისმგებლიანი AI"
+            },
+            {
+              "slug": "data-sources",
+              "title": "მონაცემების წყაროები"
+            },
+            {
+              "slug": "communicating-results",
+              "title": "შედეგების ახსნა"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "ფასის პროგნოზი",
+        "description": "მოდელი, რომელიც ბინის ფასს წინასწარმეტყველებს: ნიშნები, შეფასება და ახსნა."
+      },
+      "modules": [
+        {
+          "slug": "regression",
+          "title": "რეგრესია",
+          "chapters": [
+            {
+              "slug": "linear-regression",
+              "title": "წრფივი რეგრესია"
+            },
+            {
+              "slug": "multiple-regression",
+              "title": "მრავალცვლადიანი რეგრესია"
+            },
+            {
+              "slug": "regression-metrics",
+              "title": "შეფასების მეტრიკები"
+            },
+            {
+              "slug": "regularization",
+              "title": "რეგულარიზაცია"
+            },
+            {
+              "slug": "feature-scaling",
+              "title": "ნიშნების მასშტაბირება"
+            }
+          ]
+        },
+        {
+          "slug": "classification",
+          "title": "კლასიფიკაცია",
+          "chapters": [
+            {
+              "slug": "logistic-regression",
+              "title": "ლოგისტიკური რეგრესია"
+            },
+            {
+              "slug": "knn",
+              "title": "k უახლოესი მეზობელი"
+            },
+            {
+              "slug": "decision-trees",
+              "title": "გადაწყვეტილების ხე"
+            },
+            {
+              "slug": "precision-and-recall",
+              "title": "სიზუსტე და სისრულე"
+            },
+            {
+              "slug": "confusion-matrix",
+              "title": "შეცდომების მატრიცა"
+            }
+          ]
+        },
+        {
+          "slug": "model-evaluation",
+          "title": "მოდელის შეფასება",
+          "chapters": [
+            {
+              "slug": "cross-validation",
+              "title": "ჯვარედინი შემოწმება"
+            },
+            {
+              "slug": "bias-and-variance",
+              "title": "წანაცვლება და გაფანტვა"
+            },
+            {
+              "slug": "hyperparameter-tuning",
+              "title": "ჰიპერპარამეტრების შერჩევა"
+            },
+            {
+              "slug": "learning-curves",
+              "title": "სწავლის მრუდები"
+            },
+            {
+              "slug": "data-leakage",
+              "title": "მონაცემების გაჟონვა"
+            }
+          ]
+        },
+        {
+          "slug": "ensembles",
+          "title": "ანსამბლები",
+          "chapters": [
+            {
+              "slug": "random-forest",
+              "title": "შემთხვევითი ტყე"
+            },
+            {
+              "slug": "gradient-boosting",
+              "title": "გრადიენტული ბუსტინგი"
+            },
+            {
+              "slug": "boosting-libraries",
+              "title": "XGBoost და LightGBM"
+            },
+            {
+              "slug": "feature-importance",
+              "title": "ნიშნების მნიშვნელობა"
+            },
+            {
+              "slug": "stacking",
+              "title": "stacking"
+            }
+          ]
+        },
+        {
+          "slug": "feature-engineering",
+          "title": "ნიშნების ინჟინერია",
+          "chapters": [
+            {
+              "slug": "categorical-features",
+              "title": "კატეგორიული ნიშნები"
+            },
+            {
+              "slug": "scaling-features",
+              "title": "მასშტაბირება"
+            },
+            {
+              "slug": "feature-selection",
+              "title": "ნიშნების შერჩევა"
+            },
+            {
+              "slug": "date-features",
+              "title": "ნიშნები თარიღიდან"
+            },
+            {
+              "slug": "text-features",
+              "title": "ნიშნები ტექსტიდან"
+            }
+          ]
+        },
+        {
+          "slug": "unsupervised-learning",
+          "title": "სწავლება მასწავლებლის გარეშე",
+          "chapters": [
+            {
+              "slug": "k-means",
+              "title": "k-means"
+            },
+            {
+              "slug": "hierarchical-clustering",
+              "title": "იერარქიული კლასტერიზაცია"
+            },
+            {
+              "slug": "pca",
+              "title": "PCA"
+            },
+            {
+              "slug": "anomaly-detection",
+              "title": "ანომალიების აღმოჩენა"
+            },
+            {
+              "slug": "embedding-visualization",
+              "title": "t-SNE და UMAP"
+            }
+          ]
+        },
+        {
+          "slug": "sql-for-data",
+          "title": "SQL მონაცემებისთვის",
+          "chapters": [
+            {
+              "slug": "analytical-sql",
+              "title": "ანალიტიკური SQL"
+            },
+            {
+              "slug": "window-functions-for-analysis",
+              "title": "ფანჯრის ფუნქციები ანალიზში"
+            },
+            {
+              "slug": "extracting-data",
+              "title": "მონაცემების ამოღება"
+            },
+            {
+              "slug": "pandas-and-sql",
+              "title": "pandas და SQL"
+            },
+            {
+              "slug": "warehouses-intro",
+              "title": "მონაცემთა საცავების შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "inferential-statistics",
+          "title": "დასკვნითი სტატისტიკა",
+          "chapters": [
+            {
+              "slug": "hypothesis-testing",
+              "title": "ჰიპოთეზის შემოწმება"
+            },
+            {
+              "slug": "p-values",
+              "title": "p-მნიშვნელობა"
+            },
+            {
+              "slug": "confidence-intervals",
+              "title": "ნდობის ინტერვალი"
+            },
+            {
+              "slug": "ab-testing",
+              "title": "A/B ტესტი"
+            },
+            {
+              "slug": "statistical-mistakes",
+              "title": "ხშირი შეცდომები სტატისტიკაში"
+            }
+          ]
+        },
+        {
+          "slug": "time-series",
+          "title": "დროითი მწკრივები",
+          "chapters": [
+            {
+              "slug": "trend-and-seasonality",
+              "title": "ტრენდი და სეზონურობა"
+            },
+            {
+              "slug": "moving-averages",
+              "title": "მოძრავი საშუალო"
+            },
+            {
+              "slug": "arima",
+              "title": "ARIMA"
+            },
+            {
+              "slug": "forecast-evaluation",
+              "title": "პროგნოზის შეფასება"
+            },
+            {
+              "slug": "forecasting-libraries",
+              "title": "პროგნოზის ბიბლიოთეკები"
+            }
+          ]
+        },
+        {
+          "slug": "communication",
+          "title": "კომუნიკაცია",
+          "chapters": [
+            {
+              "slug": "data-storytelling",
+              "title": "ამბის მოყოლა მონაცემებით"
+            },
+            {
+              "slug": "building-dashboards",
+              "title": "დაფების აგება"
+            },
+            {
+              "slug": "chart-rules",
+              "title": "ვიზუალიზაციის წესები"
+            },
+            {
+              "slug": "writing-reports",
+              "title": "ანგარიშის წერა"
+            },
+            {
+              "slug": "working-with-stakeholders",
+              "title": "მუშაობა დამკვეთთან"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "ტექსტის კლასიფიკატორი",
+        "description": "ნეირონული მოდელი, რომელიც ტექსტებს კატეგორიებად ყოფს და API-ით მუშაობს."
+      },
+      "modules": [
+        {
+          "slug": "neural-networks",
+          "title": "ნეირონული ქსელები",
+          "chapters": [
+            {
+              "slug": "neurons-and-layers",
+              "title": "ნეირონი და შრე"
+            },
+            {
+              "slug": "activation-functions",
+              "title": "აქტივაციის ფუნქციები"
+            },
+            {
+              "slug": "backpropagation",
+              "title": "შეცდომის უკუგავრცელება"
+            },
+            {
+              "slug": "loss-and-optimizers",
+              "title": "დანაკარგი და ოპტიმიზატორები"
+            },
+            {
+              "slug": "pytorch-basics",
+              "title": "PyTorch-ის საფუძველი"
+            }
+          ]
+        },
+        {
+          "slug": "deep-learning-practice",
+          "title": "ღრმა სწავლება პრაქტიკაში",
+          "chapters": [
+            {
+              "slug": "training-loop",
+              "title": "სწავლების ციკლი"
+            },
+            {
+              "slug": "dropout",
+              "title": "რეგულარიზაცია და dropout"
+            },
+            {
+              "slug": "batch-normalization",
+              "title": "batch normalization"
+            },
+            {
+              "slug": "training-on-gpu",
+              "title": "სწავლება GPU-ზე"
+            },
+            {
+              "slug": "debugging-training",
+              "title": "სწავლების გამართვა"
+            }
+          ]
+        },
+        {
+          "slug": "computer-vision",
+          "title": "კომპიუტერული ხედვა",
+          "chapters": [
+            {
+              "slug": "cnn",
+              "title": "კონვოლუციური ქსელები"
+            },
+            {
+              "slug": "image-classification",
+              "title": "სურათის კლასიფიკაცია"
+            },
+            {
+              "slug": "transfer-learning",
+              "title": "გადატანითი სწავლება"
+            },
+            {
+              "slug": "object-detection",
+              "title": "ობიექტების აღმოჩენა"
+            },
+            {
+              "slug": "augmentation",
+              "title": "აუგმენტაცია"
+            }
+          ]
+        },
+        {
+          "slug": "nlp",
+          "title": "ბუნებრივი ენის დამუშავება",
+          "chapters": [
+            {
+              "slug": "tokenization",
+              "title": "ტოკენიზაცია"
+            },
+            {
+              "slug": "embeddings",
+              "title": "embedding"
+            },
+            {
+              "slug": "rnn-and-lstm",
+              "title": "RNN და LSTM"
+            },
+            {
+              "slug": "attention",
+              "title": "ყურადღების მექანიზმი"
+            },
+            {
+              "slug": "transformers",
+              "title": "ტრანსფორმერები"
+            }
+          ]
+        },
+        {
+          "slug": "large-language-models",
+          "title": "დიდი ენობრივი მოდელები",
+          "chapters": [
+            {
+              "slug": "how-llms-work",
+              "title": "როგორ მუშაობს ენობრივი მოდელი"
+            },
+            {
+              "slug": "prompting",
+              "title": "მოთხოვნის შედგენა"
+            },
+            {
+              "slug": "fine-tuning",
+              "title": "დამატებითი სწავლება"
+            },
+            {
+              "slug": "rag",
+              "title": "RAG"
+            },
+            {
+              "slug": "evaluating-llms",
+              "title": "მოდელის შეფასება"
+            }
+          ]
+        },
+        {
+          "slug": "recommender-systems",
+          "title": "სარეკომენდაციო სისტემები",
+          "chapters": [
+            {
+              "slug": "collaborative-filtering",
+              "title": "კოლაბორაციული ფილტრაცია"
+            },
+            {
+              "slug": "content-based",
+              "title": "შინაარსზე დაფუძნებული"
+            },
+            {
+              "slug": "matrix-factorization",
+              "title": "მატრიცის ფაქტორიზაცია"
+            },
+            {
+              "slug": "ranking",
+              "title": "რანჟირება"
+            },
+            {
+              "slug": "recommender-evaluation",
+              "title": "შეფასება"
+            }
+          ]
+        },
+        {
+          "slug": "mlops-basics",
+          "title": "MLOps-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "experiment-tracking",
+              "title": "ექსპერიმენტების აღრიცხვა"
+            },
+            {
+              "slug": "model-versioning",
+              "title": "მოდელის ვერსიები"
+            },
+            {
+              "slug": "model-serving",
+              "title": "მოდელის მომსახურება"
+            },
+            {
+              "slug": "monitoring-drift",
+              "title": "ცვლილების მონიტორინგი"
+            },
+            {
+              "slug": "ml-pipelines",
+              "title": "კონვეიერები"
+            }
+          ]
+        },
+        {
+          "slug": "big-data",
+          "title": "დიდი მონაცემები",
+          "chapters": [
+            {
+              "slug": "spark",
+              "title": "Spark"
+            },
+            {
+              "slug": "distributed-dataframes",
+              "title": "განაწილებული ცხრილები"
+            },
+            {
+              "slug": "data-lakes",
+              "title": "მონაცემთა ტბა"
+            },
+            {
+              "slug": "batch-and-streaming",
+              "title": "პაკეტური და ნაკადური დამუშავება"
+            },
+            {
+              "slug": "columnar-formats",
+              "title": "სვეტური ფორმატები"
+            }
+          ]
+        },
+        {
+          "slug": "causality",
+          "title": "მიზეზობრიობა",
+          "chapters": [
+            {
+              "slug": "causal-inference",
+              "title": "მიზეზობრივი დასკვნა"
+            },
+            {
+              "slug": "experiment-design",
+              "title": "ექსპერიმენტის დიზაინი"
+            },
+            {
+              "slug": "uplift-modeling",
+              "title": "uplift მოდელირება"
+            },
+            {
+              "slug": "observational-pitfalls",
+              "title": "დაკვირვებითი მონაცემების ხაფანგები"
+            },
+            {
+              "slug": "decision-making",
+              "title": "გადაწყვეტილების მიღება"
+            }
+          ]
+        },
+        {
+          "slug": "responsible-ai",
+          "title": "პასუხისმგებლიანი AI",
+          "chapters": [
+            {
+              "slug": "fairness-metrics",
+              "title": "სამართლიანობის მეტრიკები"
+            },
+            {
+              "slug": "explainability",
+              "title": "ახსნადობა"
+            },
+            {
+              "slug": "differential-privacy",
+              "title": "დიფერენციალური კონფიდენციალურობა"
+            },
+            {
+              "slug": "robustness",
+              "title": "მდგრადობა"
+            },
+            {
+              "slug": "ai-governance",
+              "title": "მმართველობა"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "RAG სისტემა",
+        "description": "კითხვა-პასუხის სისტემა საკუთარ დოკუმენტებზე: ძებნა, გენერაცია, შეფასება და დაცვა."
+      },
+      "modules": [
+        {
+          "slug": "transformers-in-depth",
+          "title": "ტრანსფორმერები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "architecture-details",
+              "title": "არქიტექტურის დეტალები"
+            },
+            {
+              "slug": "attention-variants",
+              "title": "ყურადღების ვარიანტები"
+            },
+            {
+              "slug": "positional-encoding",
+              "title": "პოზიციური კოდირება"
+            },
+            {
+              "slug": "training-at-scale",
+              "title": "სწავლება მასშტაბზე"
+            },
+            {
+              "slug": "model-compression",
+              "title": "კვანტიზაცია და დისტილაცია"
+            }
+          ]
+        },
+        {
+          "slug": "generative-models",
+          "title": "გენერაციული მოდელები",
+          "chapters": [
+            {
+              "slug": "diffusion-models",
+              "title": "დიფუზიური მოდელები"
+            },
+            {
+              "slug": "vae-and-gan",
+              "title": "VAE და GAN"
+            },
+            {
+              "slug": "multimodal-models",
+              "title": "მულტიმოდალური მოდელები"
+            },
+            {
+              "slug": "image-generation",
+              "title": "სურათის გენერაცია"
+            },
+            {
+              "slug": "evaluating-generation",
+              "title": "გენერაციის შეფასება"
+            }
+          ]
+        },
+        {
+          "slug": "llm-engineering",
+          "title": "ენობრივი მოდელების ინჟინერია",
+          "chapters": [
+            {
+              "slug": "agents",
+              "title": "აგენტები"
+            },
+            {
+              "slug": "tool-use",
+              "title": "ხელსაწყოების გამოყენება"
+            },
+            {
+              "slug": "context-engineering",
+              "title": "კონტექსტის ინჟინერია"
+            },
+            {
+              "slug": "guardrails",
+              "title": "დამცავი ზღუდეები"
+            },
+            {
+              "slug": "cost-and-latency",
+              "title": "ხარჯი და სიჩქარე"
+            }
+          ]
+        },
+        {
+          "slug": "reinforcement-learning",
+          "title": "განმტკიცებითი სწავლება",
+          "chapters": [
+            {
+              "slug": "mdp",
+              "title": "მარკოვის გადაწყვეტილების პროცესი"
+            },
+            {
+              "slug": "q-learning",
+              "title": "Q-learning"
+            },
+            {
+              "slug": "policy-gradients",
+              "title": "policy gradient"
+            },
+            {
+              "slug": "deep-rl",
+              "title": "ღრმა განმტკიცებითი სწავლება"
+            },
+            {
+              "slug": "rl-applications",
+              "title": "გამოყენება"
+            }
+          ]
+        },
+        {
+          "slug": "ml-systems",
+          "title": "ML სისტემები",
+          "chapters": [
+            {
+              "slug": "ml-system-design",
+              "title": "ML სისტემის დიზაინი"
+            },
+            {
+              "slug": "feature-stores",
+              "title": "ნიშნების საცავი"
+            },
+            {
+              "slug": "online-and-offline-serving",
+              "title": "ონლაინ და ოფლაინ მომსახურება"
+            },
+            {
+              "slug": "distributed-training",
+              "title": "განაწილებული სწავლება"
+            },
+            {
+              "slug": "ml-hardware",
+              "title": "აპარატურა"
+            }
+          ]
+        },
+        {
+          "slug": "theory",
+          "title": "თეორია",
+          "chapters": [
+            {
+              "slug": "convex-optimization",
+              "title": "ამოზნექილი ოპტიმიზაცია"
+            },
+            {
+              "slug": "sgd-variants",
+              "title": "SGD-ის ვარიანტები"
+            },
+            {
+              "slug": "generalization",
+              "title": "განზოგადების თეორია"
+            },
+            {
+              "slug": "information-theory",
+              "title": "ინფორმაციის თეორია"
+            },
+            {
+              "slug": "probabilistic-models",
+              "title": "ალბათური მოდელები"
+            }
+          ]
+        },
+        {
+          "slug": "research-practice",
+          "title": "კვლევის პრაქტიკა",
+          "chapters": [
+            {
+              "slug": "reading-ml-papers",
+              "title": "სტატიების კითხვა"
+            },
+            {
+              "slug": "reproducing-results",
+              "title": "შედეგების გამეორება"
+            },
+            {
+              "slug": "experiment-methodology",
+              "title": "ექსპერიმენტის მეთოდიკა"
+            },
+            {
+              "slug": "writing-papers",
+              "title": "სტატიის წერა"
+            },
+            {
+              "slug": "open-models",
+              "title": "ღია მოდელები"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-mlops",
+          "title": "MLOps სიღრმეში",
+          "chapters": [
+            {
+              "slug": "ci-cd-for-ml",
+              "title": "CI/CD მოდელებისთვის"
+            },
+            {
+              "slug": "data-validation",
+              "title": "მონაცემების შემოწმება"
+            },
+            {
+              "slug": "shadow-and-canary",
+              "title": "shadow და canary გაშვება"
+            },
+            {
+              "slug": "model-incidents",
+              "title": "მოდელის ინციდენტები"
+            },
+            {
+              "slug": "ml-cost-governance",
+              "title": "ხარჯის მართვა"
+            }
+          ]
+        },
+        {
+          "slug": "ai-safety",
+          "title": "AI-ს უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "safety-basics",
+              "title": "უსაფრთხოების საფუძველი"
+            },
+            {
+              "slug": "red-teaming-models",
+              "title": "მოდელის გამოცდა შეტევით"
+            },
+            {
+              "slug": "misuse-prevention",
+              "title": "ბოროტად გამოყენების პრევენცია"
+            },
+            {
+              "slug": "benchmarks",
+              "title": "შეფასების ბენჩმარკები"
+            },
+            {
+              "slug": "ai-regulation",
+              "title": "რეგულაცია"
+            }
+          ]
+        },
+        {
+          "slug": "ai-career",
+          "title": "კარიერა",
+          "chapters": [
+            {
+              "slug": "ai-roles",
+              "title": "როლები"
+            },
+            {
+              "slug": "ai-portfolio",
+              "title": "პორტფოლიო"
+            },
+            {
+              "slug": "ai-interviews",
+              "title": "გასაუბრება"
+            },
+            {
+              "slug": "staying-current",
+              "title": "როგორ არ ჩამორჩე"
+            },
+            {
+              "slug": "ai-ethics",
+              "title": "ეთიკა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

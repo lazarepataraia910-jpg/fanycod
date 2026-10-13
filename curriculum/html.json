@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "პირადი გვერდი",
+        "description": "შენი სავიზიტო საიტი სამი გვერდით: შენ შესახებ, ჰობი და კონტაქტი."
+      },
+      "modules": [
+        {
+          "slug": "html-intro",
+          "title": "HTML-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-html",
+              "title": "რა არის HTML"
+            },
+            {
+              "slug": "how-web-pages-work",
+              "title": "როგორ მუშაობს ვებგვერდი"
+            },
+            {
+              "slug": "first-html-page",
+              "title": "პირველი HTML გვერდი"
+            },
+            {
+              "slug": "tags-and-elements",
+              "title": "ტეგები და ელემენტები"
+            },
+            {
+              "slug": "editor-and-browser",
+              "title": "რედაქტორი და ბრაუზერი"
+            }
+          ]
+        },
+        {
+          "slug": "document-structure",
+          "title": "დოკუმენტის სტრუქტურა",
+          "chapters": [
+            {
+              "slug": "doctype-and-html",
+              "title": "DOCTYPE და html ელემენტი"
+            },
+            {
+              "slug": "head-and-body",
+              "title": "head და body"
+            },
+            {
+              "slug": "title-and-meta",
+              "title": "სათაური და meta ტეგები"
+            },
+            {
+              "slug": "nesting-elements",
+              "title": "ელემენტების ჩადგმა"
+            },
+            {
+              "slug": "html-comments",
+              "title": "კომენტარები"
+            }
+          ]
+        },
+        {
+          "slug": "text-content",
+          "title": "ტექსტი",
+          "chapters": [
+            {
+              "slug": "headings",
+              "title": "სათაურები h1–h6"
+            },
+            {
+              "slug": "paragraphs-and-breaks",
+              "title": "აბზაცები და ხაზის გადატანა"
+            },
+            {
+              "slug": "bold-and-italic",
+              "title": "მუქი და დახრილი ტექსტი"
+            },
+            {
+              "slug": "quotes-and-code",
+              "title": "ციტატა და კოდი"
+            },
+            {
+              "slug": "special-characters",
+              "title": "სპეციალური სიმბოლოები"
+            }
+          ]
+        },
+        {
+          "slug": "links",
+          "title": "ბმულები",
+          "chapters": [
+            {
+              "slug": "anchor-tag",
+              "title": "ბმულის ტეგი a"
+            },
+            {
+              "slug": "absolute-and-relative",
+              "title": "აბსოლუტური და ფარდობითი მისამართი"
+            },
+            {
+              "slug": "page-anchors",
+              "title": "გადასვლა გვერდის შიგნით"
+            },
+            {
+              "slug": "link-targets",
+              "title": "ახალ ჩანართში გახსნა"
+            },
+            {
+              "slug": "email-and-phone-links",
+              "title": "ფოსტის და ტელეფონის ბმული"
+            }
+          ]
+        },
+        {
+          "slug": "images",
+          "title": "სურათები",
+          "chapters": [
+            {
+              "slug": "img-tag",
+              "title": "სურათის ჩასმა"
+            },
+            {
+              "slug": "alt-text",
+              "title": "ალტერნატიული ტექსტი"
+            },
+            {
+              "slug": "image-formats",
+              "title": "სურათის ფორმატები"
+            },
+            {
+              "slug": "image-size",
+              "title": "სურათის ზომა"
+            },
+            {
+              "slug": "figure-and-caption",
+              "title": "სურათი წარწერით"
+            }
+          ]
+        },
+        {
+          "slug": "lists",
+          "title": "სიები",
+          "chapters": [
+            {
+              "slug": "unordered-lists",
+              "title": "დაუნომრავი სია"
+            },
+            {
+              "slug": "ordered-lists",
+              "title": "დანომრილი სია"
+            },
+            {
+              "slug": "nested-lists",
+              "title": "ჩადგმული სიები"
+            },
+            {
+              "slug": "description-lists",
+              "title": "განმარტებების სია"
+            },
+            {
+              "slug": "lists-for-navigation",
+              "title": "სია ნავიგაციისთვის"
+            }
+          ]
+        },
+        {
+          "slug": "tables",
+          "title": "ცხრილები",
+          "chapters": [
+            {
+              "slug": "table-basics",
+              "title": "ცხრილის აგება"
+            },
+            {
+              "slug": "table-head-and-body",
+              "title": "ცხრილის თავი და ტანი"
+            },
+            {
+              "slug": "merging-cells",
+              "title": "უჯრების გაერთიანება"
+            },
+            {
+              "slug": "table-captions",
+              "title": "ცხრილის სათაური"
+            },
+            {
+              "slug": "when-to-use-tables",
+              "title": "როდის ვიყენებთ ცხრილს"
+            }
+          ]
+        },
+        {
+          "slug": "forms-basics",
+          "title": "ფორმების საფუძვლები",
+          "chapters": [
+            {
+              "slug": "form-element",
+              "title": "ფორმის ელემენტი"
+            },
+            {
+              "slug": "text-inputs",
+              "title": "ტექსტური ველები"
+            },
+            {
+              "slug": "labels",
+              "title": "ველის წარწერა"
+            },
+            {
+              "slug": "buttons",
+              "title": "ღილაკები"
+            },
+            {
+              "slug": "checkboxes-and-radios",
+              "title": "მოსანიშნი და ამოსარჩევი ველები"
+            }
+          ]
+        },
+        {
+          "slug": "page-sections",
+          "title": "გვერდის ნაწილები",
+          "chapters": [
+            {
+              "slug": "div-and-span",
+              "title": "div და span"
+            },
+            {
+              "slug": "header-and-footer",
+              "title": "header და footer"
+            },
+            {
+              "slug": "nav-element",
+              "title": "ნავიგაციის ელემენტი nav"
+            },
+            {
+              "slug": "main-and-section",
+              "title": "main და section"
+            },
+            {
+              "slug": "article-and-aside",
+              "title": "article და aside"
+            }
+          ]
+        },
+        {
+          "slug": "first-site",
+          "title": "პირველი საიტი",
+          "chapters": [
+            {
+              "slug": "linking-pages",
+              "title": "რამდენიმე გვერდის დაკავშირება"
+            },
+            {
+              "slug": "folders-and-paths",
+              "title": "საქაღალდეები და გზები"
+            },
+            {
+              "slug": "adding-a-css-file",
+              "title": "CSS ფაილის მიერთება"
+            },
+            {
+              "slug": "validating-html",
+              "title": "კოდის შემოწმება"
+            },
+            {
+              "slug": "publishing-a-page",
+              "title": "გვერდის გამოქვეყნება"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "რესტორნის საიტი",
+        "description": "მრავალგვერდიანი საიტი მენიუთი, გალერეით და დაჯავშნის ფორმით."
+      },
+      "modules": [
+        {
+          "slug": "forms-in-depth",
+          "title": "ფორმები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "input-types",
+              "title": "ველის ტიპები"
+            },
+            {
+              "slug": "select-and-datalist",
+              "title": "ჩამოსაშლელი სია"
+            },
+            {
+              "slug": "textarea",
+              "title": "მრავალხაზიანი ტექსტი"
+            },
+            {
+              "slug": "fieldset-and-legend",
+              "title": "ველების დაჯგუფება"
+            },
+            {
+              "slug": "file-upload",
+              "title": "ფაილის ატვირთვა"
+            }
+          ]
+        },
+        {
+          "slug": "form-validation",
+          "title": "ფორმის შემოწმება",
+          "chapters": [
+            {
+              "slug": "required-fields",
+              "title": "სავალდებულო ველები"
+            },
+            {
+              "slug": "pattern-attribute",
+              "title": "შაბლონით შემოწმება"
+            },
+            {
+              "slug": "length-and-range",
+              "title": "სიგრძის და მნიშვნელობის ზღვრები"
+            },
+            {
+              "slug": "validation-messages",
+              "title": "შეცდომის შეტყობინებები"
+            },
+            {
+              "slug": "autocomplete",
+              "title": "ავტოშევსება"
+            }
+          ]
+        },
+        {
+          "slug": "semantic-html",
+          "title": "სემანტიკური HTML",
+          "chapters": [
+            {
+              "slug": "why-semantics",
+              "title": "რატომ არის მნიშვნელოვანი სემანტიკა"
+            },
+            {
+              "slug": "heading-hierarchy",
+              "title": "სათაურების იერარქია"
+            },
+            {
+              "slug": "landmarks",
+              "title": "გვერდის ორიენტირები"
+            },
+            {
+              "slug": "time-and-address",
+              "title": "დრო და მისამართი"
+            },
+            {
+              "slug": "choosing-the-right-tag",
+              "title": "სწორი ტეგის არჩევა"
+            }
+          ]
+        },
+        {
+          "slug": "audio-and-video",
+          "title": "აუდიო და ვიდეო",
+          "chapters": [
+            {
+              "slug": "audio-element",
+              "title": "აუდიოს ჩასმა"
+            },
+            {
+              "slug": "video-element",
+              "title": "ვიდეოს ჩასმა"
+            },
+            {
+              "slug": "captions-and-subtitles",
+              "title": "სუბტიტრები"
+            },
+            {
+              "slug": "embedding-youtube",
+              "title": "YouTube-ის ვიდეოს ჩასმა"
+            },
+            {
+              "slug": "media-formats",
+              "title": "მედიის ფორმატები"
+            }
+          ]
+        },
+        {
+          "slug": "responsive-images",
+          "title": "რესპონსიული სურათები",
+          "chapters": [
+            {
+              "slug": "srcset",
+              "title": "სხვადასხვა ზომის სურათი"
+            },
+            {
+              "slug": "picture-element",
+              "title": "picture ელემენტი"
+            },
+            {
+              "slug": "lazy-loading",
+              "title": "გადადებული ჩატვირთვა"
+            },
+            {
+              "slug": "webp-and-avif",
+              "title": "WebP და AVIF"
+            },
+            {
+              "slug": "image-optimization",
+              "title": "სურათების ოპტიმიზაცია"
+            }
+          ]
+        },
+        {
+          "slug": "page-metadata",
+          "title": "გვერდის მეტამონაცემები",
+          "chapters": [
+            {
+              "slug": "charset-and-viewport",
+              "title": "კოდირება და viewport"
+            },
+            {
+              "slug": "description-meta",
+              "title": "გვერდის აღწერა"
+            },
+            {
+              "slug": "favicon",
+              "title": "საიტის ხატულა"
+            },
+            {
+              "slug": "open-graph",
+              "title": "გაზიარების ბარათი"
+            },
+            {
+              "slug": "linking-resources",
+              "title": "რესურსების მიერთება"
+            }
+          ]
+        },
+        {
+          "slug": "accessibility-basics",
+          "title": "ხელმისაწვდომობის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-accessibility",
+              "title": "რა არის ხელმისაწვდომობა"
+            },
+            {
+              "slug": "keyboard-navigation",
+              "title": "კლავიატურით ნავიგაცია"
+            },
+            {
+              "slug": "text-alternatives",
+              "title": "ტექსტი სურათებისა და ველებისთვის"
+            },
+            {
+              "slug": "contrast-and-readability",
+              "title": "კონტრასტი და წაკითხვადობა"
+            },
+            {
+              "slug": "screen-readers",
+              "title": "ეკრანის წამკითხველი"
+            }
+          ]
+        },
+        {
+          "slug": "embedded-content",
+          "title": "ჩასმული შინაარსი",
+          "chapters": [
+            {
+              "slug": "iframe-element",
+              "title": "iframe ელემენტი"
+            },
+            {
+              "slug": "embedding-maps",
+              "title": "რუკის ჩასმა"
+            },
+            {
+              "slug": "sandbox-attribute",
+              "title": "iframe-ის შეზღუდვა"
+            },
+            {
+              "slug": "object-and-embed",
+              "title": "სხვა ჩასმული ელემენტები"
+            },
+            {
+              "slug": "embed-performance",
+              "title": "ჩასმის გავლენა სიჩქარეზე"
+            }
+          ]
+        },
+        {
+          "slug": "attributes-in-depth",
+          "title": "ატრიბუტები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "global-attributes",
+              "title": "გლობალური ატრიბუტები"
+            },
+            {
+              "slug": "id-and-class",
+              "title": "id და class"
+            },
+            {
+              "slug": "data-attributes",
+              "title": "data-ატრიბუტები"
+            },
+            {
+              "slug": "boolean-attributes",
+              "title": "ლოგიკური ატრიბუტები"
+            },
+            {
+              "slug": "lang-and-dir",
+              "title": "ენა და მიმართულება"
+            }
+          ]
+        },
+        {
+          "slug": "html-with-css-and-js",
+          "title": "HTML სხვა ენებთან",
+          "chapters": [
+            {
+              "slug": "ways-to-add-css",
+              "title": "სტილის ჩართვის გზები"
+            },
+            {
+              "slug": "script-tag",
+              "title": "სკრიპტის ჩართვა"
+            },
+            {
+              "slug": "defer-and-async",
+              "title": "defer და async"
+            },
+            {
+              "slug": "noscript",
+              "title": "noscript ელემენტი"
+            },
+            {
+              "slug": "separating-concerns",
+              "title": "სტრუქტურის, სტილის და ქცევის გაყოფა"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "ხელმისაწვდომი ბლოგი",
+        "description": "ბლოგი სწორი სემანტიკით, ძებნის მეტამონაცემებით და სრული კლავიატურული ნავიგაციით."
+      },
+      "modules": [
+        {
+          "slug": "aria",
+          "title": "ARIA",
+          "chapters": [
+            {
+              "slug": "aria-roles",
+              "title": "ARIA როლები"
+            },
+            {
+              "slug": "aria-labels",
+              "title": "სახელები და აღწერები"
+            },
+            {
+              "slug": "aria-states",
+              "title": "მდგომარეობები"
+            },
+            {
+              "slug": "live-regions",
+              "title": "ცოცხალი არეები"
+            },
+            {
+              "slug": "when-not-to-use-aria",
+              "title": "როდის არ გვჭირდება ARIA"
+            }
+          ]
+        },
+        {
+          "slug": "accessible-components",
+          "title": "ხელმისაწვდომი კომპონენტები",
+          "chapters": [
+            {
+              "slug": "accessible-forms",
+              "title": "ხელმისაწვდომი ფორმა"
+            },
+            {
+              "slug": "accessible-tables",
+              "title": "ხელმისაწვდომი ცხრილი"
+            },
+            {
+              "slug": "modal-dialogs",
+              "title": "დიალოგის ფანჯარა"
+            },
+            {
+              "slug": "tabs-and-accordions",
+              "title": "ჩანართები და აკორდეონი"
+            },
+            {
+              "slug": "focus-management",
+              "title": "ფოკუსის მართვა"
+            }
+          ]
+        },
+        {
+          "slug": "seo-basics",
+          "title": "SEO-ს საფუძვლები",
+          "chapters": [
+            {
+              "slug": "how-search-works",
+              "title": "როგორ მუშაობს ძებნა"
+            },
+            {
+              "slug": "titles-for-search",
+              "title": "სათაური და აღწერა ძებნისთვის"
+            },
+            {
+              "slug": "canonical-links",
+              "title": "კანონიკური მისამართი"
+            },
+            {
+              "slug": "robots-and-sitemap",
+              "title": "robots.txt და sitemap"
+            },
+            {
+              "slug": "structured-data",
+              "title": "სტრუქტურირებული მონაცემები"
+            }
+          ]
+        },
+        {
+          "slug": "native-interactive",
+          "title": "ჩაშენებული ინტერაქტიული ელემენტები",
+          "chapters": [
+            {
+              "slug": "details-and-summary",
+              "title": "details და summary"
+            },
+            {
+              "slug": "dialog-element",
+              "title": "dialog ელემენტი"
+            },
+            {
+              "slug": "progress-and-meter",
+              "title": "progress და meter"
+            },
+            {
+              "slug": "popover-attribute",
+              "title": "popover ატრიბუტი"
+            },
+            {
+              "slug": "contenteditable",
+              "title": "რედაქტირებადი შინაარსი"
+            }
+          ]
+        },
+        {
+          "slug": "svg",
+          "title": "SVG",
+          "chapters": [
+            {
+              "slug": "svg-basics",
+              "title": "SVG-ის საფუძვლები"
+            },
+            {
+              "slug": "svg-shapes",
+              "title": "SVG ფიგურები"
+            },
+            {
+              "slug": "svg-paths",
+              "title": "კონტურები"
+            },
+            {
+              "slug": "inline-or-file-svg",
+              "title": "ჩაშენებული თუ ფაილიდან"
+            },
+            {
+              "slug": "accessible-svg",
+              "title": "ხელმისაწვდომი SVG"
+            }
+          ]
+        },
+        {
+          "slug": "canvas",
+          "title": "Canvas",
+          "chapters": [
+            {
+              "slug": "canvas-element",
+              "title": "canvas ელემენტი"
+            },
+            {
+              "slug": "drawing-shapes",
+              "title": "ფიგურების ხატვა"
+            },
+            {
+              "slug": "canvas-text-and-images",
+              "title": "ტექსტი და სურათი canvas-ზე"
+            },
+            {
+              "slug": "canvas-animation",
+              "title": "ანიმაცია canvas-ზე"
+            },
+            {
+              "slug": "canvas-or-svg",
+              "title": "canvas თუ SVG"
+            }
+          ]
+        },
+        {
+          "slug": "loading-performance",
+          "title": "ჩატვირთვის სიჩქარე",
+          "chapters": [
+            {
+              "slug": "rendering-path",
+              "title": "როგორ ხატავს ბრაუზერი გვერდს"
+            },
+            {
+              "slug": "preload-and-prefetch",
+              "title": "წინასწარი ჩატვირთვა"
+            },
+            {
+              "slug": "resource-hints",
+              "title": "რესურსის მინიშნებები"
+            },
+            {
+              "slug": "reducing-html-size",
+              "title": "HTML-ის შემცირება"
+            },
+            {
+              "slug": "measuring-speed",
+              "title": "სიჩქარის გაზომვა"
+            }
+          ]
+        },
+        {
+          "slug": "internationalization",
+          "title": "მრავალენოვანი გვერდები",
+          "chapters": [
+            {
+              "slug": "language-tags",
+              "title": "ენის მითითება"
+            },
+            {
+              "slug": "text-direction",
+              "title": "ტექსტის მიმართულება"
+            },
+            {
+              "slug": "hreflang",
+              "title": "ენობრივი ვერსიები"
+            },
+            {
+              "slug": "dates-and-numbers-markup",
+              "title": "თარიღები და რიცხვები"
+            },
+            {
+              "slug": "fonts-for-languages",
+              "title": "შრიფტები სხვადასხვა ენისთვის"
+            }
+          ]
+        },
+        {
+          "slug": "html-email",
+          "title": "HTML წერილებისთვის",
+          "chapters": [
+            {
+              "slug": "email-limitations",
+              "title": "წერილის შეზღუდვები"
+            },
+            {
+              "slug": "table-layout-email",
+              "title": "ცხრილური განლაგება"
+            },
+            {
+              "slug": "inline-styles-email",
+              "title": "ჩაშენებული სტილები"
+            },
+            {
+              "slug": "images-in-email",
+              "title": "სურათები წერილში"
+            },
+            {
+              "slug": "testing-emails",
+              "title": "წერილის ტესტირება"
+            }
+          ]
+        },
+        {
+          "slug": "templates-and-slots",
+          "title": "შაბლონები",
+          "chapters": [
+            {
+              "slug": "template-element",
+              "title": "template ელემენტი"
+            },
+            {
+              "slug": "slot-element",
+              "title": "slot ელემენტი"
+            },
+            {
+              "slug": "custom-elements-intro",
+              "title": "საკუთარი ელემენტების შესავალი"
+            },
+            {
+              "slug": "shadow-dom-intro",
+              "title": "Shadow DOM-ის შესავალი"
+            },
+            {
+              "slug": "reusing-markup",
+              "title": "მარკაპის ხელახალი გამოყენება"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "კომპონენტების ბიბლიოთეკა",
+        "description": "ხელმისაწვდომი ვებ-კომპონენტების ნაკრები დოკუმენტაციით და ტესტებით."
+      },
+      "modules": [
+        {
+          "slug": "web-components",
+          "title": "ვებ-კომპონენტები",
+          "chapters": [
+            {
+              "slug": "defining-elements",
+              "title": "ელემენტის განსაზღვრა"
+            },
+            {
+              "slug": "lifecycle-callbacks",
+              "title": "სასიცოცხლო ციკლი"
+            },
+            {
+              "slug": "styling-shadow-dom",
+              "title": "სტილი Shadow DOM-ში"
+            },
+            {
+              "slug": "attributes-and-properties",
+              "title": "ატრიბუტები და თვისებები"
+            },
+            {
+              "slug": "component-accessibility",
+              "title": "კომპონენტის ხელმისაწვდომობა"
+            }
+          ]
+        },
+        {
+          "slug": "html-parsing",
+          "title": "როგორ კითხულობს ბრაუზერი HTML-ს",
+          "chapters": [
+            {
+              "slug": "tokenizing",
+              "title": "ტოკენებად დაშლა"
+            },
+            {
+              "slug": "dom-construction",
+              "title": "DOM-ის აგება"
+            },
+            {
+              "slug": "error-recovery",
+              "title": "შეცდომების გასწორება"
+            },
+            {
+              "slug": "quirks-mode",
+              "title": "Quirks რეჟიმი"
+            },
+            {
+              "slug": "parser-blocking",
+              "title": "რა აჩერებს გარჩევას"
+            }
+          ]
+        },
+        {
+          "slug": "markup-security",
+          "title": "უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "xss-in-html",
+              "title": "XSS და HTML"
+            },
+            {
+              "slug": "safe-links",
+              "title": "უსაფრთხო ბმულები"
+            },
+            {
+              "slug": "content-security-policy",
+              "title": "შინაარსის უსაფრთხოების პოლიტიკა"
+            },
+            {
+              "slug": "form-security",
+              "title": "ფორმის უსაფრთხოება"
+            },
+            {
+              "slug": "third-party-content",
+              "title": "მესამე მხარის შინაარსი"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-seo",
+          "title": "SEO სიღრმეში",
+          "chapters": [
+            {
+              "slug": "schema-org",
+              "title": "Schema.org"
+            },
+            {
+              "slug": "rich-results",
+              "title": "გამდიდრებული შედეგები"
+            },
+            {
+              "slug": "pagination-for-search",
+              "title": "გვერდებად დაყოფა და ძებნა"
+            },
+            {
+              "slug": "rendering-and-indexing",
+              "title": "რენდერი და ინდექსაცია"
+            },
+            {
+              "slug": "seo-audit",
+              "title": "SEO აუდიტი"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-accessibility",
+          "title": "ხელმისაწვდომობა სიღრმეში",
+          "chapters": [
+            {
+              "slug": "wcag",
+              "title": "WCAG სტანდარტი"
+            },
+            {
+              "slug": "accessibility-tree",
+              "title": "ხელმისაწვდომობის ხე"
+            },
+            {
+              "slug": "screen-reader-testing",
+              "title": "ტესტირება წამკითხველით"
+            },
+            {
+              "slug": "automated-a11y-testing",
+              "title": "ავტომატური შემოწმება"
+            },
+            {
+              "slug": "accessibility-audit",
+              "title": "ხელმისაწვდომობის აუდიტი"
+            }
+          ]
+        },
+        {
+          "slug": "progressive-enhancement",
+          "title": "პროგრესული გაუმჯობესება",
+          "chapters": [
+            {
+              "slug": "content-first",
+              "title": "ჯერ შინაარსი"
+            },
+            {
+              "slug": "working-without-js",
+              "title": "მუშაობა JavaScript-ის გარეშე"
+            },
+            {
+              "slug": "feature-detection",
+              "title": "შესაძლებლობის შემოწმება"
+            },
+            {
+              "slug": "graceful-degradation",
+              "title": "რბილი დაქვეითება"
+            },
+            {
+              "slug": "resilient-pages",
+              "title": "მდგრადი გვერდები"
+            }
+          ]
+        },
+        {
+          "slug": "web-app-markup",
+          "title": "ვებ-აპის მარკაპი",
+          "chapters": [
+            {
+              "slug": "web-manifest",
+              "title": "მანიფესტი"
+            },
+            {
+              "slug": "app-icons",
+              "title": "აპის ხატულები"
+            },
+            {
+              "slug": "theme-and-display",
+              "title": "ფერი და ჩვენების რეჟიმი"
+            },
+            {
+              "slug": "offline-page",
+              "title": "ოფლაინ გვერდი"
+            },
+            {
+              "slug": "installability",
+              "title": "დაყენებადობა"
+            }
+          ]
+        },
+        {
+          "slug": "html-standards",
+          "title": "სტანდარტები",
+          "chapters": [
+            {
+              "slug": "living-standard",
+              "title": "ცოცხალი სტანდარტი"
+            },
+            {
+              "slug": "browser-support",
+              "title": "ბრაუზერების მხარდაჭერა"
+            },
+            {
+              "slug": "deprecated-elements",
+              "title": "მოძველებული ელემენტები"
+            },
+            {
+              "slug": "polyfills",
+              "title": "პოლიფილები"
+            },
+            {
+              "slug": "reading-the-spec",
+              "title": "სპეციფიკაციის კითხვა"
+            }
+          ]
+        },
+        {
+          "slug": "large-sites",
+          "title": "დიდი საიტები",
+          "chapters": [
+            {
+              "slug": "design-systems",
+              "title": "დიზაინ-სისტემა"
+            },
+            {
+              "slug": "markup-conventions",
+              "title": "მარკაპის წესები"
+            },
+            {
+              "slug": "templating-engines",
+              "title": "შაბლონის ძრავები"
+            },
+            {
+              "slug": "static-site-generators",
+              "title": "სტატიკური გენერატორები"
+            },
+            {
+              "slug": "content-modeling",
+              "title": "შინაარსის მოდელირება"
+            }
+          ]
+        },
+        {
+          "slug": "markup-quality",
+          "title": "ხარისხი",
+          "chapters": [
+            {
+              "slug": "html-linting",
+              "title": "კოდის ავტომატური შემოწმება"
+            },
+            {
+              "slug": "markup-code-review",
+              "title": "მარკაპის მიმოხილვა"
+            },
+            {
+              "slug": "markup-documentation",
+              "title": "დოკუმენტაცია"
+            },
+            {
+              "slug": "performance-budget",
+              "title": "სიჩქარის ბიუჯეტი"
+            },
+            {
+              "slug": "maintaining-html",
+              "title": "კოდის მოვლა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

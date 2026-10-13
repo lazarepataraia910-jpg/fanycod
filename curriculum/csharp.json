@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "დავალებების მენეჯერი",
+        "description": "კონსოლის აპი დავალებებით, კლასებით და JSON-ში შენახვით."
+      },
+      "modules": [
+        {
+          "slug": "csharp-intro",
+          "title": "C#-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-csharp",
+              "title": "რა არის C# და .NET"
+            },
+            {
+              "slug": "installing-sdk",
+              "title": "SDK-ის დაყენება"
+            },
+            {
+              "slug": "first-program",
+              "title": "პირველი პროგრამა"
+            },
+            {
+              "slug": "dotnet-cli",
+              "title": "dotnet CLI"
+            },
+            {
+              "slug": "console",
+              "title": "Console"
+            }
+          ]
+        },
+        {
+          "slug": "variables",
+          "title": "ცვლადები",
+          "chapters": [
+            {
+              "slug": "types",
+              "title": "ტიპები"
+            },
+            {
+              "slug": "var",
+              "title": "var"
+            },
+            {
+              "slug": "strings-intro",
+              "title": "string"
+            },
+            {
+              "slug": "conversion",
+              "title": "გარდაქმნა"
+            },
+            {
+              "slug": "const",
+              "title": "const"
+            }
+          ]
+        },
+        {
+          "slug": "control-flow",
+          "title": "მართვის ნაკადი",
+          "chapters": [
+            {
+              "slug": "if-else",
+              "title": "if და else"
+            },
+            {
+              "slug": "switch",
+              "title": "switch"
+            },
+            {
+              "slug": "loops",
+              "title": "ციკლები"
+            },
+            {
+              "slug": "foreach",
+              "title": "foreach"
+            },
+            {
+              "slug": "break-and-continue",
+              "title": "break და continue"
+            }
+          ]
+        },
+        {
+          "slug": "methods",
+          "title": "მეთოდები",
+          "chapters": [
+            {
+              "slug": "declaring-methods",
+              "title": "მეთოდის გამოცხადება"
+            },
+            {
+              "slug": "parameters",
+              "title": "პარამეტრები"
+            },
+            {
+              "slug": "return-values",
+              "title": "დაბრუნებული მნიშვნელობა"
+            },
+            {
+              "slug": "overloads",
+              "title": "გადატვირთვა"
+            },
+            {
+              "slug": "ref-and-out",
+              "title": "ref და out"
+            }
+          ]
+        },
+        {
+          "slug": "arrays-and-lists",
+          "title": "მასივები და სიები",
+          "chapters": [
+            {
+              "slug": "arrays",
+              "title": "მასივი"
+            },
+            {
+              "slug": "list",
+              "title": "List"
+            },
+            {
+              "slug": "dictionary",
+              "title": "Dictionary"
+            },
+            {
+              "slug": "iterating",
+              "title": "გავლა"
+            },
+            {
+              "slug": "choosing-a-collection",
+              "title": "კოლექციის არჩევა"
+            }
+          ]
+        },
+        {
+          "slug": "strings",
+          "title": "სტრიქონები",
+          "chapters": [
+            {
+              "slug": "string-methods",
+              "title": "string-ის მეთოდები"
+            },
+            {
+              "slug": "interpolation",
+              "title": "ინტერპოლაცია"
+            },
+            {
+              "slug": "stringbuilder",
+              "title": "StringBuilder"
+            },
+            {
+              "slug": "formatting",
+              "title": "ფორმატირება"
+            },
+            {
+              "slug": "parsing",
+              "title": "ტექსტის გარდაქმნა"
+            }
+          ]
+        },
+        {
+          "slug": "classes",
+          "title": "კლასები",
+          "chapters": [
+            {
+              "slug": "class-basics",
+              "title": "class"
+            },
+            {
+              "slug": "fields-and-properties",
+              "title": "ველები და property"
+            },
+            {
+              "slug": "constructors",
+              "title": "კონსტრუქტორი"
+            },
+            {
+              "slug": "class-methods",
+              "title": "მეთოდები კლასში"
+            },
+            {
+              "slug": "static",
+              "title": "static"
+            }
+          ]
+        },
+        {
+          "slug": "oop-basics",
+          "title": "ობიექტზე ორიენტირების საფუძვლები",
+          "chapters": [
+            {
+              "slug": "encapsulation",
+              "title": "ინკაფსულაცია"
+            },
+            {
+              "slug": "inheritance",
+              "title": "მემკვიდრეობა"
+            },
+            {
+              "slug": "polymorphism",
+              "title": "პოლიმორფიზმი"
+            },
+            {
+              "slug": "abstract",
+              "title": "abstract"
+            },
+            {
+              "slug": "interfaces",
+              "title": "interface"
+            }
+          ]
+        },
+        {
+          "slug": "errors",
+          "title": "შეცდომები",
+          "chapters": [
+            {
+              "slug": "exceptions",
+              "title": "გამონაკლისები"
+            },
+            {
+              "slug": "try-catch",
+              "title": "try და catch"
+            },
+            {
+              "slug": "finally",
+              "title": "finally"
+            },
+            {
+              "slug": "throw",
+              "title": "throw"
+            },
+            {
+              "slug": "debugging",
+              "title": "გამართვა IDE-ში"
+            }
+          ]
+        },
+        {
+          "slug": "files",
+          "title": "ფაილები",
+          "chapters": [
+            {
+              "slug": "file-class",
+              "title": "File კლასი"
+            },
+            {
+              "slug": "reading-files",
+              "title": "ფაილის წაკითხვა"
+            },
+            {
+              "slug": "writing-files",
+              "title": "ფაილის ჩაწერა"
+            },
+            {
+              "slug": "json-serialization",
+              "title": "JSON სერიალიზაცია"
+            },
+            {
+              "slug": "using-statement",
+              "title": "using"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "წიგნების Web API",
+        "description": "ASP.NET Core-ის სერვისი EF Core-ით, LINQ-ით და ტესტებით."
+      },
+      "modules": [
+        {
+          "slug": "linq",
+          "title": "LINQ",
+          "chapters": [
+            {
+              "slug": "linq-basics",
+              "title": "LINQ-ის საფუძველი"
+            },
+            {
+              "slug": "where-and-select",
+              "title": "Where და Select"
+            },
+            {
+              "slug": "ordering-and-grouping",
+              "title": "OrderBy და GroupBy"
+            },
+            {
+              "slug": "aggregation",
+              "title": "აგრეგაცია"
+            },
+            {
+              "slug": "deferred-execution",
+              "title": "გადადებული შესრულება"
+            }
+          ]
+        },
+        {
+          "slug": "generics",
+          "title": "გენერიკები",
+          "chapters": [
+            {
+              "slug": "generic-classes",
+              "title": "generic კლასი"
+            },
+            {
+              "slug": "generic-methods",
+              "title": "generic მეთოდი"
+            },
+            {
+              "slug": "constraints",
+              "title": "შეზღუდვები"
+            },
+            {
+              "slug": "covariance",
+              "title": "კოვარიანტობა"
+            },
+            {
+              "slug": "generic-collections",
+              "title": "generic კოლექციები"
+            }
+          ]
+        },
+        {
+          "slug": "delegates-and-events",
+          "title": "დელეგატები და მოვლენები",
+          "chapters": [
+            {
+              "slug": "delegates",
+              "title": "delegate"
+            },
+            {
+              "slug": "func-and-action",
+              "title": "Func და Action"
+            },
+            {
+              "slug": "lambdas",
+              "title": "lambda"
+            },
+            {
+              "slug": "events",
+              "title": "event"
+            },
+            {
+              "slug": "event-patterns",
+              "title": "მოვლენების ნიმუშები"
+            }
+          ]
+        },
+        {
+          "slug": "async",
+          "title": "ასინქრონულობა",
+          "chapters": [
+            {
+              "slug": "tasks",
+              "title": "Task"
+            },
+            {
+              "slug": "async-await",
+              "title": "async და await"
+            },
+            {
+              "slug": "cancellation",
+              "title": "გაუქმება"
+            },
+            {
+              "slug": "parallelism",
+              "title": "პარალელიზმი"
+            },
+            {
+              "slug": "async-pitfalls",
+              "title": "ხაფანგები"
+            }
+          ]
+        },
+        {
+          "slug": "modern-csharp",
+          "title": "თანამედროვე C#",
+          "chapters": [
+            {
+              "slug": "records",
+              "title": "record"
+            },
+            {
+              "slug": "pattern-matching",
+              "title": "pattern matching"
+            },
+            {
+              "slug": "nullable-reference-types",
+              "title": "nullable reference types"
+            },
+            {
+              "slug": "tuples",
+              "title": "tuple"
+            },
+            {
+              "slug": "init-and-required",
+              "title": "init და required"
+            }
+          ]
+        },
+        {
+          "slug": "types-and-memory",
+          "title": "ტიპები და მეხსიერება",
+          "chapters": [
+            {
+              "slug": "struct-or-class",
+              "title": "struct თუ class"
+            },
+            {
+              "slug": "value-and-reference-types",
+              "title": "მნიშვნელობის და მითითების ტიპები"
+            },
+            {
+              "slug": "boxing",
+              "title": "boxing"
+            },
+            {
+              "slug": "span-intro",
+              "title": "Span-ის შესავალი"
+            },
+            {
+              "slug": "gc-basics",
+              "title": "ნაგვის შემგროვებლის საფუძველი"
+            }
+          ]
+        },
+        {
+          "slug": "aspnet-basics",
+          "title": "ASP.NET Core-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "aspnet-core",
+              "title": "ASP.NET Core"
+            },
+            {
+              "slug": "minimal-api",
+              "title": "minimal API"
+            },
+            {
+              "slug": "routing",
+              "title": "მარშრუტები"
+            },
+            {
+              "slug": "controllers",
+              "title": "კონტროლერები"
+            },
+            {
+              "slug": "middleware",
+              "title": "middleware"
+            }
+          ]
+        },
+        {
+          "slug": "ef-core",
+          "title": "EF Core",
+          "chapters": [
+            {
+              "slug": "ef-core-basics",
+              "title": "EF Core"
+            },
+            {
+              "slug": "dbcontext",
+              "title": "DbContext"
+            },
+            {
+              "slug": "models",
+              "title": "მოდელები"
+            },
+            {
+              "slug": "migrations",
+              "title": "მიგრაციები"
+            },
+            {
+              "slug": "linq-queries",
+              "title": "LINQ მოთხოვნები"
+            }
+          ]
+        },
+        {
+          "slug": "testing",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "xunit",
+              "title": "xUnit"
+            },
+            {
+              "slug": "assertions",
+              "title": "assert"
+            },
+            {
+              "slug": "moq",
+              "title": "იმიტაცია Moq-ით"
+            },
+            {
+              "slug": "integration-tests",
+              "title": "ინტეგრაციის ტესტები"
+            },
+            {
+              "slug": "coverage",
+              "title": "დაფარვა"
+            }
+          ]
+        },
+        {
+          "slug": "project-structure",
+          "title": "პროექტის სტრუქტურა",
+          "chapters": [
+            {
+              "slug": "solutions-and-projects",
+              "title": "solution და project"
+            },
+            {
+              "slug": "nuget",
+              "title": "NuGet"
+            },
+            {
+              "slug": "configuration",
+              "title": "კონფიგურაცია"
+            },
+            {
+              "slug": "dependency-injection",
+              "title": "დამოკიდებულებების ჩანერგვა"
+            },
+            {
+              "slug": "logging",
+              "title": "ლოგირება"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "რეალური დროის ჩატი",
+        "description": "ჩატი SignalR-ით, ავთენტიფიკაციით, სუფთა არქიტექტურით და Docker-ით."
+      },
+      "modules": [
+        {
+          "slug": "advanced-aspnet",
+          "title": "ASP.NET Core სიღრმეში",
+          "chapters": [
+            {
+              "slug": "authentication",
+              "title": "ავთენტიფიკაცია"
+            },
+            {
+              "slug": "authorization",
+              "title": "ავტორიზაცია"
+            },
+            {
+              "slug": "validation",
+              "title": "შემოწმება"
+            },
+            {
+              "slug": "error-handling",
+              "title": "შეცდომების დამუშავება"
+            },
+            {
+              "slug": "api-versioning",
+              "title": "API-ს ვერსიები"
+            }
+          ]
+        },
+        {
+          "slug": "blazor",
+          "title": "Blazor",
+          "chapters": [
+            {
+              "slug": "blazor-basics",
+              "title": "Blazor-ის საფუძველი"
+            },
+            {
+              "slug": "components",
+              "title": "კომპონენტები"
+            },
+            {
+              "slug": "data-binding",
+              "title": "მონაცემების მიბმა"
+            },
+            {
+              "slug": "blazor-forms",
+              "title": "ფორმები"
+            },
+            {
+              "slug": "render-modes",
+              "title": "რენდერის რეჟიმები"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-ef",
+          "title": "EF Core სიღრმეში",
+          "chapters": [
+            {
+              "slug": "relationships",
+              "title": "კავშირები"
+            },
+            {
+              "slug": "ef-performance",
+              "title": "წარმადობა"
+            },
+            {
+              "slug": "raw-sql",
+              "title": "პირდაპირი SQL"
+            },
+            {
+              "slug": "transactions",
+              "title": "ტრანზაქციები"
+            },
+            {
+              "slug": "concurrency-control",
+              "title": "კონკურენტული ცვლილებები"
+            }
+          ]
+        },
+        {
+          "slug": "architecture",
+          "title": "არქიტექტურა",
+          "chapters": [
+            {
+              "slug": "clean-architecture",
+              "title": "სუფთა არქიტექტურა"
+            },
+            {
+              "slug": "cqrs",
+              "title": "CQRS"
+            },
+            {
+              "slug": "repository",
+              "title": "repository"
+            },
+            {
+              "slug": "ddd-basics",
+              "title": "DDD-ის საფუძველი"
+            },
+            {
+              "slug": "modular-monolith",
+              "title": "მოდულური მონოლითი"
+            }
+          ]
+        },
+        {
+          "slug": "concurrency",
+          "title": "კონკურენტულობა",
+          "chapters": [
+            {
+              "slug": "threads",
+              "title": "ნაკადები"
+            },
+            {
+              "slug": "locks",
+              "title": "lock"
+            },
+            {
+              "slug": "concurrent-collections",
+              "title": "კონკურენტული კოლექციები"
+            },
+            {
+              "slug": "channels",
+              "title": "channel"
+            },
+            {
+              "slug": "dataflow",
+              "title": "TPL Dataflow"
+            }
+          ]
+        },
+        {
+          "slug": "performance",
+          "title": "წარმადობა",
+          "chapters": [
+            {
+              "slug": "profiling",
+              "title": "პროფაილინგი"
+            },
+            {
+              "slug": "span-and-memory",
+              "title": "Span და Memory"
+            },
+            {
+              "slug": "pooling",
+              "title": "pooling"
+            },
+            {
+              "slug": "benchmarkdotnet",
+              "title": "BenchmarkDotNet"
+            },
+            {
+              "slug": "reducing-allocations",
+              "title": "გამოყოფების შემცირება"
+            }
+          ]
+        },
+        {
+          "slug": "desktop-and-mobile",
+          "title": "დესკტოპი და მობილური",
+          "chapters": [
+            {
+              "slug": "wpf",
+              "title": "WPF"
+            },
+            {
+              "slug": "maui",
+              "title": "MAUI"
+            },
+            {
+              "slug": "mvvm",
+              "title": "MVVM"
+            },
+            {
+              "slug": "xaml-binding",
+              "title": "მიბმა XAML-ში"
+            },
+            {
+              "slug": "app-deployment",
+              "title": "გავრცელება"
+            }
+          ]
+        },
+        {
+          "slug": "unity-intro",
+          "title": "Unity-ის გაცნობა",
+          "chapters": [
+            {
+              "slug": "unity-basics",
+              "title": "Unity-ის საფუძველი"
+            },
+            {
+              "slug": "monobehaviour",
+              "title": "MonoBehaviour"
+            },
+            {
+              "slug": "physics",
+              "title": "ფიზიკა"
+            },
+            {
+              "slug": "unity-ui",
+              "title": "ინტერფეისი"
+            },
+            {
+              "slug": "unity-game-loop",
+              "title": "თამაშის ციკლი"
+            }
+          ]
+        },
+        {
+          "slug": "realtime",
+          "title": "რეალური დრო",
+          "chapters": [
+            {
+              "slug": "signalr",
+              "title": "SignalR"
+            },
+            {
+              "slug": "hubs",
+              "title": "hub"
+            },
+            {
+              "slug": "groups",
+              "title": "ჯგუფები"
+            },
+            {
+              "slug": "scaling-signalr",
+              "title": "SignalR-ის მასშტაბირება"
+            },
+            {
+              "slug": "grpc",
+              "title": "gRPC"
+            }
+          ]
+        },
+        {
+          "slug": "devops",
+          "title": "DevOps",
+          "chapters": [
+            {
+              "slug": "docker",
+              "title": "Docker"
+            },
+            {
+              "slug": "ci-cd",
+              "title": "CI/CD"
+            },
+            {
+              "slug": "secrets",
+              "title": "კონფიგურაცია და საიდუმლოები"
+            },
+            {
+              "slug": "health-checks",
+              "title": "health check"
+            },
+            {
+              "slug": "cloud-deployment",
+              "title": "ღრუბელში გაშვება"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "მიკროსერვისების მაღაზია",
+        "description": "ონლაინ მაღაზია რამდენიმე სერვისით, შეტყობინებებით და Kubernetes-ით."
+      },
+      "modules": [
+        {
+          "slug": "clr-internals",
+          "title": "CLR შიგნიდან",
+          "chapters": [
+            {
+              "slug": "clr",
+              "title": "CLR"
+            },
+            {
+              "slug": "il",
+              "title": "IL"
+            },
+            {
+              "slug": "jit",
+              "title": "JIT"
+            },
+            {
+              "slug": "gc-in-depth",
+              "title": "GC სიღრმეში"
+            },
+            {
+              "slug": "type-system",
+              "title": "ტიპების სისტემა"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-async",
+          "title": "ასინქრონულობა სიღრმეში",
+          "chapters": [
+            {
+              "slug": "state-machine",
+              "title": "მდგომარეობის მანქანა"
+            },
+            {
+              "slug": "synchronization-context",
+              "title": "SynchronizationContext"
+            },
+            {
+              "slug": "valuetask",
+              "title": "ValueTask"
+            },
+            {
+              "slug": "async-streams",
+              "title": "ასინქრონული ნაკადები"
+            },
+            {
+              "slug": "deadlocks",
+              "title": "ურთიერთბლოკირება"
+            }
+          ]
+        },
+        {
+          "slug": "roslyn",
+          "title": "Roslyn",
+          "chapters": [
+            {
+              "slug": "roslyn-basics",
+              "title": "Roslyn-ის საფუძველი"
+            },
+            {
+              "slug": "analyzers",
+              "title": "ანალიზატორები"
+            },
+            {
+              "slug": "source-generators",
+              "title": "source generator"
+            },
+            {
+              "slug": "reflection",
+              "title": "reflection"
+            },
+            {
+              "slug": "expression-trees",
+              "title": "expression tree"
+            }
+          ]
+        },
+        {
+          "slug": "high-performance",
+          "title": "მაღალი წარმადობა",
+          "chapters": [
+            {
+              "slug": "simd",
+              "title": "SIMD"
+            },
+            {
+              "slug": "unsafe-code",
+              "title": "unsafe კოდი"
+            },
+            {
+              "slug": "native-aot",
+              "title": "native AOT"
+            },
+            {
+              "slug": "memory-mapped-files",
+              "title": "მეხსიერებაზე ასახული ფაილები"
+            },
+            {
+              "slug": "zero-allocation",
+              "title": "გამოყოფის გარეშე კოდი"
+            }
+          ]
+        },
+        {
+          "slug": "microservices",
+          "title": "მიკროსერვისები",
+          "chapters": [
+            {
+              "slug": "service-communication",
+              "title": "სერვისების ურთიერთობა"
+            },
+            {
+              "slug": "message-bus",
+              "title": "შეტყობინებების სალტე"
+            },
+            {
+              "slug": "resilience",
+              "title": "მდგრადობა"
+            },
+            {
+              "slug": "distributed-tracing",
+              "title": "განაწილებული tracing"
+            },
+            {
+              "slug": "api-gateway",
+              "title": "API gateway"
+            }
+          ]
+        },
+        {
+          "slug": "cloud-native",
+          "title": "ღრუბლოვანი .NET",
+          "chapters": [
+            {
+              "slug": "kubernetes",
+              "title": "Kubernetes"
+            },
+            {
+              "slug": "cloud-services",
+              "title": "ღრუბლის სერვისები"
+            },
+            {
+              "slug": "serverless",
+              "title": "serverless ფუნქციები"
+            },
+            {
+              "slug": "observability",
+              "title": "დაკვირვებადობა"
+            },
+            {
+              "slug": "scaling",
+              "title": "მასშტაბირება"
+            }
+          ]
+        },
+        {
+          "slug": "security",
+          "title": "უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "owasp-in-dotnet",
+              "title": "OWASP .NET-ში"
+            },
+            {
+              "slug": "identity",
+              "title": "identity"
+            },
+            {
+              "slug": "data-protection",
+              "title": "მონაცემების დაცვა"
+            },
+            {
+              "slug": "secret-management",
+              "title": "საიდუმლოების მართვა"
+            },
+            {
+              "slug": "secure-coding",
+              "title": "უსაფრთხო კოდი"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-data",
+          "title": "მონაცემები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "dapper",
+              "title": "Dapper"
+            },
+            {
+              "slug": "nosql",
+              "title": "NoSQL"
+            },
+            {
+              "slug": "redis-cache",
+              "title": "ქეშირება Redis-ით"
+            },
+            {
+              "slug": "event-sourcing",
+              "title": "event sourcing"
+            },
+            {
+              "slug": "search",
+              "title": "ძებნა"
+            }
+          ]
+        },
+        {
+          "slug": "library-design",
+          "title": "ბიბლიოთეკის დიზაინი",
+          "chapters": [
+            {
+              "slug": "api-guidelines",
+              "title": "API-ს წესები"
+            },
+            {
+              "slug": "publishing-nuget",
+              "title": "NuGet-ზე გამოქვეყნება"
+            },
+            {
+              "slug": "versioning",
+              "title": "ვერსიები"
+            },
+            {
+              "slug": "multi-targeting",
+              "title": "რამდენიმე პლატფორმა"
+            },
+            {
+              "slug": "documentation",
+              "title": "დოკუმენტაცია"
+            }
+          ]
+        },
+        {
+          "slug": "dotnet-evolution",
+          "title": ".NET-ის განვითარება",
+          "chapters": [
+            {
+              "slug": "release-cycle",
+              "title": "გამოშვების ციკლი"
+            },
+            {
+              "slug": "new-language-features",
+              "title": "ენის ახალი შესაძლებლობები"
+            },
+            {
+              "slug": "migrating-from-framework",
+              "title": ".NET Framework-იდან გადასვლა"
+            },
+            {
+              "slug": "ecosystem",
+              "title": "ეკოსისტემა"
+            },
+            {
+              "slug": "career",
+              "title": "კარიერა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

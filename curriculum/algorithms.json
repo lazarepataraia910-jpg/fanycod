@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "ტექსტის ანალიზატორი",
+        "description": "პროგრამა, რომელიც ტექსტში სიტყვებს ითვლის, ეძებს და ალაგებს: მასივები, ჰეშ-ცხრილი და ძებნა."
+      },
+      "modules": [
+        {
+          "slug": "algo-intro",
+          "title": "ალგორითმების საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-an-algorithm",
+              "title": "რა არის ალგორითმი"
+            },
+            {
+              "slug": "complexity-intuition",
+              "title": "სირთულის ინტუიცია"
+            },
+            {
+              "slug": "big-o",
+              "title": "Big O"
+            },
+            {
+              "slug": "best-and-worst-case",
+              "title": "საუკეთესო და უარესი შემთხვევა"
+            },
+            {
+              "slug": "problem-solving-steps",
+              "title": "ამოცანის ამოხსნის ნაბიჯები"
+            }
+          ]
+        },
+        {
+          "slug": "array-techniques",
+          "title": "მასივის ხერხები",
+          "chapters": [
+            {
+              "slug": "traversal",
+              "title": "მასივის გავლა"
+            },
+            {
+              "slug": "two-pointers",
+              "title": "ორი მაჩვენებელი"
+            },
+            {
+              "slug": "prefix-sums",
+              "title": "პრეფიქსული ჯამები"
+            },
+            {
+              "slug": "sliding-window",
+              "title": "მოძრავი ფანჯარა"
+            },
+            {
+              "slug": "in-place",
+              "title": "ადგილზე შეცვლა"
+            }
+          ]
+        },
+        {
+          "slug": "string-techniques",
+          "title": "სტრიქონის ხერხები",
+          "chapters": [
+            {
+              "slug": "string-traversal",
+              "title": "სტრიქონის გავლა"
+            },
+            {
+              "slug": "palindromes",
+              "title": "პალინდრომი"
+            },
+            {
+              "slug": "anagrams",
+              "title": "ანაგრამა"
+            },
+            {
+              "slug": "counting-characters",
+              "title": "სიმბოლოების დათვლა"
+            },
+            {
+              "slug": "substring-search",
+              "title": "ქვესტრიქონის ძებნა"
+            }
+          ]
+        },
+        {
+          "slug": "searching",
+          "title": "ძებნა",
+          "chapters": [
+            {
+              "slug": "linear-search",
+              "title": "ხაზოვანი ძებნა"
+            },
+            {
+              "slug": "binary-search",
+              "title": "ორობითი ძებნა"
+            },
+            {
+              "slug": "binary-search-variants",
+              "title": "ორობითი ძებნის ვარიაციები"
+            },
+            {
+              "slug": "search-on-answer",
+              "title": "ძებნა პასუხზე"
+            },
+            {
+              "slug": "search-mistakes",
+              "title": "ხშირი შეცდომები"
+            }
+          ]
+        },
+        {
+          "slug": "basic-sorting",
+          "title": "მარტივი დალაგება",
+          "chapters": [
+            {
+              "slug": "bubble-sort",
+              "title": "ბუშტისებრი დალაგება"
+            },
+            {
+              "slug": "selection-sort",
+              "title": "ამორჩევით დალაგება"
+            },
+            {
+              "slug": "insertion-sort",
+              "title": "ჩასმით დალაგება"
+            },
+            {
+              "slug": "stability",
+              "title": "სტაბილურობა"
+            },
+            {
+              "slug": "built-in-sort",
+              "title": "ჩაშენებული დალაგება"
+            }
+          ]
+        },
+        {
+          "slug": "recursion",
+          "title": "რეკურსია",
+          "chapters": [
+            {
+              "slug": "recursion-basics",
+              "title": "რეკურსია"
+            },
+            {
+              "slug": "base-case",
+              "title": "საბაზისო შემთხვევა"
+            },
+            {
+              "slug": "recursion-tree",
+              "title": "რეკურსიის ხე"
+            },
+            {
+              "slug": "backtracking-intro",
+              "title": "უკუსვლის შესავალი"
+            },
+            {
+              "slug": "recursion-or-iteration",
+              "title": "რეკურსია თუ ციკლი"
+            }
+          ]
+        },
+        {
+          "slug": "hashing",
+          "title": "ჰეშირება",
+          "chapters": [
+            {
+              "slug": "hash-tables",
+              "title": "ჰეშ-ცხრილი"
+            },
+            {
+              "slug": "using-hash-maps",
+              "title": "hash map-ის გამოყენება"
+            },
+            {
+              "slug": "hash-sets",
+              "title": "hash set"
+            },
+            {
+              "slug": "collisions",
+              "title": "კოლიზიები"
+            },
+            {
+              "slug": "hashing-patterns",
+              "title": "ხშირი ნიმუშები"
+            }
+          ]
+        },
+        {
+          "slug": "stacks-and-queues",
+          "title": "სტეკი და რიგი",
+          "chapters": [
+            {
+              "slug": "stack",
+              "title": "სტეკი"
+            },
+            {
+              "slug": "queue",
+              "title": "რიგი"
+            },
+            {
+              "slug": "deque",
+              "title": "deque"
+            },
+            {
+              "slug": "balanced-brackets",
+              "title": "ფრჩხილების ბალანსი"
+            },
+            {
+              "slug": "monotonic-stack-intro",
+              "title": "მონოტონური სტეკის შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "linked-lists",
+          "title": "ბმული სიები",
+          "chapters": [
+            {
+              "slug": "linked-list-basics",
+              "title": "ბმული სია"
+            },
+            {
+              "slug": "list-traversal",
+              "title": "სიის გავლა"
+            },
+            {
+              "slug": "insert-and-delete",
+              "title": "ჩასმა და წაშლა"
+            },
+            {
+              "slug": "reversing-a-list",
+              "title": "სიის შებრუნება"
+            },
+            {
+              "slug": "fast-and-slow-pointers",
+              "title": "სწრაფი და ნელი მაჩვენებელი"
+            }
+          ]
+        },
+        {
+          "slug": "math-basics",
+          "title": "მათემატიკის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "gcd",
+              "title": "უდიდესი საერთო გამყოფი"
+            },
+            {
+              "slug": "prime-numbers",
+              "title": "მარტივი რიცხვები"
+            },
+            {
+              "slug": "modular-arithmetic",
+              "title": "მოდულური არითმეტიკა"
+            },
+            {
+              "slug": "bit-operations",
+              "title": "ბიტური ოპერაციები"
+            },
+            {
+              "slug": "counting-basics",
+              "title": "კომბინატორიკის საფუძველი"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "მარშრუტის მპოვნელი",
+        "description": "პროგრამა, რომელიც ბადეზე უმოკლეს გზას პოულობს: გრაფები, BFS და Dijkstra."
+      },
+      "modules": [
+        {
+          "slug": "advanced-sorting",
+          "title": "დალაგება სიღრმეში",
+          "chapters": [
+            {
+              "slug": "merge-sort",
+              "title": "შერწყმით დალაგება"
+            },
+            {
+              "slug": "quick-sort",
+              "title": "სწრაფი დალაგება"
+            },
+            {
+              "slug": "heap-sort",
+              "title": "heap-ით დალაგება"
+            },
+            {
+              "slug": "counting-and-radix",
+              "title": "დათვლით და თანრიგობრივი დალაგება"
+            },
+            {
+              "slug": "custom-ordering",
+              "title": "დალაგება საკუთარი წესით"
+            }
+          ]
+        },
+        {
+          "slug": "trees",
+          "title": "ხეები",
+          "chapters": [
+            {
+              "slug": "binary-trees",
+              "title": "ორობითი ხე"
+            },
+            {
+              "slug": "depth-first-traversals",
+              "title": "სიღრმეში გავლა"
+            },
+            {
+              "slug": "level-order",
+              "title": "დონეებით გავლა"
+            },
+            {
+              "slug": "height-and-diameter",
+              "title": "სიმაღლე და დიამეტრი"
+            },
+            {
+              "slug": "recursive-tree-patterns",
+              "title": "რეკურსიული ნიმუშები"
+            }
+          ]
+        },
+        {
+          "slug": "binary-search-trees",
+          "title": "ძებნის ორობითი ხე",
+          "chapters": [
+            {
+              "slug": "bst-basics",
+              "title": "BST"
+            },
+            {
+              "slug": "bst-operations",
+              "title": "ძებნა, ჩასმა და წაშლა"
+            },
+            {
+              "slug": "validating-bst",
+              "title": "BST-ის შემოწმება"
+            },
+            {
+              "slug": "in-order-property",
+              "title": "in-order თვისება"
+            },
+            {
+              "slug": "balanced-trees-intro",
+              "title": "დაბალანსებული ხეების შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "heaps",
+          "title": "heap",
+          "chapters": [
+            {
+              "slug": "heap-basics",
+              "title": "heap"
+            },
+            {
+              "slug": "priority-queue",
+              "title": "პრიორიტეტული რიგი"
+            },
+            {
+              "slug": "heapify",
+              "title": "heapify"
+            },
+            {
+              "slug": "top-k",
+              "title": "K უდიდესი ელემენტი"
+            },
+            {
+              "slug": "two-heaps",
+              "title": "ორი heap-ის ნიმუში"
+            }
+          ]
+        },
+        {
+          "slug": "graph-basics",
+          "title": "გრაფის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "representing-graphs",
+              "title": "გრაფის წარმოდგენა"
+            },
+            {
+              "slug": "bfs",
+              "title": "BFS"
+            },
+            {
+              "slug": "dfs",
+              "title": "DFS"
+            },
+            {
+              "slug": "connected-components",
+              "title": "ბმული კომპონენტები"
+            },
+            {
+              "slug": "cycle-detection",
+              "title": "ციკლის პოვნა"
+            }
+          ]
+        },
+        {
+          "slug": "shortest-paths",
+          "title": "უმოკლესი გზები",
+          "chapters": [
+            {
+              "slug": "unweighted-shortest-path",
+              "title": "გზა უწონო გრაფში"
+            },
+            {
+              "slug": "dijkstra",
+              "title": "Dijkstra"
+            },
+            {
+              "slug": "bellman-ford",
+              "title": "Bellman-Ford"
+            },
+            {
+              "slug": "floyd-warshall",
+              "title": "Floyd-Warshall"
+            },
+            {
+              "slug": "grid-paths",
+              "title": "გზები ბადეზე"
+            }
+          ]
+        },
+        {
+          "slug": "backtracking",
+          "title": "უკუსვლა",
+          "chapters": [
+            {
+              "slug": "subsets",
+              "title": "ქვესიმრავლეები"
+            },
+            {
+              "slug": "permutations",
+              "title": "გადანაცვლებები"
+            },
+            {
+              "slug": "combinations",
+              "title": "კომბინაციები"
+            },
+            {
+              "slug": "n-queens",
+              "title": "N დედოფალი"
+            },
+            {
+              "slug": "pruning",
+              "title": "გასხვლა"
+            }
+          ]
+        },
+        {
+          "slug": "greedy",
+          "title": "ხარბი ალგორითმები",
+          "chapters": [
+            {
+              "slug": "greedy-idea",
+              "title": "ხარბი იდეა"
+            },
+            {
+              "slug": "interval-scheduling",
+              "title": "ინტერვალების დაგეგმვა"
+            },
+            {
+              "slug": "exchange-argument",
+              "title": "გაცვლის არგუმენტი"
+            },
+            {
+              "slug": "huffman",
+              "title": "Huffman"
+            },
+            {
+              "slug": "when-greedy-fails",
+              "title": "როდის არ მუშაობს"
+            }
+          ]
+        },
+        {
+          "slug": "dp-intro",
+          "title": "დინამიკური პროგრამირების შესავალი",
+          "chapters": [
+            {
+              "slug": "dp-idea",
+              "title": "დინამიკური პროგრამირების იდეა"
+            },
+            {
+              "slug": "memoization",
+              "title": "memoization"
+            },
+            {
+              "slug": "tabulation",
+              "title": "tabulation"
+            },
+            {
+              "slug": "one-dimensional-dp",
+              "title": "ერთგანზომილებიანი ამოცანები"
+            },
+            {
+              "slug": "knapsack-basics",
+              "title": "ზურგჩანთის ამოცანა"
+            }
+          ]
+        },
+        {
+          "slug": "pointer-patterns",
+          "title": "მაჩვენებლების ნიმუშები",
+          "chapters": [
+            {
+              "slug": "variable-window",
+              "title": "ცვლადი ზომის ფანჯარა"
+            },
+            {
+              "slug": "cycle-in-list",
+              "title": "ციკლი სიაში"
+            },
+            {
+              "slug": "merge-intervals",
+              "title": "ინტერვალების შერწყმა"
+            },
+            {
+              "slug": "binary-search-on-answer",
+              "title": "ორობითი ძებნა პასუხზე"
+            },
+            {
+              "slug": "meet-in-the-middle",
+              "title": "შუაში შეხვედრა"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "ავტოშევსების სისტემა",
+        "description": "სისტემა, რომელიც აკრეფისას სიტყვებს გთავაზობს: trie, რანჟირება და ქეში."
+      },
+      "modules": [
+        {
+          "slug": "advanced-dp",
+          "title": "დინამიკური პროგრამირება სიღრმეში",
+          "chapters": [
+            {
+              "slug": "two-dimensional-dp",
+              "title": "ორგანზომილებიანი ამოცანები"
+            },
+            {
+              "slug": "lcs-and-edit-distance",
+              "title": "LCS და რედაქტირების მანძილი"
+            },
+            {
+              "slug": "interval-dp",
+              "title": "ინტერვალების DP"
+            },
+            {
+              "slug": "bitmask-dp",
+              "title": "bitmask DP"
+            },
+            {
+              "slug": "dp-optimizations",
+              "title": "ოპტიმიზაციები"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-graphs",
+          "title": "გრაფები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "topological-sort",
+              "title": "ტოპოლოგიური დალაგება"
+            },
+            {
+              "slug": "union-find",
+              "title": "union-find"
+            },
+            {
+              "slug": "minimum-spanning-tree",
+              "title": "მინიმალური დამფარავი ხე"
+            },
+            {
+              "slug": "strongly-connected",
+              "title": "ძლიერად ბმული კომპონენტები"
+            },
+            {
+              "slug": "bipartite-graphs",
+              "title": "ორწილა გრაფი"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-trees",
+          "title": "ხეები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "lca",
+              "title": "უმცირესი საერთო წინაპარი"
+            },
+            {
+              "slug": "segment-tree",
+              "title": "სეგმენტების ხე"
+            },
+            {
+              "slug": "fenwick-tree",
+              "title": "Fenwick-ის ხე"
+            },
+            {
+              "slug": "trie",
+              "title": "trie"
+            },
+            {
+              "slug": "tree-dp",
+              "title": "DP ხეზე"
+            }
+          ]
+        },
+        {
+          "slug": "string-algorithms",
+          "title": "სტრიქონის ალგორითმები",
+          "chapters": [
+            {
+              "slug": "kmp",
+              "title": "KMP"
+            },
+            {
+              "slug": "z-function",
+              "title": "Z-ფუნქცია"
+            },
+            {
+              "slug": "rolling-hash",
+              "title": "მოძრავი ჰეში"
+            },
+            {
+              "slug": "suffix-array-intro",
+              "title": "სუფიქსური მასივის შესავალი"
+            },
+            {
+              "slug": "aho-corasick-intro",
+              "title": "Aho-Corasick-ის შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-structures",
+          "title": "რთული სტრუქტურები",
+          "chapters": [
+            {
+              "slug": "self-balancing-trees",
+              "title": "თვითბალანსირებადი ხეები"
+            },
+            {
+              "slug": "skip-list",
+              "title": "skip list"
+            },
+            {
+              "slug": "lru-cache",
+              "title": "LRU ქეში"
+            },
+            {
+              "slug": "sparse-table",
+              "title": "sparse table"
+            },
+            {
+              "slug": "dsu-optimizations",
+              "title": "union-find-ის ოპტიმიზაციები"
+            }
+          ]
+        },
+        {
+          "slug": "number-theory",
+          "title": "რიცხვთა თეორია",
+          "chapters": [
+            {
+              "slug": "fast-exponentiation",
+              "title": "სწრაფი ახარისხება"
+            },
+            {
+              "slug": "sieve",
+              "title": "ერატოსთენეს საცერი"
+            },
+            {
+              "slug": "modular-inverse",
+              "title": "მოდულური შებრუნებული"
+            },
+            {
+              "slug": "combinatorics-mod-p",
+              "title": "კომბინატორიკა მოდულით"
+            },
+            {
+              "slug": "matrix-exponentiation",
+              "title": "მატრიცის ახარისხება"
+            }
+          ]
+        },
+        {
+          "slug": "geometry",
+          "title": "გეომეტრია",
+          "chapters": [
+            {
+              "slug": "points-and-vectors",
+              "title": "წერტილები და ვექტორები"
+            },
+            {
+              "slug": "cross-product",
+              "title": "ვექტორული ნამრავლი"
+            },
+            {
+              "slug": "convex-hull",
+              "title": "ამოზნექილი გარსი"
+            },
+            {
+              "slug": "line-intersection",
+              "title": "წრფეების გადაკვეთა"
+            },
+            {
+              "slug": "sweep-line",
+              "title": "sweep line"
+            }
+          ]
+        },
+        {
+          "slug": "bit-tricks",
+          "title": "ბიტური ხერხები",
+          "chapters": [
+            {
+              "slug": "bit-patterns",
+              "title": "ბიტური ნიმუშები"
+            },
+            {
+              "slug": "enumerating-subsets",
+              "title": "ქვესიმრავლეების გადათვლა"
+            },
+            {
+              "slug": "xor-tricks",
+              "title": "XOR-ის ხერხები"
+            },
+            {
+              "slug": "bitsets",
+              "title": "bitset"
+            },
+            {
+              "slug": "gray-code",
+              "title": "Gray-ის კოდი"
+            }
+          ]
+        },
+        {
+          "slug": "network-flow",
+          "title": "ნაკადები ქსელში",
+          "chapters": [
+            {
+              "slug": "max-flow",
+              "title": "მაქსიმალური ნაკადი"
+            },
+            {
+              "slug": "min-cut",
+              "title": "მინიმალური ჭრილი"
+            },
+            {
+              "slug": "bipartite-matching",
+              "title": "შეწყვილება ორწილა გრაფში"
+            },
+            {
+              "slug": "assignment-problem",
+              "title": "დანიშვნის ამოცანა"
+            },
+            {
+              "slug": "flow-applications",
+              "title": "გამოყენება"
+            }
+          ]
+        },
+        {
+          "slug": "complexity-theory",
+          "title": "სირთულის თეორია",
+          "chapters": [
+            {
+              "slug": "p-and-np",
+              "title": "P და NP"
+            },
+            {
+              "slug": "np-complete",
+              "title": "NP-სრული ამოცანები"
+            },
+            {
+              "slug": "reductions",
+              "title": "დაყვანა"
+            },
+            {
+              "slug": "approximation-intro",
+              "title": "მიახლოების შესავალი"
+            },
+            {
+              "slug": "heuristics",
+              "title": "ევრისტიკები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "მინი საძიებო სისტემა",
+        "description": "ძრავა ინვერსიული ინდექსით, რანჟირებით და სწრაფი მოთხოვნებით დიდ მონაცემებზე."
+      },
+      "modules": [
+        {
+          "slug": "expert-graphs",
+          "title": "გრაფების რთული ალგორითმები",
+          "chapters": [
+            {
+              "slug": "a-star",
+              "title": "A*"
+            },
+            {
+              "slug": "bidirectional-search",
+              "title": "ორმხრივი ძებნა"
+            },
+            {
+              "slug": "heavy-light",
+              "title": "heavy-light დაშლა"
+            },
+            {
+              "slug": "centroid-decomposition",
+              "title": "ცენტროიდული დაშლა"
+            },
+            {
+              "slug": "dynamic-connectivity",
+              "title": "დინამიკური ბმულობა"
+            }
+          ]
+        },
+        {
+          "slug": "expert-strings",
+          "title": "სტრიქონების რთული ალგორითმები",
+          "chapters": [
+            {
+              "slug": "suffix-automaton",
+              "title": "სუფიქსური ავტომატი"
+            },
+            {
+              "slug": "suffix-tree",
+              "title": "სუფიქსური ხე"
+            },
+            {
+              "slug": "manacher",
+              "title": "Manacher"
+            },
+            {
+              "slug": "hashing-pitfalls",
+              "title": "ჰეშირების ხაფანგები"
+            },
+            {
+              "slug": "compression",
+              "title": "შეკუმშვა"
+            }
+          ]
+        },
+        {
+          "slug": "randomized-algorithms",
+          "title": "შემთხვევითი ალგორითმები",
+          "chapters": [
+            {
+              "slug": "randomization",
+              "title": "შემთხვევითობა ალგორითმებში"
+            },
+            {
+              "slug": "hashing-schemes",
+              "title": "ჰეშირების სქემები"
+            },
+            {
+              "slug": "bloom-filter",
+              "title": "Bloom-ის ფილტრი"
+            },
+            {
+              "slug": "reservoir-sampling",
+              "title": "reservoir sampling"
+            },
+            {
+              "slug": "treaps",
+              "title": "treap"
+            }
+          ]
+        },
+        {
+          "slug": "approximation-and-streaming",
+          "title": "მიახლოება და ნაკადები",
+          "chapters": [
+            {
+              "slug": "approximation-algorithms",
+              "title": "მიახლოებითი ალგორითმები"
+            },
+            {
+              "slug": "online-algorithms",
+              "title": "ონლაინ ალგორითმები"
+            },
+            {
+              "slug": "competitive-analysis",
+              "title": "კონკურენტული ანალიზი"
+            },
+            {
+              "slug": "streaming-algorithms",
+              "title": "ნაკადური ალგორითმები"
+            },
+            {
+              "slug": "sketches",
+              "title": "sketch სტრუქტურები"
+            }
+          ]
+        },
+        {
+          "slug": "parallel-algorithms",
+          "title": "პარალელური ალგორითმები",
+          "chapters": [
+            {
+              "slug": "parallel-basics",
+              "title": "პარალელური ალგორითმები"
+            },
+            {
+              "slug": "mapreduce",
+              "title": "MapReduce"
+            },
+            {
+              "slug": "consistent-hashing",
+              "title": "consistent hashing"
+            },
+            {
+              "slug": "distributed-sorting",
+              "title": "განაწილებული დალაგება"
+            },
+            {
+              "slug": "gpu-algorithms",
+              "title": "GPU ალგორითმები"
+            }
+          ]
+        },
+        {
+          "slug": "persistent-structures",
+          "title": "მუდმივი სტრუქტურები",
+          "chapters": [
+            {
+              "slug": "persistence",
+              "title": "მუდმივობა"
+            },
+            {
+              "slug": "functional-structures",
+              "title": "ფუნქციური სტრუქტურები"
+            },
+            {
+              "slug": "rope",
+              "title": "rope"
+            },
+            {
+              "slug": "b-trees-and-lsm",
+              "title": "B-tree და LSM"
+            },
+            {
+              "slug": "cache-oblivious",
+              "title": "ქეშისგან დამოუკიდებელი ალგორითმები"
+            }
+          ]
+        },
+        {
+          "slug": "optimization",
+          "title": "ოპტიმიზაცია",
+          "chapters": [
+            {
+              "slug": "linear-programming",
+              "title": "წრფივი პროგრამირება"
+            },
+            {
+              "slug": "simulated-annealing",
+              "title": "simulated annealing"
+            },
+            {
+              "slug": "genetic-algorithms",
+              "title": "გენეტიკური ალგორითმები"
+            },
+            {
+              "slug": "constraint-solving",
+              "title": "შეზღუდვების ამოხსნა"
+            },
+            {
+              "slug": "branch-and-bound",
+              "title": "განშტოება და საზღვრები"
+            }
+          ]
+        },
+        {
+          "slug": "algorithms-in-practice",
+          "title": "ალგორითმები პრაქტიკაში",
+          "chapters": [
+            {
+              "slug": "search-indexing",
+              "title": "საძიებო ინდექსი"
+            },
+            {
+              "slug": "recommendations",
+              "title": "რეკომენდაციები"
+            },
+            {
+              "slug": "map-routing",
+              "title": "მარშრუტები რუკაზე"
+            },
+            {
+              "slug": "query-algorithms",
+              "title": "ბაზის მოთხოვნის ალგორითმები"
+            },
+            {
+              "slug": "practical-compression",
+              "title": "შეკუმშვა პრაქტიკაში"
+            }
+          ]
+        },
+        {
+          "slug": "interviews",
+          "title": "გასაუბრება",
+          "chapters": [
+            {
+              "slug": "interview-patterns",
+              "title": "გასაუბრების ნიმუშები"
+            },
+            {
+              "slug": "explaining-solutions",
+              "title": "ამოხსნის ახსნა"
+            },
+            {
+              "slug": "system-design-link",
+              "title": "კავშირი სისტემის დიზაინთან"
+            },
+            {
+              "slug": "mock-practice",
+              "title": "სავარჯიშო გასაუბრება"
+            },
+            {
+              "slug": "interview-pitfalls",
+              "title": "ხშირი შეცდომები გასაუბრებაზე"
+            }
+          ]
+        },
+        {
+          "slug": "research",
+          "title": "კვლევა",
+          "chapters": [
+            {
+              "slug": "reading-algorithm-papers",
+              "title": "სტატიების კითხვა"
+            },
+            {
+              "slug": "proving-correctness",
+              "title": "სისწორის დამტკიცება"
+            },
+            {
+              "slug": "amortized-analysis",
+              "title": "ამორტიზებული ანალიზი"
+            },
+            {
+              "slug": "lower-bounds",
+              "title": "ქვედა საზღვრები"
+            },
+            {
+              "slug": "open-problems",
+              "title": "ღია ამოცანები"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "ტექსტური თამაში",
+        "description": "სათავგადასავლო თამაში კონსოლში: კლასები, ვექტორები და ფაილში შენახვა."
+      },
+      "modules": [
+        {
+          "slug": "cpp-intro",
+          "title": "C++-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-cpp",
+              "title": "რა არის C++"
+            },
+            {
+              "slug": "compiler-setup",
+              "title": "კომპილატორის დაყენება"
+            },
+            {
+              "slug": "first-program",
+              "title": "პირველი პროგრამა"
+            },
+            {
+              "slug": "cout-and-cin",
+              "title": "cout და cin"
+            },
+            {
+              "slug": "std-namespace",
+              "title": "std სახელთა სივრცე"
+            }
+          ]
+        },
+        {
+          "slug": "variables",
+          "title": "ცვლადები",
+          "chapters": [
+            {
+              "slug": "basic-types",
+              "title": "ძირითადი ტიპები"
+            },
+            {
+              "slug": "auto",
+              "title": "auto"
+            },
+            {
+              "slug": "const",
+              "title": "const"
+            },
+            {
+              "slug": "std-string-intro",
+              "title": "std::string"
+            },
+            {
+              "slug": "type-conversion",
+              "title": "ტიპის გარდაქმნა"
+            }
+          ]
+        },
+        {
+          "slug": "control-flow",
+          "title": "მართვის ნაკადი",
+          "chapters": [
+            {
+              "slug": "if-else",
+              "title": "if და else"
+            },
+            {
+              "slug": "switch",
+              "title": "switch"
+            },
+            {
+              "slug": "loops",
+              "title": "ციკლები"
+            },
+            {
+              "slug": "range-for",
+              "title": "range-for"
+            },
+            {
+              "slug": "break-and-continue",
+              "title": "break და continue"
+            }
+          ]
+        },
+        {
+          "slug": "functions",
+          "title": "ფუნქციები",
+          "chapters": [
+            {
+              "slug": "defining-functions",
+              "title": "ფუნქციის განსაზღვრა"
+            },
+            {
+              "slug": "overloading",
+              "title": "გადატვირთვა"
+            },
+            {
+              "slug": "default-arguments",
+              "title": "ნაგულისხმევი არგუმენტები"
+            },
+            {
+              "slug": "references",
+              "title": "მითითებები"
+            },
+            {
+              "slug": "value-or-reference",
+              "title": "მნიშვნელობით თუ მითითებით"
+            }
+          ]
+        },
+        {
+          "slug": "arrays-and-vectors",
+          "title": "მასივები და ვექტორები",
+          "chapters": [
+            {
+              "slug": "c-arrays",
+              "title": "C მასივი"
+            },
+            {
+              "slug": "std-array",
+              "title": "std::array"
+            },
+            {
+              "slug": "std-vector",
+              "title": "std::vector"
+            },
+            {
+              "slug": "vector-methods",
+              "title": "ვექტორის მეთოდები"
+            },
+            {
+              "slug": "iterating",
+              "title": "გავლა"
+            }
+          ]
+        },
+        {
+          "slug": "strings",
+          "title": "სტრიქონები",
+          "chapters": [
+            {
+              "slug": "std-string",
+              "title": "std::string სიღრმეში"
+            },
+            {
+              "slug": "string-methods",
+              "title": "სტრიქონის მეთოდები"
+            },
+            {
+              "slug": "string-view-intro",
+              "title": "string_view"
+            },
+            {
+              "slug": "stringstream",
+              "title": "stringstream"
+            },
+            {
+              "slug": "string-conversions",
+              "title": "გარდაქმნები"
+            }
+          ]
+        },
+        {
+          "slug": "pointers",
+          "title": "მაჩვენებლები",
+          "chapters": [
+            {
+              "slug": "pointer-basics",
+              "title": "მაჩვენებელი"
+            },
+            {
+              "slug": "reference-or-pointer",
+              "title": "მითითება თუ მაჩვენებელი"
+            },
+            {
+              "slug": "nullptr",
+              "title": "nullptr"
+            },
+            {
+              "slug": "new-and-delete",
+              "title": "new და delete"
+            },
+            {
+              "slug": "memory-errors",
+              "title": "მეხსიერების შეცდომები"
+            }
+          ]
+        },
+        {
+          "slug": "classes",
+          "title": "კლასები",
+          "chapters": [
+            {
+              "slug": "class-basics",
+              "title": "class"
+            },
+            {
+              "slug": "constructors",
+              "title": "კონსტრუქტორი"
+            },
+            {
+              "slug": "destructors",
+              "title": "დესტრუქტორი"
+            },
+            {
+              "slug": "access-control",
+              "title": "წვდომის კონტროლი"
+            },
+            {
+              "slug": "member-functions",
+              "title": "წევრი ფუნქციები"
+            }
+          ]
+        },
+        {
+          "slug": "organizing-code",
+          "title": "კოდის ორგანიზება",
+          "chapters": [
+            {
+              "slug": "structs",
+              "title": "struct"
+            },
+            {
+              "slug": "enum-class",
+              "title": "enum class"
+            },
+            {
+              "slug": "namespaces",
+              "title": "სახელთა სივრცეები"
+            },
+            {
+              "slug": "headers-and-sources",
+              "title": "header და source ფაილები"
+            },
+            {
+              "slug": "include-guards",
+              "title": "include guard"
+            }
+          ]
+        },
+        {
+          "slug": "files",
+          "title": "ფაილები",
+          "chapters": [
+            {
+              "slug": "fstream",
+              "title": "fstream"
+            },
+            {
+              "slug": "reading-files",
+              "title": "ფაილის წაკითხვა"
+            },
+            {
+              "slug": "writing-files",
+              "title": "ფაილის ჩაწერა"
+            },
+            {
+              "slug": "output-formatting",
+              "title": "გამოტანის ფორმატირება"
+            },
+            {
+              "slug": "stream-errors",
+              "title": "ნაკადის შეცდომები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "ბიბლიოთეკის სისტემა",
+        "description": "პროგრამა ჭკვიანი მაჩვენებლებით, STL-ით, შაბლონებით და CMake-ით აწყობილი."
+      },
+      "modules": [
+        {
+          "slug": "oop",
+          "title": "ობიექტზე ორიენტირება",
+          "chapters": [
+            {
+              "slug": "inheritance",
+              "title": "მემკვიდრეობა"
+            },
+            {
+              "slug": "virtual-functions",
+              "title": "ვირტუალური ფუნქციები"
+            },
+            {
+              "slug": "abstract-classes",
+              "title": "აბსტრაქტული კლასები"
+            },
+            {
+              "slug": "polymorphism",
+              "title": "პოლიმორფიზმი"
+            },
+            {
+              "slug": "composition",
+              "title": "კომპოზიცია"
+            }
+          ]
+        },
+        {
+          "slug": "raii",
+          "title": "RAII",
+          "chapters": [
+            {
+              "slug": "raii-idea",
+              "title": "RAII-ს იდეა"
+            },
+            {
+              "slug": "construction-order",
+              "title": "აგების და ნგრევის რიგი"
+            },
+            {
+              "slug": "copy-constructor",
+              "title": "კოპირების კონსტრუქტორი"
+            },
+            {
+              "slug": "copy-assignment",
+              "title": "კოპირების მინიჭება"
+            },
+            {
+              "slug": "rule-of-three",
+              "title": "სამის წესი"
+            }
+          ]
+        },
+        {
+          "slug": "smart-pointers",
+          "title": "ჭკვიანი მაჩვენებლები",
+          "chapters": [
+            {
+              "slug": "unique-ptr",
+              "title": "unique_ptr"
+            },
+            {
+              "slug": "shared-ptr",
+              "title": "shared_ptr"
+            },
+            {
+              "slug": "weak-ptr",
+              "title": "weak_ptr"
+            },
+            {
+              "slug": "make-functions",
+              "title": "make_unique და make_shared"
+            },
+            {
+              "slug": "ownership",
+              "title": "მფლობელობა"
+            }
+          ]
+        },
+        {
+          "slug": "move-semantics",
+          "title": "გადაადგილების სემანტიკა",
+          "chapters": [
+            {
+              "slug": "lvalues-and-rvalues",
+              "title": "lvalue და rvalue"
+            },
+            {
+              "slug": "move-constructor",
+              "title": "გადაადგილების კონსტრუქტორი"
+            },
+            {
+              "slug": "std-move",
+              "title": "std::move"
+            },
+            {
+              "slug": "rule-of-five",
+              "title": "ხუთის წესი"
+            },
+            {
+              "slug": "forwarding-intro",
+              "title": "perfect forwarding-ის შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "templates-basics",
+          "title": "შაბლონების საფუძვლები",
+          "chapters": [
+            {
+              "slug": "function-templates",
+              "title": "ფუნქციის შაბლონი"
+            },
+            {
+              "slug": "class-templates",
+              "title": "კლასის შაბლონი"
+            },
+            {
+              "slug": "specialization",
+              "title": "სპეციალიზაცია"
+            },
+            {
+              "slug": "template-deduction",
+              "title": "ტიპის გამოყვანა"
+            },
+            {
+              "slug": "constexpr-intro",
+              "title": "constexpr-ის შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "stl-containers",
+          "title": "STL კონტეინერები",
+          "chapters": [
+            {
+              "slug": "vector-in-depth",
+              "title": "vector სიღრმეში"
+            },
+            {
+              "slug": "list-and-deque",
+              "title": "list და deque"
+            },
+            {
+              "slug": "maps",
+              "title": "map და unordered_map"
+            },
+            {
+              "slug": "sets",
+              "title": "set"
+            },
+            {
+              "slug": "choosing-a-container",
+              "title": "კონტეინერის არჩევა"
+            }
+          ]
+        },
+        {
+          "slug": "stl-algorithms",
+          "title": "STL ალგორითმები",
+          "chapters": [
+            {
+              "slug": "iterators",
+              "title": "იტერატორები"
+            },
+            {
+              "slug": "sort-and-find",
+              "title": "sort და find"
+            },
+            {
+              "slug": "transform-and-accumulate",
+              "title": "transform და accumulate"
+            },
+            {
+              "slug": "lambdas",
+              "title": "lambda"
+            },
+            {
+              "slug": "ranges-intro",
+              "title": "ranges-ის შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "exceptions",
+          "title": "გამონაკლისები",
+          "chapters": [
+            {
+              "slug": "try-catch",
+              "title": "try და catch"
+            },
+            {
+              "slug": "throwing",
+              "title": "გამონაკლისის გასროლა"
+            },
+            {
+              "slug": "exception-safety",
+              "title": "გამონაკლისებისადმი მდგრადობა"
+            },
+            {
+              "slug": "noexcept",
+              "title": "noexcept"
+            },
+            {
+              "slug": "codes-or-exceptions",
+              "title": "კოდები თუ გამონაკლისები"
+            }
+          ]
+        },
+        {
+          "slug": "operator-overloading",
+          "title": "ოპერატორების გადატვირთვა",
+          "chapters": [
+            {
+              "slug": "overloading-operators",
+              "title": "ოპერატორის გადატვირთვა"
+            },
+            {
+              "slug": "stream-operators",
+              "title": "ნაკადის ოპერატორები"
+            },
+            {
+              "slug": "comparison-operators",
+              "title": "შედარების ოპერატორები"
+            },
+            {
+              "slug": "functors",
+              "title": "ფუნქტორები"
+            },
+            {
+              "slug": "conversion-operators",
+              "title": "გარდაქმნის ოპერატორები"
+            }
+          ]
+        },
+        {
+          "slug": "building",
+          "title": "აწყობა",
+          "chapters": [
+            {
+              "slug": "compilation-model",
+              "title": "კომპილაციის მოდელი"
+            },
+            {
+              "slug": "cmake",
+              "title": "CMake"
+            },
+            {
+              "slug": "using-libraries",
+              "title": "ბიბლიოთეკების გამოყენება"
+            },
+            {
+              "slug": "package-managers",
+              "title": "პაკეტების მმართველები"
+            },
+            {
+              "slug": "debugger",
+              "title": "გამმართველი"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "2D თამაში",
+        "description": "არკადული თამაში გრაფიკული ბიბლიოთეკით, თამაშის ციკლით და რესურსების მართვით."
+      },
+      "modules": [
+        {
+          "slug": "modern-cpp",
+          "title": "თანამედროვე C++",
+          "chapters": [
+            {
+              "slug": "auto-and-decltype",
+              "title": "auto და decltype"
+            },
+            {
+              "slug": "structured-bindings",
+              "title": "structured bindings"
+            },
+            {
+              "slug": "optional-and-variant",
+              "title": "optional და variant"
+            },
+            {
+              "slug": "string-view-and-span",
+              "title": "string_view და span"
+            },
+            {
+              "slug": "modules",
+              "title": "მოდულები"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-templates",
+          "title": "შაბლონები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "variadic-templates",
+              "title": "ვარიადული შაბლონები"
+            },
+            {
+              "slug": "sfinae",
+              "title": "SFINAE"
+            },
+            {
+              "slug": "concepts",
+              "title": "concept"
+            },
+            {
+              "slug": "type-traits",
+              "title": "type traits"
+            },
+            {
+              "slug": "crtp",
+              "title": "CRTP"
+            }
+          ]
+        },
+        {
+          "slug": "concurrency",
+          "title": "კონკურენტულობა",
+          "chapters": [
+            {
+              "slug": "std-thread",
+              "title": "std::thread"
+            },
+            {
+              "slug": "mutexes",
+              "title": "mutex"
+            },
+            {
+              "slug": "condition-variable",
+              "title": "condition_variable"
+            },
+            {
+              "slug": "futures",
+              "title": "future და async"
+            },
+            {
+              "slug": "atomics",
+              "title": "atomic"
+            }
+          ]
+        },
+        {
+          "slug": "memory",
+          "title": "მეხსიერება",
+          "chapters": [
+            {
+              "slug": "allocators",
+              "title": "ალოკატორები"
+            },
+            {
+              "slug": "placement-new",
+              "title": "placement new"
+            },
+            {
+              "slug": "object-layout",
+              "title": "ობიექტის განლაგება"
+            },
+            {
+              "slug": "alignment",
+              "title": "გასწორება"
+            },
+            {
+              "slug": "memory-pools",
+              "title": "მეხსიერების აუზები"
+            }
+          ]
+        },
+        {
+          "slug": "ranges-and-functional",
+          "title": "ranges და ფუნქციური სტილი",
+          "chapters": [
+            {
+              "slug": "ranges",
+              "title": "ranges"
+            },
+            {
+              "slug": "views",
+              "title": "view"
+            },
+            {
+              "slug": "lambdas-in-depth",
+              "title": "lambda სიღრმეში"
+            },
+            {
+              "slug": "std-function",
+              "title": "std::function"
+            },
+            {
+              "slug": "composing-algorithms",
+              "title": "ალგორითმების კომბინირება"
+            }
+          ]
+        },
+        {
+          "slug": "performance",
+          "title": "წარმადობა",
+          "chapters": [
+            {
+              "slug": "profiling",
+              "title": "პროფაილინგი"
+            },
+            {
+              "slug": "cache-friendly-code",
+              "title": "ქეშისთვის მოსახერხებელი კოდი"
+            },
+            {
+              "slug": "inlining",
+              "title": "inlining"
+            },
+            {
+              "slug": "avoiding-copies",
+              "title": "ასლების თავიდან აცილება"
+            },
+            {
+              "slug": "benchmarking",
+              "title": "ბენჩმარკი"
+            }
+          ]
+        },
+        {
+          "slug": "design-patterns",
+          "title": "დიზაინის ნიმუშები",
+          "chapters": [
+            {
+              "slug": "raii-patterns",
+              "title": "RAII ნიმუშები"
+            },
+            {
+              "slug": "pimpl",
+              "title": "pimpl"
+            },
+            {
+              "slug": "factories",
+              "title": "ქარხანა"
+            },
+            {
+              "slug": "observers",
+              "title": "დამკვირვებელი"
+            },
+            {
+              "slug": "type-erasure",
+              "title": "ტიპის წაშლა"
+            }
+          ]
+        },
+        {
+          "slug": "testing",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "googletest",
+              "title": "GoogleTest"
+            },
+            {
+              "slug": "mock-objects",
+              "title": "იმიტაცია"
+            },
+            {
+              "slug": "sanitizers",
+              "title": "sanitizer"
+            },
+            {
+              "slug": "fuzz-testing",
+              "title": "fuzzing"
+            },
+            {
+              "slug": "static-analysis",
+              "title": "სტატიკური ანალიზი"
+            }
+          ]
+        },
+        {
+          "slug": "graphics-and-games",
+          "title": "გრაფიკა და თამაშები",
+          "chapters": [
+            {
+              "slug": "game-loop",
+              "title": "თამაშის ციკლი"
+            },
+            {
+              "slug": "graphics-library",
+              "title": "გრაფიკული ბიბლიოთეკა"
+            },
+            {
+              "slug": "game-math",
+              "title": "მათემატიკის საფუძვლები"
+            },
+            {
+              "slug": "ecs",
+              "title": "ECS"
+            },
+            {
+              "slug": "resource-management",
+              "title": "რესურსების მართვა"
+            }
+          ]
+        },
+        {
+          "slug": "networking",
+          "title": "ქსელი",
+          "chapters": [
+            {
+              "slug": "sockets",
+              "title": "socket"
+            },
+            {
+              "slug": "asio",
+              "title": "Asio"
+            },
+            {
+              "slug": "serialization",
+              "title": "სერიალიზაცია"
+            },
+            {
+              "slug": "protocols",
+              "title": "პროტოკოლები"
+            },
+            {
+              "slug": "async-io",
+              "title": "ასინქრონული I/O"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "თამაშის ძრავის ბირთვი",
+        "description": "ძრავის ბირთვი მეხსიერების არენებით, დავალებების სისტემით და რენდერის კონვეიერით."
+      },
+      "modules": [
+        {
+          "slug": "metaprogramming",
+          "title": "მეტაპროგრამირება",
+          "chapters": [
+            {
+              "slug": "constexpr-in-depth",
+              "title": "constexpr სიღრმეში"
+            },
+            {
+              "slug": "template-metaprogramming",
+              "title": "შაბლონებით მეტაპროგრამირება"
+            },
+            {
+              "slug": "compile-time-reflection",
+              "title": "კომპილაციის დროის reflection"
+            },
+            {
+              "slug": "expression-templates",
+              "title": "expression templates"
+            },
+            {
+              "slug": "designing-concepts",
+              "title": "concept-ების დიზაინი"
+            }
+          ]
+        },
+        {
+          "slug": "language-rules",
+          "title": "ენის რთული წესები",
+          "chapters": [
+            {
+              "slug": "undefined-behavior",
+              "title": "განუსაზღვრელი ქცევა"
+            },
+            {
+              "slug": "object-lifetime",
+              "title": "ობიექტის სიცოცხლე"
+            },
+            {
+              "slug": "aliasing",
+              "title": "aliasing"
+            },
+            {
+              "slug": "one-definition-rule",
+              "title": "ერთი განსაზღვრის წესი"
+            },
+            {
+              "slug": "abi",
+              "title": "ABI"
+            }
+          ]
+        },
+        {
+          "slug": "low-level",
+          "title": "დაბალი დონე",
+          "chapters": [
+            {
+              "slug": "reading-assembly",
+              "title": "ასემბლერის კითხვა"
+            },
+            {
+              "slug": "calling-conventions",
+              "title": "გამოძახების შეთანხმებები"
+            },
+            {
+              "slug": "vtables",
+              "title": "ვირტუალური ცხრილები"
+            },
+            {
+              "slug": "exception-internals",
+              "title": "გამონაკლისები შიგნიდან"
+            },
+            {
+              "slug": "the-linker",
+              "title": "linker"
+            }
+          ]
+        },
+        {
+          "slug": "lock-free",
+          "title": "lock-free პროგრამირება",
+          "chapters": [
+            {
+              "slug": "cpp-memory-model",
+              "title": "მეხსიერების მოდელი"
+            },
+            {
+              "slug": "lock-free-structures",
+              "title": "lock-free სტრუქტურები"
+            },
+            {
+              "slug": "hazard-pointers",
+              "title": "hazard pointer"
+            },
+            {
+              "slug": "coroutines",
+              "title": "კორუტინები"
+            },
+            {
+              "slug": "executors",
+              "title": "executor"
+            }
+          ]
+        },
+        {
+          "slug": "large-scale",
+          "title": "დიდი კოდბაზა",
+          "chapters": [
+            {
+              "slug": "physical-design",
+              "title": "ფიზიკური დიზაინი"
+            },
+            {
+              "slug": "build-times",
+              "title": "აწყობის დრო"
+            },
+            {
+              "slug": "api-and-abi-stability",
+              "title": "API-ს და ABI-ს სტაბილურობა"
+            },
+            {
+              "slug": "dependency-management",
+              "title": "დამოკიდებულებების მართვა"
+            },
+            {
+              "slug": "code-review",
+              "title": "კოდის მიმოხილვა"
+            }
+          ]
+        },
+        {
+          "slug": "game-engine",
+          "title": "თამაშის ძრავა",
+          "chapters": [
+            {
+              "slug": "rendering-pipeline",
+              "title": "რენდერის კონვეიერი"
+            },
+            {
+              "slug": "memory-arenas",
+              "title": "მეხსიერების არენები"
+            },
+            {
+              "slug": "job-system",
+              "title": "დავალებების სისტემა"
+            },
+            {
+              "slug": "scripting",
+              "title": "სკრიპტების ინტეგრაცია"
+            },
+            {
+              "slug": "engine-tools",
+              "title": "ხელსაწყოები"
+            }
+          ]
+        },
+        {
+          "slug": "high-performance",
+          "title": "მაღალი წარმადობა",
+          "chapters": [
+            {
+              "slug": "simd",
+              "title": "SIMD"
+            },
+            {
+              "slug": "gpu-computing",
+              "title": "GPU გამოთვლები"
+            },
+            {
+              "slug": "low-latency",
+              "title": "დაბალი დაყოვნება"
+            },
+            {
+              "slug": "zero-cost-abstractions",
+              "title": "უფასო აბსტრაქციები"
+            },
+            {
+              "slug": "profiling-at-scale",
+              "title": "პროფაილინგი მასშტაბზე"
+            }
+          ]
+        },
+        {
+          "slug": "embedded-cpp",
+          "title": "ჩაშენებული C++",
+          "chapters": [
+            {
+              "slug": "freestanding",
+              "title": "freestanding C++"
+            },
+            {
+              "slug": "without-exceptions",
+              "title": "გამონაკლისების და RTTI-ს გარეშე"
+            },
+            {
+              "slug": "hardware-access",
+              "title": "მოწყობილობასთან წვდომა"
+            },
+            {
+              "slug": "real-time",
+              "title": "რეალური დროის შეზღუდვები"
+            },
+            {
+              "slug": "safety-standards",
+              "title": "უსაფრთხოების სტანდარტები"
+            }
+          ]
+        },
+        {
+          "slug": "interop",
+          "title": "სხვა ენებთან მუშაობა",
+          "chapters": [
+            {
+              "slug": "c-interop",
+              "title": "C-სთან მუშაობა"
+            },
+            {
+              "slug": "python-bindings",
+              "title": "Python-ის bindings"
+            },
+            {
+              "slug": "rust-interop",
+              "title": "Rust-თან მუშაობა"
+            },
+            {
+              "slug": "webassembly",
+              "title": "WebAssembly"
+            },
+            {
+              "slug": "plugins",
+              "title": "მოდულების სისტემა"
+            }
+          ]
+        },
+        {
+          "slug": "cpp-evolution",
+          "title": "ენის განვითარება",
+          "chapters": [
+            {
+              "slug": "standards-process",
+              "title": "სტანდარტის პროცესი"
+            },
+            {
+              "slug": "new-standards",
+              "title": "ახალი სტანდარტები"
+            },
+            {
+              "slug": "safety-profiles",
+              "title": "უსაფრთხოების პროფილები"
+            },
+            {
+              "slug": "successor-languages",
+              "title": "მემკვიდრე ენები"
+            },
+            {
+              "slug": "cpp-career",
+              "title": "კარიერა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

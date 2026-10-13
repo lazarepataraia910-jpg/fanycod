@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "პროექტი GitHub-ზე",
+        "description": "პირადი პროექტი ისტორიით, README-ით და გამოქვეყნებული გვერდით."
+      },
+      "modules": [
+        {
+          "slug": "git-intro",
+          "title": "Git-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-version-control",
+              "title": "რა არის ვერსიების კონტროლი"
+            },
+            {
+              "slug": "installing-git",
+              "title": "Git-ის დაყენება"
+            },
+            {
+              "slug": "configuring-git",
+              "title": "კონფიგურაცია"
+            },
+            {
+              "slug": "creating-a-repository",
+              "title": "რეპოზიტორიის შექმნა"
+            },
+            {
+              "slug": "three-areas",
+              "title": "სამი არე"
+            }
+          ]
+        },
+        {
+          "slug": "first-commits",
+          "title": "პირველი commit-ები",
+          "chapters": [
+            {
+              "slug": "git-status",
+              "title": "git status"
+            },
+            {
+              "slug": "git-add",
+              "title": "git add"
+            },
+            {
+              "slug": "git-commit",
+              "title": "git commit"
+            },
+            {
+              "slug": "commit-messages",
+              "title": "კარგი commit-ის აღწერა"
+            },
+            {
+              "slug": "git-log",
+              "title": "git log"
+            }
+          ]
+        },
+        {
+          "slug": "working-with-changes",
+          "title": "ცვლილებებთან მუშაობა",
+          "chapters": [
+            {
+              "slug": "git-diff",
+              "title": "git diff"
+            },
+            {
+              "slug": "discarding-changes",
+              "title": "ცვლილების გაუქმება"
+            },
+            {
+              "slug": "unstaging",
+              "title": "staging-იდან ამოღება"
+            },
+            {
+              "slug": "amend",
+              "title": "amend"
+            },
+            {
+              "slug": "gitignore",
+              "title": ".gitignore"
+            }
+          ]
+        },
+        {
+          "slug": "branch-basics",
+          "title": "ტოტების საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-a-branch",
+              "title": "რა არის ტოტი"
+            },
+            {
+              "slug": "creating-and-switching",
+              "title": "შექმნა და გადართვა"
+            },
+            {
+              "slug": "fast-forward-merge",
+              "title": "შერწყმა"
+            },
+            {
+              "slug": "deleting-branches",
+              "title": "ტოტის წაშლა"
+            },
+            {
+              "slug": "head",
+              "title": "HEAD"
+            }
+          ]
+        },
+        {
+          "slug": "github-basics",
+          "title": "GitHub-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "github-account",
+              "title": "GitHub-ის ანგარიში"
+            },
+            {
+              "slug": "remotes",
+              "title": "remote"
+            },
+            {
+              "slug": "push",
+              "title": "push"
+            },
+            {
+              "slug": "clone",
+              "title": "clone"
+            },
+            {
+              "slug": "pull",
+              "title": "pull"
+            }
+          ]
+        },
+        {
+          "slug": "collaboration-basics",
+          "title": "თანამშრომლობის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "fork",
+              "title": "fork"
+            },
+            {
+              "slug": "pull-requests",
+              "title": "pull request"
+            },
+            {
+              "slug": "review-basics",
+              "title": "მიმოხილვის საფუძველი"
+            },
+            {
+              "slug": "issues",
+              "title": "issue"
+            },
+            {
+              "slug": "readme",
+              "title": "README"
+            }
+          ]
+        },
+        {
+          "slug": "merge-conflicts",
+          "title": "კონფლიქტები",
+          "chapters": [
+            {
+              "slug": "why-conflicts-happen",
+              "title": "რატომ ხდება კონფლიქტი"
+            },
+            {
+              "slug": "resolving-conflicts",
+              "title": "კონფლიქტის გადაჭრა"
+            },
+            {
+              "slug": "merge-tools",
+              "title": "შერწყმის ხელსაწყოები"
+            },
+            {
+              "slug": "avoiding-conflicts",
+              "title": "კონფლიქტის თავიდან აცილება"
+            },
+            {
+              "slug": "aborting-a-merge",
+              "title": "შერწყმის შეწყვეტა"
+            }
+          ]
+        },
+        {
+          "slug": "viewing-history",
+          "title": "ისტორიის ნახვა",
+          "chapters": [
+            {
+              "slug": "log-options",
+              "title": "log-ის პარამეტრები"
+            },
+            {
+              "slug": "git-show",
+              "title": "git show"
+            },
+            {
+              "slug": "git-blame",
+              "title": "git blame"
+            },
+            {
+              "slug": "searching-history",
+              "title": "ძებნა ისტორიაში"
+            },
+            {
+              "slug": "history-graph",
+              "title": "ისტორიის გრაფი"
+            }
+          ]
+        },
+        {
+          "slug": "undoing",
+          "title": "გაუქმება",
+          "chapters": [
+            {
+              "slug": "revert",
+              "title": "revert"
+            },
+            {
+              "slug": "reset",
+              "title": "reset"
+            },
+            {
+              "slug": "checking-out-old-versions",
+              "title": "ძველი ვერსიის ნახვა"
+            },
+            {
+              "slug": "reflog-intro",
+              "title": "reflog-ის შესავალი"
+            },
+            {
+              "slug": "what-is-safe",
+              "title": "რა არის უსაფრთხო"
+            }
+          ]
+        },
+        {
+          "slug": "daily-workflow",
+          "title": "ყოველდღიური მუშაობა",
+          "chapters": [
+            {
+              "slug": "everyday-flow",
+              "title": "ყოველდღიური ნაკადი"
+            },
+            {
+              "slug": "small-commits",
+              "title": "პატარა commit-ები"
+            },
+            {
+              "slug": "syncing-with-main",
+              "title": "სინქრონიზაცია main-თან"
+            },
+            {
+              "slug": "stash",
+              "title": "stash"
+            },
+            {
+              "slug": "gui-tools",
+              "title": "გრაფიკული ხელსაწყოები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "გუნდური პროექტი",
+        "description": "პროექტი ტოტებით, pull request-ებით, მიმოხილვით და ავტომატური ტესტებით."
+      },
+      "modules": [
+        {
+          "slug": "branching-strategies",
+          "title": "ტოტების სტრატეგიები",
+          "chapters": [
+            {
+              "slug": "feature-branches",
+              "title": "ფუნქციის ტოტები"
+            },
+            {
+              "slug": "github-flow",
+              "title": "GitHub Flow"
+            },
+            {
+              "slug": "git-flow",
+              "title": "Git Flow"
+            },
+            {
+              "slug": "trunk-based",
+              "title": "trunk-based"
+            },
+            {
+              "slug": "release-branches",
+              "title": "გამოშვების ტოტები"
+            }
+          ]
+        },
+        {
+          "slug": "rebase",
+          "title": "rebase",
+          "chapters": [
+            {
+              "slug": "what-is-rebase",
+              "title": "რა არის rebase"
+            },
+            {
+              "slug": "rebase-or-merge",
+              "title": "rebase თუ merge"
+            },
+            {
+              "slug": "interactive-rebase",
+              "title": "ინტერაქტიული rebase"
+            },
+            {
+              "slug": "squash",
+              "title": "squash"
+            },
+            {
+              "slug": "golden-rule",
+              "title": "ოქროს წესი"
+            }
+          ]
+        },
+        {
+          "slug": "remotes-in-depth",
+          "title": "remote სიღრმეში",
+          "chapters": [
+            {
+              "slug": "multiple-remotes",
+              "title": "რამდენიმე remote"
+            },
+            {
+              "slug": "fetch-or-pull",
+              "title": "fetch თუ pull"
+            },
+            {
+              "slug": "tracking-branches",
+              "title": "tracking ტოტები"
+            },
+            {
+              "slug": "syncing-a-fork",
+              "title": "fork-ის განახლება"
+            },
+            {
+              "slug": "safe-force-push",
+              "title": "უსაფრთხო force push"
+            }
+          ]
+        },
+        {
+          "slug": "pr-workflow",
+          "title": "pull request-ის ნაკადი",
+          "chapters": [
+            {
+              "slug": "describing-a-pr",
+              "title": "PR-ის აღწერა"
+            },
+            {
+              "slug": "review-comments",
+              "title": "მიმოხილვის კომენტარები"
+            },
+            {
+              "slug": "draft-prs",
+              "title": "draft PR"
+            },
+            {
+              "slug": "pr-templates",
+              "title": "PR-ის შაბლონები"
+            },
+            {
+              "slug": "merge-methods",
+              "title": "შერწყმის მეთოდები"
+            }
+          ]
+        },
+        {
+          "slug": "tags-and-releases",
+          "title": "tag და გამოშვება",
+          "chapters": [
+            {
+              "slug": "tags",
+              "title": "tag"
+            },
+            {
+              "slug": "semantic-versioning",
+              "title": "სემანტიკური ვერსიები"
+            },
+            {
+              "slug": "github-releases",
+              "title": "GitHub Releases"
+            },
+            {
+              "slug": "changelog",
+              "title": "ცვლილებების ჟურნალი"
+            },
+            {
+              "slug": "release-notes",
+              "title": "გამოშვების ჩანაწერები"
+            }
+          ]
+        },
+        {
+          "slug": "github-features",
+          "title": "GitHub-ის შესაძლებლობები",
+          "chapters": [
+            {
+              "slug": "issues-and-projects",
+              "title": "Issues და Projects"
+            },
+            {
+              "slug": "labels-and-milestones",
+              "title": "label და milestone"
+            },
+            {
+              "slug": "discussions",
+              "title": "Discussions"
+            },
+            {
+              "slug": "wiki",
+              "title": "Wiki"
+            },
+            {
+              "slug": "github-pages",
+              "title": "GitHub Pages"
+            }
+          ]
+        },
+        {
+          "slug": "actions-intro",
+          "title": "GitHub Actions-ის შესავალი",
+          "chapters": [
+            {
+              "slug": "what-is-ci",
+              "title": "რა არის CI"
+            },
+            {
+              "slug": "workflow-files",
+              "title": "workflow ფაილი"
+            },
+            {
+              "slug": "triggers",
+              "title": "გამშვები მოვლენები"
+            },
+            {
+              "slug": "jobs-and-steps",
+              "title": "job და step"
+            },
+            {
+              "slug": "running-tests",
+              "title": "ტესტების გაშვება"
+            }
+          ]
+        },
+        {
+          "slug": "hooks",
+          "title": "hook-ები",
+          "chapters": [
+            {
+              "slug": "git-hooks",
+              "title": "git hook"
+            },
+            {
+              "slug": "pre-commit",
+              "title": "pre-commit"
+            },
+            {
+              "slug": "commit-msg",
+              "title": "commit-msg"
+            },
+            {
+              "slug": "hook-managers",
+              "title": "hook-ების მმართველები"
+            },
+            {
+              "slug": "lint-staged",
+              "title": "lint-staged"
+            }
+          ]
+        },
+        {
+          "slug": "finding-bugs",
+          "title": "შეცდომის ძებნა ისტორიაში",
+          "chapters": [
+            {
+              "slug": "bisect",
+              "title": "bisect"
+            },
+            {
+              "slug": "git-grep",
+              "title": "git grep"
+            },
+            {
+              "slug": "pickaxe",
+              "title": "log -S"
+            },
+            {
+              "slug": "blame-in-depth",
+              "title": "blame სიღრმეში"
+            },
+            {
+              "slug": "reflog",
+              "title": "reflog"
+            }
+          ]
+        },
+        {
+          "slug": "configuration",
+          "title": "კონფიგურაცია",
+          "chapters": [
+            {
+              "slug": "aliases",
+              "title": "მეტსახელები"
+            },
+            {
+              "slug": "global-ignore",
+              "title": "გლობალური ignore"
+            },
+            {
+              "slug": "gitattributes",
+              "title": ".gitattributes"
+            },
+            {
+              "slug": "line-endings",
+              "title": "ხაზის დაბოლოებები"
+            },
+            {
+              "slug": "ssh-and-credentials",
+              "title": "SSH და ავტორიზაცია"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "გამოშვების კონვეიერი",
+        "description": "ავტომატური გამოშვება: ტესტები, ვერსია, ცვლილებების ჟურნალი და გაშვება."
+      },
+      "modules": [
+        {
+          "slug": "git-internals",
+          "title": "Git შიგნიდან",
+          "chapters": [
+            {
+              "slug": "objects",
+              "title": "ობიექტები"
+            },
+            {
+              "slug": "refs",
+              "title": "ref"
+            },
+            {
+              "slug": "the-index",
+              "title": "index"
+            },
+            {
+              "slug": "packfiles",
+              "title": "packfile"
+            },
+            {
+              "slug": "garbage-collection",
+              "title": "ნაგვის შეგროვება"
+            }
+          ]
+        },
+        {
+          "slug": "rewriting-history",
+          "title": "ისტორიის გადაწერა",
+          "chapters": [
+            {
+              "slug": "filter-repo",
+              "title": "filter-repo"
+            },
+            {
+              "slug": "removing-secrets",
+              "title": "საიდუმლოების წაშლა ისტორიიდან"
+            },
+            {
+              "slug": "splitting-commits",
+              "title": "commit-ის გაყოფა"
+            },
+            {
+              "slug": "fixup-and-autosquash",
+              "title": "fixup და autosquash"
+            },
+            {
+              "slug": "rewriting-risks",
+              "title": "რისკები"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-merging",
+          "title": "შერწყმა სიღრმეში",
+          "chapters": [
+            {
+              "slug": "merge-strategies",
+              "title": "შერწყმის სტრატეგიები"
+            },
+            {
+              "slug": "rerere",
+              "title": "rerere"
+            },
+            {
+              "slug": "cherry-pick",
+              "title": "cherry-pick"
+            },
+            {
+              "slug": "subtree-merge",
+              "title": "subtree შერწყმა"
+            },
+            {
+              "slug": "conflict-patterns",
+              "title": "კონფლიქტის ნიმუშები"
+            }
+          ]
+        },
+        {
+          "slug": "large-repositories",
+          "title": "დიდი რეპოზიტორიები",
+          "chapters": [
+            {
+              "slug": "shallow-clone",
+              "title": "shallow clone"
+            },
+            {
+              "slug": "sparse-checkout",
+              "title": "sparse checkout"
+            },
+            {
+              "slug": "partial-clone",
+              "title": "partial clone"
+            },
+            {
+              "slug": "git-lfs",
+              "title": "Git LFS"
+            },
+            {
+              "slug": "monorepo-performance",
+              "title": "monorepo-ს წარმადობა"
+            }
+          ]
+        },
+        {
+          "slug": "submodules",
+          "title": "submodule-ები",
+          "chapters": [
+            {
+              "slug": "submodule-basics",
+              "title": "submodule"
+            },
+            {
+              "slug": "subtree",
+              "title": "subtree"
+            },
+            {
+              "slug": "vendoring",
+              "title": "vendoring"
+            },
+            {
+              "slug": "alternatives",
+              "title": "ალტერნატივები"
+            },
+            {
+              "slug": "submodule-pitfalls",
+              "title": "ხაფანგები"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-actions",
+          "title": "Actions სიღრმეში",
+          "chapters": [
+            {
+              "slug": "matrix-builds",
+              "title": "matrix"
+            },
+            {
+              "slug": "caching",
+              "title": "ქეშირება"
+            },
+            {
+              "slug": "secrets",
+              "title": "საიდუმლოები"
+            },
+            {
+              "slug": "reusable-workflows",
+              "title": "მრავალჯერადი workflow"
+            },
+            {
+              "slug": "deployment-workflows",
+              "title": "გაშვების workflow"
+            }
+          ]
+        },
+        {
+          "slug": "repository-security",
+          "title": "რეპოზიტორიის უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "signed-commits",
+              "title": "ხელმოწერილი commit-ები"
+            },
+            {
+              "slug": "branch-protection",
+              "title": "ტოტის დაცვა"
+            },
+            {
+              "slug": "secret-scanning",
+              "title": "საიდუმლოების სკანირება"
+            },
+            {
+              "slug": "codeowners",
+              "title": "CODEOWNERS"
+            },
+            {
+              "slug": "dependabot",
+              "title": "Dependabot"
+            }
+          ]
+        },
+        {
+          "slug": "automation",
+          "title": "ავტომატიზაცია",
+          "chapters": [
+            {
+              "slug": "github-cli",
+              "title": "GitHub CLI"
+            },
+            {
+              "slug": "api-and-webhooks",
+              "title": "API და webhook"
+            },
+            {
+              "slug": "bots",
+              "title": "ბოტები"
+            },
+            {
+              "slug": "release-automation",
+              "title": "გამოშვების ავტომატიზაცია"
+            },
+            {
+              "slug": "conventional-commits",
+              "title": "conventional commits"
+            }
+          ]
+        },
+        {
+          "slug": "code-review",
+          "title": "კოდის მიმოხილვა",
+          "chapters": [
+            {
+              "slug": "review-checklists",
+              "title": "მიმოხილვის სია"
+            },
+            {
+              "slug": "small-prs",
+              "title": "პატარა PR-ები"
+            },
+            {
+              "slug": "stacked-prs",
+              "title": "დაწყობილი PR-ები"
+            },
+            {
+              "slug": "review-etiquette",
+              "title": "მიმოხილვის ეტიკეტი"
+            },
+            {
+              "slug": "review-metrics",
+              "title": "მეტრიკები"
+            }
+          ]
+        },
+        {
+          "slug": "migrations",
+          "title": "მიგრაცია",
+          "chapters": [
+            {
+              "slug": "from-svn",
+              "title": "SVN-იდან გადასვლა"
+            },
+            {
+              "slug": "splitting-and-merging-repos",
+              "title": "რეპოზიტორიის გაყოფა და შერწყმა"
+            },
+            {
+              "slug": "preserving-history",
+              "title": "ისტორიის შენარჩუნება"
+            },
+            {
+              "slug": "organization-structure",
+              "title": "ორგანიზაციის სტრუქტურა"
+            },
+            {
+              "slug": "permissions",
+              "title": "უფლებები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "GitOps გაშვება",
+        "description": "ინფრასტრუქტურა და გაშვება, რომელიც მთლიანად რეპოზიტორიიდან იმართება."
+      },
+      "modules": [
+        {
+          "slug": "plumbing",
+          "title": "დაბალი დონის ბრძანებები",
+          "chapters": [
+            {
+              "slug": "plumbing-commands",
+              "title": "plumbing ბრძანებები"
+            },
+            {
+              "slug": "writing-objects",
+              "title": "ობიექტის ხელით შექმნა"
+            },
+            {
+              "slug": "merge-drivers",
+              "title": "საკუთარი merge driver"
+            },
+            {
+              "slug": "custom-diff",
+              "title": "საკუთარი diff"
+            },
+            {
+              "slug": "transfer-protocols",
+              "title": "გადაცემის პროტოკოლები"
+            }
+          ]
+        },
+        {
+          "slug": "scaling-git",
+          "title": "Git მასშტაბზე",
+          "chapters": [
+            {
+              "slug": "monorepo-tooling",
+              "title": "monorepo-ს ხელსაწყოები"
+            },
+            {
+              "slug": "virtual-filesystems",
+              "title": "ვირტუალური ფაილური სისტემა"
+            },
+            {
+              "slug": "build-system-integration",
+              "title": "აწყობის სისტემასთან ინტეგრაცია"
+            },
+            {
+              "slug": "ci-at-scale",
+              "title": "CI მასშტაბზე"
+            },
+            {
+              "slug": "merge-queues",
+              "title": "merge queue"
+            }
+          ]
+        },
+        {
+          "slug": "open-source",
+          "title": "ღია კოდი",
+          "chapters": [
+            {
+              "slug": "maintaining-a-project",
+              "title": "პროექტის მოვლა"
+            },
+            {
+              "slug": "contribution-guidelines",
+              "title": "წვლილის წესები"
+            },
+            {
+              "slug": "licensing",
+              "title": "ლიცენზიები"
+            },
+            {
+              "slug": "community",
+              "title": "საზოგადოების მართვა"
+            },
+            {
+              "slug": "release-governance",
+              "title": "გამოშვების მართვა"
+            }
+          ]
+        },
+        {
+          "slug": "enterprise",
+          "title": "დიდი ორგანიზაცია",
+          "chapters": [
+            {
+              "slug": "github-enterprise",
+              "title": "GitHub Enterprise"
+            },
+            {
+              "slug": "sso-and-audit",
+              "title": "SSO და აუდიტი"
+            },
+            {
+              "slug": "compliance",
+              "title": "შესაბამისობა"
+            },
+            {
+              "slug": "policy-as-code",
+              "title": "წესები კოდად"
+            },
+            {
+              "slug": "inner-source",
+              "title": "შიდა ღია კოდი"
+            }
+          ]
+        },
+        {
+          "slug": "gitops",
+          "title": "GitOps",
+          "chapters": [
+            {
+              "slug": "gitops-idea",
+              "title": "GitOps-ის იდეა"
+            },
+            {
+              "slug": "infrastructure-repos",
+              "title": "ინფრასტრუქტურის რეპოზიტორიები"
+            },
+            {
+              "slug": "environment-promotion",
+              "title": "გარემოებს შორის გადატანა"
+            },
+            {
+              "slug": "deployment-strategies",
+              "title": "გაშვების სტრატეგიები"
+            },
+            {
+              "slug": "rollbacks",
+              "title": "უკან დაბრუნება"
+            }
+          ]
+        },
+        {
+          "slug": "expert-actions",
+          "title": "Actions-ის რთული თემები",
+          "chapters": [
+            {
+              "slug": "custom-actions",
+              "title": "საკუთარი action"
+            },
+            {
+              "slug": "self-hosted-runners",
+              "title": "საკუთარი runner"
+            },
+            {
+              "slug": "oidc",
+              "title": "OIDC ღრუბელთან"
+            },
+            {
+              "slug": "supply-chain",
+              "title": "მიწოდების ჯაჭვის დაცვა"
+            },
+            {
+              "slug": "actions-cost",
+              "title": "ხარჯის ოპტიმიზაცია"
+            }
+          ]
+        },
+        {
+          "slug": "disaster-recovery",
+          "title": "ავარიული აღდგენა",
+          "chapters": [
+            {
+              "slug": "repairing-repos",
+              "title": "დაზიანებული რეპოზიტორიის აღდგენა"
+            },
+            {
+              "slug": "recovering-commits",
+              "title": "დაკარგული commit-ების პოვნა"
+            },
+            {
+              "slug": "backup-strategies",
+              "title": "სარეზერვო ასლები"
+            },
+            {
+              "slug": "mirroring",
+              "title": "სარკე"
+            },
+            {
+              "slug": "incident-playbook",
+              "title": "ინციდენტის გეგმა"
+            }
+          ]
+        },
+        {
+          "slug": "other-systems",
+          "title": "სხვა სისტემები",
+          "chapters": [
+            {
+              "slug": "mercurial",
+              "title": "Mercurial"
+            },
+            {
+              "slug": "jujutsu",
+              "title": "Jujutsu"
+            },
+            {
+              "slug": "pijul",
+              "title": "Pijul"
+            },
+            {
+              "slug": "gerrit",
+              "title": "Gerrit"
+            },
+            {
+              "slug": "sapling",
+              "title": "Sapling"
+            }
+          ]
+        },
+        {
+          "slug": "building-tools",
+          "title": "ხელსაწყოების შექმნა",
+          "chapters": [
+            {
+              "slug": "libgit2",
+              "title": "libgit2"
+            },
+            {
+              "slug": "git-extensions",
+              "title": "Git-ის გაფართოებები"
+            },
+            {
+              "slug": "editor-integrations",
+              "title": "რედაქტორთან ინტეგრაცია"
+            },
+            {
+              "slug": "server-side-hooks",
+              "title": "სერვერის hook-ები"
+            },
+            {
+              "slug": "history-analytics",
+              "title": "ისტორიის ანალიტიკა"
+            }
+          ]
+        },
+        {
+          "slug": "leading-workflows",
+          "title": "გუნდის პროცესი",
+          "chapters": [
+            {
+              "slug": "defining-a-workflow",
+              "title": "გუნდის ნაკადის განსაზღვრა"
+            },
+            {
+              "slug": "onboarding",
+              "title": "ახალი წევრების შეყვანა"
+            },
+            {
+              "slug": "branching-policy",
+              "title": "ტოტების პოლიტიკა"
+            },
+            {
+              "slug": "measuring-flow",
+              "title": "ნაკადის გაზომვა"
+            },
+            {
+              "slug": "engineering-culture",
+              "title": "კულტურა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "ტიპებით დაცული To-Do",
+        "description": "დავალებების აპი TypeScript-ზე: ტიპები, ინტერფეისები და DOM."
+      },
+      "modules": [
+        {
+          "slug": "ts-intro",
+          "title": "TypeScript-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-typescript",
+              "title": "რა არის TypeScript"
+            },
+            {
+              "slug": "installing-tsc",
+              "title": "დაყენება და tsc"
+            },
+            {
+              "slug": "first-ts-file",
+              "title": "პირველი ფაილი"
+            },
+            {
+              "slug": "tsconfig-basics",
+              "title": "tsconfig"
+            },
+            {
+              "slug": "from-js-to-ts",
+              "title": "JavaScript-იდან TypeScript-მდე"
+            }
+          ]
+        },
+        {
+          "slug": "basic-types",
+          "title": "ძირითადი ტიპები",
+          "chapters": [
+            {
+              "slug": "primitive-types",
+              "title": "string, number და boolean"
+            },
+            {
+              "slug": "array-types",
+              "title": "მასივის ტიპები"
+            },
+            {
+              "slug": "any-and-unknown",
+              "title": "any და unknown"
+            },
+            {
+              "slug": "type-inference",
+              "title": "ტიპის გამოყვანა"
+            },
+            {
+              "slug": "null-and-undefined",
+              "title": "null და undefined"
+            }
+          ]
+        },
+        {
+          "slug": "typed-functions",
+          "title": "ფუნქციები",
+          "chapters": [
+            {
+              "slug": "parameter-types",
+              "title": "პარამეტრების ტიპები"
+            },
+            {
+              "slug": "return-types",
+              "title": "დაბრუნების ტიპი"
+            },
+            {
+              "slug": "optional-parameters",
+              "title": "არასავალდებულო პარამეტრები"
+            },
+            {
+              "slug": "function-types",
+              "title": "ფუნქციის ტიპი"
+            },
+            {
+              "slug": "void-and-never",
+              "title": "void და never"
+            }
+          ]
+        },
+        {
+          "slug": "object-types",
+          "title": "ობიექტის ტიპები",
+          "chapters": [
+            {
+              "slug": "describing-objects",
+              "title": "ობიექტის აღწერა"
+            },
+            {
+              "slug": "optional-properties",
+              "title": "არასავალდებულო თვისებები"
+            },
+            {
+              "slug": "readonly-properties",
+              "title": "readonly"
+            },
+            {
+              "slug": "type-aliases",
+              "title": "type"
+            },
+            {
+              "slug": "interfaces",
+              "title": "interface"
+            }
+          ]
+        },
+        {
+          "slug": "union-types",
+          "title": "გაერთიანებული ტიპები",
+          "chapters": [
+            {
+              "slug": "unions",
+              "title": "union ტიპები"
+            },
+            {
+              "slug": "literal-types",
+              "title": "literal ტიპები"
+            },
+            {
+              "slug": "narrowing",
+              "title": "ტიპის დავიწროება"
+            },
+            {
+              "slug": "typeof-guards",
+              "title": "typeof შემოწმება"
+            },
+            {
+              "slug": "discriminated-unions",
+              "title": "discriminated union"
+            }
+          ]
+        },
+        {
+          "slug": "tuples-and-enums",
+          "title": "tuple და enum",
+          "chapters": [
+            {
+              "slug": "tuples",
+              "title": "tuple"
+            },
+            {
+              "slug": "readonly-arrays",
+              "title": "readonly მასივი"
+            },
+            {
+              "slug": "enums",
+              "title": "enum"
+            },
+            {
+              "slug": "as-const",
+              "title": "as const"
+            },
+            {
+              "slug": "object-as-enum",
+              "title": "ობიექტი enum-ის ნაცვლად"
+            }
+          ]
+        },
+        {
+          "slug": "typed-classes",
+          "title": "კლასები",
+          "chapters": [
+            {
+              "slug": "class-with-types",
+              "title": "კლასი ტიპებით"
+            },
+            {
+              "slug": "access-modifiers",
+              "title": "წვდომის მოდიფიკატორები"
+            },
+            {
+              "slug": "implements",
+              "title": "implements"
+            },
+            {
+              "slug": "abstract-classes",
+              "title": "აბსტრაქტული კლასები"
+            },
+            {
+              "slug": "static-members",
+              "title": "სტატიკური წევრები"
+            }
+          ]
+        },
+        {
+          "slug": "ts-modules",
+          "title": "მოდულები",
+          "chapters": [
+            {
+              "slug": "typed-imports",
+              "title": "import და export ტიპებით"
+            },
+            {
+              "slug": "type-only-imports",
+              "title": "მხოლოდ ტიპის import"
+            },
+            {
+              "slug": "declaration-files-intro",
+              "title": "declaration ფაილები"
+            },
+            {
+              "slug": "types-packages",
+              "title": "@types პაკეტები"
+            },
+            {
+              "slug": "path-settings",
+              "title": "გზების პარამეტრები"
+            }
+          ]
+        },
+        {
+          "slug": "ts-errors",
+          "title": "შეცდომები",
+          "chapters": [
+            {
+              "slug": "reading-ts-errors",
+              "title": "შეცდომის წაკითხვა"
+            },
+            {
+              "slug": "strict-mode",
+              "title": "strict რეჟიმი"
+            },
+            {
+              "slug": "no-implicit-any",
+              "title": "noImplicitAny"
+            },
+            {
+              "slug": "strict-null-checks",
+              "title": "strictNullChecks"
+            },
+            {
+              "slug": "common-ts-mistakes",
+              "title": "ხშირი შეცდომები"
+            }
+          ]
+        },
+        {
+          "slug": "ts-and-dom",
+          "title": "TypeScript და DOM",
+          "chapters": [
+            {
+              "slug": "dom-types",
+              "title": "DOM-ის ტიპები"
+            },
+            {
+              "slug": "element-type-assertions",
+              "title": "ელემენტის ტიპის დაზუსტება"
+            },
+            {
+              "slug": "event-types",
+              "title": "მოვლენის ტიპები"
+            },
+            {
+              "slug": "typing-fetch",
+              "title": "fetch-ის პასუხის ტიპი"
+            },
+            {
+              "slug": "typed-form-data",
+              "title": "ფორმის მონაცემები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "ტიპიზებული API კლიენტი",
+        "description": "ბიბლიოთეკა, რომელიც API-ს პასუხებს ტიპებით აღწერს და ამოწმებს გაშვებისას."
+      },
+      "modules": [
+        {
+          "slug": "generics",
+          "title": "გენერიკები",
+          "chapters": [
+            {
+              "slug": "generic-functions",
+              "title": "generic ფუნქცია"
+            },
+            {
+              "slug": "generic-interfaces",
+              "title": "generic ინტერფეისი"
+            },
+            {
+              "slug": "generic-constraints",
+              "title": "შეზღუდვები extends-ით"
+            },
+            {
+              "slug": "default-type-parameters",
+              "title": "ნაგულისხმევი ტიპი"
+            },
+            {
+              "slug": "generic-classes",
+              "title": "generic კლასი"
+            }
+          ]
+        },
+        {
+          "slug": "type-operators",
+          "title": "ტიპის ოპერატორები",
+          "chapters": [
+            {
+              "slug": "keyof",
+              "title": "keyof"
+            },
+            {
+              "slug": "typeof-in-types",
+              "title": "typeof ტიპებში"
+            },
+            {
+              "slug": "indexed-access",
+              "title": "indexed access"
+            },
+            {
+              "slug": "in-operator-types",
+              "title": "in ოპერატორი"
+            },
+            {
+              "slug": "satisfies",
+              "title": "satisfies"
+            }
+          ]
+        },
+        {
+          "slug": "utility-types",
+          "title": "დამხმარე ტიპები",
+          "chapters": [
+            {
+              "slug": "partial-and-required",
+              "title": "Partial და Required"
+            },
+            {
+              "slug": "pick-and-omit",
+              "title": "Pick და Omit"
+            },
+            {
+              "slug": "record",
+              "title": "Record"
+            },
+            {
+              "slug": "returntype-and-parameters",
+              "title": "ReturnType და Parameters"
+            },
+            {
+              "slug": "readonly-and-nonnullable",
+              "title": "Readonly და NonNullable"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-narrowing",
+          "title": "დავიწროება სიღრმეში",
+          "chapters": [
+            {
+              "slug": "type-predicates",
+              "title": "type predicate"
+            },
+            {
+              "slug": "assertion-functions",
+              "title": "assertion ფუნქციები"
+            },
+            {
+              "slug": "exhaustive-checks",
+              "title": "სრული შემოწმება"
+            },
+            {
+              "slug": "in-and-instanceof",
+              "title": "in და instanceof"
+            },
+            {
+              "slug": "handling-unknown",
+              "title": "unknown-ის უსაფრთხო დამუშავება"
+            }
+          ]
+        },
+        {
+          "slug": "interfaces-in-depth",
+          "title": "ინტერფეისები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "extending-interfaces",
+              "title": "გაფართოება"
+            },
+            {
+              "slug": "intersection-types",
+              "title": "intersection"
+            },
+            {
+              "slug": "declaration-merging",
+              "title": "declaration merging"
+            },
+            {
+              "slug": "index-signatures",
+              "title": "index signature"
+            },
+            {
+              "slug": "type-or-interface",
+              "title": "type თუ interface"
+            }
+          ]
+        },
+        {
+          "slug": "async-types",
+          "title": "ასინქრონული კოდის ტიპები",
+          "chapters": [
+            {
+              "slug": "promise-types",
+              "title": "Promise-ის ტიპები"
+            },
+            {
+              "slug": "async-function-types",
+              "title": "async ფუნქციის ტიპი"
+            },
+            {
+              "slug": "error-types-in-catch",
+              "title": "შეცდომის ტიპი catch-ში"
+            },
+            {
+              "slug": "modeling-api-responses",
+              "title": "API-ს პასუხის მოდელირება"
+            },
+            {
+              "slug": "runtime-validation",
+              "title": "შემოწმება გაშვებისას"
+            }
+          ]
+        },
+        {
+          "slug": "compiler-options",
+          "title": "კომპილატორის პარამეტრები",
+          "chapters": [
+            {
+              "slug": "strict-options",
+              "title": "strict ოფციები"
+            },
+            {
+              "slug": "target-and-module",
+              "title": "target და module"
+            },
+            {
+              "slug": "path-aliases",
+              "title": "paths"
+            },
+            {
+              "slug": "project-references",
+              "title": "project references"
+            },
+            {
+              "slug": "incremental-builds",
+              "title": "ინკრემენტული აწყობა"
+            }
+          ]
+        },
+        {
+          "slug": "ts-with-react",
+          "title": "TypeScript და React",
+          "chapters": [
+            {
+              "slug": "typing-props",
+              "title": "props-ის ტიპები"
+            },
+            {
+              "slug": "typing-hooks",
+              "title": "hook-ების ტიპები"
+            },
+            {
+              "slug": "react-event-types",
+              "title": "მოვლენები React-ში"
+            },
+            {
+              "slug": "children-and-refs",
+              "title": "children და ref"
+            },
+            {
+              "slug": "generic-components",
+              "title": "generic კომპონენტი"
+            }
+          ]
+        },
+        {
+          "slug": "ts-with-node",
+          "title": "TypeScript და Node.js",
+          "chapters": [
+            {
+              "slug": "node-types",
+              "title": "Node-ის ტიპები"
+            },
+            {
+              "slug": "express-types",
+              "title": "Express-ის ტიპები"
+            },
+            {
+              "slug": "env-variables",
+              "title": "გარემოს ცვლადები"
+            },
+            {
+              "slug": "esm-and-commonjs",
+              "title": "ESM და CommonJS"
+            },
+            {
+              "slug": "running-ts",
+              "title": "TypeScript-ის გაშვება"
+            }
+          ]
+        },
+        {
+          "slug": "migrating-to-ts",
+          "title": "მიგრაცია",
+          "chapters": [
+            {
+              "slug": "gradual-migration",
+              "title": "თანდათანობითი მიგრაცია"
+            },
+            {
+              "slug": "allow-js",
+              "title": "allowJs"
+            },
+            {
+              "slug": "jsdoc-types",
+              "title": "JSDoc ტიპები"
+            },
+            {
+              "slug": "reducing-any",
+              "title": "any-ის შემცირება"
+            },
+            {
+              "slug": "migration-plan",
+              "title": "მიგრაციის გეგმა"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "ტიპიზებული ფორმების ბიბლიოთეკა",
+        "description": "ფორმების ბიბლიოთეკა, სადაც ველების სახელები და შეცდომები ტიპებითაა დაცული."
+      },
+      "modules": [
+        {
+          "slug": "conditional-types",
+          "title": "პირობითი ტიპები",
+          "chapters": [
+            {
+              "slug": "conditional-type-basics",
+              "title": "პირობითი ტიპი"
+            },
+            {
+              "slug": "infer",
+              "title": "infer"
+            },
+            {
+              "slug": "distributive-types",
+              "title": "distributive ტიპები"
+            },
+            {
+              "slug": "built-in-conditional-types",
+              "title": "ჩაშენებული პირობითი ტიპები"
+            },
+            {
+              "slug": "conditional-types-in-practice",
+              "title": "პრაქტიკული მაგალითები"
+            }
+          ]
+        },
+        {
+          "slug": "mapped-types",
+          "title": "mapped ტიპები",
+          "chapters": [
+            {
+              "slug": "mapped-type-basics",
+              "title": "mapped type"
+            },
+            {
+              "slug": "mapping-modifiers",
+              "title": "მოდიფიკატორები"
+            },
+            {
+              "slug": "key-remapping",
+              "title": "გასაღების გადარქმევა"
+            },
+            {
+              "slug": "template-literal-types",
+              "title": "template literal ტიპები"
+            },
+            {
+              "slug": "recursive-types",
+              "title": "რეკურსიული ტიპები"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-generics",
+          "title": "გენერიკები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "variance",
+              "title": "ვარიანტობა"
+            },
+            {
+              "slug": "constraint-patterns",
+              "title": "შეზღუდვების ნიმუშები"
+            },
+            {
+              "slug": "function-overloads",
+              "title": "overload-ები"
+            },
+            {
+              "slug": "higher-order-generics",
+              "title": "მაღალი რიგის გენერიკები"
+            },
+            {
+              "slug": "builder-pattern",
+              "title": "builder ნიმუში"
+            }
+          ]
+        },
+        {
+          "slug": "type-safe-patterns",
+          "title": "ტიპ-უსაფრთხო ნიმუშები",
+          "chapters": [
+            {
+              "slug": "branded-types",
+              "title": "branded ტიპები"
+            },
+            {
+              "slug": "opaque-types",
+              "title": "opaque ტიპები"
+            },
+            {
+              "slug": "typed-state-machines",
+              "title": "მდგომარეობის მანქანა ტიპებით"
+            },
+            {
+              "slug": "result-type",
+              "title": "Result ტიპი"
+            },
+            {
+              "slug": "exhaustive-switch",
+              "title": "სრული switch"
+            }
+          ]
+        },
+        {
+          "slug": "declaration-files",
+          "title": "declaration ფაილები",
+          "chapters": [
+            {
+              "slug": "writing-d-ts",
+              "title": "d.ts-ის წერა"
+            },
+            {
+              "slug": "module-augmentation",
+              "title": "მოდულის გაფართოება"
+            },
+            {
+              "slug": "global-types",
+              "title": "გლობალური ტიპები"
+            },
+            {
+              "slug": "publishing-types",
+              "title": "ტიპების გამოქვეყნება"
+            },
+            {
+              "slug": "ambient-declarations",
+              "title": "ambient გამოცხადებები"
+            }
+          ]
+        },
+        {
+          "slug": "ts-decorators",
+          "title": "დეკორატორები",
+          "chapters": [
+            {
+              "slug": "decorator-basics",
+              "title": "დეკორატორის საფუძველი"
+            },
+            {
+              "slug": "class-decorators",
+              "title": "კლასის დეკორატორი"
+            },
+            {
+              "slug": "method-decorators",
+              "title": "მეთოდის დეკორატორი"
+            },
+            {
+              "slug": "decorator-metadata",
+              "title": "მეტამონაცემები"
+            },
+            {
+              "slug": "decorator-use-cases",
+              "title": "გამოყენების შემთხვევები"
+            }
+          ]
+        },
+        {
+          "slug": "testing-with-types",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "typed-tests",
+              "title": "ტესტები ტიპებით"
+            },
+            {
+              "slug": "typing-mocks",
+              "title": "იმიტაციის ტიპები"
+            },
+            {
+              "slug": "testing-types",
+              "title": "ტიპების ტესტირება"
+            },
+            {
+              "slug": "test-fixtures",
+              "title": "სატესტო მონაცემები"
+            },
+            {
+              "slug": "type-coverage",
+              "title": "ტიპების დაფარვა"
+            }
+          ]
+        },
+        {
+          "slug": "compile-performance",
+          "title": "კომპილაციის სიჩქარე",
+          "chapters": [
+            {
+              "slug": "build-speed",
+              "title": "აწყობის სიჩქარე"
+            },
+            {
+              "slug": "type-complexity",
+              "title": "ტიპების სირთულე"
+            },
+            {
+              "slug": "isolated-modules",
+              "title": "isolatedModules"
+            },
+            {
+              "slug": "fast-transpilers",
+              "title": "esbuild და swc"
+            },
+            {
+              "slug": "large-project-settings",
+              "title": "დიდი პროექტის პარამეტრები"
+            }
+          ]
+        },
+        {
+          "slug": "typed-api-design",
+          "title": "API-ს დიზაინი",
+          "chapters": [
+            {
+              "slug": "public-api-types",
+              "title": "საჯარო API-ს ტიპები"
+            },
+            {
+              "slug": "overloads-or-unions",
+              "title": "overload თუ union"
+            },
+            {
+              "slug": "breaking-type-changes",
+              "title": "დამრღვევი ცვლილებები"
+            },
+            {
+              "slug": "generic-apis",
+              "title": "generic API"
+            },
+            {
+              "slug": "tsdoc",
+              "title": "დოკუმენტაცია TSDoc-ით"
+            }
+          ]
+        },
+        {
+          "slug": "schemas-and-validation",
+          "title": "სქემები და შემოწმება",
+          "chapters": [
+            {
+              "slug": "runtime-vs-compile-time",
+              "title": "გაშვების და კომპილაციის დრო"
+            },
+            {
+              "slug": "types-from-schemas",
+              "title": "ტიპი სქემიდან"
+            },
+            {
+              "slug": "typed-form-validation",
+              "title": "ფორმის შემოწმება"
+            },
+            {
+              "slug": "api-contracts",
+              "title": "API კონტრაქტები"
+            },
+            {
+              "slug": "end-to-end-types",
+              "title": "ტიპები ბოლოდან ბოლომდე"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "ტიპ-უსაფრთხო მოთხოვნების ამგები",
+        "description": "ბიბლიოთეკა, სადაც არასწორი მოთხოვნა კომპილაციისასვე შეცდომაა."
+      },
+      "modules": [
+        {
+          "slug": "type-level-programming",
+          "title": "პროგრამირება ტიპების დონეზე",
+          "chapters": [
+            {
+              "slug": "computing-with-types",
+              "title": "გამოთვლა ტიპებით"
+            },
+            {
+              "slug": "recursion-in-types",
+              "title": "რეკურსია ტიპებში"
+            },
+            {
+              "slug": "tuple-manipulation",
+              "title": "tuple-ების დამუშავება"
+            },
+            {
+              "slug": "string-manipulation-types",
+              "title": "სტრიქონების დამუშავება ტიპებით"
+            },
+            {
+              "slug": "type-system-limits",
+              "title": "ლიმიტები და ხერხები"
+            }
+          ]
+        },
+        {
+          "slug": "ts-compiler",
+          "title": "კომპილატორი შიგნიდან",
+          "chapters": [
+            {
+              "slug": "compiler-architecture",
+              "title": "კომპილატორის აგებულება"
+            },
+            {
+              "slug": "ast",
+              "title": "სინტაქსური ხე"
+            },
+            {
+              "slug": "type-checker",
+              "title": "ტიპების შემმოწმებელი"
+            },
+            {
+              "slug": "compiler-api",
+              "title": "compiler API"
+            },
+            {
+              "slug": "transformers",
+              "title": "ტრანსფორმერები"
+            }
+          ]
+        },
+        {
+          "slug": "language-tooling",
+          "title": "ენის ხელსაწყოები",
+          "chapters": [
+            {
+              "slug": "language-server",
+              "title": "language server"
+            },
+            {
+              "slug": "editor-integration",
+              "title": "რედაქტორთან ინტეგრაცია"
+            },
+            {
+              "slug": "codemods",
+              "title": "codemod"
+            },
+            {
+              "slug": "typed-lint-rules",
+              "title": "lint წესები ტიპებით"
+            },
+            {
+              "slug": "writing-lint-rules",
+              "title": "საკუთარი lint წესი"
+            }
+          ]
+        },
+        {
+          "slug": "ts-monorepos",
+          "title": "monorepo",
+          "chapters": [
+            {
+              "slug": "references-in-practice",
+              "title": "project references პრაქტიკაში"
+            },
+            {
+              "slug": "shared-types",
+              "title": "საერთო ტიპები"
+            },
+            {
+              "slug": "build-orchestration",
+              "title": "აწყობის მართვა"
+            },
+            {
+              "slug": "package-versioning",
+              "title": "პაკეტების ვერსიები"
+            },
+            {
+              "slug": "types-across-services",
+              "title": "ტიპები სერვისებს შორის"
+            }
+          ]
+        },
+        {
+          "slug": "soundness",
+          "title": "ტიპების სისწორე",
+          "chapters": [
+            {
+              "slug": "type-soundness",
+              "title": "რა არის soundness"
+            },
+            {
+              "slug": "any-propagation",
+              "title": "any-ის გავრცელება"
+            },
+            {
+              "slug": "unsafe-patterns",
+              "title": "სახიფათო ნიმუშები"
+            },
+            {
+              "slug": "increasing-strictness",
+              "title": "სიმკაცრის გაძლიერება"
+            },
+            {
+              "slug": "measuring-type-safety",
+              "title": "ტიპური უსაფრთხოების გაზომვა"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-inference",
+          "title": "გამოყვანა სიღრმეში",
+          "chapters": [
+            {
+              "slug": "inference-algorithm",
+              "title": "გამოყვანის ალგორითმი"
+            },
+            {
+              "slug": "contextual-typing",
+              "title": "კონტექსტური ტიპიზაცია"
+            },
+            {
+              "slug": "const-type-parameters",
+              "title": "const ტიპის პარამეტრები"
+            },
+            {
+              "slug": "noinfer",
+              "title": "NoInfer"
+            },
+            {
+              "slug": "debugging-inference",
+              "title": "გამოყვანის გამართვა"
+            }
+          ]
+        },
+        {
+          "slug": "library-authoring",
+          "title": "ბიბლიოთეკის შექმნა",
+          "chapters": [
+            {
+              "slug": "building-a-library",
+              "title": "ბიბლიოთეკის აწყობა"
+            },
+            {
+              "slug": "dual-packages",
+              "title": "ორმაგი პაკეტი"
+            },
+            {
+              "slug": "type-compatibility",
+              "title": "ტიპების თავსებადობა ვერსიებს შორის"
+            },
+            {
+              "slug": "testing-public-api",
+              "title": "საჯარო API-ს ტესტირება"
+            },
+            {
+              "slug": "release-process",
+              "title": "გამოშვების პროცესი"
+            }
+          ]
+        },
+        {
+          "slug": "framework-types",
+          "title": "ფრეიმვორკების ტიპები",
+          "chapters": [
+            {
+              "slug": "how-frameworks-use-types",
+              "title": "როგორ იყენებენ ფრეიმვორკები ტიპებს"
+            },
+            {
+              "slug": "rpc-types",
+              "title": "ტიპიზებული RPC"
+            },
+            {
+              "slug": "orm-types",
+              "title": "ORM-ის ტიპები"
+            },
+            {
+              "slug": "router-types",
+              "title": "როუტერის ტიპები"
+            },
+            {
+              "slug": "code-generation",
+              "title": "კოდის გენერაცია"
+            }
+          ]
+        },
+        {
+          "slug": "team-practices",
+          "title": "გუნდური პრაქტიკა",
+          "chapters": [
+            {
+              "slug": "type-guidelines",
+              "title": "ტიპების წესები გუნდში"
+            },
+            {
+              "slug": "reviewing-types",
+              "title": "ტიპების მიმოხილვა"
+            },
+            {
+              "slug": "any-policy",
+              "title": "any-ის პოლიტიკა"
+            },
+            {
+              "slug": "onboarding",
+              "title": "ახალი წევრების შეყვანა"
+            },
+            {
+              "slug": "type-debt",
+              "title": "ტექნიკური ვალი ტიპებში"
+            }
+          ]
+        },
+        {
+          "slug": "ts-future",
+          "title": "ენის მომავალი",
+          "chapters": [
+            {
+              "slug": "upcoming-features",
+              "title": "მომავალი შესაძლებლობები"
+            },
+            {
+              "slug": "type-annotations-proposal",
+              "title": "ტიპები JavaScript-ში"
+            },
+            {
+              "slug": "ecmascript-alignment",
+              "title": "ECMAScript-თან თავსებადობა"
+            },
+            {
+              "slug": "upgrading-versions",
+              "title": "ვერსიის განახლება"
+            },
+            {
+              "slug": "reading-release-notes",
+              "title": "გამოშვების ჩანაწერების კითხვა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

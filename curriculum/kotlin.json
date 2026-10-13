@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "დავალებების აპი",
+        "description": "Android-აპი Compose-ზე: სია, დამატება, მონიშვნა და მდგომარეობის მართვა."
+      },
+      "modules": [
+        {
+          "slug": "kotlin-intro",
+          "title": "Kotlin-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-kotlin",
+              "title": "რა არის Kotlin"
+            },
+            {
+              "slug": "android-studio",
+              "title": "Android Studio-ს დაყენება"
+            },
+            {
+              "slug": "first-program",
+              "title": "პირველი პროგრამა"
+            },
+            {
+              "slug": "val-and-var",
+              "title": "val და var"
+            },
+            {
+              "slug": "basic-types",
+              "title": "ძირითადი ტიპები"
+            }
+          ]
+        },
+        {
+          "slug": "control-flow",
+          "title": "მართვის ნაკადი",
+          "chapters": [
+            {
+              "slug": "if-expression",
+              "title": "if, როგორც გამოსახულება"
+            },
+            {
+              "slug": "when",
+              "title": "when"
+            },
+            {
+              "slug": "loops",
+              "title": "ციკლები"
+            },
+            {
+              "slug": "ranges",
+              "title": "დიაპაზონები"
+            },
+            {
+              "slug": "null-basics",
+              "title": "null-ის საფუძველი"
+            }
+          ]
+        },
+        {
+          "slug": "functions",
+          "title": "ფუნქციები",
+          "chapters": [
+            {
+              "slug": "fun",
+              "title": "fun"
+            },
+            {
+              "slug": "default-and-named-args",
+              "title": "ნაგულისხმევი და სახელდებული არგუმენტები"
+            },
+            {
+              "slug": "single-expression",
+              "title": "ერთგამოსახულებიანი ფუნქცია"
+            },
+            {
+              "slug": "lambdas",
+              "title": "lambda"
+            },
+            {
+              "slug": "extension-functions",
+              "title": "გაფართოების ფუნქციები"
+            }
+          ]
+        },
+        {
+          "slug": "collections",
+          "title": "კოლექციები",
+          "chapters": [
+            {
+              "slug": "lists",
+              "title": "List"
+            },
+            {
+              "slug": "sets",
+              "title": "Set"
+            },
+            {
+              "slug": "maps",
+              "title": "Map"
+            },
+            {
+              "slug": "mutable-and-immutable",
+              "title": "ცვლადი და უცვლელი"
+            },
+            {
+              "slug": "collection-operations",
+              "title": "map, filter და სხვა"
+            }
+          ]
+        },
+        {
+          "slug": "classes",
+          "title": "კლასები",
+          "chapters": [
+            {
+              "slug": "class-basics",
+              "title": "class"
+            },
+            {
+              "slug": "constructors",
+              "title": "კონსტრუქტორი"
+            },
+            {
+              "slug": "properties",
+              "title": "თვისებები"
+            },
+            {
+              "slug": "data-classes",
+              "title": "data class"
+            },
+            {
+              "slug": "objects",
+              "title": "object"
+            }
+          ]
+        },
+        {
+          "slug": "oop",
+          "title": "ობიექტზე ორიენტირება",
+          "chapters": [
+            {
+              "slug": "inheritance",
+              "title": "მემკვიდრეობა"
+            },
+            {
+              "slug": "interfaces",
+              "title": "interface"
+            },
+            {
+              "slug": "abstract-classes",
+              "title": "აბსტრაქტული კლასები"
+            },
+            {
+              "slug": "sealed-classes",
+              "title": "sealed class"
+            },
+            {
+              "slug": "enum-classes",
+              "title": "enum class"
+            }
+          ]
+        },
+        {
+          "slug": "null-safety",
+          "title": "null-უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "nullable-types",
+              "title": "nullable ტიპები"
+            },
+            {
+              "slug": "safe-call-and-elvis",
+              "title": "?. და ?:"
+            },
+            {
+              "slug": "not-null-assertion",
+              "title": "!!"
+            },
+            {
+              "slug": "scope-functions",
+              "title": "let, also და სხვა"
+            },
+            {
+              "slug": "lateinit-and-lazy",
+              "title": "lateinit და lazy"
+            }
+          ]
+        },
+        {
+          "slug": "android-basics",
+          "title": "Android-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "project-structure",
+              "title": "პროექტის სტრუქტურა"
+            },
+            {
+              "slug": "activity",
+              "title": "Activity"
+            },
+            {
+              "slug": "manifest",
+              "title": "manifest"
+            },
+            {
+              "slug": "resources",
+              "title": "რესურსები"
+            },
+            {
+              "slug": "running-on-emulator",
+              "title": "გაშვება ემულატორზე"
+            }
+          ]
+        },
+        {
+          "slug": "compose-intro",
+          "title": "Compose-ის შესავალი",
+          "chapters": [
+            {
+              "slug": "jetpack-compose",
+              "title": "Jetpack Compose"
+            },
+            {
+              "slug": "composable-functions",
+              "title": "composable ფუნქცია"
+            },
+            {
+              "slug": "text-button-image",
+              "title": "Text, Button და Image"
+            },
+            {
+              "slug": "column-row-box",
+              "title": "Column, Row და Box"
+            },
+            {
+              "slug": "modifier",
+              "title": "Modifier"
+            }
+          ]
+        },
+        {
+          "slug": "compose-state",
+          "title": "მდგომარეობა Compose-ში",
+          "chapters": [
+            {
+              "slug": "remember",
+              "title": "remember"
+            },
+            {
+              "slug": "state",
+              "title": "state"
+            },
+            {
+              "slug": "state-hoisting",
+              "title": "state-ის აწევა"
+            },
+            {
+              "slug": "textfield",
+              "title": "TextField"
+            },
+            {
+              "slug": "recomposition",
+              "title": "recomposition"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "ამინდის აპი",
+        "description": "აპი, რომელიც ამინდს API-დან იღებს, Room-ში ინახავს და ოფლაინაც აჩვენებს."
+      },
+      "modules": [
+        {
+          "slug": "compose-layouts",
+          "title": "Compose-ის განლაგებები",
+          "chapters": [
+            {
+              "slug": "lazy-column",
+              "title": "LazyColumn"
+            },
+            {
+              "slug": "scaffold",
+              "title": "Scaffold"
+            },
+            {
+              "slug": "material-components",
+              "title": "Material 3 კომპონენტები"
+            },
+            {
+              "slug": "theming",
+              "title": "თემები"
+            },
+            {
+              "slug": "adaptive-layouts",
+              "title": "ეკრანზე მორგება"
+            }
+          ]
+        },
+        {
+          "slug": "navigation",
+          "title": "ნავიგაცია",
+          "chapters": [
+            {
+              "slug": "navigation-compose",
+              "title": "Navigation Compose"
+            },
+            {
+              "slug": "routes",
+              "title": "მარშრუტები"
+            },
+            {
+              "slug": "nav-arguments",
+              "title": "არგუმენტები"
+            },
+            {
+              "slug": "bottom-navigation",
+              "title": "ქვედა ნავიგაცია"
+            },
+            {
+              "slug": "deep-links",
+              "title": "deep link"
+            }
+          ]
+        },
+        {
+          "slug": "viewmodel",
+          "title": "ViewModel",
+          "chapters": [
+            {
+              "slug": "viewmodel-basics",
+              "title": "ViewModel"
+            },
+            {
+              "slug": "ui-state",
+              "title": "UI state"
+            },
+            {
+              "slug": "stateflow",
+              "title": "StateFlow"
+            },
+            {
+              "slug": "ui-events",
+              "title": "მოვლენები"
+            },
+            {
+              "slug": "lifecycle",
+              "title": "სასიცოცხლო ციკლი"
+            }
+          ]
+        },
+        {
+          "slug": "coroutines",
+          "title": "კორუტინები",
+          "chapters": [
+            {
+              "slug": "suspend",
+              "title": "suspend"
+            },
+            {
+              "slug": "coroutine-scope",
+              "title": "coroutine scope"
+            },
+            {
+              "slug": "dispatchers",
+              "title": "dispatcher"
+            },
+            {
+              "slug": "flow",
+              "title": "Flow"
+            },
+            {
+              "slug": "coroutine-errors",
+              "title": "შეცდომები კორუტინებში"
+            }
+          ]
+        },
+        {
+          "slug": "data-storage",
+          "title": "მონაცემების შენახვა",
+          "chapters": [
+            {
+              "slug": "room",
+              "title": "Room"
+            },
+            {
+              "slug": "entities-and-dao",
+              "title": "entity და DAO"
+            },
+            {
+              "slug": "room-migrations",
+              "title": "მიგრაციები"
+            },
+            {
+              "slug": "datastore",
+              "title": "DataStore"
+            },
+            {
+              "slug": "files",
+              "title": "ფაილები"
+            }
+          ]
+        },
+        {
+          "slug": "networking",
+          "title": "ქსელი",
+          "chapters": [
+            {
+              "slug": "retrofit",
+              "title": "Retrofit"
+            },
+            {
+              "slug": "json-serialization",
+              "title": "JSON სერიალიზაცია"
+            },
+            {
+              "slug": "repository",
+              "title": "repository"
+            },
+            {
+              "slug": "loading-and-error",
+              "title": "ჩატვირთვა და შეცდომა"
+            },
+            {
+              "slug": "image-loading",
+              "title": "სურათების ჩატვირთვა"
+            }
+          ]
+        },
+        {
+          "slug": "architecture",
+          "title": "არქიტექტურა",
+          "chapters": [
+            {
+              "slug": "layers",
+              "title": "შრეები"
+            },
+            {
+              "slug": "repository-pattern",
+              "title": "repository ნიმუში"
+            },
+            {
+              "slug": "use-cases",
+              "title": "use case"
+            },
+            {
+              "slug": "hilt",
+              "title": "დამოკიდებულებების ჩანერგვა Hilt-ით"
+            },
+            {
+              "slug": "unidirectional-flow",
+              "title": "ცალმხრივი მონაცემთა ნაკადი"
+            }
+          ]
+        },
+        {
+          "slug": "device-features",
+          "title": "მოწყობილობის შესაძლებლობები",
+          "chapters": [
+            {
+              "slug": "permissions",
+              "title": "ნებართვები"
+            },
+            {
+              "slug": "camera",
+              "title": "კამერა"
+            },
+            {
+              "slug": "location",
+              "title": "მდებარეობა"
+            },
+            {
+              "slug": "notifications",
+              "title": "შეტყობინებები"
+            },
+            {
+              "slug": "workmanager",
+              "title": "ფონური სამუშაო WorkManager-ით"
+            }
+          ]
+        },
+        {
+          "slug": "testing",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "unit-tests",
+              "title": "ერთეულის ტესტები"
+            },
+            {
+              "slug": "viewmodel-tests",
+              "title": "ViewModel-ის ტესტები"
+            },
+            {
+              "slug": "compose-ui-tests",
+              "title": "Compose-ის ტესტები"
+            },
+            {
+              "slug": "fakes",
+              "title": "fake ობიექტები"
+            },
+            {
+              "slug": "instrumented-tests",
+              "title": "ინსტრუმენტული ტესტები"
+            }
+          ]
+        },
+        {
+          "slug": "publishing",
+          "title": "გამოქვეყნება",
+          "chapters": [
+            {
+              "slug": "app-signing",
+              "title": "აპის ხელმოწერა"
+            },
+            {
+              "slug": "build-variants",
+              "title": "აწყობის ვარიანტები"
+            },
+            {
+              "slug": "play-console",
+              "title": "Play Console"
+            },
+            {
+              "slug": "releasing",
+              "title": "გამოშვება"
+            },
+            {
+              "slug": "app-size",
+              "title": "აპის ზომა"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "ოფლაინ ფიდი",
+        "description": "სოციალური ფიდი ქეშით, გვერდებად ჩატვირთვით, სინქრონიზაციით და მოდულებით."
+      },
+      "modules": [
+        {
+          "slug": "advanced-compose",
+          "title": "Compose სიღრმეში",
+          "chapters": [
+            {
+              "slug": "custom-layouts",
+              "title": "საკუთარი განლაგება"
+            },
+            {
+              "slug": "animations",
+              "title": "ანიმაციები"
+            },
+            {
+              "slug": "canvas",
+              "title": "Canvas"
+            },
+            {
+              "slug": "side-effects",
+              "title": "გვერდითი ეფექტები"
+            },
+            {
+              "slug": "stability",
+              "title": "სტაბილურობა და წარმადობა"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-kotlin",
+          "title": "Kotlin სიღრმეში",
+          "chapters": [
+            {
+              "slug": "generics-and-variance",
+              "title": "გენერიკები და ვარიანტობა"
+            },
+            {
+              "slug": "delegates",
+              "title": "დელეგატები"
+            },
+            {
+              "slug": "inline-and-reified",
+              "title": "inline და reified"
+            },
+            {
+              "slug": "dsl-builders",
+              "title": "DSL"
+            },
+            {
+              "slug": "exhaustive-when",
+              "title": "სრული when"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-flows",
+          "title": "Flow სიღრმეში",
+          "chapters": [
+            {
+              "slug": "stateflow-and-sharedflow",
+              "title": "StateFlow და SharedFlow"
+            },
+            {
+              "slug": "flow-operators",
+              "title": "ოპერატორები"
+            },
+            {
+              "slug": "flow-backpressure",
+              "title": "backpressure"
+            },
+            {
+              "slug": "combining-flows",
+              "title": "ნაკადების გაერთიანება"
+            },
+            {
+              "slug": "testing-flows",
+              "title": "Flow-ს ტესტირება"
+            }
+          ]
+        },
+        {
+          "slug": "offline-first",
+          "title": "ჯერ ოფლაინ",
+          "chapters": [
+            {
+              "slug": "caching-strategy",
+              "title": "ქეშირების სტრატეგია"
+            },
+            {
+              "slug": "sync",
+              "title": "სინქრონიზაცია"
+            },
+            {
+              "slug": "paging",
+              "title": "Paging 3"
+            },
+            {
+              "slug": "conflict-resolution",
+              "title": "კონფლიქტების გადაჭრა"
+            },
+            {
+              "slug": "connectivity",
+              "title": "კავშირის მდგომარეობა"
+            }
+          ]
+        },
+        {
+          "slug": "modularization",
+          "title": "მოდულებად დაყოფა",
+          "chapters": [
+            {
+              "slug": "multi-module",
+              "title": "მრავალმოდულიანი პროექტი"
+            },
+            {
+              "slug": "version-catalogs",
+              "title": "version catalog"
+            },
+            {
+              "slug": "build-speed",
+              "title": "აწყობის სიჩქარე"
+            },
+            {
+              "slug": "feature-modules",
+              "title": "ფუნქციური მოდულები"
+            },
+            {
+              "slug": "convention-plugins",
+              "title": "convention plugin"
+            }
+          ]
+        },
+        {
+          "slug": "security",
+          "title": "უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "encrypted-storage",
+              "title": "დაშიფრული შენახვა"
+            },
+            {
+              "slug": "biometrics",
+              "title": "ბიომეტრია"
+            },
+            {
+              "slug": "network-security",
+              "title": "ქსელის უსაფრთხოება"
+            },
+            {
+              "slug": "r8",
+              "title": "კოდის შეკუმშვა R8-ით"
+            },
+            {
+              "slug": "secure-auth",
+              "title": "უსაფრთხო ავთენტიფიკაცია"
+            }
+          ]
+        },
+        {
+          "slug": "media-and-sensors",
+          "title": "მედია და სენსორები",
+          "chapters": [
+            {
+              "slug": "media-playback",
+              "title": "მედიის დაკვრა"
+            },
+            {
+              "slug": "camerax",
+              "title": "CameraX"
+            },
+            {
+              "slug": "image-processing",
+              "title": "სურათის დამუშავება"
+            },
+            {
+              "slug": "maps",
+              "title": "რუკები"
+            },
+            {
+              "slug": "sensors",
+              "title": "სენსორები"
+            }
+          ]
+        },
+        {
+          "slug": "multiplatform",
+          "title": "Kotlin Multiplatform",
+          "chapters": [
+            {
+              "slug": "kmp-basics",
+              "title": "Kotlin Multiplatform"
+            },
+            {
+              "slug": "shared-code",
+              "title": "საერთო კოდი"
+            },
+            {
+              "slug": "expect-actual",
+              "title": "expect და actual"
+            },
+            {
+              "slug": "compose-multiplatform",
+              "title": "Compose Multiplatform"
+            },
+            {
+              "slug": "ios-integration",
+              "title": "iOS-თან ინტეგრაცია"
+            }
+          ]
+        },
+        {
+          "slug": "ci",
+          "title": "CI",
+          "chapters": [
+            {
+              "slug": "ci-builds",
+              "title": "აწყობა CI-ში"
+            },
+            {
+              "slug": "automated-tests",
+              "title": "ავტომატური ტესტები"
+            },
+            {
+              "slug": "release-automation",
+              "title": "გამოშვების ავტომატიზაცია"
+            },
+            {
+              "slug": "crash-reporting",
+              "title": "ავარიების აღრიცხვა"
+            },
+            {
+              "slug": "analytics",
+              "title": "ანალიტიკა"
+            }
+          ]
+        },
+        {
+          "slug": "accessibility",
+          "title": "ხელმისაწვდომობა",
+          "chapters": [
+            {
+              "slug": "talkback",
+              "title": "TalkBack"
+            },
+            {
+              "slug": "semantics",
+              "title": "semantics"
+            },
+            {
+              "slug": "large-fonts",
+              "title": "დიდი შრიფტი"
+            },
+            {
+              "slug": "contrast",
+              "title": "კონტრასტი"
+            },
+            {
+              "slug": "testing-accessibility",
+              "title": "ხელმისაწვდომობის ტესტირება"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "დიდი აპის მოდული",
+        "description": "დამოუკიდებელი ფუნქციური მოდული დიდი აპისთვის: წარმადობა, ტესტები და ეტაპობრივი გამოშვება."
+      },
+      "modules": [
+        {
+          "slug": "android-internals",
+          "title": "Android შიგნიდან",
+          "chapters": [
+            {
+              "slug": "app-startup",
+              "title": "აპის გაშვება"
+            },
+            {
+              "slug": "rendering-pipeline",
+              "title": "რენდერის კონვეიერი"
+            },
+            {
+              "slug": "memory-management",
+              "title": "მეხსიერების მართვა"
+            },
+            {
+              "slug": "process-lifecycle",
+              "title": "პროცესი და სასიცოცხლო ციკლი"
+            },
+            {
+              "slug": "binder",
+              "title": "Binder"
+            }
+          ]
+        },
+        {
+          "slug": "performance",
+          "title": "წარმადობა",
+          "chapters": [
+            {
+              "slug": "profiling",
+              "title": "პროფაილინგი"
+            },
+            {
+              "slug": "baseline-profiles",
+              "title": "baseline profile"
+            },
+            {
+              "slug": "jank",
+              "title": "კადრების ვარდნა"
+            },
+            {
+              "slug": "leak-detection",
+              "title": "გაჟონვის პოვნა"
+            },
+            {
+              "slug": "battery",
+              "title": "ბატარეა"
+            }
+          ]
+        },
+        {
+          "slug": "compose-internals",
+          "title": "Compose შიგნიდან",
+          "chapters": [
+            {
+              "slug": "compose-compiler",
+              "title": "Compose-ის კომპილატორი"
+            },
+            {
+              "slug": "slot-table",
+              "title": "slot table"
+            },
+            {
+              "slug": "snapshot-system",
+              "title": "snapshot სისტემა"
+            },
+            {
+              "slug": "recomposition-scope",
+              "title": "recomposition-ის არე"
+            },
+            {
+              "slug": "custom-modifiers",
+              "title": "საკუთარი Modifier"
+            }
+          ]
+        },
+        {
+          "slug": "coroutine-internals",
+          "title": "კორუტინები შიგნიდან",
+          "chapters": [
+            {
+              "slug": "continuations",
+              "title": "continuation"
+            },
+            {
+              "slug": "structured-concurrency",
+              "title": "სტრუქტურირებული კონკურენტულობა"
+            },
+            {
+              "slug": "dispatcher-internals",
+              "title": "dispatcher შიგნიდან"
+            },
+            {
+              "slug": "cancellation",
+              "title": "გაუქმება"
+            },
+            {
+              "slug": "debugging-coroutines",
+              "title": "კორუტინების გამართვა"
+            }
+          ]
+        },
+        {
+          "slug": "large-apps",
+          "title": "დიდი აპები",
+          "chapters": [
+            {
+              "slug": "architecture-at-scale",
+              "title": "არქიტექტურა მასშტაბზე"
+            },
+            {
+              "slug": "dynamic-features",
+              "title": "დინამიკური მოდულები"
+            },
+            {
+              "slug": "design-system",
+              "title": "დიზაინ-სისტემა"
+            },
+            {
+              "slug": "api-contracts",
+              "title": "API კონტრაქტები"
+            },
+            {
+              "slug": "code-ownership",
+              "title": "კოდის მფლობელობა"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-gradle",
+          "title": "Gradle სიღრმეში",
+          "chapters": [
+            {
+              "slug": "custom-plugins",
+              "title": "საკუთარი plugin"
+            },
+            {
+              "slug": "build-cache",
+              "title": "აწყობის ქეში"
+            },
+            {
+              "slug": "variant-api",
+              "title": "variant API"
+            },
+            {
+              "slug": "managing-dependencies",
+              "title": "დამოკიდებულებების მართვა"
+            },
+            {
+              "slug": "build-analysis",
+              "title": "აწყობის ანალიზი"
+            }
+          ]
+        },
+        {
+          "slug": "native-code",
+          "title": "native კოდი",
+          "chapters": [
+            {
+              "slug": "ndk",
+              "title": "NDK"
+            },
+            {
+              "slug": "jni",
+              "title": "JNI"
+            },
+            {
+              "slug": "cpp-interop",
+              "title": "C++-თან მუშაობა"
+            },
+            {
+              "slug": "native-performance",
+              "title": "native წარმადობა"
+            },
+            {
+              "slug": "on-device-ml",
+              "title": "მანქანური სწავლება მოწყობილობაზე"
+            }
+          ]
+        },
+        {
+          "slug": "platform-features",
+          "title": "პლატფორმის შესაძლებლობები",
+          "chapters": [
+            {
+              "slug": "widgets",
+              "title": "ვიჯეტები"
+            },
+            {
+              "slug": "wear-os",
+              "title": "Wear OS"
+            },
+            {
+              "slug": "tv-and-auto",
+              "title": "TV და Auto"
+            },
+            {
+              "slug": "foldables",
+              "title": "დასაკეცი მოწყობილობები"
+            },
+            {
+              "slug": "system-integrations",
+              "title": "სისტემასთან ინტეგრაცია"
+            }
+          ]
+        },
+        {
+          "slug": "release-engineering",
+          "title": "გამოშვების ინჟინერია",
+          "chapters": [
+            {
+              "slug": "staged-rollout",
+              "title": "ეტაპობრივი გამოშვება"
+            },
+            {
+              "slug": "feature-flags",
+              "title": "feature flag"
+            },
+            {
+              "slug": "ab-tests",
+              "title": "A/B ტესტები"
+            },
+            {
+              "slug": "vitals",
+              "title": "აპის ჯანმრთელობის მონიტორინგი"
+            },
+            {
+              "slug": "incident-response",
+              "title": "ინციდენტზე რეაგირება"
+            }
+          ]
+        },
+        {
+          "slug": "kotlin-evolution",
+          "title": "ენის განვითარება",
+          "chapters": [
+            {
+              "slug": "k2-compiler",
+              "title": "K2 კომპილატორი"
+            },
+            {
+              "slug": "language-proposals",
+              "title": "ენის წინადადებები"
+            },
+            {
+              "slug": "ecosystem",
+              "title": "ეკოსისტემა"
+            },
+            {
+              "slug": "migration-strategies",
+              "title": "მიგრაციის სტრატეგიები"
+            },
+            {
+              "slug": "career",
+              "title": "კარიერა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

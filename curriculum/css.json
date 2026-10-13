@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "პროფილის ბარათი",
+        "description": "ლამაზი ბარათი ფოტოთი, ტექსტით და ღილაკებით: ფერები, შრიფტები და ყუთის მოდელი."
+      },
+      "modules": [
+        {
+          "slug": "css-intro",
+          "title": "CSS-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-css",
+              "title": "რა არის CSS"
+            },
+            {
+              "slug": "adding-css",
+              "title": "სტილის მიერთება გვერდზე"
+            },
+            {
+              "slug": "rule-anatomy",
+              "title": "წესის აგებულება"
+            },
+            {
+              "slug": "css-comments",
+              "title": "კომენტარები CSS-ში"
+            },
+            {
+              "slug": "browser-devtools",
+              "title": "ბრაუზერის ხელსაწყოები"
+            }
+          ]
+        },
+        {
+          "slug": "basic-selectors",
+          "title": "სელექტორები",
+          "chapters": [
+            {
+              "slug": "element-selector",
+              "title": "ტეგის სელექტორი"
+            },
+            {
+              "slug": "class-selector",
+              "title": "კლასის სელექტორი"
+            },
+            {
+              "slug": "id-selector",
+              "title": "id სელექტორი"
+            },
+            {
+              "slug": "grouping-selectors",
+              "title": "სელექტორების დაჯგუფება"
+            },
+            {
+              "slug": "descendant-selector",
+              "title": "შთამომავლის სელექტორი"
+            }
+          ]
+        },
+        {
+          "slug": "colors",
+          "title": "ფერები",
+          "chapters": [
+            {
+              "slug": "color-names",
+              "title": "ფერის სახელები"
+            },
+            {
+              "slug": "hex-colors",
+              "title": "HEX ფერები"
+            },
+            {
+              "slug": "rgb-and-hsl",
+              "title": "RGB და HSL"
+            },
+            {
+              "slug": "opacity",
+              "title": "გამჭვირვალობა"
+            },
+            {
+              "slug": "background-color",
+              "title": "ფონის ფერი"
+            }
+          ]
+        },
+        {
+          "slug": "text-styling",
+          "title": "ტექსტის სტილი",
+          "chapters": [
+            {
+              "slug": "font-family",
+              "title": "შრიფტის ოჯახი"
+            },
+            {
+              "slug": "font-size",
+              "title": "შრიფტის ზომა"
+            },
+            {
+              "slug": "weight-and-style",
+              "title": "სისქე და სტილი"
+            },
+            {
+              "slug": "text-align",
+              "title": "ტექსტის გასწორება"
+            },
+            {
+              "slug": "line-height",
+              "title": "ხაზის სიმაღლე"
+            }
+          ]
+        },
+        {
+          "slug": "box-model",
+          "title": "ყუთის მოდელი",
+          "chapters": [
+            {
+              "slug": "box-model-overview",
+              "title": "რა არის ყუთის მოდელი"
+            },
+            {
+              "slug": "padding",
+              "title": "შიდა დაშორება padding"
+            },
+            {
+              "slug": "border",
+              "title": "ჩარჩო border"
+            },
+            {
+              "slug": "margin",
+              "title": "გარე დაშორება margin"
+            },
+            {
+              "slug": "box-sizing",
+              "title": "box-sizing"
+            }
+          ]
+        },
+        {
+          "slug": "units",
+          "title": "ზომის ერთეულები",
+          "chapters": [
+            {
+              "slug": "pixels",
+              "title": "პიქსელი"
+            },
+            {
+              "slug": "percentages",
+              "title": "პროცენტი"
+            },
+            {
+              "slug": "em-and-rem",
+              "title": "em და rem"
+            },
+            {
+              "slug": "viewport-units",
+              "title": "vw და vh"
+            },
+            {
+              "slug": "choosing-units",
+              "title": "რომელი ერთეული როდის"
+            }
+          ]
+        },
+        {
+          "slug": "display",
+          "title": "ჩვენების ტიპები",
+          "chapters": [
+            {
+              "slug": "block-and-inline",
+              "title": "block და inline"
+            },
+            {
+              "slug": "inline-block",
+              "title": "inline-block"
+            },
+            {
+              "slug": "display-none",
+              "title": "ელემენტის დამალვა"
+            },
+            {
+              "slug": "visibility",
+              "title": "visibility"
+            },
+            {
+              "slug": "overflow",
+              "title": "overflow"
+            }
+          ]
+        },
+        {
+          "slug": "backgrounds",
+          "title": "ფონი",
+          "chapters": [
+            {
+              "slug": "background-image",
+              "title": "ფონის სურათი"
+            },
+            {
+              "slug": "repeat-and-position",
+              "title": "გამეორება და პოზიცია"
+            },
+            {
+              "slug": "background-size",
+              "title": "ფონის ზომა"
+            },
+            {
+              "slug": "gradients",
+              "title": "გრადიენტები"
+            },
+            {
+              "slug": "multiple-backgrounds",
+              "title": "რამდენიმე ფონი"
+            }
+          ]
+        },
+        {
+          "slug": "borders-and-shadows",
+          "title": "ჩარჩოები და ჩრდილები",
+          "chapters": [
+            {
+              "slug": "border-styles",
+              "title": "ჩარჩოს სტილი"
+            },
+            {
+              "slug": "border-radius",
+              "title": "მომრგვალებული კუთხეები"
+            },
+            {
+              "slug": "box-shadow",
+              "title": "ყუთის ჩრდილი"
+            },
+            {
+              "slug": "text-shadow",
+              "title": "ტექსტის ჩრდილი"
+            },
+            {
+              "slug": "outline",
+              "title": "outline"
+            }
+          ]
+        },
+        {
+          "slug": "cascade",
+          "title": "კასკადი",
+          "chapters": [
+            {
+              "slug": "how-cascade-works",
+              "title": "როგორ მუშაობს კასკადი"
+            },
+            {
+              "slug": "specificity",
+              "title": "სპეციფიკურობა"
+            },
+            {
+              "slug": "inheritance",
+              "title": "მემკვიდრეობა"
+            },
+            {
+              "slug": "important-rule",
+              "title": "!important"
+            },
+            {
+              "slug": "organizing-styles",
+              "title": "სტილის ორგანიზება"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "რესპონსიული ლენდინგი",
+        "description": "გვერდი, რომელიც ტელეფონზეც და კომპიუტერზეც კარგად ჩანს: flexbox, grid და media queries."
+      },
+      "modules": [
+        {
+          "slug": "flexbox-basics",
+          "title": "Flexbox-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "flex-container",
+              "title": "flex კონტეინერი"
+            },
+            {
+              "slug": "flex-direction",
+              "title": "მიმართულება"
+            },
+            {
+              "slug": "justify-content",
+              "title": "justify-content"
+            },
+            {
+              "slug": "align-items",
+              "title": "align-items"
+            },
+            {
+              "slug": "flex-gap",
+              "title": "დაშორება gap"
+            }
+          ]
+        },
+        {
+          "slug": "flexbox-in-depth",
+          "title": "Flexbox სიღრმეში",
+          "chapters": [
+            {
+              "slug": "grow-shrink-basis",
+              "title": "flex-grow, shrink და basis"
+            },
+            {
+              "slug": "flex-wrap",
+              "title": "გადატანა flex-wrap"
+            },
+            {
+              "slug": "align-self",
+              "title": "align-self"
+            },
+            {
+              "slug": "flex-order",
+              "title": "რიგი order"
+            },
+            {
+              "slug": "flexbox-layouts",
+              "title": "ტიპური განლაგებები flexbox-ით"
+            }
+          ]
+        },
+        {
+          "slug": "positioning",
+          "title": "პოზიციონირება",
+          "chapters": [
+            {
+              "slug": "static-and-relative",
+              "title": "static და relative"
+            },
+            {
+              "slug": "absolute-position",
+              "title": "absolute"
+            },
+            {
+              "slug": "fixed-position",
+              "title": "fixed"
+            },
+            {
+              "slug": "sticky-position",
+              "title": "sticky"
+            },
+            {
+              "slug": "z-index",
+              "title": "z-index"
+            }
+          ]
+        },
+        {
+          "slug": "grid-basics",
+          "title": "Grid-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "grid-container",
+              "title": "grid კონტეინერი"
+            },
+            {
+              "slug": "columns-and-rows",
+              "title": "სვეტები და რიგები"
+            },
+            {
+              "slug": "fr-unit",
+              "title": "fr ერთეული"
+            },
+            {
+              "slug": "grid-gap",
+              "title": "დაშორება ბადეში"
+            },
+            {
+              "slug": "placing-items",
+              "title": "ელემენტის განთავსება"
+            }
+          ]
+        },
+        {
+          "slug": "grid-in-depth",
+          "title": "Grid სიღრმეში",
+          "chapters": [
+            {
+              "slug": "grid-template-areas",
+              "title": "grid-template-areas"
+            },
+            {
+              "slug": "repeat-and-minmax",
+              "title": "repeat და minmax"
+            },
+            {
+              "slug": "auto-fit-and-fill",
+              "title": "auto-fit და auto-fill"
+            },
+            {
+              "slug": "implicit-grid",
+              "title": "იმპლიციტური ბადე"
+            },
+            {
+              "slug": "grid-or-flexbox",
+              "title": "grid თუ flexbox"
+            }
+          ]
+        },
+        {
+          "slug": "responsive-design",
+          "title": "რესპონსიული დიზაინი",
+          "chapters": [
+            {
+              "slug": "viewport-meta",
+              "title": "viewport"
+            },
+            {
+              "slug": "media-queries",
+              "title": "media queries"
+            },
+            {
+              "slug": "mobile-first",
+              "title": "ჯერ ტელეფონი"
+            },
+            {
+              "slug": "breakpoints",
+              "title": "გარდატეხის წერტილები"
+            },
+            {
+              "slug": "responsive-type",
+              "title": "რესპონსიული ტიპოგრაფია"
+            }
+          ]
+        },
+        {
+          "slug": "pseudo-classes",
+          "title": "ფსევდოკლასები",
+          "chapters": [
+            {
+              "slug": "hover-and-focus",
+              "title": "hover და focus"
+            },
+            {
+              "slug": "nth-child",
+              "title": "first, last და nth-child"
+            },
+            {
+              "slug": "not-selector",
+              "title": ":not"
+            },
+            {
+              "slug": "form-states",
+              "title": "ფორმის მდგომარეობები"
+            },
+            {
+              "slug": "focus-visible",
+              "title": "focus-visible"
+            }
+          ]
+        },
+        {
+          "slug": "pseudo-elements",
+          "title": "ფსევდოელემენტები",
+          "chapters": [
+            {
+              "slug": "before-and-after",
+              "title": "before და after"
+            },
+            {
+              "slug": "first-letter-and-line",
+              "title": "პირველი ასო და ხაზი"
+            },
+            {
+              "slug": "placeholder-and-selection",
+              "title": "placeholder და selection"
+            },
+            {
+              "slug": "list-marker",
+              "title": "სიის მარკერი"
+            },
+            {
+              "slug": "decorative-elements",
+              "title": "დეკორაცია ფსევდოელემენტებით"
+            }
+          ]
+        },
+        {
+          "slug": "transitions",
+          "title": "გადასვლები",
+          "chapters": [
+            {
+              "slug": "transition-property",
+              "title": "transition"
+            },
+            {
+              "slug": "timing-functions",
+              "title": "დროის ფუნქციები"
+            },
+            {
+              "slug": "animatable-properties",
+              "title": "რა თვისებები ანიმირდება"
+            },
+            {
+              "slug": "hover-effects",
+              "title": "hover ეფექტები"
+            },
+            {
+              "slug": "transition-performance",
+              "title": "გადასვლების წარმადობა"
+            }
+          ]
+        },
+        {
+          "slug": "transforms",
+          "title": "გარდაქმნები",
+          "chapters": [
+            {
+              "slug": "translate",
+              "title": "გადაადგილება translate"
+            },
+            {
+              "slug": "rotate-and-scale",
+              "title": "rotate და scale"
+            },
+            {
+              "slug": "transform-origin",
+              "title": "transform-origin"
+            },
+            {
+              "slug": "transforms-3d",
+              "title": "3D გარდაქმნები"
+            },
+            {
+              "slug": "centering-techniques",
+              "title": "ცენტრირების ხერხები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "კომპონენტების გვერდი",
+        "description": "ღილაკების, ბარათების და ფორმების ნაკრები ღია და მუქი თემით, ცვლადებზე აგებული."
+      },
+      "modules": [
+        {
+          "slug": "animations",
+          "title": "ანიმაციები",
+          "chapters": [
+            {
+              "slug": "keyframes",
+              "title": "keyframes"
+            },
+            {
+              "slug": "animation-properties",
+              "title": "ანიმაციის თვისებები"
+            },
+            {
+              "slug": "controlling-animations",
+              "title": "ანიმაციის მართვა"
+            },
+            {
+              "slug": "scroll-animations",
+              "title": "ანიმაცია გადახვევაზე"
+            },
+            {
+              "slug": "reduced-motion",
+              "title": "მოძრაობის შემცირება"
+            }
+          ]
+        },
+        {
+          "slug": "custom-properties",
+          "title": "CSS ცვლადები",
+          "chapters": [
+            {
+              "slug": "declaring-variables",
+              "title": "ცვლადის გამოცხადება"
+            },
+            {
+              "slug": "var-and-fallback",
+              "title": "var და სათადარიგო მნიშვნელობა"
+            },
+            {
+              "slug": "variable-scope",
+              "title": "ცვლადების ხილვადობა"
+            },
+            {
+              "slug": "theming-with-variables",
+              "title": "თემები ცვლადებით"
+            },
+            {
+              "slug": "variables-and-js",
+              "title": "ცვლადები და JavaScript"
+            }
+          ]
+        },
+        {
+          "slug": "modern-selectors",
+          "title": "თანამედროვე სელექტორები",
+          "chapters": [
+            {
+              "slug": "attribute-selectors",
+              "title": "ატრიბუტის სელექტორები"
+            },
+            {
+              "slug": "combinators",
+              "title": "კომბინატორები"
+            },
+            {
+              "slug": "is-and-where",
+              "title": ":is და :where"
+            },
+            {
+              "slug": "has-selector",
+              "title": ":has"
+            },
+            {
+              "slug": "managing-specificity",
+              "title": "სპეციფიკურობის მართვა"
+            }
+          ]
+        },
+        {
+          "slug": "typography",
+          "title": "ტიპოგრაფია",
+          "chapters": [
+            {
+              "slug": "web-fonts",
+              "title": "ვებ-შრიფტები"
+            },
+            {
+              "slug": "font-face",
+              "title": "@font-face"
+            },
+            {
+              "slug": "variable-fonts",
+              "title": "ცვლადი შრიფტები"
+            },
+            {
+              "slug": "vertical-rhythm",
+              "title": "ვერტიკალური რიტმი"
+            },
+            {
+              "slug": "wrapping-and-truncation",
+              "title": "ტექსტის გადატანა და მოჭრა"
+            }
+          ]
+        },
+        {
+          "slug": "modern-layout",
+          "title": "თანამედროვე განლაგება",
+          "chapters": [
+            {
+              "slug": "aspect-ratio",
+              "title": "aspect-ratio"
+            },
+            {
+              "slug": "clamp-min-max",
+              "title": "clamp, min და max"
+            },
+            {
+              "slug": "container-queries",
+              "title": "container queries"
+            },
+            {
+              "slug": "subgrid",
+              "title": "subgrid"
+            },
+            {
+              "slug": "logical-properties",
+              "title": "ლოგიკური თვისებები"
+            }
+          ]
+        },
+        {
+          "slug": "css-architecture",
+          "title": "სტილის არქიტექტურა",
+          "chapters": [
+            {
+              "slug": "bem",
+              "title": "BEM"
+            },
+            {
+              "slug": "utility-classes",
+              "title": "utility კლასები"
+            },
+            {
+              "slug": "component-styles",
+              "title": "კომპონენტური სტილი"
+            },
+            {
+              "slug": "cascade-layers",
+              "title": "კასკადის შრეები"
+            },
+            {
+              "slug": "file-structure",
+              "title": "სტილის ფაილების სტრუქტურა"
+            }
+          ]
+        },
+        {
+          "slug": "sass",
+          "title": "Sass",
+          "chapters": [
+            {
+              "slug": "sass-variables-and-nesting",
+              "title": "ცვლადები და ჩადგმა"
+            },
+            {
+              "slug": "mixins",
+              "title": "mixin"
+            },
+            {
+              "slug": "sass-functions",
+              "title": "ფუნქციები Sass-ში"
+            },
+            {
+              "slug": "partials-and-modules",
+              "title": "ნაწილები და მოდულები"
+            },
+            {
+              "slug": "do-you-need-sass",
+              "title": "გვჭირდება თუ არა პრეპროცესორი"
+            }
+          ]
+        },
+        {
+          "slug": "visual-effects",
+          "title": "ვიზუალური ეფექტები",
+          "chapters": [
+            {
+              "slug": "object-fit",
+              "title": "object-fit"
+            },
+            {
+              "slug": "filters",
+              "title": "filter"
+            },
+            {
+              "slug": "backdrop-filter",
+              "title": "backdrop-filter"
+            },
+            {
+              "slug": "blend-modes",
+              "title": "შერევის რეჟიმები"
+            },
+            {
+              "slug": "clip-path-and-mask",
+              "title": "clip-path და mask"
+            }
+          ]
+        },
+        {
+          "slug": "styling-forms",
+          "title": "ფორმების სტილი",
+          "chapters": [
+            {
+              "slug": "input-styles",
+              "title": "ველების სტილი"
+            },
+            {
+              "slug": "button-styles",
+              "title": "ღილაკების სტილი"
+            },
+            {
+              "slug": "custom-checkboxes",
+              "title": "checkbox და radio"
+            },
+            {
+              "slug": "select-styles",
+              "title": "select-ის სტილი"
+            },
+            {
+              "slug": "validation-styles",
+              "title": "შემოწმების მდგომარეობები"
+            }
+          ]
+        },
+        {
+          "slug": "dark-mode",
+          "title": "მუქი რეჟიმი",
+          "chapters": [
+            {
+              "slug": "prefers-color-scheme",
+              "title": "prefers-color-scheme"
+            },
+            {
+              "slug": "color-tokens",
+              "title": "ფერის ტოკენები"
+            },
+            {
+              "slug": "color-scheme-property",
+              "title": "color-scheme"
+            },
+            {
+              "slug": "theme-switcher",
+              "title": "თემის გადამრთველი"
+            },
+            {
+              "slug": "checking-contrast",
+              "title": "კონტრასტის შემოწმება"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "თემირებადი UI ბიბლიოთეკა",
+        "description": "სტილის ბიბლიოთეკა ტოკენებით, თემებით, დოკუმენტაციით და ვიზუალური ტესტებით."
+      },
+      "modules": [
+        {
+          "slug": "browser-rendering",
+          "title": "რენდერი",
+          "chapters": [
+            {
+              "slug": "render-pipeline",
+              "title": "როგორ ხატავს ბრაუზერი"
+            },
+            {
+              "slug": "layout-paint-composite",
+              "title": "layout, paint და composite"
+            },
+            {
+              "slug": "avoiding-reflow",
+              "title": "reflow-ის თავიდან აცილება"
+            },
+            {
+              "slug": "will-change-and-contain",
+              "title": "will-change და contain"
+            },
+            {
+              "slug": "content-visibility",
+              "title": "content-visibility"
+            }
+          ]
+        },
+        {
+          "slug": "css-performance",
+          "title": "სტილის წარმადობა",
+          "chapters": [
+            {
+              "slug": "selector-performance",
+              "title": "სელექტორების სიჩქარე"
+            },
+            {
+              "slug": "critical-css",
+              "title": "კრიტიკული CSS"
+            },
+            {
+              "slug": "removing-unused-css",
+              "title": "გამოუყენებელი CSS-ის მოცილება"
+            },
+            {
+              "slug": "font-loading",
+              "title": "შრიფტების ჩატვირთვა"
+            },
+            {
+              "slug": "animation-performance",
+              "title": "ანიმაციების წარმადობა"
+            }
+          ]
+        },
+        {
+          "slug": "complex-layouts",
+          "title": "რთული განლაგებები",
+          "chapters": [
+            {
+              "slug": "magazine-layouts",
+              "title": "ჟურნალის განლაგება"
+            },
+            {
+              "slug": "masonry",
+              "title": "masonry განლაგება"
+            },
+            {
+              "slug": "layout-and-accessibility",
+              "title": "განლაგება და ხელმისაწვდომობა"
+            },
+            {
+              "slug": "animating-layout",
+              "title": "განლაგების ანიმაცია"
+            },
+            {
+              "slug": "debugging-layout",
+              "title": "განლაგების გამართვა"
+            }
+          ]
+        },
+        {
+          "slug": "styling-approaches",
+          "title": "სტილის მიდგომები",
+          "chapters": [
+            {
+              "slug": "css-modules",
+              "title": "CSS Modules"
+            },
+            {
+              "slug": "styled-components",
+              "title": "styled კომპონენტები"
+            },
+            {
+              "slug": "zero-runtime-css",
+              "title": "zero-runtime მიდგომა"
+            },
+            {
+              "slug": "utility-first",
+              "title": "utility-first ფრეიმვორკები"
+            },
+            {
+              "slug": "choosing-an-approach",
+              "title": "მიდგომის არჩევა"
+            }
+          ]
+        },
+        {
+          "slug": "design-tokens",
+          "title": "დიზაინის ტოკენები",
+          "chapters": [
+            {
+              "slug": "token-hierarchy",
+              "title": "ტოკენების იერარქია"
+            },
+            {
+              "slug": "color-systems",
+              "title": "ფერის სისტემები"
+            },
+            {
+              "slug": "spacing-scale",
+              "title": "დაშორებების სკალა"
+            },
+            {
+              "slug": "automating-tokens",
+              "title": "ტოკენების ავტომატიზაცია"
+            },
+            {
+              "slug": "multi-brand-themes",
+              "title": "მრავალბრენდიანი თემები"
+            }
+          ]
+        },
+        {
+          "slug": "new-css",
+          "title": "ახალი შესაძლებლობები",
+          "chapters": [
+            {
+              "slug": "at-property",
+              "title": "@property"
+            },
+            {
+              "slug": "scroll-driven-animations",
+              "title": "გადახვევით მართული ანიმაცია"
+            },
+            {
+              "slug": "view-transitions",
+              "title": "view transitions"
+            },
+            {
+              "slug": "anchor-positioning",
+              "title": "anchor positioning"
+            },
+            {
+              "slug": "native-nesting",
+              "title": "ჩაშენებული ჩადგმა"
+            }
+          ]
+        },
+        {
+          "slug": "print-and-media",
+          "title": "ბეჭდვა და მოწყობილობები",
+          "chapters": [
+            {
+              "slug": "print-styles",
+              "title": "ბეჭდვის სტილები"
+            },
+            {
+              "slug": "page-breaks",
+              "title": "გვერდის გაწყვეტა"
+            },
+            {
+              "slug": "high-density-screens",
+              "title": "მაღალი სიმკვრივის ეკრანები"
+            },
+            {
+              "slug": "user-preferences",
+              "title": "მომხმარებლის პარამეტრები"
+            },
+            {
+              "slug": "forced-colors",
+              "title": "forced colors"
+            }
+          ]
+        },
+        {
+          "slug": "accessible-styles",
+          "title": "ხელმისაწვდომი სტილი",
+          "chapters": [
+            {
+              "slug": "focus-styles",
+              "title": "ფოკუსის სტილი"
+            },
+            {
+              "slug": "motion-preferences",
+              "title": "მოძრაობის პარამეტრები"
+            },
+            {
+              "slug": "text-resizing",
+              "title": "ტექსტის გადიდება"
+            },
+            {
+              "slug": "visually-hidden",
+              "title": "დამალვა ხელმისაწვდომად"
+            },
+            {
+              "slug": "touch-targets",
+              "title": "შეხების სამიზნეები"
+            }
+          ]
+        },
+        {
+          "slug": "css-tooling",
+          "title": "ხელსაწყოები",
+          "chapters": [
+            {
+              "slug": "postcss",
+              "title": "PostCSS"
+            },
+            {
+              "slug": "autoprefixer",
+              "title": "autoprefixer"
+            },
+            {
+              "slug": "stylelint",
+              "title": "stylelint"
+            },
+            {
+              "slug": "visual-regression",
+              "title": "ვიზუალური რეგრესიის ტესტები"
+            },
+            {
+              "slug": "browser-support-policy",
+              "title": "ბრაუზერების მხარდაჭერის მართვა"
+            }
+          ]
+        },
+        {
+          "slug": "css-at-scale",
+          "title": "დიდი კოდბაზა",
+          "chapters": [
+            {
+              "slug": "scaling-styles",
+              "title": "სტილი დიდ პროექტში"
+            },
+            {
+              "slug": "refactoring-css",
+              "title": "მოძველებული CSS-ის რეფაქტორინგი"
+            },
+            {
+              "slug": "specificity-wars",
+              "title": "სპეციფიკურობის ომები"
+            },
+            {
+              "slug": "style-documentation",
+              "title": "სტილის დოკუმენტაცია"
+            },
+            {
+              "slug": "css-code-review",
+              "title": "სტილის მიმოხილვა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

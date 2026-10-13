@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "ფილმების საძიებო",
+        "description": "აპი, რომელიც ფილმებს ეძებს და აჩვენებს: კომპონენტები, state, სიები და ფორმა."
+      },
+      "modules": [
+        {
+          "slug": "react-intro",
+          "title": "React-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-react",
+              "title": "რა არის React"
+            },
+            {
+              "slug": "creating-a-project",
+              "title": "პროექტის შექმნა Vite-ით"
+            },
+            {
+              "slug": "jsx",
+              "title": "JSX"
+            },
+            {
+              "slug": "first-component",
+              "title": "პირველი კომპონენტი"
+            },
+            {
+              "slug": "rendering-to-page",
+              "title": "გვერდზე გამოტანა"
+            }
+          ]
+        },
+        {
+          "slug": "components-and-props",
+          "title": "კომპონენტები და props",
+          "chapters": [
+            {
+              "slug": "function-components",
+              "title": "ფუნქციური კომპონენტი"
+            },
+            {
+              "slug": "props",
+              "title": "props"
+            },
+            {
+              "slug": "children-prop",
+              "title": "children"
+            },
+            {
+              "slug": "default-props",
+              "title": "ნაგულისხმევი მნიშვნელობები"
+            },
+            {
+              "slug": "nesting-components",
+              "title": "კომპონენტების ჩადგმა"
+            }
+          ]
+        },
+        {
+          "slug": "state",
+          "title": "მდგომარეობა",
+          "chapters": [
+            {
+              "slug": "use-state",
+              "title": "useState"
+            },
+            {
+              "slug": "updating-state",
+              "title": "მდგომარეობის განახლება"
+            },
+            {
+              "slug": "multiple-state",
+              "title": "რამდენიმე state"
+            },
+            {
+              "slug": "objects-and-arrays-in-state",
+              "title": "ობიექტები და მასივები state-ში"
+            },
+            {
+              "slug": "lifting-state-up",
+              "title": "state-ის აწევა ზემოთ"
+            }
+          ]
+        },
+        {
+          "slug": "react-events",
+          "title": "მოვლენები",
+          "chapters": [
+            {
+              "slug": "event-handlers",
+              "title": "მოვლენის დამმუშავებელი"
+            },
+            {
+              "slug": "passing-arguments",
+              "title": "არგუმენტების გადაცემა"
+            },
+            {
+              "slug": "form-events",
+              "title": "ფორმის მოვლენები"
+            },
+            {
+              "slug": "prevent-default",
+              "title": "preventDefault"
+            },
+            {
+              "slug": "event-patterns",
+              "title": "მოვლენების ნიმუშები"
+            }
+          ]
+        },
+        {
+          "slug": "conditional-rendering",
+          "title": "პირობითი ჩვენება",
+          "chapters": [
+            {
+              "slug": "if-in-jsx",
+              "title": "პირობა კომპონენტში"
+            },
+            {
+              "slug": "and-and-ternary",
+              "title": "&& და ტერნარული"
+            },
+            {
+              "slug": "returning-null",
+              "title": "null-ის დაბრუნება"
+            },
+            {
+              "slug": "early-return",
+              "title": "ადრეული return"
+            },
+            {
+              "slug": "loading-and-error-ui",
+              "title": "ჩატვირთვის და შეცდომის ჩვენება"
+            }
+          ]
+        },
+        {
+          "slug": "lists-and-keys",
+          "title": "სიები და key",
+          "chapters": [
+            {
+              "slug": "rendering-lists",
+              "title": "სიის გამოტანა map-ით"
+            },
+            {
+              "slug": "keys",
+              "title": "key"
+            },
+            {
+              "slug": "filtering-lists",
+              "title": "სიის გაფილტვრა"
+            },
+            {
+              "slug": "sorting-lists",
+              "title": "სიის დალაგება"
+            },
+            {
+              "slug": "empty-lists",
+              "title": "ცარიელი სია"
+            }
+          ]
+        },
+        {
+          "slug": "react-forms",
+          "title": "ფორმები",
+          "chapters": [
+            {
+              "slug": "controlled-inputs",
+              "title": "მართული ველები"
+            },
+            {
+              "slug": "multiple-inputs",
+              "title": "რამდენიმე ველი"
+            },
+            {
+              "slug": "checkbox-and-select",
+              "title": "checkbox და select"
+            },
+            {
+              "slug": "form-validation",
+              "title": "ფორმის შემოწმება"
+            },
+            {
+              "slug": "submitting-forms",
+              "title": "ფორმის გაგზავნა"
+            }
+          ]
+        },
+        {
+          "slug": "styling-react",
+          "title": "სტილი",
+          "chapters": [
+            {
+              "slug": "class-name",
+              "title": "className"
+            },
+            {
+              "slug": "inline-styles",
+              "title": "ჩაშენებული სტილი"
+            },
+            {
+              "slug": "css-modules",
+              "title": "CSS Modules"
+            },
+            {
+              "slug": "conditional-classes",
+              "title": "პირობითი კლასები"
+            },
+            {
+              "slug": "ui-libraries",
+              "title": "UI ბიბლიოთეკები"
+            }
+          ]
+        },
+        {
+          "slug": "effects",
+          "title": "ეფექტები",
+          "chapters": [
+            {
+              "slug": "use-effect",
+              "title": "useEffect"
+            },
+            {
+              "slug": "dependency-array",
+              "title": "დამოკიდებულებების მასივი"
+            },
+            {
+              "slug": "cleanup",
+              "title": "გასუფთავება"
+            },
+            {
+              "slug": "fetching-in-effects",
+              "title": "მონაცემების ჩატვირთვა"
+            },
+            {
+              "slug": "effect-mistakes",
+              "title": "ხშირი შეცდომები ეფექტებში"
+            }
+          ]
+        },
+        {
+          "slug": "thinking-in-react",
+          "title": "React-ულად ფიქრი",
+          "chapters": [
+            {
+              "slug": "breaking-ui-into-components",
+              "title": "ინტერფეისის დაშლა კომპონენტებად"
+            },
+            {
+              "slug": "static-version",
+              "title": "სტატიკური ვერსია"
+            },
+            {
+              "slug": "minimal-state",
+              "title": "მინიმალური state"
+            },
+            {
+              "slug": "where-state-lives",
+              "title": "სად ცხოვრობს state"
+            },
+            {
+              "slug": "inverse-data-flow",
+              "title": "მონაცემების უკუდინება"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "მაღაზიის კალათა",
+        "description": "ონლაინ მაღაზია კატალოგით, კალათით, როუტერით და API-დან ჩატვირთული მონაცემებით."
+      },
+      "modules": [
+        {
+          "slug": "hooks-in-depth",
+          "title": "hook-ები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "use-ref",
+              "title": "useRef"
+            },
+            {
+              "slug": "use-memo",
+              "title": "useMemo"
+            },
+            {
+              "slug": "use-callback",
+              "title": "useCallback"
+            },
+            {
+              "slug": "use-reducer",
+              "title": "useReducer"
+            },
+            {
+              "slug": "rules-of-hooks",
+              "title": "hook-ების წესები"
+            }
+          ]
+        },
+        {
+          "slug": "custom-hooks",
+          "title": "საკუთარი hook-ები",
+          "chapters": [
+            {
+              "slug": "writing-a-hook",
+              "title": "საკუთარი hook-ის დაწერა"
+            },
+            {
+              "slug": "use-fetch",
+              "title": "useFetch"
+            },
+            {
+              "slug": "use-local-storage",
+              "title": "useLocalStorage"
+            },
+            {
+              "slug": "composing-hooks",
+              "title": "hook-ების კომპოზიცია"
+            },
+            {
+              "slug": "testing-hooks",
+              "title": "hook-ის ტესტირება"
+            }
+          ]
+        },
+        {
+          "slug": "context",
+          "title": "Context",
+          "chapters": [
+            {
+              "slug": "context-api",
+              "title": "Context API"
+            },
+            {
+              "slug": "providers",
+              "title": "Provider"
+            },
+            {
+              "slug": "use-context",
+              "title": "useContext"
+            },
+            {
+              "slug": "optimizing-context",
+              "title": "context-ის ოპტიმიზაცია"
+            },
+            {
+              "slug": "when-not-to-use-context",
+              "title": "როდის არ გვჭირდება context"
+            }
+          ]
+        },
+        {
+          "slug": "react-routing",
+          "title": "მარშრუტები",
+          "chapters": [
+            {
+              "slug": "react-router",
+              "title": "React Router"
+            },
+            {
+              "slug": "defining-routes",
+              "title": "მარშრუტების აღწერა"
+            },
+            {
+              "slug": "route-params",
+              "title": "მარშრუტის პარამეტრები"
+            },
+            {
+              "slug": "nested-routes",
+              "title": "ჩადგმული მარშრუტები"
+            },
+            {
+              "slug": "protected-routes",
+              "title": "დაცული მარშრუტები"
+            }
+          ]
+        },
+        {
+          "slug": "data-fetching",
+          "title": "მონაცემების ჩატვირთვა",
+          "chapters": [
+            {
+              "slug": "fetch-in-components",
+              "title": "fetch კომპონენტში"
+            },
+            {
+              "slug": "loading-and-error-states",
+              "title": "ჩატვირთვა და შეცდომა"
+            },
+            {
+              "slug": "tanstack-query",
+              "title": "TanStack Query"
+            },
+            {
+              "slug": "client-caching",
+              "title": "ქეშირება კლიენტზე"
+            },
+            {
+              "slug": "mutations",
+              "title": "მუტაციები"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-forms",
+          "title": "ფორმები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "react-hook-form",
+              "title": "React Hook Form"
+            },
+            {
+              "slug": "schema-validation",
+              "title": "სქემით შემოწმება"
+            },
+            {
+              "slug": "dynamic-fields",
+              "title": "დინამიკური ველები"
+            },
+            {
+              "slug": "file-inputs",
+              "title": "ფაილის ატვირთვა"
+            },
+            {
+              "slug": "form-ux",
+              "title": "ფორმის მოხერხებულობა"
+            }
+          ]
+        },
+        {
+          "slug": "component-patterns",
+          "title": "კომპონენტების ნიმუშები",
+          "chapters": [
+            {
+              "slug": "composition",
+              "title": "კომპოზიცია"
+            },
+            {
+              "slug": "render-props",
+              "title": "render props"
+            },
+            {
+              "slug": "compound-components",
+              "title": "შედგენილი კომპონენტები"
+            },
+            {
+              "slug": "controlled-and-uncontrolled",
+              "title": "მართული და უმართავი"
+            },
+            {
+              "slug": "higher-order-components",
+              "title": "მაღალი რიგის კომპონენტები"
+            }
+          ]
+        },
+        {
+          "slug": "performance-basics",
+          "title": "წარმადობის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "understanding-renders",
+              "title": "რენდერის გაგება"
+            },
+            {
+              "slug": "react-memo",
+              "title": "React.memo"
+            },
+            {
+              "slug": "keys-and-renders",
+              "title": "key და რენდერი"
+            },
+            {
+              "slug": "lazy-and-suspense",
+              "title": "lazy და Suspense"
+            },
+            {
+              "slug": "react-profiler",
+              "title": "Profiler"
+            }
+          ]
+        },
+        {
+          "slug": "react-error-handling",
+          "title": "შეცდომების დამუშავება",
+          "chapters": [
+            {
+              "slug": "error-boundaries",
+              "title": "შეცდომის საზღვარი"
+            },
+            {
+              "slug": "fallback-ui",
+              "title": "სათადარიგო ინტერფეისი"
+            },
+            {
+              "slug": "logging-errors",
+              "title": "შეცდომების ჩაწერა"
+            },
+            {
+              "slug": "async-errors-react",
+              "title": "ასინქრონული შეცდომები"
+            },
+            {
+              "slug": "retrying",
+              "title": "ხელახალი ცდა"
+            }
+          ]
+        },
+        {
+          "slug": "testing-react",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "testing-library",
+              "title": "Testing Library"
+            },
+            {
+              "slug": "testing-components",
+              "title": "კომპონენტის ტესტი"
+            },
+            {
+              "slug": "simulating-events",
+              "title": "მოვლენების იმიტაცია"
+            },
+            {
+              "slug": "mocking-apis",
+              "title": "API-ს იმიტაცია"
+            },
+            {
+              "slug": "hook-tests",
+              "title": "hook-ის ტესტი"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "მონაცემების დაფა",
+        "description": "დაფა გრაფიკებით, ფილტრებით და გლობალური მდგომარეობით, ტესტებით დაფარული."
+      },
+      "modules": [
+        {
+          "slug": "state-management",
+          "title": "მდგომარეობის მართვა",
+          "chapters": [
+            {
+              "slug": "global-state",
+              "title": "გლობალური state"
+            },
+            {
+              "slug": "redux-toolkit",
+              "title": "Redux Toolkit"
+            },
+            {
+              "slug": "zustand",
+              "title": "Zustand"
+            },
+            {
+              "slug": "server-and-client-state",
+              "title": "სერვერის და კლიენტის state"
+            },
+            {
+              "slug": "state-architecture",
+              "title": "state-ის არქიტექტურა"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-patterns",
+          "title": "რთული ნიმუშები",
+          "chapters": [
+            {
+              "slug": "headless-components",
+              "title": "headless კომპონენტები"
+            },
+            {
+              "slug": "polymorphic-components",
+              "title": "პოლიმორფული კომპონენტები"
+            },
+            {
+              "slug": "slot-pattern",
+              "title": "slot ნიმუში"
+            },
+            {
+              "slug": "portals",
+              "title": "portal"
+            },
+            {
+              "slug": "forward-ref",
+              "title": "forwardRef"
+            }
+          ]
+        },
+        {
+          "slug": "rendering-in-depth",
+          "title": "რენდერი სიღრმეში",
+          "chapters": [
+            {
+              "slug": "reconciliation",
+              "title": "reconciliation"
+            },
+            {
+              "slug": "fiber",
+              "title": "fiber"
+            },
+            {
+              "slug": "batching",
+              "title": "batching"
+            },
+            {
+              "slug": "concurrent-rendering",
+              "title": "კონკურენტული რენდერი"
+            },
+            {
+              "slug": "transitions",
+              "title": "transition"
+            }
+          ]
+        },
+        {
+          "slug": "suspense-and-streaming",
+          "title": "Suspense და streaming",
+          "chapters": [
+            {
+              "slug": "suspense-for-data",
+              "title": "Suspense მონაცემებისთვის"
+            },
+            {
+              "slug": "use-hook",
+              "title": "use"
+            },
+            {
+              "slug": "streaming",
+              "title": "streaming"
+            },
+            {
+              "slug": "suspense-with-errors",
+              "title": "Suspense და შეცდომები"
+            },
+            {
+              "slug": "skeleton-ui",
+              "title": "ჩონჩხის ინტერფეისი"
+            }
+          ]
+        },
+        {
+          "slug": "server-components",
+          "title": "სერვერის კომპონენტები",
+          "chapters": [
+            {
+              "slug": "rsc-basics",
+              "title": "React Server Components"
+            },
+            {
+              "slug": "client-server-boundary",
+              "title": "კლიენტის და სერვერის საზღვარი"
+            },
+            {
+              "slug": "server-actions",
+              "title": "server actions"
+            },
+            {
+              "slug": "data-on-the-server",
+              "title": "მონაცემები სერვერზე"
+            },
+            {
+              "slug": "rsc-limits",
+              "title": "შეზღუდვები"
+            }
+          ]
+        },
+        {
+          "slug": "react-with-typescript",
+          "title": "React და TypeScript",
+          "chapters": [
+            {
+              "slug": "prop-types-ts",
+              "title": "props-ის ტიპები"
+            },
+            {
+              "slug": "generic-components",
+              "title": "generic კომპონენტები"
+            },
+            {
+              "slug": "hook-types",
+              "title": "hook-ების ტიპები"
+            },
+            {
+              "slug": "typed-context",
+              "title": "context ტიპებით"
+            },
+            {
+              "slug": "discriminated-props",
+              "title": "discriminated props"
+            }
+          ]
+        },
+        {
+          "slug": "react-animation",
+          "title": "ანიმაცია",
+          "chapters": [
+            {
+              "slug": "css-transitions-react",
+              "title": "CSS გადასვლები React-ში"
+            },
+            {
+              "slug": "motion-library",
+              "title": "Motion ბიბლიოთეკა"
+            },
+            {
+              "slug": "layout-animations",
+              "title": "განლაგების ანიმაცია"
+            },
+            {
+              "slug": "exit-animations",
+              "title": "გასვლის ანიმაცია"
+            },
+            {
+              "slug": "animation-cost",
+              "title": "ანიმაციის ფასი"
+            }
+          ]
+        },
+        {
+          "slug": "react-accessibility",
+          "title": "ხელმისაწვდომობა",
+          "chapters": [
+            {
+              "slug": "semantic-jsx",
+              "title": "სემანტიკა JSX-ში"
+            },
+            {
+              "slug": "managing-focus",
+              "title": "ფოკუსის მართვა"
+            },
+            {
+              "slug": "aria-in-components",
+              "title": "ARIA კომპონენტებში"
+            },
+            {
+              "slug": "accessible-form-components",
+              "title": "ხელმისაწვდომი ფორმები"
+            },
+            {
+              "slug": "a11y-testing",
+              "title": "ხელმისაწვდომობის ტესტირება"
+            }
+          ]
+        },
+        {
+          "slug": "react-i18n",
+          "title": "მრავალენოვნება",
+          "chapters": [
+            {
+              "slug": "i18n-libraries",
+              "title": "i18n ბიბლიოთეკები"
+            },
+            {
+              "slug": "translation-files",
+              "title": "თარგმანების ფაილები"
+            },
+            {
+              "slug": "plurals-and-formats",
+              "title": "მრავლობითი და ფორმატები"
+            },
+            {
+              "slug": "rtl-support",
+              "title": "RTL მხარდაჭერა"
+            },
+            {
+              "slug": "language-switching",
+              "title": "ენის გადართვა"
+            }
+          ]
+        },
+        {
+          "slug": "react-architecture",
+          "title": "არქიტექტურა",
+          "chapters": [
+            {
+              "slug": "folder-structure",
+              "title": "საქაღალდეების სტრუქტურა"
+            },
+            {
+              "slug": "feature-modules",
+              "title": "ფუნქციებად დაყოფა"
+            },
+            {
+              "slug": "design-system-basics",
+              "title": "დიზაინ-სისტემა"
+            },
+            {
+              "slug": "api-layer",
+              "title": "API შრე"
+            },
+            {
+              "slug": "code-splitting",
+              "title": "კოდის გაყოფა"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "ერთობლივი დაფა",
+        "description": "რეალურ დროში ერთად სამუშაო დაფა: WebSocket, ოპტიმისტური განახლება და ოფლაინ რეჟიმი."
+      },
+      "modules": [
+        {
+          "slug": "react-internals",
+          "title": "React შიგნიდან",
+          "chapters": [
+            {
+              "slug": "fiber-architecture",
+              "title": "fiber-ის არქიტექტურა"
+            },
+            {
+              "slug": "scheduler",
+              "title": "scheduler"
+            },
+            {
+              "slug": "hooks-internals",
+              "title": "hook-ები შიგნიდან"
+            },
+            {
+              "slug": "hydration",
+              "title": "hydration"
+            },
+            {
+              "slug": "react-compiler",
+              "title": "React Compiler"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-performance",
+          "title": "წარმადობა სიღრმეში",
+          "chapters": [
+            {
+              "slug": "profiling-apps",
+              "title": "აპის პროფაილინგი"
+            },
+            {
+              "slug": "list-virtualization",
+              "title": "სიების ვირტუალიზაცია"
+            },
+            {
+              "slug": "bundle-analysis",
+              "title": "bundle-ის ანალიზი"
+            },
+            {
+              "slug": "react-memory-leaks",
+              "title": "მეხსიერების გაჟონვა"
+            },
+            {
+              "slug": "web-vitals-react",
+              "title": "Web Vitals React-ში"
+            }
+          ]
+        },
+        {
+          "slug": "design-systems",
+          "title": "დიზაინ-სისტემები",
+          "chapters": [
+            {
+              "slug": "component-library",
+              "title": "კომპონენტების ბიბლიოთეკა"
+            },
+            {
+              "slug": "tokens-in-react",
+              "title": "ტოკენები"
+            },
+            {
+              "slug": "storybook",
+              "title": "Storybook"
+            },
+            {
+              "slug": "versioning-components",
+              "title": "ვერსიები"
+            },
+            {
+              "slug": "component-docs",
+              "title": "დოკუმენტაცია"
+            }
+          ]
+        },
+        {
+          "slug": "testing-strategy",
+          "title": "ტესტირების სტრატეგია",
+          "chapters": [
+            {
+              "slug": "testing-pyramid",
+              "title": "ტესტირების პირამიდა"
+            },
+            {
+              "slug": "integration-tests",
+              "title": "ინტეგრაციის ტესტები"
+            },
+            {
+              "slug": "e2e-playwright",
+              "title": "E2E ტესტები Playwright-ით"
+            },
+            {
+              "slug": "visual-tests",
+              "title": "ვიზუალური ტესტები"
+            },
+            {
+              "slug": "tests-in-ci",
+              "title": "ტესტები CI-ში"
+            }
+          ]
+        },
+        {
+          "slug": "micro-frontends",
+          "title": "მიკროფრონტენდები",
+          "chapters": [
+            {
+              "slug": "module-federation",
+              "title": "module federation"
+            },
+            {
+              "slug": "boundaries",
+              "title": "საზღვრები"
+            },
+            {
+              "slug": "shared-dependencies",
+              "title": "საერთო დამოკიდებულებები"
+            },
+            {
+              "slug": "team-autonomy",
+              "title": "გუნდების დამოუკიდებლობა"
+            },
+            {
+              "slug": "cost-and-benefit",
+              "title": "ხარჯი და სარგებელი"
+            }
+          ]
+        },
+        {
+          "slug": "react-native-intro",
+          "title": "React Native-ის გაცნობა",
+          "chapters": [
+            {
+              "slug": "what-is-react-native",
+              "title": "რა არის React Native"
+            },
+            {
+              "slug": "native-components",
+              "title": "კომპონენტები"
+            },
+            {
+              "slug": "native-navigation",
+              "title": "ნავიგაცია"
+            },
+            {
+              "slug": "native-modules",
+              "title": "native მოდულები"
+            },
+            {
+              "slug": "sharing-code",
+              "title": "კოდის გაზიარება"
+            }
+          ]
+        },
+        {
+          "slug": "react-security",
+          "title": "უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "xss-in-react",
+              "title": "XSS React-ში"
+            },
+            {
+              "slug": "dangerous-html",
+              "title": "dangerouslySetInnerHTML"
+            },
+            {
+              "slug": "auth-flows",
+              "title": "ავთენტიფიკაციის ნაკადები"
+            },
+            {
+              "slug": "storing-tokens",
+              "title": "ნიშნების შენახვა"
+            },
+            {
+              "slug": "third-party-risk",
+              "title": "დამოკიდებულებების რისკი"
+            }
+          ]
+        },
+        {
+          "slug": "realtime-apps",
+          "title": "რეალური დროის აპები",
+          "chapters": [
+            {
+              "slug": "websockets-in-react",
+              "title": "WebSocket React-ში"
+            },
+            {
+              "slug": "optimistic-ui",
+              "title": "ოპტიმისტური ინტერფეისი"
+            },
+            {
+              "slug": "collaboration",
+              "title": "ერთობლივი მუშაობა"
+            },
+            {
+              "slug": "offline-support",
+              "title": "ოფლაინ მხარდაჭერა"
+            },
+            {
+              "slug": "syncing-data",
+              "title": "სინქრონიზაცია"
+            }
+          ]
+        },
+        {
+          "slug": "react-migration",
+          "title": "მიგრაცია",
+          "chapters": [
+            {
+              "slug": "classes-to-hooks",
+              "title": "კლასებიდან hook-ებზე"
+            },
+            {
+              "slug": "upgrading-react",
+              "title": "ვერსიის განახლება"
+            },
+            {
+              "slug": "legacy-code",
+              "title": "ძველი კოდი"
+            },
+            {
+              "slug": "react-codemods",
+              "title": "codemod"
+            },
+            {
+              "slug": "incremental-adoption",
+              "title": "თანდათანობითი გადასვლა"
+            }
+          ]
+        },
+        {
+          "slug": "leading-frontend",
+          "title": "ფრონტენდის ლიდერობა",
+          "chapters": [
+            {
+              "slug": "technical-decisions",
+              "title": "ტექნიკური გადაწყვეტილებები"
+            },
+            {
+              "slug": "reviewing-frontend",
+              "title": "კოდის მიმოხილვა"
+            },
+            {
+              "slug": "frontend-standards",
+              "title": "სტანდარტები"
+            },
+            {
+              "slug": "mentoring",
+              "title": "მენტორობა"
+            },
+            {
+              "slug": "frontend-roadmap",
+              "title": "გეგმა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

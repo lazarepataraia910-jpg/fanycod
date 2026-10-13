@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "კონტეინერში შეფუთული აპი",
+        "description": "აპლიკაცია Docker-ში, რომელიც ყოველ ცვლილებაზე თავისით მოწმდება და ეშვება."
+      },
+      "modules": [
+        {
+          "slug": "devops-intro",
+          "title": "DevOps-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-devops",
+              "title": "რა არის DevOps"
+            },
+            {
+              "slug": "dev-and-ops",
+              "title": "დეველოპმენტი და ოპერაციები"
+            },
+            {
+              "slug": "ci-cd-idea",
+              "title": "CI/CD-ის იდეა"
+            },
+            {
+              "slug": "what-is-cloud",
+              "title": "რა არის ღრუბელი"
+            },
+            {
+              "slug": "tool-landscape",
+              "title": "ხელსაწყოების რუკა"
+            }
+          ]
+        },
+        {
+          "slug": "docker-basics",
+          "title": "Docker-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-a-container",
+              "title": "რა არის კონტეინერი"
+            },
+            {
+              "slug": "installing-docker",
+              "title": "Docker-ის დაყენება"
+            },
+            {
+              "slug": "images-and-containers",
+              "title": "image და container"
+            },
+            {
+              "slug": "docker-run",
+              "title": "docker run"
+            },
+            {
+              "slug": "basic-commands",
+              "title": "ძირითადი ბრძანებები"
+            }
+          ]
+        },
+        {
+          "slug": "dockerfile",
+          "title": "Dockerfile",
+          "chapters": [
+            {
+              "slug": "writing-a-dockerfile",
+              "title": "Dockerfile-ის დაწერა"
+            },
+            {
+              "slug": "from-run-copy",
+              "title": "FROM, RUN და COPY"
+            },
+            {
+              "slug": "cmd-and-entrypoint",
+              "title": "CMD და ENTRYPOINT"
+            },
+            {
+              "slug": "building-images",
+              "title": "image-ის აწყობა"
+            },
+            {
+              "slug": "layers-and-cache",
+              "title": "შრეები და ქეში"
+            }
+          ]
+        },
+        {
+          "slug": "data-and-networking",
+          "title": "მონაცემები და ქსელი",
+          "chapters": [
+            {
+              "slug": "volumes",
+              "title": "volume"
+            },
+            {
+              "slug": "bind-mounts",
+              "title": "bind mount"
+            },
+            {
+              "slug": "publishing-ports",
+              "title": "პორტები"
+            },
+            {
+              "slug": "docker-networks",
+              "title": "ქსელები"
+            },
+            {
+              "slug": "container-env",
+              "title": "გარემოს ცვლადები"
+            }
+          ]
+        },
+        {
+          "slug": "docker-compose",
+          "title": "Docker Compose",
+          "chapters": [
+            {
+              "slug": "compose-file",
+              "title": "compose ფაილი"
+            },
+            {
+              "slug": "multiple-services",
+              "title": "რამდენიმე სერვისი"
+            },
+            {
+              "slug": "service-dependencies",
+              "title": "დამოკიდებულებები"
+            },
+            {
+              "slug": "compose-volumes",
+              "title": "volume compose-ში"
+            },
+            {
+              "slug": "dev-environment",
+              "title": "სამუშაო გარემო"
+            }
+          ]
+        },
+        {
+          "slug": "ci-basics",
+          "title": "CI-ს საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-ci",
+              "title": "რა არის CI"
+            },
+            {
+              "slug": "pipelines",
+              "title": "კონვეიერი"
+            },
+            {
+              "slug": "first-workflow",
+              "title": "პირველი workflow"
+            },
+            {
+              "slug": "running-tests",
+              "title": "ტესტების გაშვება"
+            },
+            {
+              "slug": "build-artifacts",
+              "title": "აწყობის შედეგები"
+            }
+          ]
+        },
+        {
+          "slug": "cd-basics",
+          "title": "CD-ს საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-deployment",
+              "title": "რა არის გაშვება"
+            },
+            {
+              "slug": "environments",
+              "title": "გარემოები"
+            },
+            {
+              "slug": "automatic-deploys",
+              "title": "ავტომატური გაშვება"
+            },
+            {
+              "slug": "rollback",
+              "title": "უკან დაბრუნება"
+            },
+            {
+              "slug": "managing-secrets",
+              "title": "საიდუმლოები"
+            }
+          ]
+        },
+        {
+          "slug": "cloud-basics",
+          "title": "ღრუბლის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "service-models",
+              "title": "IaaS, PaaS და SaaS"
+            },
+            {
+              "slug": "virtual-machines",
+              "title": "ვირტუალური მანქანა"
+            },
+            {
+              "slug": "cloud-storage",
+              "title": "ღრუბლოვანი საცავი"
+            },
+            {
+              "slug": "managed-databases",
+              "title": "მართული ბაზები"
+            },
+            {
+              "slug": "pricing",
+              "title": "ფასების საფუძველი"
+            }
+          ]
+        },
+        {
+          "slug": "server-basics",
+          "title": "სერვერის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "linux-server",
+              "title": "Linux სერვერი"
+            },
+            {
+              "slug": "ssh-access",
+              "title": "SSH წვდომა"
+            },
+            {
+              "slug": "reverse-proxy",
+              "title": "reverse proxy"
+            },
+            {
+              "slug": "domains-and-dns",
+              "title": "დომენი და DNS"
+            },
+            {
+              "slug": "https",
+              "title": "HTTPS"
+            }
+          ]
+        },
+        {
+          "slug": "monitoring-basics",
+          "title": "მონიტორინგის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "logs",
+              "title": "ლოგები"
+            },
+            {
+              "slug": "metrics",
+              "title": "მეტრიკები"
+            },
+            {
+              "slug": "uptime-checks",
+              "title": "ხელმისაწვდომობის შემოწმება"
+            },
+            {
+              "slug": "alerts",
+              "title": "შეტყობინებები"
+            },
+            {
+              "slug": "dashboards",
+              "title": "დაფები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "აპი Kubernetes-ზე",
+        "description": "აპლიკაცია კლასტერში: კონფიგურაცია, შემომავალი მოთხოვნები და მონიტორინგი."
+      },
+      "modules": [
+        {
+          "slug": "advanced-docker",
+          "title": "Docker სიღრმეში",
+          "chapters": [
+            {
+              "slug": "multi-stage-builds",
+              "title": "მრავალეტაპიანი აწყობა"
+            },
+            {
+              "slug": "smaller-images",
+              "title": "image-ის შემცირება"
+            },
+            {
+              "slug": "image-scanning",
+              "title": "უსაფრთხოების სკანირება"
+            },
+            {
+              "slug": "registries",
+              "title": "რეესტრები"
+            },
+            {
+              "slug": "healthchecks",
+              "title": "healthcheck"
+            }
+          ]
+        },
+        {
+          "slug": "kubernetes-basics",
+          "title": "Kubernetes-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-kubernetes",
+              "title": "რა არის Kubernetes"
+            },
+            {
+              "slug": "cluster-node-pod",
+              "title": "კლასტერი, კვანძი და pod"
+            },
+            {
+              "slug": "kubectl",
+              "title": "kubectl"
+            },
+            {
+              "slug": "deployments",
+              "title": "Deployment"
+            },
+            {
+              "slug": "services",
+              "title": "Service"
+            }
+          ]
+        },
+        {
+          "slug": "k8s-configuration",
+          "title": "კონფიგურაცია",
+          "chapters": [
+            {
+              "slug": "configmaps",
+              "title": "ConfigMap"
+            },
+            {
+              "slug": "k8s-secrets",
+              "title": "Secret"
+            },
+            {
+              "slug": "namespaces",
+              "title": "namespace"
+            },
+            {
+              "slug": "labels-and-selectors",
+              "title": "label და selector"
+            },
+            {
+              "slug": "requests-and-limits",
+              "title": "რესურსების მოთხოვნა და ლიმიტი"
+            }
+          ]
+        },
+        {
+          "slug": "k8s-networking",
+          "title": "ქსელი Kubernetes-ში",
+          "chapters": [
+            {
+              "slug": "service-types",
+              "title": "Service-ის ტიპები"
+            },
+            {
+              "slug": "ingress",
+              "title": "Ingress"
+            },
+            {
+              "slug": "cluster-dns",
+              "title": "DNS კლასტერში"
+            },
+            {
+              "slug": "network-policies",
+              "title": "ქსელის წესები"
+            },
+            {
+              "slug": "k8s-tls",
+              "title": "TLS"
+            }
+          ]
+        },
+        {
+          "slug": "k8s-storage",
+          "title": "შენახვა Kubernetes-ში",
+          "chapters": [
+            {
+              "slug": "k8s-volumes",
+              "title": "volume Kubernetes-ში"
+            },
+            {
+              "slug": "persistent-volumes",
+              "title": "PersistentVolume"
+            },
+            {
+              "slug": "statefulsets",
+              "title": "StatefulSet"
+            },
+            {
+              "slug": "k8s-backups",
+              "title": "სარეზერვო ასლები"
+            },
+            {
+              "slug": "csi",
+              "title": "CSI"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-ci",
+          "title": "CI სიღრმეში",
+          "chapters": [
+            {
+              "slug": "pipeline-design",
+              "title": "კონვეიერის დიზაინი"
+            },
+            {
+              "slug": "ci-caching",
+              "title": "ქეშირება"
+            },
+            {
+              "slug": "parallel-jobs",
+              "title": "პარალელური დავალებები"
+            },
+            {
+              "slug": "test-stages",
+              "title": "ტესტების ეტაპები"
+            },
+            {
+              "slug": "quality-gates",
+              "title": "ხარისხის ზღურბლები"
+            }
+          ]
+        },
+        {
+          "slug": "infrastructure-as-code",
+          "title": "ინფრასტრუქტურა კოდად",
+          "chapters": [
+            {
+              "slug": "what-is-iac",
+              "title": "რა არის ინფრასტრუქტურა კოდად"
+            },
+            {
+              "slug": "terraform-basics",
+              "title": "Terraform-ის საფუძველი"
+            },
+            {
+              "slug": "terraform-state",
+              "title": "state"
+            },
+            {
+              "slug": "terraform-modules",
+              "title": "მოდულები"
+            },
+            {
+              "slug": "plan-and-apply",
+              "title": "plan და apply"
+            }
+          ]
+        },
+        {
+          "slug": "configuration-management",
+          "title": "კონფიგურაციის მართვა",
+          "chapters": [
+            {
+              "slug": "ansible",
+              "title": "Ansible"
+            },
+            {
+              "slug": "playbooks",
+              "title": "playbook"
+            },
+            {
+              "slug": "inventory",
+              "title": "inventory"
+            },
+            {
+              "slug": "roles",
+              "title": "role"
+            },
+            {
+              "slug": "idempotency",
+              "title": "იდემპოტენტობა"
+            }
+          ]
+        },
+        {
+          "slug": "observability",
+          "title": "დაკვირვებადობა",
+          "chapters": [
+            {
+              "slug": "prometheus",
+              "title": "Prometheus"
+            },
+            {
+              "slug": "grafana",
+              "title": "Grafana"
+            },
+            {
+              "slug": "log-aggregation",
+              "title": "ლოგების შეგროვება"
+            },
+            {
+              "slug": "tracing",
+              "title": "tracing"
+            },
+            {
+              "slug": "alert-rules",
+              "title": "შეტყობინების წესები"
+            }
+          ]
+        },
+        {
+          "slug": "deployment-strategies",
+          "title": "გაშვების სტრატეგიები",
+          "chapters": [
+            {
+              "slug": "rolling-updates",
+              "title": "rolling განახლება"
+            },
+            {
+              "slug": "blue-green",
+              "title": "blue-green"
+            },
+            {
+              "slug": "canary",
+              "title": "canary"
+            },
+            {
+              "slug": "feature-flags",
+              "title": "feature flag"
+            },
+            {
+              "slug": "migrations-during-deploy",
+              "title": "ბაზის მიგრაცია გაშვებისას"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "GitOps პლატფორმა",
+        "description": "რამდენიმე გარემო, რომელიც რეპოზიტორიიდან იმართება: Helm, Argo CD და უსაფრთხოების წესები."
+      },
+      "modules": [
+        {
+          "slug": "helm-and-gitops",
+          "title": "Helm და GitOps",
+          "chapters": [
+            {
+              "slug": "helm-charts",
+              "title": "Helm chart"
+            },
+            {
+              "slug": "templating",
+              "title": "შაბლონები"
+            },
+            {
+              "slug": "kustomize",
+              "title": "Kustomize"
+            },
+            {
+              "slug": "argo-cd",
+              "title": "Argo CD"
+            },
+            {
+              "slug": "gitops-workflow",
+              "title": "GitOps-ის ნაკადი"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-kubernetes",
+          "title": "Kubernetes სიღრმეში",
+          "chapters": [
+            {
+              "slug": "autoscaling",
+              "title": "ავტომასშტაბირება"
+            },
+            {
+              "slug": "rbac",
+              "title": "RBAC"
+            },
+            {
+              "slug": "operators",
+              "title": "ოპერატორები"
+            },
+            {
+              "slug": "jobs-and-cronjobs",
+              "title": "Job და CronJob"
+            },
+            {
+              "slug": "scheduling",
+              "title": "pod-ების განაწილება"
+            }
+          ]
+        },
+        {
+          "slug": "cloud-architecture",
+          "title": "ღრუბლის არქიტექტურა",
+          "chapters": [
+            {
+              "slug": "vpc-networking",
+              "title": "VPC და ქსელი"
+            },
+            {
+              "slug": "cloud-load-balancers",
+              "title": "დატვირთვის გამანაწილებლები"
+            },
+            {
+              "slug": "managed-kubernetes",
+              "title": "მართული Kubernetes"
+            },
+            {
+              "slug": "serverless",
+              "title": "serverless"
+            },
+            {
+              "slug": "multi-region",
+              "title": "რამდენიმე რეგიონი"
+            }
+          ]
+        },
+        {
+          "slug": "devsecops",
+          "title": "DevSecOps",
+          "chapters": [
+            {
+              "slug": "security-in-pipeline",
+              "title": "უსაფრთხოება კონვეიერში"
+            },
+            {
+              "slug": "image-security",
+              "title": "image-ის უსაფრთხოება"
+            },
+            {
+              "slug": "vault",
+              "title": "საიდუმლოების მართვა Vault-ით"
+            },
+            {
+              "slug": "sbom-and-signing",
+              "title": "SBOM და ხელმოწერა"
+            },
+            {
+              "slug": "policy-as-code",
+              "title": "წესები კოდად"
+            }
+          ]
+        },
+        {
+          "slug": "sre",
+          "title": "SRE",
+          "chapters": [
+            {
+              "slug": "sli-and-slo",
+              "title": "SLI და SLO"
+            },
+            {
+              "slug": "error-budgets",
+              "title": "შეცდომების ბიუჯეტი"
+            },
+            {
+              "slug": "incident-management",
+              "title": "ინციდენტების მართვა"
+            },
+            {
+              "slug": "postmortems",
+              "title": "ინციდენტის ანალიზი"
+            },
+            {
+              "slug": "on-call",
+              "title": "მორიგეობა"
+            }
+          ]
+        },
+        {
+          "slug": "capacity-and-cost",
+          "title": "სიმძლავრე და ხარჯი",
+          "chapters": [
+            {
+              "slug": "load-testing",
+              "title": "დატვირთვის ტესტირება"
+            },
+            {
+              "slug": "capacity-planning",
+              "title": "სიმძლავრის დაგეგმვა"
+            },
+            {
+              "slug": "scaling-strategy",
+              "title": "მასშტაბირების სტრატეგია"
+            },
+            {
+              "slug": "finops",
+              "title": "ხარჯის ოპტიმიზაცია"
+            },
+            {
+              "slug": "cdn-and-caching",
+              "title": "CDN და ქეშირება"
+            }
+          ]
+        },
+        {
+          "slug": "database-operations",
+          "title": "ბაზების ოპერაციები",
+          "chapters": [
+            {
+              "slug": "managed-or-self-hosted",
+              "title": "მართული თუ საკუთარი"
+            },
+            {
+              "slug": "db-backups",
+              "title": "სარეზერვო ასლი და აღდგენა"
+            },
+            {
+              "slug": "db-replication",
+              "title": "რეპლიკაცია"
+            },
+            {
+              "slug": "migrations-at-scale",
+              "title": "მიგრაციები მასშტაბზე"
+            },
+            {
+              "slug": "connection-management",
+              "title": "კავშირების მართვა"
+            }
+          ]
+        },
+        {
+          "slug": "platform-engineering",
+          "title": "პლატფორმის ინჟინერია",
+          "chapters": [
+            {
+              "slug": "developer-platform",
+              "title": "შიდა პლატფორმა დეველოპერებისთვის"
+            },
+            {
+              "slug": "golden-paths",
+              "title": "მზა გზები"
+            },
+            {
+              "slug": "self-service",
+              "title": "თვითმომსახურება"
+            },
+            {
+              "slug": "service-templates",
+              "title": "სერვისის შაბლონები"
+            },
+            {
+              "slug": "developer-experience",
+              "title": "დეველოპერის გამოცდილება"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-pipelines",
+          "title": "კონვეიერები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "monorepo-ci",
+              "title": "CI monorepo-ში"
+            },
+            {
+              "slug": "build-systems",
+              "title": "აწყობის სისტემები"
+            },
+            {
+              "slug": "artifact-management",
+              "title": "არტეფაქტების მართვა"
+            },
+            {
+              "slug": "release-management",
+              "title": "გამოშვების მართვა"
+            },
+            {
+              "slug": "compliance-pipelines",
+              "title": "შესაბამისობის კონვეიერი"
+            }
+          ]
+        },
+        {
+          "slug": "service-networking",
+          "title": "სერვისების ქსელი",
+          "chapters": [
+            {
+              "slug": "service-mesh",
+              "title": "service mesh"
+            },
+            {
+              "slug": "mtls",
+              "title": "mTLS"
+            },
+            {
+              "slug": "api-gateway",
+              "title": "API gateway"
+            },
+            {
+              "slug": "dns-at-scale",
+              "title": "DNS მასშტაბზე"
+            },
+            {
+              "slug": "edge",
+              "title": "edge"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "თვითაღდგენადი პლატფორმა",
+        "description": "მრავალრეგიონიანი სისტემა, რომელიც მტყუნებას უძლებს და თვითონ აღდგება."
+      },
+      "modules": [
+        {
+          "slug": "kubernetes-internals",
+          "title": "Kubernetes შიგნიდან",
+          "chapters": [
+            {
+              "slug": "control-plane",
+              "title": "control plane"
+            },
+            {
+              "slug": "etcd",
+              "title": "etcd"
+            },
+            {
+              "slug": "scheduler-internals",
+              "title": "დამგეგმავი შიგნიდან"
+            },
+            {
+              "slug": "cri-cni-csi",
+              "title": "CRI, CNI და CSI"
+            },
+            {
+              "slug": "api-machinery",
+              "title": "API-ს მექანიზმი"
+            }
+          ]
+        },
+        {
+          "slug": "large-scale",
+          "title": "დიდი მასშტაბი",
+          "chapters": [
+            {
+              "slug": "multi-cluster",
+              "title": "რამდენიმე კლასტერი"
+            },
+            {
+              "slug": "federation",
+              "title": "ფედერაცია"
+            },
+            {
+              "slug": "global-traffic",
+              "title": "გლობალური ტრაფიკის მართვა"
+            },
+            {
+              "slug": "disaster-recovery",
+              "title": "ავარიული აღდგენა"
+            },
+            {
+              "slug": "chaos-engineering",
+              "title": "ქაოსის ინჟინერია"
+            }
+          ]
+        },
+        {
+          "slug": "reliability-engineering",
+          "title": "საიმედოობის ინჟინერია",
+          "chapters": [
+            {
+              "slug": "resilience-patterns",
+              "title": "მდგრადობის ნიმუშები"
+            },
+            {
+              "slug": "graceful-degradation",
+              "title": "რბილი დაქვეითება"
+            },
+            {
+              "slug": "capacity-models",
+              "title": "სიმძლავრის მოდელები"
+            },
+            {
+              "slug": "dependency-management",
+              "title": "დამოკიდებულებების მართვა"
+            },
+            {
+              "slug": "game-days",
+              "title": "სავარჯიშო ინციდენტები"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-observability",
+          "title": "დაკვირვებადობა სიღრმეში",
+          "chapters": [
+            {
+              "slug": "opentelemetry",
+              "title": "OpenTelemetry მასშტაბზე"
+            },
+            {
+              "slug": "high-cardinality",
+              "title": "მაღალი კარდინალობის მეტრიკები"
+            },
+            {
+              "slug": "continuous-profiling",
+              "title": "უწყვეტი პროფაილინგი"
+            },
+            {
+              "slug": "ebpf-observability",
+              "title": "დაკვირვება eBPF-ით"
+            },
+            {
+              "slug": "aiops",
+              "title": "AIOps"
+            }
+          ]
+        },
+        {
+          "slug": "infrastructure-security",
+          "title": "ინფრასტრუქტურის უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "zero-trust",
+              "title": "zero trust"
+            },
+            {
+              "slug": "runtime-security",
+              "title": "გაშვების დროის უსაფრთხოება"
+            },
+            {
+              "slug": "compliance-automation",
+              "title": "შესაბამისობის ავტომატიზაცია"
+            },
+            {
+              "slug": "forensics",
+              "title": "ინციდენტის გამოძიება"
+            },
+            {
+              "slug": "threat-modeling",
+              "title": "საფრთხეების მოდელირება"
+            }
+          ]
+        },
+        {
+          "slug": "cost-governance",
+          "title": "ხარჯის მართვა",
+          "chapters": [
+            {
+              "slug": "finops-practice",
+              "title": "FinOps პრაქტიკაში"
+            },
+            {
+              "slug": "chargeback",
+              "title": "ხარჯის განაწილება გუნდებზე"
+            },
+            {
+              "slug": "rightsizing",
+              "title": "ზომის მორგება"
+            },
+            {
+              "slug": "spot-instances",
+              "title": "spot ინსტანსები"
+            },
+            {
+              "slug": "sustainability",
+              "title": "მდგრადი განვითარება"
+            }
+          ]
+        },
+        {
+          "slug": "data-platform-operations",
+          "title": "მონაცემთა პლატფორმის ოპერაციები",
+          "chapters": [
+            {
+              "slug": "kafka-operations",
+              "title": "Kafka-ს მართვა"
+            },
+            {
+              "slug": "stateful-workloads",
+              "title": "მდგომარეობიანი სერვისები Kubernetes-ზე"
+            },
+            {
+              "slug": "pipeline-operations",
+              "title": "მონაცემთა კონვეიერების მართვა"
+            },
+            {
+              "slug": "mlops-intro",
+              "title": "MLOps-ის შესავალი"
+            },
+            {
+              "slug": "storage-at-scale",
+              "title": "შენახვა მასშტაბზე"
+            }
+          ]
+        },
+        {
+          "slug": "edge-and-hybrid",
+          "title": "edge და ჰიბრიდული ღრუბელი",
+          "chapters": [
+            {
+              "slug": "edge-computing",
+              "title": "edge გამოთვლები"
+            },
+            {
+              "slug": "hybrid-cloud",
+              "title": "ჰიბრიდული ღრუბელი"
+            },
+            {
+              "slug": "bare-metal",
+              "title": "ფიზიკური სერვერების მომზადება"
+            },
+            {
+              "slug": "iot-fleets",
+              "title": "IoT მოწყობილობების ფლოტი"
+            },
+            {
+              "slug": "wasm-workloads",
+              "title": "WebAssembly სერვერზე"
+            }
+          ]
+        },
+        {
+          "slug": "organization-and-culture",
+          "title": "ორგანიზაცია და კულტურა",
+          "chapters": [
+            {
+              "slug": "team-topologies",
+              "title": "გუნდების სტრუქტურა"
+            },
+            {
+              "slug": "transformation",
+              "title": "DevOps-ზე გადასვლა"
+            },
+            {
+              "slug": "dora-metrics",
+              "title": "DORA მეტრიკები"
+            },
+            {
+              "slug": "blameless-culture",
+              "title": "ბრალდების გარეშე კულტურა"
+            },
+            {
+              "slug": "communication",
+              "title": "კომუნიკაცია"
+            }
+          ]
+        },
+        {
+          "slug": "devops-career",
+          "title": "კარიერა",
+          "chapters": [
+            {
+              "slug": "sre-or-platform",
+              "title": "SRE თუ პლატფორმის ინჟინერი"
+            },
+            {
+              "slug": "devops-certifications",
+              "title": "სერტიფიკატები"
+            },
+            {
+              "slug": "architecture-reviews",
+              "title": "არქიტექტურის მიმოხილვა"
+            },
+            {
+              "slug": "mentoring",
+              "title": "მენტორობა"
+            },
+            {
+              "slug": "devops-trends",
+              "title": "ტენდენციები"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

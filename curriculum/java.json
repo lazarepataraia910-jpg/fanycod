@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "ბიბლიოთეკის აღრიცხვა",
+        "description": "კონსოლის პროგრამა წიგნების დასამატებლად, საძებნად და გასაცემად."
+      },
+      "modules": [
+        {
+          "slug": "java-intro",
+          "title": "Java-ს საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-java",
+              "title": "რა არის Java"
+            },
+            {
+              "slug": "installing-jdk",
+              "title": "JDK-ის დაყენება"
+            },
+            {
+              "slug": "first-program",
+              "title": "პირველი პროგრამა"
+            },
+            {
+              "slug": "compile-and-run",
+              "title": "კომპილაცია და გაშვება"
+            },
+            {
+              "slug": "main-method",
+              "title": "main მეთოდი"
+            }
+          ]
+        },
+        {
+          "slug": "variables-and-types",
+          "title": "ცვლადები და ტიპები",
+          "chapters": [
+            {
+              "slug": "variables",
+              "title": "ცვლადები"
+            },
+            {
+              "slug": "primitive-types",
+              "title": "პრიმიტიული ტიპები"
+            },
+            {
+              "slug": "string-type",
+              "title": "String"
+            },
+            {
+              "slug": "type-casting",
+              "title": "ტიპის გარდაქმნა"
+            },
+            {
+              "slug": "final-constants",
+              "title": "მუდმივები final-ით"
+            }
+          ]
+        },
+        {
+          "slug": "operators",
+          "title": "ოპერატორები",
+          "chapters": [
+            {
+              "slug": "arithmetic",
+              "title": "არითმეტიკა"
+            },
+            {
+              "slug": "comparison",
+              "title": "შედარება"
+            },
+            {
+              "slug": "logical",
+              "title": "ლოგიკური ოპერატორები"
+            },
+            {
+              "slug": "assignment-forms",
+              "title": "მინიჭების ფორმები"
+            },
+            {
+              "slug": "ternary",
+              "title": "ტერნარული ოპერატორი"
+            }
+          ]
+        },
+        {
+          "slug": "control-flow",
+          "title": "მართვის ნაკადი",
+          "chapters": [
+            {
+              "slug": "if-else",
+              "title": "if და else"
+            },
+            {
+              "slug": "switch",
+              "title": "switch"
+            },
+            {
+              "slug": "while-loop",
+              "title": "while"
+            },
+            {
+              "slug": "for-loop",
+              "title": "for"
+            },
+            {
+              "slug": "break-and-continue",
+              "title": "break და continue"
+            }
+          ]
+        },
+        {
+          "slug": "methods",
+          "title": "მეთოდები",
+          "chapters": [
+            {
+              "slug": "declaring-methods",
+              "title": "მეთოდის გამოცხადება"
+            },
+            {
+              "slug": "parameters",
+              "title": "პარამეტრები"
+            },
+            {
+              "slug": "return-values",
+              "title": "დაბრუნებული მნიშვნელობა"
+            },
+            {
+              "slug": "overloading",
+              "title": "გადატვირთვა"
+            },
+            {
+              "slug": "variable-scope",
+              "title": "ხილვადობა"
+            }
+          ]
+        },
+        {
+          "slug": "arrays",
+          "title": "მასივები",
+          "chapters": [
+            {
+              "slug": "array-basics",
+              "title": "მასივი"
+            },
+            {
+              "slug": "iterating-arrays",
+              "title": "მასივის გავლა"
+            },
+            {
+              "slug": "multidimensional-arrays",
+              "title": "მრავალგანზომილებიანი მასივი"
+            },
+            {
+              "slug": "arrays-class",
+              "title": "Arrays კლასი"
+            },
+            {
+              "slug": "for-each",
+              "title": "for-each"
+            }
+          ]
+        },
+        {
+          "slug": "strings",
+          "title": "სტრიქონები",
+          "chapters": [
+            {
+              "slug": "string-methods",
+              "title": "String-ის მეთოდები"
+            },
+            {
+              "slug": "equals",
+              "title": "შედარება equals-ით"
+            },
+            {
+              "slug": "stringbuilder",
+              "title": "StringBuilder"
+            },
+            {
+              "slug": "formatting",
+              "title": "ფორმატირება"
+            },
+            {
+              "slug": "text-blocks",
+              "title": "ტექსტის ბლოკი"
+            }
+          ]
+        },
+        {
+          "slug": "classes-basics",
+          "title": "კლასების საფუძვლები",
+          "chapters": [
+            {
+              "slug": "class-and-object",
+              "title": "კლასი და ობიექტი"
+            },
+            {
+              "slug": "fields",
+              "title": "ველები"
+            },
+            {
+              "slug": "constructors",
+              "title": "კონსტრუქტორი"
+            },
+            {
+              "slug": "this-keyword",
+              "title": "this"
+            },
+            {
+              "slug": "instance-methods",
+              "title": "ობიექტის მეთოდები"
+            }
+          ]
+        },
+        {
+          "slug": "input-and-output",
+          "title": "შეტანა და გამოტანა",
+          "chapters": [
+            {
+              "slug": "scanner",
+              "title": "Scanner"
+            },
+            {
+              "slug": "printing",
+              "title": "გამოტანა System.out-ით"
+            },
+            {
+              "slug": "reading-files",
+              "title": "ფაილის წაკითხვა"
+            },
+            {
+              "slug": "writing-files",
+              "title": "ფაილის ჩაწერა"
+            },
+            {
+              "slug": "try-with-resources",
+              "title": "try-with-resources"
+            }
+          ]
+        },
+        {
+          "slug": "errors",
+          "title": "შეცდომები",
+          "chapters": [
+            {
+              "slug": "error-kinds",
+              "title": "შეცდომის ტიპები"
+            },
+            {
+              "slug": "try-catch",
+              "title": "try და catch"
+            },
+            {
+              "slug": "finally",
+              "title": "finally"
+            },
+            {
+              "slug": "throw",
+              "title": "throw"
+            },
+            {
+              "slug": "debugging-in-ide",
+              "title": "გამართვა IDE-ში"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "ბანკის ანგარიშები",
+        "description": "სისტემა ანგარიშებით, გადარიცხვებით, კოლექციებით და ტესტებით."
+      },
+      "modules": [
+        {
+          "slug": "oop",
+          "title": "ობიექტზე ორიენტირება",
+          "chapters": [
+            {
+              "slug": "encapsulation",
+              "title": "ინკაფსულაცია"
+            },
+            {
+              "slug": "inheritance",
+              "title": "მემკვიდრეობა"
+            },
+            {
+              "slug": "polymorphism",
+              "title": "პოლიმორფიზმი"
+            },
+            {
+              "slug": "abstract-classes",
+              "title": "აბსტრაქტული კლასები"
+            },
+            {
+              "slug": "interfaces",
+              "title": "ინტერფეისები"
+            }
+          ]
+        },
+        {
+          "slug": "collections",
+          "title": "კოლექციები",
+          "chapters": [
+            {
+              "slug": "list",
+              "title": "List"
+            },
+            {
+              "slug": "set",
+              "title": "Set"
+            },
+            {
+              "slug": "map",
+              "title": "Map"
+            },
+            {
+              "slug": "queue-and-deque",
+              "title": "Queue და Deque"
+            },
+            {
+              "slug": "iterator",
+              "title": "Iterator"
+            }
+          ]
+        },
+        {
+          "slug": "generics",
+          "title": "გენერიკები",
+          "chapters": [
+            {
+              "slug": "generic-classes",
+              "title": "generic კლასი"
+            },
+            {
+              "slug": "generic-methods",
+              "title": "generic მეთოდი"
+            },
+            {
+              "slug": "bounded-types",
+              "title": "შეზღუდული ტიპები"
+            },
+            {
+              "slug": "wildcards",
+              "title": "wildcard"
+            },
+            {
+              "slug": "type-erasure",
+              "title": "ტიპის წაშლა"
+            }
+          ]
+        },
+        {
+          "slug": "exceptions",
+          "title": "გამონაკლისები",
+          "chapters": [
+            {
+              "slug": "checked-and-unchecked",
+              "title": "checked და unchecked"
+            },
+            {
+              "slug": "custom-exceptions",
+              "title": "საკუთარი გამონაკლისი"
+            },
+            {
+              "slug": "multi-catch",
+              "title": "multi-catch"
+            },
+            {
+              "slug": "exception-chaining",
+              "title": "გამონაკლისების ჯაჭვი"
+            },
+            {
+              "slug": "exception-practices",
+              "title": "კარგი პრაქტიკა"
+            }
+          ]
+        },
+        {
+          "slug": "functional-java",
+          "title": "ფუნქციური სტილი",
+          "chapters": [
+            {
+              "slug": "lambdas",
+              "title": "lambda"
+            },
+            {
+              "slug": "functional-interfaces",
+              "title": "ფუნქციური ინტერფეისები"
+            },
+            {
+              "slug": "method-references",
+              "title": "მეთოდის მითითება"
+            },
+            {
+              "slug": "optional",
+              "title": "Optional"
+            },
+            {
+              "slug": "stream-intro",
+              "title": "Stream API-ს შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "streams",
+          "title": "ნაკადები",
+          "chapters": [
+            {
+              "slug": "filter-and-map",
+              "title": "filter და map"
+            },
+            {
+              "slug": "collect",
+              "title": "collect"
+            },
+            {
+              "slug": "grouping",
+              "title": "დაჯგუფება"
+            },
+            {
+              "slug": "flatmap",
+              "title": "flatMap"
+            },
+            {
+              "slug": "parallel-streams",
+              "title": "პარალელური ნაკადები"
+            }
+          ]
+        },
+        {
+          "slug": "modern-java",
+          "title": "თანამედროვე Java",
+          "chapters": [
+            {
+              "slug": "records",
+              "title": "record"
+            },
+            {
+              "slug": "enums",
+              "title": "enum"
+            },
+            {
+              "slug": "sealed-classes",
+              "title": "sealed კლასები"
+            },
+            {
+              "slug": "var",
+              "title": "var"
+            },
+            {
+              "slug": "pattern-matching",
+              "title": "pattern matching"
+            }
+          ]
+        },
+        {
+          "slug": "dates-and-io",
+          "title": "თარიღები და I/O",
+          "chapters": [
+            {
+              "slug": "java-time",
+              "title": "java.time"
+            },
+            {
+              "slug": "nio-files",
+              "title": "ფაილები NIO-თი"
+            },
+            {
+              "slug": "serialization",
+              "title": "სერიალიზაცია"
+            },
+            {
+              "slug": "json-with-jackson",
+              "title": "JSON Jackson-ით"
+            },
+            {
+              "slug": "resources",
+              "title": "რესურსები"
+            }
+          ]
+        },
+        {
+          "slug": "build-tools",
+          "title": "აწყობის ხელსაწყოები",
+          "chapters": [
+            {
+              "slug": "maven",
+              "title": "Maven"
+            },
+            {
+              "slug": "gradle",
+              "title": "Gradle"
+            },
+            {
+              "slug": "dependencies",
+              "title": "დამოკიდებულებები"
+            },
+            {
+              "slug": "project-layout",
+              "title": "პროექტის სტრუქტურა"
+            },
+            {
+              "slug": "jar-files",
+              "title": "JAR ფაილი"
+            }
+          ]
+        },
+        {
+          "slug": "testing",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "junit",
+              "title": "JUnit"
+            },
+            {
+              "slug": "assertions",
+              "title": "assert"
+            },
+            {
+              "slug": "parameterized-tests",
+              "title": "პარამეტრიზებული ტესტები"
+            },
+            {
+              "slug": "mockito",
+              "title": "Mockito"
+            },
+            {
+              "slug": "test-coverage",
+              "title": "დაფარვა"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "REST სერვისი",
+        "description": "სერვისი Spring Boot-ზე მონაცემთა ბაზით, უსაფრთხოებით და ინტეგრაციის ტესტებით."
+      },
+      "modules": [
+        {
+          "slug": "concurrency",
+          "title": "კონკურენტულობა",
+          "chapters": [
+            {
+              "slug": "threads",
+              "title": "Thread"
+            },
+            {
+              "slug": "runnable",
+              "title": "Runnable"
+            },
+            {
+              "slug": "synchronized",
+              "title": "synchronized"
+            },
+            {
+              "slug": "executor-service",
+              "title": "ExecutorService"
+            },
+            {
+              "slug": "completable-future",
+              "title": "CompletableFuture"
+            }
+          ]
+        },
+        {
+          "slug": "jvm-basics",
+          "title": "JVM-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "jvm-architecture",
+              "title": "JVM-ის აგებულება"
+            },
+            {
+              "slug": "class-loading",
+              "title": "კლასების ჩატვირთვა"
+            },
+            {
+              "slug": "heap-and-stack",
+              "title": "heap და stack"
+            },
+            {
+              "slug": "garbage-collectors",
+              "title": "ნაგვის შემგროვებლები"
+            },
+            {
+              "slug": "jit",
+              "title": "JIT"
+            }
+          ]
+        },
+        {
+          "slug": "spring-core",
+          "title": "Spring-ის ბირთვი",
+          "chapters": [
+            {
+              "slug": "spring-boot",
+              "title": "Spring Boot"
+            },
+            {
+              "slug": "dependency-injection",
+              "title": "დამოკიდებულებების ჩანერგვა"
+            },
+            {
+              "slug": "beans",
+              "title": "bean"
+            },
+            {
+              "slug": "configuration",
+              "title": "კონფიგურაცია"
+            },
+            {
+              "slug": "profiles",
+              "title": "პროფილები"
+            }
+          ]
+        },
+        {
+          "slug": "spring-web",
+          "title": "Spring Web",
+          "chapters": [
+            {
+              "slug": "rest-controllers",
+              "title": "REST კონტროლერი"
+            },
+            {
+              "slug": "request-mapping",
+              "title": "მოთხოვნის მიბმა"
+            },
+            {
+              "slug": "bean-validation",
+              "title": "შემოწმება"
+            },
+            {
+              "slug": "exception-handling",
+              "title": "შეცდომების დამუშავება"
+            },
+            {
+              "slug": "openapi",
+              "title": "OpenAPI"
+            }
+          ]
+        },
+        {
+          "slug": "persistence",
+          "title": "მონაცემების შენახვა",
+          "chapters": [
+            {
+              "slug": "jdbc",
+              "title": "JDBC"
+            },
+            {
+              "slug": "jpa-and-hibernate",
+              "title": "JPA და Hibernate"
+            },
+            {
+              "slug": "repositories",
+              "title": "რეპოზიტორიები"
+            },
+            {
+              "slug": "transactions",
+              "title": "ტრანზაქციები"
+            },
+            {
+              "slug": "flyway",
+              "title": "მიგრაციები Flyway-ით"
+            }
+          ]
+        },
+        {
+          "slug": "spring-security",
+          "title": "უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "security-basics",
+              "title": "Spring Security"
+            },
+            {
+              "slug": "authentication",
+              "title": "ავთენტიფიკაცია"
+            },
+            {
+              "slug": "jwt",
+              "title": "JWT"
+            },
+            {
+              "slug": "authorization",
+              "title": "ავტორიზაცია"
+            },
+            {
+              "slug": "password-hashing",
+              "title": "პაროლის ჰეშირება"
+            }
+          ]
+        },
+        {
+          "slug": "design-patterns",
+          "title": "დიზაინის ნიმუშები",
+          "chapters": [
+            {
+              "slug": "singleton",
+              "title": "singleton"
+            },
+            {
+              "slug": "factory",
+              "title": "ქარხანა"
+            },
+            {
+              "slug": "builder",
+              "title": "builder"
+            },
+            {
+              "slug": "strategy",
+              "title": "სტრატეგია"
+            },
+            {
+              "slug": "observer",
+              "title": "დამკვირვებელი"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-testing",
+          "title": "ტესტირება სიღრმეში",
+          "chapters": [
+            {
+              "slug": "integration-tests",
+              "title": "ინტეგრაციის ტესტები"
+            },
+            {
+              "slug": "testcontainers",
+              "title": "Testcontainers"
+            },
+            {
+              "slug": "mockmvc",
+              "title": "MockMvc"
+            },
+            {
+              "slug": "test-slices",
+              "title": "test slice"
+            },
+            {
+              "slug": "contract-tests",
+              "title": "კონტრაქტის ტესტები"
+            }
+          ]
+        },
+        {
+          "slug": "networking",
+          "title": "ქსელი",
+          "chapters": [
+            {
+              "slug": "sockets",
+              "title": "socket"
+            },
+            {
+              "slug": "http-client",
+              "title": "HTTP კლიენტი"
+            },
+            {
+              "slug": "websocket",
+              "title": "WebSocket"
+            },
+            {
+              "slug": "grpc",
+              "title": "gRPC"
+            },
+            {
+              "slug": "serialization-formats",
+              "title": "სერიალიზაციის ფორმატები"
+            }
+          ]
+        },
+        {
+          "slug": "quality",
+          "title": "ხარისხი",
+          "chapters": [
+            {
+              "slug": "logging",
+              "title": "ლოგირება"
+            },
+            {
+              "slug": "static-analysis",
+              "title": "სტატიკური ანალიზი"
+            },
+            {
+              "slug": "code-style",
+              "title": "კოდის სტილი"
+            },
+            {
+              "slug": "javadoc",
+              "title": "Javadoc"
+            },
+            {
+              "slug": "ci",
+              "title": "CI"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "მიკროსერვისების სისტემა",
+        "description": "რამდენიმე სერვისი შეტყობინებებით, მდგრადობით და დაკვირვებადობით."
+      },
+      "modules": [
+        {
+          "slug": "jvm-internals",
+          "title": "JVM შიგნიდან",
+          "chapters": [
+            {
+              "slug": "bytecode",
+              "title": "ბაიტკოდი"
+            },
+            {
+              "slug": "gc-tuning",
+              "title": "GC-ის მომართვა"
+            },
+            {
+              "slug": "jit-in-depth",
+              "title": "JIT სიღრმეში"
+            },
+            {
+              "slug": "memory-model",
+              "title": "მეხსიერების მოდელი"
+            },
+            {
+              "slug": "flight-recorder",
+              "title": "პროფაილინგი JFR-ით"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-concurrency",
+          "title": "კონკურენტულობა სიღრმეში",
+          "chapters": [
+            {
+              "slug": "virtual-threads",
+              "title": "ვირტუალური ნაკადები"
+            },
+            {
+              "slug": "locks-and-atomics",
+              "title": "lock და atomic"
+            },
+            {
+              "slug": "concurrent-collections",
+              "title": "კონკურენტული კოლექციები"
+            },
+            {
+              "slug": "fork-join",
+              "title": "fork-join"
+            },
+            {
+              "slug": "reactive-streams",
+              "title": "რეაქტიული ნაკადები"
+            }
+          ]
+        },
+        {
+          "slug": "microservices",
+          "title": "მიკროსერვისები",
+          "chapters": [
+            {
+              "slug": "spring-cloud",
+              "title": "Spring Cloud"
+            },
+            {
+              "slug": "service-discovery",
+              "title": "სერვისის პოვნა"
+            },
+            {
+              "slug": "config-server",
+              "title": "კონფიგურაციის სერვერი"
+            },
+            {
+              "slug": "resilience",
+              "title": "მდგრადობა"
+            },
+            {
+              "slug": "distributed-tracing",
+              "title": "განაწილებული tracing"
+            }
+          ]
+        },
+        {
+          "slug": "messaging",
+          "title": "შეტყობინებები",
+          "chapters": [
+            {
+              "slug": "kafka",
+              "title": "Kafka"
+            },
+            {
+              "slug": "rabbitmq",
+              "title": "RabbitMQ"
+            },
+            {
+              "slug": "event-driven",
+              "title": "მოვლენებზე აგებული სისტემა"
+            },
+            {
+              "slug": "outbox",
+              "title": "outbox ნიმუში"
+            },
+            {
+              "slug": "delivery-guarantees",
+              "title": "მიწოდების გარანტიები"
+            }
+          ]
+        },
+        {
+          "slug": "performance",
+          "title": "წარმადობა",
+          "chapters": [
+            {
+              "slug": "jmh",
+              "title": "ბენჩმარკი JMH-ით"
+            },
+            {
+              "slug": "finding-leaks",
+              "title": "გაჟონვის პოვნა"
+            },
+            {
+              "slug": "thread-dumps",
+              "title": "thread dump"
+            },
+            {
+              "slug": "connection-pools",
+              "title": "კავშირების აუზი"
+            },
+            {
+              "slug": "caching",
+              "title": "ქეშირება"
+            }
+          ]
+        },
+        {
+          "slug": "architecture",
+          "title": "არქიტექტურა",
+          "chapters": [
+            {
+              "slug": "ddd",
+              "title": "DDD"
+            },
+            {
+              "slug": "hexagonal",
+              "title": "ექვსკუთხა არქიტექტურა"
+            },
+            {
+              "slug": "modules",
+              "title": "მოდულები JPMS-ით"
+            },
+            {
+              "slug": "cqrs",
+              "title": "CQRS"
+            },
+            {
+              "slug": "api-design",
+              "title": "API-ს დიზაინი"
+            }
+          ]
+        },
+        {
+          "slug": "cloud-native",
+          "title": "ღრუბლოვანი Java",
+          "chapters": [
+            {
+              "slug": "docker",
+              "title": "Docker"
+            },
+            {
+              "slug": "kubernetes",
+              "title": "Kubernetes"
+            },
+            {
+              "slug": "native-image",
+              "title": "native image"
+            },
+            {
+              "slug": "observability",
+              "title": "დაკვირვებადობა"
+            },
+            {
+              "slug": "config-and-secrets",
+              "title": "კონფიგურაცია და საიდუმლოები"
+            }
+          ]
+        },
+        {
+          "slug": "data-in-depth",
+          "title": "მონაცემები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "advanced-jpa",
+              "title": "JPA სიღრმეში"
+            },
+            {
+              "slug": "query-optimization",
+              "title": "მოთხოვნების ოპტიმიზაცია"
+            },
+            {
+              "slug": "nosql",
+              "title": "NoSQL"
+            },
+            {
+              "slug": "batch-processing",
+              "title": "პაკეტური დამუშავება"
+            },
+            {
+              "slug": "search",
+              "title": "ძებნა"
+            }
+          ]
+        },
+        {
+          "slug": "reflection-and-tools",
+          "title": "reflection და ხელსაწყოები",
+          "chapters": [
+            {
+              "slug": "reflection",
+              "title": "reflection"
+            },
+            {
+              "slug": "annotation-processing",
+              "title": "ანოტაციების დამუშავება"
+            },
+            {
+              "slug": "bytecode-manipulation",
+              "title": "ბაიტკოდის შეცვლა"
+            },
+            {
+              "slug": "java-agents",
+              "title": "აგენტები"
+            },
+            {
+              "slug": "code-generation",
+              "title": "კოდის გენერაცია"
+            }
+          ]
+        },
+        {
+          "slug": "java-evolution",
+          "title": "ენის განვითარება",
+          "chapters": [
+            {
+              "slug": "release-cadence",
+              "title": "გამოშვების რიტმი"
+            },
+            {
+              "slug": "jeps",
+              "title": "JEP"
+            },
+            {
+              "slug": "preview-features",
+              "title": "preview შესაძლებლობები"
+            },
+            {
+              "slug": "version-migration",
+              "title": "ვერსიებს შორის გადასვლა"
+            },
+            {
+              "slug": "ecosystem",
+              "title": "ეკოსისტემა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

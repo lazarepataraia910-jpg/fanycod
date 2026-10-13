@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "ხარჯების აღმრიცხველი",
+        "description": "კონსოლის პროგრამა, რომელიც ხარჯებს იწერს, აჯამებს და ფაილში ინახავს."
+      },
+      "modules": [
+        {
+          "slug": "python-intro",
+          "title": "Python-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-python",
+              "title": "რა არის Python"
+            },
+            {
+              "slug": "installing-python",
+              "title": "დაყენება"
+            },
+            {
+              "slug": "first-program",
+              "title": "პირველი პროგრამა"
+            },
+            {
+              "slug": "print-and-input",
+              "title": "print და input"
+            },
+            {
+              "slug": "comments",
+              "title": "კომენტარები"
+            }
+          ]
+        },
+        {
+          "slug": "variables-and-types",
+          "title": "ცვლადები და ტიპები",
+          "chapters": [
+            {
+              "slug": "variables",
+              "title": "ცვლადები"
+            },
+            {
+              "slug": "numbers",
+              "title": "რიცხვები"
+            },
+            {
+              "slug": "strings-intro",
+              "title": "სტრიქონები"
+            },
+            {
+              "slug": "booleans",
+              "title": "bool"
+            },
+            {
+              "slug": "type-conversion",
+              "title": "ტიპის გარდაქმნა"
+            }
+          ]
+        },
+        {
+          "slug": "python-strings",
+          "title": "სტრიქონები",
+          "chapters": [
+            {
+              "slug": "indexing-and-slicing",
+              "title": "ინდექსი და slice"
+            },
+            {
+              "slug": "string-methods",
+              "title": "სტრიქონის მეთოდები"
+            },
+            {
+              "slug": "f-strings",
+              "title": "f-string"
+            },
+            {
+              "slug": "searching-text",
+              "title": "ძებნა ტექსტში"
+            },
+            {
+              "slug": "multiline-strings",
+              "title": "მრავალხაზიანი სტრიქონი"
+            }
+          ]
+        },
+        {
+          "slug": "conditions",
+          "title": "პირობები",
+          "chapters": [
+            {
+              "slug": "if-elif-else",
+              "title": "if, elif და else"
+            },
+            {
+              "slug": "comparisons",
+              "title": "შედარება"
+            },
+            {
+              "slug": "and-or-not",
+              "title": "and, or და not"
+            },
+            {
+              "slug": "nested-conditions",
+              "title": "ჩადგმული პირობები"
+            },
+            {
+              "slug": "match-statement",
+              "title": "match"
+            }
+          ]
+        },
+        {
+          "slug": "loops",
+          "title": "ციკლები",
+          "chapters": [
+            {
+              "slug": "for-and-range",
+              "title": "for და range"
+            },
+            {
+              "slug": "while-loop",
+              "title": "while"
+            },
+            {
+              "slug": "break-and-continue",
+              "title": "break და continue"
+            },
+            {
+              "slug": "loop-else",
+              "title": "else ციკლში"
+            },
+            {
+              "slug": "nested-loops",
+              "title": "ჩადგმული ციკლები"
+            }
+          ]
+        },
+        {
+          "slug": "lists",
+          "title": "სიები",
+          "chapters": [
+            {
+              "slug": "creating-lists",
+              "title": "სიის შექმნა"
+            },
+            {
+              "slug": "list-indexing",
+              "title": "ინდექსი და slice სიაში"
+            },
+            {
+              "slug": "list-methods",
+              "title": "სიის მეთოდები"
+            },
+            {
+              "slug": "iterating-lists",
+              "title": "სიის გავლა"
+            },
+            {
+              "slug": "list-comprehensions-intro",
+              "title": "list comprehension"
+            }
+          ]
+        },
+        {
+          "slug": "collections",
+          "title": "კოლექციები",
+          "chapters": [
+            {
+              "slug": "tuples",
+              "title": "tuple"
+            },
+            {
+              "slug": "sets",
+              "title": "set"
+            },
+            {
+              "slug": "dictionaries",
+              "title": "dict"
+            },
+            {
+              "slug": "dict-methods",
+              "title": "dict-ის მეთოდები"
+            },
+            {
+              "slug": "nested-structures",
+              "title": "ჩადგმული სტრუქტურები"
+            }
+          ]
+        },
+        {
+          "slug": "functions",
+          "title": "ფუნქციები",
+          "chapters": [
+            {
+              "slug": "def",
+              "title": "def"
+            },
+            {
+              "slug": "parameters",
+              "title": "პარამეტრები"
+            },
+            {
+              "slug": "return",
+              "title": "return"
+            },
+            {
+              "slug": "default-and-keyword-args",
+              "title": "ნაგულისხმევი და სახელდებული არგუმენტები"
+            },
+            {
+              "slug": "scope",
+              "title": "ხილვადობა"
+            }
+          ]
+        },
+        {
+          "slug": "files",
+          "title": "ფაილები",
+          "chapters": [
+            {
+              "slug": "reading-files",
+              "title": "ფაილის წაკითხვა"
+            },
+            {
+              "slug": "writing-files",
+              "title": "ფაილის ჩაწერა"
+            },
+            {
+              "slug": "with-statement",
+              "title": "with"
+            },
+            {
+              "slug": "csv-files",
+              "title": "CSV"
+            },
+            {
+              "slug": "json-files",
+              "title": "JSON"
+            }
+          ]
+        },
+        {
+          "slug": "errors",
+          "title": "შეცდომები",
+          "chapters": [
+            {
+              "slug": "error-types",
+              "title": "შეცდომის ტიპები"
+            },
+            {
+              "slug": "try-except",
+              "title": "try და except"
+            },
+            {
+              "slug": "finally",
+              "title": "finally"
+            },
+            {
+              "slug": "raise",
+              "title": "raise"
+            },
+            {
+              "slug": "debugging",
+              "title": "გამართვა"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "ამინდის პროგრამა",
+        "description": "ბრძანებათა ხაზის პროგრამა, რომელიც API-დან იღებს ამინდს და ისტორიას SQLite-ში ინახავს."
+      },
+      "modules": [
+        {
+          "slug": "modules-and-packages",
+          "title": "მოდულები და პაკეტები",
+          "chapters": [
+            {
+              "slug": "import",
+              "title": "import"
+            },
+            {
+              "slug": "own-modules",
+              "title": "საკუთარი მოდული"
+            },
+            {
+              "slug": "packages",
+              "title": "პაკეტები"
+            },
+            {
+              "slug": "pip",
+              "title": "pip"
+            },
+            {
+              "slug": "virtual-environments",
+              "title": "ვირტუალური გარემო"
+            }
+          ]
+        },
+        {
+          "slug": "oop",
+          "title": "ობიექტზე ორიენტირება",
+          "chapters": [
+            {
+              "slug": "classes",
+              "title": "კლასი"
+            },
+            {
+              "slug": "init-method",
+              "title": "__init__"
+            },
+            {
+              "slug": "methods",
+              "title": "მეთოდები"
+            },
+            {
+              "slug": "inheritance",
+              "title": "მემკვიდრეობა"
+            },
+            {
+              "slug": "special-methods",
+              "title": "სპეციალური მეთოდები"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-functions",
+          "title": "ფუნქციები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "args-and-kwargs",
+              "title": "*args და **kwargs"
+            },
+            {
+              "slug": "lambda",
+              "title": "lambda"
+            },
+            {
+              "slug": "closures",
+              "title": "closure"
+            },
+            {
+              "slug": "decorators",
+              "title": "დეკორატორები"
+            },
+            {
+              "slug": "recursion",
+              "title": "რეკურსია"
+            }
+          ]
+        },
+        {
+          "slug": "iterators-and-generators",
+          "title": "იტერატორები და გენერატორები",
+          "chapters": [
+            {
+              "slug": "iterators",
+              "title": "iterator"
+            },
+            {
+              "slug": "generators",
+              "title": "generator"
+            },
+            {
+              "slug": "yield",
+              "title": "yield"
+            },
+            {
+              "slug": "generator-expressions",
+              "title": "გენერატორის გამოსახულება"
+            },
+            {
+              "slug": "itertools",
+              "title": "itertools"
+            }
+          ]
+        },
+        {
+          "slug": "comprehensions",
+          "title": "comprehension-ები",
+          "chapters": [
+            {
+              "slug": "list-dict-set-comprehensions",
+              "title": "list, dict და set comprehension"
+            },
+            {
+              "slug": "nested-comprehensions",
+              "title": "ჩადგმული comprehension"
+            },
+            {
+              "slug": "conditional-comprehensions",
+              "title": "პირობით"
+            },
+            {
+              "slug": "when-not-to-use",
+              "title": "როდის არ გამოვიყენოთ"
+            },
+            {
+              "slug": "map-and-filter",
+              "title": "map და filter"
+            }
+          ]
+        },
+        {
+          "slug": "standard-library",
+          "title": "სტანდარტული ბიბლიოთეკა",
+          "chapters": [
+            {
+              "slug": "datetime",
+              "title": "datetime"
+            },
+            {
+              "slug": "pathlib",
+              "title": "pathlib"
+            },
+            {
+              "slug": "collections-module",
+              "title": "collections"
+            },
+            {
+              "slug": "random",
+              "title": "random"
+            },
+            {
+              "slug": "re-module",
+              "title": "re"
+            }
+          ]
+        },
+        {
+          "slug": "type-hints",
+          "title": "ტიპის მინიშნებები",
+          "chapters": [
+            {
+              "slug": "type-hints-basics",
+              "title": "type hints"
+            },
+            {
+              "slug": "typing-module",
+              "title": "typing მოდული"
+            },
+            {
+              "slug": "optional-and-union",
+              "title": "Optional და Union"
+            },
+            {
+              "slug": "dataclasses",
+              "title": "dataclass"
+            },
+            {
+              "slug": "mypy",
+              "title": "mypy"
+            }
+          ]
+        },
+        {
+          "slug": "testing",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "pytest",
+              "title": "pytest"
+            },
+            {
+              "slug": "assertions",
+              "title": "assert"
+            },
+            {
+              "slug": "fixtures",
+              "title": "fixture"
+            },
+            {
+              "slug": "parametrize",
+              "title": "parametrize"
+            },
+            {
+              "slug": "mocking",
+              "title": "იმიტაცია"
+            }
+          ]
+        },
+        {
+          "slug": "working-with-data",
+          "title": "მუშაობა მონაცემებთან",
+          "chapters": [
+            {
+              "slug": "requests",
+              "title": "requests"
+            },
+            {
+              "slug": "calling-apis",
+              "title": "API-ს გამოძახება"
+            },
+            {
+              "slug": "processing-json",
+              "title": "JSON-ის დამუშავება"
+            },
+            {
+              "slug": "processing-csv",
+              "title": "CSV-ის დამუშავება"
+            },
+            {
+              "slug": "sqlite",
+              "title": "SQLite"
+            }
+          ]
+        },
+        {
+          "slug": "cli-tools",
+          "title": "ბრძანებათა ხაზის პროგრამები",
+          "chapters": [
+            {
+              "slug": "argparse",
+              "title": "argparse"
+            },
+            {
+              "slug": "validating-input",
+              "title": "შეტანის შემოწმება"
+            },
+            {
+              "slug": "logging",
+              "title": "logging"
+            },
+            {
+              "slug": "packaging-scripts",
+              "title": "სკრიპტის შეფუთვა"
+            },
+            {
+              "slug": "automation-scripts",
+              "title": "ავტომატიზაციის სკრიპტები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "REST API FastAPI-ით",
+        "description": "სერვისი მონაცემთა ბაზით, ასინქრონული მოთხოვნებით, ტესტებით და ტიპებით."
+      },
+      "modules": [
+        {
+          "slug": "advanced-oop",
+          "title": "ობიექტზე ორიენტირება სიღრმეში",
+          "chapters": [
+            {
+              "slug": "properties",
+              "title": "property"
+            },
+            {
+              "slug": "class-and-static-methods",
+              "title": "classmethod და staticmethod"
+            },
+            {
+              "slug": "abstract-classes",
+              "title": "აბსტრაქტული კლასები"
+            },
+            {
+              "slug": "protocols",
+              "title": "Protocol"
+            },
+            {
+              "slug": "metaclasses-intro",
+              "title": "მეტაკლასების შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "concurrency",
+          "title": "კონკურენტულობა",
+          "chapters": [
+            {
+              "slug": "threading",
+              "title": "threading"
+            },
+            {
+              "slug": "multiprocessing",
+              "title": "multiprocessing"
+            },
+            {
+              "slug": "gil",
+              "title": "GIL"
+            },
+            {
+              "slug": "asyncio",
+              "title": "asyncio"
+            },
+            {
+              "slug": "async-await",
+              "title": "async და await"
+            }
+          ]
+        },
+        {
+          "slug": "web-development",
+          "title": "ვებ-პროგრამირება",
+          "chapters": [
+            {
+              "slug": "flask",
+              "title": "Flask"
+            },
+            {
+              "slug": "fastapi",
+              "title": "FastAPI"
+            },
+            {
+              "slug": "web-routing",
+              "title": "მარშრუტები"
+            },
+            {
+              "slug": "web-templates",
+              "title": "შაბლონები"
+            },
+            {
+              "slug": "building-rest-api",
+              "title": "REST API-ს აგება"
+            }
+          ]
+        },
+        {
+          "slug": "databases",
+          "title": "მონაცემთა ბაზები",
+          "chapters": [
+            {
+              "slug": "sqlalchemy",
+              "title": "SQLAlchemy"
+            },
+            {
+              "slug": "orm-models",
+              "title": "მოდელები"
+            },
+            {
+              "slug": "orm-queries",
+              "title": "მოთხოვნები"
+            },
+            {
+              "slug": "alembic",
+              "title": "მიგრაციები Alembic-ით"
+            },
+            {
+              "slug": "db-transactions",
+              "title": "ტრანზაქციები"
+            }
+          ]
+        },
+        {
+          "slug": "data-analysis",
+          "title": "მონაცემების ანალიზი",
+          "chapters": [
+            {
+              "slug": "numpy",
+              "title": "NumPy"
+            },
+            {
+              "slug": "pandas",
+              "title": "pandas"
+            },
+            {
+              "slug": "cleaning-data",
+              "title": "მონაცემების გაწმენდა"
+            },
+            {
+              "slug": "grouping-data",
+              "title": "დაჯგუფება"
+            },
+            {
+              "slug": "matplotlib",
+              "title": "matplotlib"
+            }
+          ]
+        },
+        {
+          "slug": "packaging",
+          "title": "შეფუთვა",
+          "chapters": [
+            {
+              "slug": "pyproject",
+              "title": "pyproject.toml"
+            },
+            {
+              "slug": "building-packages",
+              "title": "პაკეტის აწყობა"
+            },
+            {
+              "slug": "publishing",
+              "title": "გამოქვეყნება"
+            },
+            {
+              "slug": "versioning",
+              "title": "ვერსიები"
+            },
+            {
+              "slug": "dependency-management",
+              "title": "დამოკიდებულებების მართვა"
+            }
+          ]
+        },
+        {
+          "slug": "performance",
+          "title": "წარმადობა",
+          "chapters": [
+            {
+              "slug": "profiling",
+              "title": "პროფაილინგი"
+            },
+            {
+              "slug": "algorithmic-optimization",
+              "title": "ალგორითმის გაუმჯობესება"
+            },
+            {
+              "slug": "lru-cache",
+              "title": "ქეშირება lru_cache-ით"
+            },
+            {
+              "slug": "vectorization",
+              "title": "ვექტორიზაცია"
+            },
+            {
+              "slug": "cython-intro",
+              "title": "Cython-ის შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "pythonic-patterns",
+          "title": "Python-ის ნიმუშები",
+          "chapters": [
+            {
+              "slug": "idiomatic-python",
+              "title": "იდიომატური Python"
+            },
+            {
+              "slug": "context-managers",
+              "title": "context manager"
+            },
+            {
+              "slug": "descriptors",
+              "title": "descriptor"
+            },
+            {
+              "slug": "dependency-injection",
+              "title": "დამოკიდებულებების ჩანერგვა"
+            },
+            {
+              "slug": "functools",
+              "title": "functools"
+            }
+          ]
+        },
+        {
+          "slug": "automation",
+          "title": "ავტომატიზაცია",
+          "chapters": [
+            {
+              "slug": "web-scraping",
+              "title": "ვებ-სკრეპინგი"
+            },
+            {
+              "slug": "browser-automation",
+              "title": "ბრაუზერის ავტომატიზაცია"
+            },
+            {
+              "slug": "file-automation",
+              "title": "ფაილების ავტომატიზაცია"
+            },
+            {
+              "slug": "scheduling-tasks",
+              "title": "დავალებების დაგეგმვა"
+            },
+            {
+              "slug": "sending-emails",
+              "title": "ელფოსტის გაგზავნა"
+            }
+          ]
+        },
+        {
+          "slug": "code-quality",
+          "title": "კოდის ხარისხი",
+          "chapters": [
+            {
+              "slug": "linters",
+              "title": "linter"
+            },
+            {
+              "slug": "formatters",
+              "title": "ფორმატერი"
+            },
+            {
+              "slug": "type-checking-in-ci",
+              "title": "ტიპების შემოწმება CI-ში"
+            },
+            {
+              "slug": "docstrings-and-docs",
+              "title": "დოკუმენტაცია"
+            },
+            {
+              "slug": "pre-commit",
+              "title": "pre-commit"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "მონაცემების კონვეიერი",
+        "description": "განაწილებული სისტემა, რომელიც დიდ მონაცემებს იღებს, ამუშავებს და ინახავს."
+      },
+      "modules": [
+        {
+          "slug": "python-internals",
+          "title": "Python შიგნიდან",
+          "chapters": [
+            {
+              "slug": "cpython",
+              "title": "CPython"
+            },
+            {
+              "slug": "bytecode",
+              "title": "ბაიტკოდი"
+            },
+            {
+              "slug": "memory-management",
+              "title": "მეხსიერების მართვა"
+            },
+            {
+              "slug": "garbage-collector",
+              "title": "ნაგვის შემგროვებელი"
+            },
+            {
+              "slug": "gil-in-depth",
+              "title": "GIL სიღრმეში"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-asyncio",
+          "title": "asyncio სიღრმეში",
+          "chapters": [
+            {
+              "slug": "event-loop-internals",
+              "title": "მოვლენების ციკლი შიგნიდან"
+            },
+            {
+              "slug": "task-groups",
+              "title": "task group"
+            },
+            {
+              "slug": "async-patterns",
+              "title": "ასინქრონული ნიმუშები"
+            },
+            {
+              "slug": "async-backpressure",
+              "title": "backpressure"
+            },
+            {
+              "slug": "debugging-async",
+              "title": "ასინქრონული კოდის გამართვა"
+            }
+          ]
+        },
+        {
+          "slug": "metaprogramming",
+          "title": "მეტაპროგრამირება",
+          "chapters": [
+            {
+              "slug": "metaclasses",
+              "title": "მეტაკლასები"
+            },
+            {
+              "slug": "descriptors-in-depth",
+              "title": "descriptor სიღრმეში"
+            },
+            {
+              "slug": "parametrized-decorators",
+              "title": "დეკორატორი არგუმენტებით"
+            },
+            {
+              "slug": "ast-module",
+              "title": "ast მოდული"
+            },
+            {
+              "slug": "generating-code",
+              "title": "კოდის გენერაცია"
+            }
+          ]
+        },
+        {
+          "slug": "native-extensions",
+          "title": "native გაფართოებები",
+          "chapters": [
+            {
+              "slug": "ctypes-and-cffi",
+              "title": "ctypes და cffi"
+            },
+            {
+              "slug": "c-extensions",
+              "title": "C გაფართოება"
+            },
+            {
+              "slug": "cython",
+              "title": "Cython"
+            },
+            {
+              "slug": "rust-extensions",
+              "title": "Rust-ის გაფართოებები"
+            },
+            {
+              "slug": "numpy-internals",
+              "title": "NumPy შიგნიდან"
+            }
+          ]
+        },
+        {
+          "slug": "distributed-systems",
+          "title": "განაწილებული სისტემები",
+          "chapters": [
+            {
+              "slug": "celery",
+              "title": "Celery"
+            },
+            {
+              "slug": "message-queues",
+              "title": "შეტყობინებების რიგები"
+            },
+            {
+              "slug": "dask",
+              "title": "Dask"
+            },
+            {
+              "slug": "ray",
+              "title": "Ray"
+            },
+            {
+              "slug": "distributed-patterns",
+              "title": "განაწილებული ნიმუშები"
+            }
+          ]
+        },
+        {
+          "slug": "architecture",
+          "title": "არქიტექტურა",
+          "chapters": [
+            {
+              "slug": "clean-architecture",
+              "title": "სუფთა არქიტექტურა"
+            },
+            {
+              "slug": "ddd-in-python",
+              "title": "DDD Python-ში"
+            },
+            {
+              "slug": "plugin-systems",
+              "title": "მოდულების სისტემა"
+            },
+            {
+              "slug": "config-management",
+              "title": "კონფიგურაციის მართვა"
+            },
+            {
+              "slug": "large-codebases",
+              "title": "დიდი კოდბაზა"
+            }
+          ]
+        },
+        {
+          "slug": "security",
+          "title": "უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "injection",
+              "title": "ინექციები"
+            },
+            {
+              "slug": "unsafe-deserialization",
+              "title": "სახიფათო დესერიალიზაცია"
+            },
+            {
+              "slug": "secrets-management",
+              "title": "საიდუმლოების მართვა"
+            },
+            {
+              "slug": "dependency-audit",
+              "title": "დამოკიდებულებების აუდიტი"
+            },
+            {
+              "slug": "sandboxing",
+              "title": "იზოლაცია"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-testing",
+          "title": "ტესტირება სიღრმეში",
+          "chapters": [
+            {
+              "slug": "property-based-testing",
+              "title": "თვისებებზე დაფუძნებული ტესტები"
+            },
+            {
+              "slug": "integration-testing",
+              "title": "ინტეგრაციის ტესტები"
+            },
+            {
+              "slug": "test-architecture",
+              "title": "ტესტების არქიტექტურა"
+            },
+            {
+              "slug": "mutation-testing",
+              "title": "მუტაციური ტესტირება"
+            },
+            {
+              "slug": "performance-testing",
+              "title": "წარმადობის ტესტები"
+            }
+          ]
+        },
+        {
+          "slug": "deployment",
+          "title": "გაშვება",
+          "chapters": [
+            {
+              "slug": "docker",
+              "title": "Docker"
+            },
+            {
+              "slug": "wsgi-and-asgi",
+              "title": "WSGI და ASGI"
+            },
+            {
+              "slug": "serverless-python",
+              "title": "serverless"
+            },
+            {
+              "slug": "observability",
+              "title": "დაკვირვებადობა"
+            },
+            {
+              "slug": "scaling-python",
+              "title": "მასშტაბირება"
+            }
+          ]
+        },
+        {
+          "slug": "python-evolution",
+          "title": "ენის განვითარება",
+          "chapters": [
+            {
+              "slug": "pep-process",
+              "title": "PEP პროცესი"
+            },
+            {
+              "slug": "new-versions",
+              "title": "ახალი ვერსიები"
+            },
+            {
+              "slug": "free-threading",
+              "title": "GIL-ის გარეშე Python"
+            },
+            {
+              "slug": "typing-evolution",
+              "title": "ტიპების განვითარება"
+            },
+            {
+              "slug": "community",
+              "title": "საზოგადოება"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

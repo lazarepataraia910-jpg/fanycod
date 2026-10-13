@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "ბიბლიოთეკის ბაზა",
+        "description": "ბაზა წიგნებით, მკითხველებით და გაცემებით: ცხრილები, მოთხოვნები და JOIN."
+      },
+      "modules": [
+        {
+          "slug": "db-intro",
+          "title": "მონაცემთა ბაზის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-a-database",
+              "title": "რა არის მონაცემთა ბაზა"
+            },
+            {
+              "slug": "tables-rows-columns",
+              "title": "ცხრილი, სტრიქონი და სვეტი"
+            },
+            {
+              "slug": "what-is-sql",
+              "title": "რა არის SQL"
+            },
+            {
+              "slug": "installing-a-database",
+              "title": "ბაზის დაყენება"
+            },
+            {
+              "slug": "first-query",
+              "title": "პირველი მოთხოვნა"
+            }
+          ]
+        },
+        {
+          "slug": "select-basics",
+          "title": "SELECT",
+          "chapters": [
+            {
+              "slug": "select",
+              "title": "SELECT"
+            },
+            {
+              "slug": "choosing-columns",
+              "title": "სვეტების არჩევა"
+            },
+            {
+              "slug": "distinct",
+              "title": "DISTINCT"
+            },
+            {
+              "slug": "aliases",
+              "title": "მეტსახელები"
+            },
+            {
+              "slug": "limit",
+              "title": "LIMIT"
+            }
+          ]
+        },
+        {
+          "slug": "filtering",
+          "title": "ფილტრაცია",
+          "chapters": [
+            {
+              "slug": "where",
+              "title": "WHERE"
+            },
+            {
+              "slug": "comparison-operators",
+              "title": "შედარების ოპერატორები"
+            },
+            {
+              "slug": "and-or-not",
+              "title": "AND, OR და NOT"
+            },
+            {
+              "slug": "in-and-between",
+              "title": "IN და BETWEEN"
+            },
+            {
+              "slug": "like",
+              "title": "LIKE"
+            }
+          ]
+        },
+        {
+          "slug": "sorting",
+          "title": "დალაგება",
+          "chapters": [
+            {
+              "slug": "order-by",
+              "title": "ORDER BY"
+            },
+            {
+              "slug": "sorting-by-several-columns",
+              "title": "დალაგება რამდენიმე სვეტით"
+            },
+            {
+              "slug": "sorting-nulls",
+              "title": "NULL-ების დალაგება"
+            },
+            {
+              "slug": "limit-and-offset",
+              "title": "LIMIT და OFFSET"
+            },
+            {
+              "slug": "top-n",
+              "title": "პირველი N ჩანაწერი"
+            }
+          ]
+        },
+        {
+          "slug": "data-types",
+          "title": "მონაცემთა ტიპები",
+          "chapters": [
+            {
+              "slug": "numeric-types",
+              "title": "რიცხვები"
+            },
+            {
+              "slug": "text-types",
+              "title": "ტექსტი"
+            },
+            {
+              "slug": "date-and-time",
+              "title": "თარიღი და დრო"
+            },
+            {
+              "slug": "boolean",
+              "title": "ლოგიკური ტიპი"
+            },
+            {
+              "slug": "null",
+              "title": "NULL"
+            }
+          ]
+        },
+        {
+          "slug": "sql-functions",
+          "title": "ფუნქციები",
+          "chapters": [
+            {
+              "slug": "string-functions",
+              "title": "სტრიქონის ფუნქციები"
+            },
+            {
+              "slug": "numeric-functions",
+              "title": "რიცხვითი ფუნქციები"
+            },
+            {
+              "slug": "date-functions",
+              "title": "თარიღის ფუნქციები"
+            },
+            {
+              "slug": "case",
+              "title": "CASE"
+            },
+            {
+              "slug": "coalesce",
+              "title": "COALESCE"
+            }
+          ]
+        },
+        {
+          "slug": "aggregation",
+          "title": "აგრეგაცია",
+          "chapters": [
+            {
+              "slug": "count",
+              "title": "COUNT"
+            },
+            {
+              "slug": "sum-and-avg",
+              "title": "SUM და AVG"
+            },
+            {
+              "slug": "min-and-max",
+              "title": "MIN და MAX"
+            },
+            {
+              "slug": "group-by",
+              "title": "GROUP BY"
+            },
+            {
+              "slug": "having",
+              "title": "HAVING"
+            }
+          ]
+        },
+        {
+          "slug": "modifying-data",
+          "title": "მონაცემების შეცვლა",
+          "chapters": [
+            {
+              "slug": "insert",
+              "title": "INSERT"
+            },
+            {
+              "slug": "update",
+              "title": "UPDATE"
+            },
+            {
+              "slug": "delete",
+              "title": "DELETE"
+            },
+            {
+              "slug": "transaction-basics",
+              "title": "ტრანზაქციის საფუძველი"
+            },
+            {
+              "slug": "safe-changes",
+              "title": "უსაფრთხო შეცვლა"
+            }
+          ]
+        },
+        {
+          "slug": "tables",
+          "title": "ცხრილები",
+          "chapters": [
+            {
+              "slug": "create-table",
+              "title": "CREATE TABLE"
+            },
+            {
+              "slug": "primary-key",
+              "title": "პირველადი გასაღები"
+            },
+            {
+              "slug": "basic-constraints",
+              "title": "შეზღუდვები"
+            },
+            {
+              "slug": "default-values",
+              "title": "ნაგულისხმევი მნიშვნელობები"
+            },
+            {
+              "slug": "alter-and-drop",
+              "title": "ALTER და DROP"
+            }
+          ]
+        },
+        {
+          "slug": "joins-basics",
+          "title": "JOIN-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-a-join",
+              "title": "რა არის JOIN"
+            },
+            {
+              "slug": "inner-join",
+              "title": "INNER JOIN"
+            },
+            {
+              "slug": "left-join",
+              "title": "LEFT JOIN"
+            },
+            {
+              "slug": "foreign-key",
+              "title": "გარე გასაღები"
+            },
+            {
+              "slug": "joining-many-tables",
+              "title": "რამდენიმე ცხრილის გაერთიანება"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "მაღაზიის ბაზა",
+        "description": "ონლაინ მაღაზიის სქემა შეკვეთებით და ანალიტიკური მოთხოვნებით: ფანჯრის ფუნქციები და CTE."
+      },
+      "modules": [
+        {
+          "slug": "joins-in-depth",
+          "title": "JOIN სიღრმეში",
+          "chapters": [
+            {
+              "slug": "right-and-full-join",
+              "title": "RIGHT და FULL JOIN"
+            },
+            {
+              "slug": "self-join",
+              "title": "self join"
+            },
+            {
+              "slug": "cross-join",
+              "title": "CROSS JOIN"
+            },
+            {
+              "slug": "join-conditions",
+              "title": "გაერთიანების პირობები"
+            },
+            {
+              "slug": "join-mistakes",
+              "title": "ხშირი შეცდომები"
+            }
+          ]
+        },
+        {
+          "slug": "subqueries",
+          "title": "ქვემოთხოვნები",
+          "chapters": [
+            {
+              "slug": "subquery-in-where",
+              "title": "ქვემოთხოვნა WHERE-ში"
+            },
+            {
+              "slug": "subquery-in-from",
+              "title": "ქვემოთხოვნა FROM-ში"
+            },
+            {
+              "slug": "correlated-subqueries",
+              "title": "კორელირებული ქვემოთხოვნა"
+            },
+            {
+              "slug": "exists",
+              "title": "EXISTS"
+            },
+            {
+              "slug": "in-or-exists",
+              "title": "IN თუ EXISTS"
+            }
+          ]
+        },
+        {
+          "slug": "set-operations",
+          "title": "სიმრავლეებზე ოპერაციები",
+          "chapters": [
+            {
+              "slug": "union",
+              "title": "UNION"
+            },
+            {
+              "slug": "intersect",
+              "title": "INTERSECT"
+            },
+            {
+              "slug": "except",
+              "title": "EXCEPT"
+            },
+            {
+              "slug": "union-all",
+              "title": "UNION ALL"
+            },
+            {
+              "slug": "set-use-cases",
+              "title": "გამოყენების შემთხვევები"
+            }
+          ]
+        },
+        {
+          "slug": "cte",
+          "title": "CTE",
+          "chapters": [
+            {
+              "slug": "with",
+              "title": "WITH"
+            },
+            {
+              "slug": "multiple-ctes",
+              "title": "რამდენიმე CTE"
+            },
+            {
+              "slug": "recursive-cte",
+              "title": "რეკურსიული CTE"
+            },
+            {
+              "slug": "hierarchies",
+              "title": "იერარქიები"
+            },
+            {
+              "slug": "cte-or-subquery",
+              "title": "CTE თუ ქვემოთხოვნა"
+            }
+          ]
+        },
+        {
+          "slug": "window-functions",
+          "title": "ფანჯრის ფუნქციები",
+          "chapters": [
+            {
+              "slug": "over",
+              "title": "OVER"
+            },
+            {
+              "slug": "partition-by",
+              "title": "PARTITION BY"
+            },
+            {
+              "slug": "row-number-and-rank",
+              "title": "ROW_NUMBER და RANK"
+            },
+            {
+              "slug": "lag-and-lead",
+              "title": "LAG და LEAD"
+            },
+            {
+              "slug": "running-totals",
+              "title": "მზარდი ჯამი"
+            }
+          ]
+        },
+        {
+          "slug": "database-design",
+          "title": "ბაზის დიზაინი",
+          "chapters": [
+            {
+              "slug": "entities-and-relationships",
+              "title": "ერთეულები და კავშირები"
+            },
+            {
+              "slug": "er-diagrams",
+              "title": "ER დიაგრამა"
+            },
+            {
+              "slug": "one-to-many-and-many-to-many",
+              "title": "1:N და M:N"
+            },
+            {
+              "slug": "normal-forms",
+              "title": "ნორმალური ფორმები"
+            },
+            {
+              "slug": "denormalization",
+              "title": "დენორმალიზაცია"
+            }
+          ]
+        },
+        {
+          "slug": "constraints-in-depth",
+          "title": "შეზღუდვები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "foreign-keys-in-depth",
+              "title": "გარე გასაღები სიღრმეში"
+            },
+            {
+              "slug": "check",
+              "title": "CHECK"
+            },
+            {
+              "slug": "cascade",
+              "title": "კასკადური მოქმედებები"
+            },
+            {
+              "slug": "sequences-and-identity",
+              "title": "მიმდევრობა და identity"
+            },
+            {
+              "slug": "composite-keys",
+              "title": "შედგენილი გასაღები"
+            }
+          ]
+        },
+        {
+          "slug": "index-basics",
+          "title": "ინდექსის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-an-index",
+              "title": "რა არის ინდექსი"
+            },
+            {
+              "slug": "b-tree",
+              "title": "B-tree"
+            },
+            {
+              "slug": "when-indexes-help",
+              "title": "როდის ეხმარება ინდექსი"
+            },
+            {
+              "slug": "composite-indexes",
+              "title": "შედგენილი ინდექსი"
+            },
+            {
+              "slug": "index-cost",
+              "title": "ინდექსის ფასი"
+            }
+          ]
+        },
+        {
+          "slug": "transactions",
+          "title": "ტრანზაქციები",
+          "chapters": [
+            {
+              "slug": "acid",
+              "title": "ACID"
+            },
+            {
+              "slug": "commit-and-rollback",
+              "title": "COMMIT და ROLLBACK"
+            },
+            {
+              "slug": "isolation-levels",
+              "title": "იზოლაციის დონეები"
+            },
+            {
+              "slug": "locks-basics",
+              "title": "საკეტების საფუძველი"
+            },
+            {
+              "slug": "deadlocks",
+              "title": "ურთიერთბლოკირება"
+            }
+          ]
+        },
+        {
+          "slug": "views-and-routines",
+          "title": "ხედები და პროცედურები",
+          "chapters": [
+            {
+              "slug": "views",
+              "title": "VIEW"
+            },
+            {
+              "slug": "materialized-views",
+              "title": "მატერიალიზებული ხედი"
+            },
+            {
+              "slug": "stored-functions",
+              "title": "შენახული ფუნქციები"
+            },
+            {
+              "slug": "triggers",
+              "title": "ტრიგერები"
+            },
+            {
+              "slug": "when-to-use-them",
+              "title": "როდის გამოვიყენოთ"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "ანალიტიკური საცავი",
+        "description": "მონაცემთა საცავი ვარსკვლავის სქემით, ოპტიმიზებული მოთხოვნებით და მიგრაციებით."
+      },
+      "modules": [
+        {
+          "slug": "query-performance",
+          "title": "მოთხოვნის წარმადობა",
+          "chapters": [
+            {
+              "slug": "explain",
+              "title": "EXPLAIN"
+            },
+            {
+              "slug": "query-planner",
+              "title": "მოთხოვნის დამგეგმავი"
+            },
+            {
+              "slug": "scan-types",
+              "title": "სკანირების ტიპები"
+            },
+            {
+              "slug": "join-algorithms",
+              "title": "JOIN-ის ალგორითმები"
+            },
+            {
+              "slug": "statistics",
+              "title": "სტატისტიკა"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-indexing",
+          "title": "ინდექსები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "covering-indexes",
+              "title": "covering ინდექსი"
+            },
+            {
+              "slug": "partial-indexes",
+              "title": "ნაწილობრივი ინდექსი"
+            },
+            {
+              "slug": "expression-indexes",
+              "title": "გამოსახულების ინდექსი"
+            },
+            {
+              "slug": "gin-and-gist",
+              "title": "GIN და GiST"
+            },
+            {
+              "slug": "index-maintenance",
+              "title": "ინდექსის მოვლა"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-queries",
+          "title": "რთული მოთხოვნები",
+          "chapters": [
+            {
+              "slug": "pivot",
+              "title": "pivot"
+            },
+            {
+              "slug": "gaps-and-islands",
+              "title": "gaps and islands"
+            },
+            {
+              "slug": "top-n-per-group",
+              "title": "პირველი N ყოველ ჯგუფში"
+            },
+            {
+              "slug": "json-in-sql",
+              "title": "JSON SQL-ში"
+            },
+            {
+              "slug": "full-text-search",
+              "title": "სრულტექსტოვანი ძებნა"
+            }
+          ]
+        },
+        {
+          "slug": "data-modeling",
+          "title": "მონაცემების მოდელირება",
+          "chapters": [
+            {
+              "slug": "dimensional-modeling",
+              "title": "განზომილებითი მოდელირება"
+            },
+            {
+              "slug": "star-schema",
+              "title": "ვარსკვლავის სქემა"
+            },
+            {
+              "slug": "slowly-changing-dimensions",
+              "title": "ნელა ცვლადი განზომილებები"
+            },
+            {
+              "slug": "temporal-data",
+              "title": "დროითი მონაცემები"
+            },
+            {
+              "slug": "audit-tables",
+              "title": "აუდიტის ცხრილები"
+            }
+          ]
+        },
+        {
+          "slug": "postgres-features",
+          "title": "PostgreSQL-ის შესაძლებლობები",
+          "chapters": [
+            {
+              "slug": "arrays-and-jsonb",
+              "title": "მასივები და JSONB"
+            },
+            {
+              "slug": "extensions",
+              "title": "გაფართოებები"
+            },
+            {
+              "slug": "partitioning",
+              "title": "დანაწევრება"
+            },
+            {
+              "slug": "listen-notify",
+              "title": "LISTEN და NOTIFY"
+            },
+            {
+              "slug": "row-level-security",
+              "title": "სტრიქონის დონის უსაფრთხოება"
+            }
+          ]
+        },
+        {
+          "slug": "concurrency",
+          "title": "კონკურენტულობა",
+          "chapters": [
+            {
+              "slug": "mvcc",
+              "title": "MVCC"
+            },
+            {
+              "slug": "lock-types",
+              "title": "საკეტების ტიპები"
+            },
+            {
+              "slug": "isolation-anomalies",
+              "title": "იზოლაციის ანომალიები"
+            },
+            {
+              "slug": "optimistic-locking",
+              "title": "ოპტიმისტური საკეტი"
+            },
+            {
+              "slug": "long-transactions",
+              "title": "ხანგრძლივი ტრანზაქციები"
+            }
+          ]
+        },
+        {
+          "slug": "administration",
+          "title": "ადმინისტრირება",
+          "chapters": [
+            {
+              "slug": "users-and-roles",
+              "title": "მომხმარებლები და როლები"
+            },
+            {
+              "slug": "backup-and-restore",
+              "title": "სარეზერვო ასლი და აღდგენა"
+            },
+            {
+              "slug": "monitoring",
+              "title": "მონიტორინგი"
+            },
+            {
+              "slug": "vacuum",
+              "title": "მოვლა და vacuum"
+            },
+            {
+              "slug": "server-configuration",
+              "title": "კონფიგურაცია"
+            }
+          ]
+        },
+        {
+          "slug": "schema-migrations",
+          "title": "სქემის მიგრაციები",
+          "chapters": [
+            {
+              "slug": "migration-tools",
+              "title": "მიგრაციის ხელსაწყოები"
+            },
+            {
+              "slug": "zero-downtime-changes",
+              "title": "ცვლილება შეფერხების გარეშე"
+            },
+            {
+              "slug": "backfills",
+              "title": "მონაცემების შევსება"
+            },
+            {
+              "slug": "schema-versioning",
+              "title": "სქემის ვერსიები"
+            },
+            {
+              "slug": "rollback-strategy",
+              "title": "უკან დაბრუნების სტრატეგია"
+            }
+          ]
+        },
+        {
+          "slug": "app-integration",
+          "title": "აპლიკაციასთან კავშირი",
+          "chapters": [
+            {
+              "slug": "connection-pooling",
+              "title": "კავშირების აუზი"
+            },
+            {
+              "slug": "orm-pitfalls",
+              "title": "ORM-ის ხაფანგები"
+            },
+            {
+              "slug": "n-plus-one",
+              "title": "N+1 პრობლემა"
+            },
+            {
+              "slug": "sql-injection",
+              "title": "SQL ინექცია"
+            },
+            {
+              "slug": "pagination-strategies",
+              "title": "გვერდებად დაყოფის სტრატეგიები"
+            }
+          ]
+        },
+        {
+          "slug": "nosql-intro",
+          "title": "NoSQL-ის გაცნობა",
+          "chapters": [
+            {
+              "slug": "document-stores",
+              "title": "დოკუმენტური ბაზები"
+            },
+            {
+              "slug": "key-value-stores",
+              "title": "key-value ბაზები"
+            },
+            {
+              "slug": "column-family",
+              "title": "სვეტური ოჯახები"
+            },
+            {
+              "slug": "graph-databases",
+              "title": "გრაფული ბაზები"
+            },
+            {
+              "slug": "choosing-a-database",
+              "title": "ბაზის არჩევა"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "მაღალი დატვირთვის ბაზა",
+        "description": "ბაზის დიზაინი დიდი დატვირთვისთვის: რეპლიკაცია, დანაწევრება და აღდგენის გეგმა."
+      },
+      "modules": [
+        {
+          "slug": "database-internals",
+          "title": "ბაზა შიგნიდან",
+          "chapters": [
+            {
+              "slug": "storage-engine",
+              "title": "შენახვის ძრავა"
+            },
+            {
+              "slug": "pages-and-heap",
+              "title": "გვერდები და heap"
+            },
+            {
+              "slug": "wal",
+              "title": "WAL"
+            },
+            {
+              "slug": "buffer-manager",
+              "title": "ბუფერის მმართველი"
+            },
+            {
+              "slug": "b-tree-internals",
+              "title": "B-tree შიგნიდან"
+            }
+          ]
+        },
+        {
+          "slug": "replication",
+          "title": "რეპლიკაცია",
+          "chapters": [
+            {
+              "slug": "streaming-replication",
+              "title": "ნაკადური რეპლიკაცია"
+            },
+            {
+              "slug": "logical-replication",
+              "title": "ლოგიკური რეპლიკაცია"
+            },
+            {
+              "slug": "failover",
+              "title": "failover"
+            },
+            {
+              "slug": "read-replicas",
+              "title": "წასაკითხი რეპლიკები"
+            },
+            {
+              "slug": "replication-lag",
+              "title": "რეპლიკაციის დაგვიანება"
+            }
+          ]
+        },
+        {
+          "slug": "scaling",
+          "title": "მასშტაბირება",
+          "chapters": [
+            {
+              "slug": "sharding",
+              "title": "sharding"
+            },
+            {
+              "slug": "partitioning-strategies",
+              "title": "დანაწევრების სტრატეგიები"
+            },
+            {
+              "slug": "distributed-sql",
+              "title": "განაწილებული SQL"
+            },
+            {
+              "slug": "cap-theorem",
+              "title": "CAP თეორემა"
+            },
+            {
+              "slug": "consistency-models",
+              "title": "თანმიმდევრულობის მოდელები"
+            }
+          ]
+        },
+        {
+          "slug": "query-optimizer",
+          "title": "ოპტიმიზატორი",
+          "chapters": [
+            {
+              "slug": "cost-model",
+              "title": "ფასის მოდელი"
+            },
+            {
+              "slug": "cardinality-estimation",
+              "title": "რაოდენობის შეფასება"
+            },
+            {
+              "slug": "join-ordering",
+              "title": "JOIN-ების რიგი"
+            },
+            {
+              "slug": "debugging-plans",
+              "title": "გეგმის გამართვა"
+            },
+            {
+              "slug": "adaptive-execution",
+              "title": "ადაპტიური შესრულება"
+            }
+          ]
+        },
+        {
+          "slug": "high-availability",
+          "title": "მაღალი ხელმისაწვდომობა",
+          "chapters": [
+            {
+              "slug": "ha-architectures",
+              "title": "არქიტექტურები"
+            },
+            {
+              "slug": "point-in-time-recovery",
+              "title": "დროის წერტილზე აღდგენა"
+            },
+            {
+              "slug": "disaster-recovery",
+              "title": "ავარიული აღდგენა"
+            },
+            {
+              "slug": "major-upgrades",
+              "title": "ვერსიის განახლება"
+            },
+            {
+              "slug": "failure-testing",
+              "title": "მტყუნების ტესტირება"
+            }
+          ]
+        },
+        {
+          "slug": "olap",
+          "title": "ანალიტიკური ბაზები",
+          "chapters": [
+            {
+              "slug": "columnar-storage",
+              "title": "სვეტური შენახვა"
+            },
+            {
+              "slug": "data-warehouses",
+              "title": "მონაცემთა საცავები"
+            },
+            {
+              "slug": "etl-and-elt",
+              "title": "ETL და ELT"
+            },
+            {
+              "slug": "materialization",
+              "title": "მატერიალიზაციის სტრატეგიები"
+            },
+            {
+              "slug": "analytical-engines",
+              "title": "ანალიტიკური ძრავები"
+            }
+          ]
+        },
+        {
+          "slug": "streaming-data",
+          "title": "ნაკადური მონაცემები",
+          "chapters": [
+            {
+              "slug": "change-data-capture",
+              "title": "CDC"
+            },
+            {
+              "slug": "event-streams",
+              "title": "მოვლენების ნაკადები"
+            },
+            {
+              "slug": "streaming-sql",
+              "title": "ნაკადური SQL"
+            },
+            {
+              "slug": "exactly-once",
+              "title": "ზუსტად ერთხელ დამუშავება"
+            },
+            {
+              "slug": "lakehouse",
+              "title": "lakehouse"
+            }
+          ]
+        },
+        {
+          "slug": "security",
+          "title": "უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "encryption",
+              "title": "დაშიფვრა"
+            },
+            {
+              "slug": "auditing",
+              "title": "აუდიტი"
+            },
+            {
+              "slug": "least-privilege",
+              "title": "მინიმალური უფლებები"
+            },
+            {
+              "slug": "data-masking",
+              "title": "მონაცემების შენიღბვა"
+            },
+            {
+              "slug": "compliance",
+              "title": "შესაბამისობა"
+            }
+          ]
+        },
+        {
+          "slug": "performance-engineering",
+          "title": "წარმადობის ინჟინერია",
+          "chapters": [
+            {
+              "slug": "benchmarking",
+              "title": "ბენჩმარკი"
+            },
+            {
+              "slug": "workload-analysis",
+              "title": "დატვირთვის ანალიზი"
+            },
+            {
+              "slug": "capacity-planning",
+              "title": "სიმძლავრის დაგეგმვა"
+            },
+            {
+              "slug": "tuning-method",
+              "title": "მომართვის მეთოდიკა"
+            },
+            {
+              "slug": "cost-optimization",
+              "title": "ხარჯის ოპტიმიზაცია"
+            }
+          ]
+        },
+        {
+          "slug": "data-career",
+          "title": "კარიერა მონაცემებში",
+          "chapters": [
+            {
+              "slug": "dba-or-data-engineer",
+              "title": "ადმინისტრატორი თუ მონაცემთა ინჟინერი"
+            },
+            {
+              "slug": "evaluating-databases",
+              "title": "ბაზების შეფასება"
+            },
+            {
+              "slug": "reading-papers",
+              "title": "სტატიების კითხვა"
+            },
+            {
+              "slug": "open-source",
+              "title": "ღია კოდი"
+            },
+            {
+              "slug": "vector-databases",
+              "title": "ვექტორული ბაზები"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

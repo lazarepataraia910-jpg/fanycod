@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "ჩანაწერების API",
+        "description": "REST API ჩანაწერებისთვის Express-ზე, მონაცემები JSON ფაილში ინახება."
+      },
+      "modules": [
+        {
+          "slug": "node-intro",
+          "title": "Node.js-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-node",
+              "title": "რა არის Node.js"
+            },
+            {
+              "slug": "installing-node",
+              "title": "დაყენება"
+            },
+            {
+              "slug": "first-script",
+              "title": "პირველი სკრიპტი"
+            },
+            {
+              "slug": "repl",
+              "title": "REPL"
+            },
+            {
+              "slug": "node-vs-browser",
+              "title": "Node და ბრაუზერი"
+            }
+          ]
+        },
+        {
+          "slug": "node-modules",
+          "title": "მოდულები",
+          "chapters": [
+            {
+              "slug": "commonjs",
+              "title": "CommonJS"
+            },
+            {
+              "slug": "es-modules",
+              "title": "ES მოდულები"
+            },
+            {
+              "slug": "built-in-modules",
+              "title": "ჩაშენებული მოდულები"
+            },
+            {
+              "slug": "npm-and-package-json",
+              "title": "npm და package.json"
+            },
+            {
+              "slug": "installing-packages",
+              "title": "პაკეტის დაყენება"
+            }
+          ]
+        },
+        {
+          "slug": "files-and-paths",
+          "title": "ფაილები და გზები",
+          "chapters": [
+            {
+              "slug": "reading-files",
+              "title": "ფაილის წაკითხვა"
+            },
+            {
+              "slug": "writing-files",
+              "title": "ფაილის ჩაწერა"
+            },
+            {
+              "slug": "path-module",
+              "title": "path მოდული"
+            },
+            {
+              "slug": "directories",
+              "title": "საქაღალდეები"
+            },
+            {
+              "slug": "json-files",
+              "title": "JSON ფაილები"
+            }
+          ]
+        },
+        {
+          "slug": "async-in-node",
+          "title": "ასინქრონულობა",
+          "chapters": [
+            {
+              "slug": "callback-style",
+              "title": "callback სტილი"
+            },
+            {
+              "slug": "promise-apis",
+              "title": "Promise API-ები"
+            },
+            {
+              "slug": "async-await-node",
+              "title": "async და await"
+            },
+            {
+              "slug": "event-loop-basics",
+              "title": "მოვლენების ციკლის საფუძველი"
+            },
+            {
+              "slug": "handling-async-errors",
+              "title": "ასინქრონული შეცდომები"
+            }
+          ]
+        },
+        {
+          "slug": "http-basics",
+          "title": "HTTP-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "http-server",
+              "title": "HTTP სერვერი"
+            },
+            {
+              "slug": "request-and-response",
+              "title": "request და response"
+            },
+            {
+              "slug": "status-codes",
+              "title": "სტატუსის კოდები"
+            },
+            {
+              "slug": "headers",
+              "title": "headers"
+            },
+            {
+              "slug": "manual-routing",
+              "title": "მარშრუტები ხელით"
+            }
+          ]
+        },
+        {
+          "slug": "express-intro",
+          "title": "Express",
+          "chapters": [
+            {
+              "slug": "installing-express",
+              "title": "Express-ის დაყენება"
+            },
+            {
+              "slug": "first-route",
+              "title": "პირველი მარშრუტი"
+            },
+            {
+              "slug": "req-and-res",
+              "title": "req და res"
+            },
+            {
+              "slug": "route-parameters",
+              "title": "მარშრუტის პარამეტრები"
+            },
+            {
+              "slug": "query-strings",
+              "title": "query პარამეტრები"
+            }
+          ]
+        },
+        {
+          "slug": "express-middleware",
+          "title": "middleware",
+          "chapters": [
+            {
+              "slug": "what-is-middleware",
+              "title": "რა არის middleware"
+            },
+            {
+              "slug": "built-in-middleware",
+              "title": "ჩაშენებული middleware"
+            },
+            {
+              "slug": "custom-middleware",
+              "title": "საკუთარი middleware"
+            },
+            {
+              "slug": "error-middleware",
+              "title": "შეცდომების middleware"
+            },
+            {
+              "slug": "middleware-order",
+              "title": "რიგი"
+            }
+          ]
+        },
+        {
+          "slug": "rest-basics",
+          "title": "REST-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-rest",
+              "title": "რა არის REST"
+            },
+            {
+              "slug": "crud-routes",
+              "title": "CRUD მარშრუტები"
+            },
+            {
+              "slug": "json-responses",
+              "title": "JSON პასუხები"
+            },
+            {
+              "slug": "statuses-in-practice",
+              "title": "სტატუსები პრაქტიკაში"
+            },
+            {
+              "slug": "testing-with-a-client",
+              "title": "API-ს ტესტი კლიენტით"
+            }
+          ]
+        },
+        {
+          "slug": "templates-and-static",
+          "title": "შაბლონები და სტატიკური ფაილები",
+          "chapters": [
+            {
+              "slug": "static-files",
+              "title": "სტატიკური ფაილები"
+            },
+            {
+              "slug": "template-engine",
+              "title": "შაბლონის ძრავა"
+            },
+            {
+              "slug": "receiving-forms",
+              "title": "ფორმის მიღება"
+            },
+            {
+              "slug": "uploading-files",
+              "title": "ფაილის ატვირთვა"
+            },
+            {
+              "slug": "redirecting",
+              "title": "გადამისამართება"
+            }
+          ]
+        },
+        {
+          "slug": "env-and-config",
+          "title": "გარემო და კონფიგურაცია",
+          "chapters": [
+            {
+              "slug": "env-variables",
+              "title": "გარემოს ცვლადები"
+            },
+            {
+              "slug": "dotenv",
+              "title": "dotenv"
+            },
+            {
+              "slug": "configuration",
+              "title": "კონფიგურაცია"
+            },
+            {
+              "slug": "auto-restart",
+              "title": "ავტომატური გადატვირთვა"
+            },
+            {
+              "slug": "npm-scripts",
+              "title": "npm სკრიპტები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "ბლოგის API",
+        "description": "API მომხმარებლებით, ავთენტიფიკაციით, მონაცემთა ბაზით და ტესტებით."
+      },
+      "modules": [
+        {
+          "slug": "node-databases",
+          "title": "მონაცემთა ბაზები",
+          "chapters": [
+            {
+              "slug": "connecting-sql",
+              "title": "SQL ბაზის მიერთება"
+            },
+            {
+              "slug": "running-queries",
+              "title": "მოთხოვნები"
+            },
+            {
+              "slug": "using-an-orm",
+              "title": "ORM"
+            },
+            {
+              "slug": "db-migrations",
+              "title": "მიგრაციები"
+            },
+            {
+              "slug": "mongodb-intro",
+              "title": "MongoDB-ის გაცნობა"
+            }
+          ]
+        },
+        {
+          "slug": "validation",
+          "title": "შემოწმება",
+          "chapters": [
+            {
+              "slug": "input-validation",
+              "title": "შეტანის შემოწმება"
+            },
+            {
+              "slug": "schemas",
+              "title": "სქემები"
+            },
+            {
+              "slug": "sanitization",
+              "title": "გასუფთავება"
+            },
+            {
+              "slug": "error-format",
+              "title": "შეცდომის ფორმატი"
+            },
+            {
+              "slug": "central-error-handler",
+              "title": "შეცდომების ცენტრალური დამუშავება"
+            }
+          ]
+        },
+        {
+          "slug": "node-auth",
+          "title": "ავთენტიფიკაცია",
+          "chapters": [
+            {
+              "slug": "hashing-passwords",
+              "title": "პაროლის ჰეშირება"
+            },
+            {
+              "slug": "session-auth",
+              "title": "სესიები"
+            },
+            {
+              "slug": "jwt",
+              "title": "JWT"
+            },
+            {
+              "slug": "refresh-tokens",
+              "title": "განახლების ნიშანი"
+            },
+            {
+              "slug": "role-based-access",
+              "title": "როლები"
+            }
+          ]
+        },
+        {
+          "slug": "api-design",
+          "title": "API-ს დიზაინი",
+          "chapters": [
+            {
+              "slug": "route-structure",
+              "title": "მარშრუტების სტრუქტურა"
+            },
+            {
+              "slug": "pagination",
+              "title": "გვერდებად დაყოფა"
+            },
+            {
+              "slug": "filtering-and-sorting",
+              "title": "ფილტრი და დალაგება"
+            },
+            {
+              "slug": "api-versioning",
+              "title": "ვერსიები"
+            },
+            {
+              "slug": "openapi",
+              "title": "დოკუმენტაცია OpenAPI-ით"
+            }
+          ]
+        },
+        {
+          "slug": "project-structure",
+          "title": "პროექტის სტრუქტურა",
+          "chapters": [
+            {
+              "slug": "layers",
+              "title": "controller, service და repository"
+            },
+            {
+              "slug": "router-modules",
+              "title": "როუტერის მოდულები"
+            },
+            {
+              "slug": "config-layer",
+              "title": "კონფიგურაციის შრე"
+            },
+            {
+              "slug": "dependency-injection",
+              "title": "დამოკიდებულებების ჩანერგვა"
+            },
+            {
+              "slug": "app-logging",
+              "title": "ლოგირება"
+            }
+          ]
+        },
+        {
+          "slug": "testing-node",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "node-unit-tests",
+              "title": "ერთეულის ტესტი"
+            },
+            {
+              "slug": "api-tests",
+              "title": "API-ს ტესტები"
+            },
+            {
+              "slug": "test-database",
+              "title": "სატესტო ბაზა"
+            },
+            {
+              "slug": "node-mocks",
+              "title": "იმიტაცია"
+            },
+            {
+              "slug": "coverage",
+              "title": "დაფარვა"
+            }
+          ]
+        },
+        {
+          "slug": "streams",
+          "title": "ნაკადები",
+          "chapters": [
+            {
+              "slug": "stream-basics",
+              "title": "stream"
+            },
+            {
+              "slug": "piping",
+              "title": "pipe"
+            },
+            {
+              "slug": "large-files",
+              "title": "დიდი ფაილები"
+            },
+            {
+              "slug": "buffers",
+              "title": "buffer"
+            },
+            {
+              "slug": "uploading-to-storage",
+              "title": "ატვირთვა საცავში"
+            }
+          ]
+        },
+        {
+          "slug": "node-security",
+          "title": "უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "security-headers",
+              "title": "უსაფრთხოების headers"
+            },
+            {
+              "slug": "cors",
+              "title": "CORS"
+            },
+            {
+              "slug": "rate-limiting",
+              "title": "მოთხოვნების ლიმიტი"
+            },
+            {
+              "slug": "injection-attacks",
+              "title": "ინექციები"
+            },
+            {
+              "slug": "managing-secrets",
+              "title": "საიდუმლოების მართვა"
+            }
+          ]
+        },
+        {
+          "slug": "realtime",
+          "title": "რეალური დრო",
+          "chapters": [
+            {
+              "slug": "websocket-server",
+              "title": "WebSocket"
+            },
+            {
+              "slug": "socket-io",
+              "title": "Socket.IO"
+            },
+            {
+              "slug": "rooms",
+              "title": "ოთახები"
+            },
+            {
+              "slug": "server-sent-events",
+              "title": "SSE"
+            },
+            {
+              "slug": "scaling-sockets",
+              "title": "მასშტაბირება"
+            }
+          ]
+        },
+        {
+          "slug": "node-deployment",
+          "title": "გაშვება",
+          "chapters": [
+            {
+              "slug": "process-manager",
+              "title": "პროცესების მმართველი"
+            },
+            {
+              "slug": "docker-basics",
+              "title": "Docker"
+            },
+            {
+              "slug": "environments",
+              "title": "გარემოები"
+            },
+            {
+              "slug": "health-checks",
+              "title": "health check"
+            },
+            {
+              "slug": "production-logs",
+              "title": "ლოგები production-ში"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "შეკვეთების სისტემა",
+        "description": "სერვისი რიგებით, ფონური დამუშავებით, ქეშით და დაკვირვებადობით."
+      },
+      "modules": [
+        {
+          "slug": "node-internals",
+          "title": "Node შიგნიდან",
+          "chapters": [
+            {
+              "slug": "event-loop-phases",
+              "title": "მოვლენების ციკლის ფაზები"
+            },
+            {
+              "slug": "libuv",
+              "title": "libuv"
+            },
+            {
+              "slug": "thread-pool",
+              "title": "ნაკადების აუზი"
+            },
+            {
+              "slug": "node-microtasks",
+              "title": "მიკროდავალებები Node-ში"
+            },
+            {
+              "slug": "timers-in-depth",
+              "title": "ტაიმერები სიღრმეში"
+            }
+          ]
+        },
+        {
+          "slug": "node-performance",
+          "title": "წარმადობა",
+          "chapters": [
+            {
+              "slug": "profiling-node",
+              "title": "პროფაილინგი"
+            },
+            {
+              "slug": "memory-analysis",
+              "title": "მეხსიერების ანალიზი"
+            },
+            {
+              "slug": "cluster",
+              "title": "cluster"
+            },
+            {
+              "slug": "worker-threads",
+              "title": "worker threads"
+            },
+            {
+              "slug": "caching",
+              "title": "ქეშირება"
+            }
+          ]
+        },
+        {
+          "slug": "job-queues",
+          "title": "რიგები",
+          "chapters": [
+            {
+              "slug": "queue-basics",
+              "title": "დავალებების რიგი"
+            },
+            {
+              "slug": "redis",
+              "title": "Redis"
+            },
+            {
+              "slug": "background-workers",
+              "title": "ფონური მუშები"
+            },
+            {
+              "slug": "retries",
+              "title": "ხელახალი ცდები"
+            },
+            {
+              "slug": "scheduling",
+              "title": "დაგეგმვა"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-databases",
+          "title": "ბაზები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "db-transactions",
+              "title": "ტრანზაქციები"
+            },
+            {
+              "slug": "indexes",
+              "title": "ინდექსები"
+            },
+            {
+              "slug": "avoiding-n-plus-one",
+              "title": "N+1-ის თავიდან აცილება"
+            },
+            {
+              "slug": "pooling",
+              "title": "კავშირების აუზი"
+            },
+            {
+              "slug": "replication",
+              "title": "რეპლიკაცია"
+            }
+          ]
+        },
+        {
+          "slug": "microservices",
+          "title": "მიკროსერვისები",
+          "chapters": [
+            {
+              "slug": "splitting-services",
+              "title": "სერვისებად დაყოფა"
+            },
+            {
+              "slug": "http-and-messaging",
+              "title": "HTTP და შეტყობინებები"
+            },
+            {
+              "slug": "api-gateway",
+              "title": "API gateway"
+            },
+            {
+              "slug": "service-discovery",
+              "title": "სერვისის პოვნა"
+            },
+            {
+              "slug": "distributed-tracing",
+              "title": "განაწილებული tracing"
+            }
+          ]
+        },
+        {
+          "slug": "graphql",
+          "title": "GraphQL",
+          "chapters": [
+            {
+              "slug": "graphql-schema",
+              "title": "სქემა"
+            },
+            {
+              "slug": "resolvers",
+              "title": "resolver"
+            },
+            {
+              "slug": "graphql-mutations",
+              "title": "მუტაციები"
+            },
+            {
+              "slug": "dataloader",
+              "title": "dataloader"
+            },
+            {
+              "slug": "graphql-or-rest",
+              "title": "GraphQL თუ REST"
+            }
+          ]
+        },
+        {
+          "slug": "node-typescript",
+          "title": "Node და TypeScript",
+          "chapters": [
+            {
+              "slug": "ts-setup",
+              "title": "TypeScript-ის მომართვა"
+            },
+            {
+              "slug": "typed-express",
+              "title": "ტიპიზებული Express"
+            },
+            {
+              "slug": "dtos",
+              "title": "DTO"
+            },
+            {
+              "slug": "typed-orm",
+              "title": "ORM-ის ტიპები"
+            },
+            {
+              "slug": "building-ts",
+              "title": "აწყობა"
+            }
+          ]
+        },
+        {
+          "slug": "node-observability",
+          "title": "დაკვირვებადობა",
+          "chapters": [
+            {
+              "slug": "structured-logs",
+              "title": "სტრუქტურირებული ლოგები"
+            },
+            {
+              "slug": "metrics",
+              "title": "მეტრიკები"
+            },
+            {
+              "slug": "traces",
+              "title": "tracing"
+            },
+            {
+              "slug": "alerts",
+              "title": "შეტყობინებები"
+            },
+            {
+              "slug": "tracking-errors",
+              "title": "შეცდომების თვალყური"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-auth",
+          "title": "ავთენტიფიკაცია სიღრმეში",
+          "chapters": [
+            {
+              "slug": "oauth2",
+              "title": "OAuth 2"
+            },
+            {
+              "slug": "openid-connect",
+              "title": "OpenID Connect"
+            },
+            {
+              "slug": "single-sign-on",
+              "title": "SSO"
+            },
+            {
+              "slug": "two-factor",
+              "title": "ორფაქტორიანი შესვლა"
+            },
+            {
+              "slug": "permission-models",
+              "title": "უფლებების მოდელები"
+            }
+          ]
+        },
+        {
+          "slug": "node-frameworks",
+          "title": "ფრეიმვორკები",
+          "chapters": [
+            {
+              "slug": "nestjs",
+              "title": "NestJS"
+            },
+            {
+              "slug": "fastify",
+              "title": "Fastify"
+            },
+            {
+              "slug": "hono",
+              "title": "Hono"
+            },
+            {
+              "slug": "choosing-a-framework",
+              "title": "ფრეიმვორკის არჩევა"
+            },
+            {
+              "slug": "express-limits",
+              "title": "Express-ის შეზღუდვები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "მოვლენებზე აგებული პლატფორმა",
+        "description": "რამდენიმე სერვისი, რომლებიც მოვლენებით ურთიერთობენ, მდგრადია და მასშტაბირდება."
+      },
+      "modules": [
+        {
+          "slug": "scaling-node",
+          "title": "მასშტაბირება",
+          "chapters": [
+            {
+              "slug": "horizontal-scaling",
+              "title": "ჰორიზონტალური მასშტაბირება"
+            },
+            {
+              "slug": "stateless-services",
+              "title": "მდგომარეობის გარეშე სერვისები"
+            },
+            {
+              "slug": "load-balancing",
+              "title": "დატვირთვის განაწილება"
+            },
+            {
+              "slug": "autoscaling",
+              "title": "ავტომასშტაბირება"
+            },
+            {
+              "slug": "capacity-planning",
+              "title": "სიმძლავრის დაგეგმვა"
+            }
+          ]
+        },
+        {
+          "slug": "reliability",
+          "title": "საიმედოობა",
+          "chapters": [
+            {
+              "slug": "graceful-shutdown",
+              "title": "რბილი გათიშვა"
+            },
+            {
+              "slug": "circuit-breaker",
+              "title": "circuit breaker"
+            },
+            {
+              "slug": "idempotency",
+              "title": "იდემპოტენტობა"
+            },
+            {
+              "slug": "backpressure",
+              "title": "backpressure"
+            },
+            {
+              "slug": "chaos-testing",
+              "title": "ქაოსის ტესტირება"
+            }
+          ]
+        },
+        {
+          "slug": "native-code",
+          "title": "native კოდი",
+          "chapters": [
+            {
+              "slug": "n-api",
+              "title": "N-API"
+            },
+            {
+              "slug": "native-addons",
+              "title": "native დამატებები"
+            },
+            {
+              "slug": "wasm-in-node",
+              "title": "WebAssembly Node-ში"
+            },
+            {
+              "slug": "child-processes",
+              "title": "შვილი პროცესები"
+            },
+            {
+              "slug": "calling-native-libraries",
+              "title": "native ბიბლიოთეკების გამოძახება"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-security",
+          "title": "უსაფრთხოება სიღრმეში",
+          "chapters": [
+            {
+              "slug": "threat-modeling",
+              "title": "საფრთხეების მოდელირება"
+            },
+            {
+              "slug": "supply-chain",
+              "title": "მიწოდების ჯაჭვი"
+            },
+            {
+              "slug": "sandboxing",
+              "title": "იზოლაცია"
+            },
+            {
+              "slug": "security-audit",
+              "title": "უსაფრთხოების აუდიტი"
+            },
+            {
+              "slug": "responding-to-incidents",
+              "title": "ინციდენტზე რეაგირება"
+            }
+          ]
+        },
+        {
+          "slug": "architecture-patterns",
+          "title": "არქიტექტურის ნიმუშები",
+          "chapters": [
+            {
+              "slug": "domain-driven-design",
+              "title": "DDD"
+            },
+            {
+              "slug": "cqrs",
+              "title": "CQRS"
+            },
+            {
+              "slug": "event-sourcing",
+              "title": "event sourcing"
+            },
+            {
+              "slug": "hexagonal",
+              "title": "ექვსკუთხა არქიტექტურა"
+            },
+            {
+              "slug": "modular-monolith",
+              "title": "მოდულური მონოლითი"
+            }
+          ]
+        },
+        {
+          "slug": "data-intensive",
+          "title": "მონაცემებით დატვირთული სისტემები",
+          "chapters": [
+            {
+              "slug": "stream-processing",
+              "title": "ნაკადების დამუშავება"
+            },
+            {
+              "slug": "kafka",
+              "title": "Kafka"
+            },
+            {
+              "slug": "large-datasets",
+              "title": "დიდი მონაცემები"
+            },
+            {
+              "slug": "etl",
+              "title": "ETL"
+            },
+            {
+              "slug": "search-engines",
+              "title": "საძიებო ძრავები"
+            }
+          ]
+        },
+        {
+          "slug": "serverless",
+          "title": "serverless",
+          "chapters": [
+            {
+              "slug": "serverless-functions",
+              "title": "ფუნქციები"
+            },
+            {
+              "slug": "serverless-cold-start",
+              "title": "ცივი გაშვება"
+            },
+            {
+              "slug": "edge-computing",
+              "title": "edge"
+            },
+            {
+              "slug": "serverless-state",
+              "title": "მდგომარეობა serverless-ში"
+            },
+            {
+              "slug": "serverless-cost",
+              "title": "ხარჯი"
+            }
+          ]
+        },
+        {
+          "slug": "api-platform",
+          "title": "API პლატფორმა",
+          "chapters": [
+            {
+              "slug": "limits-at-scale",
+              "title": "ლიმიტები მასშტაბზე"
+            },
+            {
+              "slug": "api-keys",
+              "title": "API გასაღებები"
+            },
+            {
+              "slug": "outgoing-webhooks",
+              "title": "webhook-ების გაგზავნა"
+            },
+            {
+              "slug": "sdks",
+              "title": "SDK"
+            },
+            {
+              "slug": "versioning-policy",
+              "title": "ვერსიების პოლიტიკა"
+            }
+          ]
+        },
+        {
+          "slug": "runtimes",
+          "title": "გარემოები",
+          "chapters": [
+            {
+              "slug": "deno",
+              "title": "Deno"
+            },
+            {
+              "slug": "bun",
+              "title": "Bun"
+            },
+            {
+              "slug": "compatibility",
+              "title": "თავსებადობა"
+            },
+            {
+              "slug": "choosing-a-runtime",
+              "title": "გარემოს არჩევა"
+            },
+            {
+              "slug": "node-roadmap",
+              "title": "Node-ის განვითარება"
+            }
+          ]
+        },
+        {
+          "slug": "leading-backend",
+          "title": "ბექენდის ლიდერობა",
+          "chapters": [
+            {
+              "slug": "design-reviews",
+              "title": "დიზაინის მიმოხილვა"
+            },
+            {
+              "slug": "on-call",
+              "title": "მორიგეობა"
+            },
+            {
+              "slug": "postmortems",
+              "title": "ინციდენტის ანალიზი"
+            },
+            {
+              "slug": "backend-standards",
+              "title": "სტანდარტები"
+            },
+            {
+              "slug": "mentoring-backend",
+              "title": "მენტორობა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

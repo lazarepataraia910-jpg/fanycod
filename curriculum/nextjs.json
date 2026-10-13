@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "პირადი ბლოგი",
+        "description": "ბლოგი Next.js-ზე: გვერდები, layout, სტატიები Markdown-იდან და გაშვება."
+      },
+      "modules": [
+        {
+          "slug": "next-intro",
+          "title": "Next.js-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-nextjs",
+              "title": "რა არის Next.js"
+            },
+            {
+              "slug": "create-next-app",
+              "title": "პროექტის შექმნა"
+            },
+            {
+              "slug": "project-structure",
+              "title": "საქაღალდეების სტრუქტურა"
+            },
+            {
+              "slug": "dev-server",
+              "title": "გაშვება dev რეჟიმში"
+            },
+            {
+              "slug": "react-and-next",
+              "title": "React და Next.js"
+            }
+          ]
+        },
+        {
+          "slug": "routing-basics",
+          "title": "მარშრუტების საფუძვლები",
+          "chapters": [
+            {
+              "slug": "app-router",
+              "title": "App Router"
+            },
+            {
+              "slug": "page-files",
+              "title": "page ფაილი"
+            },
+            {
+              "slug": "nested-routes",
+              "title": "ჩადგმული მარშრუტები"
+            },
+            {
+              "slug": "link-component",
+              "title": "Link"
+            },
+            {
+              "slug": "dynamic-route",
+              "title": "დინამიკური მარშრუტი"
+            }
+          ]
+        },
+        {
+          "slug": "layouts",
+          "title": "layout-ები",
+          "chapters": [
+            {
+              "slug": "layout-file",
+              "title": "layout ფაილი"
+            },
+            {
+              "slug": "root-layout",
+              "title": "root layout"
+            },
+            {
+              "slug": "nested-layouts",
+              "title": "ჩადგმული layout"
+            },
+            {
+              "slug": "template-file",
+              "title": "template"
+            },
+            {
+              "slug": "layout-metadata",
+              "title": "metadata layout-ში"
+            }
+          ]
+        },
+        {
+          "slug": "styling-next",
+          "title": "სტილი",
+          "chapters": [
+            {
+              "slug": "global-css",
+              "title": "გლობალური CSS"
+            },
+            {
+              "slug": "css-modules-next",
+              "title": "CSS Modules"
+            },
+            {
+              "slug": "tailwind",
+              "title": "Tailwind"
+            },
+            {
+              "slug": "next-font",
+              "title": "შრიფტები next/font-ით"
+            },
+            {
+              "slug": "next-image",
+              "title": "სურათები next/image-ით"
+            }
+          ]
+        },
+        {
+          "slug": "server-and-client",
+          "title": "სერვერი და კლიენტი",
+          "chapters": [
+            {
+              "slug": "server-components",
+              "title": "სერვერის კომპონენტი"
+            },
+            {
+              "slug": "client-components",
+              "title": "კლიენტის კომპონენტი"
+            },
+            {
+              "slug": "use-client",
+              "title": "use client"
+            },
+            {
+              "slug": "which-to-use",
+              "title": "როდის რომელი"
+            },
+            {
+              "slug": "props-across-boundary",
+              "title": "props საზღვარზე"
+            }
+          ]
+        },
+        {
+          "slug": "data-fetching-basics",
+          "title": "მონაცემების ჩატვირთვა",
+          "chapters": [
+            {
+              "slug": "fetch-on-server",
+              "title": "fetch სერვერის კომპონენტში"
+            },
+            {
+              "slug": "async-components",
+              "title": "async კომპონენტი"
+            },
+            {
+              "slug": "loading-file",
+              "title": "loading ფაილი"
+            },
+            {
+              "slug": "error-file",
+              "title": "error ფაილი"
+            },
+            {
+              "slug": "not-found",
+              "title": "not-found"
+            }
+          ]
+        },
+        {
+          "slug": "navigation",
+          "title": "ნავიგაცია",
+          "chapters": [
+            {
+              "slug": "use-router",
+              "title": "useRouter"
+            },
+            {
+              "slug": "use-pathname",
+              "title": "usePathname"
+            },
+            {
+              "slug": "search-params",
+              "title": "ძებნის პარამეტრები"
+            },
+            {
+              "slug": "redirects",
+              "title": "redirect"
+            },
+            {
+              "slug": "prefetching",
+              "title": "წინასწარი ჩატვირთვა"
+            }
+          ]
+        },
+        {
+          "slug": "next-forms",
+          "title": "ფორმები",
+          "chapters": [
+            {
+              "slug": "forms-and-actions",
+              "title": "ფორმა და server action"
+            },
+            {
+              "slug": "mutating-data",
+              "title": "მონაცემების შეცვლა"
+            },
+            {
+              "slug": "validating-forms",
+              "title": "ფორმის შემოწმება"
+            },
+            {
+              "slug": "revalidating",
+              "title": "revalidate"
+            },
+            {
+              "slug": "pending-state",
+              "title": "მოლოდინის მდგომარეობა"
+            }
+          ]
+        },
+        {
+          "slug": "assets-and-config",
+          "title": "ფაილები და კონფიგურაცია",
+          "chapters": [
+            {
+              "slug": "public-folder",
+              "title": "public საქაღალდე"
+            },
+            {
+              "slug": "metadata-files",
+              "title": "favicon და metadata ფაილები"
+            },
+            {
+              "slug": "environment-variables",
+              "title": "გარემოს ცვლადები"
+            },
+            {
+              "slug": "next-config",
+              "title": "next.config"
+            },
+            {
+              "slug": "third-party-scripts",
+              "title": "გარე სკრიპტები"
+            }
+          ]
+        },
+        {
+          "slug": "deploying",
+          "title": "გაშვება",
+          "chapters": [
+            {
+              "slug": "building",
+              "title": "აწყობა"
+            },
+            {
+              "slug": "deploying-to-vercel",
+              "title": "გაშვება Vercel-ზე"
+            },
+            {
+              "slug": "production-env",
+              "title": "ცვლადები production-ში"
+            },
+            {
+              "slug": "custom-domain",
+              "title": "დომენი"
+            },
+            {
+              "slug": "reading-logs",
+              "title": "ლოგები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "ჩანაწერების აპი",
+        "description": "აპი ავთენტიფიკაციით, მონაცემთა ბაზით და server action-ებით."
+      },
+      "modules": [
+        {
+          "slug": "rendering",
+          "title": "რენდერის ტიპები",
+          "chapters": [
+            {
+              "slug": "static-rendering",
+              "title": "სტატიკური რენდერი"
+            },
+            {
+              "slug": "dynamic-rendering",
+              "title": "დინამიკური რენდერი"
+            },
+            {
+              "slug": "streaming-ui",
+              "title": "streaming"
+            },
+            {
+              "slug": "partial-prerendering",
+              "title": "ნაწილობრივი წინასწარი რენდერი"
+            },
+            {
+              "slug": "choosing-rendering",
+              "title": "რენდერის არჩევა"
+            }
+          ]
+        },
+        {
+          "slug": "caching",
+          "title": "ქეშირება",
+          "chapters": [
+            {
+              "slug": "fetch-cache",
+              "title": "fetch-ის ქეში"
+            },
+            {
+              "slug": "time-based-revalidation",
+              "title": "განახლება დროით"
+            },
+            {
+              "slug": "tag-revalidation",
+              "title": "განახლება tag-ით"
+            },
+            {
+              "slug": "router-cache",
+              "title": "როუტერის ქეში"
+            },
+            {
+              "slug": "debugging-cache",
+              "title": "ქეშის გამართვა"
+            }
+          ]
+        },
+        {
+          "slug": "route-handlers",
+          "title": "API მარშრუტები",
+          "chapters": [
+            {
+              "slug": "route-handler-basics",
+              "title": "route handler"
+            },
+            {
+              "slug": "get-and-post",
+              "title": "GET და POST"
+            },
+            {
+              "slug": "request-and-response",
+              "title": "request და response"
+            },
+            {
+              "slug": "headers-and-cookies",
+              "title": "headers და cookies"
+            },
+            {
+              "slug": "cors",
+              "title": "CORS"
+            }
+          ]
+        },
+        {
+          "slug": "dynamic-routes",
+          "title": "დინამიკური მარშრუტები",
+          "chapters": [
+            {
+              "slug": "generate-static-params",
+              "title": "generateStaticParams"
+            },
+            {
+              "slug": "catch-all-routes",
+              "title": "catch-all მარშრუტი"
+            },
+            {
+              "slug": "optional-catch-all",
+              "title": "არასავალდებულო catch-all"
+            },
+            {
+              "slug": "route-groups",
+              "title": "მარშრუტების ჯგუფები"
+            },
+            {
+              "slug": "parallel-routes",
+              "title": "პარალელური მარშრუტები"
+            }
+          ]
+        },
+        {
+          "slug": "metadata-and-seo",
+          "title": "metadata და SEO",
+          "chapters": [
+            {
+              "slug": "metadata-api",
+              "title": "metadata API"
+            },
+            {
+              "slug": "dynamic-metadata",
+              "title": "დინამიკური metadata"
+            },
+            {
+              "slug": "og-images",
+              "title": "Open Graph სურათები"
+            },
+            {
+              "slug": "sitemap",
+              "title": "sitemap"
+            },
+            {
+              "slug": "robots",
+              "title": "robots"
+            }
+          ]
+        },
+        {
+          "slug": "authentication",
+          "title": "ავთენტიფიკაცია",
+          "chapters": [
+            {
+              "slug": "sessions",
+              "title": "სესიები"
+            },
+            {
+              "slug": "auth-library",
+              "title": "Auth.js"
+            },
+            {
+              "slug": "protecting-with-middleware",
+              "title": "დაცვა middleware-ით"
+            },
+            {
+              "slug": "roles",
+              "title": "როლები"
+            },
+            {
+              "slug": "oauth-providers",
+              "title": "OAuth პროვაიდერები"
+            }
+          ]
+        },
+        {
+          "slug": "database",
+          "title": "მონაცემთა ბაზა",
+          "chapters": [
+            {
+              "slug": "orm-prisma",
+              "title": "ORM Prisma"
+            },
+            {
+              "slug": "data-models",
+              "title": "მოდელები"
+            },
+            {
+              "slug": "server-queries",
+              "title": "მოთხოვნები სერვერზე"
+            },
+            {
+              "slug": "migrations",
+              "title": "მიგრაციები"
+            },
+            {
+              "slug": "connection-pooling",
+              "title": "კავშირების აუზი"
+            }
+          ]
+        },
+        {
+          "slug": "server-actions",
+          "title": "server action-ები",
+          "chapters": [
+            {
+              "slug": "action-basics",
+              "title": "action-ის საფუძველი"
+            },
+            {
+              "slug": "use-action-state",
+              "title": "useActionState"
+            },
+            {
+              "slug": "optimistic-updates",
+              "title": "ოპტიმისტური განახლება"
+            },
+            {
+              "slug": "action-errors",
+              "title": "შეცდომები action-ში"
+            },
+            {
+              "slug": "action-security",
+              "title": "action-ის უსაფრთხოება"
+            }
+          ]
+        },
+        {
+          "slug": "middleware",
+          "title": "middleware",
+          "chapters": [
+            {
+              "slug": "middleware-file",
+              "title": "middleware ფაილი"
+            },
+            {
+              "slug": "redirect-and-rewrite",
+              "title": "redirect და rewrite"
+            },
+            {
+              "slug": "matcher",
+              "title": "matcher"
+            },
+            {
+              "slug": "i18n-routing",
+              "title": "ენობრივი მარშრუტები"
+            },
+            {
+              "slug": "edge-runtime",
+              "title": "edge runtime"
+            }
+          ]
+        },
+        {
+          "slug": "optimizing-assets",
+          "title": "რესურსების ოპტიმიზაცია",
+          "chapters": [
+            {
+              "slug": "image-in-depth",
+              "title": "next/image სიღრმეში"
+            },
+            {
+              "slug": "remote-images",
+              "title": "გარე სურათები"
+            },
+            {
+              "slug": "placeholders",
+              "title": "placeholder"
+            },
+            {
+              "slug": "font-optimization",
+              "title": "შრიფტების ოპტიმიზაცია"
+            },
+            {
+              "slug": "script-optimization",
+              "title": "სკრიპტების ოპტიმიზაცია"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "გამოწერების სერვისი",
+        "description": "SaaS-ის საწყისი: გადახდები, ელფოსტა, როლები და მონიტორინგი."
+      },
+      "modules": [
+        {
+          "slug": "advanced-routing",
+          "title": "მარშრუტები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "intercepting-routes",
+              "title": "intercepting routes"
+            },
+            {
+              "slug": "route-modals",
+              "title": "მოდალი მარშრუტით"
+            },
+            {
+              "slug": "parallel-routes-in-practice",
+              "title": "პარალელური მარშრუტები პრაქტიკაში"
+            },
+            {
+              "slug": "loading-patterns",
+              "title": "ჩატვირთვის ნიმუშები"
+            },
+            {
+              "slug": "error-boundaries-next",
+              "title": "შეცდომის საზღვრები"
+            }
+          ]
+        },
+        {
+          "slug": "next-performance",
+          "title": "წარმადობა",
+          "chapters": [
+            {
+              "slug": "web-vitals",
+              "title": "Core Web Vitals"
+            },
+            {
+              "slug": "analyzing-bundles",
+              "title": "bundle-ის ანალიზი"
+            },
+            {
+              "slug": "dynamic-imports",
+              "title": "დინამიკური import"
+            },
+            {
+              "slug": "image-strategy",
+              "title": "სურათების სტრატეგია"
+            },
+            {
+              "slug": "script-strategy",
+              "title": "გარე სკრიპტების სტრატეგია"
+            }
+          ]
+        },
+        {
+          "slug": "next-i18n",
+          "title": "მრავალენოვნება",
+          "chapters": [
+            {
+              "slug": "locale-routes",
+              "title": "ენობრივი მისამართები"
+            },
+            {
+              "slug": "server-translations",
+              "title": "თარგმანები სერვერზე"
+            },
+            {
+              "slug": "locale-detection",
+              "title": "ენის ამოცნობა"
+            },
+            {
+              "slug": "hreflang-next",
+              "title": "hreflang"
+            },
+            {
+              "slug": "formatting-dates",
+              "title": "თარიღის და რიცხვის ფორმატი"
+            }
+          ]
+        },
+        {
+          "slug": "testing-next",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "unit-testing-next",
+              "title": "ერთეულის ტესტები"
+            },
+            {
+              "slug": "component-testing-next",
+              "title": "კომპონენტის ტესტი"
+            },
+            {
+              "slug": "e2e-testing-next",
+              "title": "E2E ტესტები"
+            },
+            {
+              "slug": "testing-actions",
+              "title": "server action-ის ტესტი"
+            },
+            {
+              "slug": "mocking-next",
+              "title": "იმიტაცია"
+            }
+          ]
+        },
+        {
+          "slug": "state-in-next",
+          "title": "მდგომარეობა",
+          "chapters": [
+            {
+              "slug": "url-as-state",
+              "title": "მისამართი, როგორც state"
+            },
+            {
+              "slug": "server-state",
+              "title": "სერვერის state"
+            },
+            {
+              "slug": "client-stores",
+              "title": "კლიენტის საცავები"
+            },
+            {
+              "slug": "cookie-state",
+              "title": "state cookie-ში"
+            },
+            {
+              "slug": "form-state",
+              "title": "ფორმის state"
+            }
+          ]
+        },
+        {
+          "slug": "payments-and-email",
+          "title": "გადახდები და ელფოსტა",
+          "chapters": [
+            {
+              "slug": "payment-integration",
+              "title": "გადახდის ინტეგრაცია"
+            },
+            {
+              "slug": "webhooks",
+              "title": "webhook"
+            },
+            {
+              "slug": "sending-email",
+              "title": "ელფოსტის გაგზავნა"
+            },
+            {
+              "slug": "background-jobs",
+              "title": "ფონური დავალებები"
+            },
+            {
+              "slug": "cron-jobs",
+              "title": "cron"
+            }
+          ]
+        },
+        {
+          "slug": "file-handling",
+          "title": "ფაილები",
+          "chapters": [
+            {
+              "slug": "uploads",
+              "title": "ატვირთვა"
+            },
+            {
+              "slug": "object-storage",
+              "title": "ფაილების საცავი"
+            },
+            {
+              "slug": "image-processing",
+              "title": "სურათის დამუშავება"
+            },
+            {
+              "slug": "streaming-responses",
+              "title": "ნაკადური პასუხი"
+            },
+            {
+              "slug": "downloads",
+              "title": "ჩამოტვირთვა"
+            }
+          ]
+        },
+        {
+          "slug": "runtimes",
+          "title": "გაშვების გარემოები",
+          "chapters": [
+            {
+              "slug": "node-and-edge",
+              "title": "Node და Edge"
+            },
+            {
+              "slug": "edge-functions",
+              "title": "edge ფუნქციები"
+            },
+            {
+              "slug": "regions",
+              "title": "რეგიონები"
+            },
+            {
+              "slug": "cold-starts",
+              "title": "ცივი გაშვება"
+            },
+            {
+              "slug": "runtime-limits",
+              "title": "შეზღუდვები"
+            }
+          ]
+        },
+        {
+          "slug": "next-security",
+          "title": "უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "securing-actions",
+              "title": "action-ების დაცვა"
+            },
+            {
+              "slug": "csrf-protection",
+              "title": "CSRF"
+            },
+            {
+              "slug": "security-headers",
+              "title": "უსაფრთხოების headers"
+            },
+            {
+              "slug": "secrets",
+              "title": "საიდუმლოები"
+            },
+            {
+              "slug": "rate-limiting",
+              "title": "მოთხოვნების ლიმიტი"
+            }
+          ]
+        },
+        {
+          "slug": "observability",
+          "title": "დაკვირვებადობა",
+          "chapters": [
+            {
+              "slug": "logging",
+              "title": "ლოგირება"
+            },
+            {
+              "slug": "instrumentation",
+              "title": "instrumentation"
+            },
+            {
+              "slug": "tracing",
+              "title": "tracing"
+            },
+            {
+              "slug": "error-tracking",
+              "title": "შეცდომების თვალყური"
+            },
+            {
+              "slug": "analytics",
+              "title": "ანალიტიკა"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "მრავალმომხმარებლიანი პლატფორმა",
+        "description": "პლატფორმა, სადაც ყოველ კლიენტს თავისი ქვედომენი, მონაცემები და თემა აქვს."
+      },
+      "modules": [
+        {
+          "slug": "next-internals",
+          "title": "Next.js შიგნიდან",
+          "chapters": [
+            {
+              "slug": "build-process",
+              "title": "როგორ მუშაობს აწყობა"
+            },
+            {
+              "slug": "rsc-payload",
+              "title": "RSC payload"
+            },
+            {
+              "slug": "router-internals",
+              "title": "როუტერი შიგნიდან"
+            },
+            {
+              "slug": "turbopack",
+              "title": "Turbopack"
+            },
+            {
+              "slug": "hydration-next",
+              "title": "hydration"
+            }
+          ]
+        },
+        {
+          "slug": "next-architecture",
+          "title": "არქიტექტურა",
+          "chapters": [
+            {
+              "slug": "monorepo-next",
+              "title": "monorepo"
+            },
+            {
+              "slug": "feature-modules-next",
+              "title": "ფუნქციური მოდულები"
+            },
+            {
+              "slug": "backend-for-frontend",
+              "title": "backend for frontend"
+            },
+            {
+              "slug": "micro-frontends-next",
+              "title": "მიკროფრონტენდები"
+            },
+            {
+              "slug": "multi-tenancy",
+              "title": "მრავალმომხმარებლიანი აპი"
+            }
+          ]
+        },
+        {
+          "slug": "scaling",
+          "title": "მასშტაბირება",
+          "chapters": [
+            {
+              "slug": "caching-at-scale",
+              "title": "ქეშირება მასშტაბზე"
+            },
+            {
+              "slug": "isr-at-scale",
+              "title": "ISR ბევრ გვერდზე"
+            },
+            {
+              "slug": "cdn",
+              "title": "CDN"
+            },
+            {
+              "slug": "scaling-the-database",
+              "title": "ბაზის მასშტაბირება"
+            },
+            {
+              "slug": "queues",
+              "title": "რიგები"
+            }
+          ]
+        },
+        {
+          "slug": "self-hosting",
+          "title": "საკუთარ სერვერზე გაშვება",
+          "chapters": [
+            {
+              "slug": "docker-next",
+              "title": "Docker"
+            },
+            {
+              "slug": "node-server",
+              "title": "Node სერვერი"
+            },
+            {
+              "slug": "standalone-output",
+              "title": "standalone აწყობა"
+            },
+            {
+              "slug": "reverse-proxy",
+              "title": "reverse proxy"
+            },
+            {
+              "slug": "cache-handler",
+              "title": "ქეშის დამმუშავებელი"
+            }
+          ]
+        },
+        {
+          "slug": "next-migration",
+          "title": "მიგრაცია",
+          "chapters": [
+            {
+              "slug": "pages-to-app",
+              "title": "Pages-იდან App Router-ზე"
+            },
+            {
+              "slug": "incremental-migration",
+              "title": "თანდათანობითი მიგრაცია"
+            },
+            {
+              "slug": "legacy-apis",
+              "title": "ძველი API-ები"
+            },
+            {
+              "slug": "upgrading-next",
+              "title": "ვერსიის განახლება"
+            },
+            {
+              "slug": "next-codemods",
+              "title": "codemod"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-data",
+          "title": "მონაცემები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "optimizing-queries",
+              "title": "მოთხოვნების ოპტიმიზაცია"
+            },
+            {
+              "slug": "n-plus-one",
+              "title": "N+1 პრობლემა"
+            },
+            {
+              "slug": "transactions",
+              "title": "ტრანზაქციები"
+            },
+            {
+              "slug": "realtime-data",
+              "title": "რეალური დროის მონაცემები"
+            },
+            {
+              "slug": "search",
+              "title": "ძებნა"
+            }
+          ]
+        },
+        {
+          "slug": "dx-and-tooling",
+          "title": "ხელსაწყოები",
+          "chapters": [
+            {
+              "slug": "lint-and-format",
+              "title": "lint და ფორმატი"
+            },
+            {
+              "slug": "ci-pipeline",
+              "title": "CI"
+            },
+            {
+              "slug": "preview-deployments",
+              "title": "preview გაშვებები"
+            },
+            {
+              "slug": "feature-flags",
+              "title": "feature flag"
+            },
+            {
+              "slug": "typed-env",
+              "title": "ტიპიზებული გარემოს ცვლადები"
+            }
+          ]
+        },
+        {
+          "slug": "audits",
+          "title": "აუდიტი",
+          "chapters": [
+            {
+              "slug": "accessibility-audit-next",
+              "title": "ხელმისაწვდომობის აუდიტი"
+            },
+            {
+              "slug": "seo-audit-next",
+              "title": "SEO აუდიტი"
+            },
+            {
+              "slug": "performance-audit",
+              "title": "წარმადობის აუდიტი"
+            },
+            {
+              "slug": "monitoring",
+              "title": "მონიტორინგი"
+            },
+            {
+              "slug": "preventing-regressions",
+              "title": "რეგრესიის თავიდან აცილება"
+            }
+          ]
+        },
+        {
+          "slug": "cost-and-operations",
+          "title": "ხარჯი და ოპერაციები",
+          "chapters": [
+            {
+              "slug": "managing-cost",
+              "title": "ხარჯის მართვა"
+            },
+            {
+              "slug": "function-limits",
+              "title": "ფუნქციების ლიმიტები"
+            },
+            {
+              "slug": "cache-economics",
+              "title": "ქეშით დაზოგვა"
+            },
+            {
+              "slug": "incident-response",
+              "title": "ინციდენტზე რეაგირება"
+            },
+            {
+              "slug": "backups",
+              "title": "სარეზერვო ასლები"
+            }
+          ]
+        },
+        {
+          "slug": "leading-next",
+          "title": "ლიდერობა",
+          "chapters": [
+            {
+              "slug": "technology-choices",
+              "title": "ტექნოლოგიის არჩევა"
+            },
+            {
+              "slug": "writing-rfcs",
+              "title": "RFC-ის წერა"
+            },
+            {
+              "slug": "team-standards",
+              "title": "სტანდარტები"
+            },
+            {
+              "slug": "growing-a-team",
+              "title": "გუნდის ზრდა"
+            },
+            {
+              "slug": "product-roadmap",
+              "title": "გეგმა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

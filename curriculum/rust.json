@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "სიტყვების მთვლელი",
+        "description": "ბრძანებათა ხაზის პროგრამა, რომელიც ფაილში სიტყვებს ითვლის: ownership, String და კოლექციები."
+      },
+      "modules": [
+        {
+          "slug": "rust-intro",
+          "title": "Rust-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-rust",
+              "title": "რა არის Rust"
+            },
+            {
+              "slug": "installing-rustup",
+              "title": "დაყენება rustup-ით"
+            },
+            {
+              "slug": "cargo",
+              "title": "cargo"
+            },
+            {
+              "slug": "first-program",
+              "title": "პირველი პროგრამა"
+            },
+            {
+              "slug": "run-and-build",
+              "title": "cargo run და build"
+            }
+          ]
+        },
+        {
+          "slug": "variables",
+          "title": "ცვლადები",
+          "chapters": [
+            {
+              "slug": "let-and-mut",
+              "title": "let და mut"
+            },
+            {
+              "slug": "basic-types",
+              "title": "ძირითადი ტიპები"
+            },
+            {
+              "slug": "shadowing",
+              "title": "shadowing"
+            },
+            {
+              "slug": "constants",
+              "title": "მუდმივები"
+            },
+            {
+              "slug": "tuples-and-arrays",
+              "title": "tuple და მასივი"
+            }
+          ]
+        },
+        {
+          "slug": "control-flow",
+          "title": "მართვის ნაკადი",
+          "chapters": [
+            {
+              "slug": "if",
+              "title": "if"
+            },
+            {
+              "slug": "loops",
+              "title": "loop, while და for"
+            },
+            {
+              "slug": "match-basics",
+              "title": "match-ის საფუძველი"
+            },
+            {
+              "slug": "ranges",
+              "title": "დიაპაზონები"
+            },
+            {
+              "slug": "expressions",
+              "title": "გამოსახულება და ინსტრუქცია"
+            }
+          ]
+        },
+        {
+          "slug": "functions",
+          "title": "ფუნქციები",
+          "chapters": [
+            {
+              "slug": "fn",
+              "title": "fn"
+            },
+            {
+              "slug": "parameters",
+              "title": "პარამეტრები და ტიპები"
+            },
+            {
+              "slug": "return-values",
+              "title": "დაბრუნებული მნიშვნელობა"
+            },
+            {
+              "slug": "block-expressions",
+              "title": "ბლოკი, როგორც გამოსახულება"
+            },
+            {
+              "slug": "doc-comments",
+              "title": "კომენტარები და დოკუმენტაცია"
+            }
+          ]
+        },
+        {
+          "slug": "ownership",
+          "title": "მფლობელობა",
+          "chapters": [
+            {
+              "slug": "ownership-rules",
+              "title": "მფლობელობის წესები"
+            },
+            {
+              "slug": "move",
+              "title": "გადაცემა move"
+            },
+            {
+              "slug": "clone",
+              "title": "clone"
+            },
+            {
+              "slug": "copy-types",
+              "title": "Copy ტიპები"
+            },
+            {
+              "slug": "scope-and-drop",
+              "title": "ხილვადობა და drop"
+            }
+          ]
+        },
+        {
+          "slug": "borrowing",
+          "title": "სესხება",
+          "chapters": [
+            {
+              "slug": "references",
+              "title": "მითითებები"
+            },
+            {
+              "slug": "mutable-references",
+              "title": "ცვლადი მითითებები"
+            },
+            {
+              "slug": "borrowing-rules",
+              "title": "სესხების წესები"
+            },
+            {
+              "slug": "slices",
+              "title": "slice"
+            },
+            {
+              "slug": "dangling-references",
+              "title": "დაკიდებული მითითებები"
+            }
+          ]
+        },
+        {
+          "slug": "strings",
+          "title": "სტრიქონები",
+          "chapters": [
+            {
+              "slug": "string-and-str",
+              "title": "String და &str"
+            },
+            {
+              "slug": "building-strings",
+              "title": "სტრიქონის შექმნა და შეცვლა"
+            },
+            {
+              "slug": "utf8",
+              "title": "UTF-8"
+            },
+            {
+              "slug": "string-slicing",
+              "title": "სტრიქონის ნაწილი"
+            },
+            {
+              "slug": "formatting",
+              "title": "ფორმატირება"
+            }
+          ]
+        },
+        {
+          "slug": "structs",
+          "title": "სტრუქტურები",
+          "chapters": [
+            {
+              "slug": "struct-basics",
+              "title": "struct"
+            },
+            {
+              "slug": "impl-methods",
+              "title": "მეთოდები impl-ით"
+            },
+            {
+              "slug": "associated-functions",
+              "title": "ასოცირებული ფუნქციები"
+            },
+            {
+              "slug": "tuple-structs",
+              "title": "tuple struct"
+            },
+            {
+              "slug": "derive-debug",
+              "title": "derive"
+            }
+          ]
+        },
+        {
+          "slug": "enums",
+          "title": "enum-ები",
+          "chapters": [
+            {
+              "slug": "enum-basics",
+              "title": "enum"
+            },
+            {
+              "slug": "match-in-depth",
+              "title": "match სიღრმეში"
+            },
+            {
+              "slug": "option",
+              "title": "Option"
+            },
+            {
+              "slug": "if-let",
+              "title": "if let"
+            },
+            {
+              "slug": "enums-with-data",
+              "title": "enum მონაცემებით"
+            }
+          ]
+        },
+        {
+          "slug": "collections",
+          "title": "კოლექციები",
+          "chapters": [
+            {
+              "slug": "vec",
+              "title": "Vec"
+            },
+            {
+              "slug": "hashmap",
+              "title": "HashMap"
+            },
+            {
+              "slug": "iterating-collections",
+              "title": "კოლექციის გავლა"
+            },
+            {
+              "slug": "ownership-in-collections",
+              "title": "მფლობელობა კოლექციებში"
+            },
+            {
+              "slug": "common-methods",
+              "title": "ხშირი მეთოდები"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "ფაილებში ძებნა",
+        "description": "grep-ის მსგავსი პროგრამა: შეცდომების დამუშავება, trait-ები, იტერატორები და ტესტები."
+      },
+      "modules": [
+        {
+          "slug": "error-handling",
+          "title": "შეცდომების დამუშავება",
+          "chapters": [
+            {
+              "slug": "result",
+              "title": "Result"
+            },
+            {
+              "slug": "question-mark",
+              "title": "? ოპერატორი"
+            },
+            {
+              "slug": "custom-errors",
+              "title": "საკუთარი შეცდომები"
+            },
+            {
+              "slug": "panic",
+              "title": "panic"
+            },
+            {
+              "slug": "error-crates",
+              "title": "thiserror და anyhow"
+            }
+          ]
+        },
+        {
+          "slug": "traits",
+          "title": "trait-ები",
+          "chapters": [
+            {
+              "slug": "trait-basics",
+              "title": "trait"
+            },
+            {
+              "slug": "implementing-traits",
+              "title": "trait-ის იმპლემენტაცია"
+            },
+            {
+              "slug": "default-methods",
+              "title": "ნაგულისხმევი მეთოდები"
+            },
+            {
+              "slug": "trait-bounds",
+              "title": "trait bound"
+            },
+            {
+              "slug": "common-traits",
+              "title": "ხშირი trait-ები"
+            }
+          ]
+        },
+        {
+          "slug": "generics",
+          "title": "გენერიკები",
+          "chapters": [
+            {
+              "slug": "generic-functions",
+              "title": "generic ფუნქციები"
+            },
+            {
+              "slug": "generic-structs",
+              "title": "generic სტრუქტურები"
+            },
+            {
+              "slug": "impl-trait",
+              "title": "impl Trait"
+            },
+            {
+              "slug": "where-clauses",
+              "title": "where"
+            },
+            {
+              "slug": "monomorphization",
+              "title": "მონომორფიზაცია"
+            }
+          ]
+        },
+        {
+          "slug": "lifetimes",
+          "title": "სიცოცხლის ხანგრძლივობა",
+          "chapters": [
+            {
+              "slug": "lifetime-annotations",
+              "title": "lifetime ანოტაციები"
+            },
+            {
+              "slug": "elision",
+              "title": "გამოტოვების წესები"
+            },
+            {
+              "slug": "structs-with-references",
+              "title": "სტრუქტურა მითითებებით"
+            },
+            {
+              "slug": "static-lifetime",
+              "title": "static"
+            },
+            {
+              "slug": "lifetime-errors",
+              "title": "ხშირი შეცდომები"
+            }
+          ]
+        },
+        {
+          "slug": "modules-and-crates",
+          "title": "მოდულები და crate-ები",
+          "chapters": [
+            {
+              "slug": "modules",
+              "title": "მოდულები"
+            },
+            {
+              "slug": "pub",
+              "title": "pub"
+            },
+            {
+              "slug": "crates",
+              "title": "crate"
+            },
+            {
+              "slug": "cargo-toml",
+              "title": "Cargo.toml"
+            },
+            {
+              "slug": "workspaces",
+              "title": "workspace"
+            }
+          ]
+        },
+        {
+          "slug": "iterators-and-closures",
+          "title": "იტერატორები და closure-ები",
+          "chapters": [
+            {
+              "slug": "iterator-trait",
+              "title": "Iterator"
+            },
+            {
+              "slug": "adapters",
+              "title": "ადაპტერები"
+            },
+            {
+              "slug": "closures",
+              "title": "closure"
+            },
+            {
+              "slug": "collect",
+              "title": "collect"
+            },
+            {
+              "slug": "custom-iterators",
+              "title": "საკუთარი იტერატორი"
+            }
+          ]
+        },
+        {
+          "slug": "smart-pointers",
+          "title": "ჭკვიანი მაჩვენებლები",
+          "chapters": [
+            {
+              "slug": "box",
+              "title": "Box"
+            },
+            {
+              "slug": "rc",
+              "title": "Rc"
+            },
+            {
+              "slug": "refcell",
+              "title": "RefCell"
+            },
+            {
+              "slug": "arc",
+              "title": "Arc"
+            },
+            {
+              "slug": "weak",
+              "title": "Weak"
+            }
+          ]
+        },
+        {
+          "slug": "testing",
+          "title": "ტესტირება",
+          "chapters": [
+            {
+              "slug": "unit-tests",
+              "title": "ერთეულის ტესტები"
+            },
+            {
+              "slug": "integration-tests",
+              "title": "ინტეგრაციის ტესტები"
+            },
+            {
+              "slug": "doc-tests",
+              "title": "დოკუმენტაციის ტესტები"
+            },
+            {
+              "slug": "organizing-tests",
+              "title": "ტესტების ორგანიზება"
+            },
+            {
+              "slug": "mocking",
+              "title": "იმიტაცია"
+            }
+          ]
+        },
+        {
+          "slug": "files-and-cli",
+          "title": "ფაილები და CLI",
+          "chapters": [
+            {
+              "slug": "std-fs",
+              "title": "std::fs"
+            },
+            {
+              "slug": "arguments-with-clap",
+              "title": "არგუმენტები clap-ით"
+            },
+            {
+              "slug": "stdin-and-stdout",
+              "title": "stdin და stdout"
+            },
+            {
+              "slug": "serde-json",
+              "title": "serde და JSON"
+            },
+            {
+              "slug": "reporting-errors",
+              "title": "შეცდომების ჩვენება"
+            }
+          ]
+        },
+        {
+          "slug": "tooling",
+          "title": "ხელსაწყოები",
+          "chapters": [
+            {
+              "slug": "rustfmt",
+              "title": "rustfmt"
+            },
+            {
+              "slug": "clippy",
+              "title": "clippy"
+            },
+            {
+              "slug": "cargo-doc",
+              "title": "cargo doc"
+            },
+            {
+              "slug": "cargo-features",
+              "title": "feature-ები"
+            },
+            {
+              "slug": "debugging",
+              "title": "გამართვა"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "ასინქრონული ვებ-სერვისი",
+        "description": "API axum-ით, მონაცემთა ბაზით, ასინქრონული დამუშავებით და ბენჩმარკებით."
+      },
+      "modules": [
+        {
+          "slug": "concurrency",
+          "title": "კონკურენტულობა",
+          "chapters": [
+            {
+              "slug": "threads",
+              "title": "ნაკადები"
+            },
+            {
+              "slug": "channels",
+              "title": "არხები"
+            },
+            {
+              "slug": "mutex-and-arc",
+              "title": "Mutex და Arc"
+            },
+            {
+              "slug": "send-and-sync",
+              "title": "Send და Sync"
+            },
+            {
+              "slug": "rayon",
+              "title": "rayon"
+            }
+          ]
+        },
+        {
+          "slug": "async",
+          "title": "ასინქრონულობა",
+          "chapters": [
+            {
+              "slug": "async-await",
+              "title": "async და await"
+            },
+            {
+              "slug": "futures",
+              "title": "future"
+            },
+            {
+              "slug": "tokio",
+              "title": "tokio"
+            },
+            {
+              "slug": "async-io",
+              "title": "ასინქრონული I/O"
+            },
+            {
+              "slug": "select-and-streams",
+              "title": "select და stream"
+            }
+          ]
+        },
+        {
+          "slug": "web",
+          "title": "ვებ",
+          "chapters": [
+            {
+              "slug": "axum",
+              "title": "axum"
+            },
+            {
+              "slug": "routing",
+              "title": "მარშრუტები"
+            },
+            {
+              "slug": "extractors",
+              "title": "extractor"
+            },
+            {
+              "slug": "state-and-middleware",
+              "title": "state და middleware"
+            },
+            {
+              "slug": "json-api",
+              "title": "JSON API"
+            }
+          ]
+        },
+        {
+          "slug": "databases",
+          "title": "მონაცემთა ბაზები",
+          "chapters": [
+            {
+              "slug": "sqlx",
+              "title": "sqlx"
+            },
+            {
+              "slug": "migrations",
+              "title": "მიგრაციები"
+            },
+            {
+              "slug": "connection-pool",
+              "title": "კავშირების აუზი"
+            },
+            {
+              "slug": "transactions",
+              "title": "ტრანზაქციები"
+            },
+            {
+              "slug": "orm",
+              "title": "ORM"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-traits",
+          "title": "trait-ები სიღრმეში",
+          "chapters": [
+            {
+              "slug": "associated-types",
+              "title": "ასოცირებული ტიპები"
+            },
+            {
+              "slug": "trait-objects",
+              "title": "trait ობიექტები"
+            },
+            {
+              "slug": "object-safety",
+              "title": "object safety"
+            },
+            {
+              "slug": "operator-traits",
+              "title": "ოპერატორების გადატვირთვა"
+            },
+            {
+              "slug": "blanket-impls",
+              "title": "blanket იმპლემენტაცია"
+            }
+          ]
+        },
+        {
+          "slug": "macros",
+          "title": "მაკროსები",
+          "chapters": [
+            {
+              "slug": "macro-rules",
+              "title": "macro_rules"
+            },
+            {
+              "slug": "macro-patterns",
+              "title": "ნიმუშები"
+            },
+            {
+              "slug": "derive-macros",
+              "title": "derive მაკროსი"
+            },
+            {
+              "slug": "attribute-macros",
+              "title": "ატრიბუტის მაკროსი"
+            },
+            {
+              "slug": "when-to-use-macros",
+              "title": "როდის გამოვიყენოთ"
+            }
+          ]
+        },
+        {
+          "slug": "unsafe",
+          "title": "unsafe",
+          "chapters": [
+            {
+              "slug": "unsafe-blocks",
+              "title": "unsafe ბლოკი"
+            },
+            {
+              "slug": "raw-pointers",
+              "title": "ნედლი მაჩვენებლები"
+            },
+            {
+              "slug": "ffi-basics",
+              "title": "FFI"
+            },
+            {
+              "slug": "safety-invariants",
+              "title": "უსაფრთხოების ინვარიანტები"
+            },
+            {
+              "slug": "miri",
+              "title": "Miri"
+            }
+          ]
+        },
+        {
+          "slug": "performance",
+          "title": "წარმადობა",
+          "chapters": [
+            {
+              "slug": "profiling",
+              "title": "პროფაილინგი"
+            },
+            {
+              "slug": "criterion",
+              "title": "ბენჩმარკი criterion-ით"
+            },
+            {
+              "slug": "allocations",
+              "title": "გამოყოფები"
+            },
+            {
+              "slug": "zero-cost-iterators",
+              "title": "უფასო იტერატორები"
+            },
+            {
+              "slug": "simd",
+              "title": "SIMD"
+            }
+          ]
+        },
+        {
+          "slug": "webassembly",
+          "title": "WebAssembly",
+          "chapters": [
+            {
+              "slug": "wasm-basics",
+              "title": "WebAssembly-ის საფუძველი"
+            },
+            {
+              "slug": "wasm-bindgen",
+              "title": "wasm-bindgen"
+            },
+            {
+              "slug": "web-frontend",
+              "title": "ფრონტენდი Rust-ით"
+            },
+            {
+              "slug": "wasi",
+              "title": "WASI"
+            },
+            {
+              "slug": "packaging-wasm",
+              "title": "შეფუთვა"
+            }
+          ]
+        },
+        {
+          "slug": "api-design",
+          "title": "API-ს დიზაინი",
+          "chapters": [
+            {
+              "slug": "api-guidelines",
+              "title": "API-ს წესები"
+            },
+            {
+              "slug": "newtype",
+              "title": "newtype"
+            },
+            {
+              "slug": "builder",
+              "title": "builder"
+            },
+            {
+              "slug": "typestate",
+              "title": "typestate"
+            },
+            {
+              "slug": "designing-errors",
+              "title": "შეცდომების დიზაინი"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "მინი მონაცემთა ბაზა",
+        "description": "შენახვის ძრავა ინდექსით, ჟურნალით და კონკურენტული წვდომით."
+      },
+      "modules": [
+        {
+          "slug": "compiler",
+          "title": "კომპილატორი შიგნიდან",
+          "chapters": [
+            {
+              "slug": "borrow-checker",
+              "title": "borrow checker"
+            },
+            {
+              "slug": "mir",
+              "title": "MIR"
+            },
+            {
+              "slug": "trait-solving",
+              "title": "trait-ების ამოხსნა"
+            },
+            {
+              "slug": "monomorphization-cost",
+              "title": "მონომორფიზაციის ფასი"
+            },
+            {
+              "slug": "compile-times",
+              "title": "კომპილაციის დრო"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-lifetimes",
+          "title": "lifetime სიღრმეში",
+          "chapters": [
+            {
+              "slug": "variance",
+              "title": "ვარიანტობა"
+            },
+            {
+              "slug": "hrtb",
+              "title": "HRTB"
+            },
+            {
+              "slug": "self-referential",
+              "title": "თვითმითითებადი სტრუქტურები"
+            },
+            {
+              "slug": "pin",
+              "title": "Pin"
+            },
+            {
+              "slug": "gats",
+              "title": "GAT"
+            }
+          ]
+        },
+        {
+          "slug": "async-internals",
+          "title": "ასინქრონულობა შიგნიდან",
+          "chapters": [
+            {
+              "slug": "future-trait",
+              "title": "Future"
+            },
+            {
+              "slug": "executors",
+              "title": "executor"
+            },
+            {
+              "slug": "wakers",
+              "title": "waker"
+            },
+            {
+              "slug": "pin-in-async",
+              "title": "Pin ასინქრონულ კოდში"
+            },
+            {
+              "slug": "writing-a-runtime",
+              "title": "საკუთარი runtime"
+            }
+          ]
+        },
+        {
+          "slug": "embedded",
+          "title": "ჩაშენებული სისტემები",
+          "chapters": [
+            {
+              "slug": "no-std",
+              "title": "no_std"
+            },
+            {
+              "slug": "embedded-hal",
+              "title": "embedded-hal"
+            },
+            {
+              "slug": "interrupts",
+              "title": "წყვეტები"
+            },
+            {
+              "slug": "embedded-frameworks",
+              "title": "RTIC და embassy"
+            },
+            {
+              "slug": "registers",
+              "title": "რეგისტრები"
+            }
+          ]
+        },
+        {
+          "slug": "systems",
+          "title": "სისტემური პროგრამირება",
+          "chapters": [
+            {
+              "slug": "os-kernel-basics",
+              "title": "ბირთვის საფუძვლები"
+            },
+            {
+              "slug": "drivers",
+              "title": "დრაივერები"
+            },
+            {
+              "slug": "file-systems",
+              "title": "ფაილური სისტემები"
+            },
+            {
+              "slug": "network-stack",
+              "title": "ქსელის სტეკი"
+            },
+            {
+              "slug": "rust-in-linux",
+              "title": "Rust Linux-ში"
+            }
+          ]
+        },
+        {
+          "slug": "lock-free",
+          "title": "lock-free პროგრამირება",
+          "chapters": [
+            {
+              "slug": "atomics-and-ordering",
+              "title": "atomic და რიგი"
+            },
+            {
+              "slug": "lock-free-structures",
+              "title": "lock-free სტრუქტურები"
+            },
+            {
+              "slug": "crossbeam",
+              "title": "crossbeam"
+            },
+            {
+              "slug": "epoch-reclamation",
+              "title": "მეხსიერების დაბრუნება ეპოქებით"
+            },
+            {
+              "slug": "loom",
+              "title": "ტესტირება loom-ით"
+            }
+          ]
+        },
+        {
+          "slug": "proc-macros",
+          "title": "პროცედურული მაკროსები",
+          "chapters": [
+            {
+              "slug": "syn-and-quote",
+              "title": "syn და quote"
+            },
+            {
+              "slug": "derive-design",
+              "title": "derive-ის დიზაინი"
+            },
+            {
+              "slug": "dsls",
+              "title": "DSL"
+            },
+            {
+              "slug": "hygiene",
+              "title": "ჰიგიენა"
+            },
+            {
+              "slug": "testing-macros",
+              "title": "მაკროსის ტესტირება"
+            }
+          ]
+        },
+        {
+          "slug": "interop",
+          "title": "სხვა ენებთან მუშაობა",
+          "chapters": [
+            {
+              "slug": "c-abi",
+              "title": "C ABI"
+            },
+            {
+              "slug": "bindgen",
+              "title": "bindgen და cbindgen"
+            },
+            {
+              "slug": "pyo3",
+              "title": "Python PyO3-ით"
+            },
+            {
+              "slug": "napi",
+              "title": "Node napi-ით"
+            },
+            {
+              "slug": "cxx",
+              "title": "C++ cxx-ით"
+            }
+          ]
+        },
+        {
+          "slug": "large-projects",
+          "title": "დიდი პროექტები",
+          "chapters": [
+            {
+              "slug": "workspace-architecture",
+              "title": "workspace-ის არქიტექტურა"
+            },
+            {
+              "slug": "feature-design",
+              "title": "feature-ების დიზაინი"
+            },
+            {
+              "slug": "semver",
+              "title": "semver"
+            },
+            {
+              "slug": "msrv",
+              "title": "MSRV"
+            },
+            {
+              "slug": "cargo-audit",
+              "title": "მიწოდების ჯაჭვის შემოწმება"
+            }
+          ]
+        },
+        {
+          "slug": "rust-evolution",
+          "title": "ენის განვითარება",
+          "chapters": [
+            {
+              "slug": "rfc-process",
+              "title": "RFC პროცესი"
+            },
+            {
+              "slug": "editions",
+              "title": "გამოცემები"
+            },
+            {
+              "slug": "unstable-features",
+              "title": "არასტაბილური შესაძლებლობები"
+            },
+            {
+              "slug": "ecosystem",
+              "title": "ეკოსისტემა"
+            },
+            {
+              "slug": "career",
+              "title": "კარიერა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

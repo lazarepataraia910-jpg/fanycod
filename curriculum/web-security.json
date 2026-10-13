@@ -14,19 +14,1079 @@
   "levels": [
     {
       "slug": "beginner",
-      "modules": []
+      "project": {
+        "title": "მოწყვლადი აპის აუდიტი",
+        "description": "სასწავლო აპლიკაციაში მოწყვლადობების პოვნა, გასწორება და მოკლე ანგარიში."
+      },
+      "modules": [
+        {
+          "slug": "security-intro",
+          "title": "უსაფრთხოების საფუძვლები",
+          "chapters": [
+            {
+              "slug": "why-security-matters",
+              "title": "რატომ არის უსაფრთხოება მნიშვნელოვანი"
+            },
+            {
+              "slug": "cia-triad",
+              "title": "კონფიდენციალურობა, მთლიანობა, ხელმისაწვდომობა"
+            },
+            {
+              "slug": "threats-and-risks",
+              "title": "საფრთხე, მოწყვლადობა და რისკი"
+            },
+            {
+              "slug": "ethics-and-law",
+              "title": "ეთიკა და კანონი"
+            },
+            {
+              "slug": "attacker-mindset",
+              "title": "თავდამსხმელის აზროვნება"
+            }
+          ]
+        },
+        {
+          "slug": "web-foundations",
+          "title": "ვების საფუძვლები უსაფრთხოებისთვის",
+          "chapters": [
+            {
+              "slug": "http-requests",
+              "title": "HTTP მოთხოვნა"
+            },
+            {
+              "slug": "http-headers",
+              "title": "headers"
+            },
+            {
+              "slug": "cookies-and-sessions",
+              "title": "cookie და სესია"
+            },
+            {
+              "slug": "same-origin-policy",
+              "title": "same-origin policy"
+            },
+            {
+              "slug": "https-basics",
+              "title": "HTTPS"
+            }
+          ]
+        },
+        {
+          "slug": "owasp-overview",
+          "title": "OWASP",
+          "chapters": [
+            {
+              "slug": "owasp-top-10",
+              "title": "OWASP Top 10"
+            },
+            {
+              "slug": "vulnerability-categories",
+              "title": "მოწყვლადობის კატეგორიები"
+            },
+            {
+              "slug": "cve-and-cvss",
+              "title": "CVE და CVSS"
+            },
+            {
+              "slug": "bug-bounty",
+              "title": "bug bounty"
+            },
+            {
+              "slug": "practice-labs",
+              "title": "სასწავლო ლაბორატორიები"
+            }
+          ]
+        },
+        {
+          "slug": "injection-basics",
+          "title": "ინექციის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-injection",
+              "title": "რა არის ინექცია"
+            },
+            {
+              "slug": "sql-injection",
+              "title": "SQL ინექცია"
+            },
+            {
+              "slug": "prepared-statements",
+              "title": "დაცვა მომზადებული მოთხოვნებით"
+            },
+            {
+              "slug": "command-injection",
+              "title": "ბრძანების ინექცია"
+            },
+            {
+              "slug": "input-validation",
+              "title": "შეტანის შემოწმება"
+            }
+          ]
+        },
+        {
+          "slug": "xss-basics",
+          "title": "XSS-ის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "what-is-xss",
+              "title": "რა არის XSS"
+            },
+            {
+              "slug": "reflected-xss",
+              "title": "არეკლილი XSS"
+            },
+            {
+              "slug": "stored-xss",
+              "title": "შენახული XSS"
+            },
+            {
+              "slug": "dom-xss",
+              "title": "DOM XSS"
+            },
+            {
+              "slug": "output-escaping",
+              "title": "დაცვა ეკრანირებით"
+            }
+          ]
+        },
+        {
+          "slug": "authentication-basics",
+          "title": "ავთენტიფიკაციის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "passwords",
+              "title": "პაროლები"
+            },
+            {
+              "slug": "password-hashing",
+              "title": "ჰეშირება"
+            },
+            {
+              "slug": "session-management",
+              "title": "სესიის მართვა"
+            },
+            {
+              "slug": "brute-force-protection",
+              "title": "დაცვა გამოცნობისგან"
+            },
+            {
+              "slug": "two-factor",
+              "title": "ორფაქტორიანი შესვლა"
+            }
+          ]
+        },
+        {
+          "slug": "access-control",
+          "title": "წვდომის კონტროლი",
+          "chapters": [
+            {
+              "slug": "authorization",
+              "title": "ავტორიზაცია"
+            },
+            {
+              "slug": "idor",
+              "title": "IDOR"
+            },
+            {
+              "slug": "roles",
+              "title": "როლები"
+            },
+            {
+              "slug": "least-privilege",
+              "title": "მინიმალური უფლებები"
+            },
+            {
+              "slug": "access-mistakes",
+              "title": "ხშირი შეცდომები"
+            }
+          ]
+        },
+        {
+          "slug": "csrf-and-clickjacking",
+          "title": "CSRF და clickjacking",
+          "chapters": [
+            {
+              "slug": "csrf",
+              "title": "CSRF"
+            },
+            {
+              "slug": "csrf-tokens",
+              "title": "CSRF ნიშნები"
+            },
+            {
+              "slug": "samesite-cookies",
+              "title": "SameSite cookie"
+            },
+            {
+              "slug": "clickjacking",
+              "title": "clickjacking"
+            },
+            {
+              "slug": "frame-protection",
+              "title": "ჩარჩოში ჩასმისგან დაცვა"
+            }
+          ]
+        },
+        {
+          "slug": "secure-configuration",
+          "title": "უსაფრთხო კონფიგურაცია",
+          "chapters": [
+            {
+              "slug": "default-credentials",
+              "title": "ნაგულისხმევი პაროლები"
+            },
+            {
+              "slug": "error-messages",
+              "title": "შეცდომის შეტყობინებები"
+            },
+            {
+              "slug": "security-headers",
+              "title": "უსაფრთხოების headers"
+            },
+            {
+              "slug": "https-setup",
+              "title": "HTTPS-ის მომართვა"
+            },
+            {
+              "slug": "updates",
+              "title": "განახლებები"
+            }
+          ]
+        },
+        {
+          "slug": "personal-security",
+          "title": "პირადი უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "password-managers",
+              "title": "პაროლების მენეჯერი"
+            },
+            {
+              "slug": "phishing",
+              "title": "ფიშინგი"
+            },
+            {
+              "slug": "device-security",
+              "title": "მოწყობილობის დაცვა"
+            },
+            {
+              "slug": "privacy",
+              "title": "კონფიდენციალურობა"
+            },
+            {
+              "slug": "social-engineering",
+              "title": "სოციალური ინჟინერია"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "intermediate",
-      "modules": []
+      "project": {
+        "title": "უსაფრთხო შესვლის სისტემა",
+        "description": "ავთენტიფიკაცია ორფაქტორიანი შესვლით, OAuth-ით, ლიმიტებით და უსაფრთხო სესიებით."
+      },
+      "modules": [
+        {
+          "slug": "advanced-injection",
+          "title": "ინექცია სიღრმეში",
+          "chapters": [
+            {
+              "slug": "blind-sqli",
+              "title": "ბრმა SQL ინექცია"
+            },
+            {
+              "slug": "nosql-injection",
+              "title": "NoSQL ინექცია"
+            },
+            {
+              "slug": "template-injection",
+              "title": "შაბლონის ინექცია"
+            },
+            {
+              "slug": "ldap-and-xpath",
+              "title": "LDAP და XPath ინექცია"
+            },
+            {
+              "slug": "orm-pitfalls",
+              "title": "ORM-ის ხაფანგები"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-xss",
+          "title": "XSS სიღრმეში",
+          "chapters": [
+            {
+              "slug": "csp",
+              "title": "CSP"
+            },
+            {
+              "slug": "sanitization",
+              "title": "გასუფთავება"
+            },
+            {
+              "slug": "mutation-xss",
+              "title": "მუტაციური XSS"
+            },
+            {
+              "slug": "framework-protections",
+              "title": "ფრეიმვორკის დაცვა"
+            },
+            {
+              "slug": "trusted-types",
+              "title": "Trusted Types"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-authentication",
+          "title": "ავთენტიფიკაცია სიღრმეში",
+          "chapters": [
+            {
+              "slug": "oauth2",
+              "title": "OAuth 2"
+            },
+            {
+              "slug": "openid-connect",
+              "title": "OpenID Connect"
+            },
+            {
+              "slug": "jwt-pitfalls",
+              "title": "JWT-ის ხაფანგები"
+            },
+            {
+              "slug": "session-fixation",
+              "title": "სესიის ფიქსაცია"
+            },
+            {
+              "slug": "password-reset-flaws",
+              "title": "პაროლის აღდგენის ხარვეზები"
+            }
+          ]
+        },
+        {
+          "slug": "file-handling",
+          "title": "ფაილებთან მუშაობა",
+          "chapters": [
+            {
+              "slug": "upload-vulnerabilities",
+              "title": "ატვირთვის მოწყვლადობები"
+            },
+            {
+              "slug": "path-traversal",
+              "title": "path traversal"
+            },
+            {
+              "slug": "file-inclusion",
+              "title": "ფაილის ჩართვა"
+            },
+            {
+              "slug": "deserialization",
+              "title": "დესერიალიზაცია"
+            },
+            {
+              "slug": "xxe",
+              "title": "XXE"
+            }
+          ]
+        },
+        {
+          "slug": "server-side-attacks",
+          "title": "სერვერის მხარის შეტევები",
+          "chapters": [
+            {
+              "slug": "ssrf",
+              "title": "SSRF"
+            },
+            {
+              "slug": "open-redirect",
+              "title": "ღია გადამისამართება"
+            },
+            {
+              "slug": "request-smuggling",
+              "title": "request smuggling"
+            },
+            {
+              "slug": "cache-poisoning",
+              "title": "ქეშის მოწამვლა"
+            },
+            {
+              "slug": "host-header",
+              "title": "Host header-ის შეტევები"
+            }
+          ]
+        },
+        {
+          "slug": "api-security",
+          "title": "API-ს უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "api-authentication",
+              "title": "API-ს ავთენტიფიკაცია"
+            },
+            {
+              "slug": "rate-limiting",
+              "title": "მოთხოვნების ლიმიტი"
+            },
+            {
+              "slug": "mass-assignment",
+              "title": "mass assignment"
+            },
+            {
+              "slug": "graphql-security",
+              "title": "GraphQL-ის უსაფრთხოება"
+            },
+            {
+              "slug": "api-key-management",
+              "title": "API გასაღებების მართვა"
+            }
+          ]
+        },
+        {
+          "slug": "cryptography-basics",
+          "title": "კრიპტოგრაფიის საფუძვლები",
+          "chapters": [
+            {
+              "slug": "symmetric-and-asymmetric",
+              "title": "სიმეტრიული და ასიმეტრიული"
+            },
+            {
+              "slug": "hashing-vs-encryption",
+              "title": "ჰეშირება და დაშიფვრა"
+            },
+            {
+              "slug": "how-tls-works",
+              "title": "როგორ მუშაობს TLS"
+            },
+            {
+              "slug": "certificates",
+              "title": "სერტიფიკატები"
+            },
+            {
+              "slug": "crypto-mistakes",
+              "title": "ხშირი შეცდომები კრიპტოგრაფიაში"
+            }
+          ]
+        },
+        {
+          "slug": "client-side-security",
+          "title": "კლიენტის მხარის უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "cors-misconfiguration",
+              "title": "CORS-ის არასწორი მომართვა"
+            },
+            {
+              "slug": "postmessage",
+              "title": "postMessage"
+            },
+            {
+              "slug": "storage-risks",
+              "title": "ბრაუზერის მეხსიერების რისკები"
+            },
+            {
+              "slug": "third-party-scripts",
+              "title": "გარე სკრიპტები და SRI"
+            },
+            {
+              "slug": "browser-protections",
+              "title": "ბრაუზერის დაცვა"
+            }
+          ]
+        },
+        {
+          "slug": "testing-tools",
+          "title": "ტესტირების ხელსაწყოები",
+          "chapters": [
+            {
+              "slug": "proxy-tools",
+              "title": "Burp და ZAP"
+            },
+            {
+              "slug": "intercepting-requests",
+              "title": "მოთხოვნის გადაჭერა"
+            },
+            {
+              "slug": "scanners",
+              "title": "სკანერები"
+            },
+            {
+              "slug": "fuzzing",
+              "title": "fuzzing"
+            },
+            {
+              "slug": "reporting-findings",
+              "title": "მიგნებების აღწერა"
+            }
+          ]
+        },
+        {
+          "slug": "secure-development",
+          "title": "უსაფრთხო დეველოპმენტი",
+          "chapters": [
+            {
+              "slug": "threat-modeling-basics",
+              "title": "საფრთხეების მოდელირების საფუძველი"
+            },
+            {
+              "slug": "secure-code-review",
+              "title": "კოდის უსაფრთხოების მიმოხილვა"
+            },
+            {
+              "slug": "dependency-scanning",
+              "title": "დამოკიდებულებების სკანირება"
+            },
+            {
+              "slug": "secrets-in-code",
+              "title": "საიდუმლოები კოდში"
+            },
+            {
+              "slug": "security-in-ci",
+              "title": "უსაფრთხოება CI-ში"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "advanced",
-      "modules": []
+      "project": {
+        "title": "უსაფრთხოების აუდიტი",
+        "description": "ვებ-აპლიკაციის სრული შემოწმება მეთოდიკით და პროფესიული ანგარიშით."
+      },
+      "modules": [
+        {
+          "slug": "pentest-methodology",
+          "title": "შეღწევადობის ტესტის მეთოდიკა",
+          "chapters": [
+            {
+              "slug": "reconnaissance",
+              "title": "დაზვერვა"
+            },
+            {
+              "slug": "enumeration",
+              "title": "აღრიცხვა"
+            },
+            {
+              "slug": "exploitation",
+              "title": "გამოყენება"
+            },
+            {
+              "slug": "post-exploitation",
+              "title": "შემდგომი ნაბიჯები"
+            },
+            {
+              "slug": "pentest-reporting",
+              "title": "ანგარიში"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-attacks",
+          "title": "რთული შეტევები",
+          "chapters": [
+            {
+              "slug": "race-conditions",
+              "title": "რბოლის პირობა"
+            },
+            {
+              "slug": "business-logic-flaws",
+              "title": "ბიზნეს-ლოგიკის ხარვეზები"
+            },
+            {
+              "slug": "prototype-pollution",
+              "title": "prototype pollution"
+            },
+            {
+              "slug": "cache-deception",
+              "title": "cache deception"
+            },
+            {
+              "slug": "websocket-attacks",
+              "title": "WebSocket-ის შეტევები"
+            }
+          ]
+        },
+        {
+          "slug": "cloud-security",
+          "title": "ღრუბლის უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "iam-misconfiguration",
+              "title": "IAM-ის არასწორი მომართვა"
+            },
+            {
+              "slug": "storage-buckets",
+              "title": "ღია საცავები"
+            },
+            {
+              "slug": "metadata-service",
+              "title": "metadata სერვისი"
+            },
+            {
+              "slug": "serverless-security",
+              "title": "serverless-ის უსაფრთხოება"
+            },
+            {
+              "slug": "cloud-audit",
+              "title": "ღრუბლის აუდიტი"
+            }
+          ]
+        },
+        {
+          "slug": "infrastructure-security",
+          "title": "ინფრასტრუქტურის უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "network-segmentation",
+              "title": "ქსელის სეგმენტაცია"
+            },
+            {
+              "slug": "waf",
+              "title": "WAF"
+            },
+            {
+              "slug": "ddos-protection",
+              "title": "დაცვა DDoS-ისგან"
+            },
+            {
+              "slug": "proxy-hardening",
+              "title": "proxy-ს გამაგრება"
+            },
+            {
+              "slug": "zero-trust-basics",
+              "title": "zero trust-ის საფუძველი"
+            }
+          ]
+        },
+        {
+          "slug": "mobile-and-api",
+          "title": "მობილური და API",
+          "chapters": [
+            {
+              "slug": "mobile-app-security",
+              "title": "მობილური აპის უსაფრთხოება"
+            },
+            {
+              "slug": "certificate-pinning",
+              "title": "certificate pinning"
+            },
+            {
+              "slug": "reverse-engineering-basics",
+              "title": "უკუინჟინერიის საფუძველი"
+            },
+            {
+              "slug": "secure-storage",
+              "title": "უსაფრთხო შენახვა"
+            },
+            {
+              "slug": "api-abuse",
+              "title": "API-ს ბოროტად გამოყენება"
+            }
+          ]
+        },
+        {
+          "slug": "applied-cryptography",
+          "title": "გამოყენებითი კრიპტოგრაფია",
+          "chapters": [
+            {
+              "slug": "key-management",
+              "title": "გასაღებების მართვა"
+            },
+            {
+              "slug": "password-storage",
+              "title": "პაროლების შენახვა"
+            },
+            {
+              "slug": "digital-signatures",
+              "title": "ციფრული ხელმოწერა"
+            },
+            {
+              "slug": "jwt-and-jwe",
+              "title": "JWT და JWE"
+            },
+            {
+              "slug": "post-quantum-intro",
+              "title": "პოსტკვანტური კრიპტოგრაფიის შესავალი"
+            }
+          ]
+        },
+        {
+          "slug": "defense",
+          "title": "დაცვა",
+          "chapters": [
+            {
+              "slug": "logging-and-monitoring",
+              "title": "ლოგირება და მონიტორინგი"
+            },
+            {
+              "slug": "detecting-intrusions",
+              "title": "შეჭრის აღმოჩენა"
+            },
+            {
+              "slug": "responding-to-incidents",
+              "title": "ინციდენტზე რეაგირება"
+            },
+            {
+              "slug": "forensics-basics",
+              "title": "გამოძიების საფუძველი"
+            },
+            {
+              "slug": "backup-and-recovery",
+              "title": "სარეზერვო ასლი და აღდგენა"
+            }
+          ]
+        },
+        {
+          "slug": "privacy-and-compliance",
+          "title": "კონფიდენციალურობა და შესაბამისობა",
+          "chapters": [
+            {
+              "slug": "gdpr-basics",
+              "title": "GDPR-ის საფუძველი"
+            },
+            {
+              "slug": "data-minimization",
+              "title": "მონაცემების მინიმიზაცია"
+            },
+            {
+              "slug": "consent",
+              "title": "თანხმობა"
+            },
+            {
+              "slug": "breach-handling",
+              "title": "გაჟონვაზე რეაგირება"
+            },
+            {
+              "slug": "childrens-data",
+              "title": "ბავშვების მონაცემები"
+            }
+          ]
+        },
+        {
+          "slug": "security-automation",
+          "title": "უსაფრთხოების ავტომატიზაცია",
+          "chapters": [
+            {
+              "slug": "sast",
+              "title": "SAST"
+            },
+            {
+              "slug": "dast",
+              "title": "DAST"
+            },
+            {
+              "slug": "sca",
+              "title": "SCA"
+            },
+            {
+              "slug": "container-security",
+              "title": "კონტეინერის უსაფრთხოება"
+            },
+            {
+              "slug": "iac-scanning",
+              "title": "ინფრასტრუქტურის კოდის სკანირება"
+            }
+          ]
+        },
+        {
+          "slug": "browser-security",
+          "title": "ბრაუზერის უსაფრთხოება",
+          "chapters": [
+            {
+              "slug": "browser-architecture",
+              "title": "ბრაუზერის არქიტექტურა"
+            },
+            {
+              "slug": "site-isolation",
+              "title": "site isolation"
+            },
+            {
+              "slug": "cookie-attributes",
+              "title": "cookie-ს ატრიბუტები სიღრმეში"
+            },
+            {
+              "slug": "permissions-policy",
+              "title": "Permissions Policy"
+            },
+            {
+              "slug": "cross-origin-isolation",
+              "title": "COOP და COEP"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "expert",
-      "modules": []
+      "project": {
+        "title": "უსაფრთხოების პროგრამა",
+        "description": "სტარტაპის უსაფრთხოების გეგმა: რისკები, პროცესები, მონიტორინგი და ინციდენტის გეგმა."
+      },
+      "modules": [
+        {
+          "slug": "exploit-development",
+          "title": "ექსპლოიტის შექმნა",
+          "chapters": [
+            {
+              "slug": "memory-corruption",
+              "title": "მეხსიერების დაზიანება"
+            },
+            {
+              "slug": "browser-exploitation",
+              "title": "ბრაუზერის ექსპლუატაცია"
+            },
+            {
+              "slug": "sandbox-escapes",
+              "title": "sandbox-იდან გაქცევა"
+            },
+            {
+              "slug": "fuzzing-at-scale",
+              "title": "fuzzing მასშტაბზე"
+            },
+            {
+              "slug": "patch-analysis",
+              "title": "პატჩის ანალიზი"
+            }
+          ]
+        },
+        {
+          "slug": "red-teaming",
+          "title": "red team",
+          "chapters": [
+            {
+              "slug": "adversary-simulation",
+              "title": "მოწინააღმდეგის იმიტაცია"
+            },
+            {
+              "slug": "phishing-exercises",
+              "title": "ფიშინგის სწავლება"
+            },
+            {
+              "slug": "lateral-movement",
+              "title": "გვერდითი გადაადგილება"
+            },
+            {
+              "slug": "command-and-control",
+              "title": "მართვის არხები"
+            },
+            {
+              "slug": "purple-teaming",
+              "title": "purple team"
+            }
+          ]
+        },
+        {
+          "slug": "security-architecture",
+          "title": "უსაფრთხოების არქიტექტურა",
+          "chapters": [
+            {
+              "slug": "secure-design",
+              "title": "უსაფრთხო დიზაინის პრინციპები"
+            },
+            {
+              "slug": "threat-modeling-at-scale",
+              "title": "საფრთხეების მოდელირება მასშტაბზე"
+            },
+            {
+              "slug": "identity-architecture",
+              "title": "იდენტობის არქიტექტურა"
+            },
+            {
+              "slug": "secrets-architecture",
+              "title": "საიდუმლოების არქიტექტურა"
+            },
+            {
+              "slug": "tenant-isolation",
+              "title": "კლიენტების იზოლაცია"
+            }
+          ]
+        },
+        {
+          "slug": "advanced-cryptography",
+          "title": "კრიპტოგრაფია სიღრმეში",
+          "chapters": [
+            {
+              "slug": "protocol-design",
+              "title": "პროტოკოლის დიზაინი"
+            },
+            {
+              "slug": "tls-internals",
+              "title": "TLS 1.3 შიგნიდან"
+            },
+            {
+              "slug": "end-to-end-encryption",
+              "title": "ბოლოდან ბოლომდე დაშიფვრა"
+            },
+            {
+              "slug": "zero-knowledge-intro",
+              "title": "zero-knowledge-ის შესავალი"
+            },
+            {
+              "slug": "crypto-agility",
+              "title": "კრიპტო-მოქნილობა"
+            }
+          ]
+        },
+        {
+          "slug": "supply-chain",
+          "title": "მიწოდების ჯაჭვი",
+          "chapters": [
+            {
+              "slug": "dependency-attacks",
+              "title": "შეტევები დამოკიდებულებებზე"
+            },
+            {
+              "slug": "build-integrity",
+              "title": "აწყობის მთლიანობა"
+            },
+            {
+              "slug": "code-signing",
+              "title": "კოდის ხელმოწერა"
+            },
+            {
+              "slug": "sbom",
+              "title": "SBOM"
+            },
+            {
+              "slug": "vendor-risk",
+              "title": "მომწოდებლის რისკი"
+            }
+          ]
+        },
+        {
+          "slug": "detection-engineering",
+          "title": "აღმოჩენის ინჟინერია",
+          "chapters": [
+            {
+              "slug": "siem",
+              "title": "SIEM"
+            },
+            {
+              "slug": "detection-rules",
+              "title": "აღმოჩენის წესები"
+            },
+            {
+              "slug": "threat-hunting",
+              "title": "საფრთხეების ძებნა"
+            },
+            {
+              "slug": "threat-intelligence",
+              "title": "საფრთხეების დაზვერვა"
+            },
+            {
+              "slug": "soar",
+              "title": "ავტომატიზაცია SOAR-ით"
+            }
+          ]
+        },
+        {
+          "slug": "incident-leadership",
+          "title": "ინციდენტის მართვა",
+          "chapters": [
+            {
+              "slug": "response-plans",
+              "title": "რეაგირების გეგმა"
+            },
+            {
+              "slug": "crisis-communication",
+              "title": "კრიზისული კომუნიკაცია"
+            },
+            {
+              "slug": "legal-and-regulatory",
+              "title": "სამართლებრივი მოთხოვნები"
+            },
+            {
+              "slug": "tabletop-exercises",
+              "title": "სავარჯიშო სცენარები"
+            },
+            {
+              "slug": "lessons-learned",
+              "title": "გაკვეთილები"
+            }
+          ]
+        },
+        {
+          "slug": "security-research",
+          "title": "კვლევა",
+          "chapters": [
+            {
+              "slug": "vulnerability-research",
+              "title": "მოწყვლადობების კვლევა"
+            },
+            {
+              "slug": "responsible-disclosure",
+              "title": "პასუხისმგებლიანი გამჟღავნება"
+            },
+            {
+              "slug": "writing-advisories",
+              "title": "შეტყობინების წერა"
+            },
+            {
+              "slug": "cve-process",
+              "title": "CVE პროცესი"
+            },
+            {
+              "slug": "sharing-research",
+              "title": "კვლევის გაზიარება"
+            }
+          ]
+        },
+        {
+          "slug": "security-program",
+          "title": "უსაფრთხოების პროგრამა",
+          "chapters": [
+            {
+              "slug": "risk-management",
+              "title": "რისკების მართვა"
+            },
+            {
+              "slug": "security-metrics",
+              "title": "მეტრიკები"
+            },
+            {
+              "slug": "security-champions",
+              "title": "უსაფრთხოების ელჩები გუნდებში"
+            },
+            {
+              "slug": "prioritization",
+              "title": "პრიორიტეტები და ბიუჯეტი"
+            },
+            {
+              "slug": "security-culture",
+              "title": "კულტურა"
+            }
+          ]
+        },
+        {
+          "slug": "security-career",
+          "title": "კარიერა",
+          "chapters": [
+            {
+              "slug": "specializations",
+              "title": "სპეციალიზაციები"
+            },
+            {
+              "slug": "security-certifications",
+              "title": "პროფესიული სერტიფიკატები"
+            },
+            {
+              "slug": "ctf",
+              "title": "CTF"
+            },
+            {
+              "slug": "building-a-portfolio",
+              "title": "პორტფოლიო"
+            },
+            {
+              "slug": "professional-ethics",
+              "title": "პროფესიული ეთიკა"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

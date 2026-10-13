@@ -9,6 +9,10 @@
   const KEY = 'codequest.school', GAME = 'codequest.v1', AUTH = 'codequest.auth';
   // კომპიუტერის პროგრამა (Electron, codequest://app): გვერდები საიტიდან მოდის, პროგრესი კი მხოლოდ კომპიუტერში ინახება — სერვერზე არ იგზავნება
   const DESKTOP = location.protocol === 'codequest:', SITE = 'https://codequest.space';
+  // ძველი პროგრამა (1.0.0–1.0.1) საიტზე მხოლოდ /api/*-ს ატარებს, ამიტომ სკოლა იქ /api/learn/…-ით იხსნება (vercel.json → rewrites: /api/learn/… = /learn/…).
+  // გვერდის ფაილები ფარდობითი მისამართითაა ჩართული; ბმულებს და მოთხოვნებს აქ ვუმატებთ თავსართს
+  const PRE = location.pathname.startsWith('/api/learn/') ? '/api' : '';
+  const fix = root => { if (PRE) $$('a[href^="/learn/"]', root || document).forEach(l => l.setAttribute('href', PRE + l.getAttribute('href'))); };
   const XP = { chapter: 20, quiz: 50, project: 100 }, PASS = 70;   // იგივე რიცხვები: school/build.js და CodeQuest.html (schoolXP)
   const day = (off = 0) => { const d = new Date(); d.setDate(d.getDate() + off); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
 
@@ -91,7 +95,8 @@
     const a = acc(), b = $('#acc-b');
     if (a) { b.textContent = '👤 ' + a.name; b.title = a.name + ' — ჩემი დაფა'; } else { b.href = loginUrl(); b.title = 'შესვლა CodeQuest-ის ანგარიშით — პროგრესი ყველა მოწყობილობაზე'; }
     // პროგრამაში მხოლოდ სკოლა და თამაში იხსნება; დანარჩენი ბმულები (წესები, მთავარი გვერდი) — ბრაუზერში
-    if (DESKTOP) $$('a[href^="/"]').forEach(l => { if (!/^\/(learn\/|school\/|CodeQuest\.html)/.test(l.getAttribute('href'))) l.href = SITE + l.getAttribute('href'); });
+    fix();
+    if (DESKTOP) $$('a[href^="/"]').forEach(l => { if (!/^\/(learn\/|school\/|api\/|CodeQuest\.html)/.test(l.getAttribute('href'))) l.href = SITE + l.getAttribute('href'); });
     $('#search-b').addEventListener('click', openSearch);
     document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openSearch(); } });
   }
@@ -113,7 +118,7 @@
       else if (!next && rows.length) { go.textContent = '✓ ყველა ღია თავი დასრულებულია'; go.href = '#main'; }
     }
     const last = get(KEY + '.last'), hero = $('#hero-go');
-    if (hero && last && last.id) { hero.href = '/learn/' + last.id + '/'; hero.textContent = 'გააგრძელე: ' + last.t + ' →'; }
+    if (hero && last && last.id) { hero.href = PRE + '/learn/' + last.id + '/'; hero.textContent = 'გააგრძელე: ' + last.t + ' →'; }
     const item = $('.doc[data-item]');
     if (item) {
       const id = item.dataset.item, md = $('#mark-done'), bm = $('#mark-bm');
@@ -281,6 +286,7 @@
       const hits = !index ? [] : (words.length ? index.map(e => { const hay = [e.t, e.g, e.d, e.x].map(v => String(v).toLowerCase()); let sc = 0; for (const w of words) { const f = hay.findIndex(h => h.includes(w)); if (f < 0) return null; sc += 4 - f; } return [sc, e]; }).filter(Boolean).sort((a, b) => b[0] - a[0]).map(h => h[1]) : index.filter(e => e.c === 'კურსი')).slice(0, 30);
       on = 0;
       list.innerHTML = !index ? '<li class="empty">იტვირთება…</li>' : hits.length ? hits.map((e, i) => '<li><a href="' + esc(e.u) + '"' + (i ? '' : ' class="on"') + '>' + esc(e.t) + '<small>' + esc(e.c) + (e.d ? ' · ' + esc(e.d) : '') + '</small></a></li>').join('') : '<li class="empty">ვერაფერი მოიძებნა.</li>';
+      fix(list);
     };
     inp.addEventListener('input', show);
     box.addEventListener('click', e => { if (e.target === box) close(); });
@@ -292,7 +298,7 @@
       else if (e.key === 'Tab') { e.preventDefault(); inp.focus(); }
     });
     inp.focus(); show();
-    if (!index) { try { index = await (await fetch('/learn/search.json')).json(); } catch (e) { index = []; } show(); }
+    if (!index) { try { index = await (await fetch(PRE + '/learn/search.json')).json(); } catch (e) { index = []; } show(); }
   }
 
   /* ---------- კატალოგი ---------- */
@@ -315,7 +321,7 @@
     const box = $('[data-dash]');
     if (!box) return;
     let data;
-    try { data = await (await fetch('/learn/data.json')).json(); } catch (e) { box.innerHTML = '<p class="muted">მონაცემები ვერ ჩაიტვირთა. შეამოწმე ინტერნეტი და განაახლე გვერდი.</p>'; return; }
+    try { data = await (await fetch(PRE + '/learn/data.json')).json(); } catch (e) { box.innerHTML = '<p class="muted">მონაცემები ვერ ჩაიტვირთა. შეამოწმე ინტერნეტი და განაახლე გვერდი.</p>'; return; }
     const a = acc();
     $('#dash-hi').innerHTML = a ? 'გამარჯობა, <b>' + esc(a.name) + '</b>! ' + (DESKTOP ? 'პროგრესი ამ კომპიუტერში ინახება.' : 'პროგრესი შენს ანგარიშში ინახება.') : 'სკოლის თავები 👑 CodeQuest Pro-ს ნაწილია. <a href="' + esc(loginUrl()) + '">შედი ანგარიშში</a>, რომ გაიხსნას და პროგრესი შეინახოს.';
     const render = () => {
@@ -338,6 +344,7 @@
         '<h2>ბეჯები</h2><div class="badges">' + badges.map(b => '<div class="badge' + (b[3] ? ' on' : '') + '"><span aria-hidden="true">' + b[0] + '</span><b>' + b[1] + '</b><small>' + (b[3] ? 'მიღებულია ✓' : b[2]) + '</small></div>').join('') + '</div>' +
         '<h2>სანიშნეები</h2>' + (marks.length ? '<ul class="d-list">' + marks.map(([k, v]) => '<li><a href="/learn/' + esc(k) + '/">🔖 ' + esc(title[k] || v.t || k) + '</a></li>').join('') + '</ul>' : '<p class="muted">თავის ბოლოს დააჭირე „🔖 სანიშნე“-ს და აქ გამოჩნდება.</p>') +
         '<h2>ჩემი შენიშვნები</h2>' + (notes.length ? '<ul class="d-list">' + notes.map(([k, v]) => '<li><a href="/learn/' + esc(k) + '/">📝 ' + esc(title[k] || v.h || k) + '</a><p>' + esc(v.t) + '</p></li>').join('') + '</ul>' : '<p class="muted">შენიშვნის ჩაწერა ყოველი თავის ბოლოს შეგიძლია.</p>');
+      fix(box);
     };
     render();
     dashboard.render = render;

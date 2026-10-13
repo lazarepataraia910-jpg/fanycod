@@ -226,6 +226,8 @@ const pages = [];   // { path, html } + sitemap
 function shell(o) {
   const langs = o.langs || [], modes = [...new Set(langs.flatMap(l => LANGS[l][2]))];
   const cm = langs.length ? ['codemirror.min.js', 'addon/runmode/runmode.min.js', ...modes.map(modeFile)] : [];
+  // სტილი და სკრიპტი ფარდობითი მისამართით: იგივე გვერდი იხსნება /learn/…-ზეც და ძველი პროგრამის /api/learn/…-ზეც (vercel.json → rewrites)
+  const up = '../'.repeat(o.path ? o.path.split('/').length + 1 : 1), css = up + ASSET.css.slice(1), js = up + ASSET.js.slice(1);
   const canon = SITE + url(o.path), title = o.title + ' · ისწავლე კოდინგი', nav = (p, t) => '<a href="' + url(p) + '"' + (o.nav === p ? ' aria-current="page"' : '') + '>' + t + '</a>';
   return '<!DOCTYPE html>\n<html lang="ka" data-theme="dark" data-pro="' + PRO.key + '">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>' + esc(title) + '</title>\n' +
     '<meta name="description" content="' + esc(o.desc) + '">\n<link rel="canonical" href="' + canon + '">\n' + (o.noindex ? '<meta name="robots" content="noindex">\n' : '') +
@@ -235,7 +237,7 @@ function shell(o) {
     '<script>try{var t=localStorage.getItem("cq.learn.theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>\n' +
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
     '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap">\n' +
-    (cm.length ? cdnTag('codemirror.min.css') + '\n' : '') + '<link rel="stylesheet" href="' + ASSET.css + '">\n' +
+    (cm.length ? cdnTag('codemirror.min.css') + '\n' : '') + '<link rel="stylesheet" href="' + css + '">\n' +
     '<!-- Vercel Web Analytics -->\n<script>if (location.protocol === \'https:\') { window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); }; var s = document.createElement(\'script\'); s.defer = true; s.src = \'/_vercel/insights/script.js\'; document.head.appendChild(s); }</script>\n' +
     '</head>\n<body class="' + (o.cls || '') + '">\n<a class="skip" href="#main">გადადი შინაარსზე</a>\n' +
     '<header class="top"><div class="top-in"><a class="logo" href="/learn/"><span class="logo-m" aria-hidden="true">&lt;/&gt;</span><span>ისწავლე <b>კოდინგი</b></span></a>' +
@@ -245,7 +247,7 @@ function shell(o) {
     '<button type="button" class="ic-btn" id="theme-b" aria-label="მუქი / ღია რეჟიმი" title="მუქი / ღია რეჟიმი">◐</button><a class="acc-b" id="acc-b" href="/learn/dashboard/">შესვლა</a></div></div></header>\n' +
     (o.bar || '') + '<main id="main">\n' + o.body + '\n</main>\n' +
     '<footer class="foot"><span>ისწავლე კოდინგი · <a href="/">CodeQuest</a> © <span id="yr">2026</span></span><span><a href="/learn/courses/">კურსები</a> · <a href="/CodeQuest.html">თამაში</a> · <a href="/privacy.html">კონფიდენციალურობა</a> · <a href="/terms.html">წესები</a></span></footer>\n' +
-    cm.map(cdnTag).join('\n') + (cm.length ? '\n' : '') + '<script src="' + ASSET.js + '" defer></script>\n</body>\n</html>\n';
+    cm.map(cdnTag).join('\n') + (cm.length ? '\n' : '') + '<script src="' + js + '" defer></script>\n</body>\n</html>\n';
 }
 const add = (p, o) => pages.push({ path: p, noindex: !!o.noindex, html: shell(Object.assign({ path: p }, o)) });
 

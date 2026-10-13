@@ -21574,12 +21574,19 @@ function init() {
   (() => {
     const q = new URLSearchParams(location.search), to = q.get('to') || '';
     if (q.get('pro') === 'open') Paywall.open(null, 'school');
-    if (!q.get('acc') || !/^\/learn\/[a-z0-9\/-]*$/.test(to)) return;
+    if (!q.get('acc') || !/^\/(api\/)?learn\/[a-z0-9\/-]*$/.test(to)) return;
     const back = () => { location.href = to; };
     if (Account.s) back(); else { Account.after = back; Account.loginForm('შედი ან დარეგისტრირდი — სკოლის პროგრესი ანგარიშში შეინახება და ყველა მოწყობილობაზე გექნება.'); }
   })();
-  // სკოლა პროგრამის შიგნით იხსნება 1.0.2 ვერსიიდან (desktop/main.js); უფრო ძველ პროგრამაში — ბრაუზერში
-  if (IS_DESKTOP && /CodeQuestDesktop\/1\.0\.[01](?!\d)/.test(navigator.userAgent)) $('#m-school').href = SITE_URL + '/learn/';
+  // სკოლა პროგრამაში: 1.0.2-დან პირდაპირ იხსნება (/learn/ — desktop/main.js, ასლი ინტერნეტის გარეშეც). უფრო ძველი პროგრამა საიტზე მხოლოდ /api/*-ს ატარებს,
+  // ამიტომ იქ სკოლა /api/learn/…-ით იხსნება (vercel.json → rewrites) და ინტერნეტი სჭირდება
+  (() => {
+    const v = /CodeQuestDesktop\/(\d+)\.(\d+)\.(\d+)/.exec(navigator.userAgent);
+    if (!IS_DESKTOP || (v && (+v[1] > 1 || +v[2] > 0 || +v[3] >= 2))) return;
+    const a = $('#m-school');
+    a.href = '/api/learn/';
+    a.addEventListener('click', e => { if (navigator.onLine) return; e.preventDefault(); UI.toast('📡', 'სკოლას ინტერნეტი სჭირდება', 'პროგრამის ახალ ვერსიაში ნანახი გვერდები ინტერნეტის გარეშეც იხსნება.'); });
+  })();
   Paywall.checkReturn();   // Dodo Payments-ის გადახდიდან დაბრუნება (კოდის ჩასმას ანგარიში სჭირდება)
   Paywall.restore();       // Pro: ანგარიშზე მიბმული ხელმოწერილი ნიშანი
   Install.init();          // ტელეფონზე დაყენება (PWA)

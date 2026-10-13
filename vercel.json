@@ -1,5 +1,6 @@
 {
   "buildCommand": "node school/build.js",
+  "outputDirectory": ".",
   "headers": [
     {
       "source": "/(.*)",

@@ -20,6 +20,30 @@
   <url><loc>https://codequest.space/learn/programming-basics/variables-and-data/booleans/</loc></url>
   <url><loc>https://codequest.space/learn/programming-basics/variables-and-data/constants-and-naming/</loc></url>
   <url><loc>https://codequest.space/learn/programming-basics/variables-and-data/quiz/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/operators-and-expressions/expressions/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/operators-and-expressions/assignment-operators/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/operators-and-expressions/comparison/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/operators-and-expressions/logical-operators/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/operators-and-expressions/type-conversion/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/operators-and-expressions/quiz/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/conditions/if-statement/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/conditions/else-and-else-if/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/conditions/nested-conditions/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/conditions/switch-statement/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/conditions/ternary-operator/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/conditions/quiz/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/loops/why-loops/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/loops/while-loop/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/loops/for-loop/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/loops/break-and-continue/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/loops/nested-loops/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/loops/quiz/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/functions/what-is-a-function/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/functions/parameters/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/functions/return-values/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/functions/scope-basics/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/functions/splitting-into-functions/</loc></url>
+  <url><loc>https://codequest.space/learn/programming-basics/functions/quiz/</loc></url>
   <url><loc>https://codequest.space/learn/html/</loc></url>
   <url><loc>https://codequest.space/learn/css/</loc></url>
   <url><loc>https://codequest.space/learn/javascript/</loc></url>

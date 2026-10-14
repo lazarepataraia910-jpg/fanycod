@@ -12,7 +12,9 @@
 //   • პაროლის შეცვლა ან აღდგენა ყველა ძველ სესიას აუქმებს (pwv — პაროლის ვერსია);
 //   • შესვლისას პასუხი ერთნაირია, სახელი არ არსებობს თუ პაროლია არასწორი.
 // მონაცემები:
-//   user:<სახელი პატარა ასოებით> → { name, pw, rc, pwv, at }       პაროლის და აღდგენის კოდის ჰეშები
+//   user:<სახელი პატარა ასოებით> → { name, pw, rc?, pwv, at, email?, ev? }  პაროლის (და ძველი ანგარიშების აღდგენის კოდის) ჰეშები; ev — ელფოსტის დადასტურების დრო
+//   ev:<sha256(კოდი)> → { u, e } (7 დღე) ელფოსტის დადასტურება; pr:<sha256(კოდი)> → { u, v } (1 სთ, ერთჯერადი) პაროლის აღდგენის ბმული
+//   emailu:<ელფოსტა>             → დადასტურებული ანგარიშები ამ ელფოსტით (set; მშობელს რამდენიმე შვილის ანგარიში შეიძლება ჰქონდეს)
 //   sess:<sha256(ნიშანი)>        → { u, v }  (ვადა 60 დღე)
 //   prog:<სახელი> / progrev:<სახელი> → პროგრესი (gzip + base64) და მისი ვერსია (rev). ვერსიის შემოწმება ატომურია (Lua)
 //   rl:<სახეობა>:<IP ან სახელი>  → მცდელობების მთვლელი
@@ -261,6 +263,39 @@ function checkPass(pass, name) {
   return pass;
 }
 
+/* ---------- ელფოსტა: დადასტურება და პაროლის აღდგენა ბმულით ---------- */
+// წერილები ჩვენი დომენიდან (MAIL_FROM) Resend-ით იგზავნება: Vercel-ში საჭიროა RESEND_API_KEY, Resend-ში კი დადასტურებული codequest.space.
+// დადასტურების ბმული მხოლოდ შესულ ანგარიშზე მუშაობს: შეცდომით ჩაწერილი (სხვისი) ელფოსტის მფლობელი ბმულით ანგარიშს ვერ დაეპატრონება.
+const APP = String(process.env.APP_URL || 'https://codequest.space').replace(/\/+$/, '');
+const MAIL_FROM = process.env.MAIL_FROM || 'CodeQuest <no-reply@codequest.space>';
+const MAIL_URL = process.env.RESEND_API_URL || 'https://api.resend.com/emails';   // ტესტებში — ლოკალური მოკი
+const EMAIL_RE = /^[^\s@<>()",;:]+@[^\s@<>()",;:]+\.[a-z]{2,}$/i, LINK_SEC = 3600, VERIFY_SEC = 7 * 86400, CODE_RE = /^[A-Za-z0-9_-]{20,100}$/;
+function checkEmail(e) {
+  e = String(e || '').trim().toLowerCase();
+  if (e.length > 254 || !EMAIL_RE.test(e)) throw new Fail(400, 'email_format');
+  return e;
+}
+const maskEmail = e => { const [a, d] = String(e || '').split('@'); return a && d ? a[0] + '***@' + d : ''; };
+const escHtml = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const newLinkCode = () => crypto.randomBytes(24).toString('base64url');
+async function sendMail(to, subject, lines, link, button) {
+  if (!process.env.RESEND_API_KEY) throw new Fail(503, 'no_mail');
+  const text = lines.join('\n\n') + '\n\n' + link + '\n\n— CodeQuest · ' + APP;
+  const html = '<div style="font-family:Arial,sans-serif;font-size:16px;line-height:1.5;color:#222;max-width:520px">' + lines.map(l => '<p>' + escHtml(l) + '</p>').join('') +
+    '<p><a href="' + escHtml(link) + '" style="display:inline-block;background:#3d5afe;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:bold">' + escHtml(button) + '</a></p>' +
+    '<p style="font-size:13px;color:#666">ღილაკი არ მუშაობს? ჩააკოპირე ბმული ბრაუზერში:<br>' + escHtml(link) + '</p><p style="font-size:13px;color:#666">— CodeQuest · ' + escHtml(APP) + '</p></div>';
+  const r = await fetch(MAIL_URL, { method: 'POST', headers: { Authorization: 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ from: MAIL_FROM, to: [to], subject, text, html }) });
+  if (!r.ok) { console.error('mail', r.status, (await r.text().catch(() => '')).slice(0, 300)); throw new Fail(502, 'mail_failed'); }
+}
+async function sendVerify(u, user) {
+  const code = newLinkCode();
+  await db(['SET', 'ev:' + sha(code), JSON.stringify({ u, e: user.email }), 'EX', VERIFY_SEC]);
+  await sendMail(user.email, 'CodeQuest: დაადასტურე ელფოსტა', ['გამარჯობა, ' + user.name + '!',
+    'ეს ელფოსტა CodeQuest-ის ანგარიშს „' + user.name + '“ მიება. დაადასტურე, რომ შენია: თუ პაროლი დაგავიწყდება, აღდგენის ბმულს აქ მიიღებ.',
+    'ბმული 7 დღე მოქმედებს და მუშაობს, როცა თამაშში ამ ანგარიშით ხარ შესული.', 'თუ ეს შენ არ გაგიკეთებია, უბრალოდ წაშალე წერილი.'],
+    APP + '/CodeQuest.html?verify=' + code, 'ელფოსტის დადასტურება');
+}
+
 /* ---------- პროგრესი ---------- */
 const pack = obj => zlib.gzipSync(Buffer.from(JSON.stringify(obj))).toString('base64');
 const unpack = s => JSON.parse(zlib.gunzipSync(Buffer.from(s, 'base64')).toString('utf8'));
@@ -298,12 +333,15 @@ function mergeSchool(a, b) {
 /* ---------- მოქმედებები ---------- */
 const actions = {
   async register(b, ip) {
-    const name = checkName(b.name), pass = checkPass(b.password, name), u = keyOf(name);
+    const name = checkName(b.name), pass = checkPass(b.password, name), u = keyOf(name), email = b.email == null ? '' : checkEmail(b.email);
     await limit('reg', ip, 40, 3600);   // სკოლაში ბევრი ბავშვი ერთი IP-დან რეგისტრირდება
-    const recovery = newRecovery();
-    const user = { name, pw: await hashSecret(pass), rc: await hashSecret(normRecovery(recovery)), pwv: 1, at: Date.now() };
+    const user = { name, pw: await hashSecret(pass), pwv: 1, at: Date.now() };
+    // აღდგენა ელფოსტით; ელფოსტის გარეშე (თამაშის ძველი ვერსია) — ძველებურად, აღდგენის კოდით
+    const recovery = email ? '' : newRecovery();
+    if (email) Object.assign(user, { email, ev: 0 }); else user.rc = await hashSecret(normRecovery(recovery));
     if (await db(['SET', 'user:' + u, JSON.stringify(user), 'NX']) !== 'OK') throw new Fail(409, 'name_taken');
-    return { name, token: await newSession(u, 1), recovery, rev: 0 };
+    const mail = email ? await sendVerify(u, user).then(() => true, e => { console.error('verify mail', e && (e.code || e.message)); return false; }) : false;
+    return Object.assign({ name, token: await newSession(u, 1), rev: 0, em: maskEmail(email), ev: false, mail }, recovery ? { recovery } : {});
   },
   async login(b, ip) {
     const name = String(b.name || '').normalize('NFC').trim(), u = keyOf(name);
@@ -315,7 +353,72 @@ const actions = {
     if (!user || !good) throw new Fail(401, 'bad_login');
     if (oldHash(user.pw)) { user.pw = await hashSecret(String(b.password)); await putUser(u, user); }   // ძველი (s1) ჰეში — უფრო ძლიერად
     const p = await db(['GET', 'progrev:' + u]);
-    return { name: user.name, token: await newSession(u, user.pwv), rev: +p || 0 };
+    // mo — წერილები ჩართულია (RESEND_API_KEY): მის გარეშე თამაში ელფოსტას შესვლისას არ ითხოვს
+    return { name: user.name, token: await newSession(u, user.pwv), rev: +p || 0, em: maskEmail(user.email), ev: !!user.ev, mo: !!process.env.RESEND_API_KEY };
+  },
+  // დაგავიწყდა პაროლი: სახელით ან ელფოსტით. ბმული მიდის მხოლოდ დადასტურებულ ელფოსტაზე; პასუხი ყოველთვის ერთნაირია (არ ჩანს, არსებობს თუ არა ანგარიში)
+  async forgot(b, ip) {
+    if (!process.env.RESEND_API_KEY) throw new Fail(503, 'no_mail');
+    const who = String(b.who || '').normalize('NFC').trim();
+    if (!who || who.length > 254) throw new Fail(400, 'bad_request');
+    await limit('forgot-ip', ip, 10, 3600);
+    await limit('forgot', keyOf(who), 3, 3600);
+    const us = who.includes('@') ? (await db(['SMEMBERS', 'emailu:' + checkEmail(who)])) || [] : [keyOf(who)];
+    for (const u of us.slice(0, 5)) {
+      const user = await getUser(u);
+      if (!user || !user.email || !user.ev) continue;
+      try { await limit('mail', user.email, 6, 3600); } catch (e) { continue; }   // ერთ ყუთში საათში მაქსიმუმ 6 წერილი
+      const code = newLinkCode();
+      await db(['SET', 'pr:' + sha(code), JSON.stringify({ u, v: user.pwv }), 'EX', LINK_SEC]);
+      await sendMail(user.email, 'CodeQuest: პაროლის აღდგენა', ['გამარჯობა, ' + user.name + '!',
+        'ვიღაცამ, იმედია შენ, CodeQuest-ის ანგარიშის „' + user.name + '“ პაროლის აღდგენა მოითხოვა. ახალი პაროლის დასაყენებლად დააჭირე ღილაკს.',
+        'ბმული 1 საათი მოქმედებს და მხოლოდ ერთხელ მუშაობს.', 'თუ ეს შენ არ მოგითხოვია, უბრალოდ წაშალე წერილი: პაროლი არ შეიცვლება.'],
+        APP + '/CodeQuest.html?reset=' + code, 'ახალი პაროლის დაყენება');
+    }
+    return {};
+  },
+  // ბმულიდან ახალი პაროლი: ბმული ერთჯერადია და უქმდება, თუ პაროლი უკვე შეიცვალა (pwv)
+  async resetLink(b, ip) {
+    await limit('resetlink-ip', ip, 30, 3600);
+    const code = String(b.code || '');
+    const raw = CODE_RE.test(code) ? await db(['GET', 'pr:' + sha(code)]) : null, t = raw ? JSON.parse(raw) : null, user = t && await getUser(t.u);
+    if (!user || user.pwv !== t.v) throw new Fail(400, 'bad_link');
+    const pass = checkPass(b.password, user.name);
+    Object.assign(user, { pw: await hashSecret(pass), pwv: user.pwv + 1 });   // ყველა ძველი სესია უქმდება
+    await dbPipe([['SET', 'user:' + t.u, JSON.stringify(user)], ['DEL', 'pr:' + sha(code)]]);
+    const p = await db(['GET', 'progrev:' + t.u]);
+    return { name: user.name, token: await newSession(t.u, user.pwv), rev: +p || 0, em: maskEmail(user.email), ev: !!user.ev };
+  },
+  // ელფოსტის მიბმა ან შეცვლა — პაროლით (მოპარული სესიით ელფოსტას ვერ შეცვლიან და მერე პაროლს ვერ „აღადგენენ“)
+  async setEmail(b) {
+    const { u, user } = await session(b.token);
+    await limit('email-name', u, 5, 3600);
+    if (!await checkSecret(String(b.password || ''), user.pw)) throw new Fail(401, 'bad_pass');
+    const email = checkEmail(b.email);
+    if (email === user.email && user.ev) return { em: maskEmail(email), ev: true };
+    if (user.email && user.ev) await db(['SREM', 'emailu:' + user.email, u]);
+    Object.assign(user, { email, ev: 0 });
+    await putUser(u, user);
+    await sendVerify(u, user);
+    return { em: maskEmail(email), ev: false };
+  },
+  async resendVerify(b) {
+    const { u, user } = await session(b.token);
+    if (!user.email) throw new Fail(400, 'email_format');
+    if (user.ev) return { em: maskEmail(user.email), ev: true };
+    await limit('verify-mail', u, 3, 3600);
+    await sendVerify(u, user);
+    return { em: maskEmail(user.email), ev: false };
+  },
+  async verifyEmail(b) {
+    const { u, user } = await session(b.token);
+    const code = String(b.code || '');
+    const raw = CODE_RE.test(code) ? await db(['GET', 'ev:' + sha(code)]) : null, t = raw ? JSON.parse(raw) : null;
+    if (t && t.u !== u) throw new Fail(403, 'other_account');
+    if (!t || t.e !== user.email) throw new Fail(400, 'bad_link');
+    user.ev = Date.now();
+    await dbPipe([['SET', 'user:' + u, JSON.stringify(user)], ['SADD', 'emailu:' + user.email, u], ['DEL', 'ev:' + sha(code)]]);
+    return { em: maskEmail(user.email), ev: true };
   },
   async reset(b, ip) {
     const name = String(b.name || '').normalize('NFC').trim(), u = keyOf(name);
@@ -334,11 +437,11 @@ const actions = {
   async me(b) {
     const { u, user } = await session(b.token, true);
     const p = await db(['GET', 'progrev:' + u]);
-    return { name: user.name, rev: +p || 0, pro: proToken(u, user), sv: user.sv || 0 };
+    return { name: user.name, rev: +p || 0, pro: proToken(u, user), sv: user.sv || 0, em: maskEmail(user.email), ev: !!user.ev };
   },
   async load(b) {
     // rev — მოწყობილობის ვერსია: თუ ანგარიშში იგივეა, მონაცემს არ ვაგზავნით (ხშირი შემოწმება ორ მოწყობილობას შორის — იაფი)
-    const light = b.rev != null, { u, user } = await session(b.token, !light), head = { name: user.name, pro: proToken(u, user), sv: user.sv || 0 };
+    const light = b.rev != null, { u, user } = await session(b.token, !light), head = { name: user.name, pro: proToken(u, user), sv: user.sv || 0, em: maskEmail(user.email), ev: !!user.ev };
     if (light) { const rev = +(await db(['GET', 'progrev:' + u])) || 0; if (rev === Math.floor(+b.rev)) return Object.assign(head, { rev }); }
     return Object.assign(head, await loadProgress(u));
   },
@@ -397,6 +500,7 @@ const actions = {
     const [own, inn] = await dbPipe([['SMEMBERS', 'uown:' + u], ['SMEMBERS', 'uin:' + u]]);
     for (const code of own || []) await dropClass(code, u);   // მასწავლებლის კლასებიც იშლება
     if (user.pro && !user.pro.owner && (await db(['GET', 'prokey:' + user.pro.kh])) === u) await db(['DEL', 'prokey:' + user.pro.kh]);
+    if (user.email) await db(['SREM', 'emailu:' + user.email, u]);
     await dbPipe((inn || []).map(code => ['SREM', 'clsm:' + code, u]).concat([['DEL', 'user:' + u], ['DEL', 'prog:' + u], ['DEL', 'progrev:' + u], ['DEL', 'sum:' + u], ['DEL', 'school:' + u],
       ['DEL', 'uin:' + u], ['DEL', 'uown:' + u], ['DEL', 'sess:' + sha(b.token)]]));
     return {};
@@ -641,7 +745,7 @@ module.exports = async (req, res) => {
     const out = Object.assign({ ok: true }, await act(body, ip));
     if (web) {
       // სესიის ახალი ნიშანი მხოლოდ ამ მოქმედებებიდან მოდის — ის cookie-ში გადადის და JSON-ში აღარ ჩანს
-      if (out.token && /^(register|login|reset|password)$/.test(body.action)) { setCookie(req, res, out.token); delete out.token; out.cookie = true; }
+      if (out.token && /^(register|login|reset|resetLink|password)$/.test(body.action)) { setCookie(req, res, out.token); delete out.token; out.cookie = true; }
       else if (bodyTok && (body.action === 'me' || body.action === 'load' || body.action === 'save')) { setCookie(req, res, bodyTok); out.cookie = true; }
       if (body.action === 'logout' || body.action === 'delete') setCookie(req, res, '');
     }

@@ -20107,10 +20107,12 @@ const Desktop = {
    სტუმარი თამაშობს როგორც ადრე: პროგრესი მხოლოდ ამ მოწყობილობაზეა. ანგარიშით პროგრესი, Pro და ბიტის ნივთები ყველა
    მოწყობილობაზე ერთია: ყოველი ცვლილება რამდენიმე წამში სერვერზე ინახება (Progress.save → Account.changed). თუ სხვა
    მოწყობილობამ უფრო ახალი შეინახა, პროგრესები ერთიანდება (mergeProgress — საუკეთესო რჩება, არაფერი იკარგება).
-   ელფოსტა არ გვჭირდება: დავიწყებული პაროლი აღდგენის კოდით აღდგება, რომელსაც რეგისტრაციისას ვაჩვენებთ. */
+   დავიწყებული პაროლი ელფოსტით აღდგება: ბმული codequest.space-დან მოდის (forgot → ?reset=კოდი). ელფოსტას რეგისტრაციისას ვითხოვთ, ძველ ანგარიშებს კი შესვლისას;
+   ის ჯერ უნდა დადასტურდეს (?verify=კოდი, მხოლოდ შესულ ანგარიშზე). ძველი ანგარიშების აღდგენის კოდიც ისევ მუშაობს (resetForm). */
 // 💻 კომპიუტერის პროგრამაში (IS_DESKTOP) ანგარიში მხოლოდ Pro-სთვის და კლასისთვისაა: პროგრესი სერვერზე არ იგზავნება (მხოლოდ მოკლე შეჯამება — action summary)
 const ACC_KEY = 'codequest.auth';   // { name, rev, dirty, at } (+ token მხოლოდ კომპიუტერის პროგრამაში; ვებზე ტოკენი HttpOnly cookie-შია) — პროგრესისგან ცალკე: ნიშანი არც პროგრესის კოდში ხვდება, არც სერვერზე
 const ACC_NAME_RE = /^[A-Za-z0-9ა-ჰ_.-]{3,20}$/;
+const ACC_EMAIL_RE = /^[^\s@<>()",;:]+@[^\s@<>()",;:]+\.[a-z]{2,}$/i;   // იგივე წესი: api/account.js → EMAIL_RE
 // ორი პროგრესის გაერთიანება: a — ეს მოწყობილობა, b — ანგარიში. ლეველებიდან, მიღწევებიდან და ნივთებიდან საუკეთესო რჩება,
 // პარამეტრები და ბიტის იერსახე — ამ მოწყობილობისა (თუ აქ ბიტი ჯერ არ შეცვლილა — ანგარიშისა)
 function mergeProgress(a, b) {
@@ -20183,6 +20185,11 @@ const Account = {
     bad_login: 'სახელი ან პაროლი არასწორია.',
     bad_pass: 'პაროლი არასწორია.',
     bad_recovery: 'სახელი ან აღდგენის კოდი არასწორია.',
+    email_format: 'ელფოსტა არასწორად წერია — შეამოწმე (მაგ. nino@gmail.com).',
+    no_mail: 'წერილების გაგზავნა ჯერ არ არის ჩართული. სცადე ცოტა ხანში.',
+    mail_failed: 'წერილი ვერ გაიგზავნა. სცადე ცოტა ხანში.',
+    bad_link: 'ბმული არასწორია, უკვე გამოყენებულია ან ვადა გაუვიდა. მოითხოვე ახალი.',
+    other_account: 'ეს ბმული სხვა ანგარიშისთვისაა — გამოდი და შედი იმ ანგარიშით, რომელსაც ელფოსტა მიაბი.',
     rate_limited: 'ძალიან ბევრი მცდელობა. დაისვენე რამდენიმე წუთი და თავიდან სცადე.',
     no_session: 'სესია ამოიწურა — შედი თავიდან.',
     too_big: 'პროგრესი ძალიან დიდია შესანახად.',
@@ -20292,6 +20299,7 @@ const Account = {
       return this.setState(r.error === 'offline' ? 'offline' : 'error');
     }
     this.s.name = r.name;
+    if (r.em != null) Object.assign(this.s, { em: r.em, ev: !!r.ev });
     if (r.pro) this.gotPro(r.pro);
     if (!IS_DESKTOP && r.sv && r.sv !== this.s.sv) this.syncSchool();
     if (!IS_DESKTOP && r.rev !== (this.s.rev || 0)) {
@@ -20377,9 +20385,9 @@ const Account = {
   },
   /* ---- შესვლა და რეგისტრაცია ---- */
   // შესვლის შემდეგ: ანგარიშის და ამ მოწყობილობის პროგრესი. ორივეს თუ აქვს, ვეკითხებით (ნაგულისხმევად — გაერთიანება)
-  async start(r, fresh) {
+  async start(r, fresh, pass) {
     // rev 0, სანამ ანგარიშის პროგრესს არ ჩავტვირთავთ: თუ ჩატვირთვა ვერ მოხერხდა, შენახვა „კონფლიქტს“ მიიღებს და ჯერ გააერთიანებს
-    this.s = Object.assign({ name: r.name, rev: 0, dirty: false }, r.token ? { token: r.token } : {});   // ვებზე ტოკენი cookie-შია
+    this.s = Object.assign({ name: r.name, rev: 0, dirty: false, em: r.em || '', ev: !!r.ev }, r.token ? { token: r.token } : {});   // ვებზე ტოკენი cookie-შია
     this.keep();
     this.renderMenu();
     if (fresh) { this.changed(); return this.push(); }   // ახალი ანგარიში: ამ მოწყობილობის პროგრესი ანგარიშში გადადის
@@ -20398,7 +20406,10 @@ const Account = {
     if (d.pro) this.gotPro(d.pro);
     Paywall.restore();
     UI.toast('👋', 'გამარჯობა, ' + r.name + '!', IS_DESKTOP ? '💾 პროგრესი ამ კომპიუტერში ინახება. ანგარიშით Pro და კლასი მუშაობს.' : 'პროგრესი ახლა ყველა მოწყობილობაზე შეინახება.');
+    const pending = !!this.after;
     this.runAfter();
+    // შესვლისას: ანგარიშს დადასტურებული ელფოსტა არ აქვს — ვითხოვთ (პაროლის აღდგენისთვის); გადადებული მოქმედება (მაგ. ?verify) — ჯერ ის
+    if (!this.s.ev && !pending && r.mo !== false) setTimeout(() => this.emailPrompt(pass), 700);
   },
   // გადადებული მოქმედება შესვლის / რეგისტრაციის შემდეგ (მაგ. Pro-ს ყიდვა)
   runAfter() { const f = this.after; this.after = null; if (f) setTimeout(f, 300); },
@@ -20432,7 +20443,7 @@ const Account = {
     });
   },
   field(label, name, type, auto, hint) {
-    return '<label>' + label + '<input class="txt" name="' + name + '" type="' + type + '" autocomplete="' + auto + '" maxlength="' + (type === 'password' ? 100 : 20) + '" autocapitalize="off" spellcheck="false" required>' + (hint ? '<small>' + hint + '</small>' : '') + '</label>';
+    return '<label>' + label + '<input class="txt" name="' + name + '" type="' + type + '" autocomplete="' + auto + '" maxlength="' + (type === 'password' ? 100 : type === 'email' ? 254 : 20) + '" autocapitalize="off" spellcheck="false" required>' + (hint ? '<small>' + hint + '</small>' : '') + '</label>';
   },
   checkNew(f) {
     if (!ACC_NAME_RE.test((f.name || '').trim())) return 'name_format';
@@ -20448,25 +20459,91 @@ const Account = {
       '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">შესვლა</button></form>' +
       '<p class="acc-links"><button type="button" class="linklike" data-a="reg">ანგარიში არ გაქვს? დარეგისტრირდი</button><button type="button" class="linklike" data-a="reset">დაგავიწყდა პაროლი?</button></p>' +
       '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
-    this.bind(m, f => (f.name.trim() && f.password ? null : 'bad_login'), f => this.api('login', { name: f.name, password: f.password }), r => { Modal.close(m); this.start(r, false); });
+    this.bind(m, f => (f.name.trim() && f.password ? null : 'bad_login'), f => this.api('login', { name: f.name, password: f.password }), (r, f) => { Modal.close(m); this.start(r, false, f.password); });
     m.querySelector('[data-a=reg]').addEventListener('click', () => { Modal.close(m); this.registerForm(); });
-    m.querySelector('[data-a=reset]').addEventListener('click', () => { Modal.close(m); this.resetForm(); });
+    m.querySelector('[data-a=reset]').addEventListener('click', () => { Modal.close(m); this.forgotForm(); });
   },
   registerForm() {
     const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">✨</div><h2 class="result-title">რეგისტრაცია</h2>' +
-      '<p class="muted acc-sub">' + (IS_DESKTOP ? 'ელფოსტა არ გვჭირდება. 💾 პროგრესი ამ კომპიუტერში რჩება; ანგარიში Pro-სთვის და კლასისთვისაა.' : 'ელფოსტა არ გვჭირდება. ამ მოწყობილობის პროგრესი ანგარიშში გადავა.') + '</p>' +
+      '<p class="muted acc-sub">' + (IS_DESKTOP ? '💾 პროგრესი ამ კომპიუტერში რჩება; ანგარიში Pro-სთვის და კლასისთვისაა.' : 'ამ მოწყობილობის პროგრესი ანგარიშში გადავა.') + '</p>' +
       '<form class="acc-form" novalidate>' + this.field('სახელი', 'name', 'text', 'username', '3–20 სიმბოლო: ასოები, ციფრები, _ . -  · სახელს სხვა მოთამაშეები ვერ ხედავენ, მაინც ნუ ჩაწერ სახელს და გვარს ერთად') +
+      this.field('ელფოსტა', 'email', 'email', 'email', 'მხოლოდ პაროლის აღსადგენად: სხვა წერილებს არ გამოგიგზავნით. 13 წლამდე ხარ? ჩაწერე მშობლის ელფოსტა') +
       this.field('პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო. ნუ გამოიყენებ იმავე პაროლს, რაც სხვაგან გაქვს') + this.field('გაიმეორე პაროლი', 'password2', 'password', 'new-password') +
       '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">ანგარიშის შექმნა</button><p class="acc-legal">ანგარიშის შექმნით ეთანხმები <a href="https://codequest-lazare.vercel.app/terms.html" target="_blank" rel="noopener">წესებს</a> და <a href="https://codequest-lazare.vercel.app/privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკას</a>. 13 წლამდე ხარ? ანგარიში მშობელთან ერთად შექმენი.</p></form>' +
       '<p class="acc-links"><button type="button" class="linklike" data-a="login">უკვე გაქვს ანგარიში? შედი</button></p>' +
       '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
-    this.bind(m, f => this.checkNew(f), f => this.api('register', { name: f.name.trim(), password: f.password }), r => {
+    this.bind(m, f => this.checkNew(f) || (ACC_EMAIL_RE.test(f.email.trim()) ? null : 'email_format'), f => this.api('register', { name: f.name.trim(), email: f.email.trim(), password: f.password }), r => {
       Modal.close(m);
       this.start(r, true);
       Paywall.restore();
-      this.showRecovery(r.name, r.recovery, 'შექმნილია! ', () => this.runAfter());
+      this.mailNote(r.mail ? '✉️ ანგარიში შექმნილია! შეამოწმე ფოსტა (' + r.em + ') და დააჭირე ბმულს, რომ ელფოსტა დადასტურდეს: ასე დავიწყებულ პაროლს ადვილად აღადგენ.'
+        : '✅ ანგარიში შექმნილია! დადასტურების წერილი ახლა ვერ გაიგზავნა — მოგვიანებით „👤 ანგარიში → ✉️ ელფოსტა“-დან გააგზავნე.', () => this.runAfter());
     });
     m.querySelector('[data-a=login]').addEventListener('click', () => { Modal.close(m); this.loginForm(); });
+  },
+  // დაგავიწყდა პაროლი: ბმული მიდის ანგარიშზე მიბმულ (დადასტურებულ) ელფოსტაზე
+  forgotForm() {
+    const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">✉️</div><h2 class="result-title">პაროლის აღდგენა</h2>' +
+      '<p class="muted acc-sub">ჩაწერე ანგარიშის სახელი ან ელფოსტა — გამოგიგზავნით ბმულს, რომლითაც ახალ პაროლს დააყენებ.</p>' +
+      '<form class="acc-form" novalidate>' + this.field('სახელი ან ელფოსტა', 'who', 'text', 'username') +
+      '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">ბმულის გაგზავნა</button></form>' +
+      '<p class="acc-links"><button type="button" class="linklike" data-a="code">ელფოსტა არ მიგიბამს, მაგრამ აღდგენის კოდი გაქვს?</button></p>' +
+      '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
+    m.querySelector('[name=who]').maxLength = 254;
+    this.bind(m, f => (f.who.trim() ? null : 'name_format'), f => this.api('forgot', { who: f.who.trim() }), () => {
+      Modal.close(m);
+      this.mailNote('✉️ თუ ანგარიშს დადასტურებული ელფოსტა აქვს, რამდენიმე წუთში მიიღებ წერილს codequest.space-დან. ბმული 1 საათი მოქმედებს. წერილი არ ჩანს? შეამოწმე „სპამის“ საქაღალდე.');
+    });
+    m.querySelector('[data-a=code]').addEventListener('click', () => { Modal.close(m); this.resetForm(); });
+  },
+  // ?reset=კოდი — ბმული წერილიდან: ახალი პაროლი და მაშინვე შესვლა
+  resetLinkForm(code) {
+    const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">🔑</div><h2 class="result-title">ახალი პაროლი</h2>' +
+      '<form class="acc-form" novalidate>' + this.field('ახალი პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო. ნუ გამოიყენებ იმავე პაროლს, რაც სხვაგან გაქვს') + this.field('გაიმეორე ახალი პაროლი', 'password2', 'password', 'new-password') +
+      '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">პაროლის შეცვლა</button></form>' +
+      '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
+    this.bind(m, f => (f.password.length < 8 ? 'pass_short' : f.password !== f.password2 ? 'pass_match' : null), f => this.api('resetLink', { code, password: f.password }), r => {
+      Modal.close(m);
+      this.start(r, false);
+      UI.toast('🔑', 'პაროლი შეიცვალა', 'სხვა მოწყობილობებზე ახალი პაროლით შედი.');
+    });
+  },
+  // ?verify=კოდი — ელფოსტის დადასტურება მხოლოდ შესულ ანგარიშზე
+  async verifyLink(code) {
+    if (!this.s) { this.after = () => this.verifyLink(code); return this.loginForm('შედი იმ ანგარიშით, რომელსაც ელფოსტა მიაბი — ასე ელფოსტა დადასტურდება.'); }
+    const r = await this.api('verifyEmail', { token: this.s.token, code });
+    if (!r.ok) return UI.toast('⚠️', 'ელფოსტა ვერ დადასტურდა', this.msg(r));
+    Object.assign(this.s, { em: r.em, ev: true }); this.keep();
+    UI.toast('✉️', 'ელფოსტა დადასტურდა!', 'დავიწყებულ პაროლს ახლა ელფოსტით აღადგენ.');
+  },
+  // ელფოსტის მიბმა / შეცვლა. pass — შესვლისას ჩაწერილი პაროლი (მაშინ ხელახლა აღარ ვკითხულობთ)
+  emailPrompt(pass) {
+    const s = this.s; if (!s) return;
+    const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">✉️</div><h2 class="result-title">' + (s.em ? 'შენი ელფოსტა' : 'დაამატე ელფოსტა') + '</h2>' +
+      '<p class="muted acc-sub">' + (s.ev ? 'მიბმულია და დადასტურებულია: <b>' + esc(s.em) + '</b>. შეგიძლია შეცვალო.'
+        : s.em ? 'მიბმულია <b>' + esc(s.em) + '</b>, მაგრამ ჯერ არ დადასტურებულა: დააჭირე ბმულს წერილში, ან ჩაწერე სხვა მისამართი.'
+        : 'თუ პაროლი დაგავიწყდება, აღდგენის ბმულს ამ ელფოსტაზე გამოგიგზავნით. სხვა წერილებს არ მიიღებ. 13 წლამდე ხარ? ჩაწერე მშობლის ელფოსტა.') + '</p>' +
+      '<form class="acc-form" novalidate>' + this.field('ელფოსტა', 'email', 'email', 'email') + (pass ? '' : this.field('პაროლი დასადასტურებლად', 'password', 'password', 'current-password')) +
+      '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">' + (s.em ? 'შენახვა და წერილის გაგზავნა' : 'დამატება') + '</button></form>' +
+      (s.em && !s.ev ? '<p class="acc-links"><button type="button" class="linklike" data-a="again">წერილი ვერ ვიპოვე — გამოგზავნე თავიდან</button></p>' : '') +
+      '<div class="modal-actions"><button class="btn" data-close>' + (s.ev ? 'დახურვა' : 'მოგვიანებით') + '</button></div></div>');
+    this.bind(m, f => (ACC_EMAIL_RE.test(f.email.trim()) ? (pass || f.password ? null : 'bad_pass') : 'email_format'),
+      f => this.api('setEmail', { token: s.token, email: f.email.trim(), password: pass || f.password }), r => {
+        Object.assign(s, { em: r.em, ev: r.ev }); this.keep();
+        Modal.close(m);
+        if (!r.ev) this.mailNote('✉️ გამოგიგზავნეთ წერილი (' + r.em + '). დააჭირე ბმულს — ის იმუშავებს, თუ თამაშში ამ ანგარიშით ხარ შესული.');
+      });
+    const again = m.querySelector('[data-a=again]');
+    if (again) again.addEventListener('click', async () => {
+      again.disabled = true;
+      const r = await this.api('resendVerify', { token: s.token });
+      again.disabled = false;
+      if (r.ok) UI.toast('✉️', 'წერილი გაიგზავნა', 'შეამოწმე ფოსტა (და „სპამის“ საქაღალდეც).'); else m.querySelector('.acc-err').textContent = this.msg(r);
+    });
+  },
+  mailNote(text, then) {
+    const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">✉️</div><p>' + esc(text) + '</p><div class="modal-actions"><button class="btn primary" data-a="ok">კარგი</button></div></div>', { dismiss: false });
+    m.querySelector('[data-a=ok]').addEventListener('click', () => { Modal.close(m); if (then) then(); });
   },
   resetForm() {
     const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">🔑</div><h2 class="result-title">პაროლის აღდგენა</h2>' +
@@ -20513,7 +20590,7 @@ const Account = {
     const m = Modal.open('<div class="accp"><button class="accp-x" data-close aria-label="დახურვა">✕</button>' +
       '<div class="accp-top"><div class="accp-av" aria-hidden="true">' + esc([...s.name][0]) + '</div><h2>' + esc(s.name) + '</h2><p class="accp-st" id="acc-st">' + esc(this.statusText()) + '</p></div>' +
       '<div class="accp-body"><div class="accp-stats"><div><b>' + r.ic + ' ' + esc(r.name) + '</b><small>წოდება</small></div><div><b>⭐ ' + Progress.totalXP() + '</b><small>XP</small></div><div><b>🔥 ' + Progress.streakNow() + '</b><small>დღიანი სერია</small></div></div>' +
-      '<div class="accp-acts">' + act('class', '👩‍🏫', 'კლასი', 'შეუერთდი ან შექმენი') + (IS_DESKTOP ? act('backup', '💾', 'პროგრესის ასლი', 'პარამეტრებში') : act('sync', '☁️', 'ახლავე შენახვა', 'ღრუბელში')) + act('pass', '🔑', 'პაროლის შეცვლა', 'უსაფრთხოება') + act('out', '🚪', 'გასვლა', 'ანგარიშიდან') + '</div>' +
+      '<div class="accp-acts">' + act('class', '👩‍🏫', 'კლასი', 'შეუერთდი ან შექმენი') + (IS_DESKTOP ? act('backup', '💾', 'პროგრესის ასლი', 'პარამეტრებში') : act('sync', '☁️', 'ახლავე შენახვა', 'ღრუბელში')) + act('pass', '🔑', 'პაროლის შეცვლა', 'უსაფრთხოება') + act('email', '✉️', 'ელფოსტა', s.ev ? 'დადასტურებულია' : s.em ? '⚠️ დაადასტურე' : '⚠️ დაამატე') + act('out', '🚪', 'გასვლა', 'ანგარიშიდან') + '</div>' +
       '<p class="accp-info">' + (IS_DESKTOP ? '💾 პროგრესი და ბიტის ნივთები ამ კომპიუტერში ინახება, სერვერზე არ იგზავნება. 👤 ანგარიშით Pro და კლასი მუშაობს. სხვა მოწყობილობაზე გადასატანად: პარამეტრები → პროგრესის კოდი.'
         : '☁️ პროგრესი, Pro და ბიტის ნივთები თავისით ინახება. 💻 სხვა მოწყობილობაზე იგივე სახელით და პაროლით შედი.') + '</p>' +
       '<details class="acc-del"><summary>ანგარიშის წაშლა</summary><p class="muted">ანგარიში და მასში შენახული პროგრესი სამუდამოდ წაიშლება. ამ მოწყობილობაზე პროგრესი დარჩება.</p><button class="btn danger small" data-a="del">🗑️ ანგარიშის წაშლა</button></details></div></div>');
@@ -20521,6 +20598,7 @@ const Account = {
     else m.querySelector('[data-a=sync]').addEventListener('click', () => { this.changed(); this.push(); });
     m.querySelector('[data-a=class]').addEventListener('click', () => { Modal.close(m); UI.show('class'); });
     m.querySelector('[data-a=pass]').addEventListener('click', () => { Modal.close(m); this.passwordForm(); });
+    m.querySelector('[data-a=email]').addEventListener('click', () => { Modal.close(m); this.emailPrompt(); });
     m.querySelector('[data-a=out]').addEventListener('click', () => { Modal.close(m); this.logout(); });
     m.querySelector('[data-a=del]').addEventListener('click', () => { Modal.close(m); this.deleteForm(); });
   },
@@ -21574,6 +21652,11 @@ function init() {
   (() => {
     const q = new URLSearchParams(location.search), to = q.get('to') || '';
     if (q.get('pro') === 'open') Paywall.open(null, 'school');
+    // ბმული წერილიდან: ?reset=კოდი (ახალი პაროლი) ან ?verify=კოდი (ელფოსტის დადასტურება). კოდი მისამართიდან მაშინვე ქრება (ისტორია, სკრინშოტი)
+    const reset = q.get('reset'), verify = q.get('verify'), CODE = /^[A-Za-z0-9_-]{20,100}$/;
+    if (reset || verify) { q.delete('reset'); q.delete('verify'); history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash); }
+    if (reset && CODE.test(reset)) Account.resetLinkForm(reset);
+    if (verify && CODE.test(verify)) Account.verifyLink(verify);
     if (!q.get('acc') || !/^\/(api\/)?learn\/[a-z0-9\/-]*$/.test(to)) return;
     const back = () => { location.href = to; };
     if (Account.s) back(); else { Account.after = back; Account.loginForm('შედი ან დარეგისტრირდი — სკოლის პროგრესი ანგარიშში შეინახება და ყველა მოწყობილობაზე გექნება.'); }

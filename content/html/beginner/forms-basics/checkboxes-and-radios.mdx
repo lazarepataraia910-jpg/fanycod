@@ -1,0 +1,150 @@
+---
+title: მოსანიშნი და ამოსარჩევი ველები
+description: checkbox რამდენიმე ვარიანტის მონიშვნას იძლევა, radio მხოლოდ ერთის არჩევას. ისწავლე მათი დაჯგუფება name-ით, value ატრიბუტი, checked და fieldset legend-ით.
+difficulty: მარტივი
+readingTime: 7
+tags: [HTML, checkbox, radio, fieldset, legend]
+prerequisites: [buttons]
+---
+
+## რას ისწავლი
+
+- რით განსხვავდება `checkbox` `radio`-სგან
+- როგორ აჯგუფებს `name` ამოსარჩევ ველებს და რას აგზავნის `value`
+- როგორ შეკრა ერთად დაკავშირებული ველები `<fieldset>`-ით და `<legend>`-ით
+
+## მოსანიშნი ველი: checkbox
+
+`<input type="checkbox">` პატარა კვადრატია, რომელსაც მონიშნავ ან მოხსნი. ის **დამოუკიდებელია**: შეგიძლია მონიშნო რამდენიც გინდა, ან არცერთი. მაგალითად, „რომელ ენებს ფლობ?“ ან „ვეთანხმები წესებს“.
+
+```html
+<label><input type="checkbox" name="langs" value="ka"> ქართული</label>
+<label><input type="checkbox" name="langs" value="en"> ინგლისური</label>
+<label><input type="checkbox" name="langs" value="de"> გერმანული</label>
+```
+
+ყურადღება მიაქციე: ველი `<label>`-ის შიგნითაა. ასე წარწერაზე დაჭერაც მონიშნავს ველს, და პატარა კვადრატის ზუსტად დაჭერა აღარ გჭირდება. ეს განსაკუთრებით მნიშვნელოვანია ტელეფონზე.
+
+## ამოსარჩევი ველი: radio
+
+`<input type="radio">` პატარა წრეა, და ჯგუფში **მხოლოდ ერთი** შეიძლება იყოს არჩეული. როცა სხვას ირჩევ, წინა თავისით იხსნება. მაგალითად, „რომელ კლასში ხარ?“: ერთდროულად ორ კლასში ვერ იქნები.
+
+```html
+<label><input type="radio" name="grade" value="5"> მე-5</label>
+<label><input type="radio" name="grade" value="6"> მე-6</label>
+<label><input type="radio" name="grade" value="7"> მე-7</label>
+```
+
+სახელი „radio“ ძველი რადიომიმღებებიდან მოდის: მათ სადგურის ღილაკები ჰქონდათ, და ახლის დაჭერა წინას „ამოაგდებდა“.
+
+## name აჯგუფებს
+
+ბრაუზერმა საიდან იცის, რომელი radio-ები ეკუთვნის ერთ ჯგუფს? **ერთნაირი `name`-ით.** სამივე კლასის ველს `name="grade"` აქვს, ამიტომ მათგან მხოლოდ ერთი შეიძლება აირჩიო. თუ ერთ-ერთს სხვა `name` მისცემ, ის ცალკე ჯგუფი გახდება და ერთდროულად ორი წრე მოინიშნება.
+
+## value: რა გაიგზავნება
+
+ტექსტის ველში მომხმარებელი თვითონ წერს მნიშვნელობას. მოსანიშნ და ამოსარჩევ ველებში კი მნიშვნელობას **შენ** წერ `value` ატრიბუტში: სწორედ ის გაიგზავნება სერვერზე. თუ მომხმარებელმა მე-6 კლასი აირჩია, სერვერი მიიღებს `grade=6`-ს. წარწერა ადამიანისთვისაა, `value` სერვერისთვის. ამიტომ `value` ჩვეულებრივ მოკლე და ინგლისურია, წარწერა კი გასაგები და ქართული.
+
+მოუნიშნავი checkbox **საერთოდ არ იგზავნება**: სერვერი მის შესახებ არაფერს მიიღებს.
+
+## checked: წინასწარ არჩეული
+
+ლოგიკური ატრიბუტი `checked` ველს წინასწარ მონიშნავს: `<input type="radio" name="size" value="m" checked>`. radio ჯგუფში კარგია, ერთი ვარიანტი წინასწარ იყოს არჩეული, თუ ასეთი ბუნებრივი ვარიანტი არსებობს. checkbox-ზე კი ფრთხილად: წინასწარ მონიშნული „თანახმა ვარ სარეკლამო წერილებზე“ მომხმარებლის მოტყუებად აღიქმება.
+
+## fieldset და legend
+
+ამოსარჩევი ველების ჯგუფს საერთო კითხვა აქვს: „რომელ კლასში ხარ?“. ამ კითხვის ჯგუფთან დასაკავშირებლად გამოიყენე `<fieldset>` (ველების ნაკრები) და `<legend>` (მისი სათაური):
+
+```html
+<fieldset>
+  <legend>რომელ კლასში ხარ?</legend>
+  <label><input type="radio" name="grade" value="5"> მე-5</label>
+  <label><input type="radio" name="grade" value="6"> მე-6</label>
+</fieldset>
+```
+
+ბრაუზერი ჯგუფს ჩარჩოში სვამს, ეკრანის წამკითხველი კი ყოველ ველზე იტყვის: „რომელ კლასში ხარ? მე-5, ამოსარჩევი ღილაკი“. `<legend>` `<fieldset>`-ის პირველი შვილია.
+
+## სცადე თავად
+
+აირჩიე კლასი და ენები. ნახე, რომ კლასი მხოლოდ ერთი შეიძლება იყოს, ენები კი რამდენიც გინდა. მერე მე-7 კლასის ველს სხვა `name` მიეცი და ნახე, რა მოხდება.
+
+```html run
+<form>
+  <fieldset>
+    <legend>რომელ კლასში ხარ?</legend>
+    <label><input type="radio" name="grade" value="5"> მე-5</label>
+    <label><input type="radio" name="grade" value="6" checked> მე-6</label>
+    <label><input type="radio" name="grade" value="7"> მე-7</label>
+  </fieldset>
+  <fieldset>
+    <legend>რომელ ენებს ფლობ?</legend>
+    <label><input type="checkbox" name="langs" value="ka"> ქართული</label>
+    <label><input type="checkbox" name="langs" value="en"> ინგლისური</label>
+    <label><input type="checkbox" name="langs" value="de"> გერმანული</label>
+  </fieldset>
+</form>
+```
+
+## ხშირი შეცდომები
+
+- **radio-ები სხვადასხვა `name`-ით.** ისინი ერთ ჯგუფად აღარ იმუშავებს და რამდენიმე მოინიშნება.
+- **`value`-ის გარეშე ველი.** სერვერი მიიღებს `on`-ს და ვერ გაიგებს, რომელი ვარიანტი აირჩიეს.
+- **checkbox იქ, სადაც მხოლოდ ერთი პასუხია.** თუ ვარიანტები ერთმანეთს გამორიცხავს, radio გამოიყენე.
+
+<Exercise>
+ააწყე პიცის შეკვეთის ფორმა: `<fieldset>` „ზომა“ სამი radio ღილაკით (პატარა, საშუალო — წინასწარ არჩეული, დიდი) და `<fieldset>` „დანამატები“ სამი checkbox-ით (სოკო, ზეთისხილი, ყველი). ყველა ველს `name` და `value` მიეცი, ბოლოს ღილაკი `შეკვეთა`.
+
+```html run
+<!-- პიცის შეკვეთის ფორმა -->
+```
+
+<Hint>ზომის სამივე radio-ს ერთი `name="size"`. დანამატებს `name="extra"`. საშუალოს `checked`.</Hint>
+
+<Solution>
+```html
+<form action="/order" method="post">
+  <fieldset>
+    <legend>ზომა</legend>
+    <label><input type="radio" name="size" value="s"> პატარა</label>
+    <label><input type="radio" name="size" value="m" checked> საშუალო</label>
+    <label><input type="radio" name="size" value="l"> დიდი</label>
+  </fieldset>
+  <fieldset>
+    <legend>დანამატები</legend>
+    <label><input type="checkbox" name="extra" value="mushroom"> სოკო</label>
+    <label><input type="checkbox" name="extra" value="olive"> ზეთისხილი</label>
+    <label><input type="checkbox" name="extra" value="cheese"> ყველი</label>
+  </fieldset>
+  <button type="submit">შეკვეთა</button>
+</form>
+```
+</Solution>
+</Exercise>
+
+<Quiz>
+### რომელი ველი გამოიყენო კითხვისთვის „რომელი ჰობი გაქვს?“, თუ რამდენიმე პასუხი შეიძლება?
+- [x] checkbox
+- [ ] radio
+- [ ] password
+> checkbox რამდენიმე ვარიანტის მონიშვნას იძლევა.
+
+### რა აერთიანებს radio ღილაკებს ერთ ჯგუფად?
+- [ ] ერთნაირი value
+- [x] ერთნაირი name
+- [ ] ერთნაირი id
+> ერთი name-ის ჯგუფში მხოლოდ ერთი აირჩევა.
+
+### რა იგზავნება სერვერზე არჩეული radio-სთვის?
+- [ ] წარწერის ტექსტი
+- [x] მისი value
+- [ ] მისი id
+> წარწერა ადამიანისთვისაა, value სერვერისთვის.
+</Quiz>
+
+## შეჯამება
+
+- `checkbox`: დამოუკიდებელი, რამდენიმე შეიძლება მოინიშნოს. `radio`: ჯგუფში მხოლოდ ერთი.
+- radio-ებს ერთ ჯგუფად ერთნაირი `name` აერთიანებს.
+- `value` იგზავნება სერვერზე. მოუნიშნავი checkbox არ იგზავნება.
+- `<fieldset>` და `<legend>` ჯგუფს საერთო კითხვით აერთიანებს. ველი `<label>`-ში ჩასვი.

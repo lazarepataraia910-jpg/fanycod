@@ -205,6 +205,8 @@
     'let n=0;const send=(t,a)=>{if(++n<=300)postMessage({t,s:a.map(fmt).join(" ")})};' +
     'self.console={log:(...a)=>send("log",a),info:(...a)=>send("log",a),warn:(...a)=>send("log",a),debug:(...a)=>send("log",a),table:(...a)=>send("log",a),error:(...a)=>send("err",a)};self.alert=(...a)=>send("log",a);' +
     'onmessage=e=>{try{(0,eval)(e.data)}catch(err){postMessage({t:"err",s:(err&&err.name?err.name+": ":"")+(err&&err.message||err)})}postMessage({t:"end"})};';
+  // srcdoc-ის საბაზო მისამართი გაკვეთილის გვერდია: href="#x" iframe-ში მთელ გაკვეთილს ჩატვირთავდა. „#“-იანი ბმული ადგილზე გადაახვევს, სხვა ბმული iframe-ს არ ტოვებს
+  const LINKS = '<script>document.addEventListener("click",function(e){var a=e.target.closest&&e.target.closest("a[href]");if(!a)return;e.preventDefault();var h=a.getAttribute("href");if(h.charAt(0)!=="#")return;var el=h.length>1&&document.getElementById(decodeURIComponent(h.slice(1)));if(el)el.scrollIntoView();else if(h==="#"||h==="#top")scrollTo(0,0);});<\/script>';
   // JavaScript ცალკე ნაკადში (Worker): გვერდს ვერ გააჩერებს; 3 წამში თუ არ დასრულდა — ვთიშავთ (უსასრულო ციკლი)
   function runJS(src, out) {
     const pre = document.createElement('pre'); out.replaceChildren(pre);
@@ -237,7 +239,7 @@
         const src = ed ? ed.getValue() : ta.value;
         out.hidden = false;
         if (lang === 'js') runJS(src, out);
-        else if (lang === 'html') { const f = document.createElement('iframe'); f.setAttribute('sandbox', 'allow-scripts'); f.title = 'შედეგი'; f.srcdoc = src; out.replaceChildren(f); }
+        else if (lang === 'html') { const f = document.createElement('iframe'); f.setAttribute('sandbox', 'allow-scripts'); f.title = 'შედეგი'; f.srcdoc = src + LINKS; out.replaceChildren(f); }
         else { const l = document.createElement('span'), p = document.createElement('pre'); l.className = 'lbl'; l.textContent = 'მოსალოდნელი შედეგი'; p.textContent = box.dataset.expect || ''; out.replaceChildren(l, p); }
       };
       let ed = null;

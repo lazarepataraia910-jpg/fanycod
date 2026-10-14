@@ -1027,6 +1027,10 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .dl-main{margin-top:16px;padding:12px 22px;border-radius:12px;font-size:1.02rem;text-decoration:none}
 .dl-main:disabled{opacity:.55;cursor:default}
 .dl-meta{margin:6px 0 0;font-size:.84rem}
+.dl-store{margin:14px 0 4px}
+.dl-store a{display:inline-block;line-height:0;border-radius:8px}
+.dl-store p{margin:8px 0 0;font-size:.88rem}
+.dl-or{margin:16px 0 0;font-weight:700}
 .dl-steps{margin:14px auto 0;max-width:420px;padding-left:1.4em;text-align:left;display:grid;gap:6px;font-size:.9rem;line-height:1.45}
 .dl-steps code{font-family:var(--mono);font-size:.85em;padding:1px 5px;border-radius:5px;background:var(--panel2)}
 .dl-other{margin:14px 0 0;font-size:.88rem}
@@ -20042,6 +20046,8 @@ const Paywall = {
    ბმული .../releases/latest/download/<ფაილი> ყოველთვის ბოლო ვერსიაზე მიდის. ზომას და ვერსიას GitHub-ის API გვეუბნება. */
 const Desktop = {
   repo: 'lazarepataraia910-jpg/fanycod',
+  // Windows: Microsoft Store (PWA, პროდუქტი 9P8TSJNT7SQ4) — ერთი დაჭერით, თავისით ახლდება, SmartScreen-ის გაფრთხილების გარეშე. ?mode=direct Store-ის პროგრამას პირდაპირ ხსნის
+  store: 'https://apps.microsoft.com/detail/9P8TSJNT7SQ4?mode=direct',
   files: {
     win: { name: 'Windows', icon: '🪟', file: 'CodeQuest-Setup.exe', steps: [
       'გახსენი გადმოწერილი ფაილი <b>CodeQuest-Setup.exe</b> — პროგრამა თავისით დაყენდება და გაიხსნება.',
@@ -20090,6 +20096,9 @@ const Desktop = {
       '<ul class="pro-list"><li>🖥️ ხატულა სამუშაო მაგიდაზე — ერთი დაწკაპუნებით იხსნება</li><li>📴 ლეველები ინტერნეტის გარეშეც მუშაობს</li>' +
       '<li>🔄 თავისით ახლდება: ახალი ლეველები და ფუნქციები მაშინვე ჩანს</li><li>👑 Pro აქაც მუშაობს — ჩასვი იგივე ლიცენზიის კოდი</li></ul>' +
       (this.mobile() ? '<p class="dl-warn">📱 ეს პროგრამა კომპიუტერისთვისაა — გახსენი ეს გვერდი კომპიუტერიდან.</p>' : '') +
+      (k === 'win' ? '<div class="dl-store"><a href="' + this.store + '" target="_blank" rel="noopener"><img src="https://get.microsoft.com/images/ka%20dark.svg" alt="Microsoft Store-იდან ჩამოტვირთვა" width="200" height="55"></a>' +
+        '<p class="muted">⭐ ყველაზე მარტივი: ერთი დაჭერით დაყენდება, თავისით განახლდება და Windows-ის გაფრთხილებას არ აჩვენებს. პროგრესი ანგარიშით ყველა მოწყობილობაზე ინახება.</p></div>' +
+        '<p class="dl-or">ან ცალკე პროგრამა — ლეველები ინტერნეტის გარეშეც მუშაობს:</p>' : '') +
       (waiting ? '<button class="btn primary dl-main" disabled>⬇️ გადმოწერე ' + f.name + '-ისთვის</button>'
         : '<a class="btn primary dl-main" href="' + esc(this.url(k)) + '" data-dl>⬇️ გადმოწერე ' + f.name + '-ისთვის</a>') +
       '<p class="muted dl-meta">' + meta + '</p>' +
@@ -21597,7 +21606,7 @@ function init() {
   // კომპიუტერის ვერსიის გადმოწერა: კომპიუტერიდან შემოსულს ვაჩვენებთ (ტელეფონზე და თავად პროგრამაში — არა)
   if (!IS_DESKTOP && !Desktop.mobile()) {
     $('#m-desktop').classList.remove('hidden');
-    $('#m-desktop-sub').textContent = 'გადმოწერე ' + Desktop.files[Desktop.os()].name + '-ისთვის';
+    $('#m-desktop-sub').textContent = Desktop.os() === 'win' ? 'Microsoft Store ან გადმოწერა' : 'გადმოწერე ' + Desktop.files[Desktop.os()].name + '-ისთვის';
   }
   $('#m-desktop').addEventListener('click', () => { Sound.ensure(); Sound.click(); Desktop.open(); });
   $('#m-account').addEventListener('click', () => { Sound.ensure(); Sound.click(); Account.open(); });

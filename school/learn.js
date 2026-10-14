@@ -201,7 +201,7 @@
 
   /* ---------- კოდი: გაფერადება, კოპირება, გაშვება ---------- */
   const CM = () => window.CodeMirror;
-  const WORKER = 'const fmt=v=>{if(typeof v==="string")return v;if(typeof v==="function")return v.toString();if(v===undefined)return "undefined";try{const s=JSON.stringify(v);return s===undefined?String(v):s}catch(e){return String(v)}};' +
+  const WORKER = 'const fmt=v=>{if(typeof v==="string")return v;if(typeof v==="number"||typeof v==="bigint")return String(v);if(typeof v==="function")return v.toString();if(v===undefined)return "undefined";try{const s=JSON.stringify(v);return s===undefined?String(v):s}catch(e){return String(v)}};' +
     'let n=0;const send=(t,a)=>{if(++n<=300)postMessage({t,s:a.map(fmt).join(" ")})};' +
     'self.console={log:(...a)=>send("log",a),info:(...a)=>send("log",a),warn:(...a)=>send("log",a),debug:(...a)=>send("log",a),table:(...a)=>send("log",a),error:(...a)=>send("err",a)};self.alert=(...a)=>send("log",a);' +
     'onmessage=e=>{try{(0,eval)(e.data)}catch(err){postMessage({t:"err",s:(err&&err.name?err.name+": ":"")+(err&&err.message||err)})}postMessage({t:"end"})};';

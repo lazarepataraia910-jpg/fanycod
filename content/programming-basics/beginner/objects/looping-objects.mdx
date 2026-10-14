@@ -1,0 +1,170 @@
+---
+title: ობიექტის თვისებების გავლა
+description: ობიექტის ყველა თვისების გავლა for...in-ით ან Object.keys, Object.values და Object.entries ფუნქციებით. ისწავლე, როგორ დაითვალო თვისებები და შეკრიბო მათი მნიშვნელობები.
+difficulty: საშუალო
+readingTime: 7
+tags: [ობიექტები, "for...in", Object.keys, Object.entries]
+prerequisites: [objects-in-arrays]
+---
+
+## რას ისწავლი
+
+- როგორ გაიარო ობიექტის ყველა თვისება `for...in`-ით
+- რას აბრუნებს `Object.keys`, `Object.values` და `Object.entries`
+- როგორ დაითვალო თვისებები და შეკრიბო მათი მნიშვნელობები
+
+## როცა თვისებების სახელები წინასწარ არ იცი
+
+აქამდე ყოველთვის ვიცოდით, რომელი თვისება გვჭირდებოდა: `player.name`, `player.level`. ზოგჯერ კი ობიექტი სიის როლს თამაშობს და მისი ყველა თვისება უნდა გაიარო. მაგალითად, საწყობი, სადაც გასაღები პროდუქტის სახელია, მნიშვნელობა კი რაოდენობა:
+
+```js
+let stock = {
+  apples: 5,
+  pears: 3,
+  plums: 8
+};
+```
+
+როგორ დაბეჭდო ყველა პროდუქტი, ან დაითვალო, სულ რამდენი ხილია? თუ ხვალ ახალი პროდუქტი დაემატება, კოდი არ უნდა შეიცვალოს.
+
+## for...in
+
+`for...in` ციკლი ობიექტის ყველა გასაღებს რიგრიგობით გადის:
+
+```js
+let stock = { apples: 5, pears: 3, plums: 8 };
+
+for (const key in stock) {
+  console.log(key, stock[key]);
+}
+```
+
+ყოველ იტერაციაზე `key` შემდეგი თვისების სახელია, ტექსტად: `"apples"`, `"pears"`, `"plums"`. მნიშვნელობის წასაკითხად **კვადრატული ფრჩხილები** გჭირდება, რადგან გასაღები ცვლადშია: `stock[key]`. `stock.key` ეძებდა თვისებას სახელად „key“.
+
+დაიმახსოვრე წყვილი: `for...of` მასივის ელემენტებისთვის, `for...in` ობიექტის გასაღებებისთვის.
+
+## Object.keys, Object.values, Object.entries
+
+JavaScript-ს აქვს სამი ჩაშენებული ფუნქცია, რომლებიც ობიექტს მასივად აქცევს. ეს ძალიან მოსახერხებელია, რადგან მასივებთან მუშაობა უკვე იცი:
+
+```js
+let stock = { apples: 5, pears: 3, plums: 8 };
+
+console.log(Object.keys(stock));      // ["apples","pears","plums"]
+console.log(Object.values(stock));    // [5,3,8]
+console.log(Object.entries(stock));   // [["apples",5],["pears",3],["plums",8]]
+```
+
+- `Object.keys` აბრუნებს გასაღებების მასივს.
+- `Object.values` აბრუნებს მნიშვნელობების მასივს.
+- `Object.entries` აბრუნებს წყვილების მასივს: თითო წყვილი პატარა მასივია, `[გასაღები, მნიშვნელობა]`.
+
+თვისებების რაოდენობა ასე გაიგება: `Object.keys(stock).length`, ანუ 3.
+
+ყურადღება მიაქციე ჩანაწერს: ეს ფუნქციები ობიექტის მეთოდები კი არ არის (`stock.keys()` არ არსებობს), არამედ ჩაშენებული `Object`-ის ფუნქციებია, რომლებსაც ობიექტს არგუმენტად გადასცემ. მიღებული მასივი ახალია: თუ მას შეცვლი, თავდაპირველი ობიექტი უცვლელი დარჩება. ეს უსაფრთხოა, მაგრამ იმასაც ნიშნავს, რომ ობიექტის შესაცვლელად მასივი კი არა, თვითონ ობიექტი უნდა შეცვალო.
+
+## მნიშვნელობების ჯამი
+
+`Object.values` და უკვე ნაცნობი `for...of` ერთად ჯამს მარტივად დაითვლის:
+
+```js
+let stock = { apples: 5, pears: 3, plums: 8 };
+let total = 0;
+
+for (const count of Object.values(stock)) {
+  total += count;
+}
+
+console.log("სულ:", total);   // სულ: 16
+```
+
+`Object.entries` კი მაშინ გამოიყენე, როცა ციკლში ორივე გჭირდება, გასაღებიც და მნიშვნელობაც. წყვილი `const [name, count]` ჩანაწერით შეიძლება ორ ცვლადად „დაიშალოს“:
+
+```js
+let stock = { apples: 5, pears: 3, plums: 8 };
+
+for (const [name, count] of Object.entries(stock)) {
+  console.log(`${name}: ${count} ცალი`);
+}
+```
+
+## სცადე თავად
+
+გაუშვი, მერე დაამატე საწყობს ახალი პროდუქტი და ნახე, რომ ციკლი და ჯამი თავისით განახლდა.
+
+```js run
+let stock = { apples: 5, pears: 3, plums: 8 };
+let total = 0;
+
+for (const key in stock) {
+  console.log(`${key}: ${stock[key]}`);
+  total += stock[key];
+}
+
+console.log("პროდუქტი:", Object.keys(stock).length, "სულ:", total);
+```
+
+## ხშირი შეცდომები
+
+- **`stock.key` ციკლში.** წერტილი ეძებს თვისებას სახელად „key“ და `undefined`-ს აბრუნებს. ცვლადი გასაღებით ფრჩხილებია: `stock[key]`.
+- **`for...of` ობიექტზე.** `for (const x of stock)` შეცდომას იძლევა: ობიექტი პირდაპირ ასე არ გაივლება. გამოიყენე `for...in`, ან `for...of Object.keys(stock)`-ით.
+- **`.length` ობიექტზე.** `stock.length` `undefined`-ია. თვისებების რაოდენობა: `Object.keys(stock).length`.
+
+<Exercise>
+ობიექტი `votes = { ბიტი: 12, ჰოპი: 7, ზუზუ: 15 }` ხმების დათვლაა. გაიარე ის და დაბეჭდე თითოეული კანდიდატი თავისი ხმებით, მერე ხმების ჯამი და გამარჯვებული: `სულ: 34`, `გაიმარჯვა: ზუზუ`.
+
+```js run
+let votes = { "ბიტი": 12, "ჰოპი": 7, "ზუზუ": 15 };
+// ციკლი, ჯამი, გამარჯვებული
+```
+
+<Hint>შეინახე `winner` (სახელი) და `maxVotes` (ხმები). ციკლში, თუ `votes[name] > maxVotes`, ორივე განაახლე. დაიწყე `maxVotes = -1`-ით, რომ პირველი კანდიდატი აუცილებლად ჩაიწეროს.</Hint>
+
+<Solution>
+```js
+let votes = { "ბიტი": 12, "ჰოპი": 7, "ზუზუ": 15 };
+let total = 0;
+let winner = "";
+let maxVotes = -1;
+
+for (const name in votes) {
+  console.log(`${name}: ${votes[name]}`);
+  total += votes[name];
+  if (votes[name] > maxVotes) {
+    maxVotes = votes[name];
+    winner = name;
+  }
+}
+
+console.log("სულ:", total);
+console.log("გაიმარჯვა:", winner);
+```
+</Solution>
+</Exercise>
+
+<Quiz>
+### რას იღებს `k` ციკლში `for (const k in { a: 1, b: 2 })`?
+- [x] გასაღებებს "a" და "b"
+- [ ] მნიშვნელობებს 1 და 2
+- [ ] წყვილებს
+> for...in გასაღებებს გადის.
+
+### რას დააბრუნებს `Object.values({ x: 4, y: 9 })`?
+- [ ] ["x","y"]
+- [x] [4,9]
+- [ ] 13
+> values მნიშვნელობების მასივს აბრუნებს.
+
+### როგორ გაიგო, რამდენი თვისება აქვს ობიექტს `obj`?
+- [ ] obj.length
+- [x] Object.keys(obj).length
+- [ ] obj.count()
+> ობიექტს length არ აქვს. გასაღებების მასივს კი აქვს.
+</Quiz>
+
+## შეჯამება
+
+- `for (const key in obj)` ყველა გასაღებს გადის. მნიშვნელობა: `obj[key]`.
+- `Object.keys`, `Object.values`, `Object.entries` ობიექტს მასივად აქცევს.
+- თვისებების რაოდენობა: `Object.keys(obj).length`.
+- მასივისთვის `for...of`, ობიექტისთვის `for...in` ან `Object.entries`.

@@ -20116,8 +20116,8 @@ const Desktop = {
    სტუმარი თამაშობს როგორც ადრე: პროგრესი მხოლოდ ამ მოწყობილობაზეა. ანგარიშით პროგრესი, Pro და ბიტის ნივთები ყველა
    მოწყობილობაზე ერთია: ყოველი ცვლილება რამდენიმე წამში სერვერზე ინახება (Progress.save → Account.changed). თუ სხვა
    მოწყობილობამ უფრო ახალი შეინახა, პროგრესები ერთიანდება (mergeProgress — საუკეთესო რჩება, არაფერი იკარგება).
-   დავიწყებული პაროლი ელფოსტით აღდგება: ბმული codequest.space-დან მოდის (forgot → ?reset=კოდი). ელფოსტას რეგისტრაციისას ვითხოვთ, ძველ ანგარიშებს კი შესვლისას;
-   ის ჯერ უნდა დადასტურდეს (?verify=კოდი, მხოლოდ შესულ ანგარიშზე). ძველი ანგარიშების აღდგენის კოდიც ისევ მუშაობს (resetForm). */
+   დავიწყებული პაროლი ელფოსტით აღდგება: ბმული codequest.space-დან მოდის (forgot → account.html?reset=კოდი). ელფოსტას რეგისტრაციისას ვითხოვთ, ძველ ანგარიშებს კი შესვლისას;
+   ის ჯერ უნდა დადასტურდეს (account.html?verify=კოდი: შესული სესიით ან სახელით და პაროლით). ძველი ანგარიშების აღდგენის კოდიც ისევ მუშაობს (resetForm). */
 // 💻 კომპიუტერის პროგრამაში (IS_DESKTOP) ანგარიში მხოლოდ Pro-სთვის და კლასისთვისაა: პროგრესი სერვერზე არ იგზავნება (მხოლოდ მოკლე შეჯამება — action summary)
 const ACC_KEY = 'codequest.auth';   // { name, rev, dirty, at } (+ token მხოლოდ კომპიუტერის პროგრამაში; ვებზე ტოკენი HttpOnly cookie-შია) — პროგრესისგან ცალკე: ნიშანი არც პროგრესის კოდში ხვდება, არც სერვერზე
 const ACC_NAME_RE = /^[A-Za-z0-9ა-ჰ_.-]{3,20}$/;
@@ -20504,26 +20504,6 @@ const Account = {
       this.mailNote('✉️ თუ ანგარიშს დადასტურებული ელფოსტა აქვს, რამდენიმე წუთში მიიღებ წერილს codequest.space-დან. ბმული 1 საათი მოქმედებს. წერილი არ ჩანს? შეამოწმე „სპამის“ საქაღალდე.');
     });
     m.querySelector('[data-a=code]').addEventListener('click', () => { Modal.close(m); this.resetForm(); });
-  },
-  // ?reset=კოდი — ბმული წერილიდან: ახალი პაროლი და მაშინვე შესვლა
-  resetLinkForm(code) {
-    const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">🔑</div><h2 class="result-title">ახალი პაროლი</h2>' +
-      '<form class="acc-form" novalidate>' + this.field('ახალი პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო. ნუ გამოიყენებ იმავე პაროლს, რაც სხვაგან გაქვს') + this.field('გაიმეორე ახალი პაროლი', 'password2', 'password', 'new-password') +
-      '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">პაროლის შეცვლა</button></form>' +
-      '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
-    this.bind(m, f => (f.password.length < 8 ? 'pass_short' : f.password !== f.password2 ? 'pass_match' : null), f => this.api('resetLink', { code, password: f.password }), r => {
-      Modal.close(m);
-      this.start(r, false);
-      UI.toast('🔑', 'პაროლი შეიცვალა', 'სხვა მოწყობილობებზე ახალი პაროლით შედი.');
-    });
-  },
-  // ?verify=კოდი — ელფოსტის დადასტურება მხოლოდ შესულ ანგარიშზე
-  async verifyLink(code) {
-    if (!this.s) { this.after = () => this.verifyLink(code); return this.loginForm('შედი იმ ანგარიშით, რომელსაც ელფოსტა მიაბი — ასე ელფოსტა დადასტურდება.'); }
-    const r = await this.api('verifyEmail', { token: this.s.token, code });
-    if (!r.ok) return UI.toast('⚠️', 'ელფოსტა ვერ დადასტურდა', this.msg(r));
-    Object.assign(this.s, { em: r.em, ev: true }); this.keep();
-    UI.toast('✉️', 'ელფოსტა დადასტურდა!', 'დავიწყებულ პაროლს ახლა ელფოსტით აღადგენ.');
   },
   // ელფოსტის მიბმა / შეცვლა. პაროლს ვკითხულობთ მხოლოდ დადასტურებული ელფოსტის შეცვლისას (pass — შესვლისას ჩაწერილი)
   emailPrompt(pass) {
@@ -21661,11 +21641,10 @@ function init() {
   (() => {
     const q = new URLSearchParams(location.search), to = q.get('to') || '';
     if (q.get('pro') === 'open') Paywall.open(null, 'school');
-    // ბმული წერილიდან: ?reset=კოდი (ახალი პაროლი) ან ?verify=კოდი (ელფოსტის დადასტურება). კოდი მისამართიდან მაშინვე ქრება (ისტორია, სკრინშოტი)
-    const reset = q.get('reset'), verify = q.get('verify'), CODE = /^[A-Za-z0-9_-]{20,100}$/;
-    if (reset || verify) { q.delete('reset'); q.delete('verify'); history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash); }
-    if (reset && CODE.test(reset)) Account.resetLinkForm(reset);
-    if (verify && CODE.test(verify)) Account.verifyLink(verify);
+    // ძველი წერილების ბმულები (?reset= / ?verify=) — ახლა ცალკე გვერდზე (account.html)
+    if (q.has('reset') || q.has('verify')) return location.replace('/account.html?' + (q.has('reset') ? 'reset=' + encodeURIComponent(q.get('reset')) : 'verify=' + encodeURIComponent(q.get('verify'))));
+    // account.html-დან (პაროლი შეიცვალა): შესვლის ფანჯარა
+    if (q.has('login')) { q.delete('login'); history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash); if (!Account.s) Account.loginForm(); }
     if (!q.get('acc') || !/^\/(api\/)?learn\/[a-z0-9\/-]*$/.test(to)) return;
     const back = () => { location.href = to; };
     if (Account.s) back(); else { Account.after = back; Account.loginForm('შედი ან დარეგისტრირდი — სკოლის პროგრესი ანგარიშში შეინახება და ყველა მოწყობილობაზე გექნება.'); }

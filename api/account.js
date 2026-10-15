@@ -292,8 +292,20 @@ async function sendVerify(u, user) {
   await db(['SET', 'ev:' + sha(code), JSON.stringify({ u, e: user.email }), 'EX', VERIFY_SEC]);
   await sendMail(user.email, 'CodeQuest: დაადასტურე ელფოსტა', ['გამარჯობა, ' + user.name + '!',
     'ეს ელფოსტა CodeQuest-ის ანგარიშს „' + user.name + '“ მიება. დაადასტურე, რომ შენია: თუ პაროლი დაგავიწყდება, აღდგენის ბმულს აქ მიიღებ.',
-    'ბმული 7 დღე მოქმედებს და მუშაობს, როცა თამაშში ამ ანგარიშით ხარ შესული.', 'თუ ეს შენ არ გაგიკეთებია, უბრალოდ წაშალე წერილი.'],
-    APP + '/CodeQuest.html?verify=' + code, 'ელფოსტის დადასტურება');
+    'ბმული 7 დღე მოქმედებს. თუ ამ მოწყობილობაზე თამაშში არ ხარ შესული, გვერდი სახელსა და პაროლს გკითხავს.', 'თუ ეს შენ არ გაგიკეთებია, უბრალოდ წაშალე წერილი.'],
+    APP + '/account.html?verify=' + code, 'ელფოსტის დადასტურება');
+}
+// სახელი + პაროლი (შესვლა და account.html-ის ელფოსტის დადასტურება სესიის გარეშე) — იგივე ლიმიტებით
+async function byPassword(b, ip) {
+  const name = String(b.name || '').normalize('NFC').trim(), u = keyOf(name);
+  if (!name || name.length > 40) throw new Fail(401, 'bad_login');
+  await limit('login-ip', ip, 120, 900);
+  await limit('login-name', u, 10, 900);
+  const user = await getUser(u);
+  const good = await checkSecret(String(b.password || ''), user && user.pw);
+  if (!user || !good) throw new Fail(401, 'bad_login');
+  if (oldHash(user.pw)) { user.pw = await hashSecret(String(b.password)); await putUser(u, user); }   // ძველი (s1) ჰეში — უფრო ძლიერად
+  return { u, user };
 }
 
 /* ---------- პროგრესი ---------- */
@@ -344,14 +356,7 @@ const actions = {
     return Object.assign({ name, token: await newSession(u, 1), rev: 0, em: maskEmail(email), ev: false, mail }, recovery ? { recovery } : {});
   },
   async login(b, ip) {
-    const name = String(b.name || '').normalize('NFC').trim(), u = keyOf(name);
-    if (!name || name.length > 40) throw new Fail(401, 'bad_login');
-    await limit('login-ip', ip, 120, 900);
-    await limit('login-name', u, 10, 900);
-    const user = await getUser(u);
-    const good = await checkSecret(String(b.password || ''), user && user.pw);
-    if (!user || !good) throw new Fail(401, 'bad_login');
-    if (oldHash(user.pw)) { user.pw = await hashSecret(String(b.password)); await putUser(u, user); }   // ძველი (s1) ჰეში — უფრო ძლიერად
+    const { u, user } = await byPassword(b, ip);
     const p = await db(['GET', 'progrev:' + u]);
     // mo — წერილები ჩართულია (RESEND_API_KEY): მის გარეშე თამაში ელფოსტას შესვლისას არ ითხოვს
     return { name: user.name, token: await newSession(u, user.pwv), rev: +p || 0, em: maskEmail(user.email), ev: !!user.ev, mo: !!process.env.RESEND_API_KEY };
@@ -373,7 +378,7 @@ const actions = {
       await sendMail(user.email, 'CodeQuest: პაროლის აღდგენა', ['გამარჯობა, ' + user.name + '!',
         'ვიღაცამ, იმედია შენ, CodeQuest-ის ანგარიშის „' + user.name + '“ პაროლის აღდგენა მოითხოვა. ახალი პაროლის დასაყენებლად დააჭირე ღილაკს.',
         'ბმული 1 საათი მოქმედებს და მხოლოდ ერთხელ მუშაობს.', 'თუ ეს შენ არ მოგითხოვია, უბრალოდ წაშალე წერილი: პაროლი არ შეიცვლება.'],
-        APP + '/CodeQuest.html?reset=' + code, 'ახალი პაროლის დაყენება');
+        APP + '/account.html?reset=' + code, 'ახალი პაროლის დაყენება');
     }
     return {};
   },
@@ -386,6 +391,7 @@ const actions = {
     const pass = checkPass(b.password, user.name);
     Object.assign(user, { pw: await hashSecret(pass), pwv: user.pwv + 1 });   // ყველა ძველი სესია უქმდება
     await dbPipe([['SET', 'user:' + t.u, JSON.stringify(user)], ['DEL', 'pr:' + sha(code)]]);
+    if (b.nologin) return { name: user.name };   // account.html: პაროლი შეიცვალა, შესვლა თამაშში (თამაშის cookie-ს არ ვეხებით)
     const p = await db(['GET', 'progrev:' + t.u]);
     return { name: user.name, token: await newSession(t.u, user.pwv), rev: +p || 0, em: maskEmail(user.email), ev: !!user.ev };
   },
@@ -411,8 +417,9 @@ const actions = {
     await sendVerify(u, user);
     return { em: maskEmail(user.email), ev: false };
   },
-  async verifyEmail(b) {
-    const { u, user } = await session(b.token);
+  async verifyEmail(b, ip) {
+    // account.html: თამაშში შესული არ ხარ — სახელი და პაროლი (სესია არ იქმნება, თამაშის cookie-ს არ ვეხებით)
+    const { u, user } = b.name != null ? await byPassword(b, ip) : await session(b.token);
     const code = String(b.code || '');
     const raw = CODE_RE.test(code) ? await db(['GET', 'ev:' + sha(code)]) : null, t = raw ? JSON.parse(raw) : null;
     if (t && t.u !== u) throw new Fail(403, 'other_account');

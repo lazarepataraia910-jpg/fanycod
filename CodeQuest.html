@@ -20525,18 +20525,18 @@ const Account = {
     Object.assign(this.s, { em: r.em, ev: true }); this.keep();
     UI.toast('✉️', 'ელფოსტა დადასტურდა!', 'დავიწყებულ პაროლს ახლა ელფოსტით აღადგენ.');
   },
-  // ელფოსტის მიბმა / შეცვლა. pass — შესვლისას ჩაწერილი პაროლი (მაშინ ხელახლა აღარ ვკითხულობთ)
+  // ელფოსტის მიბმა / შეცვლა. პაროლს ვკითხულობთ მხოლოდ დადასტურებული ელფოსტის შეცვლისას (pass — შესვლისას ჩაწერილი)
   emailPrompt(pass) {
     const s = this.s; if (!s) return;
     const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">✉️</div><h2 class="result-title">' + (s.em ? 'შენი ელფოსტა' : 'დაამატე ელფოსტა') + '</h2>' +
       '<p class="muted acc-sub">' + (s.ev ? 'მიბმულია და დადასტურებულია: <b>' + esc(s.em) + '</b>. შეგიძლია შეცვალო.'
         : s.em ? 'მიბმულია <b>' + esc(s.em) + '</b>, მაგრამ ჯერ არ დადასტურებულა: დააჭირე ბმულს წერილში, ან ჩაწერე სხვა მისამართი.'
         : 'თუ პაროლი დაგავიწყდება, აღდგენის ბმულს ამ ელფოსტაზე გამოგიგზავნით. სხვა წერილებს არ მიიღებ. 13 წლამდე ხარ? ჩაწერე მშობლის ელფოსტა.') + '</p>' +
-      '<form class="acc-form" novalidate>' + this.field('ელფოსტა', 'email', 'email', 'email') + (pass ? '' : this.field('პაროლი დასადასტურებლად', 'password', 'password', 'current-password')) +
+      '<form class="acc-form" novalidate>' + this.field('ელფოსტა', 'email', 'email', 'email') + (pass || !s.ev ? '' : this.field('პაროლი დასადასტურებლად', 'password', 'password', 'current-password')) +
       '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">' + (s.em ? 'შენახვა და წერილის გაგზავნა' : 'დამატება') + '</button></form>' +
       (s.em && !s.ev ? '<p class="acc-links"><button type="button" class="linklike" data-a="again">წერილი ვერ ვიპოვე — გამოგზავნე თავიდან</button></p>' : '') +
       '<div class="modal-actions"><button class="btn" data-close>' + (s.ev ? 'დახურვა' : 'მოგვიანებით') + '</button></div></div>');
-    this.bind(m, f => (ACC_EMAIL_RE.test(f.email.trim()) ? (pass || f.password ? null : 'bad_pass') : 'email_format'),
+    this.bind(m, f => (ACC_EMAIL_RE.test(f.email.trim()) ? (pass || !s.ev || f.password ? null : 'bad_pass') : 'email_format'),
       f => this.api('setEmail', { token: s.token, email: f.email.trim(), password: pass || f.password }), r => {
         Object.assign(s, { em: r.em, ev: r.ev }); this.keep();
         Modal.close(m);

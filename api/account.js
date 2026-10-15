@@ -393,7 +393,8 @@ const actions = {
   async setEmail(b) {
     const { u, user } = await session(b.token);
     await limit('email-name', u, 5, 3600);
-    if (!await checkSecret(String(b.password || ''), user.pw)) throw new Fail(401, 'bad_pass');
+    // პაროლი მხოლოდ დადასტურებული ელფოსტის შეცვლას სჭირდება (თორემ სესიის ქურდი აღდგენას თავისკენ გადაიტანდა)
+    if (user.email && user.ev && !await checkSecret(String(b.password || ''), user.pw)) throw new Fail(401, 'bad_pass');
     const email = checkEmail(b.email);
     if (email === user.email && user.ev) return { em: maskEmail(email), ev: true };
     if (user.email && user.ev) await db(['SREM', 'emailu:' + user.email, u]);

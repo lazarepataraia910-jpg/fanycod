@@ -1306,6 +1306,23 @@ input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);b
 .checks li.ok::before{content:'✔';color:var(--ok)}
 .checks li.bad::before{content:'✘';color:var(--bad)}
 #g-html{max-height:220px;overflow:auto}
+/* ---------- თანამედროვე ფენა (2026-10): იგივე ბრენდი — რბილი კუთხეები, დაჭერის შეგრძნება, მინის ფონი ფანჯრებს უკან ---------- */
+.btn{border-radius:10px;padding:.55em 1.05em;transition:background .15s,border-color .15s,transform .1s,box-shadow .15s}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.btn.primary{box-shadow:0 2px 0 color-mix(in srgb,var(--accent) 62%,#000),0 6px 16px -6px color-mix(in srgb,var(--accent) 60%,transparent)}
+.btn.primary:active:not(:disabled){transform:translateY(2px);box-shadow:0 0 0 color-mix(in srgb,var(--accent) 62%,#000)}
+.btn.danger{box-shadow:0 2px 0 color-mix(in srgb,var(--bad) 62%,#000)}
+.backdrop{background:rgba(12,16,40,.48);backdrop-filter:blur(6px) saturate(1.2);-webkit-backdrop-filter:blur(6px) saturate(1.2)}
+.modal{border-radius:20px;padding:24px;box-shadow:0 30px 70px -20px rgba(10,14,40,.45),0 0 0 1px color-mix(in srgb,var(--border) 60%,transparent);animation:modal-in .22s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes modal-in{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+input.txt,select{border-radius:10px;transition:border-color .15s,box-shadow .15s}
+input.txt{padding:.6em .85em}
+input.txt:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.toast,.toast.flame{border-left:1px solid var(--border)}
+.toast{border-radius:16px;padding:10px 16px 10px 10px;box-shadow:0 14px 34px -12px rgba(10,14,40,.35);backdrop-filter:blur(8px)}
+.toast .ic{display:grid;place-items:center;flex:none;width:42px;height:42px;border-radius:12px;background:color-mix(in srgb,var(--accent) 12%,var(--panel2));font-size:1.35rem}
+.toast.flame .ic{background:color-mix(in srgb,var(--flame) 14%,var(--panel2))}
+.chip{border-color:color-mix(in srgb,var(--border) 70%,transparent)}
 @media (max-width:520px){#toast-root{left:10px;right:10px;top:10px}.toast{max-width:none}.modal{padding:16px}.gbar{padding:8px 12px}.gmain{padding:12px 10px 30px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>

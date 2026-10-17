@@ -234,13 +234,13 @@ function shell(o) {
     '<meta property="og:type" content="' + (o.article ? 'article' : 'website') + '">\n<meta property="og:site_name" content="ისწავლე კოდინგი · CodeQuest">\n<meta property="og:locale" content="ka_GE">\n<meta property="og:title" content="' + esc(title) + '">\n' +
     '<meta property="og:description" content="' + esc(o.desc) + '">\n<meta property="og:url" content="' + canon + '">\n<meta property="og:image" content="' + SITE + '/og.jpg">\n<meta name="twitter:card" content="summary_large_image">\n' +
     '<meta name="theme-color" content="#0b0f14">\n<link rel="icon" href="/favicon.ico">\n' +
-    '<script>try{var t=localStorage.getItem("cq.learn.theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>\n' +
+    '<script>try{var t=localStorage.getItem("cq.learn.theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>\n' +
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
     '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap">\n' +
     (cm.length ? cdnTag('codemirror.min.css') + '\n' : '') + '<link rel="stylesheet" href="' + css + '">\n' +
     '<!-- Vercel Web Analytics -->\n<script>if (location.protocol === \'https:\') { window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); }; var s = document.createElement(\'script\'); s.defer = true; s.src = \'/_vercel/insights/script.js\'; document.head.appendChild(s); }</script>\n' +
     '</head>\n<body class="' + (o.cls || '') + '">\n<a class="skip" href="#main">გადადი შინაარსზე</a>\n' +
-    '<header class="top"><div class="top-in"><a class="logo" href="/learn/"><span class="logo-m" aria-hidden="true">&lt;/&gt;</span><span>ისწავლე <b>კოდინგი</b></span></a>' +
+    '<header class="top"><div class="top-in"><a class="logo" href="/learn/"><img class="logo-i" src="/icons/icon-192.png" alt="" width="30" height="30"><span>ისწავლე <b>კოდინგი</b></span></a>' +
     '<button type="button" class="ic-btn nav-t" id="nav-t" aria-label="მენიუ" aria-expanded="false" aria-controls="nav">☰</button>' +
     '<nav class="nav" id="nav" aria-label="მთავარი მენიუ">' + nav('courses', 'კურსები') + nav('roadmaps', 'სასწავლო გზები') + nav('dashboard', 'ჩემი დაფა') + '<a href="/CodeQuest.html">🎮 თამაში</a></nav>' +
     '<div class="top-r"><button type="button" class="search-b" id="search-b" aria-label="ძებნა (Ctrl+K)"><span aria-hidden="true">🔍</span><span class="tl">ძებნა</span><kbd>Ctrl K</kbd></button>' +
@@ -254,7 +254,7 @@ const add = (p, o) => pages.push({ path: p, noindex: !!o.noindex, html: shell(Ob
 /* ---------- ბარათები და სიები ---------- */
 function courseCard(c) {
   const n = c.items.length, chN = c.items.filter(i => i.kind === 'chapter').length;
-  return '<a class="card course" href="' + url(c.slug) + '" style="--cc:' + esc(c.color || '#3dffa2') + '" data-course="' + c.slug + '" data-total="' + n + '" data-topic="' + esc(c.topic || '') + '" data-state="' + (n ? 'open' : 'soon') + '">' +
+  return '<a class="card course" href="' + url(c.slug) + '" style="--cc:' + esc(c.color || '#3ddc97') + '" data-course="' + c.slug + '" data-total="' + n + '" data-topic="' + esc(c.topic || '') + '" data-state="' + (n ? 'open' : 'soon') + '">' +
     '<span class="c-ic" aria-hidden="true">' + esc(c.icon || '📘') + '</span><span class="c-main"><b>' + esc(c.title) + '</b><small>' + esc(c.description || '') + '</small></span>' +
     '<span class="c-meta">' + (n ? '<span>' + chN + (c.planned > chN ? ' / ' + c.planned : '') + ' თავი</span><span>⏱ ' + time(c.minutes) + '</span>' : '<span class="soon">მალე</span>' + (c.planned ? '<span>' + c.planned + ' თავი იგეგმება</span>' : '')) +
     '</span><span class="c-bar" aria-hidden="true"><i></i></span></a>';
@@ -293,7 +293,7 @@ function build() {
   add('roadmaps', { title: 'სასწავლო გზები', nav: 'roadmaps', desc: 'რა რიგით ისწავლო: ' + roadmaps.map(r => r.title).join(', ') + '. თითო გზა კურსების თანმიმდევრობაა.',
     body: '<section class="head"><h1>სასწავლო გზები</h1><p class="lead">არ იცი, საიდან დაიწყო? აირჩიე მიზანი და მიჰყევი კურსებს რიგით.</p></section>' +
       roadmaps.map(r => '<section class="road" id="' + esc(r.slug) + '"><h2><span aria-hidden="true">' + esc(r.icon || '🧭') + '</span> ' + esc(r.title) + '</h2><p class="muted">' + esc(r.description || '') + '</p><ol class="road-l">' +
-        (r.steps || []).map(st => '<li>' + (Array.isArray(st) ? st : [st]).map(sl => by[sl]).filter(Boolean).map(c => '<a class="node" href="' + url(c.slug) + '" style="--cc:' + esc(c.color || '#3dffa2') + '" data-course="' + c.slug + '" data-total="' + c.items.length + '"><span aria-hidden="true">' + esc(c.icon || '📘') + '</span><b>' + esc(c.title) + '</b>' + (c.items.length ? '' : '<small class="soon">მალე</small>') + '</a>').join('<span class="or">ან</span>') + '</li>').join('') + '</ol></section>').join('') });
+        (r.steps || []).map(st => '<li>' + (Array.isArray(st) ? st : [st]).map(sl => by[sl]).filter(Boolean).map(c => '<a class="node" href="' + url(c.slug) + '" style="--cc:' + esc(c.color || '#3ddc97') + '" data-course="' + c.slug + '" data-total="' + c.items.length + '"><span aria-hidden="true">' + esc(c.icon || '📘') + '</span><b>' + esc(c.title) + '</b>' + (c.items.length ? '' : '<small class="soon">მალე</small>') + '</a>').join('<span class="or">ან</span>') + '</li>').join('') + '</ol></section>').join('') });
 
   // დაფა (შიგთავსს learn.js ავსებს ბრაუზერის მონაცემებიდან)
   add('dashboard', { title: 'ჩემი დაფა', nav: 'dashboard', noindex: true, desc: 'შენი პროგრესი, სერია, XP, ბეჯები და სანიშნეები.',
@@ -302,9 +302,9 @@ function build() {
   // კურსები, თავები, ქვიზები, პროექტები
   courses.forEach(c => {
     const chN = c.items.filter(i => i.kind === 'chapter').length, mods = c.levels.reduce((a, l) => a + l.modules.length, 0);
-    const bar = '<div class="cbar" data-course="' + c.slug + '" data-total="' + c.items.length + '" style="--cc:' + esc(c.color || '#3dffa2') + '" role="progressbar" aria-label="კურსის პროგრესი" aria-valuemin="0" aria-valuemax="100"><i></i></div>';
+    const bar = '<div class="cbar" data-course="' + c.slug + '" data-total="' + c.items.length + '" style="--cc:' + esc(c.color || '#3ddc97') + '" role="progressbar" aria-label="კურსის პროგრესი" aria-valuemin="0" aria-valuemax="100"><i></i></div>';
     add(c.slug, { title: c.title, nav: 'courses', bar, desc: (c.description || c.title) + (c.planned ? ' ' + c.planned + ' თავი 4 დონეზე.' : ''),
-      body: '<section class="head course-h" style="--cc:' + esc(c.color || '#3dffa2') + '"><span class="c-ic big" aria-hidden="true">' + esc(c.icon || '📘') + '</span><div><p class="crumbs"><a href="/learn/courses/">კურსები</a> ›</p><h1>' + esc(c.title) + '</h1><p class="lead">' + esc(c.description || '') + '</p>' +
+      body: '<section class="head course-h" style="--cc:' + esc(c.color || '#3ddc97') + '"><span class="c-ic big" aria-hidden="true">' + esc(c.icon || '📘') + '</span><div><p class="crumbs"><a href="/learn/courses/">კურსები</a> ›</p><h1>' + esc(c.title) + '</h1><p class="lead">' + esc(c.description || '') + '</p>' +
         '<p class="facts"><span>👑 Pro</span>' + (c.syllabus ? '<span>4 დონე</span><span>' + mods + ' მოდული</span><span>' + c.planned + ' თავი</span>' + (chN ? '<span>' + chN + ' ღიაა · ⏱ ' + time(c.minutes) + '</span>' : '<span class="soon">მალე</span>') : '<span class="soon">მალე</span><span>სილაბუსი მზადდება</span>') + '</p>' +
         (c.items.length ? '<p><a class="btn primary big" id="course-go" href="' + url(c.items[0].id) + '">დაიწყე</a></p>' : '') + '</div></section>' +
         (Array.isArray(c.learn) && c.learn.length ? '<section><h2>რას ისწავლი</h2><ul class="learn">' + c.learn.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></section>' : '') +
@@ -341,7 +341,7 @@ function build() {
   /* ---------- ჩაწერა ---------- */
   fs.rmSync(OUT, { recursive: true, force: true });
   pages.forEach(p => { const dir = path.join(OUT, p.path); fs.mkdirSync(dir, { recursive: true }); fs.writeFileSync(path.join(dir, 'index.html'), p.html); });
-  fs.writeFileSync(path.join(OUT, 'data.json'), JSON.stringify({ xp: XP, courses: courses.map(c => ({ s: c.slug, t: c.title, i: c.icon || '📘', c: c.color || '#3dffa2', p: c.planned, full: c.full, items: c.items.map(it => [it.id, it.title, it.kind[0]]) })) }));
+  fs.writeFileSync(path.join(OUT, 'data.json'), JSON.stringify({ xp: XP, courses: courses.map(c => ({ s: c.slug, t: c.title, i: c.icon || '📘', c: c.color || '#3ddc97', p: c.planned, full: c.full, items: c.items.map(it => [it.id, it.title, it.kind[0]]) })) }));
   // shortcut: ძებნის ინდექსი ერთი JSON-ია (სათაური, ტეგები, აღწერა, ტექსტის პირველი 1500 სიმბოლო) — 10 000 თავზე ~2–3 MB; სრულ ტექსტზე ძებნა თუ დაგჭირდა, გადადი Pagefind-ზე
   fs.writeFileSync(path.join(OUT, 'search.json'), JSON.stringify(courses.flatMap(c => [{ u: url(c.slug), t: c.title, c: 'კურსი', d: c.description || '', g: c.topic || '', x: '' }].concat(c.items.map(it => ({ u: url(it.id), t: it.title, c: c.title, d: it.doc.meta.description || it.description || '', g: (Array.isArray(it.doc.meta.tags) ? it.doc.meta.tags : []).join(' '), x: it.doc.text.slice(0, 1500) }))))));
   const sm = ['/', '/CodeQuest.html', '/privacy.html', '/terms.html'].concat(pages.filter(p => !p.noindex).map(p => url(p.path)));

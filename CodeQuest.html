@@ -1235,7 +1235,13 @@ html[data-theme="dark"] .screen.active:not(#scr-menu){background:transparent}
 html[data-theme="dark"] .topbar,html[data-theme="dark"] #scr-map .topbar,html[data-theme="dark"] #scr-bit .topbar{background:rgba(10,14,48,.7);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);border-bottom-color:rgba(150,165,255,.14)}
 html[data-theme="dark"] .modal,html[data-theme="dark"] .toast{background:#121a4a;border-color:rgba(150,165,255,.22)}
 html[data-theme="dark"] .island-blob{background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--ia) 48%,#26306e),color-mix(in srgb,var(--ia) 70%,#161d50))}
-html[data-theme="dark"] #scr-game{--c1:color-mix(in srgb,var(--t1) 24%,#121947);--c2:color-mix(in srgb,var(--t2) 19%,#121947);--cw:color-mix(in srgb,var(--tw) 50%,#121947);--sk:color-mix(in srgb,var(--sky) 9%,#0d1338)}/* ---------- მთავარი მენიუ — თამაშის საწყისი ეკრანი (2026-10): ღამის ცა, ბიტი სცენაზე, სიმეტრიული სვეტები, პიქსელ-ხატულები ბიტის სტილში.
+html[data-theme="dark"] #scr-game{--c1:color-mix(in srgb,var(--t1) 24%,#121947);--c2:color-mix(in srgb,var(--t2) 19%,#121947);--cw:color-mix(in srgb,var(--tw) 50%,#121947);--sk:color-mix(in srgb,var(--sky) 9%,#0d1338)}/* დღის იერსახე (პარამეტრები → ☀️ დღე): იგივე დიზაინი ღია ცაზე — ღრუბლები, თეთრი მინის პანელები, მუქი ტექსტი */
+html[data-theme="light"]{--bg:#eef3ff;--panel:rgba(255,255,255,.88);--panel2:rgba(43,59,171,.06);--text:#1b1f3a;--muted:#55607a;--border:rgba(43,59,171,.16);--accent:#3d5afe;--accent-ink:#ffffff;--code-bg:#fbfcff;--shadow:0 10px 30px -16px rgba(43,59,171,.35)}
+html[data-theme="light"] body{background:radial-gradient(60% 50% at 100% 0%,rgba(124,77,255,.16),transparent 70%),radial-gradient(60% 50% at 0% 0%,rgba(61,90,254,.14),transparent 70%),linear-gradient(180deg,#cfe0ff 0%,#e6eeff 45%,#f5f8ff 100%) fixed;background-color:#eef3ff}
+html[data-theme="light"] body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.9;background-repeat:no-repeat;background-image:radial-gradient(90px 34px at 12% 16%,#fff 60%,transparent 62%),radial-gradient(60px 26px at 17% 13%,#fff 60%,transparent 62%),radial-gradient(110px 38px at 84% 22%,#fff 60%,transparent 62%),radial-gradient(70px 28px at 79% 19%,#fff 60%,transparent 62%),radial-gradient(80px 30px at 50% 86%,rgba(255,255,255,.8) 60%,transparent 62%)}
+html[data-theme="light"] .screen.active:not(#scr-menu){background:transparent}
+html[data-theme="light"] .topbar,html[data-theme="light"] #scr-map .topbar,html[data-theme="light"] #scr-bit .topbar{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);border-bottom-color:rgba(43,59,171,.12)}
+html[data-theme="light"] .modal,html[data-theme="light"] .toast{background:#fff}/* ---------- მთავარი მენიუ — თამაშის საწყისი ეკრანი (2026-10): ღამის ცა, ბიტი სცენაზე, სიმეტრიული სვეტები, პიქსელ-ხატულები ბიტის სტილში.
    სცენა ორივე თემაში ერთნაირია (თამაშის „ტიტული“); შიგნით ფერები მუქი სცენისთვის გადაწერილია, რომ სერიის ბარათი და სხვა ნაწილები იკითხებოდეს ---------- */
 #scr-menu{--panel:rgba(255,255,255,.07);--panel2:rgba(255,255,255,.12);--text:#eef1ff;--muted:#aab3e0;--border:rgba(255,255,255,.15);--hm-line:rgba(255,255,255,.15);--hm-sh:none;--glass:rgba(16,20,60,.55);color:var(--text)}
 #scr-menu.active{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(70% 55% at 50% 108%,rgba(61,90,254,.55),transparent 70%),radial-gradient(45% 45% at 100% 0%,rgba(124,77,255,.45),transparent 70%),radial-gradient(45% 45% at 0% 0%,rgba(124,77,255,.45),transparent 70%),linear-gradient(180deg,#060821 0%,#0f1548 55%,#18237a 100%)}
@@ -1393,7 +1399,25 @@ html[data-theme="dark"] #scr-game{--c1:color-mix(in srgb,var(--t1) 24%,#121947);
 }
 @media (min-width:1100px) and (max-height:820px){.gm-bit{width:130px;height:173px}.gm-title{font-size:3.4rem}.gm-cta{margin-top:12px}.gm-stage{gap:8px}}
 @media (min-width:1600px) and (min-height:900px){.gm{zoom:1.1;min-height:calc(100vh / 1.1)}.gm-bit{width:190px;height:253px}}
-</style>
+/* მენიუ დღის იერსახით: ღია ცა ღრუბლებით, თეთრი მინა, მუქი ტექსტი (კუნძულები, ბიტი და ფერები იგივე) */
+html[data-theme="light"] #scr-menu{--panel:rgba(255,255,255,.7);--panel2:rgba(43,59,171,.07);--text:#1b1f3a;--muted:#55607a;--border:rgba(43,59,171,.16);--hm-line:rgba(43,59,171,.16);--glass:rgba(255,255,255,.66)}
+html[data-theme="light"] #scr-menu.active{background:radial-gradient(70% 55% at 50% 108%,rgba(61,90,254,.22),transparent 70%),radial-gradient(45% 45% at 100% 0%,rgba(124,77,255,.2),transparent 70%),radial-gradient(45% 45% at 0% 0%,rgba(124,77,255,.2),transparent 70%),linear-gradient(180deg,#bcd3ff 0%,#dde8ff 50%,#f2f6ff 100%)}
+html[data-theme="light"] .gm-stars{inset:0;opacity:1;animation:none;background-size:auto;background-repeat:no-repeat;background-image:radial-gradient(110px 40px at 14% 22%,#fff 60%,transparent 62%),radial-gradient(70px 30px at 19% 18%,#fff 60%,transparent 62%),radial-gradient(120px 42px at 86% 26%,#fff 60%,transparent 62%),radial-gradient(80px 32px at 81% 22%,#fff 60%,transparent 62%)}
+html[data-theme="light"] .gm-stars.b{background-image:radial-gradient(90px 32px at 30% 88%,rgba(255,255,255,.85) 60%,transparent 62%),radial-gradient(100px 34px at 70% 90%,rgba(255,255,255,.85) 60%,transparent 62%)}
+html[data-theme="light"] .gm-glyphs span{color:rgba(43,59,171,.12)}
+html[data-theme="light"] .gm-isle{filter:drop-shadow(0 16px 18px rgba(43,59,171,.25))}
+html[data-theme="light"] .gm-word span{color:#3d5afe}
+html[data-theme="light"] .gm-kicker{color:#2b3bab;background:rgba(255,255,255,.6)}
+html[data-theme="light"] .gm-title{text-shadow:0 10px 30px rgba(61,90,254,.25)}
+html[data-theme="light"] .gm-title span{background:linear-gradient(90deg,#f59f00,#e8590c);-webkit-background-clip:text;background-clip:text}
+html[data-theme="light"] .gm-hero::before{background:radial-gradient(closest-side,rgba(124,155,255,.45),rgba(61,90,254,.12) 58%,transparent)}
+html[data-theme="light"] .gm-rank-st span,html[data-theme="light"] .gm-cont .ic,html[data-theme="light"] .gm-swap{background:rgba(43,59,171,.08)}
+html[data-theme="light"] .gm-bar{background:rgba(43,59,171,.12)}
+html[data-theme="light"] .gm-em,html[data-theme="light"] .gm-mini .ic{background:color-mix(in srgb,var(--c1,var(--ti)) 14%,#fff)}
+html[data-theme="light"] .gm-user .gm-acc:hover,html[data-theme="light"] .gm-user .gm-icon:hover{background:rgba(43,59,171,.07)}
+html[data-theme="light"] .gm-lang-t .gm-cap{color:#3d5afe}
+html[data-theme="light"] .gm-foot a{color:#2b3bab}
+html[data-theme="light"] .gm-mode.done .gm-em::after{box-shadow:0 0 0 2px #fff}</style>
 <!-- Vercel Web Analytics -->
 <script>if (location.protocol === 'https:') { window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); }; var s = document.createElement('script'); s.defer = true; s.src = '/_vercel/insights/script.js'; document.head.appendChild(s); }</script>
 </head>
@@ -17032,7 +17056,8 @@ const UI = {
 };
 function applySettings() {
   const s = Progress.P.settings;
-  document.documentElement.dataset.theme = 'dark';   // ღამის სტილი ყველა ეკრანზე (2026-10) — ნათელი თემა აღარ ირთვება
+  // იერსახე: ღამე (ნაგულისხმევი) ან დღე. ცალკე გასაღები mode — ძველ შენახვებში theme:'light' ნაგულისხმევი იყო და ყველას დღეზე გადართავდა
+  document.documentElement.dataset.theme = s.mode === 'day' ? 'light' : 'dark';
   document.documentElement.style.setProperty('--fs', s.font + 'px');
   Editor.setTheme(Progress.P.etheme);
   Editor.refresh();
@@ -19466,6 +19491,7 @@ const SettingsScreen = {
       '<span>' + (pro ? '<span class="chip">👤 ანგარიშზე მიბმული</span>' : '<button class="btn small" id="st-pro-key">🔑 კოდის ჩასმა</button> <button class="btn small primary" id="st-pro-buy">💳 ყიდვა</button>') + '</span></div></div>' +
       '<div class="card">' +
       '<div class="set-row"><label>სწავლის სტილი<br><small class="muted">ახალი თემის მე-2 ნაბიჯი: ბლოკების აწყობა ან კოდის ასო-ასო გადაწერა</small></label>' + seg('st-learn', [['blocks', '🧩 ააწყე ბლოკებით'], ['type', '✍️ გადაწერე ასო-ასო']], s.learn === 'type' ? 'type' : 'blocks') + '</div>' +
+      '<div class="set-row"><label>იერსახე</label>' + seg('st-mode', [['night', '🌙 ღამე'], ['day', '☀️ დღე']], s.mode === 'day' ? 'day' : 'night') + '</div>' +
       '<div class="set-row"><label>ხმა</label>' + seg('st-sound', [[1, 'ჩართული'], [0, 'გამორთული']], s.sound ? 1 : 0) + '</div>' +
       '<div class="set-row"><label>ანიმაციის სიჩქარე</label>' + seg('st-speed', [[1, '🐢 ნელი'], [2, 'ჩვეულებრივი'], [3, '🐇 სწრაფი']], s.speed) + '</div>' +
       '<div class="set-row"><label for="st-font">შრიფტის ზომა: <span id="st-font-v">' + s.font + '</span>px</label><input type="range" id="st-font" min="13" max="21" value="' + s.font + '" style="accent-color:var(--accent)"></div>' +
@@ -19479,6 +19505,7 @@ const SettingsScreen = {
       '<div class="card" style="margin-top:12px;border-color:var(--bad)"><h3 style="margin-top:0">პროგრესის განულება</h3><p class="muted" style="margin-top:-.4em">წაიშლება ყველა ვარსკვლავი, XP და მიღწევა.</p><button class="btn danger" id="st-reset">განულება</button></div>';
     const bindSeg = (id, fn) => $$('#' + id + ' button').forEach(b => b.addEventListener('click', () => { fn(b.dataset.v); Progress.save(); applySettings(); this.render(); }));
     bindSeg('st-learn', v => { s.learn = v === 'type' ? 'type' : 'blocks'; });
+    bindSeg('st-mode', v => { s.mode = v; });
     bindSeg('st-sound', v => { s.sound = v === '1'; if (s.sound) Sound.click(); });
     bindSeg('st-speed', v => { s.speed = +v; });
     bindSeg('st-unlock', v => { s.unlockAll = v === '1' && Progress.hasPro(); });

@@ -33,6 +33,12 @@ input:focus{outline:2px solid var(--accent);outline-offset:1px}
 .ok{color:var(--good)}
 .go{margin-top:18px}
 [hidden]{display:none!important}
+.pw-wrap{position:relative;display:block}.pw-wrap input{width:100%;padding-right:46px}
+.pw-eye{position:absolute;right:5px;top:50%;translate:0 -50%;width:36px;height:32px;display:grid;place-items:center;padding:0;border:0;border-radius:8px;background:none;color:var(--muted);cursor:pointer}.pw-eye:hover{color:var(--text);background:var(--bg)}
+.pw-eye svg{width:20px;height:20px}.pw-eye .off,.pw-eye[aria-pressed="true"] .on{display:none}.pw-eye[aria-pressed="true"] .off{display:block}
+.pw-meter{display:block;height:5px;margin-top:6px;overflow:hidden;border-radius:9px;background:var(--border)}.pw-meter i{display:block;width:0;height:100%;border-radius:inherit;transition:width .25s,background .25s}
+.pw-meter[data-l="1"] i{width:33%;background:var(--bad)}.pw-meter[data-l="2"] i{width:66%;background:#e8a317}.pw-meter[data-l="3"] i{width:100%;background:var(--good)}
+.pw-lvl{display:block;min-height:1.1em;font-weight:700;font-size:.85rem}.pw-lvl[data-l="1"]{color:var(--bad)}.pw-lvl[data-l="2"]{color:#c68400}.pw-lvl[data-l="3"]{color:var(--good)}
 </style>
 </head>
 <body>
@@ -45,6 +51,7 @@ input:focus{outline:2px solid var(--accent);outline-offset:1px}
   const ERR = {
     offline: 'სერვერთან კავშირი ვერ დამყარდა. შეამოწმე ინტერნეტი.',
     pass_short: 'პაროლი მინიმუმ 8 სიმბოლო უნდა იყოს.',
+    pass_weak: 'პაროლში ასოებიც და ციფრებიც უნდა იყოს (მაგ. kodi-2024) — ასე ძნელად გამოსაცნობია.',
     pass_long: 'პაროლი ძალიან გრძელია.',
     pass_name: 'პაროლი სახელს არ უნდა ემთხვეოდეს.',
     pass_common: 'ეს პაროლი ძალიან მარტივია და ადვილად გამოსაცნობია — მოიფიქრე სხვა (მაგ. სიტყვები და ციფრები ერთად).',
@@ -66,7 +73,15 @@ input:focus{outline:2px solid var(--accent);outline-offset:1px}
   };
   const show = (ic, title, text, html) => { box.innerHTML = '<div class="ic" aria-hidden="true">' + ic + '</div><h1>' + esc(title) + '</h1>' + (text ? '<p class="muted">' + esc(text) + '</p>' : '') + (html || ''); };
   const toGame = (label, login) => '<p class="go"><a class="btn" href="CodeQuest.html' + (login ? '?login=1' : '') + '">' + label + '</a></p>';
-  const field = (label, name, type, ac, hint) => '<label>' + label + (hint ? ' <small>' + hint + '</small>' : '') + '<input name="' + name + '" type="' + type + '" autocomplete="' + ac + '" required maxlength="' + (name === 'name' ? 40 : 200) + '"></label>';
+  // პაროლის ველს 👁 (ჩვენება/დამალვა); ახალ პაროლს — სიძლიერის ზოლი. strong — იგივე წესი, რაც სერვერზე
+  const EYE = '<button type="button" class="pw-eye" aria-label="პაროლის ჩვენება" aria-pressed="false"><svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/></svg><svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18M10.6 5.1A10.4 10.4 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.2M6.6 6.6C3.8 8.4 2 12 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button>';
+  const strong = p => /\p{L}/u.test(p) && /\d/.test(p);
+  const level = p => !p ? 0 : p.length < 8 || !strong(p) ? 1 : p.length >= 12 || /[^\p{L}\d]/u.test(p) ? 3 : 2;
+  const LV = ['', 'სუსტი — საჭიროა 8+ სიმბოლო, ასოები და ციფრები', 'კარგი', 'ძლიერი 💪'];
+  const field = (label, name, type, ac, hint) => { const meter = ac === 'new-password' && name === 'password', inp = '<input name="' + name + '" type="' + type + '" autocomplete="' + ac + '" required maxlength="' + (name === 'name' ? 40 : 200) + '"' + (meter ? ' data-meter' : '') + '>';
+    return '<label>' + label + (hint ? ' <small>' + hint + '</small>' : '') + (type === 'password' ? '<span class="pw-wrap">' + inp + EYE + '</span>' + (meter ? '<span class="pw-meter" aria-hidden="true"><i></i></span><small class="pw-lvl" aria-live="polite"></small>' : '') : inp) + '</label>'; };
+  document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('.pw-eye'); if (!b) return; const i = b.parentNode.querySelector('input'), show = i.type === 'password'; i.type = show ? 'text' : 'password'; b.setAttribute('aria-pressed', String(show)); b.setAttribute('aria-label', show ? 'პაროლის დამალვა' : 'პაროლის ჩვენება'); i.focus(); });
+  document.addEventListener('input', e => { const i = e.target; if (!i.matches || !i.matches('input[data-meter]')) return; const lab = i.closest('label'), n = level(i.value); lab.querySelector('.pw-meter').dataset.l = n; const l = lab.querySelector('.pw-lvl'); l.dataset.l = n; l.textContent = LV[n]; });
   // ფორმა: check — კლიენტის შემოწმება (შეცდომის კოდი ან null), send — მოთხოვნა, done — წარმატება
   const form = (fields, button, check, send, done) => {
     box.insertAdjacentHTML('beforeend', '<form novalidate>' + fields + '<p class="err" role="alert"></p><button class="btn" type="submit">' + button + '</button></form>');
@@ -93,8 +108,8 @@ input:focus{outline:2px solid var(--accent);outline-offset:1px}
 
   if (mode === 'reset') {
     show('🔑', 'ახალი პაროლი', 'მოიფიქრე ახალი პაროლი. შეცვლის შემდეგ ყველა მოწყობილობაზე თავიდან შესვლა მოგიწევს.');
-    form(field('ახალი პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო') + field('გაიმეორე ახალი პაროლი', 'password2', 'password', 'new-password'), 'პაროლის შეცვლა',
-      v => (v.password.length < 8 ? 'pass_short' : v.password !== v.password2 ? 'pass_match' : null),
+    form(field('ახალი პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო, ასოებით და ციფრებით') + field('გაიმეორე ახალი პაროლი', 'password2', 'password', 'new-password'), 'პაროლის შეცვლა',
+      v => (v.password.length < 8 ? 'pass_short' : !strong(v.password) ? 'pass_weak' : v.password !== v.password2 ? 'pass_match' : null),
       v => api('resetLink', { code, password: v.password, nologin: true }),
       r => { used(); show('✅', 'პაროლი შეიცვალა', 'ახლა თამაშში შედი სახელით „' + r.name + '“ და ახალი პაროლით.', toGame('თამაშში შესვლა', true)); });
     return;

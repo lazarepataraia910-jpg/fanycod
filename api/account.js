@@ -258,6 +258,7 @@ function checkPass(pass, name) {
   pass = String(pass || '');
   if (pass.length < 8) throw new Fail(400, 'pass_short');
   if (pass.length > 100) throw new Fail(400, 'pass_long');
+  if (!/\p{L}/u.test(pass) || !/\d/.test(pass)) throw new Fail(400, 'pass_weak');   // ახალ პაროლს ასოც და ციფრიც სჭირდება (ძველით შესვლას არ ეხება)
   if (name && keyOf(pass) === keyOf(name)) throw new Fail(400, 'pass_name');
   if (WEAK.has(keyOf(pass)) || new Set(keyOf(pass)).size < 4) throw new Fail(400, 'pass_common');
   return pass;

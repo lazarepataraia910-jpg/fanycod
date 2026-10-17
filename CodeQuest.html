@@ -1216,6 +1216,13 @@ input.txt:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px col
 .toast .ic{display:grid;place-items:center;flex:none;width:42px;height:42px;border-radius:12px;background:color-mix(in srgb,var(--accent) 12%,var(--panel2));font-size:1.35rem}
 .toast.flame .ic{background:color-mix(in srgb,var(--flame) 14%,var(--panel2))}
 .chip{border-color:color-mix(in srgb,var(--border) 70%,transparent)}
+/* პაროლის ველი: 👁 ყოველთვის ჩანს, ახალ პაროლს — სიძლიერის ზოლი */
+.pw-wrap{position:relative;display:block}.pw-wrap input.txt{width:100%;padding-right:46px}
+.pw-eye{position:absolute;right:5px;top:50%;translate:0 -50%;width:36px;height:32px;display:grid;place-items:center;padding:0;border:0;border-radius:8px;background:none;color:var(--muted)}.pw-eye:hover{color:var(--text);background:var(--panel2)}
+.pw-eye svg{width:20px;height:20px}.pw-eye .off,.pw-eye[aria-pressed="true"] .on{display:none}.pw-eye[aria-pressed="true"] .off{display:block}
+.pw-meter{display:block;height:5px;margin-top:2px;overflow:hidden;border-radius:9px;background:var(--panel2)}.pw-meter i{display:block;width:0;height:100%;border-radius:inherit;transition:width .25s,background .25s}
+.pw-meter[data-l="1"] i{width:33%;background:var(--bad)}.pw-meter[data-l="2"] i{width:66%;background:var(--warn)}.pw-meter[data-l="3"] i{width:100%;background:var(--ok)}
+.acc-form .pw-lvl{min-height:1.1em;font-weight:700}.pw-lvl[data-l="1"]{color:var(--bad)!important}.pw-lvl[data-l="2"]{color:var(--warn)!important}.pw-lvl[data-l="3"]{color:var(--ok)!important}
 
 @media (max-width:520px){#toast-root{left:10px;right:10px;top:10px}.toast{max-width:none}.modal{padding:16px}.gbar{padding:8px 12px}.gmain{padding:12px 10px 30px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
@@ -20196,6 +20203,27 @@ const Desktop = {
 const ACC_KEY = 'codequest.auth';   // { name, rev, dirty, at } (+ token მხოლოდ კომპიუტერის პროგრამაში; ვებზე ტოკენი HttpOnly cookie-შია) — პროგრესისგან ცალკე: ნიშანი არც პროგრესის კოდში ხვდება, არც სერვერზე
 const ACC_NAME_RE = /^[A-Za-z0-9ა-ჰ_.-]{3,20}$/;
 const ACC_EMAIL_RE = /^[^\s@<>()",;:]+@[^\s@<>()",;:]+\.[a-z]{2,}$/i;   // იგივე წესი: api/account.js → EMAIL_RE
+// პაროლის ველები: 👁 ჩვენება/დამალვა და სიძლიერე. strong — იგივე წესი, რაც api/account.js → checkPass (ასოც და ციფრიც)
+const PassUI = {
+  eye: '<button type="button" class="pw-eye" aria-label="პაროლის ჩვენება" aria-pressed="false"><svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/></svg><svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18M10.6 5.1A10.4 10.4 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.2M6.6 6.6C3.8 8.4 2 12 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button>',
+  meter: '<span class="pw-meter" aria-hidden="true"><i></i></span><small class="pw-lvl" aria-live="polite"></small>',
+  strong: p => /\p{L}/u.test(p) && /\d/.test(p),
+  // 0 — ცარიელი, 1 — სუსტი (წესს არ აკმაყოფილებს), 2 — კარგი, 3 — ძლიერი (12+ სიმბოლო ან სხვა ნიშანიც)
+  level(p) { if (!p) return 0; if (p.length < 8 || !this.strong(p)) return 1; return p.length >= 12 || /[^\p{L}\d]/u.test(p) ? 3 : 2; },
+  LV: ['', 'სუსტი — საჭიროა 8+ სიმბოლო, ასოები და ციფრები', 'კარგი', 'ძლიერი 💪']
+};
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('.pw-eye'); if (!b) return;
+  const i = b.parentNode.querySelector('input'), show = i.type === 'password';
+  i.type = show ? 'text' : 'password';
+  b.setAttribute('aria-pressed', String(show)); b.setAttribute('aria-label', show ? 'პაროლის დამალვა' : 'პაროლის ჩვენება');
+  i.focus();
+});
+document.addEventListener('input', e => {
+  const i = e.target; if (!i.matches || !i.matches('input[data-meter]')) return;
+  const lab = i.closest('label'), n = PassUI.level(i.value);
+  lab.querySelector('.pw-meter').dataset.l = n; const l = lab.querySelector('.pw-lvl'); l.dataset.l = n; l.textContent = PassUI.LV[n];
+});
 // ორი პროგრესის გაერთიანება: a — ეს მოწყობილობა, b — ანგარიში. ლეველებიდან, მიღწევებიდან და ნივთებიდან საუკეთესო რჩება,
 // პარამეტრები და ბიტის იერსახე — ამ მოწყობილობისა (თუ აქ ბიტი ჯერ არ შეცვლილა — ანგარიშისა)
 function mergeProgress(a, b) {
@@ -20261,6 +20289,7 @@ const Account = {
     name_taken: 'ეს სახელი უკვე დაკავებულია — სცადე სხვა.',
     name_reserved: 'ეს სახელი არ შეიძლება — სცადე სხვა.',
     pass_short: 'პაროლი მინიმუმ 8 სიმბოლო უნდა იყოს.',
+    pass_weak: 'პაროლში ასოებიც და ციფრებიც უნდა იყოს (მაგ. kodi-2024) — ასე ძნელად გამოსაცნობია.',
     pass_long: 'პაროლი ძალიან გრძელია.',
     pass_name: 'პაროლი სახელს არ უნდა ემთხვეოდეს.',
     pass_common: 'ეს პაროლი ძალიან მარტივია და ადვილად გამოსაცნობია — მოიფიქრე სხვა (მაგ. სიტყვები და ციფრები ერთად).',
@@ -20525,8 +20554,11 @@ const Account = {
       if (r.ok) done(r, f); else err.textContent = this.msg(r);
     });
   },
+  // პაროლის ველს ყოველთვის აქვს 👁 (ჩვენება/დამალვა); ახალ პაროლს — სიძლიერის ზოლიც (PassUI)
   field(label, name, type, auto, hint) {
-    return '<label>' + label + '<input class="txt" name="' + name + '" type="' + type + '" autocomplete="' + auto + '" maxlength="' + (type === 'password' ? 100 : type === 'email' ? 254 : 20) + '" autocapitalize="off" spellcheck="false" required>' + (hint ? '<small>' + hint + '</small>' : '') + '</label>';
+    const meter = type === 'password' && auto === 'new-password' && name === 'password';
+    const inp = '<input class="txt" name="' + name + '" type="' + type + '" autocomplete="' + auto + '" maxlength="' + (type === 'password' ? 100 : type === 'email' ? 254 : 20) + '" autocapitalize="off" spellcheck="false" required' + (meter ? ' data-meter' : '') + '>';
+    return '<label>' + label + (type === 'password' ? '<span class="pw-wrap">' + inp + PassUI.eye + '</span>' + (meter ? PassUI.meter : '') : inp) + (hint ? '<small>' + hint + '</small>' : '') + '</label>';
   },
   // სახელი რატომ არ გამოდგება — ზუსტად (შეცდომა პაროლის ველის ქვეშ ჩანს, ამიტომ ვწერთ, რომ საქმე სახელშია)
   nameWhy(n) {
@@ -20542,6 +20574,7 @@ const Account = {
     f.name = this.normName(f.name);
     if (!ACC_NAME_RE.test(f.name)) return this.nameWhy(f.name);
     if ((f.password || '').length < 8) return 'pass_short';
+    if (!PassUI.strong(f.password)) return 'pass_weak';
     if (f.password !== f.password2) return 'pass_match';
     if (f.password.toLowerCase() === f.name.trim().toLowerCase()) return 'pass_name';
     return null;
@@ -20562,7 +20595,7 @@ const Account = {
       '<p class="muted acc-sub">' + (IS_DESKTOP ? '💾 პროგრესი ამ კომპიუტერში რჩება; ანგარიში Pro-სთვის და კლასისთვისაა.' : 'ამ მოწყობილობის პროგრესი ანგარიშში გადავა.') + '</p>' +
       '<form class="acc-form" novalidate>' + this.field('სახელი', 'name', 'text', 'username', '3–20 სიმბოლო: ასოები, ციფრები, _ . -  · სახელს სხვა მოთამაშეები ვერ ხედავენ, მაინც ნუ ჩაწერ სახელს და გვარს ერთად') +
       this.field('ელფოსტა', 'email', 'email', 'email', 'მხოლოდ პაროლის აღსადგენად: სხვა წერილებს არ გამოგიგზავნით. 13 წლამდე ხარ? ჩაწერე მშობლის ელფოსტა') +
-      this.field('პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო. ნუ გამოიყენებ იმავე პაროლს, რაც სხვაგან გაქვს') + this.field('გაიმეორე პაროლი', 'password2', 'password', 'new-password') +
+      this.field('პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო, ასოებით და ციფრებით. ნუ გამოიყენებ იმავე პაროლს, რაც სხვაგან გაქვს') + this.field('გაიმეორე პაროლი', 'password2', 'password', 'new-password') +
       '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">ანგარიშის შექმნა</button><p class="acc-legal">ანგარიშის შექმნით ეთანხმები <a href="https://codequest-lazare.vercel.app/terms.html" target="_blank" rel="noopener">წესებს</a> და <a href="https://codequest-lazare.vercel.app/privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკას</a>. 13 წლამდე ხარ? ანგარიში მშობელთან ერთად შექმენი.</p></form>' +
       '<p class="acc-links"><button type="button" class="linklike" data-a="login">უკვე გაქვს ანგარიში? შედი</button></p>' +
       '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
@@ -20623,7 +20656,7 @@ const Account = {
     const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">🔑</div><h2 class="result-title">პაროლის აღდგენა</h2>' +
       '<p class="muted acc-sub">ჩაწერე აღდგენის კოდი, რომელიც რეგისტრაციისას მიიღე (მაგ. ABCD-EFGH-2345).</p>' +
       '<form class="acc-form" novalidate>' + this.field('სახელი', 'name', 'text', 'username') + this.field('აღდგენის კოდი', 'recovery', 'text', 'off') +
-      this.field('ახალი პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო') + this.field('გაიმეორე ახალი პაროლი', 'password2', 'password', 'new-password') +
+      this.field('ახალი პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო, ასოებით და ციფრებით') + this.field('გაიმეორე ახალი პაროლი', 'password2', 'password', 'new-password') +
       '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">პაროლის შეცვლა</button></form>' +
       '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
     m.querySelector('[name=recovery]').maxLength = 20;
@@ -20679,7 +20712,7 @@ const Account = {
   passwordForm() {
     const m = Modal.open('<div class="acc"><div class="acc-ic" aria-hidden="true">🔑</div><h2 class="result-title">პაროლის შეცვლა</h2>' +
       '<form class="acc-form" novalidate>' + this.field('ახლანდელი პაროლი', 'current', 'password', 'current-password') +
-      this.field('ახალი პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო') + this.field('გაიმეორე ახალი პაროლი', 'password2', 'password', 'new-password') +
+      this.field('ახალი პაროლი', 'password', 'password', 'new-password', 'მინიმუმ 8 სიმბოლო, ასოებით და ციფრებით') + this.field('გაიმეორე ახალი პაროლი', 'password2', 'password', 'new-password') +
       '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">შეცვლა</button></form>' +
       '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
     this.bind(m, f => this.checkNew(Object.assign({}, f, { name: this.s.name })), f => this.api('password', { token: this.s.token, password: f.current, newPassword: f.password }), r => {

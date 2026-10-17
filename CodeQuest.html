@@ -20454,8 +20454,19 @@ const Account = {
   field(label, name, type, auto, hint) {
     return '<label>' + label + '<input class="txt" name="' + name + '" type="' + type + '" autocomplete="' + auto + '" maxlength="' + (type === 'password' ? 100 : type === 'email' ? 254 : 20) + '" autocapitalize="off" spellcheck="false" required>' + (hint ? '<small>' + hint + '</small>' : '') + '</label>';
   },
+  // სახელი რატომ არ გამოდგება — ზუსტად (შეცდომა პაროლის ველის ქვეშ ჩანს, ამიტომ ვწერთ, რომ საქმე სახელშია)
+  nameWhy(n) {
+    if (n.length < 3) return '❗ სახელი ძალიან მოკლეა — მინიმუმ 3 სიმბოლო.';
+    if (n.length > 20) return '❗ სახელი ძალიან გრძელია — მაქსიმუმ 20 სიმბოლო.';
+    if (/\s/.test(n)) return '❗ სახელში გამოტოვება (space) არ შეიძლება — მაგ. ' + n.split(/\s+/).join('_') + '. პაროლი სწორია.';
+    const bad = [...n].find(c => !/[A-Za-z0-9ა-ჰ_.-]/.test(c));
+    return '❗ სახელში „' + bad + '“ არ შეიძლება. სახელში მხოლოდ ასოები (ქართული ან ლათინური), ციფრები და _ . - — პაროლში კი ნებისმიერი სიმბოლო.';
+  },
+  // ქართული მთავრული (Shift/Caps-ით აკრეფილი ᲐᲑᲒ) — ჩვეულებრივ ასოებად; სერვერიც და ძველი ანგარიშებიც მხედრულს ელიან
+  normName: n => String(n || '').trim().replace(/[Ა-Ჿ]/g, c => c.toLowerCase()),
   checkNew(f) {
-    if (!ACC_NAME_RE.test((f.name || '').trim())) return 'name_format';
+    f.name = this.normName(f.name);
+    if (!ACC_NAME_RE.test(f.name)) return this.nameWhy(f.name);
     if ((f.password || '').length < 8) return 'pass_short';
     if (f.password !== f.password2) return 'pass_match';
     if (f.password.toLowerCase() === f.name.trim().toLowerCase()) return 'pass_name';

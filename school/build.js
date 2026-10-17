@@ -12,7 +12,8 @@ const LEVELS = [['beginner', 'დამწყები'], ['intermediate', 'ს�
 const XP = { chapter: 20, quiz: 50, project: 100 };
 // კურსის ხატულა: ენის ლოგო (Devicon, icons/lang → /learn/lang/), სხვა კურსებზე — ემოჯი
 const LOGO = { c: 'c', cpp: 'cpp', csharp: 'cs', css: 'css', go: 'go', html: 'html', java: 'java', javascript: 'js', kotlin: 'kt', php: 'php', python: 'py', react: 'react', rust: 'rs', swift: 'swift', typescript: 'ts' };
-const icon = c => (LOGO[c.slug] ? '<img class="c-logo" src="/learn/lang/' + LOGO[c.slug] + '.svg" alt="">' : esc(c.icon || '📘'));   // იგივე რიცხვები: school/learn.js და CodeQuest.html (schoolXP)
+const FULL = new Set(['js', 'ts']);   // კვადრატული ლოგოები — მთელ ფილაზე
+const icon = c => (LOGO[c.slug] ? '<img class="c-logo' + (FULL.has(LOGO[c.slug]) ? ' full' : '') + '" src="/learn/lang/' + LOGO[c.slug] + '.svg" alt="">' : esc(c.icon || '📘'));   // იგივე რიცხვები: school/learn.js და CodeQuest.html (schoolXP)
 const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/, RESERVED = new Set(LEVELS.map(l => l[0]).concat('quiz', 'project', 'courses', 'roadmaps', 'dashboard'));
 // კოდის ენები: სახელი, CodeMirror-ის mime და რეჟიმის ფაილები
 const LANGS = {

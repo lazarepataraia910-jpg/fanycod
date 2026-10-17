@@ -18366,6 +18366,8 @@ const Studio = {
       ? '<p class="muted" style="margin:0">აირჩიე ენა და ვიდეო: უყურე აქვე, ქვემოთ რედაქტორში შენ თვითონ დაწერე იგივე კოდი, გაუშვი ▶ Run-ით და შეინახე 💾 ჩანაწერებში.</p>'
       : '<div class="card sd-lock"><div class="sd-lock-ic" aria-hidden="true">👑</div><div class="sd-lock-t"><b>ეს გვერდი Pro-სთვისაა</b><span>' + COURSES.length + ' ენის ვიდეოები (ყოველ ენაზე 10) საიტზევე, კოდის რედაქტორი ▶ Run-ით, ჩანაწერები და ' + STUDIO_GUIDES.length + ' ნაბიჯ-ნაბიჯ პროექტი. Pro ამასთან ერთად ყველა ფასიან ლეველსაც ხსნის.</span></div>' +
         '<div class="sd-lock-b"><button class="btn" data-a="key">🔑 მაქვს კოდი</button><button class="pro-btn" data-a="buy">👑 Pro' + (PRO.price ? ' · ' + esc(PRO.price) : '') + '</button></div></div>';
+    // Pro-ს გარეშე ვიდეოები, ჩანაწერები და პროექტები საერთოდ არ ჩანს — მხოლოდ Pro-ს ბარათი
+    if (pro) {
     html += '<div class="sd-langs" role="group" aria-label="ენა">' + ids.map(id => {
       const x = COURSE_BY_ID[id];
       return '<button class="sd-lang' + (id === cid ? ' on' : '') + '" data-lang="' + id + '" aria-pressed="' + (id === cid) + '">' + langBadge(x.lang, true) + esc(x.title) + (favs.includes(id) ? ' <span class="sd-star" aria-label="რჩეული">★</span>' : '') + '</button>';
@@ -18396,6 +18398,7 @@ const Studio = {
       return '<button class="sd-guide" data-guide="' + g.id + '"><span class="sd-gic" aria-hidden="true">' + g.icon + '</span><span class="sd-gt"><b>' + esc(g.title) + '</b><small>' + esc(g.desc) + '</small>' +
         '<span class="sd-meta">⏱ ' + esc(g.time) + ' · ' + n + ' ნაბიჯი' + (pro && d ? ' · ✓ ' + d + '/' + n : '') + '</span></span><span class="sd-go" aria-hidden="true">' + (pro ? '›' : '🔒') + '</span></button>';
     }).join('') + '</div>' : '<p class="muted">ამ ენის პროექტი მალე დაემატება.</p>');
+    }
     const body = $('#studio-body');
     body.innerHTML = html;
     $$('[data-lang]', body).forEach(b => b.addEventListener('click', () => { Sound.click(); this.lang = b.dataset.lang; this.render(); }));

@@ -1328,6 +1328,21 @@ input.txt:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px col
 .toast .ic{display:grid;place-items:center;flex:none;width:42px;height:42px;border-radius:12px;background:color-mix(in srgb,var(--accent) 12%,var(--panel2));font-size:1.35rem}
 .toast.flame .ic{background:color-mix(in srgb,var(--flame) 14%,var(--panel2))}
 .chip{border-color:color-mix(in srgb,var(--border) 70%,transparent)}
+/* მენიუ — იგივე სახე, რაც მთავარ გვერდზე (codequest.space): ბრენდის ლურჯი ჰერო, მწვანე „დაწყება“, ზოლების გარეშე რეჟიმები */
+#scr-menu .mn-hero{background:radial-gradient(60% 80% at 88% 12%,rgba(124,77,255,.85),transparent 70%),radial-gradient(50% 60% at 0% 100%,rgba(61,220,151,.2),transparent 70%),linear-gradient(135deg,#2b3bab,#3d5afe 55%,#5f3dc4);box-shadow:0 30px 60px -28px rgba(43,59,171,.7)}
+#scr-menu .mn-hero::before{background-size:26px 26px}
+#scr-menu .mn-bit .logo-tag{border-color:#3346c9}
+#scr-menu .mn-play{background:linear-gradient(180deg,#5ee8aa,#3ddc97);color:#0b2e20;box-shadow:0 6px 0 #1f9f6a,0 18px 30px -10px rgba(31,159,106,.6)}
+#scr-menu .mn-play:hover{box-shadow:0 8px 0 #1f9f6a,0 22px 34px -10px rgba(31,159,106,.7)}
+#scr-menu .mn-play:active{box-shadow:0 1px 0 #1f9f6a,0 8px 14px -8px rgba(31,159,106,.45)}
+#scr-menu .mn-play i{background:#0b2e20;color:#3ddc97}
+#scr-menu .mn-mode{border-radius:24px;box-shadow:0 4px 0 var(--c3),0 18px 30px -16px var(--c2)}
+#scr-menu .mn-mode::before{background:radial-gradient(110% 90% at 100% 0%,rgba(255,255,255,.3),transparent 55%),linear-gradient(180deg,transparent 40%,rgba(0,0,0,.08))}
+#scr-menu .mn-mode:hover{box-shadow:0 7px 0 var(--c3),0 24px 34px -16px var(--c2)}
+#scr-menu .mn-mode:active{box-shadow:0 1px 0 var(--c3),0 8px 14px -12px var(--c2)}
+#scr-menu .mn-card,#scr-menu .mn-mini{border-radius:20px;box-shadow:var(--hm-sh)}
+@media (min-width:1000px) and (min-height:800px){#scr-menu.active{display:flex;flex-direction:column;justify-content:center}#scr-menu .mn{width:100%}}
+@media (min-width:1750px) and (min-height:900px){#scr-menu .mn{zoom:1.12}}
 @media (max-width:520px){#toast-root{left:10px;right:10px;top:10px}.toast{max-width:none}.modal{padding:16px}.gbar{padding:8px 12px}.gmain{padding:12px 10px 30px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>

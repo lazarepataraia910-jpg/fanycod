@@ -199,7 +199,7 @@ Pro ხსნის **🎬 ვიდეოებისა და პროექ
 
 1. დარეგისტრირდი [Dodo Payments](https://dodopayments.com)-ზე და გაიარე ბიზნესის ვერიფიკაცია.
 2. **Products → Create product:** ერთჯერადი გადახდა (One-time), შენი ფასით. პროდუქტზე ჩართე **License keys**.
-3. პროდუქტის გვერდზე **Share** — დააკოპირე გადახდის ბმული (მაგ. `https://checkout.dodopayments.com/buy/pdt_...`) და ჩასვი `CodeQuest.html`-ში, `PRO.payLink`-ში (იქვე `PRO.price` — ღილაკზე გამოსაჩენი ფასი). ახლა იქ **სატესტო** ბმულია (`test.checkout...`) — ნამდვილი გაყიდვებისთვის Live Mode-ის ბმულით შეცვალე.
+3. პროდუქტის გვერდზე **Share** — დააკოპირე გადახდის ბმული (მაგ. `https://checkout.dodopayments.com/buy/pdt_...`) და ჩასვი `CodeQuest.html`-ში, `PRO.payLink`-ში (იქვე `PRO.price` — ღილაკზე გამოსაჩენი ფასი). ახლა იქ **Live Mode**-ის ბმულია (ნამდვილი გადახდები, 2026-10-17-დან; Vercel-ში `DODO_MODE=live`).
 4. **Vercel → Project → Settings → Environment Variables:**
    - `DODO_MODE` = `test` (სატესტო გადახდებისთვის) ან `live` (ნამდვილისთვის);
    - `PRO_PRIVATE_KEY` — Pro-ს ხელმოწერის საიდუმლო გასაღები (ECDSA P-256, PKCS8 DER base64 ერთ ხაზზე). მისი საჯარო ნაწილი `CodeQuest.html`-შია, `PRO.pub`-ში;

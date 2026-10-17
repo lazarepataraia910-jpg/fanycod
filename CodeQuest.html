@@ -11273,8 +11273,8 @@ const PRO = {
   freeLevels: 100,
   // Dodo Payments-ის გადახდის ბმული: Dashboard → Products → პროდუქტი → Share (ლიცენზიის კოდები ჩართული უნდა იყოს).
   // ცარიელი = ყიდვის ღილაკი ჯერ არ მუშაობს (კოდის ჩასმა მაინც შეიძლება).
-  // ⚠️ ეს სატესტო ბმულია (test.checkout...) — ნამდვილი გაყიდვებისთვის Live Mode-ის ბმულით შეცვალე და Vercel-ში DODO_MODE=live
-  payLink: 'https://test.checkout.dodopayments.com/buy/pdt_0NpAlHj8uygXzZpR6gnNG?quantity=1',
+  // Live Mode-ის ბმული (ნამდვილი გადახდები; Vercel-ში DODO_MODE=live). სატესტო: test.checkout…/buy/pdt_0NpAlHj8uygXzZpR6gnNG
+  payLink: 'https://checkout.dodopayments.com/buy/pdt_0NpwkNIGXrgrbpiXe33m2?quantity=1',
   price: '$9',               // ღილაკზე გამოსაჩენი ფასი
   // ხელმოწერის შესამოწმებელი საჯარო გასაღები (ECDSA P-256). საიდუმლო ნაწილი მხოლოდ Vercel-შია (PRO_PRIVATE_KEY).
   pub: Object.freeze({ kty: 'EC', crv: 'P-256', x: 'fLZ_2UY_wXEOQuLdneJnViBQBysM_qj2VlNT4sfNZS4', y: '0uLSGAjTAWmDSQeI-82sS_I76iny23NsGZlAqov_SS0' })

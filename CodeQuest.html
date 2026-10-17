@@ -1266,6 +1266,15 @@ input.txt:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px col
 .gm-acc-t small{color:var(--muted);font-size:.72rem}
 .gm-icon{flex:none;width:44px;height:44px;display:grid;place-items:center;padding:0;border:1px solid var(--border);border-radius:50%;background:var(--glass);font-size:1.15rem;line-height:1;backdrop-filter:blur(12px);transition:transform .35s,border-color .15s}
 .gm-icon:hover{transform:rotate(70deg);border-color:rgba(124,155,255,.7)}
+/* ანგარიში და პარამეტრები — ერთ კაფსულაში */
+.gm-user{flex:none;display:flex;align-items:center;gap:2px;padding:3px;border:1px solid var(--border);border-radius:999px;background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:border-color .15s}
+.gm-user:hover{border-color:rgba(124,155,255,.55)}
+.gm-user .gm-acc,.gm-user .gm-icon{border:0;background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.gm-user .gm-acc{padding:2px 12px 2px 2px;border-radius:999px;transition:background .15s}
+.gm-user .gm-acc:hover{transform:none;background:rgba(255,255,255,.08)}
+.gm-user .gm-icon{width:38px;height:38px}
+.gm-user .gm-icon:hover{background:rgba(255,255,255,.08)}
+.gm-sep{flex:none;width:1px;height:24px;background:var(--border)}
 
 /* სცენა — ცენტრალური ღერძი: სათაური, ბიტი, „დაწყება“ */
 .gm-stage{display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0;text-align:center}
@@ -1397,8 +1406,7 @@ input.txt:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px col
         </div>
         <div class="gm-actions">
           <button class="pro-btn gm-pro" id="m-pro" type="button">👑 Pro</button>
-          <button class="gm-acc" id="m-account" type="button"><span class="mn-av gm-av" id="m-account-ic" aria-hidden="true">👤</span><span class="gm-acc-t"><b id="m-account-t">შესვლა</b><small id="m-account-sub">ან რეგისტრაცია</small></span></button>
-          <button class="gm-icon" id="m-settings" type="button" title="პარამეტრები — ხმა, თემა, ზომა" aria-label="პარამეტრები">⚙️</button>
+          <div class="gm-user"><button class="gm-acc" id="m-account" type="button"><span class="mn-av gm-av" id="m-account-ic" aria-hidden="true">👤</span><span class="gm-acc-t"><b id="m-account-t">შესვლა</b><small id="m-account-sub">ან რეგისტრაცია</small></span></button><span class="gm-sep" aria-hidden="true"></span><button class="gm-icon" id="m-settings" type="button" title="პარამეტრები — ხმა, თემა, ზომა" aria-label="პარამეტრები">⚙️</button></div>
         </div>
       </header>
 

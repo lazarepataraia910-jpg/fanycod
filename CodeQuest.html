@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ka" data-theme="light">
+<html lang="ka" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1226,7 +1226,16 @@ input.txt:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px col
 
 @media (max-width:520px){#toast-root{left:10px;right:10px;top:10px}.toast{max-width:none}.modal{padding:16px}.gbar{padding:8px 12px}.gmain{padding:12px 10px 30px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-/* ---------- მთავარი მენიუ — თამაშის საწყისი ეკრანი (2026-10): ღამის ცა, ბიტი სცენაზე, სიმეტრიული სვეტები, პიქსელ-ხატულები ბიტის სტილში.
+/* ---------- ღამის სტილი — მთელი თამაში (2026-10): მენიუს ღამის ცა და მუქ-ლურჯი მინის პანელები ყველა ეკრანზე.
+   თამაში ერთი თემით მუშაობს (data-theme="dark", applySettings); ნათელი თემის წესები ძველი შენახვებისთვის რჩება, მაგრამ აღარ ირთვება ---------- */
+html[data-theme="dark"]{--bg:#0b1033;--panel:rgba(20,26,72,.9);--panel2:rgba(255,255,255,.07);--text:#eef1ff;--muted:#aab3e0;--border:rgba(150,165,255,.18);--accent:#7088ff;--accent-ink:#ffffff;--cell:#1a2160;--cell2:#1f276b;--wall:#4b5596;--code-bg:#0c1236;--code-text:#e6e9ff;--violet:#9d80ff;--shadow:0 10px 30px -14px rgba(0,0,0,.6);color-scheme:dark}
+html[data-theme="dark"] body{background:radial-gradient(70% 55% at 50% 108%,rgba(61,90,254,.42),transparent 70%),radial-gradient(45% 45% at 100% 0%,rgba(124,77,255,.38),transparent 70%),radial-gradient(45% 45% at 0% 0%,rgba(124,77,255,.38),transparent 70%),linear-gradient(180deg,#060821 0%,#0f1548 55%,#18237a 100%) fixed;background-color:#0b1033}
+html[data-theme="dark"] body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.42;background-size:340px 300px;background-image:radial-gradient(1.4px 1.4px at 12% 18%,#fff 50%,transparent 51%),radial-gradient(1.2px 1.2px at 28% 62%,#fff 50%,transparent 51%),radial-gradient(1.6px 1.6px at 46% 12%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 63% 44%,#fff 50%,transparent 51%),radial-gradient(1.5px 1.5px at 78% 22%,#fff 50%,transparent 51%),radial-gradient(1.2px 1.2px at 91% 70%,#fff 50%,transparent 51%),radial-gradient(1px 1px at 8% 84%,#fff 50%,transparent 51%)}
+html[data-theme="dark"] .screen.active:not(#scr-menu){background:transparent}
+html[data-theme="dark"] .topbar,html[data-theme="dark"] #scr-map .topbar,html[data-theme="dark"] #scr-bit .topbar{background:rgba(10,14,48,.7);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);border-bottom-color:rgba(150,165,255,.14)}
+html[data-theme="dark"] .modal,html[data-theme="dark"] .toast{background:#121a4a;border-color:rgba(150,165,255,.22)}
+html[data-theme="dark"] .island-blob{background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--ia) 48%,#26306e),color-mix(in srgb,var(--ia) 70%,#161d50))}
+html[data-theme="dark"] #scr-game{--c1:color-mix(in srgb,var(--t1) 24%,#121947);--c2:color-mix(in srgb,var(--t2) 19%,#121947);--cw:color-mix(in srgb,var(--tw) 50%,#121947);--sk:color-mix(in srgb,var(--sky) 9%,#0d1338)}/* ---------- მთავარი მენიუ — თამაშის საწყისი ეკრანი (2026-10): ღამის ცა, ბიტი სცენაზე, სიმეტრიული სვეტები, პიქსელ-ხატულები ბიტის სტილში.
    სცენა ორივე თემაში ერთნაირია (თამაშის „ტიტული“); შიგნით ფერები მუქი სცენისთვის გადაწერილია, რომ სერიის ბარათი და სხვა ნაწილები იკითხებოდეს ---------- */
 #scr-menu{--panel:rgba(255,255,255,.07);--panel2:rgba(255,255,255,.12);--text:#eef1ff;--muted:#aab3e0;--border:rgba(255,255,255,.15);--hm-line:rgba(255,255,255,.15);--hm-sh:none;--glass:rgba(16,20,60,.55);color:var(--text)}
 #scr-menu.active{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(70% 55% at 50% 108%,rgba(61,90,254,.55),transparent 70%),radial-gradient(45% 45% at 100% 0%,rgba(124,77,255,.45),transparent 70%),radial-gradient(45% 45% at 0% 0%,rgba(124,77,255,.45),transparent 70%),linear-gradient(180deg,#060821 0%,#0f1548 55%,#18237a 100%)}
@@ -17023,7 +17032,7 @@ const UI = {
 };
 function applySettings() {
   const s = Progress.P.settings;
-  document.documentElement.dataset.theme = s.theme;
+  document.documentElement.dataset.theme = 'dark';   // ღამის სტილი ყველა ეკრანზე (2026-10) — ნათელი თემა აღარ ირთვება
   document.documentElement.style.setProperty('--fs', s.font + 'px');
   Editor.setTheme(Progress.P.etheme);
   Editor.refresh();
@@ -19457,7 +19466,6 @@ const SettingsScreen = {
       '<span>' + (pro ? '<span class="chip">👤 ანგარიშზე მიბმული</span>' : '<button class="btn small" id="st-pro-key">🔑 კოდის ჩასმა</button> <button class="btn small primary" id="st-pro-buy">💳 ყიდვა</button>') + '</span></div></div>' +
       '<div class="card">' +
       '<div class="set-row"><label>სწავლის სტილი<br><small class="muted">ახალი თემის მე-2 ნაბიჯი: ბლოკების აწყობა ან კოდის ასო-ასო გადაწერა</small></label>' + seg('st-learn', [['blocks', '🧩 ააწყე ბლოკებით'], ['type', '✍️ გადაწერე ასო-ასო']], s.learn === 'type' ? 'type' : 'blocks') + '</div>' +
-      '<div class="set-row"><label>თემა</label>' + seg('st-theme', [['light', '☀️ ნათელი'], ['dark', '🌙 მუქი']], s.theme) + '</div>' +
       '<div class="set-row"><label>ხმა</label>' + seg('st-sound', [[1, 'ჩართული'], [0, 'გამორთული']], s.sound ? 1 : 0) + '</div>' +
       '<div class="set-row"><label>ანიმაციის სიჩქარე</label>' + seg('st-speed', [[1, '🐢 ნელი'], [2, 'ჩვეულებრივი'], [3, '🐇 სწრაფი']], s.speed) + '</div>' +
       '<div class="set-row"><label for="st-font">შრიფტის ზომა: <span id="st-font-v">' + s.font + '</span>px</label><input type="range" id="st-font" min="13" max="21" value="' + s.font + '" style="accent-color:var(--accent)"></div>' +
@@ -19471,7 +19479,6 @@ const SettingsScreen = {
       '<div class="card" style="margin-top:12px;border-color:var(--bad)"><h3 style="margin-top:0">პროგრესის განულება</h3><p class="muted" style="margin-top:-.4em">წაიშლება ყველა ვარსკვლავი, XP და მიღწევა.</p><button class="btn danger" id="st-reset">განულება</button></div>';
     const bindSeg = (id, fn) => $$('#' + id + ' button').forEach(b => b.addEventListener('click', () => { fn(b.dataset.v); Progress.save(); applySettings(); this.render(); }));
     bindSeg('st-learn', v => { s.learn = v === 'type' ? 'type' : 'blocks'; });
-    bindSeg('st-theme', v => { s.theme = v; });
     bindSeg('st-sound', v => { s.sound = v === '1'; if (s.sound) Sound.click(); });
     bindSeg('st-speed', v => { s.speed = +v; });
     bindSeg('st-unlock', v => { s.unlockAll = v === '1' && Progress.hasPro(); });

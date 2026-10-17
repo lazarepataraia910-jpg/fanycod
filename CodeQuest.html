@@ -172,26 +172,6 @@ html[data-theme="dark"] #scr-menu,html[data-theme="dark"] #scr-map{--violet:#9d8
 button.menu-logo{display:block;position:relative;border:0;background:none;padding:0;cursor:pointer;color:inherit}
 button.menu-logo svg{transition:transform .2s}
 button.menu-logo:hover svg,button.menu-logo:focus-visible svg{transform:scale(1.06) rotate(-3deg)}
-.logo-tag{position:absolute;right:-4px;bottom:2px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:1rem;background:linear-gradient(135deg,#ffe066,#ffb703);box-shadow:0 3px 0 #d9a600;border:2px solid var(--panel)}
-.logo-tag b{font-weight:400;line-height:1}
-/* ნიშანი დროდადრო „ამოხტება“: ჩაიკუზება, ამოფრინდება, დატრიალდება, ნივთები გამოიცვლება და ვარსკვლავები გაიფანტება */
-.logo-tag.hop{animation:tag-hop 1.25s cubic-bezier(.3,1.3,.5,1);z-index:2}
-.logo-tag.hop::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:3px solid #ffb703;animation:tag-ring .9s ease-out .55s both;pointer-events:none}
-.logo-tag i{position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:#ffd43b;opacity:0;pointer-events:none}
-.logo-tag i:nth-of-type(2){background:#74c0fc}.logo-tag i:nth-of-type(3){background:#ff8cc8}.logo-tag i:nth-of-type(4){background:#69db7c}.logo-tag i:nth-of-type(5){background:#b197fc}
-.logo-tag.hop i{animation:tag-spark .7s ease-out .62s both}
-.logo-tag.hop i:nth-of-type(1){--x:-26px;--y:-20px}.logo-tag.hop i:nth-of-type(2){--x:24px;--y:-22px}.logo-tag.hop i:nth-of-type(3){--x:30px;--y:8px}.logo-tag.hop i:nth-of-type(4){--x:-28px;--y:12px}.logo-tag.hop i:nth-of-type(5){--x:0px;--y:-32px}
-@keyframes tag-hop{
-  0%{transform:translate(0,0) scale(1) rotate(0)}
-  14%{transform:translate(0,4px) scale(1.2,.75) rotate(0)}
-  42%{transform:translate(-8px,-38px) scale(1.35) rotate(-200deg)}
-  62%{transform:translate(-2px,-8px) scale(1.1) rotate(-360deg)}
-  74%{transform:translate(0,3px) scale(1.18,.82) rotate(-360deg)}
-  86%{transform:translate(0,-5px) scale(.96,1.06) rotate(-360deg)}
-  100%{transform:translate(0,0) scale(1) rotate(-360deg)}}
-@keyframes tag-ring{0%{transform:scale(.8);opacity:.9}100%{transform:scale(2);opacity:0}}
-@keyframes tag-spark{0%{transform:translate(0,0) scale(.4);opacity:1}100%{transform:translate(var(--x),var(--y)) scale(1);opacity:0}}
-
 /* ---------- ბიტის გარდერობი ---------- */
 #scr-bit.active{background:radial-gradient(60% 45% at 100% 0%,color-mix(in srgb,#7c4dff 12%,transparent),transparent 70%),radial-gradient(55% 45% at 0% 100%,color-mix(in srgb,var(--accent) 9%,transparent),transparent 70%),var(--bg)}
 #scr-bit .topbar{background:color-mix(in srgb,var(--panel) 84%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
@@ -1292,17 +1272,14 @@ input.txt:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px col
 .gm-kicker{max-width:100%;overflow:hidden;padding:5px 13px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.07);color:#d8ddff;font-size:.8rem;font-weight:700;text-overflow:ellipsis;white-space:nowrap}
 .gm-title{margin:0;font-size:clamp(2.6rem,9vw,4.3rem);font-weight:800;line-height:.95;letter-spacing:-.04em;text-shadow:0 10px 40px rgba(61,90,254,.55)}
 .gm-title span{background:linear-gradient(90deg,#ffe066,#ff922b);-webkit-background-clip:text;background-clip:text;color:transparent}
-.gm-sub{max-width:26em;margin:0;color:var(--muted);font-size:1rem}
 .gm-hero{position:relative;isolation:isolate;display:grid;place-items:center;margin-top:6px}
 .gm-hero::before{content:'';position:absolute;left:50%;top:46%;z-index:-1;width:min(320px,90vw);aspect-ratio:1;translate:-50% -50%;border-radius:50%;background:radial-gradient(closest-side,rgba(150,172,255,.6),rgba(61,90,254,.22) 58%,transparent)}
 .gm-beam{position:absolute;left:50%;top:-30px;bottom:10px;width:240px;translate:-50% 0;z-index:-1;background:radial-gradient(60% 70% at 50% 100%,rgba(124,155,255,.4),transparent 75%);filter:blur(4px)}
 .gm-bit{width:140px;height:186px;padding:0;border:0;background:none;animation:hm-float 4.5s ease-in-out infinite}
 .gm-bit svg.bitsvg{width:100%;height:100%;display:block;filter:drop-shadow(0 18px 18px rgba(0,0,0,.5))}
-.gm-bit .logo-tag{right:-12px;bottom:32px;width:40px;height:40px;font-size:1.1rem;border-color:#18237a}
 .gm-pad{position:absolute;left:50%;bottom:-14px;z-index:-1;width:220px;height:44px;translate:-50% 0;border-radius:50%;background:radial-gradient(closest-side,rgba(61,220,151,.75),rgba(61,220,151,.18) 60%,transparent);animation:gm-pulse 3s ease-in-out infinite}
 .gm-pad i{position:absolute;inset:8px 22px;border-radius:50%;border:2px solid rgba(110,240,184,.55)}
 @keyframes gm-pulse{50%{opacity:.65;transform:scale(1.06)}}
-.gm-bubble{position:absolute;left:calc(100% - 6px);top:0;padding:6px 11px;border-radius:14px 14px 14px 4px;background:#fff;color:#1d2a8a;font-size:.8rem;font-weight:800;white-space:nowrap;box-shadow:0 8px 18px rgba(0,0,0,.35);pointer-events:none;animation:mn-bob 3s ease-in-out infinite}
 .gm-cta{display:flex;flex-direction:column;align-items:stretch;gap:10px;width:100%;max-width:380px;margin-top:18px}
 .gm-play{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:12px;padding:17px 28px;border:0;border-radius:20px;background:linear-gradient(180deg,#6ff0b8,#3ddc97);color:#0b2e20;font-size:1.22rem;font-weight:800;box-shadow:0 6px 0 #1f9f6a,0 0 0 6px rgba(61,220,151,.14),0 24px 44px -12px rgba(61,220,151,.7);transition:transform .15s,box-shadow .15s,filter .15s}
 .gm-play:hover{transform:translateY(-2px);filter:brightness(1.04);box-shadow:0 8px 0 #1f9f6a,0 0 0 8px rgba(61,220,151,.18),0 28px 50px -12px rgba(61,220,151,.8)}
@@ -1370,7 +1347,6 @@ input.txt:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px col
   .gm-acc-t{max-width:7.5em}.gm-acc-t small{display:none}
   .gm-mode{flex-direction:column;align-items:flex-start;gap:8px}
   .gm-mode .go{display:none}
-  .gm-bubble{left:auto;right:calc(100% - 10px);border-radius:14px 14px 4px 14px}
 }
 @media (max-width:400px){.gm-pro .pro-pr{display:none}.gm-pro{padding:9px 13px}.gm-rank-st span:last-child{display:none}}
 /* დიდი ეკრანი: სამი სვეტი, გვერდითები ერთნაირი სიგანისა და სიმაღლის */
@@ -1435,11 +1411,9 @@ input.txt:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px col
       <div class="gm-stage mn-in" style="--d:1">
         <span class="gm-kicker" id="mn-hi">🎮 ბიტის თავგადასავალი</span>
         <h1 class="gm-title">Code<span>Quest</span></h1>
-        <p class="gm-sub">ისწავლე პროგრამირება ნულიდან — თამაშით, ბიტთან ერთად</p>
         <div class="gm-hero">
           <span class="gm-beam" aria-hidden="true"></span>
           <button class="menu-logo gm-bit" id="menu-logo" type="button" title="ბიტის გარდერობი" aria-label="ბიტის გარდერობი — შეცვალე ბიტის ფერი და ტანსაცმელი"></button>
-          <span class="gm-bubble" aria-hidden="true">ჩამაცვი! 👕</span>
           <span class="gm-pad" aria-hidden="true"><i></i></span>
         </div>
         <div class="gm-cta">
@@ -17082,25 +17056,11 @@ const Streak = {
 };
 
 // ლოგოს 👕 ნიშანი დროდადრო (5–10 წამში ერთხელ) ამოხტება და ნივთებს გამოიცვლის: 🎩 → 🕶️ → 👟 → 🎀 → 👕
-const LogoTag = {
-  t: null,
-  start() { if (!this.t) this.t = setTimeout(() => this.hop(), 2500 + Math.random() * 3000); },
-  hop() {
-    const tag = $('#menu-logo .logo-tag'), b = tag && tag.querySelector('b');
-    if (b && UI.cur === 'menu' && !document.hidden && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      tag.classList.remove('hop'); void tag.offsetWidth; tag.classList.add('hop');
-      ['🎩', '🕶️', '👟', '🎀', '👕'].forEach((e, i) => setTimeout(() => { b.textContent = e; }, 180 + i * 140));
-      setTimeout(() => tag.classList.remove('hop'), 1400);
-    }
-    this.t = setTimeout(() => this.hop(), 5000 + Math.random() * 5000);
-  }
-};
 const Menu = {
   render() {
     // ზედა ზოლში ლოგო, დიდ ბლოკში — ბიტი შენი ტანსაცმლით (დაჭერით გარდერობი იხსნება)
     $('#mn-mark').innerHTML = LOGO_SVG;
-    $('#menu-logo').innerHTML = bitSVG(currentSkin()) + '<span class="logo-tag" aria-hidden="true"><b>👕</b><i></i><i></i><i></i><i></i><i></i></span>';
-    LogoTag.start();
+    $('#menu-logo').innerHTML = bitSVG(currentSkin());
     Account.renderMenu();
     const P = Progress.P, r = Progress.rank(), xp = Progress.totalXP();
     const nr = r.name === 'ლეგენდა' ? null : Progress.nextRank();

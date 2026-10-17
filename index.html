@@ -9,7 +9,7 @@
 // თამაშის მოთამაშე (ან ბმული პარამეტრებით, მაგ. #download) პირდაპირ თამაშში გადადის; ?home — ეს გვერდი მაინც ჩანს
 (function () {
   var q = location.search.replace(/^\?/, '');
-  if (/(^|&)home(=|&|$)/.test(q) || /^#(why|langs|teachers|pro|faq)$/.test(location.hash)) return;
+  if (/(^|&)home(=|&|$)/.test(q) || /^#(how|why|langs|teachers|pro|faq)$/.test(location.hash)) return;
   var played = false;
   try { var s = JSON.parse(localStorage.getItem('codequest.v1') || 'null'); played = !!(s && (s.started || (s.levels && Object.keys(s.levels).length))); } catch (e) { }
   if (q || location.hash || played) location.replace('CodeQuest.html' + location.search + location.hash);
@@ -17,7 +17,7 @@
 </script>
 <link rel="canonical" href="https://codequest.space/">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#3d5afe">
+<meta name="theme-color" content="#2b3bab">
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta property="og:type" content="website">
@@ -32,174 +32,392 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f4f6fb;--panel:#fff;--panel2:#eef1f7;--text:#1b1f2e;--muted:#5b6478;--border:#e1e5ef;--accent:#3d5afe;--violet:#7c4dff;--ok:#2f9e44}
-@media (prefers-color-scheme:dark){:root{--bg:#121520;--panel:#1b1f2e;--panel2:#242a3b;--text:#eef1f8;--muted:#9aa3b8;--border:#2c3346}}
+/* განლაგება: მუქი ბრენდის ჰერო ცოცხალი კოდის დემოთი → რიცხვების ზოლი → სამი ნაბიჯი → ბენტო-ბარათები → ენები → მასწავლებლები → Pro → კითხვები → ფინალი */
+:root{
+  --bg:#f4f6fb;--panel:#ffffff;--panel2:#eef1f7;--text:#1b1f2e;--muted:#5b6478;--border:#e1e5ef;
+  --accent:#3d5afe;--violet:#7c4dff;--deep:#2b3bab;--plum:#5f3dc4;--night:#141a4a;
+  --play:#3ddc97;--play-ink:#0b2e20;--play-edge:#1f9f6a;
+  --gold:#ffd43b;--gold-soft:#fff8db;--gold-ink:#3d2a00;
+  --code-bg:#0f1330;--code-line:#1a2050;--code-text:#e6e9ff;--code-muted:#8a93c9;--code-fn:#8ab4f8;
+  --cell:#e9ecf8;--cell2:#dfe4f6;
+  --shadow:0 1px 2px rgba(16,24,40,.05),0 8px 24px rgba(16,24,40,.06);
+  --font:"Noto Sans Georgian",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#0e1120;--panel:#171b2e;--panel2:#1d2238;--text:#eef1f8;--muted:#a3abc0;--border:#2a3150;
+  --cell:#1f2645;--cell2:#262e52;--shadow:0 1px 2px rgba(0,0,0,.3);--gold-soft:#3a3014;--gold-ink:#ffe8a3;color-scheme:dark}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 "Noto Sans Georgian",system-ui,sans-serif}
-a{color:var(--accent)}
-.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
-header{background:radial-gradient(70% 90% at 85% 30%,#7c4dff 0,transparent 70%),linear-gradient(135deg,#2b3bab,#3d5afe 55%,#5f3dc4);color:#fff;overflow:hidden}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0}
-.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:800;font-size:1.25rem}
-.brand img{width:40px;height:40px}
 html{scroll-behavior:smooth}
-.nav{position:relative}
-.links{display:flex;align-items:center;gap:4px}
-.links a{padding:8px 11px;border-radius:10px;color:#fff;font-weight:700;text-decoration:none;opacity:.88;transition:background .15s,opacity .15s}
-.links a:hover,.links a:focus-visible{opacity:1;background:rgba(255,255,255,.14)}
-.links a.go{margin-left:6px;padding:9px 15px;background:#3ddc97;color:#0b2e20;opacity:1;box-shadow:0 3px 0 #1f9f6a}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 var(--font);-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+img,svg{max-width:100%}
+:focus-visible{outline:3px solid var(--play);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{text-wrap:balance}
+section{padding-block:72px;scroll-margin-top:72px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 10px;font-size:.82rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+h2{margin:0 0 8px;font-size:clamp(1.6rem,3.4vw,2.35rem);line-height:1.18;font-weight:800}
+.alt{background:var(--panel2)}
+.lead{margin:0 0 32px;max-width:62ch;color:var(--muted);font-size:1.08rem}
+
+/* ზედა მენიუ: ჰეროზე გამჭვირვალე, გადახვევისას მკვრივი */
+.top{position:sticky;top:0;z-index:50;transition:background .25s,box-shadow .25s,backdrop-filter .25s}
+.top.solid{background:rgba(26,32,92,.82);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);box-shadow:0 1px 0 rgba(255,255,255,.08),0 10px 30px rgba(10,14,40,.25)}
+.nav{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:800;font-size:1.22rem}
+.brand img{width:38px;height:38px;border-radius:10px}
+.links{display:flex;align-items:center;gap:2px}
+.links a{padding:8px 11px;border-radius:10px;color:#fff;font-weight:700;font-size:.95rem;text-decoration:none;opacity:.86;transition:background .15s,opacity .15s}
+.links a:hover,.links a:focus-visible{opacity:1;background:rgba(255,255,255,.13)}
+.links a.go{margin-left:8px;padding:9px 16px;background:var(--play);color:var(--play-ink);opacity:1;box-shadow:0 3px 0 var(--play-edge)}
 .burger{display:none;flex:none;width:46px;height:46px;padding:0;border:0;border-radius:13px;background:rgba(255,255,255,.14);color:#fff;cursor:pointer}
 .burger span{display:block;width:20px;height:2px;margin:4px auto;border-radius:2px;background:currentColor;transition:transform .2s,opacity .2s}
 .nav.open .burger span:nth-child(1){transform:translateY(6px) rotate(45deg)}
 .nav.open .burger span:nth-child(2){opacity:0}
 .nav.open .burger span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-section{scroll-margin-top:12px}
-@media (max-width:820px){
+@media (max-width:880px){
   .burger{display:block}
-  .links{position:absolute;top:calc(100% - 6px);right:0;left:0;z-index:30;display:none;flex-direction:column;align-items:stretch;gap:2px;padding:10px;border-radius:18px;background:#24308f;box-shadow:0 20px 44px rgba(10,14,40,.45)}
+  .links{position:absolute;top:calc(100% - 4px);right:0;left:0;z-index:30;display:none;flex-direction:column;align-items:stretch;gap:2px;padding:10px;border-radius:18px;background:#202a86;box-shadow:0 20px 44px rgba(10,14,40,.45)}
   .nav.open .links{display:flex}
   .links a{padding:13px 14px;font-size:1.05rem}
   .links a.go{margin:6px 0 0;text-align:center}
 }
-.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:center;gap:24px;padding:28px 0 56px}
-.hero h1{margin:0;font-size:clamp(2.2rem,5.4vw,3.6rem);line-height:1.08;font-weight:800}
-.hero h1 span{color:#3ddc97}
-.hero p{margin:16px 0 0;font-size:clamp(1.05rem,2.2vw,1.3rem);opacity:.95}
-.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;align-items:center}
+
+/* ჰერო */
+.hero-band{position:relative;margin-top:-70px;padding-top:70px;color:#fff;overflow:hidden;
+  background:radial-gradient(60% 80% at 88% 18%,rgba(124,77,255,.85) 0,transparent 70%),radial-gradient(50% 60% at 0% 100%,rgba(61,220,151,.18) 0,transparent 70%),linear-gradient(135deg,var(--deep),var(--accent) 55%,var(--plum))}
+.hero-band::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.14) 1px,transparent 1.2px);background-size:26px 26px;mask-image:linear-gradient(180deg,#000 0,transparent 85%);-webkit-mask-image:linear-gradient(180deg,#000 0,transparent 85%);pointer-events:none}
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);align-items:center;gap:40px;padding-block:40px 110px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);font-weight:700;font-size:.9rem}
+.pill i{font-style:normal;padding:2px 9px;border-radius:999px;background:var(--play);color:var(--play-ink);font-size:.78rem;font-weight:800}
+.hero h1{margin:18px 0 0;font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.05;font-weight:800;letter-spacing:-.01em}
+.hero h1 span{color:var(--play)}
+.hero p.sub{margin:18px 0 0;max-width:34em;font-size:clamp(1.05rem,2.1vw,1.25rem);opacity:.92}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 24px;border-radius:16px;font-weight:800;text-decoration:none;font-size:1.06rem;transition:transform .15s,filter .15s,box-shadow .15s}
+.btn.play{background:var(--play);color:var(--play-ink);box-shadow:0 5px 0 var(--play-edge),0 14px 30px rgba(31,159,106,.35)}
+.btn.play:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.btn.play:active{transform:translateY(4px);box-shadow:0 1px 0 var(--play-edge)}
+.btn.ghost{background:rgba(255,255,255,.1);color:#fff;border:2px solid rgba(255,255,255,.32)}
+.btn.ghost:hover{background:rgba(255,255,255,.18)}
 .store{display:inline-block;line-height:0;border-radius:8px}
 .store img{height:52px;width:auto}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:14px;font-weight:800;text-decoration:none;font-size:1.05rem}
-.btn.play{background:#3ddc97;color:#0b2e20;box-shadow:0 5px 0 #1f9f6a}
-.btn.play:hover{filter:brightness(1.05)}
-.btn.ghost{background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.35)}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-.chips span{padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.14);font-weight:700;font-size:.92rem}
-.bits{position:relative;height:340px}
+.note{margin:16px 0 0;font-size:.92rem;opacity:.8}
+
+/* ცოცხალი დემო: კოდი მარცხნივ, ბიტი ბადეზე მარჯვნივ */
+.demo{position:relative;border-radius:24px;background:var(--code-bg);border:1px solid rgba(255,255,255,.12);box-shadow:0 40px 80px -30px rgba(8,10,40,.75),0 0 0 8px rgba(255,255,255,.06);overflow:hidden;animation:rise .8s cubic-bezier(.2,.9,.3,1) both .15s}
+.demo-bar{display:flex;align-items:center;gap:7px;padding:12px 16px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.07);font:500 .8rem var(--mono);color:var(--code-muted)}
+.demo-bar b{width:11px;height:11px;border-radius:50%;background:#ff6b6b}.demo-bar b:nth-child(2){background:var(--gold)}.demo-bar b:nth-child(3){background:var(--play)}
+.demo-bar span{margin-left:8px}
+.demo-body{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;padding:18px}
+.code{margin:0;padding:0;list-style:none;font:500 .92rem/1.95 var(--mono);color:var(--code-text);counter-reset:ln;min-width:0}
+.code li{counter-increment:ln;position:relative;padding:0 10px 0 38px;border-radius:8px;white-space:nowrap;transition:background .2s}
+.code li::before{content:counter(ln);position:absolute;left:8px;width:20px;text-align:right;color:var(--code-muted);opacity:.6}
+.code li.cm{color:var(--code-muted)}
+.code li .fn{color:var(--code-fn)}
+.code li.on{background:rgba(61,220,151,.16);box-shadow:inset 3px 0 0 var(--play)}
+.board{--c:46px;position:relative;display:grid;grid-template-columns:repeat(5,var(--c));grid-template-rows:repeat(4,var(--c));gap:4px;padding:8px;border-radius:16px;background:rgba(255,255,255,.05);align-self:center}
+.board i{border-radius:9px;background:#1c2358}
+.board i:nth-child(odd){background:#222a66}
+.flag{position:absolute;left:calc(8px + 2*(var(--c) + 4px));top:8px;width:var(--c);height:var(--c);display:grid;place-items:center;font-size:1.5rem}
+.bot{position:absolute;left:8px;top:8px;width:var(--c);height:var(--c);display:grid;place-items:center;transform:translate(calc(var(--x,0)*(var(--c) + 4px)),calc(var(--y,3)*(var(--c) + 4px)));transition:transform .45s cubic-bezier(.4,0,.2,1)}
+.bot svg{width:44px;height:58px;margin-top:-14px;filter:drop-shadow(0 6px 6px rgba(0,0,0,.4))}
+.bot .dir{position:absolute;inset:0;transition:transform .3s}
+.bot .dir::after{content:"";position:absolute;right:-7px;top:50%;margin-top:-6px;border:6px solid transparent;border-left:8px solid var(--play)}
+.win{position:absolute;right:18px;bottom:16px;padding:8px 14px;border-radius:12px;background:var(--play);color:var(--play-ink);font-weight:800;font-size:.9rem;box-shadow:0 10px 24px rgba(0,0,0,.35);opacity:0;transform:translateY(10px) scale(.9);transition:opacity .3s,transform .4s cubic-bezier(.2,1.6,.4,1)}
+.win.on{opacity:1;transform:none}
+
+/* რიცხვები */
+.stats{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:-58px;border-radius:22px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow)}
+.stats div{padding:20px 22px;border-left:1px solid var(--border)}
+.stats div:first-child{border-left:0}
+.stats b{display:block;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.1;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.stats span{color:var(--muted);font-size:.95rem;font-weight:600}
+
+/* სამი ნაბიჯი (ნამდვილი თანმიმდევრობა) */
+.steps3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:0;padding:0;list-style:none;counter-reset:st}
+.steps3 li{counter-increment:st;position:relative;padding:26px 22px 22px;border-radius:22px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow)}
+.steps3 li::before{content:counter(st);position:absolute;top:-16px;left:22px;display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--accent);color:#fff;font-weight:800;box-shadow:0 6px 14px rgba(61,90,254,.35)}
+.steps3 .ic{font-size:2rem;line-height:1}
+.steps3 h3{margin:10px 0 4px;font-size:1.15rem}
+.steps3 p{margin:0;color:var(--muted)}
+.steps3 code{font:600 .88rem var(--mono);padding:1px 6px;border-radius:6px;background:var(--panel2);color:var(--text)}
+
+/* ბენტო */
+.bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
+.tile{position:relative;overflow:hidden;padding:24px;border-radius:22px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}
+.tile:hover{transform:translateY(-3px);box-shadow:0 18px 36px -18px rgba(61,90,254,.45)}
+.tile.w4{grid-column:span 4}.tile.w2{grid-column:span 2}.tile.w3{grid-column:span 3}
+.tile .ic{font-size:2rem;line-height:1}
+.tile h3{margin:12px 0 6px;font-size:1.15rem}
+.tile p{margin:0;color:var(--muted)}
+.err{margin-top:16px;padding:12px 14px;border-radius:14px;background:var(--code-bg);color:var(--code-text);font:500 .86rem/1.6 var(--mono)}
+.err em{font-style:normal;color:#ff8f8f}
+.err small{display:block;margin-top:4px;font-family:var(--font);font-size:.9rem;color:#ffd8a8}
+.items{display:flex;gap:6px;margin-top:14px;font-size:1.5rem}
+
+/* ენები */
+.langs{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px}
+.lang{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;background:var(--panel);border:1px solid var(--border);font-weight:700;transition:transform .15s,border-color .15s}
+.lang:hover{transform:translateY(-2px);border-color:var(--lb)}
+.lang i{display:grid;place-items:center;min-width:42px;height:42px;padding:0 6px;border-radius:12px;background:var(--lb);color:var(--lc);font:700 .82rem/1 var(--mono);font-style:normal;letter-spacing:-.02em}
+
+/* მასწავლებლები */
+.teach{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;align-items:start}
+.tl{margin:0;padding:0;list-style:none;counter-reset:tl}
+.tl li{counter-increment:tl;position:relative;padding:0 0 22px 56px}
+.tl li::before{content:counter(tl);position:absolute;left:0;top:0;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--panel);border:2px solid var(--accent);color:var(--accent);font-weight:800}
+.tl li::after{content:"";position:absolute;left:18px;top:42px;bottom:4px;width:2px;background:var(--border)}
+.tl li:last-child::after{display:none}
+.tl b{display:block;font-size:1.06rem}
+.tl span{color:var(--muted)}
+
+/* Pro */
+.pro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+.price{position:relative;padding:28px;border-radius:26px;background:linear-gradient(160deg,var(--gold-soft),var(--panel) 60%);border:1px solid color-mix(in srgb,var(--gold) 60%,var(--border));box-shadow:0 24px 50px -28px rgba(240,140,0,.55)}
+.price .crown{position:absolute;top:-22px;right:24px;font-size:2.4rem;transform:rotate(12deg)}
+.price .amt{display:flex;align-items:baseline;gap:10px}
+.price .amt b{font-size:3rem;line-height:1;font-weight:800;color:var(--gold-ink)}
+.price .amt span{color:var(--muted);font-weight:700}
+.price ul{margin:18px 0 22px;padding:0;list-style:none;display:grid;gap:9px}
+.price li{display:flex;gap:10px}
+.price li::before{content:"✓";flex:none;display:grid;place-items:center;width:22px;height:22px;margin-top:2px;border-radius:50%;background:var(--play);color:var(--play-ink);font-size:.8rem;font-weight:800}
+.price .btn{width:100%;justify-content:center}
+.free{display:flex;gap:12px;align-items:center;margin-top:20px;padding:14px 16px;border-radius:16px;background:var(--panel);border:1px dashed var(--border);color:var(--muted)}
+.free b{color:var(--text)}
+
+/* კითხვები */
+.faq{display:grid;gap:10px;max-width:820px}
+details{border-radius:16px;background:var(--panel);border:1px solid var(--border);transition:border-color .2s}
+details[open]{border-color:color-mix(in srgb,var(--accent) 45%,var(--border))}
+summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;font-weight:700;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--panel2);color:var(--accent);font-size:1.2rem;font-weight:800;transition:transform .25s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0;padding:0 18px 16px;color:var(--muted)}
+
+/* ფინალი */
+.final{padding-block:0 72px}
+.final-card{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);align-items:center;gap:20px;padding:40px;border-radius:30px;color:#fff;overflow:hidden;background:radial-gradient(60% 90% at 90% 10%,rgba(124,77,255,.9),transparent 70%),linear-gradient(135deg,var(--deep),var(--accent) 60%,var(--plum))}
+.final-card h2{font-size:clamp(1.8rem,4vw,2.6rem)}
+.final-card p{margin:0 0 22px;opacity:.9;font-size:1.08rem}
+.bits{position:relative;height:250px}
 .bits div{position:absolute;filter:drop-shadow(0 14px 16px rgba(0,0,0,.3))}
 .bits svg{width:100%;height:100%}
-.b0{left:32%;top:0;width:38%;height:86%;z-index:2}.b1{left:4%;top:34%;width:28%;height:62%}.b2{left:70%;top:36%;width:28%;height:62%}
-section{padding:56px 0}
-h2{margin:0 0 6px;font-size:clamp(1.5rem,3.2vw,2.1rem);line-height:1.2}
-.lead{margin:0 0 24px;color:var(--muted);font-size:1.05rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.card{padding:18px;border-radius:18px;background:var(--panel);border:1px solid var(--border);box-shadow:0 1px 2px rgba(16,24,40,.04)}
-.muted{color:var(--muted)}
-.card .ic{font-size:1.8rem;line-height:1}
-.card h3{margin:8px 0 4px;font-size:1.08rem}
-.card p{margin:0;color:var(--muted);font-size:.95rem}
-.langs{display:flex;flex-wrap:wrap;gap:8px}
-.langs span{padding:6px 12px;border-radius:10px;background:var(--panel);border:1px solid var(--border);font-weight:700;font-size:.92rem}
-.alt{background:var(--panel2)}
-.steps{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;padding:0;margin:0;list-style:none}
-.steps li{counter-increment:s;padding:18px;border-radius:18px;background:var(--panel);border:1px solid var(--border)}
-.steps li::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;margin-bottom:8px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800}
-.pro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:center}
-.price{padding:22px;border-radius:20px;background:linear-gradient(135deg,#fff8db,#ffe066);color:#3d2a00;border:1px solid #f5d76e}
-.price b{font-size:2.2rem}
-.price ul{margin:10px 0 0;padding-left:1.2em}
-details{padding:14px 16px;border-radius:14px;background:var(--panel);border:1px solid var(--border);margin-bottom:10px}
-summary{font-weight:700;cursor:pointer}
-details p{margin:8px 0 0;color:var(--muted)}
-footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem;text-align:center}
-footer a{color:inherit}
-.final{text-align:center}
-.final .btn.play{margin-top:8px}
-@media (max-width:760px){.hero{grid-template-columns:1fr;padding-top:10px}.bits{height:260px}.pro{grid-template-columns:1fr}}
+.b0{left:32%;top:0;width:38%;height:86%;z-index:2;animation:bob 3.2s ease-in-out infinite}.b1{left:4%;top:34%;width:28%;height:62%;animation:bob 3.6s ease-in-out .4s infinite}.b2{left:70%;top:36%;width:28%;height:62%;animation:bob 3.4s ease-in-out .8s infinite}
+
+footer{padding-block:28px 44px;border-top:1px solid var(--border);color:var(--muted);font-size:.92rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+footer nav{display:flex;flex-wrap:wrap;gap:16px}
+footer a{color:inherit;text-decoration:none}
+footer a:hover{color:var(--accent)}
+
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.hero > div:first-child{animation:rise .7s cubic-bezier(.2,.9,.3,1) both}
+
+@media (max-width:960px){
+  .hero{grid-template-columns:1fr;gap:32px;padding-block:20px 100px}
+  .teach,.pro,.final-card{grid-template-columns:1fr}
+  .bento .tile.w4,.bento .tile.w2,.bento .tile.w3{grid-column:span 6}
+  .steps3{grid-template-columns:1fr;gap:28px}
+}
+@media (max-width:620px){
+  section{padding-block:56px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stats div:nth-child(3){border-left:0}
+  .stats div:nth-child(n+3){border-top:1px solid var(--border)}
+  .demo-body{grid-template-columns:1fr}
+  .board{--c:40px;justify-self:center}
+  .final-card{padding:28px 22px}
+  .bits{height:200px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
 </style>
 <!-- Vercel Web Analytics -->
 <script>if (location.protocol === 'https:') { window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); }; var s = document.createElement('script'); s.defer = true; s.src = '/_vercel/insights/script.js'; document.head.appendChild(s); }</script>
 </head>
 <body>
-<header>
+<div class="top" id="top">
   <div class="wrap">
-    <nav class="nav" aria-label="მთავარი მენიუ"><a class="brand" href="./?home" aria-label="CodeQuest — მთავარი გვერდი"><img src="icons/icon-192.png" alt="" width="40" height="40">CodeQuest</a><button class="burger" type="button" aria-label="მენიუ" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button><div class="links" id="menu"><a href="#why">რატომ CodeQuest</a><a href="#langs">ენები</a><a href="#teachers">მასწავლებლებს</a><a href="#pro">Pro</a><a href="#faq">კითხვები</a><a href="/learn/">📚 სკოლა</a><a class="go" href="CodeQuest.html">თამაში ▶</a></div></nav>
+    <nav class="nav" aria-label="მთავარი მენიუ"><a class="brand" href="./?home" aria-label="CodeQuest — მთავარი გვერდი"><img src="icons/icon-192.png" alt="" width="38" height="38">CodeQuest</a><button class="burger" type="button" aria-label="მენიუ" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button><div class="links" id="menu"><a href="#how">როგორ მუშაობს</a><a href="#langs">ენები</a><a href="#teachers">მასწავლებლებს</a><a href="#pro">Pro</a><a href="#faq">კითხვები</a><a href="/learn/">📚 სკოლა</a><a class="go" href="CodeQuest.html">თამაში ▶</a></div></nav>
+  </div>
+</div>
+<header class="hero-band">
+  <div class="wrap">
     <div class="hero">
       <div>
+        <span class="pill"><i>უფასო</i> სასწავლო თამაში · ქართულად</span>
         <h1>ისწავლე <span>პროგრამირება</span><br>ნულიდან — ქართულად</h1>
-        <p>სასწავლო თამაში ბავშვებისთვის: მართე რობოტი ბიტი კოდით, გაიარე კუნძულები და ბოსები და ააწყე ნამდვილი პროექტები.</p>
+        <p class="sub">მართე რობოტი ბიტი ნამდვილი კოდით, გაიარე კუნძულები და ბოსები და ააწყე საკუთარი პროექტები. ბავშვებისთვის და ყველა დამწყებისთვის.</p>
         <div class="cta"><a class="btn play" href="CodeQuest.html">▶ ითამაშე უფასოდ</a><a class="btn ghost" href="CodeQuest.html#download">💻 კომპიუტერის ვერსია</a>
           <a class="store" href="https://apps.microsoft.com/detail/9P8TSJNT7SQ4?mode=direct" target="_blank" rel="noopener"><img src="https://get.microsoft.com/images/ka%20dark.svg" alt="Microsoft Store-იდან ჩამოტვირთვა" width="190" height="52"></a></div>
-        <div class="chips"><span>18 ენა</span><span>9000 ლეველი</span><span>ქართულად</span><span>ინსტალაციის გარეშე</span></div>
+        <p class="note">ბრაუზერში იხსნება — დაწყებას რეგისტრაცია არ სჭირდება.</p>
       </div>
-      <div class="bits" aria-hidden="true"><div class="b1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -3 12 16" shape-rendering="crispEdges"><defs><linearGradient id="cqg2-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#ff6b6b"/><stop offset="0.20" stop-color="#ffa94d"/><stop offset="0.40" stop-color="#ffd43b"/><stop offset="0.60" stop-color="#69db7c"/><stop offset="0.80" stop-color="#4dabf7"/><stop offset="1.00" stop-color="#9775fa"/></linearGradient><linearGradient id="cqg2-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#fff3bf"/><stop offset="0.50" stop-color="#fcc419"/><stop offset="1.00" stop-color="#f08c00"/></linearGradient><linearGradient id="cqg2-2" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#1a1240"/><stop offset="0.33" stop-color="#5f3dc4"/><stop offset="0.67" stop-color="#e64980"/><stop offset="1.00" stop-color="#4dabf7"/></linearGradient></defs><rect x="2" y="3" width="8" height="6" rx="1" fill="#3d5afe"/><rect x="3" y="4" width="6" height="3.4" rx=".5" fill="#13163a"/><g class="eyes"><rect x="4" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/></g><rect x="5" y="7.8" width="2" height=".5" fill="#13163a"/><rect x="1.1" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="10" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="3" y="9" width="6" height="2.2" fill="#13163a"/><rect x="4.4" y="9.6" width="3.2" height=".9" fill="#3d5afe"/><rect x="2.1" y="8.9" width="7.8" height="1.2" rx=".35" fill="#306998"/><rect x="2.7" y="8.9" width="6.6" height="2.4" rx=".3" fill="#306998"/><text x="6" y="10.75" font-size="1.6" font-weight="800" text-anchor="middle" fill="#ffd43b" font-family="Arial,Helvetica,sans-serif">Py</text><rect x="2.6" y="8.5" width="6.8" height="1.1" rx=".45" fill="url(#cqg2-0)"/><rect x="3.4" y="8.5" width=".7" height="1.1" fill="#fff" opacity=".6"/><rect x="5.6" y="8.5" width=".7" height="1.1" fill="#fff" opacity=".6"/><rect x="7" y="9.3" width="1.3" height="2.3" rx=".35" fill="#7048e8"/><rect x="2.4" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="6.8" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="2.1" y="11" width="3.4" height="1.75" rx=".7" fill="url(#cqg2-1)"/><rect x="2.1" y="12.35" width="3.4" height=".4" rx=".2" fill="#f8f9fa"/><rect x="2.5" y="11.55" width="2.4" height=".35" fill="#fff"/><g transform="matrix(-1 0 0 1 12 0)"><rect x="2.1" y="11" width="3.4" height="1.75" rx=".7" fill="url(#cqg2-1)"/><rect x="2.1" y="12.35" width="3.4" height=".4" rx=".2" fill="#f8f9fa"/><rect x="2.5" y="11.55" width="2.4" height=".35" fill="#fff"/></g><polygon points="6,-2.6 9.6,3.2 2.4,3.2" fill="url(#cqg2-2)"/><rect x="2.1" y="2.7" width="7.8" height=".6" rx=".3" fill="#1a1240"/><g fill="#ffe066"><circle cx="6.6" cy=".6" r=".45"/><circle cx="5.2" cy="2" r=".35"/><circle cx="7.3" cy="1.9" r=".25"/></g></svg></div><div class="b0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -3 12 16" shape-rendering="crispEdges"><defs><linearGradient id="cqg1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#fff3bf"/><stop offset="0.50" stop-color="#fcc419"/><stop offset="1.00" stop-color="#f08c00"/></linearGradient><linearGradient id="cqg1-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#ffffff"/><stop offset="0.33" stop-color="#c5f6fa"/><stop offset="0.67" stop-color="#99e9f2"/><stop offset="1.00" stop-color="#eebefa"/></linearGradient></defs><path d="M3 9.4C1.5 7.6-.1 7.5.1 8.8c.6.2 1 .5 1.1 1-.7 0-1 .4-.8.9.8-.1 1.6.1 2.5.6Z" fill="url(#cqg1-0)" stroke="#e67700" stroke-width=".15"/><g transform="matrix(-1 0 0 1 12 0)"><path d="M3 9.4C1.5 7.6-.1 7.5.1 8.8c.6.2 1 .5 1.1 1-.7 0-1 .4-.8.9.8-.1 1.6.1 2.5.6Z" fill="url(#cqg1-0)" stroke="#e67700" stroke-width=".15"/></g><rect x="2" y="3" width="8" height="6" rx="1" fill="#3d5afe"/><rect x="3" y="4" width="6" height="3.4" rx=".5" fill="#13163a"/><g class="eyes"><rect x="4" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/></g><rect x="5" y="7.8" width="2" height=".5" fill="#13163a"/><rect x="1.1" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="10" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="3" y="9" width="6" height="2.2" fill="#13163a"/><rect x="4.4" y="9.6" width="3.2" height=".9" fill="#3d5afe"/><rect x="2.1" y="8.9" width="7.8" height="1.2" rx=".35" fill="#f7df1e"/><rect x="2.7" y="8.9" width="6.6" height="2.4" rx=".3" fill="#f7df1e"/><text x="6" y="10.75" font-size="1.6" font-weight="800" text-anchor="middle" fill="#212529" font-family="Arial,Helvetica,sans-serif">JS</text><rect x="2.4" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="6.8" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><polygon points="2.4,3.2 2.8,.6 4.5,2 6,-.1 7.5,2 9.2,.6 9.6,3.2" fill="url(#cqg1-1)" stroke="#3bc9db" stroke-width=".25"/><g fill="#e599f7"><circle cx="6" cy="1.9" r=".42"/><circle cx="3.7" cy="2.55" r=".28"/><circle cx="8.3" cy="2.55" r=".28"/></g></svg></div><div class="b2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -3 12 16" shape-rendering="crispEdges"><defs><linearGradient id="cqg3-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#1a1240"/><stop offset="0.33" stop-color="#5f3dc4"/><stop offset="0.67" stop-color="#e64980"/><stop offset="1.00" stop-color="#4dabf7"/></linearGradient><linearGradient id="cqg3-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#00f5ff"/><stop offset="1.00" stop-color="#ff2fd1"/></linearGradient></defs><path d="M2.7 8.7H9.3L10.7 12.9H1.3Z" fill="url(#cqg3-0)"/><path d="M2.7 8.7H9.3L9.6 9.6H2.4Z" fill="#1a1240"/><rect x="5.6" y="0.6" width=".8" height="2.6" fill="#13163a"/><circle cx="6" cy="0.5" r="0.95" fill="#ff8a00"/><rect x="2" y="3" width="8" height="6" rx="1" fill="#3d5afe"/><rect x="3" y="4" width="6" height="3.4" rx=".5" fill="#13163a"/><g class="eyes"><rect x="4" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/></g><rect x="3.3" y="4.6" width="2.5" height="1.9" rx=".45" fill="url(#cqg3-1)"/><rect x="6.2" y="4.6" width="2.5" height="1.9" rx=".45" fill="url(#cqg3-1)"/><rect x="5.7" y="5.1" width=".6" height=".3" fill="#7a00ff"/><rect x="3.6" y="4.85" width=".8" height=".35" fill="#fff" opacity=".55"/><rect x="6.5" y="4.85" width=".8" height=".35" fill="#fff" opacity=".55"/><rect x="5" y="7.8" width="2" height=".5" fill="#13163a"/><rect x="1.1" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="10" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="3" y="9" width="6" height="2.2" fill="#13163a"/><rect x="4.4" y="9.6" width="3.2" height=".9" fill="#3d5afe"/><rect x="2.1" y="8.9" width="7.8" height="1.2" rx=".35" fill="#2b2f36"/><rect x="2.7" y="8.9" width="6.6" height="2.4" rx=".3" fill="#2b2f36"/><polygon points="5,8.9 7,8.9 6,10.1" fill="#495057"/><rect x="3.15" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="7.25" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="3.53" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="7.63" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="3.91" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="8.01" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="4.29" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="8.39" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="2.7" y="10.55" width="6.6" height=".3" fill="#212529"/><rect x="5.65" y="10.5" width=".7" height=".4" fill="#ced4da"/><rect x="5.85" y="10.9" width=".3" height=".5" fill="#adb5bd"/><rect x="2.4" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="6.8" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="2.2" y="1.7" width="7.6" height="1.6" rx=".5" fill="#1c7ed6"/><rect x="7.4" y="2.7" width="3.6" height=".7" rx=".3" fill="#1864ab"/><circle cx="4.6" cy="2.45" r=".38" fill="#d0ebff"/></svg></div></div>
+      <div class="demo" aria-label="მაგალითი: Python-ის კოდი ბიტს დროშამდე მიიყვანს">
+        <div class="demo-bar" aria-hidden="true"><b></b><b></b><b></b><span>ლეველი 1 · bit.py</span></div>
+        <div class="demo-body">
+          <ol class="code" id="code">
+            <li class="cm"># ბიტი → 🏁</li>
+            <li><span class="fn">move</span>()</li>
+            <li><span class="fn">move</span>()</li>
+            <li><span class="fn">turn_left</span>()</li>
+            <li><span class="fn">move</span>()</li>
+            <li><span class="fn">move</span>()</li>
+            <li><span class="fn">move</span>()</li>
+          </ol>
+          <div class="board" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            <div class="flag">🏁</div>
+            <div class="bot" id="bot"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -3 12 16" shape-rendering="crispEdges"><defs><linearGradient id="cqd1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#fff3bf"/><stop offset="0.50" stop-color="#fcc419"/><stop offset="1.00" stop-color="#f08c00"/></linearGradient><linearGradient id="cqd1-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#ffffff"/><stop offset="0.33" stop-color="#c5f6fa"/><stop offset="0.67" stop-color="#99e9f2"/><stop offset="1.00" stop-color="#eebefa"/></linearGradient></defs><path d="M3 9.4C1.5 7.6-.1 7.5.1 8.8c.6.2 1 .5 1.1 1-.7 0-1 .4-.8.9.8-.1 1.6.1 2.5.6Z" fill="url(#cqd1-0)" stroke="#e67700" stroke-width=".15"/><g transform="matrix(-1 0 0 1 12 0)"><path d="M3 9.4C1.5 7.6-.1 7.5.1 8.8c.6.2 1 .5 1.1 1-.7 0-1 .4-.8.9.8-.1 1.6.1 2.5.6Z" fill="url(#cqd1-0)" stroke="#e67700" stroke-width=".15"/></g><rect x="2" y="3" width="8" height="6" rx="1" fill="#3d5afe"/><rect x="3" y="4" width="6" height="3.4" rx=".5" fill="#13163a"/><g class="eyes"><rect x="4" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/></g><rect x="5" y="7.8" width="2" height=".5" fill="#13163a"/><rect x="1.1" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="10" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="3" y="9" width="6" height="2.2" fill="#13163a"/><rect x="4.4" y="9.6" width="3.2" height=".9" fill="#3d5afe"/><rect x="2.1" y="8.9" width="7.8" height="1.2" rx=".35" fill="#f7df1e"/><rect x="2.7" y="8.9" width="6.6" height="2.4" rx=".3" fill="#f7df1e"/><text x="6" y="10.75" font-size="1.6" font-weight="800" text-anchor="middle" fill="#212529" font-family="Arial,Helvetica,sans-serif">JS</text><rect x="2.4" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="6.8" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><polygon points="2.4,3.2 2.8,.6 4.5,2 6,-.1 7.5,2 9.2,.6 9.6,3.2" fill="url(#cqd1-1)" stroke="#3bc9db" stroke-width=".25"/><g fill="#e599f7"><circle cx="6" cy="1.9" r=".42"/><circle cx="3.7" cy="2.55" r=".28"/><circle cx="8.3" cy="2.55" r=".28"/></g></svg><span class="dir" id="dir"></span></div>
+          </div>
+        </div>
+        <div class="win" id="win" aria-hidden="true">⭐⭐⭐ +100 XP</div>
+      </div>
     </div>
   </div>
 </header>
 <main>
-  <section id="why">
-    <div class="wrap">
-      <h2>რატომ CodeQuest?</h2>
-      <p class="lead">თამაშივით მხიარულია, მაგრამ ნამდვილ კოდს წერ — ისეთს, როგორსაც პროგრამისტები.</p>
-      <div class="grid">
-        <div class="card"><div class="ic">👀</div><h3>ნახე → ააწყე → შენით</h3><p>ყოველი თემა სამ ნაბიჯად: ჯერ ნახავ, მერე ბლოკებით ააწყობ, ბოლოს თავად დაწერ.</p></div>
-        <div class="card"><div class="ic">🇬🇪</div><h3>შეცდომები ქართულად</h3><p>თამაში ხსნის, რა მოხდა და რომელ ხაზზე — „ხაზის ბოლოს ; აკლია“.</p></div>
-        <div class="card"><div class="ic">🏆</div><h3>ვარსკვლავები და მიღწევები</h3><p>XP, წოდებები, დღის სერია, ქვიზები, სერტიფიკატები და 55 მიღწევა.</p></div>
-        <div class="card"><div class="ic">👕</div><h3>ბიტის გარდერობი</h3><p>275 უნიკალური ნივთი 6 იშვიათობით — ჩვეულებრივიდან მითიურამდე.</p></div>
-        <div class="card"><div class="ic">☁️</div><h3>ყველა მოწყობილობაზე</h3><p>ანგარიშით პროგრესი ყველგან ერთია: საიტზე, ტელეფონზე და კომპიუტერის პროგრამაში.</p></div>
-        <div class="card"><div class="ic">🛡️</div><h3>უსაფრთხო ბავშვებისთვის</h3><p>რეკლამა არ არის, ელფოსტა მხოლოდ პაროლის აღსადგენადაა, კოდი იზოლირებულად სრულდება.</p></div>
-      </div>
+  <div class="wrap">
+    <div class="stats">
+      <div><b>18</b><span>პროგრამირების ენა</span></div>
+      <div><b>9000</b><span>ლეველი</span></div>
+      <div><b>275</b><span>ნივთი ბიტისთვის</span></div>
+      <div><b>55</b><span>მიღწევა</span></div>
     </div>
-  </section>
-  <section class="alt" id="langs">
+  </div>
+  <section id="how">
     <div class="wrap">
-      <h2>18 ენა — თითოეულში 500 ლეველი</h2>
-      <p class="lead">დაიწყე JavaScript-ით ან Python-ით და გადადი იქით, რაც გაინტერესებს: საიტები, აპები, თამაშები.</p>
-      <div class="langs"><span>JavaScript</span><span>Python</span><span>Java</span><span>C</span><span>C++</span><span>TypeScript</span><span>C#</span><span>Go</span><span>Rust</span><span>PHP</span><span>Ruby</span><span>Swift</span><span>Kotlin</span><span>Lua</span><span>Dart</span><span>HTML</span><span>CSS</span><span>React</span></div>
-    </div>
-  </section>
-  <section id="teachers">
-    <div class="wrap">
-      <h2>👩‍🏫 მასწავლებლებისთვის</h2>
-      <p class="lead">შექმენი კლასი, ჩაატარე ცოცხალი გაკვეთილი და ნახე, ვინ რამდენი გაიარა და სად შეჩერდა. კლასი 👑 Pro-ს ნაწილია: Pro სჭირდება მასწავლებელსაც და მოსწავლეებსაც.</p>
-      <ol class="steps">
-        <li><b>შექმენი ანგარიში</b><br><span class="muted">თამაშში: „შესვლა / რეგისტრაცია“ — მხოლოდ სახელი და პაროლი.</span></li>
-        <li><b>შექმენი კლასი</b><br>„👩‍🏫 კლასი“ → კლასის სახელი → მიიღებ 6-ასოიან კოდს.</li>
-        <li><b>მოსწავლეები უერთდებიან</b><br>კოდით შემოდიან და ხედავენ კლასის კვირის რეიტინგს.</li>
-        <li><b>ადევნე თვალი</b><br>XP, გავლილი ლეველები, ახლანდელი ლეველი და ბოლო აქტივობა.</li>
+      <p class="eyebrow">როგორ მუშაობს</p>
+      <h2>ყოველი ახალი ბრძანება — სამ ნაბიჯად</h2>
+      <p class="lead">თამაში ჯერ გაჩვენებს, მერე გეხმარება და ბოლოს გენდობა. ასე კოდის წერა ნელ-ნელა, შეუმჩნევლად ისწავლება.</p>
+      <ol class="steps3">
+        <li><div class="ic">👀</div><h3>ნახე</h3><p>ბიტი თვითონ ასრულებს მაგალითს და ხედავ, რას აკეთებს თითოეული ხაზი.</p></li>
+        <li><div class="ic">🧩</div><h3>ააწყე</h3><p>იგივე კოდს ბლოკებით აწყობ: <code>turn_right</code>, <code>move</code> — სწორი ბლოკი სწორ ადგილას.</p></li>
+        <li><div class="ic">✍️</div><h3>შენით</h3><p>ახლა მისიას თვითონ წერ და ▶ უშვებ. შეცდომაზე ბუ მინიშნებას მოგცემს.</p></li>
       </ol>
     </div>
   </section>
-  <section class="alt" id="pro">
+  <section class="alt" id="why">
+    <div class="wrap">
+      <p class="eyebrow">რატომ CodeQuest</p>
+      <h2>თამაშივით მხიარული, ნამდვილი კოდით</h2>
+      <p class="lead">წერ ისეთივე კოდს, როგორსაც პროგრამისტები — უბრალოდ თამაშში და ქართულად.</p>
+      <div class="bento">
+        <div class="tile w4"><div class="ic">💬</div><h3>შეცდომები ქართულად</h3><p>თამაში გეუბნება, რა მოხდა და რომელ ხაზზე — გასაგებად, მაგალითით.</p>
+          <div class="err">print(<em>"გამარჯობა</em>)<small>ხაზი 1: ბრჭყალი არ დაიხურა — დაამატე " ბოლოში.</small></div></div>
+        <div class="tile w2"><div class="ic">🏆</div><h3>ვარსკვლავები და მიღწევები</h3><p>XP, წოდებები, დღის სერია, ქვიზები და სერტიფიკატები.</p></div>
+        <div class="tile w2"><div class="ic">👕</div><h3>ბიტის გარდერობი</h3><p>275 ნივთი 6 იშვიათობით — ჩვეულებრივიდან მითიურამდე.</p><div class="items" aria-hidden="true">🎩🕶️🎒👟🪄</div></div>
+        <div class="tile w2"><div class="ic">☁️</div><h3>ყველა მოწყობილობაზე</h3><p>ანგარიშით პროგრესი ერთია: საიტზე, ტელეფონზე და კომპიუტერში.</p></div>
+        <div class="tile w2"><div class="ic">🛡️</div><h3>უსაფრთხო ბავშვებისთვის</h3><p>რეკლამა და ჩატი არ არის; ელფოსტა მხოლოდ პაროლის აღსადგენადაა.</p></div>
+      </div>
+    </div>
+  </section>
+  <section id="langs">
+    <div class="wrap">
+      <p class="eyebrow">ენები</p>
+      <h2>18 ენა — თითოეულში 500 ლეველი</h2>
+      <p class="lead">დაიწყე JavaScript-ით ან Python-ით და გადადი იქით, რაც გაინტერესებს: საიტები, აპები, თამაშები.</p>
+      <div class="langs"><span class="lang" style="--lb:#f7df1e;--lc:#1f2328"><i>JS</i>JavaScript</span><span class="lang" style="--lb:#3776ab;--lc:#fff"><i>Py</i>Python</span><span class="lang" style="--lb:#e76f00;--lc:#fff"><i>Java</i>Java</span><span class="lang" style="--lb:#5c6bc0;--lc:#fff"><i>C</i>C</span><span class="lang" style="--lb:#00599c;--lc:#fff"><i>C++</i>C++</span><span class="lang" style="--lb:#3178c6;--lc:#fff"><i>TS</i>TypeScript</span><span class="lang" style="--lb:#68217a;--lc:#fff"><i>C#</i>C#</span><span class="lang" style="--lb:#007d9c;--lc:#fff"><i>Go</i>Go</span><span class="lang" style="--lb:#b7410e;--lc:#fff"><i>Rs</i>Rust</span><span class="lang" style="--lb:#4f5b93;--lc:#fff"><i>PHP</i>PHP</span><span class="lang" style="--lb:#cc342d;--lc:#fff"><i>Rb</i>Ruby</span><span class="lang" style="--lb:#f05138;--lc:#fff"><i>Sw</i>Swift</span><span class="lang" style="--lb:#7f52ff;--lc:#fff"><i>Kt</i>Kotlin</span><span class="lang" style="--lb:#000080;--lc:#fff"><i>Lua</i>Lua</span><span class="lang" style="--lb:#0175c2;--lc:#fff"><i>Dart</i>Dart</span><span class="lang" style="--lb:#e34f26;--lc:#fff"><i>HTML</i>HTML</span><span class="lang" style="--lb:#264de4;--lc:#fff"><i>CSS</i>CSS</span><span class="lang" style="--lb:#61dafb;--lc:#20232a"><i>React</i>React</span></div>
+    </div>
+  </section>
+  <section class="alt" id="teachers">
+    <div class="wrap teach">
+      <div>
+        <p class="eyebrow">მასწავლებლებისთვის</p>
+        <h2>👩‍🏫 კლასი რამდენიმე წუთში</h2>
+        <p class="lead">შექმენი კლასი, ჩაატარე ცოცხალი გაკვეთილი და ნახე, ვინ რამდენი გაიარა და სად შეჩერდა. კლასი 👑 Pro-ს ნაწილია: Pro სჭირდება მასწავლებელსაც და მოსწავლეებსაც.</p>
+      </div>
+      <ol class="tl">
+        <li><b>შექმენი ანგარიში</b><span>თამაშში: „შესვლა / რეგისტრაცია“ — სახელი, ელფოსტა და პაროლი.</span></li>
+        <li><b>შექმენი კლასი</b><span>„👩‍🏫 კლასი“ → კლასის სახელი → მიიღებ 6-ასოიან კოდს.</span></li>
+        <li><b>მოსწავლეები უერთდებიან</b><span>კოდით შემოდიან და ხედავენ კლასის კვირის რეიტინგს.</span></li>
+        <li><b>ადევნე თვალი</b><span>XP, გავლილი ლეველები, ახლანდელი ლეველი და ბოლო აქტივობა.</span></li>
+      </ol>
+    </div>
+  </section>
+  <section id="pro">
     <div class="wrap pro">
       <div>
-        <h2>👑 CodeQuest Pro</h2>
-        <p class="lead">ყოველ ენაზე პირველი 100 ლეველი სამუდამოდ უფასოა. Pro ერთჯერადი გადახდაა, შენს ანგარიშს ებმება და ხსნის დანარჩენს — ყველა მოწყობილობაზე, სადაც შეხვალ.</p>
+        <p class="eyebrow">👑 CodeQuest Pro</p>
+        <h2>ერთხელ გადაიხდი — სამუდამოდ შენია</h2>
+        <p class="lead">Pro შენს ანგარიშს ებმება და ხსნის დანარჩენს — ყველა მოწყობილობაზე, სადაც შეხვალ. გამოწერა არ არის.</p>
+        <div class="free">🎁 <span><b>ყოველ ენაზე პირველი 100 ლეველი</b> სამუდამოდ უფასოა — Pro-ს გარეშეც.</span></div>
       </div>
-      <div class="price"><b>$9</b> · ერთხელ<ul><li>ყველა ლეველი ყველა ენაზე (9000)</li><li>180 ვიდეო საიტზევე (45 ქართულად)</li><li>კოდის რედაქტორი ▶ Run-ით და ჩანაწერებით</li><li>18 ნაბიჯ-ნაბიჯ პროექტი</li><li>სკოლა „ისწავლე კოდინგი“: კურსები თავებით და ქვიზებით</li><li>კლასები, ცოცხალი გაკვეთილები და მასწავლებლის რეჟიმი</li></ul></div>
+      <div class="price">
+        <span class="crown" aria-hidden="true">👑</span>
+        <div class="amt"><b>$9</b><span>ერთხელ · სამუდამოდ</span></div>
+        <ul><li>ყველა ლეველი ყველა ენაზე (9000)</li><li>180 ვიდეო საიტზევე (45 ქართულად)</li><li>კოდის რედაქტორი ▶ Run-ით და ჩანაწერებით</li><li>18 ნაბიჯ-ნაბიჯ პროექტი</li><li>სკოლა „ისწავლე კოდინგი“: კურსები თავებით და ქვიზებით</li><li>კლასები, ცოცხალი გაკვეთილები და მასწავლებლის რეჟიმი</li></ul>
+        <a class="btn play" href="CodeQuest.html?pro=buy">👑 Pro-ს ყიდვა</a>
+      </div>
     </div>
   </section>
-  <section id="faq">
+  <section class="alt" id="faq">
     <div class="wrap">
+      <p class="eyebrow">კითხვები</p>
       <h2>ხშირი კითხვები</h2>
-      <details><summary>მართლა უფასოა?</summary><p>დიახ: ყველა ენის პირველი 100 ლეველი, გარდერობი, მიღწევები და კომპიუტერის ვერსია უფასოა. Pro ხსნის დამატებით ლეველებს, ვიდეოებს, პროექტებს, სკოლას „ისწავლე კოდინგი“, კლასებს და ცოცხალ გაკვეთილებს.</p></details>
-      <details><summary>რა ასაკისთვისაა?</summary><p>დამწყებთათვის: პირველი ლეველები მხოლოდ კითხვის უნარს მოითხოვს, ამიტომ დაწყება დაწყებითი კლასებიდანაც შეიძლება. უფროსები და დიდებიც სწრაფად გადადიან ნამდვილ ენებზე.</p></details>
-      <details><summary>რამის დაყენება მჭირდება?</summary><p>არა, თამაში ბრაუზერში მუშაობს — კომპიუტერზეც და ტელეფონზეც. თუ გინდა, Windows-ზე დააყენე <a href="https://apps.microsoft.com/detail/9P8TSJNT7SQ4?mode=direct" target="_blank" rel="noopener">Microsoft Store-იდან</a> (ერთი დაჭერით, თავისით ახლდება), გადმოწერე <a href="CodeQuest.html#download">კომპიუტერის პროგრამა</a>, ან ტელეფონზე დააყენე აპივით.</p></details>
-      <details><summary>უსაფრთხოა?</summary><p>რეგისტრაციას სჭირდება სახელი, პაროლი და ელფოსტა — ელფოსტა მხოლოდ პაროლის აღსადგენად (13 წლამდე — მშობლის). რეკლამა და ჩატი არ არის. დეტალები — <a href="privacy.html">კონფიდენციალურობის პოლიტიკაში</a>.</p></details>
-      <details><summary>პროგრესი სხვა მოწყობილობაზე გადადის?</summary><p>დიახ, ანგარიშით თავისით. ანგარიშის გარეშე — „პარამეტრები → პროგრესის კოდი“.</p></details>
+      <div class="faq">
+        <details><summary>მართლა უფასოა?</summary><p>დიახ: ყველა ენის პირველი 100 ლეველი, გარდერობი, მიღწევები და კომპიუტერის ვერსია უფასოა. Pro ხსნის დამატებით ლეველებს, ვიდეოებს, პროექტებს, სკოლას „ისწავლე კოდინგი“, კლასებს და ცოცხალ გაკვეთილებს.</p></details>
+        <details><summary>რა ასაკისთვისაა?</summary><p>დამწყებთათვის: პირველი ლეველები მხოლოდ კითხვის უნარს მოითხოვს, ამიტომ დაწყება დაწყებითი კლასებიდანაც შეიძლება. უფროსები და დიდებიც სწრაფად გადადიან ნამდვილ ენებზე.</p></details>
+        <details><summary>რამის დაყენება მჭირდება?</summary><p>არა, თამაში ბრაუზერში მუშაობს — კომპიუტერზეც და ტელეფონზეც. თუ გინდა, Windows-ზე დააყენე <a href="https://apps.microsoft.com/detail/9P8TSJNT7SQ4?mode=direct" target="_blank" rel="noopener">Microsoft Store-იდან</a> (ერთი დაჭერით, თავისით ახლდება), გადმოწერე <a href="CodeQuest.html#download">კომპიუტერის პროგრამა</a>, ან ტელეფონზე დააყენე აპივით.</p></details>
+        <details><summary>უსაფრთხოა?</summary><p>რეგისტრაციას სჭირდება სახელი, პაროლი და ელფოსტა — ელფოსტა მხოლოდ პაროლის აღსადგენად (13 წლამდე — მშობლის). რეკლამა და ჩატი არ არის. დეტალები — <a href="privacy.html">კონფიდენციალურობის პოლიტიკაში</a>.</p></details>
+        <details><summary>პროგრესი სხვა მოწყობილობაზე გადადის?</summary><p>დიახ, ანგარიშით თავისით. ანგარიშის გარეშე — „პარამეტრები → პროგრესის კოდი“.</p></details>
+      </div>
     </div>
   </section>
-  <section class="alt final">
+  <section class="final">
     <div class="wrap">
-      <h2>მზად ხარ? ბიტი გელოდება!</h2>
-      <a class="btn play" href="CodeQuest.html">▶ თამაშის დაწყება</a>
+      <div class="final-card">
+        <div>
+          <h2>მზად ხარ? ბიტი გელოდება!</h2>
+          <p>შენი პირველი პროგრამა ორ წუთში დაიწერება.</p>
+          <a class="btn play" href="CodeQuest.html">▶ თამაშის დაწყება</a>
+        </div>
+        <div class="bits" aria-hidden="true"><div class="b1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -3 12 16" shape-rendering="crispEdges"><defs><linearGradient id="cqg2-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#ff6b6b"/><stop offset="0.20" stop-color="#ffa94d"/><stop offset="0.40" stop-color="#ffd43b"/><stop offset="0.60" stop-color="#69db7c"/><stop offset="0.80" stop-color="#4dabf7"/><stop offset="1.00" stop-color="#9775fa"/></linearGradient><linearGradient id="cqg2-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#fff3bf"/><stop offset="0.50" stop-color="#fcc419"/><stop offset="1.00" stop-color="#f08c00"/></linearGradient><linearGradient id="cqg2-2" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#1a1240"/><stop offset="0.33" stop-color="#5f3dc4"/><stop offset="0.67" stop-color="#e64980"/><stop offset="1.00" stop-color="#4dabf7"/></linearGradient></defs><rect x="2" y="3" width="8" height="6" rx="1" fill="#3d5afe"/><rect x="3" y="4" width="6" height="3.4" rx=".5" fill="#13163a"/><g class="eyes"><rect x="4" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/></g><rect x="5" y="7.8" width="2" height=".5" fill="#13163a"/><rect x="1.1" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="10" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="3" y="9" width="6" height="2.2" fill="#13163a"/><rect x="4.4" y="9.6" width="3.2" height=".9" fill="#3d5afe"/><rect x="2.1" y="8.9" width="7.8" height="1.2" rx=".35" fill="#306998"/><rect x="2.7" y="8.9" width="6.6" height="2.4" rx=".3" fill="#306998"/><text x="6" y="10.75" font-size="1.6" font-weight="800" text-anchor="middle" fill="#ffd43b" font-family="Arial,Helvetica,sans-serif">Py</text><rect x="2.6" y="8.5" width="6.8" height="1.1" rx=".45" fill="url(#cqg2-0)"/><rect x="3.4" y="8.5" width=".7" height="1.1" fill="#fff" opacity=".6"/><rect x="5.6" y="8.5" width=".7" height="1.1" fill="#fff" opacity=".6"/><rect x="7" y="9.3" width="1.3" height="2.3" rx=".35" fill="#7048e8"/><rect x="2.4" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="6.8" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="2.1" y="11" width="3.4" height="1.75" rx=".7" fill="url(#cqg2-1)"/><rect x="2.1" y="12.35" width="3.4" height=".4" rx=".2" fill="#f8f9fa"/><rect x="2.5" y="11.55" width="2.4" height=".35" fill="#fff"/><g transform="matrix(-1 0 0 1 12 0)"><rect x="2.1" y="11" width="3.4" height="1.75" rx=".7" fill="url(#cqg2-1)"/><rect x="2.1" y="12.35" width="3.4" height=".4" rx=".2" fill="#f8f9fa"/><rect x="2.5" y="11.55" width="2.4" height=".35" fill="#fff"/></g><polygon points="6,-2.6 9.6,3.2 2.4,3.2" fill="url(#cqg2-2)"/><rect x="2.1" y="2.7" width="7.8" height=".6" rx=".3" fill="#1a1240"/><g fill="#ffe066"><circle cx="6.6" cy=".6" r=".45"/><circle cx="5.2" cy="2" r=".35"/><circle cx="7.3" cy="1.9" r=".25"/></g></svg></div><div class="b0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -3 12 16" shape-rendering="crispEdges"><defs><linearGradient id="cqg1-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#fff3bf"/><stop offset="0.50" stop-color="#fcc419"/><stop offset="1.00" stop-color="#f08c00"/></linearGradient><linearGradient id="cqg1-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#ffffff"/><stop offset="0.33" stop-color="#c5f6fa"/><stop offset="0.67" stop-color="#99e9f2"/><stop offset="1.00" stop-color="#eebefa"/></linearGradient></defs><path d="M3 9.4C1.5 7.6-.1 7.5.1 8.8c.6.2 1 .5 1.1 1-.7 0-1 .4-.8.9.8-.1 1.6.1 2.5.6Z" fill="url(#cqg1-0)" stroke="#e67700" stroke-width=".15"/><g transform="matrix(-1 0 0 1 12 0)"><path d="M3 9.4C1.5 7.6-.1 7.5.1 8.8c.6.2 1 .5 1.1 1-.7 0-1 .4-.8.9.8-.1 1.6.1 2.5.6Z" fill="url(#cqg1-0)" stroke="#e67700" stroke-width=".15"/></g><rect x="2" y="3" width="8" height="6" rx="1" fill="#3d5afe"/><rect x="3" y="4" width="6" height="3.4" rx=".5" fill="#13163a"/><g class="eyes"><rect x="4" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/></g><rect x="5" y="7.8" width="2" height=".5" fill="#13163a"/><rect x="1.1" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="10" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="3" y="9" width="6" height="2.2" fill="#13163a"/><rect x="4.4" y="9.6" width="3.2" height=".9" fill="#3d5afe"/><rect x="2.1" y="8.9" width="7.8" height="1.2" rx=".35" fill="#f7df1e"/><rect x="2.7" y="8.9" width="6.6" height="2.4" rx=".3" fill="#f7df1e"/><text x="6" y="10.75" font-size="1.6" font-weight="800" text-anchor="middle" fill="#212529" font-family="Arial,Helvetica,sans-serif">JS</text><rect x="2.4" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="6.8" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><polygon points="2.4,3.2 2.8,.6 4.5,2 6,-.1 7.5,2 9.2,.6 9.6,3.2" fill="url(#cqg1-1)" stroke="#3bc9db" stroke-width=".25"/><g fill="#e599f7"><circle cx="6" cy="1.9" r=".42"/><circle cx="3.7" cy="2.55" r=".28"/><circle cx="8.3" cy="2.55" r=".28"/></g></svg></div><div class="b2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -3 12 16" shape-rendering="crispEdges"><defs><linearGradient id="cqg3-0" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#1a1240"/><stop offset="0.33" stop-color="#5f3dc4"/><stop offset="0.67" stop-color="#e64980"/><stop offset="1.00" stop-color="#4dabf7"/></linearGradient><linearGradient id="cqg3-1" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#00f5ff"/><stop offset="1.00" stop-color="#ff2fd1"/></linearGradient></defs><path d="M2.7 8.7H9.3L10.7 12.9H1.3Z" fill="url(#cqg3-0)"/><path d="M2.7 8.7H9.3L9.6 9.6H2.4Z" fill="#1a1240"/><rect x="5.6" y="0.6" width=".8" height="2.6" fill="#13163a"/><circle cx="6" cy="0.5" r="0.95" fill="#ff8a00"/><rect x="2" y="3" width="8" height="6" rx="1" fill="#3d5afe"/><rect x="3" y="4" width="6" height="3.4" rx=".5" fill="#13163a"/><g class="eyes"><rect x="4" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/></g><rect x="3.3" y="4.6" width="2.5" height="1.9" rx=".45" fill="url(#cqg3-1)"/><rect x="6.2" y="4.6" width="2.5" height="1.9" rx=".45" fill="url(#cqg3-1)"/><rect x="5.7" y="5.1" width=".6" height=".3" fill="#7a00ff"/><rect x="3.6" y="4.85" width=".8" height=".35" fill="#fff" opacity=".55"/><rect x="6.5" y="4.85" width=".8" height=".35" fill="#fff" opacity=".55"/><rect x="5" y="7.8" width="2" height=".5" fill="#13163a"/><rect x="1.1" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="10" y="5" width=".9" height="2.2" fill="#13163a"/><rect x="3" y="9" width="6" height="2.2" fill="#13163a"/><rect x="4.4" y="9.6" width="3.2" height=".9" fill="#3d5afe"/><rect x="2.1" y="8.9" width="7.8" height="1.2" rx=".35" fill="#2b2f36"/><rect x="2.7" y="8.9" width="6.6" height="2.4" rx=".3" fill="#2b2f36"/><polygon points="5,8.9 7,8.9 6,10.1" fill="#495057"/><rect x="3.15" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="7.25" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="3.53" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="7.63" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="3.91" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="8.01" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="4.29" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="8.39" y="9.25" width=".22" height=".95" fill="#dee2e6"/><rect x="2.7" y="10.55" width="6.6" height=".3" fill="#212529"/><rect x="5.65" y="10.5" width=".7" height=".4" fill="#ced4da"/><rect x="5.85" y="10.9" width=".3" height=".5" fill="#adb5bd"/><rect x="2.4" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="6.8" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="2.2" y="1.7" width="7.6" height="1.6" rx=".5" fill="#1c7ed6"/><rect x="7.4" y="2.7" width="3.6" height=".7" rx=".3" fill="#1864ab"/><circle cx="4.6" cy="2.45" r=".38" fill="#d0ebff"/></svg></div></div>
+      </div>
     </div>
   </section>
 </main>
 <footer>
-  <div class="wrap">CodeQuest © <span id="year">2026</span> · Powered by <b>mysite</b> · <a href="CodeQuest.html">თამაში</a> · <a href="privacy.html">კონფიდენციალურობა</a> · <a href="terms.html">წესები</a></div>
+  <div class="wrap"><span>CodeQuest © <span id="year">2026</span> · Powered by <b>mysite</b></span><nav aria-label="ფუტერი"><a href="CodeQuest.html">თამაში</a><a href="/learn/">სკოლა</a><a href="privacy.html">კონფიდენციალურობა</a><a href="terms.html">წესები</a></nav></div>
 </footer>
 <script>
-// ტელეფონის მენიუ (☰) და ფუტერის წელი
+// ტელეფონის მენიუ (☰), გადახვევისას მკვრივი მენიუ, ფუტერის წელი
 (function () {
-  var nav = document.querySelector('.nav'), btn = nav.querySelector('.burger');
+  var top = document.getElementById('top'), nav = top.querySelector('.nav'), btn = nav.querySelector('.burger');
   function set(open) { nav.classList.toggle('open', open); btn.setAttribute('aria-expanded', String(open)); }
   btn.addEventListener('click', function () { set(!nav.classList.contains('open')); });
   nav.querySelectorAll('.links a').forEach(function (a) { a.addEventListener('click', function () { set(false); }); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
   document.addEventListener('click', function (e) { if (!nav.contains(e.target)) set(false); });
+  function solid() { top.classList.toggle('solid', window.scrollY > 24); }
+  addEventListener('scroll', solid, { passive: true }); solid();
   document.getElementById('year').textContent = new Date().getFullYear();
+})();
+// დემო: კოდის ხაზები რიგრიგობით სრულდება და ბიტი დროშამდე მიდის
+(function () {
+  var bot = document.getElementById('bot'), dir = document.getElementById('dir'), win = document.getElementById('win'), lines = document.querySelectorAll('#code li');
+  var prog = [[1, 'move'], [2, 'move'], [3, 'left'], [4, 'move'], [5, 'move'], [6, 'move']];
+  var D = [[1, 0], [0, -1], [-1, 0], [0, 1]], ANG = [0, -90, 180, 90];
+  function place(x, y, d) { bot.style.setProperty('--x', x); bot.style.setProperty('--y', y); dir.style.transform = 'rotate(' + ANG[d] + 'deg)'; }
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { place(2, 0, 1); win.classList.add('on'); return; }
+  var x, y, d, i;
+  function reset() { x = 0; y = 3; d = 0; i = 0; place(x, y, d); win.classList.remove('on'); lines.forEach(function (l) { l.classList.remove('on'); }); setTimeout(step, 1100); }
+  function step() {
+    lines.forEach(function (l) { l.classList.remove('on'); });
+    if (i >= prog.length) { win.classList.add('on'); return setTimeout(reset, 2600); }
+    var p = prog[i++]; lines[p[0]].classList.add('on');
+    if (p[1] === 'move') { x += D[d][0]; y += D[d][1]; } else d = (d + 1) % 4;
+    place(x, y, d);
+    setTimeout(step, 700);
+  }
+  reset();
 })();
 </script>
 </body>

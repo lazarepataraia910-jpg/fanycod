@@ -21667,6 +21667,7 @@ function init() {
   (() => {
     const q = new URLSearchParams(location.search), to = q.get('to') || '';
     if (q.get('pro') === 'open') Paywall.open(null, 'school');
+    if (q.get('pro') === 'buy') { q.delete('pro'); history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash); Paywall.open(); }   // მთავარი გვერდის „Pro-ს ყიდვა“
     // ძველი წერილების ბმულები (?reset= / ?verify=) — ახლა ცალკე გვერდზე (account.html)
     if (q.has('reset') || q.has('verify')) return location.replace('/account.html?' + (q.has('reset') ? 'reset=' + encodeURIComponent(q.get('reset')) : 'verify=' + encodeURIComponent(q.get('verify'))));
     // account.html-დან (პაროლი შეიცვალა): შესვლის ფანჯარა

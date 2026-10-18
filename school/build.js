@@ -242,7 +242,7 @@ function shell(o) {
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
     '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap">\n' +
     (cm.length ? cdnTag('codemirror.min.css') + '\n' : '') + '<link rel="stylesheet" href="' + css + '">\n' +
-    '<!-- Vercel Web Analytics -->\n<script>if (location.protocol === \'https:\') { window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); }; var s = document.createElement(\'script\'); s.defer = true; s.src = \'/_vercel/insights/script.js\'; document.head.appendChild(s); }</script>\n' +
+    '<!-- Vercel Web Analytics -->\n<script>if (location.protocol === \'https:\') { window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); }; var s = document.createElement(\'script\'); s.defer = true; s.src = \'/_vercel/insights/script.js\'; document.head.appendChild(s); window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); }; var t = document.createElement(\'script\'); t.defer = true; t.src = \'/_vercel/speed-insights/script.js\'; document.head.appendChild(t); }</script>\n' +
     '</head>\n<body class="' + (o.cls || '') + '">\n<a class="skip" href="#main">გადადი შინაარსზე</a>\n' +
     '<header class="top"><div class="top-in"><a class="logo" href="/learn/"><img class="logo-i" src="/learn/logo.png" alt="" width="30" height="30"><span>ისწავლე <b>კოდინგი</b></span></a>' +
     '<button type="button" class="ic-btn nav-t" id="nav-t" aria-label="მენიუ" aria-expanded="false" aria-controls="nav">☰</button>' +

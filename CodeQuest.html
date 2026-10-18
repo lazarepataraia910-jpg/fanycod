@@ -11864,7 +11864,18 @@ const WARDROBE = [
   { slot: 'feet', id: 'sneakers', name: 'სპორტული ფეხსაცმელი', price: 200, svg: mirror('<rect x="2.1" y="11" width="3.4" height="1.75" rx=".7" fill="#f8f9fa" stroke="#adb5bd" stroke-width=".12"/><rect x="2.5" y="11.6" width="2.4" height=".38" fill="#e03131"/>') },
   { slot: 'feet', id: 'boots', name: 'ჩექმები', price: 300, svg: mirror('<rect x="2.2" y="10.5" width="3" height="2.2" rx=".4" fill="#8d5524"/><rect x="2.1" y="12.15" width="3.4" height=".6" rx=".25" fill="#5c3317"/>') },
   { slot: 'feet', id: 'skates', name: 'გორგოლაჭები', price: 600, svg: mirror('<rect x="2.1" y="10.9" width="3.4" height="1.6" rx=".6" fill="#be4bdb"/><rect x="2.1" y="12.3" width="3.4" height=".3" fill="#495057"/><circle cx="2.8" cy="12.75" r=".28" fill="#ffd43b"/><circle cx="4.8" cy="12.75" r=".28" fill="#ffd43b"/>') },
-  { slot: 'feet', id: 'rocket', name: 'რაკეტა-ფეხსაცმელი', price: 1200, svg: mirror('<rect x="2.1" y="10.9" width="3.4" height="1.7" rx=".6" fill="#e03131"/><rect x="2.1" y="11.5" width="3.4" height=".35" fill="#f8f9fa"/><polygon points="2.6,12.6 3.8,13 5,12.6" fill="#ff922b"/>') }
+  { slot: 'feet', id: 'rocket', name: 'რაკეტა-ფეხსაცმელი', price: 1200, svg: mirror('<rect x="2.1" y="10.9" width="3.4" height="1.7" rx=".6" fill="#e03131"/><rect x="2.1" y="11.5" width="3.4" height=".35" fill="#f8f9fa"/><polygon points="2.6,12.6 3.8,13 5,12.6" fill="#ff922b"/>') },
+  // ბიტის ვერსია (უფასო, ფერივით): back — თავის უკან, face — სახეზე, torso — ტანზე (ტანსაცმელი ზემოდან ეფარება)
+  { slot: 'look', id: 'none', name: 'კლასიკური', price: 0 },
+  { slot: 'look', id: 'girl', name: 'გოგო', price: 0,
+    back: '<rect x="1.3" y="2.4" width="9.4" height="7.4" rx="1.5" fill="#8d5524"/>',
+    face: '<rect x="2" y="3" width="8" height=".8" rx=".4" fill="#8d5524"/>' + mirror('<rect x="3.4" y="4.35" width=".7" height=".4" fill="#3ddc97"/><rect x="3.3" y="6.75" width="1" height=".45" fill="#ff8cc8"/>') +
+      '<rect x="5" y="7.8" width="2" height=".5" fill="#ff4d8d"/><polygon points="8.6,3 7.2,2.1 7.2,3.9" fill="#ff4d8d"/><polygon points="8.6,3 10,2.1 10,3.9" fill="#ff4d8d"/><rect x="8.2" y="2.6" width=".8" height=".8" fill="#c2255c"/>' },
+  { slot: 'look', id: 'usa', name: 'აშშ', price: 0,
+    face: '<rect x="2" y="3" width="8" height="1" rx=".5" fill="#1c3f94"/><g fill="#fff"><rect x="2.9" y="3.33" width=".35" height=".35"/><rect x="4.3" y="3.33" width=".35" height=".35"/><rect x="7.35" y="3.33" width=".35" height=".35"/><rect x="8.75" y="3.33" width=".35" height=".35"/></g>' +
+      mirror('<rect x="1.1" y="5" width=".9" height="2.2" fill="#d62828"/>'),
+    torso: '<rect x="3" y="9" width="6" height="2.2" fill="#fff"/><g fill="#d62828"><rect x="3" y="9" width="6" height=".44"/><rect x="3" y="9.88" width="6" height=".44"/><rect x="3" y="10.76" width="6" height=".44"/></g><rect x="3" y="9" width="2.6" height="1.32" fill="#1c3f94"/>' +
+      '<g fill="#fff"><rect x="3.35" y="9.25" width=".3" height=".3"/><rect x="4.15" y="9.25" width=".3" height=".3"/><rect x="4.95" y="9.25" width=".3" height=".3"/><rect x="3.75" y="9.8" width=".3" height=".3"/><rect x="4.55" y="9.8" width=".3" height=".3"/></g>' }
 ];
 /* ===WARDROBE:BEGIN=== */
 /* ---------- გარდერობის იშვიათობები და ნივთების გენერატორი ----------
@@ -12482,7 +12493,7 @@ const WB_SAME = { 'top:tee': 'tshirt', 'hat:phones': 'headphones', 'eyes:shades'
 /* ===WARDROBE:END=== */
 const WARDROBE_BY = {};
 WARDROBE.forEach(w => { WARDROBE_BY[w.slot + ':' + w.id] = w; });
-const BIT_DEFAULT = { color: 'classic', hat: 'none', antenna: 'ball', eyes: 'none', neck: 'none', top: 'none', back: 'none', feet: 'none' };
+const BIT_DEFAULT = { look: 'none', color: 'classic', hat: 'none', antenna: 'ball', eyes: 'none', neck: 'none', top: 'none', back: 'none', feet: 'none' };
 const EDITOR_THEMES = [
   { id: 'default', name: 'სტანდარტული', xp: 0 },
   { id: 'monokai', name: 'მონოკაი', xp: 2000 },
@@ -16374,7 +16385,7 @@ function defaultProgress() {
   return {
     v: 1, name: '', started: false, levels: {}, ach: {}, bonusXP: 0,
     settings: { theme: 'light', sound: true, speed: 2, font: 15, unlockAll: false, learn: 'blocks' },   // learn: 'blocks' — ააწყე ბლოკებით, 'type' — გადაწერე ასო-ასო
-    skin: { color: 'classic', hat: 'none', antenna: 'ball', eyes: 'none', neck: 'none', top: 'none', back: 'none', feet: 'none' }, etheme: 'default',
+    skin: { look: 'none', color: 'classic', hat: 'none', antenna: 'ball', eyes: 'none', neck: 'none', top: 'none', back: 'none', feet: 'none' }, etheme: 'default',
     owned: [], spent: 0,   // ბიტის გარდერობი: ნაყიდი ნივთები ('slot:id') და დახარჯული XP
     stats: { runs: 0, fails: 0, hints: 0, playMs: 0, sandboxMaps: [], stepUsed: false, styled: false },
     worldFails: {}, daily: { last: '', count: 0 },
@@ -16646,14 +16657,14 @@ function bitSVG(sk) {
   const G = svgDefs(), d = sk.dark, b = sk.grad ? G.grad(sk.grad) : sk.body;   // G — ამ ნახატის გრადიენტები
   const it = slot => WARDROBE_BY[slot + ':' + sk[slot]] || WARDROBE_BY[slot + ':' + BIT_DEFAULT[slot]] || {};
   const draw = (w, k) => (typeof w[k] === 'function' ? w[k](d, b, G) : w[k] || '');
-  const hat = it('hat'), back = it('back');
-  const body = draw(back, 'back') + (hat.tall ? '' : draw(it('antenna'), 'svg')) +
+  const hat = it('hat'), back = it('back'), look = it('look');
+  const body = draw(back, 'back') + draw(look, 'back') + (hat.tall ? '' : draw(it('antenna'), 'svg')) +
     '<rect x="2" y="3" width="8" height="6" rx="1" fill="' + b + '"/>' +
     '<rect x="3" y="4" width="6" height="3.4" rx=".5" fill="#13163a"/>' +
-    '<g class="eyes"><rect x="4" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/></g>' + draw(it('eyes'), 'svg') +
+    '<g class="eyes"><rect x="4" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/><rect x="6.8" y="4.9" width="1.2" height="1.5" fill="#3ddc97"/></g>' +
     '<rect x="5" y="7.8" width="2" height=".5" fill="' + d + '"/>' +
-    '<rect x="1.1" y="5" width=".9" height="2.2" fill="' + d + '"/><rect x="10" y="5" width=".9" height="2.2" fill="' + d + '"/>' +
-    '<rect x="3" y="9" width="6" height="2.2" fill="' + d + '"/><rect x="4.4" y="9.6" width="3.2" height=".9" fill="' + b + '"/>' + draw(it('top'), 'svg') + draw(back, 'front') + draw(it('neck'), 'svg') +
+    '<rect x="1.1" y="5" width=".9" height="2.2" fill="' + d + '"/><rect x="10" y="5" width=".9" height="2.2" fill="' + d + '"/>' + draw(look, 'face') + draw(it('eyes'), 'svg') +
+    '<rect x="3" y="9" width="6" height="2.2" fill="' + d + '"/><rect x="4.4" y="9.6" width="3.2" height=".9" fill="' + b + '"/>' + draw(look, 'torso') + draw(it('top'), 'svg') + draw(back, 'front') + draw(it('neck'), 'svg') +
     '<rect x="2.4" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/><rect x="6.8" y="11.2" width="2.8" height="1.4" rx=".5" fill="#2d3436"/>' + draw(it('feet'), 'svg') +
     draw(hat, 'svg');
   return '<svg class="bitsvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 -3 12 16" shape-rendering="crispEdges" aria-hidden="true">' + (G.defs ? '<defs>' + G.defs + '</defs>' : '') + body + '</svg>';
@@ -18714,7 +18725,7 @@ const Dict = {
 
 /* ---------- პროფილი ---------- */
 /* ---------- ბიტის გარდერობი: ფერები უფასოა, ნივთები XP-ით იყიდება; ნაყიდზე დაჭერა აცმევს, სხვაზე — „მოსინჯავს“ ---------- */
-const WB_SLOTS = [['color', '🎨', 'ფერი'], ['hat', '🎩', 'ქუდები'], ['top', '👕', 'ტანსაცმელი'], ['eyes', '🕶️', 'სათვალე'], ['neck', '🎀', 'კისერზე'], ['back', '🎒', 'ზურგზე'], ['feet', '👟', 'ფეხსაცმელი'], ['antenna', '📡', 'ანტენა']];
+const WB_SLOTS = [['look', '🤖', 'ვერსია'], ['color', '🎨', 'ფერი'], ['hat', '🎩', 'ქუდები'], ['top', '👕', 'ტანსაცმელი'], ['eyes', '🕶️', 'სათვალე'], ['neck', '🎀', 'კისერზე'], ['back', '🎒', 'ზურგზე'], ['feet', '👟', 'ფეხსაცმელი'], ['antenna', '📡', 'ანტენა']];
 const WB_SORTS = [['rar', 'იშვიათობით'], ['cheap', 'ჯერ იაფი'], ['dear', 'ჯერ ძვირი'], ['mine', 'ჯერ ჩემი']];
 const Wardrobe = {
   tab: 'top', tryIt: null, rar: 'all', sort: 'rar', gridKey: '',
@@ -18847,7 +18858,7 @@ const Wardrobe = {
   },
   reset() {
     const P = Progress.P;
-    P.skin = Object.assign({}, BIT_DEFAULT, { color: P.skin.color }); P.skinAt = Date.now();
+    P.skin = Object.assign({}, BIT_DEFAULT, { color: P.skin.color, look: P.skin.look || 'none' }); P.skinAt = Date.now();
     this.tryIt = null; Progress.save(); Sound.click(); this.render();
   }
 };

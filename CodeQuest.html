@@ -20649,12 +20649,10 @@ const Account = {
       '<p class="acc-err" role="alert"></p><button class="btn primary acc-go" type="submit">ანგარიშის შექმნა</button><p class="acc-legal">ანგარიშის შექმნით ეთანხმები <a href="https://codequest-lazare.vercel.app/terms.html" target="_blank" rel="noopener">წესებს</a> და <a href="https://codequest-lazare.vercel.app/privacy.html" target="_blank" rel="noopener">კონფიდენციალურობის პოლიტიკას</a>. 13 წლამდე ხარ? ანგარიში მშობელთან ერთად შექმენი.</p></form>' +
       '<p class="acc-links"><button type="button" class="linklike" data-a="login">უკვე გაქვს ანგარიში? შედი</button></p>' +
       '<div class="modal-actions"><button class="btn" data-close>დახურვა</button></div></div>');
+    // ანგარიში იქმნება მხოლოდ წერილის ბმულზე დაჭერისას — მერე აქ შედის სახელით და პაროლით
     this.bind(m, f => this.checkNew(f) || (ACC_EMAIL_RE.test(f.email.trim()) ? null : 'email_format'), f => this.api('register', { name: f.name.trim(), email: f.email.trim(), password: f.password }), r => {
       Modal.close(m);
-      this.start(r, true);
-      Paywall.restore();
-      this.mailNote(r.mail ? '✉️ ანგარიში შექმნილია! შეამოწმე ფოსტა (' + r.em + ') და დააჭირე ბმულს, რომ ელფოსტა დადასტურდეს: ასე დავიწყებულ პაროლს ადვილად აღადგენ.'
-        : '✅ ანგარიში შექმნილია! დადასტურების წერილი ახლა ვერ გაიგზავნა — მოგვიანებით „👤 ანგარიში → ✉️ ელფოსტა“-დან გააგზავნე.', () => this.runAfter());
+      this.mailNote('✉️ თითქმის მზადაა! წერილი გავაგზავნეთ: ' + r.em + '. დააჭირე წერილში ღილაკს „დადასტურება“ — ანგარიში მხოლოდ მაშინ შეიქმნება. მერე აქ შედი სახელით „' + r.name + '“ და პაროლით. წერილი არ ჩანს? შეამოწმე „სპამი“.', () => this.loginForm());
     });
     m.querySelector('[data-a=login]').addEventListener('click', () => { Modal.close(m); this.loginForm(); });
   },

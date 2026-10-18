@@ -345,16 +345,35 @@ function mergeSchool(a, b) {
 
 /* ---------- მოქმედებები ---------- */
 const actions = {
+  // რეგისტრაცია: ანგარიში ჯერ არ იქმნება — მხოლოდ წერილი. ანგარიში ჩნდება წერილის ბმულზე დაჭერისას (confirmReg)
   async register(b, ip) {
-    const name = checkName(b.name), pass = checkPass(b.password, name), u = keyOf(name), email = b.email == null ? '' : checkEmail(b.email);
+    const name = checkName(b.name), pass = checkPass(b.password, name), u = keyOf(name), email = checkEmail(b.email);
+    if (!process.env.RESEND_API_KEY) throw new Fail(503, 'no_mail');
     await limit('reg', ip, 40, 3600);   // სკოლაში ბევრი ბავშვი ერთი IP-დან რეგისტრირდება
-    const user = { name, pw: await hashSecret(pass), pwv: 1, at: Date.now() };
-    // აღდგენა ელფოსტით; ელფოსტის გარეშე (თამაშის ძველი ვერსია) — ძველებურად, აღდგენის კოდით
-    const recovery = email ? '' : newRecovery();
-    if (email) Object.assign(user, { email, ev: 0 }); else user.rc = await hashSecret(normRecovery(recovery));
-    if (await db(['SET', 'user:' + u, JSON.stringify(user), 'NX']) !== 'OK') throw new Fail(409, 'name_taken');
-    const mail = email ? await sendVerify(u, user).then(() => true, e => { console.error('verify mail', e && (e.code || e.message)); return false; }) : false;
-    return Object.assign({ name, token: await newSession(u, 1), rev: 0, em: maskEmail(email), ev: false, mail }, recovery ? { recovery } : {});
+    if (await getUser(u)) throw new Fail(409, 'name_taken');
+    await limit('mail', email, 6, 3600);
+    const code = newLinkCode();
+    await db(['SET', 'reg:' + sha(code), JSON.stringify({ name, pw: await hashSecret(pass), email }), 'EX', VERIFY_SEC]);
+    await sendMail(email, 'CodeQuest: დაადასტურე ელფოსტა', ['გამარჯობა, ' + name + '!',
+      'ვიღაცამ, იმედია შენ, CodeQuest-ზე ანგარიში „' + name + '“ ამ ელფოსტით დაარეგისტრირა. ანგარიში შეიქმნება, როცა ღილაკს დააჭერ.',
+      'ბმული 7 დღე მოქმედებს.', 'თუ ეს შენ არ გაგიკეთებია, უბრალოდ წაშალე წერილი: ანგარიში არ შეიქმნება.'],
+      APP + '/account.html?join=' + code, 'დადასტურება და ანგარიშის შექმნა');
+    return { pending: true, name, em: maskEmail(email) };
+  },
+  // წერილის ბმული: ელფოსტა დადასტურდა — ანგარიში ახლა იქმნება (უკვე დადასტურებული ელფოსტით). სესია არ იქმნება: შესვლა თამაშში
+  async confirmReg(b, ip) {
+    await limit('join-ip', ip, 30, 3600);
+    const code = String(b.code || '');
+    const raw = CODE_RE.test(code) ? await db(['GET', 'reg:' + sha(code)]) : null, t = raw ? JSON.parse(raw) : null;
+    if (!t) throw new Fail(400, 'bad_link');
+    const u = keyOf(t.name), user = { name: t.name, pw: t.pw, pwv: 1, at: Date.now(), email: t.email, ev: Date.now() };
+    if (await db(['SET', 'user:' + u, JSON.stringify(user), 'NX']) !== 'OK') {
+      const had = await getUser(u);
+      if (had && had.email === t.email && had.pw === t.pw) return { name: t.name };   // ბმულს მეორედ დააჭირა
+      throw new Fail(409, 'name_taken');
+    }
+    await db(['SADD', 'emailu:' + t.email, u]);   // reg: ვადამდე რჩება — მეორე დაჭერაზე იგივე პასუხი
+    return { name: t.name };
   },
   async login(b, ip) {
     const { u, user } = await byPassword(b, ip);

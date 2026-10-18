@@ -100,7 +100,7 @@ input:focus{outline:2px solid var(--accent);outline-offset:1px}
 
   // კოდი მისამართიდან მაშინვე ქრება (ისტორია, სკრინშოტი); გვერდის განახლებისთვის ჩანართის მეხსიერებაში რჩება
   const q = new URLSearchParams(location.search), CODE = /^[A-Za-z0-9_-]{20,100}$/;
-  let mode = q.has('reset') ? 'reset' : q.has('verify') ? 'verify' : '', code = mode ? q.get(mode) : '';
+  let mode = q.has('reset') ? 'reset' : q.has('verify') ? 'verify' : q.has('join') ? 'join' : '', code = mode ? q.get(mode) : '';
   if (mode) { history.replaceState(null, '', location.pathname); try { sessionStorage.setItem('cq.link', JSON.stringify([mode, code])); } catch (e) { } }
   else { try { [mode, code] = JSON.parse(sessionStorage.getItem('cq.link')) || ['', '']; } catch (e) { } }
   const used = () => { try { sessionStorage.removeItem('cq.link'); } catch (e) { } };
@@ -112,6 +112,16 @@ input:focus{outline:2px solid var(--accent);outline-offset:1px}
       v => (v.password.length < 8 ? 'pass_short' : !strong(v.password) ? 'pass_weak' : v.password !== v.password2 ? 'pass_match' : null),
       v => api('resetLink', { code, password: v.password, nologin: true }),
       r => { used(); show('✅', 'პაროლი შეიცვალა', 'ახლა თამაშში შედი სახელით „' + r.name + '“ და ახალი პაროლით.', toGame('თამაშში შესვლა', true)); });
+    return;
+  }
+
+  // რეგისტრაციის დადასტურება: ბმულზე დაჭერა საკმარისია — ანგარიში ახლა იქმნება
+  if (mode === 'join') {
+    show('⏳', 'ანგარიშს ვქმნით…');
+    api('confirmReg', { code }).then(r => {
+      if (r.ok) { used(); return show('✅', 'ანგარიში შეიქმნა!', 'ელფოსტა დადასტურდა. ახლა თამაშში შედი სახელით „' + r.name + '“ და შენი პაროლით.', toGame('თამაშში შესვლა', true)); }
+      show('⚠️', 'ანგარიში ვერ შეიქმნა', r.error === 'name_taken' ? 'ეს სახელი ამასობაში სხვამ დაიკავა. თამაშში დარეგისტრირდი სხვა სახელით.' : msg(r), toGame('თამაშზე გადასვლა'));
+    });
     return;
   }
 

@@ -240,7 +240,8 @@ function shell(o) {
     '<meta name="theme-color" content="#0b0f14">\n<link rel="icon" href="/favicon.ico">\n' +
     '<script>try{var t=localStorage.getItem("cq.learn.theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>\n' +
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
-    '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap">\n' +
+    // შრიფტი გვერდის გამოსახვას არ აჩერებს (ჯერ სისტემური შრიფტი, მერე Noto)
+    '<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" onload="this.onload=null;this.rel=\'stylesheet\'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap"></noscript>\n' +
     (cm.length ? cdnTag('codemirror.min.css') + '\n' : '') + '<link rel="stylesheet" href="' + css + '">\n' +
     '<!-- Vercel Web Analytics -->\n<script>if (location.protocol === \'https:\') { window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); }; var s = document.createElement(\'script\'); s.defer = true; s.src = \'/_vercel/insights/script.js\'; document.head.appendChild(s); window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); }; var t = document.createElement(\'script\'); t.defer = true; t.src = \'/_vercel/speed-insights/script.js\'; document.head.appendChild(t); }</script>\n' +
     '</head>\n<body class="' + (o.cls || '') + '">\n<a class="skip" href="#main">გადადი შინაარსზე</a>\n' +

@@ -233,6 +233,8 @@
       try { await navigator.clipboard.writeText(text); b.textContent = 'დაკოპირდა ✓'; } catch (e) { b.textContent = 'ვერ დაკოპირდა'; }
       setTimeout(() => { b.textContent = 'კოპირება'; }, 1600);
     }));
+    // შრიფტი გვიან იტვირთება: მერე რედაქტორები ზომებს თავიდან ითვლიან (ხაზის ნომრები კოდს რომ არ ეფარებოდეს)
+    if (document.fonts) document.fonts.addEventListener('loadingdone', () => $$('.CodeMirror', root).forEach(e => e.CodeMirror && e.CodeMirror.refresh()));
     $$('.run', root).forEach(box => {
       const ta = $('.run-src', box), out = $('.run-out', box), go = $('.run-go', box), lang = box.dataset.lang, first = ta.value;
       const run = () => {

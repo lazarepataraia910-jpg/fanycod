@@ -16839,6 +16839,8 @@ const Renderer = {
 /* =====================================================================
    EDITOR — CodeMirror 5 (თუ ჩაიტვირთა) ან სათადარიგო textarea
    ===================================================================== */
+// შრიფტი გვიან იტვირთება (გვერდს არ აჩერებს): ჩატვირთვისას რედაქტორები ზომებს თავიდან ითვლიან, თორემ ხაზის ნომრები კოდს ეფარება
+if (document.fonts) document.fonts.addEventListener('loadingdone', () => document.querySelectorAll('.CodeMirror').forEach(e => e.CodeMirror && e.CodeMirror.refresh()));
 const Editor = {
   cm: null, ta: null, gut: null, err: null, runLine: null, onChange: null, errMark: null, runMark: null, lang: 'js', unit: 2,
   init(el) {

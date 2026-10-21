@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>/* იერსახე პირველივე კადრიდან (დღე/ღამე) — თორემ დღის რეჟიმში ჯერ შავი ჩანდა, მერე თეთრი */try{var s=JSON.parse(localStorage.getItem('codequest.v1')||'null');if(s&&s.settings&&s.settings.mode==='day')document.documentElement.dataset.theme='light'}catch(e){}</script>
 <title>CodeQuest: ბიტის თავგადასავალი</title>
-<meta name="description" content="სასწავლო თამაში ბავშვებისთვის: ისწავლე პროგრამირება ნულიდან ქართულად — 18 ენა (JavaScript, Python, HTML, CSS, C++ და სხვ.), 9000 ლეველი, რობოტ ბიტთან ერთად.">
+<meta name="description" content="სასწავლო თამაში ბავშვებისთვის: ისწავლე პროგრამირება ნულიდან ქართულად — 19 ენა (JavaScript, Python, Node.js, HTML, CSS, C++ და სხვ.), 9500 ლეველი, რობოტ ბიტთან ერთად.">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#3d5afe">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CodeQuest">
 <meta property="og:title" content="CodeQuest — ისწავლე პროგრამირება ნულიდან, ქართულად">
-<meta property="og:description" content="სასწავლო თამაში ბავშვებისთვის: 18 პროგრამირების ენა, 9000 ლეველი, რობოტი ბიტი და კლასები მასწავლებლებისთვის. უფასოდ.">
+<meta property="og:description" content="სასწავლო თამაში ბავშვებისთვის: 19 პროგრამირების ენა, 9500 ლეველი, რობოტი ბიტი და კლასები მასწავლებლებისთვის. უფასოდ.">
 <meta property="og:image" content="https://codequest.space/og.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
@@ -2194,7 +2194,7 @@ function runSandbox(p) {
   con.info = con.log; con.warn = con.log; con.error = con.log;
 
   // სხვა ენა (Python, C, ...): კოდი უკვე JS-შია ნათარგმნი, მას დამხმარე ფუნქციები ($...) სჭირდება
-  if (p.lang && p.lang !== 'js' && typeof langRuntime === 'function') {
+  if (p.lang && p.lang !== 'js' && p.lang !== 'node' && typeof langRuntime === 'function') {
     rt = langRuntime(p.lang, {
       emit: function (text) {
         if (halted) throw HALT;
@@ -10629,7 +10629,8 @@ const LANGS = {
   swift: { id: 'swift', name: 'Swift', badge: 'Sw', color: '#f05138', ink: '#fff', kind: 'robot', cm: 'text/x-swift', indent: 4, print: 'print()', compile: (c, o) => nlCompile(c, Object.assign({ lang: 'swift' }, o)) },
   kt: { id: 'kt', name: 'Kotlin', badge: 'Kt', color: '#7f52ff', ink: '#fff', kind: 'robot', cm: 'text/x-kotlin', indent: 4, print: 'println()', compile: (c, o) => nlCompile(c, Object.assign({ lang: 'kt' }, o)) },
   lua: { id: 'lua', name: 'Lua', badge: 'Lua', color: '#000080', ink: '#fff', kind: 'robot', cm: 'text/x-lua', indent: 4, print: 'print()', compile: (c, o) => nlCompile(c, Object.assign({ lang: 'lua' }, o)) },
-  dart: { id: 'dart', name: 'Dart', badge: 'Dart', color: '#0175c2', ink: '#fff', kind: 'robot', cm: 'application/dart', indent: 2, print: 'print()', compile: (c, o) => nlCompile(c, Object.assign({ lang: 'dart' }, o)) }
+  dart: { id: 'dart', name: 'Dart', badge: 'Dart', color: '#0175c2', ink: '#fff', kind: 'robot', cm: 'application/dart', indent: 2, print: 'print()', compile: (c, o) => nlCompile(c, Object.assign({ lang: 'dart' }, o)) },
+  node: { id: 'node', name: 'Node.js', badge: 'Node', color: '#5fa04e', ink: '#fff', kind: 'robot', cm: 'javascript', indent: 2, print: 'console.log()' }
 };
 const cmdName = (lang, c) => (lang === 'py' ? snakeName(c) : NL_IDS.includes(lang) ? nlCmdName(lang, c) : c);
 
@@ -10924,6 +10925,82 @@ function clikeCode(lang) {
 }
 ['java', 'c', 'cpp'].forEach(l => { RC_CODE[l] = clikeCode(l); });
 NL_IDS.forEach(l => { RC_CODE[l] = nlCode(l); });
+// Node.js — JavaScript-ის სინტაქსი, კოდი JS-ის ძრავზე ეშვება (თარგმნის გარეშე)
+RC_CODE.node = {
+  start: {
+    theory: 'Node.js — JavaScript-ია ბრაუზერის გარეთ: კომპიუტერზე ან სერვერზე. პროგრამას ფაილში წერ (მაგ. main.js) და ტერმინალში უშვებ: node main.js. ბრძანებები ზემოდან ქვემოთ სრულდება და ; -ით მთავრდება. move() ბიტს ერთი ნაბიჯით წინ წაიყვანს, turnLeft() და turnRight() მარცხნივ და მარჯვნივ მოაბრუნებს.',
+    example: 'turnRight();\nmove();', starter: '// შენი პირველი Node.js-პროგრამა — main.js\n',
+    hints: ['ბიტი მარჯვნივ იყურება (ლურჯი ისარი), დროშა კი მის ზემოთაა.', 'ჯერ მოუხვიე მარცხნივ — turnLeft();, მერე გადადი წინ — move();'], solution: 'turnLeft();\nmove();'
+  },
+  crystals: {
+    theory: 'collect() აიღებს კრისტალს, რომელზეც ბიტი დგას — ამიტომ ჯერ მიდი, მერე აიღე. // -ის შემდეგ ტექსტი კომენტარია: კომპიუტერი მას არ კითხულობს, ის ადამიანებისთვისაა.',
+    example: '// ჯერ მივდივარ, მერე ვიღებ\nmove();\ncollect();', starter: '',
+    hints: ['ჯერ აიღე წინა კრისტალი: move(); collect();', 'მერე მოუხვიე მარჯვნივ (ბიტი ქვემოთ გაიხედავს), გადადი ერთი ნაბიჯით და აიღე.'], solution: 'move();\ncollect();\nturnRight();\nmove();\ncollect();'
+  },
+  vars: {
+    theory: 'ცვლადი ყუთია სახელით: let steps = 3; ქმნის ყუთს steps და შიგ 3-ს დებს. move(steps) იგივეა, რაც move(3). const ქმნის ყუთს, რომლის შეცვლაც არ შეიძლება — Node.js-ის კოდში ის ყველაზე ხშირია. ტიპს JavaScript თავად ხვდება.',
+    example: 'const steps = 2;\nmove(steps);', starter: '// შექმენი ცვლადი steps და გამოიყენე\n',
+    require: [R(/\b(?:let|const|var)\s+steps\s*=\s*3\b/, 'შექმენი ცვლადი: let steps = 3;'), R(/move\(\s*steps\s*\)/, 'ცვლადი ბრძანებაში გამოიყენე: move(steps);')],
+    hints: ['ცვლადი: let, სახელი, = და მნიშვნელობა, ბოლოს ;', 'let steps = 3; და შემდეგ ხაზზე move(steps);'], solution: 'let steps = 3;\nmove(steps);'
+  },
+  print: {
+    theory: 'ტექსტი ბრჭყალებში იწერება: "გამარჯობა". console.log() ბეჭდავს — Node.js-ში ტექსტი ტერმინალში ჩნდება. + ტექსტებს აერთებს: "გამარჯობა, " + name. უკუ ბრჭყალებში (`) ${name} ცვლადს ჩასვამს: `გამარჯობა, ${name}`.',
+    example: 'const food = "ვაშლი";\nconsole.log("მიყვარს " + food);\nconsole.log(`მიყვარს ${food}`);', starter: 'const name = "ბიტი";\nconsole.log(name);\n',
+    require: [R(/\+\s*name\b|\bname\s*\+|\$\{\s*name\s*\}/, 'შეაერთე ტექსტი და ცვლადი: "გამარჯობა, " + name')],
+    hints: ['console.log()-ის ფრჩხილებში name-ის წინ ტექსტი დაამატე.', 'console.log("გამარჯობა, " + name);'], solution: 'const name = "ბიტი";\nconsole.log("გამარჯობა, " + name);'
+  },
+  math: {
+    theory: 'არითმეტიკა: + - * / %. JavaScript-ში / წილადს იძლევა: 7 / 2 არის 3.5, მთელი ნაწილი კი — Math.floor(7 / 2), ანუ 3. % — ნაშთი: 7 % 2 არის 1. ლუწ რიცხვს 2-ზე გაყოფისას ნაშთი 0 აქვს. openDoor(code) აღებს კარს, თუ კოდი სწორია.',
+    example: 'console.log(7 / 2);             // 3.5\nconsole.log(Math.floor(7 / 2)); // 3\nconsole.log(7 % 2);             // 1', starter: '// number უკვე არსებობს — ნახე „მონაცემები“\nopenDoor(number % 2);\nmove(2);\n// მეორე კარი: number-ის 5-ზე გაყოფის ნაშთი\n',
+    require: [R(/number\s*%\s*5/, 'მეორე კარისთვის გამოიყენე number % 5')],
+    hints: ['პირველი კარი უკვე იღება. მეორე კართან ბიტი move(2)-ის შემდეგ დგას.', 'openDoor(number % 5); შემდეგ კი 3 ნაბიჯი დროშამდე.'], solution: 'openDoor(number % 2);\nmove(2);\nopenDoor(number % 5);\nmove(3);'
+  },
+  if: {
+    theory: 'if (პირობა) { ... } — ფიგურულ ფრჩხილებში მოქცეული ბრძანებები მხოლოდ მაშინ სრულდება, თუ პირობა true-ა. isWallAhead() ამბობს, არის თუ არა წინ კედელი.',
+    example: 'if (isWallAhead()) {\n  turnRight();\n}', starter: 'move();\n// თუ წინ კედელია — მოუხვიე მარჯვნივ\n\nmove(2);\n',
+    require: [R(/\bif\s*\(/, 'გამოიყენე if — კოდმა თავად უნდა გადაწყვიტოს!')],
+    hints: ['ორი ტესტი: ერთში კედელია, მეორეში — არა. ერთმა კოდმა ორივე უნდა გაიაროს.', 'if (isWallAhead()) {\n  turnRight();\n}'], solution: 'move();\nif (isWallAhead()) {\n  turnRight();\n}\nmove(2);'
+  },
+  else: {
+    theory: 'if/else ორ გზას შორის ირჩევს: if (პირობა) { A } else { B } — თუ პირობა true-ა, სრულდება A, თუ არა — B. isGreen() ამბობს, მწვანეა თუ არა შუქი; wait() ბიტს ერთი წამით აჩერებს.',
+    example: 'if (isGreen()) {\n  move();\n} else {\n  wait();\n}', starter: 'if (isGreen()) {\n  move();\n} else {\n  // წითელია — დაელოდე, მერე იარე\n}\nmove(2);\n',
+    require: [R(/\belse\b/, 'გამოიყენე else — მეორე გზა წითელი შუქისთვის.')],
+    hints: ['else-ის ფრჩხილებში ორი ბრძანება უნდა იყოს.', 'ჯერ wait(); მერე move();'], solution: 'if (isGreen()) {\n  move();\n} else {\n  wait();\n  move();\n}\nmove(2);'
+  },
+  for: {
+    theory: 'for ციკლი ბრძანებებს მრავალჯერ იმეორებს: for (let i = 0; i < 10; i++) { ... }. სამი ნაწილი: let i = 0 — მრიცხველის დასაწყისი; i < 10 — სანამ სრულდება; i++ — ყოველ წრეზე 1-ით ზრდა.',
+    example: 'for (let i = 0; i < 3; i++) {\n  console.log("წრე", i);\n}', starter: 'for (let i = 0; i < 10; i++) {\n  // რა უნდა გაიმეოროს ბიტმა?\n}\n',
+    require: [R(/\bfor\s*\(/, 'გამოიყენე for ციკლი')], forbid: [R(/move\(\s*[^)\s]/, 'ამ ლეველზე move()-ს რიცხვი არ სჭირდება — გაიმეორე ციკლით!')],
+    hints: ['ციკლი უკვე დაწერილია — მის შიგნით ერთი ბრძანება აკლია.', 'ფრჩხილებში ჩაწერე move();'], solution: 'for (let i = 0; i < 10; i++) {\n  move();\n}'
+  },
+  while: {
+    theory: 'while (პირობა) { ... } — იმეორებს, სანამ პირობა true-ა. გამოიყენე, როცა წინასწარ არ იცი, რამდენჯერ. ! პირობას აბრუნებს: while (!isWallAhead()) ნიშნავს „სანამ წინ კედელი არ არის“.',
+    example: 'while (!isWallAhead()) {\n  move();\n}', starter: 'while (!isWallAhead()) {\n  // რა უნდა გააკეთოს ბიტმა?\n}\n',
+    require: [R(/\bwhile\s*\(/, 'გამოიყენე while ციკლი')],
+    hints: ['ციკლის შიგნით ერთი ბრძანება აკლია.', 'ფრჩხილებში ჩაწერე move();'], solution: 'while (!isWallAhead()) {\n  move();\n}'
+  },
+  smart: {
+    theory: 'ციკლის შიგნით if-იც შეიძლება იყოს: ყოველ წრეზე ბიტი ამოწმებს, რა ხდება. isCrystalHere() ამბობს, არის თუ არა კრისტალი ბიტის ქვეშ.',
+    example: 'for (let i = 0; i < 3; i++) {\n  move();\n  if (isCrystalHere()) {\n    collect();\n  }\n}', starter: '',
+    require: [R(/\b(for|while)\s*\(/, 'გამოიყენე ციკლი'), R(/isCrystalHere\s*\(/, 'გამოიყენე სენსორი isCrystalHere()')],
+    hints: ['დერეფანი 6 უჯრაა: ყოველ ნაბიჯზე შეამოწმე, კრისტალზე ხომ არ დგახარ.', 'ციკლი 6-ჯერ: move(); შემდეგ if (isCrystalHere()) { collect(); }'], solution: 'for (let i = 0; i < 6; i++) {\n  move();\n  if (isCrystalHere()) {\n    collect();\n  }\n}'
+  },
+  func: {
+    fn: 'turnAround()',
+    theory: 'ფუნქცია ახალი ბრძანებაა, რომელსაც თავად ქმნი: function turnAround() { ... }. ის მხოლოდ გამოძახებისას სრულდება: turnAround();. Node.js-ში ფუნქციებს ხშირად ცალკე ფაილში (მოდულში) წერენ, module.exports-ით გასცემენ და სხვა ფაილში require()-ით იღებენ — ნახე შპარგალკაში.',
+    example: 'function hello() {\n  console.log("გამარჯობა!");\n}\n\nhello();\nhello();', starter: 'function turnAround() {\n  // ორი მოხვევა\n}\n\nmove(3);\ncollect();\n// გამოიძახე turnAround() და დაბრუნდი დროშამდე\n',
+    require: [R(/function\s+turnAround\s*\(|(?:const|let)\s+turnAround\s*=/, 'შექმენი ფუნქცია: function turnAround() { ... }'), RT(src => countMatches(src, /(?<!function\s+)\bturnAround\s*\(/g) >= 1, 'გამოიძახე turnAround() — შექმნა საკმარისი არ არის!')],
+    hints: ['ბიტი უკან რომ შებრუნდეს, ორჯერ უნდა მოუხვიოს ერთ მხარეს.', 'ფუნქციაში: turnLeft(); ორჯერ. ქვემოთ: turnAround(); და move(5);'], solution: 'function turnAround() {\n  turnLeft();\n  turnLeft();\n}\n\nmove(3);\ncollect();\nturnAround();\nmove(5);'
+  },
+  boss: {
+    theory: 'ლოგიკური ოპერატორები: && — „და“ (ორივე true), || — „ან“ (ერთი მაინც true), ! — „არა“. jump() ბიტს 2 უჯრით გადაახტუნებს, isTrapAhead() კი ამბობს, ხაფანგია თუ არა წინ. ⚠️ ბოსი: კოდი უკვე დაწერილია, მაგრამ მასში 2 ბაგია!',
+    example: 'if (isCrystalHere() || isKeyHere()) {\n  collect();\n}',
+    starter: '// ⚠️ გლიჩმა აქ 2 ბაგი ჩადო!\nfor (let i = 0; i < 2; i++) {\n  if (isTrapAhead()) {\n    jump();\n  } else {\n    move();\n    move();\n  }\n  if (isCrystalHere() && isKeyHere()) {\n    collect();\n  }\n}\n',
+    require: [R(/\|\|/, 'გამოიყენე || — ეს ლოგიკის კოშკია!')],
+    hints: ['გაუშვი და დააკვირდი: რამდენ მონაკვეთს გადის ბიტი? კოშკი სამი მონაკვეთისგანაა.', 'i < 2 → i < 3. ერთ უჯრაზე კრისტალი და გასაღები ერთად არასდროს დევს — && -ის ნაცვლად || სჭირდება.'],
+    solution: 'for (let i = 0; i < 3; i++) {\n  if (isTrapAhead()) {\n    jump();\n  } else {\n    move();\n    move();\n  }\n  if (isCrystalHere() || isKeyHere()) {\n    collect();\n  }\n}'
+  }
+};
 function robotCourse(lang) {
   return RC_LEVELS.map((base, i) => {
     const c = RC_CODE[lang][base.key];
@@ -11357,6 +11434,7 @@ const COURSES = [
   { id: 'c', lang: 'c', title: 'C', sub: 'კომპიუტერთან ახლოს', desc: 'კლასიკური ენა, რომელზეც ოპერაციული სისტემები წერია: main(), printf, #include, ტიპები და ფუნქციები.', levels: robotCourse('c') },
   { id: 'cpp', lang: 'cpp', title: 'C++', sub: 'თამაშები და სიჩქარე', desc: 'თამაშების ძრავების ენა: cout, string, პირობები, ციკლები და ფუნქციები.', levels: robotCourse('cpp') },
   { id: 'ts', lang: 'ts', title: 'TypeScript', sub: 'JavaScript ტიპებით', desc: 'დიდი ვებ-აპების ენა — JavaScript, ოღონდ ტიპებით: number, string, boolean, let და const, პირობები, ციკლები და ფუნქციები.', levels: robotCourse('ts') },
+  { id: 'node', lang: 'node', title: 'Node.js', sub: 'JavaScript სერვერზე', desc: 'JavaScript ბრაუზერის გარეთ — სერვერებისა და ხელსაწყოების ენა: const და let, console.log ტერმინალში, პირობები, ციკლები, ფუნქციები და მოდულები (require, module.exports).', levels: robotCourse('node') },
   { id: 'cs', lang: 'cs', title: 'C#', sub: 'Unity-ის თამაშები', desc: 'Unity-ის თამაშებისა და Windows-ის პროგრამების ენა: ტიპები, Console.WriteLine, პირობები, ციკლები და მეთოდები.', levels: robotCourse('cs') },
   { id: 'go', lang: 'go', title: 'Go', sub: 'მარტივი და სწრაფი', desc: 'Google-ის ენა სერვერებისთვის: package main, := ცვლადები, fmt.Println და ერთადერთი ციკლი — for.', levels: robotCourse('go') },
   { id: 'rs', lang: 'rs', title: 'Rust', sub: 'უსაფრთხო და სწრაფი', desc: 'მკაცრი და სწრაფი სისტემური ენა: let და let mut, println!, დიაპაზონები 0..10, პირობები და ფუნქციები.', levels: robotCourse('rs') },
@@ -11796,7 +11874,8 @@ const ACHIEVEMENTS = [
   { id: 'course_swift', ic: '🐦', t: 'სწრაფი ფრთა', d: 'დაასრულე Swift-ის კურსი' },
   { id: 'course_kt', ic: '📱', t: 'Android-ის შემქმნელი', d: 'დაასრულე Kotlin-ის კურსი' },
   { id: 'course_lua', ic: '🪐', t: 'მთვარის მოგზაური', d: 'დაასრულე Lua-ს კურსი' },
-  { id: 'course_dart', ic: '🏹', t: 'მიზანში მსროლელი', d: 'დაასრულე Dart-ის კურსი' }
+  { id: 'course_dart', ic: '🏹', t: 'მიზანში მსროლელი', d: 'დაასრულე Dart-ის კურსი' },
+  { id: 'course_node', ic: '🟢', t: 'სერვერის ოსტატი', d: 'დაასრულე Node.js-ის კურსი' }
 ];
 const RANKS = [
   { name: 'დამწყები', xp: 0, ic: '🐣' },
@@ -12135,7 +12214,7 @@ const WB_TOPS = wbGen('top', [
 ]).concat(
   // პროგრამირების ენების მაისურები
   wbVar('top', 'lang', v => SHIRT(v[3]) + shirtTxt(v[5], v[4]), [
-    ['js', 'JavaScript-ის მაისური', 2, '#f7df1e', '#212529', 'JS'], ['ts', 'TypeScript-ის მაისური', 2, '#3178c6', '#fff', 'TS'], ['py', 'Python-ის მაისური', 2, '#306998', '#ffd43b', 'Py'],
+    ['js', 'JavaScript-ის მაისური', 2, '#f7df1e', '#212529', 'JS'], ['ts', 'TypeScript-ის მაისური', 2, '#3178c6', '#fff', 'TS'], ['node', 'Node.js-ის მაისური', 2, '#5fa04e', '#fff', 'Node'], ['py', 'Python-ის მაისური', 2, '#306998', '#ffd43b', 'Py'],
     ['java', 'Java-ს მაისური', 2, '#f8f9fa', '#e76f00', 'Java'], ['c', 'C-ს მაისური', 2, '#5c6bc0', '#fff', 'C'], ['cpp', 'C++-ის მაისური', 2, '#00599c', '#fff', 'C++'],
     ['cs', 'C#-ის მაისური', 2, '#68217a', '#fff', 'C#'], ['go', 'Go-ს მაისური', 2, '#00add8', '#fff', 'Go'], ['rs', 'Rust-ის მაისური', 2, '#2b2f36', '#f74c00', 'Rust'],
     ['php', 'PHP-ის მაისური', 2, '#777bb4', '#fff', 'php'], ['rb', 'Ruby-ს მაისური', 2, '#cc342d', '#fff', 'Ruby'], ['swift', 'Swift-ის მაისური', 2, '#f05138', '#fff', 'Swift'],
@@ -12519,8 +12598,8 @@ const EDITOR_THEMES = [
    ===================================================================== */
 const Drill = (() => {
   const N = 1000, PER = 25;
-  const ROBOT = ['js', 'py', 'java', 'c', 'cpp', 'ts', 'cs', 'go', 'rs', 'php', 'rb', 'swift', 'kt', 'lua', 'dart'];
-  const LANG_LIST = ['js', 'py', 'java', 'c', 'cpp', 'ts', 'cs', 'go', 'rs', 'php', 'rb', 'swift', 'kt', 'lua', 'dart', 'html', 'css', 'react'];
+  const ROBOT = ['js', 'py', 'java', 'c', 'cpp', 'ts', 'cs', 'go', 'rs', 'php', 'rb', 'swift', 'kt', 'lua', 'dart', 'node'];
+  const LANG_LIST = ['js', 'py', 'java', 'c', 'cpp', 'ts', 'cs', 'go', 'rs', 'php', 'rb', 'swift', 'kt', 'lua', 'dart', 'node', 'html', 'css', 'react'];
   const ri = (rng, a, b) => a + Math.floor(rng() * (b - a + 1));
   const pick = (rng, a) => a[Math.floor(rng() * a.length)];
   const shuffle = (rng, a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
@@ -12560,6 +12639,7 @@ const Drill = (() => {
   // IR → კოდი კონკრეტულ ენაზე. mode: 'full' (მთელი პროგრამა) ან 'snip' (ნაწყვეტი main-ის გარეშე)
   function emit(lang, prog, mode) {
     if (NL_IDS.includes(lang)) return nlEmit(lang, prog, mode);
+    if (lang === 'node') lang = 'js';
     const py = lang === 'py', cl = lang === 'java' || lang === 'c' || lang === 'cpp';
     const U = ' '.repeat(LANGS[lang].indent), semi = py ? '' : ';';
     const types = Object.assign({}, prog.types || {});
@@ -12709,6 +12789,7 @@ const Drill = (() => {
   // {fn:name} → ფუნქციის სახელი; [for] → ენის სინტაქსი (SYN)
   function tx(lang, s) {
     if (NL_IDS.includes(lang)) return nlTx(lang, s);
+    if (lang === 'node') lang = 'js';
     const py = lang === 'py';
     return String(s == null ? '' : s).replace(/\{(\w+)(?::([\w-]+)|=([^}]*))?\}/g, (m, a, b, c) => {
       if (a === 'fn') return (py ? pyName(b) : b) + '()';
@@ -12732,6 +12813,7 @@ const Drill = (() => {
   };
   function reqs(lang, list) {
     if (NL_IDS.includes(lang)) return nlReqs(lang, list);
+    if (lang === 'node') lang = 'js';
     const py = lang === 'py', out = [];
     const nm = n => (py ? pyName(n) : n);
     for (const r of list || []) {
@@ -15321,7 +15403,7 @@ const Drill = (() => {
       theory: 'სადესანტო (landing) გვერდი ერთ პროდუქტს წარადგენს: hero-ბლოკი (დიდი სათაური, მოკლე ტექსტი და ღილაკი-ბმული), უპირატესობების სია, გამოწერის ფორმა და footer. ⚠️ ბოლო გამოცდაში გლიჩი ბაგებს ჩადებს.',
       example: '<section class="hero">\n  <h1>CodeQuest</h1>\n  <a href="#join">დაიწყე</a>\n</section>',
       gen(rng, k) {
-        const prod = pick(rng, ['CodeQuest', 'BitBot', 'კოდის სკოლა', 'რობოკლუბი']), feats = picks(rng, ['უფასოა', 'ქართულად', '18 ენა', 'ტელეფონზეც მუშაობს', 'სერტიფიკატები', 'ყოველდღიური გამოწვევა'], 3);
+        const prod = pick(rng, ['CodeQuest', 'BitBot', 'კოდის სკოლა', 'რობოკლუბი']), feats = picks(rng, ['უფასოა', 'ქართულად', '19 ენა', 'ტელეფონზეც მუშაობს', 'სერტიფიკატები', 'ყოველდღიური გამოწვევა'], 3);
         const sol = '<section class="hero">\n  <h1>' + prod + '</h1>\n  <p>ისწავლე პროგრამირება თამაშით.</p>\n  <a href="#join">დაიწყე ახლავე</a>\n</section>\n<section class="features">\n  <h2>რატომ ' + prod + '?</h2>\n  <ul>\n' + feats.map(f => '    <li>' + f + '</li>').join('\n') + '\n  </ul>\n</section>\n<section id="join">\n  <h2>შემოგვიერთდი</h2>\n  <form>\n    <label for="em">ელფოსტა</label>\n    <input id="em" type="email" required>\n    <button type="submit">გამოწერა</button>\n  </form>\n</section>\n<footer>\n  <p>© ' + prod + '</p>\n</footer>';
         const s = { title: 'სადესანტო: ' + prod, task: 'ააწყე გვერდი: (1) <section class="hero"> — <h1> „' + prod + '“, აბზაცი და ბმული „დაიწყე ახლავე“ → #join; (2) <section class="features"> — <h2> „რატომ ' + prod + '?“ და სია: ' + feats.join(', ') + '; (3) <section id="join"> — <h2> „შემოგვიერთდი“ და ფორმა (ელფოსტის ველი id="em", required, წარწერით; ღილაკი „გამოწერა“); (4) <footer>.',
           starter: '', solution: sol,
@@ -16173,12 +16255,12 @@ const Drill = (() => {
 
   /* ---------- ლეველის აწყობა ---------- */
   const id = (lang, n) => 'drill-' + lang + '-' + n;
-  function parse(lid) { const m = /^drill-(js|py|java|c|cpp|ts|cs|go|rs|php|rb|swift|kt|lua|dart|html|css|react)-(\d+)$/.exec(String(lid)); return m && +m[2] >= 1 && +m[2] <= N ? { lang: m[1], n: +m[2] } : null; }
+  function parse(lid) { const m = /^drill-(js|py|java|c|cpp|ts|cs|go|rs|php|rb|swift|kt|lua|dart|node|html|css|react)-(\d+)$/.exec(String(lid)); return m && +m[2] >= 1 && +m[2] <= N ? { lang: m[1], n: +m[2] } : null; }
   const seedRng = (lang, n) => mulberry32(hashStr('drill:' + lang + ':' + n));
   function skeleton(lang, spec, types) {
     const given = Object.keys(spec.given || {}).map(v => (lang === 'py' ? pyName(v) : NL_IDS.includes(lang) ? nlVarName(lang, v) : v));
     const note = given.length ? given.join(', ') + ' უკვე არსებობს — ნახე „მონაცემები“' : '';
-    if (lang === 'js' || lang === 'py') return note ? (lang === 'py' ? '# ' : '// ') + note + '\n' : '';
+    if (lang === 'js' || lang === 'node' || lang === 'py') return note ? (lang === 'py' ? '# ' : '// ') + note + '\n' : '';
     return emit(lang, { defs: [], body: note ? [I.note(note)] : [], types, print: !!spec.print, empty: true }) + '\n';
   }
   function robotLevel(lang, n) {
@@ -17461,6 +17543,26 @@ const langBadge = (lang, sm) => { const L = LANGS[lang]; return '<span class="la
 /* ---------- შპარგალკები (თითო ენისთვის) ---------- */
 const CHEATS = {
   ...NL_CHEATS,
+  node: [
+    { t: 'ბიტის ბრძანებები', d: 'move() — წინ (move(3) — 3 ნაბიჯი), turnLeft() / turnRight() — მობრუნება, collect() — აღება, openDoor(code) — კარის გაღება, wait() — ლოდინი, jump() — ნახტომი.', ex: 'move(2);\nturnLeft();\ncollect();' },
+    { t: 'სენსორები', d: 'true ან false-ს აბრუნებს: isWallAhead(), isCrystalHere(), isKeyHere(), isTrapAhead(), isGreen(), hasKey("red").', ex: 'if (isWallAhead()) {\n  turnRight();\n}' },
+    { t: 'node main.js', d: 'Node.js JavaScript-ს ბრაუზერის გარეთ უშვებს. კოდს ფაილში წერ და ტერმინალში უშვებ.', ex: '$ node main.js\nგამარჯობა!' },
+    { t: 'console.log()', d: 'ბეჭდავს ტერმინალში. რამდენიმე მნიშვნელობა მძიმით — დაიბეჭდება ჰარით.', ex: 'console.log("გამარჯობა!");\nconsole.log("ქულა:", 10);' },
+    { t: 'let და const', d: 'let — ცვლადი, const — მუდმივი (Node.js-ში ყველაზე ხშირი). ტიპს JavaScript თავად ხვდება.', ex: 'let steps = 3;\nconst name = "ბიტი";\nsteps = steps + 1;' },
+    { t: 'ტექსტი', d: '+ ტექსტებს აერთებს. უკუ ბრჭყალებში (`) ${ } ცვლადს ჩასვამს.', ex: 'const n = 5;\nconsole.log("კრისტალი: " + n);\nconsole.log(`კრისტალი: ${n}`);' },
+    { t: 'არითმეტიკა', d: '+ - * /, % — ნაშთი, ** — ხარისხი. / წილადს იძლევა, მთელი ნაწილი — Math.floor().', ex: 'console.log(7 / 2);             // 3.5\nconsole.log(Math.floor(7 / 2)); // 3\nconsole.log(7 % 2);             // 1' },
+    { t: 'if / else if / else', d: 'პირობა ფრჩხილებში, ბლოკი — { } შორის. შედარება: === და !==.', ex: 'const t = 25;\nif (t > 30) {\n  console.log("ცხელა");\n} else if (t > 15) {\n  console.log("თბილა");\n} else {\n  console.log("ცივა");\n}' },
+    { t: '&&  ||  !', d: '&& — და, || — ან, ! — არა.', ex: 'if (isCrystalHere() || isKeyHere()) {\n  collect();\n}' },
+    { t: 'for', d: 'for (საწყისი; პირობა; ცვლილება). for...of — სიის ყოველ ელემენტზე.', ex: 'for (let i = 0; i < 3; i++) {\n  console.log(i);  // 0 1 2\n}' },
+    { t: 'while', d: 'იმეორებს, სანამ პირობა true-ა. break ციკლს წყვეტს.', ex: 'while (!isWallAhead()) {\n  move();\n}' },
+    { t: 'ფუნქცია', d: 'function სახელი(პარამეტრი) { ... } ან ისრით: const f = (n) => ... — return პასუხს აბრუნებს.', ex: 'function square(n) {\n  return n * n;\n}\nconst double = n => n * 2;\nconsole.log(square(4), double(4));  // 16 8' },
+    { t: 'მასივი', d: '[...] — სია. ინდექსი 0-დან; length — სიგრძე; push() — დამატება.', ex: 'const items = [3, 1, 4];\nitems.push(5);\nconsole.log(items[0], items.length);' },
+    { t: 'მოდული: require და module.exports', d: 'Node.js-ში კოდი ფაილებად (მოდულებად) იყოფა: module.exports ფაილიდან გასცემს, require() სხვა ფაილიდან იღებს. თამაშში ერთი ფაილია, ამიტომ require აქ არ მუშაობს — ეს ნამდვილი Node.js-ისთვისაა.', ex: '// math.js\nfunction square(n) {\n  return n * n;\n}\nmodule.exports = { square };\n\n// main.js\nconst { square } = require("./math");\nconsole.log(square(4));  // 16' },
+    { t: 'process', d: 'process.argv — ბრძანების ხაზის არგუმენტები, process.env — გარემოს ცვლადები, process.exit() — პროგრამის დასრულება.', ex: '// $ node main.js ბიტი\nconst name = process.argv[2];\nconsole.log("გამარჯობა, " + name);' },
+    { t: 'ჩაშენებული მოდულები', d: 'fs — ფაილები, path — ფაილის მისამართები, http — სერვერი. დაყენება არ სჭირდება.', ex: 'const fs = require("fs");\nfs.writeFileSync("note.txt", "გამარჯობა!");\nconsole.log(fs.readFileSync("note.txt", "utf8"));' },
+    { t: 'npm', d: 'Node.js-ის ბიბლიოთეკების მაღაზია: npm init -y ქმნის პროექტს (package.json), npm install ბიბლიოთეკას აყენებს.', ex: '$ npm init -y\n$ npm install express\n$ node main.js' },
+    { t: '// კომენტარი', d: '// — ერთი ხაზი, /* ... */ — რამდენიმე ხაზი.', ex: '// ეს კომენტარია\nmove(); // ესეც' }
+  ],
   py: [
     { t: 'ბიტის ბრძანებები', d: 'move() — წინ (move(3) — 3 ნაბიჯი), turn_left() / turn_right() — მობრუნება, collect() — აღება, open_door(code) — კარის გაღება, wait() — ლოდინი, jump() — ნახტომი.', ex: 'move(2)\nturn_left()\ncollect()' },
     { t: 'სენსორები', d: 'True ან False-ს აბრუნებს: is_wall_ahead(), is_crystal_here(), is_key_here(), is_trap_ahead(), is_green(), has_key("red").', ex: 'if is_wall_ahead():\n    turn_right()' },
@@ -17573,7 +17675,7 @@ const Cheat = {
 // თამაშის მონაცემების ჩვენება ენის მიხედვით (int number = 14; ...)
 function fmtDataLine(lang, k, v, t) {
   if (NL_IDS.includes(lang)) return nlDataLine(lang, k, v, t);
-  const lit = x => (Array.isArray(x) ? (lang === 'py' || lang === 'js' ? '[' + x.map(lit).join(', ') + ']' : '{' + x.map(lit).join(', ') + '}') : typeof x === 'string' ? '"' + x + '"' : lang === 'py' && typeof x === 'boolean' ? (x ? 'True' : 'False') : String(x));
+  const lit = x => (Array.isArray(x) ? (lang === 'py' || lang === 'js' || lang === 'node' ? '[' + x.map(lit).join(', ') + ']' : '{' + x.map(lit).join(', ') + '}') : typeof x === 'string' ? '"' + x + '"' : lang === 'py' && typeof x === 'boolean' ? (x ? 'True' : 'False') : String(x));
   if (lang === 'py') return k + ' = ' + lit(v);
   const T = t || (typeof v === 'number' ? 'int' : typeof v === 'string' ? 'string' : 'int');
   const base = T.replace('[]', ''), arr = T.endsWith('[]');
@@ -17957,14 +18059,14 @@ const WebPreview = {
 
 /* ---------- ენის არჩევა: ძებნა, დალაგება, რჩეულები ★ ---------- */
 // პოპულარობა მსოფლიოში — Stack Overflow-ის დეველოპერების გამოკითხვის მიხედვით (ყველაზე პოპულარული — პირველი)
-const LANG_POP = ['js', 'html', 'css', 'py', 'react', 'ts', 'java', 'cs', 'cpp', 'c', 'php', 'go', 'rs', 'kt', 'lua', 'dart', 'rb', 'swift'];
+const LANG_POP = ['js', 'html', 'css', 'py', 'node', 'react', 'ts', 'java', 'cs', 'cpp', 'c', 'php', 'go', 'rs', 'kt', 'lua', 'dart', 'rb', 'swift'];
 // რისთვის იყენებენ ენას
 const LANG_AREAS = [
-  { ic: '🌐', name: 'ვებსაიტები', langs: ['html', 'css', 'js', 'ts', 'react', 'php', 'rb'] },
+  { ic: '🌐', name: 'ვებსაიტები', langs: ['html', 'css', 'js', 'ts', 'react', 'node', 'php', 'rb'] },
   { ic: '📱', name: 'მობილური აპები', langs: ['kt', 'swift', 'dart', 'java'] },
   { ic: '🎮', name: 'თამაშები', langs: ['cs', 'cpp', 'lua'] },
   { ic: '🤖', name: 'ხელოვნური ინტელექტი და მონაცემები', langs: ['py'] },
-  { ic: '⚙️', name: 'სისტემები და სერვერები', langs: ['go', 'rs', 'c'] }
+  { ic: '⚙️', name: 'სისტემები და სერვერები', langs: ['node', 'go', 'rs', 'c'] }
 ];
 // დალაგების წესები: [id, სახელი, ახსნა]
 const LANG_SORTS = [
@@ -18084,14 +18186,15 @@ const STUDIO_VIDEO = {
   js: ['JavaScript', 'javascript'], ts: ['TypeScript', 'typescript'], py: ['Python', 'python'], java: ['Java programming', 'java'],
   c: ['C programming', 'cprogramming'], cpp: ['C++', 'cpp'], cs: ['C#', 'csharp'], go: ['Golang', 'golang'], rs: ['Rust programming', 'rustlang'],
   php: ['PHP', 'php'], rb: ['Ruby programming', 'ruby'], swift: ['Swift iOS', 'swift'], kt: ['Kotlin', 'kotlin'], lua: ['Lua programming', 'lua'],
-  dart: ['Flutter Dart', 'flutter'], html: ['HTML', 'html'], css: ['CSS', 'css'], react: ['React', 'reactjs']
+  dart: ['Flutter Dart', 'flutter'], node: ['Node.js', 'nodejs'], html: ['HTML', 'html'], css: ['CSS', 'css'], react: ['React', 'reactjs']
 };
 // კოდის ბლოკის ენა → ფერადი სინტაქსი (hlCode)
 const STUDIO_HL = { python: 'py', ruby: 'rb', lua: 'lua', php: 'php', html: 'html', css: 'css' };
 // რედაქტორი: ფაილის სახელი და საწყისი კოდი
-const STUDIO_FILE = { js: 'main.js', ts: 'main.ts', py: 'main.py', java: 'Main.java', c: 'main.c', cpp: 'main.cpp', cs: 'Program.cs', go: 'main.go', rs: 'main.rs', php: 'index.php', rb: 'main.rb', swift: 'main.swift', kt: 'Main.kt', lua: 'main.lua', dart: 'main.dart', html: 'index.html', css: 'index.html', react: 'App.jsx' };
+const STUDIO_FILE = { node: 'main.js', js: 'main.js', ts: 'main.ts', py: 'main.py', java: 'Main.java', c: 'main.c', cpp: 'main.cpp', cs: 'Program.cs', go: 'main.go', rs: 'main.rs', php: 'index.php', rb: 'main.rb', swift: 'main.swift', kt: 'Main.kt', lua: 'main.lua', dart: 'main.dart', html: 'index.html', css: 'index.html', react: 'App.jsx' };
 const STUDIO_START = {
   js: 'console.log("გამარჯობა!");\n',
+  node: 'const name = "ბიტი";\nconsole.log(`გამარჯობა, ${name}! ეს Node.js-ია.`);\n',
   ts: 'const name: string = "ბიტი";\nconsole.log("გამარჯობა, " + name + "!");\n',
   py: 'print("გამარჯობა!")\n',
   java: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("გამარჯობა!");\n    }\n}\n',
@@ -19643,6 +19746,7 @@ const SNIPPETS = [
 // სიმბოლოების კლავიატურა ენების მიხედვით
 const KEYS = {
   js: ['(', ')', ';', '{', '}', '"', '=', '+', '-', '<', '>', '[', ']', '.', ',', '!', '&&', '||'],
+  node: ['(', ')', ';', '{', '}', '"', '=', '+', '-', '<', '>', '[', ']', '.', ',', '!', '&&', '||', '`'],
   py: ['(', ')', ':', '"', '=', '+', '-', '<', '>', '[', ']', '.', ',', '#', '%'],
   java: ['(', ')', ';', '{', '}', '"', '=', '+', '-', '<', '>', '[', ']', '.', ',', '!', '%'],
   c: ['(', ')', ';', '{', '}', '"', '=', '+', '-', '<', '>', '[', ']', '%', '&', '#', ','],
@@ -19907,6 +20011,7 @@ function asmTokens(src, lang) {
 // დამაბნეველი ბლოკები: ენის ბრძანებები და სიტყვები, რომლებიც სწორს ჰგავს
 const ASM_KW = {
   js: ['let', 'const', 'function', 'return', 'if', 'else', 'for', 'while', 'true', 'false', 'console', 'log'],
+  node: ['let', 'const', 'function', 'return', 'if', 'else', 'for', 'while', 'require', 'module', 'console', 'log'],
   py: ['def', 'return', 'if', 'elif', 'else', 'for', 'while', 'in', 'range', 'print', 'True', 'False', 'and', 'not'],
   java: ['int', 'void', 'if', 'else', 'for', 'while', 'return', 'String', 'boolean', 'true', 'System', 'println'],
   c: ['int', 'void', 'if', 'else', 'for', 'while', 'return', 'printf', 'char', 'float'],
@@ -20941,7 +21046,7 @@ const Game = {
     // წინასწარ დაწერილი კოდი ლეველის ნაწილია (გლიჩის ბაგი ან დასაწყისი) — რომ წინა ლეველიდან დარჩენილი ტექსტი არ ეგონოს
     const st0 = String(lv.starter || ''), first = st0.split('\n')[0], sn = $('#g-starter-note');
     const bug = this.mode !== 'sandbox' && /^\s*(\/\/|#|--|<!--|\/\*)/.test(first) && /გლიჩ|ბაგ/.test(first);
-    const part = this.mode !== 'sandbox' && !bug && (lv.lang || 'js') === 'js' && countLines(st0, lv.lang) >= 2;   // C/Go/React-ის ჩარჩო (main) ყოველ ლეველზეა — მასზე არა
+    const part = this.mode !== 'sandbox' && !bug && ['js', 'node'].includes(lv.lang || 'js') && countLines(st0, lv.lang) >= 2;   // C/Go/React-ის ჩარჩო (main) ყოველ ლეველზეა — მასზე არა
     sn.className = 'starter-note' + (bug ? ' bug' : '') + (bug || part ? '' : ' hidden');
     sn.innerHTML = bug ? '🐞 <b>ბაგის ძებნა!</b> ეს კოდი გლიჩმა დაწერა და შიგ შეცდომა ჩამალა. გაუშვი, ნახე სად ცდება, და გაასწორე.'
       : part ? '✍️ <b>კოდის დასაწყისი უკვე დაწერილია</b> — ეს ლეველის ნაწილია. გააგრძელე და დაამატე დანარჩენი.' : '';
@@ -21200,7 +21305,7 @@ const Game = {
     const vars = this.defs[i] && this.defs[i].vars;
     $('#g-data').classList.toggle('hidden', !vars);
     const lg = this.cur.lang || 'js';
-    if (vars) $('#g-data-body').textContent = Object.keys(vars).map(k => lg === 'js' ? k + ' = ' + fmtValue(vars[k]) : fmtDataLine(lg, k, vars[k], (this.cur.varTypes || {})[k])).join('\n');
+    if (vars) $('#g-data-body').textContent = Object.keys(vars).map(k => lg === 'js' || lg === 'node' ? k + ' = ' + fmtValue(vars[k]) : fmtDataLine(lg, k, vars[k], (this.cur.varTypes || {})[k])).join('\n');
     if (this.cur.project) this.renderApp(i);
   },
   // რეალური პროექტი: ტელეფონის ეკრანი — ჯერ მოსალოდნელი შედეგი, გაშვების შემდეგ კი ის, რაც შენმა კოდმა დაბეჭდა

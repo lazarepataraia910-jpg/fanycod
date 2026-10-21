@@ -238,6 +238,8 @@ function shell(o) {
     '<meta property="og:type" content="' + (o.article ? 'article' : 'website') + '">\n<meta property="og:site_name" content="ისწავლე კოდინგი · CodeQuest">\n<meta property="og:locale" content="ka_GE">\n<meta property="og:title" content="' + esc(title) + '">\n' +
     '<meta property="og:description" content="' + esc(o.desc) + '">\n<meta property="og:url" content="' + canon + '">\n<meta property="og:image" content="' + SITE + '/og.jpg">\n<meta name="twitter:card" content="summary_large_image">\n' +
     '<meta name="theme-color" content="#0b0f14">\n<link rel="icon" href="/favicon.ico">\n' +
+    // schema.org: Google და AI-ასისტენტები კურსებს ასე ცნობენ (< ესკეიპით — </script>-ს ვერ დახურავს)
+    (o.ld ? '<script type="application/ld+json">' + JSON.stringify(o.ld).replace(/</g, '\\u003c') + '</script>\n' : '') +
     '<script>try{var t=localStorage.getItem("cq.learn.theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>\n' +
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
     // შრიფტი გვერდის გამოსახვას არ აჩერებს (ჯერ სისტემური შრიფტი, მერე Noto)
@@ -289,7 +291,7 @@ function build() {
 
   // კატალოგი
   const topics = [...new Set(courses.map(c => c.topic).filter(Boolean))];
-  add('courses', { title: 'კურსების კატალოგი', nav: 'courses', desc: 'ყველა კურსი: ' + courses.map(c => c.title).slice(0, 8).join(', ') + ' და სხვა. აირჩიე თემა და დაიწყე.',
+  add('courses', { title: 'კურსების კატალოგი', nav: 'courses', ld: { '@context': 'https://schema.org', '@type': 'ItemList', name: 'პროგრამირების კურსები ქართულად', itemListElement: courses.map((c, i) => ({ '@type': 'ListItem', position: i + 1, url: SITE + url(c.slug), name: c.title })) }, desc: 'ყველა კურსი: ' + courses.map(c => c.title).slice(0, 8).join(', ') + ' და სხვა. აირჩიე თემა და დაიწყე.',
     body: '<section class="head"><h1>კურსები</h1><p class="lead">' + total.courses + ' კურსი, თითოში 4 დონე: დამწყებიდან ექსპერტამდე. ' + total.ready + ' კურსი უკვე ღიაა, დანარჩენი ემატება. თავები 👑 CodeQuest Pro-ს ნაწილია.</p></section>' +
       '<div class="filters"><input type="search" id="cat-q" placeholder="მოძებნე კურსი…" aria-label="კურსის ძებნა"><div class="chips" role="group" aria-label="თემა"><button type="button" class="chip on" data-topic="">ყველა</button>' + topics.map(t => '<button type="button" class="chip" data-topic="' + esc(t) + '">' + esc(t) + '</button>').join('') + '<button type="button" class="chip" data-topic="@open">მხოლოდ ღია</button></div></div>' +
       '<div class="grid" id="cat">' + courses.map(courseCard).join('') + '</div><p class="empty" id="cat-empty" hidden>ასეთი კურსი ვერ მოიძებნა.</p>' });
@@ -308,7 +310,7 @@ function build() {
   courses.forEach(c => {
     const chN = c.items.filter(i => i.kind === 'chapter').length, mods = c.levels.reduce((a, l) => a + l.modules.length, 0);
     const bar = '<div class="cbar" data-course="' + c.slug + '" data-total="' + c.items.length + '" style="--cc:' + esc(c.color || '#3ddc97') + '" role="progressbar" aria-label="კურსის პროგრესი" aria-valuemin="0" aria-valuemax="100"><i></i></div>';
-    add(c.slug, { title: c.title, nav: 'courses', bar, desc: (c.description || c.title) + (c.planned ? ' ' + c.planned + ' თავი 4 დონეზე.' : ''),
+    add(c.slug, { title: c.title, nav: 'courses', bar, ld: { '@context': 'https://schema.org', '@type': 'Course', name: c.title, description: c.description || c.title, url: SITE + url(c.slug), inLanguage: 'ka', provider: { '@type': 'EducationalOrganization', name: 'CodeQuest', url: SITE + '/' } }, desc: (c.description || c.title) + (c.planned ? ' ' + c.planned + ' თავი 4 დონეზე.' : ''),
       body: '<section class="head course-h" style="--cc:' + esc(c.color || '#3ddc97') + '"><span class="c-ic big" aria-hidden="true">' + icon(c) + '</span><div><p class="crumbs"><a href="/learn/courses/">კურსები</a> ›</p><h1>' + esc(c.title) + '</h1><p class="lead">' + esc(c.description || '') + '</p>' +
         '<p class="facts"><span>👑 Pro</span>' + (c.syllabus ? '<span>4 დონე</span><span>' + mods + ' მოდული</span><span>' + c.planned + ' თავი</span>' + (chN ? '<span>' + chN + ' ღიაა · ⏱ ' + time(c.minutes) + '</span>' : '<span class="soon">მალე</span>') : '<span class="soon">მალე</span><span>სილაბუსი მზადდება</span>') + '</p>' +
         (c.items.length ? '<p><a class="btn primary big" id="course-go" href="' + url(c.items[0].id) + '">დაიწყე</a></p>' : '') + '</div></section>' +

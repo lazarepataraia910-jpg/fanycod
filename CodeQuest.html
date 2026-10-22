@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script>/* იერსახე პირველივე კადრიდან (დღე/ღამე) — თორემ დღის რეჟიმში ჯერ შავი ჩანდა, მერე თეთრი */try{var s=JSON.parse(localStorage.getItem('codequest.v1')||'null');var m=s&&s.settings&&s.settings.mode;if(m==='night')document.documentElement.dataset.theme='dark';if(m==='play'||m==='pixel')document.documentElement.dataset.style=m}catch(e){}</script>
+<script>/* იერსახე პირველივე კადრიდან (დღე/ღამე) — თორემ დღის რეჟიმში ჯერ შავი ჩანდა, მერე თეთრი; boot — ჩატვირთვის ეკრანი თამაშის კოდის გაშვებამდე */document.documentElement.classList.add('boot');try{var s=JSON.parse(localStorage.getItem('codequest.v1')||'null');var m=s&&s.settings&&s.settings.mode;if(m==='night')document.documentElement.dataset.theme='dark';if(m==='play'||m==='pixel')document.documentElement.dataset.style=m}catch(e){}</script>
 <title>CodeQuest: ბიტის თავგადასავალი</title>
 <meta name="description" content="სასწავლო თამაში ბავშვებისთვის: ისწავლე პროგრამირება ნულიდან ქართულად — 19 ენა (JavaScript, Python, Node.js, HTML, CSS, C++ და სხვ.), 9500 ლეველი, რობოტ ბიტთან ერთად.">
 <link rel="manifest" href="manifest.webmanifest">
@@ -73,6 +73,18 @@ code,.mono{font-family:var(--mono)}
 .screen.active{display:block}
 select{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:.25em .4em}
 
+/* ---------- ჩატვირთვა: სანამ თამაშის კოდი (~2 მბ) ჩამოიტვირთება, ნახევრად აწყობილი მენიუს ნაცვლად — ბიტი და ზოლი ---------- */
+#boot{display:none}
+html.boot #boot{display:grid;position:fixed;inset:0;z-index:9999;place-items:center;align-content:center;gap:12px;background:var(--bg);color:var(--text)}
+html.boot #app{visibility:hidden}
+#boot svg{width:88px;height:auto;animation:boot-bob .9s ease-in-out infinite alternate}
+#boot b{font-size:1.25rem;letter-spacing:-.02em}#boot b span{color:var(--accent)}
+#boot i{display:block;width:180px;height:6px;border-radius:9px;background:color-mix(in srgb,var(--accent) 15%,transparent);overflow:hidden}
+#boot i::after{content:'';display:block;width:40%;height:100%;border-radius:inherit;background:var(--accent);animation:boot-bar 1.1s ease-in-out infinite}
+#boot small{color:var(--muted)}
+@keyframes boot-bob{to{transform:translateY(-6px)}}
+@keyframes boot-bar{from{transform:translateX(-100%)}to{transform:translateX(250%)}}
+@media (prefers-reduced-motion:reduce){#boot svg,#boot i::after{animation:none}}
 /* ---------- ღილაკები, ბარათები ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.4em;padding:.5em .95em;border-radius:8px;border:1px solid var(--border);background:var(--panel);font-weight:600;white-space:nowrap;transition:background .15s,border-color .15s}
 .btn:hover:not(:disabled){background:var(--panel2);border-color:color-mix(in srgb,var(--accent) 45%,var(--border))}
@@ -1257,7 +1269,8 @@ html[data-theme="light"] .modal,html[data-theme="light"] .toast{background:#fff;
 #scr-menu.active .mn-in{animation:hm-up .55s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--d,0) * 70ms)}
 
 /* სტატუსის ზოლი: ლოგო | წოდება ზუსტად შუაში | მოქმედებები */
-.gm-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,520px) minmax(0,1fr);grid-template-areas:"brand rank act";align-items:center;gap:12px}
+/* გვერდები შიგთავსზე ვიწრო არ ხდება (თორემ Pro და ანგარიში ზედა ზოლს ეფარებოდა); ადგილი რომ არ ჰყოფნის, ზოლი ვიწროვდება */
+.gm-top{display:grid;grid-template-columns:minmax(max-content,1fr) minmax(0,520px) minmax(max-content,1fr);grid-template-areas:"brand rank act";align-items:center;gap:12px}
 .gm-brand{grid-area:brand;justify-self:start;display:flex;align-items:center;gap:10px;min-width:0}
 .gm-mark{flex:none;width:40px;height:38px}
 .gm-mark svg{width:100%;height:100%;display:block}
@@ -1368,6 +1381,7 @@ html[data-theme="light"] .modal,html[data-theme="light"] .toast{background:#fff;
   .gm-col .gm-card{grid-column:1/-1;min-height:0}
   .gm-isle.i3,.gm-isle.i4{display:none}
 }
+@media (max-width:1060px){.gm-rank-st{display:none}}
 @media (max-width:620px){
   .gm-top{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"brand act" "rank rank"}
   .gm-word{display:none}
@@ -1536,6 +1550,7 @@ html[data-style="pixel"] .mission .prof,html[data-style="pixel"] .learn-pts li{b
 <script>if (location.protocol === 'https:') { window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); }; var s = document.createElement('script'); s.defer = true; s.src = '/_vercel/insights/script.js'; document.head.appendChild(s); window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); }; var t = document.createElement('script'); t.defer = true; t.src = '/_vercel/speed-insights/script.js'; document.head.appendChild(t); }</script>
 </head>
 <body>
+<div id="boot" role="status" aria-live="polite"><svg viewBox="0 0 305 290" aria-hidden="true"><circle cx="152" cy="24" r="18" fill="#FF8A00"/><rect x="146" y="38" width="12" height="30" fill="#13163A"/><rect x="9" y="142" width="34" height="67" rx="10" fill="#13163A"/><rect x="262" y="142" width="34" height="67" rx="10" fill="#13163A"/><rect x="32" y="63" width="240" height="219" rx="68" fill="#3D5AFE"/><rect x="64" y="105" width="177" height="125" rx="40" fill="#13163A"/><polyline points="94,142 122,167 94,192" fill="none" stroke="#3DDC97" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><line x1="146" y1="193" x2="200" y2="193" stroke="#3DDC97" stroke-width="14" stroke-linecap="round"/></svg><b>Code<span>Quest</span></b><i></i><small>იტვირთება…</small></div>
 <div id="app">
   <!-- ===== მთავარი მენიუ ===== -->
   <section id="scr-menu" class="screen active" aria-label="მთავარი მენიუ">
@@ -22084,7 +22099,8 @@ function init() {
   if (location.hash === '#testgen') testGenerated();
 }
 window.CodeQuest = { testAll, testGenerated, Drill, levelById, courseLevels, courseChapters, LEVELS, WORLDS, COURSES, LANGS, Progress, Game, CodeRunner };
-init();
+// ჩატვირთვის ეკრანი ქრება მაშინაც, თუ init-ში რამე ჩავარდა — თორემ გვერდი სამუდამოდ „იტვირთება“
+try { init(); } finally { document.documentElement.classList.remove('boot'); }
 
 </script>
 <script>

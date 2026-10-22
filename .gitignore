@@ -6,6 +6,9 @@ desktop/app/
 # სკოლის აწყობილი გვერდები: school/build.js ქმნის curriculum/ და content/ ფაილებიდან (Vercel-ზე ყოველ deploy-ზე)
 learn/
 
+# ინგლისური ვერსია: i18n/build.js ქმნის i18n/en/ ლექსიკონებიდან (Vercel-ზე ყოველ deploy-ზე)
+/en/
+
 # საიდუმლოებები და ბაზის ასლები — რეპოში არასდროს
 .env
 .env.*

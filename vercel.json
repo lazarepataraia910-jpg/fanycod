@@ -1,9 +1,10 @@
 {
-  "buildCommand": "node school/build.js",
+  "buildCommand": "node school/build.js && node i18n/build.js",
   "outputDirectory": ".",
   "rewrites": [
     { "source": "/api/learn/(.*)", "destination": "/learn/$1" },
-    { "source": "/api/school/(.*)", "destination": "/school/$1" }
+    { "source": "/api/school/(.*)", "destination": "/school/$1" },
+    { "source": "/en/:path*", "destination": "/:path*" }
   ],
   "headers": [
     {

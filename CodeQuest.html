@@ -18,6 +18,9 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://codequest.space/">
+<link rel="alternate" hreflang="ka" href="https://codequest.space/CodeQuest.html">
+<link rel="alternate" hreflang="en" href="https://codequest.space/en/CodeQuest.html">
+<link rel="alternate" hreflang="x-default" href="https://codequest.space/CodeQuest.html">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 305 290'%3E%3Ccircle cx='152' cy='24' r='18' fill='%23FF8A00'/%3E%3Crect x='146' y='38' width='12' height='30' fill='%2313163A'/%3E%3Crect x='9' y='142' width='34' height='67' rx='10' fill='%2313163A'/%3E%3Crect x='262' y='142' width='34' height='67' rx='10' fill='%2313163A'/%3E%3Crect x='32' y='63' width='240' height='219' rx='68' fill='%233D5AFE'/%3E%3Crect x='64' y='105' width='177' height='125' rx='40' fill='%2313163A'/%3E%3Cpolyline points='94,142 122,167 94,192' fill='none' stroke='%233DDC97' stroke-width='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='146' y1='193' x2='200' y2='193' stroke='%233DDC97' stroke-width='14' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1264,6 +1267,8 @@ html[data-theme="light"] .modal,html[data-theme="light"] .toast{background:#fff;
 .gm-rank-st{flex:none;display:flex;gap:6px;font-size:.76rem;font-weight:700;white-space:nowrap}
 .gm-rank-st span{padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.1)}
 .gm-pro{flex:none;border-radius:999px;padding:9px 16px}
+.gm-lang{flex:none;border-radius:999px;padding:8px 12px;font-weight:800;font-size:.85rem;color:#fff;text-decoration:none;border:1.5px solid rgba(255,255,255,.4);background:rgba(255,255,255,.08)}
+.gm-lang:hover{background:rgba(255,255,255,.18)}
 .gm-acc{flex:none;display:flex;align-items:center;gap:9px;max-width:230px;padding:4px 14px 4px 4px;border:1px solid var(--border);border-radius:999px;background:var(--glass);color:var(--text);text-align:left;backdrop-filter:blur(12px);transition:border-color .15s,transform .15s}
 .gm-acc:hover{transform:translateY(-1px);border-color:rgba(61,220,151,.6)}
 .gm-av{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:1.05rem;line-height:1;background:rgba(61,220,151,.18)}
@@ -1431,6 +1436,7 @@ html[data-theme="light"] .gm-mode.done .gm-em::after{box-shadow:0 0 0 2px #fff}<
           <div class="gm-rank-st"><span id="hm-stars">⭐ 0</span><span id="hm-levels">0 ლეველი</span></div>
         </div>
         <div class="gm-actions">
+          <a class="gm-lang" data-lang-switch href="/en/CodeQuest.html">EN</a>
           <button class="pro-btn gm-pro" id="m-pro" type="button">👑 Pro</button>
           <div class="gm-user"><button class="gm-acc" id="m-account" type="button"><span class="mn-av gm-av" id="m-account-ic" aria-hidden="true">👤</span><span class="gm-acc-t"><b id="m-account-t">შესვლა</b><small id="m-account-sub">ან რეგისტრაცია</small></span></button><span class="gm-sep" aria-hidden="true"></span><button class="gm-icon" id="m-settings" type="button" title="პარამეტრები — ხმა, თემა, ზომა" aria-label="პარამეტრები">⚙️</button></div>
         </div>
@@ -21944,6 +21950,19 @@ function init() {
 window.CodeQuest = { testAll, testGenerated, Drill, levelById, courseLevels, courseChapters, LEVELS, WORLDS, COURSES, LANGS, Progress, Game, CodeRunner };
 init();
 
+<script>
+// ენის გადამრთველი: იგივე გვერდი მეორე ენაზე (/en/…); არჩევანი ინახება და შემდეგ ვიზიტზე ავტომატურად იხსნება
+(function () {
+  var web = /^https?:$/.test(location.protocol), en = /^\/en(\/|$)/.test(location.pathname);
+  var other = (en ? location.pathname.replace(/^\/en/, '') || '/' : '/en' + location.pathname) + location.search + location.hash;
+  try { var want = localStorage.getItem('cq-lang'); if (web && want && (want === 'en') !== en) { location.replace(other); return; } } catch (e) {}
+  document.querySelectorAll('[data-lang-switch]').forEach(function (a) {
+    if (!web) { a.hidden = true; return; }
+    a.href = other; a.textContent = en ? 'ქართ' : 'EN'; a.lang = en ? 'ka' : 'en';
+    a.setAttribute('aria-label', en ? 'ქართული ვერსია' : 'English version');
+    a.addEventListener('click', function () { try { localStorage.setItem('cq-lang', en ? 'ka' : 'en'); } catch (e) {} });
+  });
+})();
 </script>
 </body>
 </html>

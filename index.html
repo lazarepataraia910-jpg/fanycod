@@ -16,6 +16,9 @@
 })();
 </script>
 <link rel="canonical" href="https://codequest.space/">
+<link rel="alternate" hreflang="ka" href="https://codequest.space/">
+<link rel="alternate" hreflang="en" href="https://codequest.space/en/">
+<link rel="alternate" hreflang="x-default" href="https://codequest.space/">
 <!-- schema.org: საიტი, ორგანიზაცია, მთავარი გვერდები და ხშირი კითხვები (Google-ის ქვე-ბმულები და AI-ასისტენტები ამას კითხულობენ) -->
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[
 {"@type":"WebSite","@id":"https://codequest.space/#site","name":"CodeQuest","alternateName":["ისწავლე კოდინგი","CodeQuest — ისწავლე პროგრამირება ქართულად"],"url":"https://codequest.space/","inLanguage":"ka"},
@@ -87,6 +90,7 @@ h2{margin:0 0 8px;font-size:clamp(1.6rem,3.4vw,2.35rem);line-height:1.18;font-we
 .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:800;font-size:1.22rem}
 .brand img{width:38px;height:38px;border-radius:10px}
 .links{display:flex;align-items:center;gap:2px}
+.links a.lang-sw{border:1.5px solid rgba(255,255,255,.45);opacity:1}
 .links a{padding:8px 11px;border-radius:10px;color:#fff;font-weight:700;font-size:.95rem;text-decoration:none;opacity:.86;transition:background .15s,opacity .15s}
 .links a:hover,.links a:focus-visible{opacity:1;background:rgba(255,255,255,.13)}
 .links a.go{margin-left:8px;padding:9px 16px;background:var(--play);color:var(--play-ink);opacity:1;box-shadow:0 3px 0 var(--play-edge)}
@@ -266,7 +270,7 @@ footer a:hover{color:var(--accent)}
 <body>
 <div class="top" id="top">
   <div class="wrap">
-    <nav class="nav" aria-label="მთავარი მენიუ"><a class="brand" href="./?home" aria-label="CodeQuest — მთავარი გვერდი"><img src="icons/icon-192.png" alt="" width="38" height="38">CodeQuest</a><button class="burger" type="button" aria-label="მენიუ" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button><div class="links" id="menu"><a href="#how">როგორ მუშაობს</a><a href="#langs">ენები</a><a href="#teachers">მასწავლებლებს</a><a href="#pro">Pro</a><a href="#faq">კითხვები</a><a href="/learn/">📚 სკოლა</a><a class="go" href="CodeQuest.html">თამაში ▶</a></div></nav>
+    <nav class="nav" aria-label="მთავარი მენიუ"><a class="brand" href="./?home" aria-label="CodeQuest — მთავარი გვერდი"><img src="icons/icon-192.png" alt="" width="38" height="38">CodeQuest</a><button class="burger" type="button" aria-label="მენიუ" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button><div class="links" id="menu"><a href="#how">როგორ მუშაობს</a><a href="#langs">ენები</a><a href="#teachers">მასწავლებლებს</a><a href="#pro">Pro</a><a href="#faq">კითხვები</a><a href="/learn/">📚 სკოლა</a><a class="lang-sw" data-lang-switch href="/en/">EN</a><a class="go" href="CodeQuest.html">თამაში ▶</a></div></nav>
   </div>
 </div>
 <header class="hero-band">
@@ -440,6 +444,20 @@ footer a:hover{color:var(--accent)}
     setTimeout(step, 700);
   }
   reset();
+})();
+</script>
+<script>
+// ენის გადამრთველი: იგივე გვერდი მეორე ენაზე (/en/…); არჩევანი ინახება და შემდეგ ვიზიტზე ავტომატურად იხსნება
+(function () {
+  var web = /^https?:$/.test(location.protocol), en = /^\/en(\/|$)/.test(location.pathname);
+  var other = (en ? location.pathname.replace(/^\/en/, '') || '/' : '/en' + location.pathname) + location.search + location.hash;
+  try { var want = localStorage.getItem('cq-lang'); if (web && want && (want === 'en') !== en) { location.replace(other); return; } } catch (e) {}
+  document.querySelectorAll('[data-lang-switch]').forEach(function (a) {
+    if (!web) { a.hidden = true; return; }
+    a.href = other; a.textContent = en ? 'ქართ' : 'EN'; a.lang = en ? 'ka' : 'en';
+    a.setAttribute('aria-label', en ? 'ქართული ვერსია' : 'English version');
+    a.addEventListener('click', function () { try { localStorage.setItem('cq-lang', en ? 'ka' : 'en'); } catch (e) {} });
+  });
 })();
 </script>
 </body>

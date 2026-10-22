@@ -1267,8 +1267,6 @@ html[data-theme="light"] .modal,html[data-theme="light"] .toast{background:#fff;
 .gm-rank-st{flex:none;display:flex;gap:6px;font-size:.76rem;font-weight:700;white-space:nowrap}
 .gm-rank-st span{padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.1)}
 .gm-pro{flex:none;border-radius:999px;padding:9px 16px}
-.gm-lang{flex:none;border-radius:999px;padding:8px 12px;font-weight:800;font-size:.85rem;color:#fff;text-decoration:none;border:1.5px solid rgba(255,255,255,.4);background:rgba(255,255,255,.08)}
-.gm-lang:hover{background:rgba(255,255,255,.18)}
 .gm-acc{flex:none;display:flex;align-items:center;gap:9px;max-width:230px;padding:4px 14px 4px 4px;border:1px solid var(--border);border-radius:999px;background:var(--glass);color:var(--text);text-align:left;backdrop-filter:blur(12px);transition:border-color .15s,transform .15s}
 .gm-acc:hover{transform:translateY(-1px);border-color:rgba(61,220,151,.6)}
 .gm-av{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:1.05rem;line-height:1;background:rgba(61,220,151,.18)}
@@ -1436,7 +1434,6 @@ html[data-theme="light"] .gm-mode.done .gm-em::after{box-shadow:0 0 0 2px #fff}<
           <div class="gm-rank-st"><span id="hm-stars">⭐ 0</span><span id="hm-levels">0 ლეველი</span></div>
         </div>
         <div class="gm-actions">
-          <a class="gm-lang" data-lang-switch href="/en/CodeQuest.html">EN</a>
           <button class="pro-btn gm-pro" id="m-pro" type="button">👑 Pro</button>
           <div class="gm-user"><button class="gm-acc" id="m-account" type="button"><span class="mn-av gm-av" id="m-account-ic" aria-hidden="true">👤</span><span class="gm-acc-t"><b id="m-account-t">შესვლა</b><small id="m-account-sub">ან რეგისტრაცია</small></span></button><span class="gm-sep" aria-hidden="true"></span><button class="gm-icon" id="m-settings" type="button" title="პარამეტრები — ხმა, თემა, ზომა" aria-label="პარამეტრები">⚙️</button></div>
         </div>
@@ -19616,10 +19613,13 @@ const SettingsScreen = {
     const P = Progress.P, s = P.settings;
     const seg = (id, opts, val) => '<div class="seg" id="' + id + '">' + opts.map(([v, l]) => '<button data-v="' + v + '" class="' + (String(val) === String(v) ? 'on' : '') + '">' + l + '</button>').join('') + '</div>';
     const pro = Progress.hasPro();
+    // ენა: იგივე გვერდი /en/-ით ან მის გარეშე (კომპიუტერის პროგრამაში არ ჩანს)
+    const web = /^https?:$/.test(location.protocol), enPage = /^\/en(\/|$)/.test(location.pathname);
     $('#settings-body').innerHTML = '<div class="card" style="margin-bottom:12px"><div class="set-row" style="border:0;padding:4px 0"><label>👑 CodeQuest Pro<br><small class="muted">' +
       (pro ? 'აქტიურია · ანგარიში ' + esc(Account.s ? Account.s.name : '') + (P.pro && P.pro.key ? ' · კოდი …' + esc(P.pro.key.slice(-4)) : '') : 'ყველა ენაზე პირველი ' + PRO.freeLevels + ' ლეველი უფასოა; Pro დანარჩენს ხსნის.') + '</small></label>' +
       '<span>' + (pro ? '<span class="chip">👤 ანგარიშზე მიბმული</span>' : '<button class="btn small" id="st-pro-key">🔑 კოდის ჩასმა</button> <button class="btn small primary" id="st-pro-buy">💳 ყიდვა</button>') + '</span></div></div>' +
       '<div class="card">' +
+      (web ? '<div class="set-row"><label>ენა</label>' + seg('st-lang', [['ka', 'ქართული'], ['en', 'English']], enPage ? 'en' : 'ka') + '</div>' : '') +
       '<div class="set-row"><label>სწავლის სტილი<br><small class="muted">ახალი თემის მე-2 ნაბიჯი: ბლოკების აწყობა ან კოდის ასო-ასო გადაწერა</small></label>' + seg('st-learn', [['blocks', '🧩 ააწყე ბლოკებით'], ['type', '✍️ გადაწერე ასო-ასო']], s.learn === 'type' ? 'type' : 'blocks') + '</div>' +
       '<div class="set-row"><label>იერსახე</label>' + seg('st-mode', [['night', '🌙 ღამე'], ['day', '☀️ დღე']], s.mode === 'day' ? 'day' : 'night') + '</div>' +
       '<div class="set-row"><label>ხმა</label>' + seg('st-sound', [[1, 'ჩართული'], [0, 'გამორთული']], s.sound ? 1 : 0) + '</div>' +
@@ -19636,6 +19636,12 @@ const SettingsScreen = {
     const bindSeg = (id, fn) => $$('#' + id + ' button').forEach(b => b.addEventListener('click', () => { fn(b.dataset.v); Progress.save(); applySettings(); this.render(); }));
     bindSeg('st-learn', v => { s.learn = v === 'type' ? 'type' : 'blocks'; });
     bindSeg('st-mode', v => { s.mode = v; });
+    $$('#st-lang button').forEach(b => b.addEventListener('click', () => {
+      const en = b.dataset.v === 'en';
+      if (en === enPage) return;
+      try { localStorage.setItem('cq-lang', b.dataset.v); } catch (e) {}
+      location.href = (en ? '/en' + location.pathname : location.pathname.replace(/^\/en/, '') || '/') + location.search + location.hash;
+    }));
     bindSeg('st-sound', v => { s.sound = v === '1'; if (s.sound) Sound.click(); });
     bindSeg('st-speed', v => { s.speed = +v; });
     bindSeg('st-unlock', v => { s.unlockAll = v === '1' && Progress.hasPro(); });

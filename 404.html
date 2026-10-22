@@ -6,31 +6,29 @@
 <title>გვერდი ვერ მოიძებნა — CodeQuest</title>
 <meta name="description" content="ეს გვერდი არ არსებობს. დაბრუნდი CodeQuest-ის მთავარ გვერდზე ან გააგრძელე თამაში.">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#3d5afe">
+<meta name="theme-color" content="#ffffff">
 <link rel="icon" type="image/png" href="/icons/icon-192.png">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;700;800&display=swap"></noscript>
 <style>
-:root{--bg:#f4f6fb;--panel:#fff;--text:#1b1f2e;--muted:#5b6478;--border:#e1e5ef;--accent:#3d5afe}
-@media (prefers-color-scheme:dark){:root{--bg:#121520;--panel:#1b1f2e;--text:#eef1f8;--muted:#9aa3b8;--border:#2c3346}}
+:root{--bg:#ffffff;--panel:#ffffff;--soft:#f6f7fb;--text:#0f1222;--muted:#5d6479;--border:#e7e9f0;--accent:#3d5afe}
 *{box-sizing:border-box}
 html,body{min-height:100%}
-body{margin:0;display:grid;place-items:center;min-height:100vh;padding:24px 16px;background:radial-gradient(60% 45% at 85% 0,rgba(124,77,255,.16),transparent 70%),radial-gradient(50% 40% at 0 100%,rgba(61,90,254,.14),transparent 70%),var(--bg);color:var(--text);font:16px/1.6 "Noto Sans Georgian",system-ui,sans-serif}
+body{margin:0;display:grid;place-items:center;min-height:100vh;padding:24px 16px;background:var(--bg);color:var(--text);font:16px/1.6 "Noto Sans Georgian",system-ui,sans-serif}
 .box{width:100%;max-width:520px;text-align:center}
-.sky{position:relative;overflow:hidden;isolation:isolate;padding:34px 20px 26px;border-radius:28px;color:#fff;background:radial-gradient(circle at 80% 20%,rgba(151,117,250,.5),transparent 45%),radial-gradient(circle at 5% 110%,rgba(61,90,254,.55),transparent 50%),linear-gradient(140deg,#131735,#221a50 55%,#2c1452);box-shadow:0 24px 50px -24px rgba(34,26,80,.75)}
-.sky::before{content:'';position:absolute;inset:0;z-index:-1;background-image:radial-gradient(rgba(255,255,255,.14) 1px,transparent 1.6px);background-size:22px 22px}
-.code{font:800 clamp(4.2rem,20vw,6.5rem)/1 ui-monospace,Consolas,monospace;letter-spacing:-.04em;background:linear-gradient(90deg,#ffe066,#ff922b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sky{position:relative;padding:34px 20px 30px;border-radius:24px;background:var(--soft);border:1px solid var(--border)}
+.code{font:800 clamp(4.2rem,20vw,6.5rem)/1 ui-monospace,Consolas,monospace;letter-spacing:-.04em;color:var(--accent)}
 .bit{width:110px;height:130px;margin:6px auto 0;animation:float 3.6s ease-in-out infinite}
-.bit svg{width:100%;height:100%;display:block;filter:drop-shadow(0 14px 14px rgba(0,0,0,.4))}
-.q{position:absolute;top:168px;left:calc(50% + 50px);padding:4px 10px;border-radius:12px 12px 12px 4px;background:#fff;color:#2b1d63;font-weight:800;animation:float 3s ease-in-out infinite}
+.bit svg{width:100%;height:100%;display:block;filter:drop-shadow(0 10px 10px rgba(15,18,34,.18))}
+.q{position:absolute;top:168px;left:calc(50% + 50px);padding:4px 10px;border-radius:12px 12px 12px 4px;background:var(--accent);color:#fff;font-weight:800;animation:float 3s ease-in-out infinite}
 h1{margin:18px 0 4px;font-size:1.45rem}
-p{margin:0 auto;max-width:400px;color:rgba(255,255,255,.78)}
+p{margin:0 auto;max-width:400px;color:var(--muted)}
 .btns{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:22px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 20px;border-radius:14px;font-weight:800;text-decoration:none}
-.btn.play{background:linear-gradient(180deg,#ffe066,#fcc419);color:#3d2a00;box-shadow:0 5px 0 #d49b00}
-.btn.ghost{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 20px;border-radius:14px;font-weight:700;text-decoration:none}
+.btn.play{background:var(--accent);color:#fff}
+.btn.ghost{border:1px solid var(--border);background:var(--bg);color:var(--text)}
 .btn:hover{filter:brightness(1.05)}
 .foot{margin-top:16px;color:var(--muted);font-size:.85rem}
 .foot a{color:inherit}

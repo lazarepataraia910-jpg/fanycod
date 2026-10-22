@@ -1,10 +1,10 @@
-/* „ისწავლე კოდინგი“ — სკოლის სტილი. მუქი თემა ნაგულისხმევია; ღია — [data-theme=light]. თითო კურსის ფერი: --cc */
+/* „ისწავლე კოდინგი“ — სკოლის სტილი. ნათელი თემა ნაგულისხმევია (იგივე ფერები, რაც მთავარ გვერდზე); მუქი — [data-theme=dark]. თითო კურსის ფერი: --cc */
 /* კოდში სიმბოლოები ისე ჩანს, როგორც წერია: JetBrains Mono-ს ლიგატურები <!-- და --> ისრებად (← →) აქცევდა */
 html,.CodeMirror pre.CodeMirror-line,.CodeMirror pre.CodeMirror-line-like{font-variant-ligatures:none}
-:root{--bg:#0b0f14;--panel:#111823;--panel2:#17212e;--border:#243244;--text:#e6edf3;--muted:#8fa0b5;--accent:#3ddc97;--accent-ink:#0b2e20;--code:#0d131b;--bad:#ff7b72;--warn:#f2cc60;--shadow:0 16px 40px rgba(0,0,0,.45);
-  --k:#ff7b9c;--s:#a5e075;--n:#f2cc60;--c:#6b7d93;--f:#7cc7ff;--p:#c6a5ff;color-scheme:dark}
-[data-theme=light]{--bg:#f5f7fa;--panel:#fff;--panel2:#edf1f6;--border:#d3dce7;--text:#16202c;--muted:#566579;--accent:#087f48;--accent-ink:#fff;--code:#f1f4f8;--bad:#c62828;--warn:#8a6100;--shadow:0 14px 34px rgba(20,35,60,.14);
+:root{--bg:#ffffff;--panel:#ffffff;--panel2:#f6f7fb;--border:#e7e9f0;--text:#0f1222;--muted:#5d6479;--accent:#3d5afe;--accent-ink:#ffffff;--code:#f6f7fb;--bad:#c62828;--warn:#8a6100;--shadow:0 24px 48px -28px rgba(15,18,34,.3);
   --k:#c2185b;--s:#2e7d32;--n:#a15c00;--c:#6b7888;--f:#0b62c4;--p:#6a3fc4;color-scheme:light}
+[data-theme=dark]{--bg:#0b0f14;--panel:#111823;--panel2:#17212e;--border:#243244;--text:#e6edf3;--muted:#8fa0b5;--accent:#7088ff;--accent-ink:#ffffff;--code:#0d131b;--bad:#ff7b72;--warn:#f2cc60;--shadow:0 16px 40px rgba(0,0,0,.45);
+  --k:#ff7b9c;--s:#a5e075;--n:#f2cc60;--c:#6b7d93;--f:#7cc7ff;--p:#c6a5ff;color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 "Noto Sans Georgian",system-ui,-apple-system,"Segoe UI",sans-serif;overflow-wrap:break-word}
@@ -28,7 +28,7 @@ code,pre,kbd,textarea.run-src,.CodeMirror,.term pre,.logo-m{font-family:"JetBrai
 .btn.primary{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
 .btn.primary:hover{filter:brightness(1.08)}
 .btn{transition:transform .1s,box-shadow .15s,border-color .15s,filter .15s}
-.btn.primary{box-shadow:0 3px 0 color-mix(in srgb,var(--accent) 58%,#000)}
+.btn.primary{box-shadow:none}
 .btn.primary:active{transform:translateY(3px);box-shadow:0 0 0 transparent}
 .logo-i{flex:none;width:30px;height:30px;border-radius:9px}
 .btn.big{min-height:50px;padding:10px 22px;font-size:1.02rem}

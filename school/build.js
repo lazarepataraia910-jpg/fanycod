@@ -233,14 +233,14 @@ function shell(o) {
   // სტილი და სკრიპტი ფარდობითი მისამართით: იგივე გვერდი იხსნება /learn/…-ზეც და ძველი პროგრამის /api/learn/…-ზეც (vercel.json → rewrites)
   const up = '../'.repeat(o.path ? o.path.split('/').length + 1 : 1), css = up + ASSET.css.slice(1), js = up + ASSET.js.slice(1);
   const canon = SITE + url(o.path), title = o.title + ' · ისწავლე კოდინგი', nav = (p, t) => '<a href="' + url(p) + '"' + (o.nav === p ? ' aria-current="page"' : '') + '>' + t + '</a>';
-  return '<!DOCTYPE html>\n<html lang="ka" data-theme="dark" data-pro="' + PRO.key + '">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>' + esc(title) + '</title>\n' +
+  return '<!DOCTYPE html>\n<html lang="ka" data-theme="light" data-pro="' + PRO.key + '">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>' + esc(title) + '</title>\n' +
     '<meta name="description" content="' + esc(o.desc) + '">\n<link rel="canonical" href="' + canon + '">\n' + (o.noindex ? '<meta name="robots" content="noindex">\n' : '') +
     '<meta property="og:type" content="' + (o.article ? 'article' : 'website') + '">\n<meta property="og:site_name" content="ისწავლე კოდინგი · CodeQuest">\n<meta property="og:locale" content="ka_GE">\n<meta property="og:title" content="' + esc(title) + '">\n' +
     '<meta property="og:description" content="' + esc(o.desc) + '">\n<meta property="og:url" content="' + canon + '">\n<meta property="og:image" content="' + SITE + '/og.jpg">\n<meta name="twitter:card" content="summary_large_image">\n' +
-    '<meta name="theme-color" content="#0b0f14">\n<link rel="icon" href="/favicon.ico">\n' +
+    '<meta name="theme-color" content="#ffffff">\n<link rel="icon" href="/favicon.ico">\n' +
     // schema.org: Google და AI-ასისტენტები კურსებს ასე ცნობენ (< ესკეიპით — </script>-ს ვერ დახურავს)
     (o.ld ? '<script type="application/ld+json">' + JSON.stringify(o.ld).replace(/</g, '\\u003c') + '</script>\n' : '') +
-    '<script>try{var t=localStorage.getItem("cq.learn.theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.dataset.theme=t}catch(e){}</script>\n' +
+    '<script>try{var t=localStorage.getItem("cq.learn.theme");if(t!=="dark")t="light";document.documentElement.dataset.theme=t}catch(e){}</script>\n' +
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
     // შრიფტი გვერდის გამოსახვას არ აჩერებს (ჯერ სისტემური შრიფტი, მერე Noto)
     '<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" onload="this.onload=null;this.rel=\'stylesheet\'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap"></noscript>\n' +

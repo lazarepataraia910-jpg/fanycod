@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ka" data-theme="dark">
+<html lang="ka" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script>/* იერსახე პირველივე კადრიდან (დღე/ღამე) — თორემ დღის რეჟიმში ჯერ შავი ჩანდა, მერე თეთრი */try{var s=JSON.parse(localStorage.getItem('codequest.v1')||'null');if(s&&s.settings&&s.settings.mode==='day')document.documentElement.dataset.theme='light'}catch(e){}</script>
+<script>/* იერსახე პირველივე კადრიდან (დღე/ღამე) — თორემ დღის რეჟიმში ჯერ შავი ჩანდა, მერე თეთრი */try{var s=JSON.parse(localStorage.getItem('codequest.v1')||'null');if(s&&s.settings&&s.settings.mode==='night')document.documentElement.dataset.theme='dark'}catch(e){}</script>
 <title>CodeQuest: ბიტის თავგადასავალი</title>
 <meta name="description" content="სასწავლო თამაში ბავშვებისთვის: ისწავლე პროგრამირება ნულიდან ქართულად — 19 ენა (JavaScript, Python, Node.js, HTML, CSS, C++ და სხვ.), 9500 ლეველი, რობოტ ბიტთან ერთად.">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#3d5afe">
+<meta name="theme-color" content="#ffffff">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CodeQuest">
@@ -25,6 +25,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 305 290'%3E%3Ccircle cx='152' cy='24' r='18' fill='%23FF8A00'/%3E%3Crect x='146' y='38' width='12' height='30' fill='%2313163A'/%3E%3Crect x='9' y='142' width='34' height='67' rx='10' fill='%2313163A'/%3E%3Crect x='262' y='142' width='34' height='67' rx='10' fill='%2313163A'/%3E%3Crect x='32' y='63' width='240' height='219' rx='68' fill='%233D5AFE'/%3E%3Crect x='64' y='105' width='177' height='125' rx='40' fill='%2313163A'/%3E%3Cpolyline points='94,142 122,167 94,192' fill='none' stroke='%233DDC97' stroke-width='16' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='146' y1='193' x2='200' y2='193' stroke='%233DDC97' stroke-width='14' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"></noscript>
 <!-- CodeMirror 5 (რედაქტორი). თუ CDN მიუწვდომელია, თამაში მარტივ რედაქტორზე გადადის. -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -1406,7 +1407,24 @@ html[data-theme="light"] .gm-bar{background:#e8ebf5}
 html[data-theme="light"] .gm-em,html[data-theme="light"] .gm-mini .ic{background:color-mix(in srgb,var(--c1,var(--ti)) 12%,#fff);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c1,var(--ti)) 32%,transparent)}
 html[data-theme="light"] .gm-user .gm-acc:hover,html[data-theme="light"] .gm-user .gm-icon:hover{background:#f1f3fa}
 html[data-theme="light"] .gm-foot a{color:#2b3bab}
-html[data-theme="light"] .gm-mode.done .gm-em::after{box-shadow:0 0 0 2px #fff}</style>
+html[data-theme="light"] .gm-mode.done .gm-em::after{box-shadow:0 0 0 2px #fff}
+/* ---------- სუფთა ნათელი იერსახე (2026-10, ნაგულისხმევი): იგივე ფერები, რაც საიტზე — თეთრი ფონი, წვრილი ჩარჩოები, ერთი ლურჯი; ღამე პარამეტრებში რჩება ---------- */
+html[data-theme="light"]{--bg:#ffffff;--panel:#ffffff;--panel2:#f6f7fb;--text:#0f1222;--muted:#5d6479;--border:#e7e9f0;--accent:#3d5afe;--accent-ink:#ffffff;--code-bg:#fbfcfe;--shadow:0 1px 2px rgba(15,18,34,.04)}
+html[data-theme="light"] body{background:#ffffff}
+html[data-theme="light"] #scr-menu{--panel:#ffffff;--panel2:#f6f7fb;--text:#0f1222;--muted:#5d6479;--border:#e7e9f0;--hm-line:#e7e9f0;--glass:#ffffff}
+html[data-theme="light"] #scr-menu.active{background:radial-gradient(42% 48% at 50% 36%,rgba(61,90,254,.07),transparent 70%),#ffffff}
+html[data-theme="light"] .gm-glyphs{display:none}
+html[data-theme="light"] .gm-rank,html[data-theme="light"] .gm-user,html[data-theme="light"] .gm-mode,html[data-theme="light"] .gm-card,html[data-theme="light"] .gm-mini,html[data-theme="light"] .gm-cont{box-shadow:none;border-color:var(--border)}
+html[data-theme="light"] .gm-mode:hover{box-shadow:0 12px 28px -18px rgba(15,18,34,.35)}
+html[data-theme="light"] .topbar,html[data-theme="light"] #scr-map .topbar,html[data-theme="light"] #scr-bit .topbar{background:rgba(255,255,255,.92);border-bottom-color:var(--border)}
+html[data-theme="light"] .modal,html[data-theme="light"] .toast{border-color:var(--border);box-shadow:0 30px 60px -30px rgba(15,18,34,.35)}
+html[data-theme="light"] .lp-hero{color:var(--text);background:var(--panel2);border:1px solid var(--border);box-shadow:none}
+html[data-theme="light"] .lp-hero::before{display:none}
+html[data-theme="light"] .lp-hero p{color:var(--muted)}
+html[data-theme="light"] .lp-kick{border-color:transparent;background:#eef1ff;color:#2f47e0}
+html[data-theme="light"] .lp-stats span{border-color:var(--border);background:var(--panel);color:var(--muted)}
+html[data-theme="light"] .lp-stats b{color:var(--accent)}
+html[data-theme="light"] .lp-deco .lang-badge{box-shadow:0 10px 18px -8px rgba(15,18,34,.3)}</style>
 <!-- Vercel Web Analytics -->
 <script>if (location.protocol === 'https:') { window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); }; var s = document.createElement('script'); s.defer = true; s.src = '/_vercel/insights/script.js'; document.head.appendChild(s); window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); }; var t = document.createElement('script'); t.defer = true; t.src = '/_vercel/speed-insights/script.js'; document.head.appendChild(t); }</script>
 </head>
@@ -17160,7 +17178,7 @@ const UI = {
 function applySettings() {
   const s = Progress.P.settings;
   // იერსახე: ღამე (ნაგულისხმევი) ან დღე. ცალკე გასაღები mode — ძველ შენახვებში theme:'light' ნაგულისხმევი იყო და ყველას დღეზე გადართავდა
-  document.documentElement.dataset.theme = s.mode === 'day' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = s.mode === 'night' ? 'dark' : 'light';
   document.documentElement.style.setProperty('--fs', s.font + 'px');
   Editor.setTheme(Progress.P.etheme);
   Editor.refresh();
@@ -19621,7 +19639,7 @@ const SettingsScreen = {
       '<div class="card">' +
       (web ? '<div class="set-row"><label>ენა</label>' + seg('st-lang', [['ka', 'ქართული'], ['en', 'English']], enPage ? 'en' : 'ka') + '</div>' : '') +
       '<div class="set-row"><label>სწავლის სტილი<br><small class="muted">ახალი თემის მე-2 ნაბიჯი: ბლოკების აწყობა ან კოდის ასო-ასო გადაწერა</small></label>' + seg('st-learn', [['blocks', '🧩 ააწყე ბლოკებით'], ['type', '✍️ გადაწერე ასო-ასო']], s.learn === 'type' ? 'type' : 'blocks') + '</div>' +
-      '<div class="set-row"><label>იერსახე</label>' + seg('st-mode', [['night', '🌙 ღამე'], ['day', '☀️ დღე']], s.mode === 'day' ? 'day' : 'night') + '</div>' +
+      '<div class="set-row"><label>იერსახე</label>' + seg('st-mode', [['day', '☀️ დღე'], ['night', '🌙 ღამე']], s.mode === 'night' ? 'night' : 'day') + '</div>' +
       '<div class="set-row"><label>ხმა</label>' + seg('st-sound', [[1, 'ჩართული'], [0, 'გამორთული']], s.sound ? 1 : 0) + '</div>' +
       '<div class="set-row"><label>ანიმაციის სიჩქარე</label>' + seg('st-speed', [[1, '🐢 ნელი'], [2, 'ჩვეულებრივი'], [3, '🐇 სწრაფი']], s.speed) + '</div>' +
       '<div class="set-row"><label for="st-font">შრიფტის ზომა: <span id="st-font-v">' + s.font + '</span>px</label><input type="range" id="st-font" min="13" max="21" value="' + s.font + '" style="accent-color:var(--accent)"></div>' +

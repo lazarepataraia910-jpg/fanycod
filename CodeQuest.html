@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script>/* იერსახე პირველივე კადრიდან (დღე/ღამე) — თორემ დღის რეჟიმში ჯერ შავი ჩანდა, მერე თეთრი */try{var s=JSON.parse(localStorage.getItem('codequest.v1')||'null');if(s&&s.settings&&s.settings.mode==='night')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<script>/* იერსახე პირველივე კადრიდან (დღე/ღამე) — თორემ დღის რეჟიმში ჯერ შავი ჩანდა, მერე თეთრი */try{var s=JSON.parse(localStorage.getItem('codequest.v1')||'null');var m=s&&s.settings&&s.settings.mode;if(m==='night')document.documentElement.dataset.theme='dark';if(m==='play'||m==='pixel')document.documentElement.dataset.style=m}catch(e){}</script>
 <title>CodeQuest: ბიტის თავგადასავალი</title>
 <meta name="description" content="სასწავლო თამაში ბავშვებისთვის: ისწავლე პროგრამირება ნულიდან ქართულად — 19 ენა (JavaScript, Python, Node.js, HTML, CSS, C++ და სხვ.), 9500 ლეველი, რობოტ ბიტთან ერთად.">
 <link rel="manifest" href="manifest.webmanifest">
@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&family=Press+Start+2P&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&family=Press+Start+2P&display=swap"></noscript>
 <!-- CodeMirror 5 (რედაქტორი). თუ CDN მიუწვდომელია, თამაში მარტივ რედაქტორზე გადადის. -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <!-- სხვა ენების ფერადი სინტაქსი: Python, C/C++/Java/C#/Kotlin, HTML, CSS, Go, Rust, PHP, Ruby, Swift, Lua, Dart -->
@@ -1484,7 +1484,54 @@ html[data-theme="light"] .modal{border-radius:20px}
 html[data-theme="light"] .steps{background:var(--panel2)}
 html[data-theme="light"] .steps button.on b,html[data-theme="light"] .qpips i.done{background:var(--accent)}
 html[data-theme="light"] .qpips i{background:var(--border)}
-html[data-theme="light"] .qpips i.cur{background:#fff;box-shadow:inset 0 0 0 2px var(--accent)}</style>
+html[data-theme="light"] .qpips i.cur{background:#fff;box-shadow:inset 0 0 0 2px var(--accent)}
+/* ---------- სტილები (პარამეტრები → იერსახე): 🎈 ფერადი და 👾 პიქსელი — სუფთა (დღის) იერსახის თავზე, data-style-ით ---------- */
+/* 🎈 ფერადი: თამაშისეული — ფერადი ცა, მსხვილი 3D ღილაკები, მრგვალი ბარათები, მენიუში მცურავი კუნძულები */
+html[data-style="play"]{--bg:#eef3ff;--panel:#ffffff;--panel2:#f1f4ff;--text:#14183a;--muted:#59618a;--border:#dde3f8;--accent:#4c5cff;--radius:20px}
+html[data-style="play"] body{background:radial-gradient(rgba(76,92,255,.10) 2px,transparent 2.5px) 0 0/34px 34px fixed,linear-gradient(180deg,#d9ecff 0%,#ebe5ff 55%,#fff1e2 100%) fixed}
+html[data-style="play"] #scr-menu.active,html[data-style="play"] #scr-menu{--panel:#fff;--border:#dde3f8;background:transparent}
+html[data-style="play"] .gm-sky{display:block}
+html[data-style="play"] .gm-stars{display:none}
+html[data-style="play"] .gm-title span{background:linear-gradient(90deg,#ff8a00,#ff4d8d,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent}
+html[data-style="play"] .gm-kicker{background:#fff;color:#4c5cff;box-shadow:0 3px 0 #dde3f8}
+html[data-style="play"] .btn{border:2px solid var(--border);border-radius:14px;font-weight:800;box-shadow:0 3px 0 #d3daf2;transition:transform .1s,box-shadow .1s,background .15s}
+html[data-style="play"] .btn:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 #d3daf2}
+html[data-style="play"] .btn.primary,html[data-style="play"] .btn.run,html[data-style="play"] .win-actions .btn.primary,html[data-style="play"] .gm-play,html[data-style="play"] .hm-play{background:linear-gradient(180deg,#6b7bff,#4c5cff);border:0;color:#fff;box-shadow:0 5px 0 #2a36c4;border-radius:16px}
+html[data-style="play"] .btn.primary:hover:not(:disabled),html[data-style="play"] .btn.run:hover:not(:disabled),html[data-style="play"] .gm-play:hover,html[data-style="play"] .hm-play:hover{background:linear-gradient(180deg,#7a88ff,#5565ff);border:0}
+html[data-style="play"] .btn.primary:active:not(:disabled),html[data-style="play"] .btn.run:active:not(:disabled),html[data-style="play"] .gm-play:active{transform:translateY(3px);box-shadow:0 2px 0 #2a36c4}
+html[data-style="play"] .pro-btn,html[data-style="play"] .wb-buy,html[data-style="play"] .pw .pw-buy{background:linear-gradient(180deg,#ffe066,#fcc419);box-shadow:0 4px 0 #d99a00}
+html[data-style="play"] .card,html[data-style="play"] .gm-mode,html[data-style="play"] .gm-card,html[data-style="play"] .gm-mini,html[data-style="play"] .gm-cont,html[data-style="play"] .gm-rank,html[data-style="play"] .gm-user,html[data-style="play"] .mission,html[data-style="play"] .learn,html[data-style="play"] #scr-game .card,html[data-style="play"] .course-card{background:#fff;border:2px solid #e2e7fa;border-radius:20px;box-shadow:0 6px 0 #dfe4f7}
+html[data-style="play"] .gm-mode:hover,html[data-style="play"] .gm-mini:hover,html[data-style="play"] .gm-cont:hover,html[data-style="play"] .course-card:hover{transform:translateY(-3px);border-color:#c8d0f5;box-shadow:0 9px 0 #d3daf2}
+html[data-style="play"] .gm-em,html[data-style="play"] .gm-mini .ic,html[data-style="play"] .gicon{background:#f1f4ff;border:2px solid #e2e7fa;border-radius:14px}
+html[data-style="play"] .topbar,html[data-style="play"] .gbar{background:rgba(255,255,255,.96);border-bottom:0;box-shadow:0 4px 0 #dde3f8}
+html[data-style="play"] .modal,html[data-style="play"] .toast{border:2px solid #e2e7fa;border-radius:24px;box-shadow:0 10px 0 #d3daf2,0 30px 60px -30px rgba(20,24,58,.4)}
+html[data-style="play"] .chip{border:2px solid #e2e7fa;font-weight:800}
+html[data-style="play"] input.txt{border:2px solid var(--border);border-radius:14px}
+
+/* 👾 პიქსელი: რეტრო — შავი ჩარჩოები, მყარი ჩრდილები, ბადის ფონი, პიქსელური სათაური */
+html[data-style="pixel"]{--bg:#efefea;--panel:#ffffff;--panel2:#f4f4ef;--text:#111111;--muted:#4f4f4f;--border:#111111;--accent:#3d5afe;--radius:6px}
+html[data-style="pixel"] body{background:linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px) 0 0/24px 24px fixed,linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px) 0 0/24px 24px fixed,#efefea}
+html[data-style="pixel"] #scr-menu.active,html[data-style="pixel"] #scr-menu{--panel:#fff;--border:#111;--muted:#4f4f4f;background:transparent}
+html[data-style="pixel"] .gm-title{font-family:'Press Start 2P',var(--mono);font-size:clamp(1.5rem,3.6vw,2.5rem);letter-spacing:0;line-height:1.35}
+html[data-style="pixel"] .gm-title span{color:#d62828}
+html[data-style="pixel"] .gm-kicker,html[data-style="pixel"] .chip{background:#fff;color:#111;border:2px solid #111;border-radius:4px;box-shadow:2px 2px 0 #111}
+html[data-style="pixel"] .btn{border:3px solid #111;border-radius:4px;font-weight:800;box-shadow:3px 3px 0 #111;transition:transform .08s,box-shadow .08s}
+html[data-style="pixel"] .btn:hover:not(:disabled){border-color:#111}
+html[data-style="pixel"] .btn:active:not(:disabled){transform:translate(2px,2px);box-shadow:1px 1px 0 #111}
+html[data-style="pixel"] .btn.primary,html[data-style="pixel"] .btn.run,html[data-style="pixel"] .win-actions .btn.primary,html[data-style="pixel"] .gm-play,html[data-style="pixel"] .hm-play{background:#3d5afe;border:3px solid #111;color:#fff;box-shadow:4px 4px 0 #111;border-radius:4px}
+html[data-style="pixel"] .btn.primary:hover:not(:disabled),html[data-style="pixel"] .btn.run:hover:not(:disabled),html[data-style="pixel"] .gm-play:hover,html[data-style="pixel"] .hm-play:hover{background:#2f47e0;border-color:#111}
+html[data-style="pixel"] .btn.primary:active:not(:disabled),html[data-style="pixel"] .btn.run:active:not(:disabled),html[data-style="pixel"] .gm-play:active{transform:translate(3px,3px);box-shadow:1px 1px 0 #111}
+html[data-style="pixel"] .gm-play i{border-radius:2px}
+html[data-style="pixel"] .pro-btn,html[data-style="pixel"] .wb-buy,html[data-style="pixel"] .pw .pw-buy{background:#ffd43b;color:#111;border:3px solid #111;border-radius:4px;box-shadow:3px 3px 0 #111}
+html[data-style="pixel"] .card,html[data-style="pixel"] .gm-mode,html[data-style="pixel"] .gm-card,html[data-style="pixel"] .gm-mini,html[data-style="pixel"] .gm-cont,html[data-style="pixel"] .gm-rank,html[data-style="pixel"] .gm-user,html[data-style="pixel"] .mission,html[data-style="pixel"] .learn,html[data-style="pixel"] #scr-game .card,html[data-style="pixel"] .course-card{background:#fff;border:3px solid #111;border-radius:6px;box-shadow:5px 5px 0 #111}
+html[data-style="pixel"] .gm-mode:hover,html[data-style="pixel"] .gm-mini:hover,html[data-style="pixel"] .gm-cont:hover,html[data-style="pixel"] .course-card:hover{transform:translate(-2px,-2px);border-color:#111;box-shadow:7px 7px 0 #3d5afe}
+html[data-style="pixel"] .gm-em,html[data-style="pixel"] .gm-mini .ic,html[data-style="pixel"] .gicon{background:#f4f4ef;border:2px solid #111;border-radius:4px}
+html[data-style="pixel"] .gm-bar{background:#e4e4de;border-radius:0}
+html[data-style="pixel"] .topbar,html[data-style="pixel"] .gbar{background:#fff;border-bottom:3px solid #111;backdrop-filter:none;-webkit-backdrop-filter:none}
+html[data-style="pixel"] .modal,html[data-style="pixel"] .toast{border:3px solid #111;border-radius:6px;box-shadow:8px 8px 0 #111}
+html[data-style="pixel"] input.txt,html[data-style="pixel"] select{border:3px solid #111;border-radius:4px}
+html[data-style="pixel"] .mission .prof,html[data-style="pixel"] .learn-pts li{border:2px solid #111;border-radius:4px}
+</style>
 <!-- Vercel Web Analytics -->
 <script>if (location.protocol === 'https:') { window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); }; var s = document.createElement('script'); s.defer = true; s.src = '/_vercel/insights/script.js'; document.head.appendChild(s); window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); }; var t = document.createElement('script'); t.defer = true; t.src = '/_vercel/speed-insights/script.js'; document.head.appendChild(t); }</script>
 </head>
@@ -17239,6 +17286,8 @@ function applySettings() {
   const s = Progress.P.settings;
   // იერსახე: ღამე (ნაგულისხმევი) ან დღე. ცალკე გასაღები mode — ძველ შენახვებში theme:'light' ნაგულისხმევი იყო და ყველას დღეზე გადართავდა
   document.documentElement.dataset.theme = s.mode === 'night' ? 'dark' : 'light';
+  // სტილი სუფთა (დღის) იერსახის თავზე: 🎈 ფერადი ან 👾 პიქსელი
+  if (s.mode === 'play' || s.mode === 'pixel') document.documentElement.dataset.style = s.mode; else delete document.documentElement.dataset.style;
   document.documentElement.style.setProperty('--fs', s.font + 'px');
   Editor.setTheme(Progress.P.etheme);
   Editor.refresh();
@@ -19702,7 +19751,7 @@ const SettingsScreen = {
       '<div class="card">' +
       (web ? '<div class="set-row"><label>ენა</label>' + seg('st-lang', [['ka', 'ქართული'], ['en', 'English']], enPage ? 'en' : 'ka') + '</div>' : '') +
       '<div class="set-row"><label>სწავლის სტილი<br><small class="muted">ახალი თემის მე-2 ნაბიჯი: ბლოკების აწყობა ან კოდის ასო-ასო გადაწერა</small></label>' + seg('st-learn', [['blocks', '🧩 ააწყე ბლოკებით'], ['type', '✍️ გადაწერე ასო-ასო']], s.learn === 'type' ? 'type' : 'blocks') + '</div>' +
-      '<div class="set-row"><label>იერსახე</label>' + seg('st-mode', [['day', '☀️ დღე'], ['night', '🌙 ღამე']], s.mode === 'night' ? 'night' : 'day') + '</div>' +
+      '<div class="set-row"><label>იერსახე</label>' + seg('st-mode', [['day', '☀️ სუფთა'], ['play', '🎈 ფერადი'], ['pixel', '👾 პიქსელი'], ['night', '🌙 ღამე']], ['night', 'play', 'pixel'].includes(s.mode) ? s.mode : 'day') + '</div>' +
       '<div class="set-row"><label>ხმა</label>' + seg('st-sound', [[1, 'ჩართული'], [0, 'გამორთული']], s.sound ? 1 : 0) + '</div>' +
       '<div class="set-row"><label>ანიმაციის სიჩქარე</label>' + seg('st-speed', [[1, '🐢 ნელი'], [2, 'ჩვეულებრივი'], [3, '🐇 სწრაფი']], s.speed) + '</div>' +
       '<div class="set-row"><label for="st-font">შრიფტის ზომა: <span id="st-font-v">' + s.font + '</span>px</label><input type="range" id="st-font" min="13" max="21" value="' + s.font + '" style="accent-color:var(--accent)"></div>' +

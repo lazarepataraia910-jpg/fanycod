@@ -967,6 +967,13 @@ textarea.code-io{width:100%;min-height:90px;font-family:var(--mono);font-size:.8
 input.txt{padding:.45em .75em;border-radius:8px;border:1px solid var(--border);background:var(--panel);min-width:200px}
 .dict-item{border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;background:var(--panel)}
 .dict-item h4{margin:0 0 .2em}
+/* პარტნიორის პატარა რეკლამა (English Quest) — მისი სტილით: თეთრი ბარათი, შავი ჩარჩო, წითელი ჩრდილი */
+.pt-ad{display:flex;align-items:center;gap:12px;position:relative;margin:16px 6px 6px;padding:10px 14px;background:#fff;color:#111;border:3px solid #111;border-radius:6px;box-shadow:6px 6px 0 #d62828;text-decoration:none;transition:transform .15s,box-shadow .15s}
+.pt-ad:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 #d62828}
+.pt-ad svg{flex:none}.pt-t{display:grid;min-width:0}
+.pt-t small{color:#d62828;font:700 .7rem/1.2 ui-monospace,Consolas,monospace;letter-spacing:.18em}
+.pt-t b{font-size:1.05rem;line-height:1.25;color:#111}.pt-t em{font-style:normal;font-size:.8rem;color:#555;line-height:1.35}
+.pt-tag{position:absolute;top:-11px;right:10px;background:#111;color:#fff;font-size:.7rem;font-weight:700;padding:1px 8px;border-radius:4px}
 .dict-item pre{margin:.4em 0;background:var(--code-bg);border:1px solid var(--border);padding:6px 8px;border-radius:8px;font-family:var(--mono);font-size:.85rem;white-space:pre-wrap}
 .cert-preview{width:100%;border-radius:10px;border:1px solid var(--border)}
 /* ---- ენები და კურსები ---- */
@@ -18892,6 +18899,9 @@ const Dict = {
     const locked = DICTIONARY.length - un.length;
     const m = Modal.open('<h2>ლექსიკონი</h2><input class="txt" id="dict-q" placeholder="🔎 ძებნა..." style="width:100%;margin-bottom:10px" aria-label="ლექსიკონში ძებნა"><div class="dict-list"></div>' +
       (locked ? '<p class="muted">🔒 კიდევ ' + locked + ' ცნება გაიხსნება სწავლის პარალელურად.</p>' : '') +
+      // პარტნიორი: კოდის ბრძანებები ინგლისური სიტყვებია — English Quest
+      '<a class="pt-ad" href="https://www.englishquest.space/course?utm_source=codequest&amp;utm_medium=partner&amp;utm_campaign=dictionary" target="_blank" rel="noopener"><svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><rect x="2" y="2" width="44" height="44" rx="7" fill="#d62828" stroke="#111" stroke-width="3"/><path d="M24 15c-4-3-9-3.5-14-2v21c5-1.5 10-1 14 2z" fill="#fff" stroke="#111" stroke-width="2.6" stroke-linejoin="round"/><path d="M24 15c4-3 9-3.5 14-2v21c-5-1.5-10-1-14 2z" fill="#fff" stroke="#111" stroke-width="2.6" stroke-linejoin="round"/><path d="M30 12.2V22l2.5-2 2.5 2v-9.6" fill="#d62828" stroke="#111" stroke-width="2" stroke-linejoin="round"/><path d="M14 20h6M14 25h6M28 26h6" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>' +
+      '<span class="pt-t"><small>LEARN ENGLISH</small><b>პროგრამირების ინგლისური</b><em>რას ნიშნავს print, return, sort, keys… — 240 სიტყვა ქართული თარგმანით, უფასოდ</em></span><span class="pt-tag">🤝 პარტნიორი</span></a>' +
       '<div class="modal-actions"><button class="btn primary" data-close>დახურვა</button></div>', { wide: true });
     const list = m.querySelector('.dict-list');
     const render = q => {

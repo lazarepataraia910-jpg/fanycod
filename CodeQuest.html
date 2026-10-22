@@ -1762,12 +1762,13 @@ html[data-style="pixel"] .mission .prof,html[data-style="pixel"] .learn-pts li{b
           <div class="wb-name" id="wb-name"></div>
         </div>
         <div class="wb-try hidden" id="wb-try" role="status"></div>
-        <div class="wb-actions"><button class="btn" id="wb-random">🎲 შემთხვევითი</button><button class="btn" id="wb-reset">↺ ყველაფრის მოხსნა</button></div>
-        <p class="muted wb-note">🎨 ჩვეულებრივი ფერები უფასოა, დანარჩენი XP-ით იყიდება. რაც უფრო იშვიათია ნივთი, მით ძვირია: ჩვეულებრივი → არაჩვეულებრივი → იშვიათი → ეპიკური → ლეგენდარული → მითიური. XP-ის ხარჯვა წოდებას არ ამცირებს — ის მოგებულ XP-ს ითვლის.</p>
+        <div class="wb-actions"><button class="btn" id="wb-random">🎲 შემთხვევითი სკინი</button><button class="btn" id="wb-reset">↺ კლასიკური ბიტი</button></div>
+        <p class="muted wb-note">✨ სკინი მთელი კომპლექტია: დააჭირე და ბიტი მოისინჯავს, მერე იყიდე XP-ით. ნაყიდ სკინზე დაჭერა მას უფასოდ აცმევს. XP-ის ხარჯვა წოდებას არ ამცირებს — ის მოგებულ XP-ს ითვლის.</p>
       </div>
       <div class="wb-shop">
-        <div class="wb-deals" id="wb-deals"></div>
-        <div class="wb-tabs" id="wb-tabs" role="tablist" aria-label="კატეგორიები"></div>
+        <!-- გარდერობში მხოლოდ მზა სკინებია: ცალკეული ნივთების ჩანართები და დღის შეთავაზება დამალულია (ნივთები სკინების ნაწილებად რჩება) -->
+        <div class="wb-deals hidden" id="wb-deals"></div>
+        <div class="wb-tabs hidden" id="wb-tabs" role="tablist" aria-label="კატეგორიები"></div>
         <div class="wb-filter" id="wb-filter" role="toolbar" aria-label="იშვიათობა და დალაგება"></div>
         <div class="wb-grid" id="wb-grid"></div>
       </div>
@@ -18992,7 +18993,8 @@ const WB_SKINS = [
 const WB_SLOTS = [['skin', '✨', 'სკინები'], ['color', '🎨', 'ფერი'], ['hat', '🎩', 'ქუდები'], ['top', '👕', 'ტანსაცმელი'], ['eyes', '🕶️', 'სათვალე'], ['neck', '🎀', 'კისერზე'], ['back', '🎒', 'ზურგზე'], ['feet', '👟', 'ფეხსაცმელი'], ['antenna', '📡', 'ანტენა']];
 const WB_SORTS = [['rar', 'იშვიათობით'], ['cheap', 'ჯერ იაფი'], ['dear', 'ჯერ ძვირი'], ['mine', 'ჯერ ჩემი']];
 const Wardrobe = {
-  tab: 'skin', tryIt: null, rar: 'all', sort: 'rar', gridKey: '',
+  tab: 'skin', tryIt: null,   // ცალკეული ნივთების ჩანართები დამალულია — tab ყოველთვის skin
+  rar: 'all', sort: 'rar', gridKey: '',
   items(slot) {
     if (slot === 'skin') return WB_SKINS.map(w => Object.assign(w, { price: this.skinPrice(w, true) }));
     const P = Progress.P, mine = w => (P.owned || []).includes(slot + ':' + w.id) || (P.skin[slot] || BIT_DEFAULT[slot]) === w.id;
@@ -19130,17 +19132,15 @@ const Wardrobe = {
     Progress.save(); Progress.checkAch();
     return true;
   },
-  // შემთხვევითი იერსახე მხოლოდ საკუთარი ნივთებიდან
+  // შემთხვევითი სკინი: საკუთარებიდან ეცმევა; თუ ჯერ არცერთი გაქვს — შემთხვევითს მოისინჯავს
   random() {
-    const P = Progress.P;
-    WB_SLOTS.filter(([sl]) => sl !== 'skin').forEach(([sl]) => { const own = this.items(sl).filter(w => Progress.owns(w)); P.skin[sl] = own[Math.floor(Math.random() * own.length)].id; });
-    P.skinAt = Date.now();
-    P.stats.styled = true; this.tryIt = null;
-    Progress.save(); Account.soon(); Progress.checkAch(); Sound.click(); this.render();
+    const own = WB_SKINS.filter(w => this.owns(w)), pool = own.length ? own : WB_SKINS, w = pool[Math.floor(Math.random() * pool.length)];
+    this.tryIt = null;
+    if (own.length) { Sound.click(); this.wear('skin', w.id); this.render(); } else this.pick('skin', w.id);
   },
   reset() {
     const P = Progress.P;
-    P.skin = Object.assign({}, BIT_DEFAULT, { color: P.skin.color }); P.skinAt = Date.now();
+    P.skin = Object.assign({}, BIT_DEFAULT); P.skinAt = Date.now();   // ფერის ჩანართი აღარ არის — ფერიც კლასიკურს უბრუნდება
     this.tryIt = null; Progress.save(); Sound.click(); this.render();
   }
 };

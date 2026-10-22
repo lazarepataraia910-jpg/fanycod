@@ -1424,7 +1424,60 @@ html[data-theme="light"] .lp-hero p{color:var(--muted)}
 html[data-theme="light"] .lp-kick{border-color:transparent;background:#eef1ff;color:#2f47e0}
 html[data-theme="light"] .lp-stats span{border-color:var(--border);background:var(--panel);color:var(--muted)}
 html[data-theme="light"] .lp-stats b{color:var(--accent)}
-html[data-theme="light"] .lp-deco .lang-badge{box-shadow:0 10px 18px -8px rgba(15,18,34,.3)}</style>
+html[data-theme="light"] .lp-deco .lang-badge{box-shadow:0 10px 18px -8px rgba(15,18,34,.3)}
+/* ---------- თამაში საიტის დიზაინით (2026-10): ბრტყელი ღილაკები ერთი ლურჯით, თეთრი პანელები წვრილი ჩარჩოთი, მენიუ დეკორაციების გარეშე ---------- */
+/* ღილაკები: 3D-ჩრდილის, გრადიენტისა და ბზინვარების გარეშე */
+html[data-theme="light"] .btn{border-radius:12px;box-shadow:none}
+html[data-theme="light"] .btn.primary,html[data-theme="light"] .win-actions .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:none}
+html[data-theme="light"] .btn.primary:hover:not(:disabled){background:#2f47e0;border-color:#2f47e0}
+html[data-theme="light"] .btn.primary:active:not(:disabled),html[data-theme="light"] .btn.run:active:not(:disabled){transform:none;box-shadow:none}
+html[data-theme="light"] .btn.run{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:none;border-radius:12px}
+html[data-theme="light"] .btn.run:hover:not(:disabled){background:#2f47e0;border-color:#2f47e0}
+html[data-theme="light"] .btn.tool,html[data-theme="light"] .key,html[data-theme="light"] .asm-chip,html[data-theme="light"] .asm-chip:hover,html[data-theme="light"] .lvl-item,html[data-theme="light"] .lvl-num,html[data-theme="light"] .btn.danger,html[data-theme="light"] .vsc-run,html[data-theme="light"] .pro-badge,html[data-theme="light"] .win-badge,html[data-theme="light"] .wb-wallet,html[data-theme="light"] .wb-tabs button.on,html[data-theme="light"] .mp-price,html[data-theme="light"] .mp-pro .hm-ic{box-shadow:none}
+html[data-theme="light"] .pro-btn,html[data-theme="light"] .wb-buy,html[data-theme="light"] .pw .pw-buy{background:#ffd43b;color:#3d2a00;box-shadow:none}
+html[data-theme="light"] .pro-btn:hover,html[data-theme="light"] .wb-buy:hover,html[data-theme="light"] .pw .pw-buy:hover{background:#fcc419}
+html[data-theme="light"] .hm-play,html[data-theme="light"] .gm-play{background:var(--accent);color:#fff;box-shadow:none;border-radius:16px;filter:none}
+html[data-theme="light"] .hm-play:hover,html[data-theme="light"] .gm-play:hover{background:#2f47e0;transform:none;box-shadow:none;filter:none}
+html[data-theme="light"] .hm-play:active,html[data-theme="light"] .gm-play:active{transform:translateY(1px);box-shadow:none}
+html[data-theme="light"] .hm-play::after,html[data-theme="light"] .gm-play::after{display:none}
+html[data-theme="light"] .gm-play i{background:#fff;color:var(--accent)}
+
+/* მთავარი მენიუ: მშვიდი თეთრი სცენა — ბიტი, სათაური და ერთი ლურჯი ღილაკი; მცურავი კუნძულები და ნათება აღარ არის */
+html[data-theme="light"] #scr-menu.active{background:#fff}
+html[data-theme="light"] .gm-sky{display:none}
+html[data-theme="light"] .gm-hero::before,html[data-theme="light"] .gm-beam,html[data-theme="light"] .gm-pad{display:none}
+html[data-theme="light"] .gm-title{text-shadow:none;letter-spacing:-.03em}
+html[data-theme="light"] .gm-title span{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--accent)}
+html[data-theme="light"] .gm-word span{color:var(--accent)}
+html[data-theme="light"] .gm-kicker{background:#eef1ff;color:#2f47e0}
+html[data-theme="light"] .gm-mode,html[data-theme="light"] .gm-card,html[data-theme="light"] .gm-mini,html[data-theme="light"] .gm-cont,html[data-theme="light"] .gm-rank,html[data-theme="light"] .gm-user{background:#fff;border:1px solid var(--border);box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;border-radius:16px}
+html[data-theme="light"] .gm-mode:hover,html[data-theme="light"] .gm-mini:hover,html[data-theme="light"] .gm-cont:hover{border-color:#c9cfdc;box-shadow:none;transform:none}
+html[data-theme="light"] .gm-em,html[data-theme="light"] .gm-mini .ic{background:var(--panel2);box-shadow:none;border-radius:12px}
+html[data-theme="light"] .gm-bar{background:var(--panel2)}
+
+/* ზედა ზოლები: თეთრი, წვრილი ხაზით — სამყაროს ფერის გრადიენტის გარეშე */
+html[data-theme="light"] .topbar,html[data-theme="light"] .gbar{background:rgba(255,255,255,.94);border-bottom:1px solid var(--border);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+html[data-theme="light"] .gicon{background:var(--panel2);border:1px solid var(--border);box-shadow:none;border-radius:12px}
+
+/* ლეველის ეკრანი: ნეიტრალური თეთრი ბარათები; სამყაროს ფერები მხოლოდ დაფაზე რჩება */
+html[data-theme="light"] .mission,html[data-theme="light"] .learn,html[data-theme="light"] #scr-game .card{border:1px solid var(--border);border-radius:16px;box-shadow:none}
+html[data-theme="light"] .mission .prof{background:var(--panel2)}
+html[data-theme="light"] .mission .prof .avatar{border:1px solid var(--border)}
+html[data-theme="light"] .mission .goals .chip{background:var(--panel2);border-color:var(--border)}
+html[data-theme="light"] .learn-pts li{background:var(--panel2)}
+
+/* ენების გვერდი: თეთრი ბარათები, ენის ფერი მხოლოდ ხატულაზე და პროგრესის ზოლზე */
+html[data-theme="light"] .course-card{background:#fff;box-shadow:none}
+html[data-theme="light"] .course-card::before,html[data-theme="light"] .course-card::after{display:none}
+html[data-theme="light"] .course-card:hover,html[data-theme="light"] .course-item:hover>.course-card{transform:none;border-color:#c9cfdc;box-shadow:none}
+html[data-theme="light"] .course-card .head .lang-badge{box-shadow:none}
+
+/* ფანჯრები */
+html[data-theme="light"] .modal{border-radius:20px}
+html[data-theme="light"] .steps{background:var(--panel2)}
+html[data-theme="light"] .steps button.on b,html[data-theme="light"] .qpips i.done{background:var(--accent)}
+html[data-theme="light"] .qpips i{background:var(--border)}
+html[data-theme="light"] .qpips i.cur{background:#fff;box-shadow:inset 0 0 0 2px var(--accent)}</style>
 <!-- Vercel Web Analytics -->
 <script>if (location.protocol === 'https:') { window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); }; var s = document.createElement('script'); s.defer = true; s.src = '/_vercel/insights/script.js'; document.head.appendChild(s); window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); }; var t = document.createElement('script'); t.defer = true; t.src = '/_vercel/speed-insights/script.js'; document.head.appendChild(t); }</script>
 </head>

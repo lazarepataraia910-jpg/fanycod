@@ -19158,7 +19158,8 @@ function codeEditor(el, code, L, on) {
    (desktop/main.js → userData/projects — სერვერის გარეშე), ამიტომ პროგრამის დახურვის ან კომპიუტერის გადატვირთვის შემდეგაც რჩება.
    „შენახვა“ (Ctrl+S) ფაილებს წერს არჩეულ საქაღალდეში: <საქაღალდე>/<პროექტის სახელი>/…; წარმატების (და გადამოწმების) შემდეგ დრაფტი
    იშლება და პროექტი კომპიუტერის ფაილებიდან იხსნება. საქაღალდეს მხოლოდ Windows-ის ფანჯარა ირჩევს (main.js) — გვერდი გზას ვერ გადასცემს.
-   ბრაუზერში, ტელეფონზე და პროგრამის ძველ ვერსიაში (window.cqDesktop არ არის) გვერდი არ ჩანს. ---------- */
+   Microsoft Store-ის (დაყენებულ) აპში იგივე API-ს PjWeb ასრულებს: დრაფტები IndexedDB-ში, შენახვა — ბრაუზერის ფაილური API-ით
+   (showDirectoryPicker). ბრაუზერის ჩანართში, ტელეფონზე და პროგრამის ძველ ვერსიაში გვერდი არ ჩანს. ---------- */
 const PJ_TYPES = {
   html: { main: 'index.html', need: [] },
   css: { main: 'style.css', need: ['index.html'], t: 'CSS-ს სჭირდება HTML — დააყენე ის.', why: 'HTML — გვერდის ჩონჩხი, CSS — მისი იერსახე.' },
@@ -19206,10 +19207,97 @@ function pjTemplate(type, path, name) {
   if (path === 'script.js') return 'document.querySelector("h1").textContent += " — JavaScript მუშაობს!";\n';
   return path === PJ_TYPES[type].main ? STUDIO_START[type] || '' : '';
 }
+/* Microsoft Store-ის / დაყენებული აპი (PWA): იგივე API, რაც desktop/projects.js-ს (list/get/put/remove/save), ბრაუზერის საშუალებებით.
+   ჩანაწერი: { id, name, type, state, files, dir, at } — dir არჩეული საქაღალდის handle-ია (IndexedDB მას ინახავს), გზას ვერ ვიგებთ.
+   ფაილების ასლი შენახვის შემდეგაც რჩება: თუ საქაღალდის ნებართვა აღარ არის, პროექტი მაინც გაიხსნება. */
+const PjWeb = {
+  db: null,
+  open() {
+    return this.db || (this.db = new Promise((ok, bad) => {
+      const r = indexedDB.open('codequest-projects', 1);
+      r.onupgradeneeded = () => r.result.createObjectStore('p', { keyPath: 'id' });
+      r.onsuccess = () => ok(r.result);
+      r.onerror = () => bad(r.error);
+    }));
+  },
+  async tx(mode, fn) {
+    const db = await this.open();
+    return new Promise((ok, bad) => { const t = db.transaction('p', mode), r = fn(t.objectStore('p')); t.oncomplete = () => ok(r.result); t.onerror = () => bad(t.error); });
+  },
+  read(id) { return this.tx('readonly', s => s.get(String(id))); },
+  write(p) { return this.tx('readwrite', s => s.put(p)); },
+  err: e => (['NotAllowedError', 'SecurityError'].includes(e && e.name) ? 'denied' : e && e.name === 'QuotaExceededError' ? 'full' : e && e.name === 'NotFoundError' ? 'missing' : 'io'),
+  // საქაღალდის ფაილი (rel — 'src/App.jsx'); create — ქვესაქაღალდეებიც იქმნება
+  async file(root, rel, create) {
+    const parts = rel.split('/');
+    let d = root;
+    for (const x of parts.slice(0, -1)) d = await d.getDirectoryHandle(x, { create });
+    return d.getFileHandle(parts[parts.length - 1], { create });
+  },
+  async list() { return (await this.tx('readonly', s => s.getAll())).map(p => ({ id: p.id, name: p.name, type: p.type, state: p.state, at: p.at })).sort((a, b) => b.at - a.at); },
+  async get(id) {
+    const p = await this.read(id);
+    if (!p) return { ok: false, error: 'io' };
+    const files = Object.assign({}, p.files);
+    // შენახული პროექტი კომპიუტერის ფაილებიდან იხსნება (თუ ნებართვა არის); თითო ფაილზე შეცდომისას — ასლი
+    if (p.state === 'saved' && p.dir) {
+      try {
+        if (await p.dir.requestPermission({ mode: 'read' }) === 'granted') {
+          const root = await p.dir.getDirectoryHandle(p.name);
+          for (const rel of Object.keys(files)) { try { files[rel] = await (await (await this.file(root, rel, false)).getFile()).text(); } catch (e) { } }
+        }
+      } catch (e) { }
+    }
+    return { ok: true, project: { id: p.id, name: p.name, type: p.type, state: p.state, folder: p.dir ? p.dir.name : '', files } };
+  },
+  // იგივე შემოწმებები, რაც desktop/projects.js-ში
+  async put(d) {
+    if (!d || !/^[a-z0-9]{4,32}$/.test(d.id) || !PJ_TYPES[d.type] || !pjPathOk(d.name) || d.name.includes('/') || d.name.length > 60) return { ok: false, error: 'bad_path' };
+    const files = d.files && typeof d.files === 'object' ? d.files : {}, paths = Object.keys(files);
+    if (!paths.length || paths.length > 200 || !paths.every(pjPathOk)) return { ok: false, error: 'bad_path' };
+    let total = 0;
+    for (const k of paths) {
+      const v = files[k], n = typeof v === 'string' ? new Blob([v]).size : Infinity;
+      if (n > PJ_FILE_MAX || v.includes('\0')) return { ok: false, error: 'limit' };
+      total += n;
+    }
+    if (total > 5 * PJ_FILE_MAX) return { ok: false, error: 'limit' };
+    const old = await this.read(d.id);
+    if (!old && (await this.list()).length >= PJ_MAX) return { ok: false, error: 'too_many' };
+    const p = { id: d.id, name: old ? old.name : d.name, type: old ? old.type : d.type, dir: (old && old.dir) || null, files: Object.fromEntries(paths.map(k => [k, files[k]])), at: Date.now() };
+    p.state = p.dir ? 'dirty' : 'draft';
+    try { await this.write(p); } catch (e) { return { ok: false, error: this.err(e) }; }
+    return { ok: true, state: p.state };
+  },
+  async remove(id) { await this.tx('readwrite', s => s.delete(String(id))); return { ok: true }; },
+  // „შენახვა“: პირველად (ან pick) — საქაღალდის არჩევა; ჩაწერა + გადამოწმება; შეცდომისას დრაფტი რჩება
+  async save(id, pick) {
+    const p = await this.read(id);
+    if (!p) return { ok: false, error: 'io' };
+    if (p.state === 'saved' && !pick) return { ok: true, folder: p.dir.name + '/' + p.name };
+    let dir = p.dir;
+    try {
+      if (pick || !dir) dir = await window.showDirectoryPicker({ id: 'codequest-projects', mode: 'readwrite' });
+      else if (await dir.requestPermission({ mode: 'readwrite' }) !== 'granted') return { ok: false, error: 'denied' };
+    } catch (e) { return e && e.name === 'AbortError' ? { ok: false, canceled: true } : { ok: false, error: this.err(e) }; }
+    try {
+      const root = await dir.getDirectoryHandle(p.name, { create: true });
+      for (const [rel, text] of Object.entries(p.files)) {
+        const fh = await this.file(root, rel, true), w = await fh.createWritable();
+        await w.write(text);
+        await w.close();
+        if (await (await fh.getFile()).text() !== text) throw Object.assign(new Error('verify'), { name: 'verify' });
+      }
+      await this.write(Object.assign(p, { dir, state: 'saved', at: Date.now() }));
+    } catch (e) { return { ok: false, error: this.err(e) }; }
+    return { ok: true, folder: dir.name + '/' + p.name };
+  }
+};
 const Projects = {
   list: [], cur: null, file: '', ed: null, t: null, err: '', busy: false, pending: false,
-  api: () => window.cqDesktop && window.cqDesktop.projects,
-  available() { return IS_DESKTOP && !!this.api() && Progress.hasPro(); },
+  // კომპიუტერის პროგრამა — desktop/projects.js (preload.js); Microsoft Store-ის / დაყენებული აპი — PjWeb (Android-ზე და iOS-ზე ფაილური API არ არის)
+  api: () => (window.cqDesktop && window.cqDesktop.projects) || (Install.standalone() && window.showDirectoryPicker && window.indexedDB ? PjWeb : null),
+  available() { return !!this.api() && Progress.hasPro(); },
   async render() {
     if (!this.available()) return UI.show('menu', true);
     if (this.cur) return this.renderEditor();

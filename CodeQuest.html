@@ -22631,8 +22631,8 @@ function init() {
   // ისწავლე ინგლისური: ახალ ჩანართში (პროგრამაში — სისტემურ ბრაუზერში, desktop/main.js); კვირის ქვესთი ითვლის დაჭერას
   $('#m-english-ic').innerHTML = pxIcon('bubble', 28, 'var(--bit)', null, 'px');
   $('#m-english').addEventListener('click', () => Quests.ev('english_quest_opened'));
-  // კომპიუტერის ვერსიის გადმოწერა: კომპიუტერიდან შემოსულს ვაჩვენებთ (ტელეფონზე და თავად პროგრამაში — არა)
-  if (!IS_DESKTOP && !Desktop.mobile()) {
+  // კომპიუტერის ვერსიის გადმოწერა: კომპიუტერიდან შემოსულს ვაჩვენებთ (ტელეფონზე, პროგრამაში და დაყენებულ აპში — Microsoft Store / PWA — არა)
+  if (!IS_DESKTOP && !Install.standalone() && !Desktop.mobile()) {
     $('#m-desktop').classList.remove('hidden');
     $('#m-desktop-sub').textContent = Desktop.os() === 'win' ? 'Microsoft Store ან გადმოწერა' : 'გადმოწერე ' + Desktop.files[Desktop.os()].name + '-ისთვის';
   }

@@ -8594,5 +8594,8 @@
  "შესრულდა": "Completed",
  "ჯერ მონაცემი არ არის — ქვესთი პერიოდის დასრულების შემდეგ ითვლება.": "No data yet — a quest is counted after its period ends.",
  "ისწავლე ინგლისური": "Learn English",
- "English Quest — ჩვენი პარტნიორი": "English Quest — our partner"
+ "English Quest — ჩვენი პარტნიორი": "English Quest — our partner",
+ ": ერთი პროექტი უფასოა, მეტი — Pro-თი (20-მდე პროექტი). Pro ამასთან ერთად ყველა ფასიან ლეველს, ვიდეოებს და სკოლას ხსნის.": ": one project is free, more with Pro (up to 20 projects). Pro also unlocks all paid levels, videos and the school.",
+ "Pro-ს გარეშე 1 პროექტი უფასოა — მეტისთვის საჭიროა Pro.": "Without Pro, 1 project is free — more need Pro.",
+ "1 პროექტი უფასოა · მეტი — Pro": "1 project free · more with Pro"
 }

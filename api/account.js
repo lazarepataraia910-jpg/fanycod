@@ -20,7 +20,7 @@
 //   rl:<სახეობა>:<IP ან სახელი>  → მცდელობების მთვლელი
 //   sum:<სახელი>                 → მოკლე შეჯამება მასწავლებლისა და რეიტინგისთვის { name, xp, done, stars, course, next, courses, wk, wkBase, at }
 //   cls:<კოდი> → { name, owner, ownerName, at }; clsm:<კოდი> — მოსწავლეები (set); uown:/uin:<სახელი> — ჩემი / ნაწევრები კლასები (set)
-//   stat:lv                      → ანონიმური სტატისტიკა (hash): <ლეველი>|n — მცდელობა, |f — შეცდომები, |d — გავლა
+//   stat:lv                      → ანონიმური სტატისტიკა (hash): <ლეველი>|n — მცდელობა, |f — შეცდომები, |d — გავლა; q-<ქვესთი>|n — მიეცა, |d — შესრულდა
 //   live:<ID> / livekey:<ID>     → ცოცხალი გაკვეთილი { lang, code, ver, run, end, cls, teacher } და მასწავლებლის გასაღების ჰეში (4 სთ)
 //
 // ცოცხალი გაკვეთილი: მასწავლებელი თავის დაფას liveSet-ით აგზავნის, მოსწავლეები კი წამში ერთხელ კითხულობენ GET /api/account?live=ID&t=<წამი>.
@@ -683,12 +683,12 @@ const actions = {
   async ownerStats(b, ip) {
     await limit('owner', ip, 120, 3600);
     if (!isOwnerKey(String(b.key || '').trim())) throw new Fail(403, 'not_owner');
-    // ლეველები: { id: [მცდელობა, შეცდომები, გავლა] }
-    const flat = (await db(['HGETALL', 'stat:lv'])) || [], levels = {};
+    // ლეველები: { id: [მცდელობა, შეცდომები, გავლა] }; ქვესთები (q-<id>): { id: [მიეცა, 0, შესრულდა] }
+    const flat = (await db(['HGETALL', 'stat:lv'])) || [], levels = {}, quests = {};
     for (let i = 0; i + 1 < flat.length; i += 2) {
-      const [id, k] = String(flat[i]).split('|'), j = { n: 0, f: 1, d: 2 }[k];
+      const [id, k] = String(flat[i]).split('|'), j = { n: 0, f: 1, d: 2 }[k], to = id.startsWith('q-') ? quests : levels;
       if (j == null) continue;
-      (levels[id] = levels[id] || [0, 0, 0])[j] = +flat[i + 1] || 0;
+      (to[id] = to[id] || [0, 0, 0])[j] = +flat[i + 1] || 0;
     }
     // ანგარიშები და მათი შეჯამებები (პაროლის ჰეშები სერვერს არ ტოვებს — მხოლოდ რაოდენობები)
     const ukeys = await scanKeys('user:'), wk = weekId(), now = Date.now();
@@ -714,7 +714,7 @@ const actions = {
       const c = metas[i] ? JSON.parse(metas[i]) : null;
       return c && { code, name: c.name, teacher: c.ownerName, count: metas[codes.length + i] || 0, live: !!c.live, at: c.at || 0 };
     }).filter(Boolean);
-    return { levels, accounts: acc, courses, classes, week: wk, at: now };
+    return { levels, quests, accounts: acc, courses, classes, week: wk, at: now };
   },
   // ნებისმიერი კლასის დეტალები (მასწავლებლის ხედი)
   async ownerClass(b, ip) {

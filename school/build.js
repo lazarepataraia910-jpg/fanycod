@@ -249,7 +249,7 @@ function shell(o) {
     '</head>\n<body class="' + (o.cls || '') + '">\n<a class="skip" href="#main">გადადი შინაარსზე</a>\n' +
     '<header class="top"><div class="top-in"><a class="logo" href="/learn/"><img class="logo-i" src="/learn/logo.png" alt="" width="30" height="30"><span>ისწავლე <b>კოდინგი</b></span></a>' +
     '<button type="button" class="ic-btn nav-t" id="nav-t" aria-label="მენიუ" aria-expanded="false" aria-controls="nav">☰</button>' +
-    '<nav class="nav" id="nav" aria-label="მთავარი მენიუ">' + nav('courses', 'კურსები') + nav('roadmaps', 'სასწავლო გზები') + nav('dashboard', 'ჩემი დაფა') + '<a href="/CodeQuest.html">🎮 თამაში</a></nav>' +
+    '<nav class="nav" id="nav" aria-label="მთავარი მენიუ">' + nav('courses', 'კურსები') + nav('roadmaps', 'სასწავლო გზები') + nav('dashboard', 'ჩემი დაფა') + '<a href="/CodeQuest.html">🎮 თამაში</a><a href="https://www.englishquest.space/?utm_source=codequest&amp;utm_medium=partner&amp;utm_campaign=school" target="_blank" rel="noopener">ისწავლე ინგლისური</a></nav>' +
     '<div class="top-r"><button type="button" class="search-b" id="search-b" aria-label="ძებნა (Ctrl+K)"><span aria-hidden="true">🔍</span><span class="tl">ძებნა</span><kbd>Ctrl K</kbd></button>' +
     '<button type="button" class="ic-btn" id="theme-b" aria-label="მუქი / ღია რეჟიმი" title="მუქი / ღია რეჟიმი">◐</button><a class="acc-b" id="acc-b" href="/learn/dashboard/">შესვლა</a></div></div></header>\n' +
     (o.bar || '') + '<main id="main">\n' + o.body + '\n</main>\n' +

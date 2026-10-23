@@ -6,7 +6,7 @@
 // origin ყოველთვის ერთია, ამიტომ პროგრესი (localStorage) არ იკარგება. /api/* საიტზე გადაეგზავნება (Pro-ს კოდის შემოწმება),
 // CodeMirror, React და შრიფტები (/_ext/*) ერთხელ ჩამოიტვირთება და მერე კომპიუტერიდან იხსნება.
 'use strict';
-const { app, BrowserWindow, Menu, protocol, net, shell, session, screen } = require('electron');
+const { app, BrowserWindow, Menu, protocol, net, shell, session, screen, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
@@ -143,6 +143,18 @@ async function handle(req) {
   return notFound();
 }
 
+/* ---------- 💻 ჩემი პროექტები (Pro): დრაფტები და საქაღალდეში შენახვა — projects.js ---------- */
+const projects = require('./projects')({
+  dataDir: () => DATA,
+  pickFolder: async title => {
+    const o = { title, buttonLabel: 'აქ შენახვა', properties: ['openDirectory', 'createDirectory'] };
+    const r = await (win ? dialog.showOpenDialog(win, o) : dialog.showOpenDialog(o));
+    return r.canceled ? null : r.filePaths[0] || null;
+  }
+});
+// მხოლოდ თამაშის გვერდიდან (codequest://app)
+for (const [name, fn] of Object.entries(projects)) ipcMain.handle(name, (e, ...a) => (e.senderFrame && e.senderFrame.url.startsWith(ORIGIN + '/') ? fn(...a) : null));
+
 /* ---------- ფანჯარა ---------- */
 const stateFile = () => path.join(DATA, 'window.json');
 function loadBounds() {
@@ -198,7 +210,7 @@ function createWindow() {
     x: b.x, y: b.y, width: b.width, height: b.height, minWidth: 360, minHeight: 520,
     title: 'CodeQuest', show: false, backgroundColor: '#f4f6fb', autoHideMenuBar: true,
     icon: path.join(__dirname, 'build', 'icon.png'),
-    webPreferences: { contextIsolation: true, sandbox: true, nodeIntegration: false, spellcheck: false }
+    webPreferences: { contextIsolation: true, sandbox: true, nodeIntegration: false, spellcheck: false, preload: path.join(__dirname, 'preload.js') }
   });
   if (b.max) win.maximize();
   win.once('ready-to-show', () => win.show());

@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&family=Press+Start+2P&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&family=Press+Start+2P&display=swap"></noscript>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&family=Press+Start+2P&family=Jersey+10&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&family=Press+Start+2P&family=Jersey+10&display=swap"></noscript>
 <!-- CodeMirror 5 (რედაქტორი). თუ CDN მიუწვდომელია, თამაში მარტივ რედაქტორზე გადადის. -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <!-- სხვა ენების ფერადი სინტაქსი: Python, C/C++/Java/C#/Kotlin, HTML, CSS, Go, Rust, PHP, Ruby, Swift, Lua, Dart -->
@@ -1545,6 +1545,86 @@ html[data-style="pixel"] .topbar,html[data-style="pixel"] .gbar{background:#fff;
 html[data-style="pixel"] .modal,html[data-style="pixel"] .toast{border:3px solid #111;border-radius:6px;box-shadow:8px 8px 0 #111}
 html[data-style="pixel"] input.txt,html[data-style="pixel"] select{border:3px solid #111;border-radius:4px}
 html[data-style="pixel"] .mission .prof,html[data-style="pixel"] .learn-pts li{border:2px solid #111;border-radius:4px}
+/* ===== დიზაინ-სისტემა (codequest-design-system: tokens.css + components/bundle.css) — ახალი ეკრანები: ქვესთები და „ჩემი პროექტები“.
+   ფერები მხოლოდ ტოკენებიდან. კოდის ტოკენები (--code-*) აქ არ შემოდის — თამაშს საკუთარი --code-text აქვს. ===== */
+:root{--paper:#f5f6fd;--surface:#ffffff;--surface-sunk:#eceffc;--line:#d5daf0;--ink:#13163a;--outline:var(--ink);--ink-muted:#565b80;--bit:#3d5afe;--bit-deep:#2f47e0;--bit-soft:#e5eaff;--bit-text:#2f47e0;--on-bit:#ffffff;--go:#3ddc97;--go-soft:#dcf8eb;--go-text:#0a7a4a;--on-go:#13163a;--xp:#ff8a00;--xp-soft:#fff0dc;--xp-text:#a34a05;--on-xp:#13163a;--danger:#c62a3a;--danger-soft:#fde8ea;--focus:var(--bit);--shadow-sm:0 3px 0 0 #13163a;--shadow-md:0 5px 0 0 #13163a;
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-pill:999px;--stroke-bold:2px;--stroke-heavy:3px;--control-sm:36px;--control-md:46px;
+  --font-sans:"Noto Sans Georgian",system-ui,-apple-system,"Segoe UI",sans-serif;--font-pixel:"Jersey 10","Noto Sans Georgian",ui-monospace,monospace;--font-mono:"JetBrains Mono","Noto Sans Georgian",ui-monospace,Consolas,monospace}
+html[data-theme="dark"]{--paper:#0d0f27;--surface:#161939;--surface-sunk:#1d2148;--line:#2a2e5c;--outline:#8b91c7;--ink:#eef0ff;--ink-muted:#a9aed6;--bit-soft:#1f2763;--bit-text:#8fa2ff;--go-soft:#0f2e24;--go-text:#3ddc97;--xp-soft:#3a2408;--xp-text:#ffb057;--danger:#ff7a85;--danger-soft:#3a1520;--shadow-sm:0 3px 0 0 #000000;--shadow-md:0 5px 0 0 #000000}
+.cq-picon{flex:none;display:inline-block;vertical-align:middle}
+.cq-btn{--cq-h:var(--control-md);display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);height:var(--cq-h);padding:0 var(--space-5);font-family:var(--font-sans);font-size:15px;font-weight:700;line-height:1.1;border:var(--stroke-bold) solid var(--outline);border-radius:var(--radius-md);box-shadow:var(--shadow-md);cursor:pointer;text-decoration:none;white-space:nowrap;transition:transform 80ms ease,box-shadow 80ms ease,background-color 120ms ease}
+.cq-btn:hover{transform:translateY(-1px)}
+.cq-btn:active{transform:translateY(3px);box-shadow:var(--shadow-sm)}
+.cq-btn:focus-visible,button.cq-xp:focus-visible,.pj-file:focus-visible,.pj-ib:focus-visible,.qs-chip:focus-visible{outline:var(--stroke-heavy) solid var(--focus);outline-offset:3px}
+.cq-btn--sm{--cq-h:var(--control-sm);padding:0 var(--space-4);font-size:14px;box-shadow:var(--shadow-sm)}
+.cq-btn--sm:active{box-shadow:none}
+.cq-btn--primary{background:var(--bit);color:var(--on-bit)}
+.cq-btn--primary:hover{background:var(--bit-deep)}
+.cq-btn--go{background:var(--go);color:var(--on-go)}
+.cq-btn--secondary{background:var(--surface);color:var(--ink)}
+.cq-btn--secondary:hover{background:var(--surface-sunk)}
+.cq-btn--ghost{background:transparent;color:var(--ink);border-color:transparent;box-shadow:none}
+.cq-btn--ghost:hover{background:var(--surface-sunk);transform:none}
+.cq-btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+.cq-tag{display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:0 10px;border-radius:var(--radius-sm);font-family:var(--font-sans);font-size:13px;font-weight:700;line-height:1.2;white-space:nowrap;background:var(--surface-sunk);color:var(--ink)}
+.cq-tag--go{background:var(--go-soft);color:var(--go-text)}
+.cq-xp{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px 0 9px;background:var(--xp);color:var(--on-xp);border:var(--stroke-bold) solid var(--outline);border-radius:var(--radius-sm);box-shadow:var(--shadow-sm);font-family:var(--font-pixel);font-weight:400;font-size:22px;line-height:1;white-space:nowrap}
+.cq-xp b{font-family:var(--font-sans);font-size:14px;font-weight:800;line-height:1.2}
+button.cq-xp{cursor:pointer;transition:transform 80ms ease,box-shadow 80ms ease}
+button.cq-xp:active{transform:translateY(3px);box-shadow:none}
+/* ქვესთები */
+.qs{font-family:var(--font-sans);color:var(--ink)}
+.qs-title{display:flex;align-items:center;gap:var(--space-2);margin:0 0 var(--space-2)}
+.qs-sec{margin-top:var(--space-4)}
+.qs-h{display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-2);margin:0;font-size:1.02rem;line-height:1.3}
+.qs-h small{margin-left:auto;color:var(--ink-muted);font-weight:600;font-size:.8rem}
+.qs-item{display:flex;align-items:center;gap:var(--space-3);padding:var(--space-3);margin-top:var(--space-2);background:var(--surface);color:var(--ink);border:var(--stroke-bold) solid var(--line);border-radius:var(--radius-lg)}
+.qs-item.ready{border-color:var(--outline)}
+.qs-item.locked{opacity:.6}
+.qs-main{flex:1;min-width:0;line-height:1.35}
+.qs-main b{display:block;font-weight:700}
+.qs-main small{color:var(--ink-muted);font-size:.8rem}
+.qs-bar{height:8px;margin:6px 0 2px;border-radius:var(--radius-pill);background:var(--surface-sunk);overflow:hidden}
+.qs-bar i{display:block;height:100%;background:var(--go)}
+.qs-rew{flex:none;font-family:var(--font-pixel);font-size:20px;color:var(--xp-text)}
+.qs-badge{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;margin-left:6px;border-radius:var(--radius-pill);background:var(--xp);color:var(--on-xp);font-family:var(--font-pixel);font-size:18px;font-weight:400;line-height:1;vertical-align:middle}
+.chip.qs-chip{display:inline-flex;align-items:center;gap:6px;cursor:pointer;background:var(--xp);color:var(--on-xp);border:var(--stroke-bold) solid var(--outline);font-family:var(--font-pixel);font-size:18px;line-height:1}
+/* ჩემი პროექტები */
+.pj{font-family:var(--font-sans);color:var(--ink)}
+.pj-head{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3);margin-bottom:var(--space-4)}
+.pj-head p{flex:1;min-width:220px;margin:0;color:var(--ink-muted);line-height:1.5}
+.pj-list{display:grid;gap:var(--space-3);grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.pj-card{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-4);background:var(--surface);border:var(--stroke-bold) solid var(--outline);border-radius:var(--radius-lg)}
+.pj-card h3{display:flex;align-items:center;gap:var(--space-2);margin:0;font-size:1.05rem;line-height:1.3;word-break:break-word}
+.pj-acts{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:auto;padding-top:var(--space-2)}
+.pj-st{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;line-height:1.35;color:var(--ink-muted)}
+.pj-dot{width:8px;height:8px;border-radius:50%;background:var(--bit);flex:none}
+.pj-empty{padding:var(--space-6) var(--space-4);text-align:center;background:var(--surface);border:var(--stroke-bold) dashed var(--line);border-radius:var(--radius-lg);color:var(--ink-muted);line-height:1.5}
+.pj-bar{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2);margin-bottom:var(--space-3)}
+.pj-bar h2{margin:0;font-size:1.15rem;line-height:1.3;display:flex;align-items:center;gap:var(--space-2);word-break:break-word}
+.pj-bar .pj-st{margin-right:auto}
+.pj-need{padding:var(--space-4);margin-bottom:var(--space-3);background:var(--bit-soft);color:var(--ink);border:var(--stroke-bold) solid var(--outline);border-radius:var(--radius-lg);line-height:1.5}
+.pj-need b{display:block}
+.pj-need ul{list-style:none;margin:var(--space-2) 0;padding:0}
+.pj-need li{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2);margin:6px 0}
+.pj-box{width:16px;height:16px;border:var(--stroke-bold) solid var(--outline);border-radius:4px;flex:none}
+.pj-err{display:flex;flex-wrap:wrap;gap:var(--space-2);align-items:center;padding:var(--space-3);margin-bottom:var(--space-3);background:var(--danger-soft);color:var(--ink);border:var(--stroke-bold) solid var(--danger);border-radius:var(--radius-md);line-height:1.45}
+.pj-err p{flex:1;min-width:200px;margin:0}
+.pj-ide{display:grid;grid-template-columns:220px minmax(0,1fr);gap:var(--space-3);align-items:start}
+.pj-files{display:flex;flex-direction:column;gap:2px;padding:var(--space-2);background:var(--surface);border:var(--stroke-bold) solid var(--outline);border-radius:var(--radius-lg)}
+.pj-files-h{display:flex;align-items:center;justify-content:space-between;padding:2px 4px 6px;font-weight:700;font-size:.85rem;color:var(--ink-muted)}
+.pj-frow{display:flex;align-items:center;gap:2px}
+.pj-file{flex:1;min-width:0;text-align:left;padding:6px 8px;border:0;border-radius:var(--radius-sm);background:none;color:var(--ink);font-family:var(--font-mono);font-size:.82rem;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pj-file:hover{background:var(--surface-sunk)}
+.pj-file.on{background:var(--bit-soft);color:var(--bit-text);font-weight:700}
+.pj-ib{flex:none;display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:var(--radius-sm);background:none;color:var(--ink-muted)}
+.pj-ib:hover{background:var(--surface-sunk);color:var(--ink)}
+.pj-runnote{font-size:.85rem;line-height:1.35;color:var(--ink-muted)}
+.pj-hint{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3);margin:var(--space-3) 0}
+.pj-hint p{flex:1;min-width:200px;margin:0;font-weight:700;line-height:1.4}
+@media (max-width:760px){.pj-ide{grid-template-columns:1fr}}
+@media (max-width:480px){.qs-item{flex-wrap:wrap}.qs-main{min-width:calc(100% - 40px)}.qs-item>:last-child{margin-left:34px}}
+@media (prefers-reduced-motion:reduce){.cq-btn,button.cq-xp{transition:none}.cq-btn:hover{transform:none}}
 </style>
 <!-- Vercel Web Analytics -->
 <script>if (location.protocol === 'https:') { window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); }; var s = document.createElement('script'); s.defer = true; s.src = '/_vercel/insights/script.js'; document.head.appendChild(s); window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); }; var t = document.createElement('script'); t.defer = true; t.src = '/_vercel/speed-insights/script.js'; document.head.appendChild(t); }</script>
@@ -1582,6 +1662,7 @@ html[data-style="pixel"] .mission .prof,html[data-style="pixel"] .learn-pts li{b
       <div class="gm-col gm-left mn-in" style="--d:2">
         <button class="mn-mode gm-mode" style="--c1:#20c997;--c2:#0ca678" id="m-sandbox" type="button"><span class="gm-em"><svg class="px" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true"><rect x="4" y="0" width="4" height="1" fill="#0b4f3c"/><rect x="4" y="1" width="1" height="1" fill="#0b4f3c"/><rect x="5" y="1" width="2" height="1" fill="#e6fcf5"/><rect x="7" y="1" width="1" height="1" fill="#0b4f3c"/><rect x="4" y="2" width="1" height="1" fill="#0b4f3c"/><rect x="5" y="2" width="2" height="1" fill="#e6fcf5"/><rect x="7" y="2" width="1" height="1" fill="#0b4f3c"/><rect x="4" y="3" width="1" height="1" fill="#0b4f3c"/><rect x="5" y="3" width="2" height="1" fill="#e6fcf5"/><rect x="7" y="3" width="1" height="1" fill="#0b4f3c"/><rect x="3" y="4" width="1" height="1" fill="#0b4f3c"/><rect x="4" y="4" width="4" height="1" fill="#e6fcf5"/><rect x="8" y="4" width="1" height="1" fill="#0b4f3c"/><rect x="2" y="5" width="1" height="1" fill="#0b4f3c"/><rect x="3" y="5" width="6" height="1" fill="#e6fcf5"/><rect x="9" y="5" width="1" height="1" fill="#0b4f3c"/><rect x="1" y="6" width="1" height="1" fill="#0b4f3c"/><rect x="2" y="6" width="1" height="1" fill="#96f2d7"/><rect x="3" y="6" width="6" height="1" fill="#20c997"/><rect x="9" y="6" width="1" height="1" fill="#96f2d7"/><rect x="10" y="6" width="1" height="1" fill="#0b4f3c"/><rect x="1" y="7" width="1" height="1" fill="#0b4f3c"/><rect x="2" y="7" width="2" height="1" fill="#20c997"/><rect x="4" y="7" width="1" height="1" fill="#ffffff"/><rect x="5" y="7" width="5" height="1" fill="#20c997"/><rect x="10" y="7" width="1" height="1" fill="#0b4f3c"/><rect x="0" y="8" width="1" height="1" fill="#0b4f3c"/><rect x="1" y="8" width="7" height="1" fill="#20c997"/><rect x="8" y="8" width="1" height="1" fill="#ffffff"/><rect x="9" y="8" width="2" height="1" fill="#20c997"/><rect x="11" y="8" width="1" height="1" fill="#0b4f3c"/><rect x="0" y="9" width="1" height="1" fill="#0b4f3c"/><rect x="1" y="9" width="3" height="1" fill="#20c997"/><rect x="4" y="9" width="1" height="1" fill="#ffffff"/><rect x="5" y="9" width="6" height="1" fill="#20c997"/><rect x="11" y="9" width="1" height="1" fill="#0b4f3c"/><rect x="0" y="10" width="1" height="1" fill="#0b4f3c"/><rect x="1" y="10" width="6" height="1" fill="#20c997"/><rect x="7" y="10" width="1" height="1" fill="#ffffff"/><rect x="8" y="10" width="3" height="1" fill="#20c997"/><rect x="11" y="10" width="1" height="1" fill="#0b4f3c"/><rect x="1" y="11" width="10" height="1" fill="#0b4f3c"/></svg></span><span class="t"><b>თავისუფალი რეჟიმი</b><small>წერე რაც გინდა</small></span><span class="go" aria-hidden="true">›</span></button>
         <button class="mn-mode gm-mode" style="--c1:#ff6b6b;--c2:#f03e3e" id="m-daily" type="button"><span class="gm-em"><svg class="px" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true"><rect x="4" y="0" width="4" height="1" fill="#7a1c1c"/><rect x="2" y="1" width="2" height="1" fill="#7a1c1c"/><rect x="4" y="1" width="4" height="1" fill="#ff6b6b"/><rect x="8" y="1" width="2" height="1" fill="#7a1c1c"/><rect x="1" y="2" width="1" height="1" fill="#7a1c1c"/><rect x="2" y="2" width="2" height="1" fill="#ff6b6b"/><rect x="4" y="2" width="4" height="1" fill="#ffc9c9"/><rect x="8" y="2" width="2" height="1" fill="#ff6b6b"/><rect x="10" y="2" width="1" height="1" fill="#7a1c1c"/><rect x="1" y="3" width="1" height="1" fill="#7a1c1c"/><rect x="2" y="3" width="1" height="1" fill="#ff6b6b"/><rect x="3" y="3" width="2" height="1" fill="#ffc9c9"/><rect x="5" y="3" width="2" height="1" fill="#ff6b6b"/><rect x="7" y="3" width="2" height="1" fill="#ffc9c9"/><rect x="9" y="3" width="1" height="1" fill="#ff6b6b"/><rect x="10" y="3" width="1" height="1" fill="#7a1c1c"/><rect x="0" y="4" width="1" height="1" fill="#7a1c1c"/><rect x="1" y="4" width="1" height="1" fill="#ff6b6b"/><rect x="2" y="4" width="2" height="1" fill="#ffc9c9"/><rect x="4" y="4" width="1" height="1" fill="#ff6b6b"/><rect x="5" y="4" width="2" height="1" fill="#ffffff"/><rect x="7" y="4" width="1" height="1" fill="#ff6b6b"/><rect x="8" y="4" width="2" height="1" fill="#ffc9c9"/><rect x="10" y="4" width="1" height="1" fill="#ff6b6b"/><rect x="11" y="4" width="1" height="1" fill="#7a1c1c"/><rect x="0" y="5" width="1" height="1" fill="#7a1c1c"/><rect x="1" y="5" width="1" height="1" fill="#ff6b6b"/><rect x="2" y="5" width="1" height="1" fill="#ffc9c9"/><rect x="3" y="5" width="1" height="1" fill="#ff6b6b"/><rect x="4" y="5" width="4" height="1" fill="#ffffff"/><rect x="8" y="5" width="1" height="1" fill="#ff6b6b"/><rect x="9" y="5" width="1" height="1" fill="#ffc9c9"/><rect x="10" y="5" width="1" height="1" fill="#ff6b6b"/><rect x="11" y="5" width="1" height="1" fill="#7a1c1c"/><rect x="0" y="6" width="1" height="1" fill="#7a1c1c"/><rect x="1" y="6" width="1" height="1" fill="#ff6b6b"/><rect x="2" y="6" width="1" height="1" fill="#ffc9c9"/><rect x="3" y="6" width="1" height="1" fill="#ff6b6b"/><rect x="4" y="6" width="4" height="1" fill="#ffffff"/><rect x="8" y="6" width="1" height="1" fill="#ff6b6b"/><rect x="9" y="6" width="1" height="1" fill="#ffc9c9"/><rect x="10" y="6" width="1" height="1" fill="#ff6b6b"/><rect x="11" y="6" width="1" height="1" fill="#7a1c1c"/><rect x="0" y="7" width="1" height="1" fill="#7a1c1c"/><rect x="1" y="7" width="1" height="1" fill="#ff6b6b"/><rect x="2" y="7" width="2" height="1" fill="#ffc9c9"/><rect x="4" y="7" width="1" height="1" fill="#ff6b6b"/><rect x="5" y="7" width="2" height="1" fill="#ffffff"/><rect x="7" y="7" width="1" height="1" fill="#ff6b6b"/><rect x="8" y="7" width="2" height="1" fill="#ffc9c9"/><rect x="10" y="7" width="1" height="1" fill="#ff6b6b"/><rect x="11" y="7" width="1" height="1" fill="#7a1c1c"/><rect x="1" y="8" width="1" height="1" fill="#7a1c1c"/><rect x="2" y="8" width="1" height="1" fill="#ff6b6b"/><rect x="3" y="8" width="2" height="1" fill="#ffc9c9"/><rect x="5" y="8" width="2" height="1" fill="#ff6b6b"/><rect x="7" y="8" width="2" height="1" fill="#ffc9c9"/><rect x="9" y="8" width="1" height="1" fill="#ff6b6b"/><rect x="10" y="8" width="1" height="1" fill="#7a1c1c"/><rect x="1" y="9" width="1" height="1" fill="#7a1c1c"/><rect x="2" y="9" width="2" height="1" fill="#ff6b6b"/><rect x="4" y="9" width="4" height="1" fill="#ffc9c9"/><rect x="8" y="9" width="2" height="1" fill="#ff6b6b"/><rect x="10" y="9" width="1" height="1" fill="#7a1c1c"/><rect x="2" y="10" width="2" height="1" fill="#7a1c1c"/><rect x="4" y="10" width="4" height="1" fill="#ff6b6b"/><rect x="8" y="10" width="2" height="1" fill="#7a1c1c"/><rect x="4" y="11" width="4" height="1" fill="#7a1c1c"/></svg></span><span class="t"><b>დღის გამოწვევა</b><small id="m-daily-sub">ყოველ დღე ახალი</small></span><span class="go" aria-hidden="true">›</span></button>
+        <button class="mn-mode gm-mode" style="--c1:var(--xp);--c2:var(--xp-text)" id="m-quests" type="button"><span class="gm-em" id="m-quests-ic"></span><span class="t"><b>ქვესთები<span class="qs-badge hidden" id="m-quests-n"></span></b><small id="m-quests-sub">დღის, კვირის და სიუჟეტური</small></span><span class="go" aria-hidden="true">›</span></button>
         <div class="gm-card streak-card" id="menu-streak"></div>
       </div>
 
@@ -1602,12 +1683,14 @@ html[data-style="pixel"] .mission .prof,html[data-style="pixel"] .learn-pts li{b
 
       <div class="gm-col gm-right mn-in" style="--d:3">
         <button class="mn-mode gm-mode" style="--c1:#9775fa;--c2:#7048e8" id="m-studio" type="button"><span class="gm-em"><svg class="px" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true"><rect x="0" y="0" width="12" height="1" fill="#2b1a6b"/><rect x="0" y="1" width="1" height="1" fill="#2b1a6b"/><rect x="1" y="1" width="2" height="1" fill="#ffffff"/><rect x="3" y="1" width="2" height="1" fill="#2b1a6b"/><rect x="5" y="1" width="2" height="1" fill="#ffffff"/><rect x="7" y="1" width="2" height="1" fill="#2b1a6b"/><rect x="9" y="1" width="2" height="1" fill="#ffffff"/><rect x="11" y="1" width="1" height="1" fill="#2b1a6b"/><rect x="0" y="2" width="12" height="1" fill="#2b1a6b"/><rect x="0" y="4" width="12" height="1" fill="#2b1a6b"/><rect x="0" y="5" width="1" height="1" fill="#2b1a6b"/><rect x="1" y="5" width="10" height="1" fill="#9775fa"/><rect x="11" y="5" width="1" height="1" fill="#2b1a6b"/><rect x="0" y="6" width="1" height="1" fill="#2b1a6b"/><rect x="1" y="6" width="4" height="1" fill="#9775fa"/><rect x="5" y="6" width="1" height="1" fill="#ffffff"/><rect x="6" y="6" width="5" height="1" fill="#9775fa"/><rect x="11" y="6" width="1" height="1" fill="#2b1a6b"/><rect x="0" y="7" width="1" height="1" fill="#2b1a6b"/><rect x="1" y="7" width="4" height="1" fill="#9775fa"/><rect x="5" y="7" width="2" height="1" fill="#ffffff"/><rect x="7" y="7" width="4" height="1" fill="#9775fa"/><rect x="11" y="7" width="1" height="1" fill="#2b1a6b"/><rect x="0" y="8" width="1" height="1" fill="#2b1a6b"/><rect x="1" y="8" width="4" height="1" fill="#9775fa"/><rect x="5" y="8" width="3" height="1" fill="#ffffff"/><rect x="8" y="8" width="3" height="1" fill="#9775fa"/><rect x="11" y="8" width="1" height="1" fill="#2b1a6b"/><rect x="0" y="9" width="1" height="1" fill="#2b1a6b"/><rect x="1" y="9" width="4" height="1" fill="#9775fa"/><rect x="5" y="9" width="2" height="1" fill="#ffffff"/><rect x="7" y="9" width="4" height="1" fill="#9775fa"/><rect x="11" y="9" width="1" height="1" fill="#2b1a6b"/><rect x="0" y="10" width="1" height="1" fill="#2b1a6b"/><rect x="1" y="10" width="1" height="1" fill="#9775fa"/><rect x="2" y="10" width="9" height="1" fill="#d0bfff"/><rect x="11" y="10" width="1" height="1" fill="#2b1a6b"/><rect x="0" y="11" width="12" height="1" fill="#2b1a6b"/></svg></span><span class="t"><b>ვიდეოები და პროექტები <span class="pro-chip" id="m-studio-chip">👑 Pro</span></b><small id="m-studio-sub">ყველა ენის ვიდეოები და ნაბიჯ-ნაბიჯ პროექტები</small></span><span class="go" aria-hidden="true">›</span></button>
+        <button class="mn-mode gm-mode hidden" style="--c1:var(--bit);--c2:var(--bit-deep)" id="m-projects" type="button"><span class="gm-em" id="m-projects-ic"></span><span class="t"><b>ჩემი პროექტები</b><small id="m-projects-sub">შენი კოდი — შენს კომპიუტერში</small></span><span class="go" aria-hidden="true">›</span></button>
         <button class="mn-mode gm-mode" style="--c1:#fcc419;--c2:#f59f00" id="m-profile" type="button"><span class="gm-em"><svg class="px" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="10" height="1" fill="#6b3a00"/><rect x="0" y="1" width="2" height="1" fill="#6b3a00"/><rect x="2" y="1" width="1" height="1" fill="#fcc419"/><rect x="3" y="1" width="6" height="1" fill="#fff3bf"/><rect x="9" y="1" width="1" height="1" fill="#fcc419"/><rect x="10" y="1" width="2" height="1" fill="#6b3a00"/><rect x="0" y="2" width="1" height="1" fill="#6b3a00"/><rect x="2" y="2" width="1" height="1" fill="#fcc419"/><rect x="3" y="2" width="6" height="1" fill="#fff3bf"/><rect x="9" y="2" width="1" height="1" fill="#fcc419"/><rect x="11" y="2" width="1" height="1" fill="#6b3a00"/><rect x="0" y="3" width="1" height="1" fill="#6b3a00"/><rect x="2" y="3" width="2" height="1" fill="#fcc419"/><rect x="4" y="3" width="4" height="1" fill="#fff3bf"/><rect x="8" y="3" width="2" height="1" fill="#fcc419"/><rect x="11" y="3" width="1" height="1" fill="#6b3a00"/><rect x="1" y="4" width="2" height="1" fill="#6b3a00"/><rect x="3" y="4" width="2" height="1" fill="#fcc419"/><rect x="5" y="4" width="2" height="1" fill="#fff3bf"/><rect x="7" y="4" width="2" height="1" fill="#fcc419"/><rect x="9" y="4" width="2" height="1" fill="#6b3a00"/><rect x="3" y="5" width="1" height="1" fill="#6b3a00"/><rect x="4" y="5" width="4" height="1" fill="#fcc419"/><rect x="8" y="5" width="1" height="1" fill="#6b3a00"/><rect x="4" y="6" width="1" height="1" fill="#6b3a00"/><rect x="5" y="6" width="2" height="1" fill="#fcc419"/><rect x="7" y="6" width="1" height="1" fill="#6b3a00"/><rect x="5" y="7" width="2" height="1" fill="#fcc419"/><rect x="4" y="8" width="1" height="1" fill="#6b3a00"/><rect x="5" y="8" width="2" height="1" fill="#fcc419"/><rect x="7" y="8" width="1" height="1" fill="#6b3a00"/><rect x="3" y="9" width="1" height="1" fill="#6b3a00"/><rect x="4" y="9" width="4" height="1" fill="#e67700"/><rect x="8" y="9" width="1" height="1" fill="#6b3a00"/><rect x="3" y="10" width="1" height="1" fill="#6b3a00"/><rect x="4" y="10" width="4" height="1" fill="#e67700"/><rect x="8" y="10" width="1" height="1" fill="#6b3a00"/><rect x="2" y="11" width="8" height="1" fill="#6b3a00"/></svg></span><span class="t"><b>მიღწევები</b><small id="m-profile-sub">შენი პროგრესი</small></span><span class="go" aria-hidden="true">›</span></button>
         <button class="gm-card gm-langcard" id="m-lang" type="button"><span class="gm-lang-ic" id="m-lang-ic" aria-hidden="true"></span><span class="gm-lang-t"><small class="gm-cap">პროგრამირების ენა</small><b id="m-lang-t">ენის არჩევა</b><small id="m-lang-sub">შეცვლა</small></span><span class="gm-swap" aria-hidden="true">⇄</span></button>
       </div>
 
       <nav class="gm-links mn-in" style="--d:4" aria-label="მეტი">
         <a class="gm-mini" style="--ti:#12b886" id="m-school" href="/learn/"><span class="ic"><svg class="px" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="1" width="3" height="1" fill="#08402f"/><rect x="8" y="1" width="3" height="1" fill="#08402f"/><rect x="0" y="2" width="1" height="1" fill="#08402f"/><rect x="1" y="2" width="3" height="1" fill="#c3fae8"/><rect x="4" y="2" width="1" height="1" fill="#08402f"/><rect x="7" y="2" width="1" height="1" fill="#08402f"/><rect x="8" y="2" width="3" height="1" fill="#c3fae8"/><rect x="11" y="2" width="1" height="1" fill="#08402f"/><rect x="0" y="3" width="1" height="1" fill="#08402f"/><rect x="1" y="3" width="1" height="1" fill="#c3fae8"/><rect x="2" y="3" width="2" height="1" fill="#ffffff"/><rect x="4" y="3" width="1" height="1" fill="#c3fae8"/><rect x="5" y="3" width="2" height="1" fill="#08402f"/><rect x="7" y="3" width="1" height="1" fill="#c3fae8"/><rect x="8" y="3" width="2" height="1" fill="#ffffff"/><rect x="10" y="3" width="1" height="1" fill="#c3fae8"/><rect x="11" y="3" width="1" height="1" fill="#08402f"/><rect x="0" y="4" width="1" height="1" fill="#08402f"/><rect x="1" y="4" width="4" height="1" fill="#c3fae8"/><rect x="5" y="4" width="2" height="1" fill="#08402f"/><rect x="7" y="4" width="4" height="1" fill="#c3fae8"/><rect x="11" y="4" width="1" height="1" fill="#08402f"/><rect x="0" y="5" width="1" height="1" fill="#08402f"/><rect x="1" y="5" width="1" height="1" fill="#c3fae8"/><rect x="2" y="5" width="2" height="1" fill="#ffffff"/><rect x="4" y="5" width="1" height="1" fill="#c3fae8"/><rect x="5" y="5" width="2" height="1" fill="#08402f"/><rect x="7" y="5" width="1" height="1" fill="#c3fae8"/><rect x="8" y="5" width="2" height="1" fill="#ffffff"/><rect x="10" y="5" width="1" height="1" fill="#c3fae8"/><rect x="11" y="5" width="1" height="1" fill="#08402f"/><rect x="0" y="6" width="1" height="1" fill="#08402f"/><rect x="1" y="6" width="4" height="1" fill="#c3fae8"/><rect x="5" y="6" width="2" height="1" fill="#08402f"/><rect x="7" y="6" width="4" height="1" fill="#c3fae8"/><rect x="11" y="6" width="1" height="1" fill="#08402f"/><rect x="0" y="7" width="1" height="1" fill="#08402f"/><rect x="1" y="7" width="1" height="1" fill="#c3fae8"/><rect x="2" y="7" width="2" height="1" fill="#ffffff"/><rect x="4" y="7" width="1" height="1" fill="#c3fae8"/><rect x="5" y="7" width="2" height="1" fill="#08402f"/><rect x="7" y="7" width="1" height="1" fill="#c3fae8"/><rect x="8" y="7" width="2" height="1" fill="#ffffff"/><rect x="10" y="7" width="1" height="1" fill="#c3fae8"/><rect x="11" y="7" width="1" height="1" fill="#08402f"/><rect x="0" y="8" width="1" height="1" fill="#08402f"/><rect x="1" y="8" width="4" height="1" fill="#c3fae8"/><rect x="5" y="8" width="2" height="1" fill="#08402f"/><rect x="7" y="8" width="4" height="1" fill="#c3fae8"/><rect x="11" y="8" width="1" height="1" fill="#08402f"/><rect x="0" y="9" width="1" height="1" fill="#08402f"/><rect x="1" y="9" width="4" height="1" fill="#12b886"/><rect x="5" y="9" width="2" height="1" fill="#08402f"/><rect x="7" y="9" width="4" height="1" fill="#12b886"/><rect x="11" y="9" width="1" height="1" fill="#08402f"/><rect x="1" y="10" width="10" height="1" fill="#08402f"/></svg></span><span class="t"><b>სკოლა: ისწავლე კოდინგი</b><small id="m-school-sub">👑 Pro · თავები, ქვიზები, სავარჯიშოები</small></span><span class="go" aria-hidden="true">›</span></a>
+        <a class="gm-mini" style="--ti:var(--bit)" id="m-english" href="https://www.englishquest.space/?utm_source=codequest&amp;utm_medium=partner&amp;utm_campaign=menu" target="_blank" rel="noopener"><span class="ic" id="m-english-ic"></span><span class="t"><b>ისწავლე ინგლისური</b><small>English Quest — ჩვენი პარტნიორი</small></span><span class="go" aria-hidden="true">›</span></a>
         <button class="gm-mini hidden" style="--ti:#ffa94d" id="m-class" type="button"><span class="ic"><svg class="px" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="0" width="2" height="1" fill="#5c2d00"/><rect x="8" y="0" width="2" height="1" fill="#5c2d00"/><rect x="1" y="1" width="1" height="1" fill="#5c2d00"/><rect x="2" y="1" width="2" height="1" fill="#ffd8a8"/><rect x="4" y="1" width="1" height="1" fill="#5c2d00"/><rect x="7" y="1" width="1" height="1" fill="#5c2d00"/><rect x="8" y="1" width="2" height="1" fill="#a5d8ff"/><rect x="10" y="1" width="1" height="1" fill="#5c2d00"/><rect x="1" y="2" width="1" height="1" fill="#5c2d00"/><rect x="2" y="2" width="2" height="1" fill="#ffd8a8"/><rect x="4" y="2" width="1" height="1" fill="#5c2d00"/><rect x="7" y="2" width="1" height="1" fill="#5c2d00"/><rect x="8" y="2" width="2" height="1" fill="#a5d8ff"/><rect x="10" y="2" width="1" height="1" fill="#5c2d00"/><rect x="2" y="3" width="2" height="1" fill="#5c2d00"/><rect x="8" y="3" width="2" height="1" fill="#5c2d00"/><rect x="1" y="5" width="4" height="1" fill="#5c2d00"/><rect x="7" y="5" width="4" height="1" fill="#5c2d00"/><rect x="0" y="6" width="1" height="1" fill="#5c2d00"/><rect x="1" y="6" width="4" height="1" fill="#ffa94d"/><rect x="5" y="6" width="1" height="1" fill="#5c2d00"/><rect x="7" y="6" width="1" height="1" fill="#5c2d00"/><rect x="8" y="6" width="3" height="1" fill="#4dabf7"/><rect x="11" y="6" width="1" height="1" fill="#5c2d00"/><rect x="0" y="7" width="1" height="1" fill="#5c2d00"/><rect x="1" y="7" width="4" height="1" fill="#ffa94d"/><rect x="5" y="7" width="1" height="1" fill="#5c2d00"/><rect x="7" y="7" width="1" height="1" fill="#5c2d00"/><rect x="8" y="7" width="3" height="1" fill="#4dabf7"/><rect x="11" y="7" width="1" height="1" fill="#5c2d00"/><rect x="0" y="8" width="1" height="1" fill="#5c2d00"/><rect x="1" y="8" width="4" height="1" fill="#ffa94d"/><rect x="5" y="8" width="1" height="1" fill="#5c2d00"/><rect x="7" y="8" width="1" height="1" fill="#5c2d00"/><rect x="8" y="8" width="3" height="1" fill="#4dabf7"/><rect x="11" y="8" width="1" height="1" fill="#5c2d00"/><rect x="0" y="9" width="1" height="1" fill="#5c2d00"/><rect x="1" y="9" width="4" height="1" fill="#ffa94d"/><rect x="5" y="9" width="1" height="1" fill="#5c2d00"/><rect x="7" y="9" width="1" height="1" fill="#5c2d00"/><rect x="8" y="9" width="3" height="1" fill="#4dabf7"/><rect x="11" y="9" width="1" height="1" fill="#5c2d00"/><rect x="0" y="10" width="6" height="1" fill="#5c2d00"/><rect x="7" y="10" width="5" height="1" fill="#5c2d00"/></svg></span><span class="t"><b>კლასი</b><small id="m-class-sub">შეუერთდი კლასს ან შექმენი შენი</small></span><span class="go" aria-hidden="true">›</span></button>
         <button class="gm-mini hidden" style="--ti:#9775fa" id="m-install" type="button"><span class="ic"><svg class="px" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true"><rect x="3" y="0" width="6" height="1" fill="#2b1a6b"/><rect x="2" y="1" width="1" height="1" fill="#2b1a6b"/><rect x="3" y="1" width="6" height="1" fill="#9775fa"/><rect x="9" y="1" width="1" height="1" fill="#2b1a6b"/><rect x="2" y="2" width="1" height="1" fill="#2b1a6b"/><rect x="3" y="2" width="1" height="1" fill="#9775fa"/><rect x="4" y="2" width="4" height="1" fill="#e5dbff"/><rect x="8" y="2" width="1" height="1" fill="#9775fa"/><rect x="9" y="2" width="1" height="1" fill="#2b1a6b"/><rect x="2" y="3" width="1" height="1" fill="#2b1a6b"/><rect x="3" y="3" width="1" height="1" fill="#9775fa"/><rect x="4" y="3" width="1" height="1" fill="#e5dbff"/><rect x="5" y="3" width="2" height="1" fill="#ffffff"/><rect x="7" y="3" width="1" height="1" fill="#e5dbff"/><rect x="8" y="3" width="1" height="1" fill="#9775fa"/><rect x="9" y="3" width="1" height="1" fill="#2b1a6b"/><rect x="2" y="4" width="1" height="1" fill="#2b1a6b"/><rect x="3" y="4" width="1" height="1" fill="#9775fa"/><rect x="4" y="4" width="4" height="1" fill="#e5dbff"/><rect x="8" y="4" width="1" height="1" fill="#9775fa"/><rect x="9" y="4" width="1" height="1" fill="#2b1a6b"/><rect x="2" y="5" width="1" height="1" fill="#2b1a6b"/><rect x="3" y="5" width="1" height="1" fill="#9775fa"/><rect x="4" y="5" width="1" height="1" fill="#e5dbff"/><rect x="5" y="5" width="2" height="1" fill="#ffffff"/><rect x="7" y="5" width="1" height="1" fill="#e5dbff"/><rect x="8" y="5" width="1" height="1" fill="#9775fa"/><rect x="9" y="5" width="1" height="1" fill="#2b1a6b"/><rect x="2" y="6" width="1" height="1" fill="#2b1a6b"/><rect x="3" y="6" width="1" height="1" fill="#9775fa"/><rect x="4" y="6" width="4" height="1" fill="#e5dbff"/><rect x="8" y="6" width="1" height="1" fill="#9775fa"/><rect x="9" y="6" width="1" height="1" fill="#2b1a6b"/><rect x="2" y="7" width="1" height="1" fill="#2b1a6b"/><rect x="3" y="7" width="1" height="1" fill="#9775fa"/><rect x="4" y="7" width="4" height="1" fill="#e5dbff"/><rect x="8" y="7" width="1" height="1" fill="#9775fa"/><rect x="9" y="7" width="1" height="1" fill="#2b1a6b"/><rect x="2" y="8" width="1" height="1" fill="#2b1a6b"/><rect x="3" y="8" width="6" height="1" fill="#9775fa"/><rect x="9" y="8" width="1" height="1" fill="#2b1a6b"/><rect x="2" y="9" width="1" height="1" fill="#2b1a6b"/><rect x="3" y="9" width="2" height="1" fill="#9775fa"/><rect x="5" y="9" width="1" height="1" fill="#2b1a6b"/><rect x="6" y="9" width="3" height="1" fill="#9775fa"/><rect x="9" y="9" width="1" height="1" fill="#2b1a6b"/><rect x="2" y="10" width="1" height="1" fill="#2b1a6b"/><rect x="3" y="10" width="6" height="1" fill="#9775fa"/><rect x="9" y="10" width="1" height="1" fill="#2b1a6b"/><rect x="3" y="11" width="6" height="1" fill="#2b1a6b"/></svg></span><span class="t"><b>დააყენე ტელეფონზე</b><small>აპივით, ინტერნეტის გარეშეც</small></span><span class="go" aria-hidden="true">›</span></button>
         <button class="gm-mini hidden" style="--ti:#4dabf7" id="m-desktop" type="button"><span class="ic"><svg class="px" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true"><rect x="0" y="0" width="12" height="1" fill="#4dabf7"/><rect x="0" y="1" width="1" height="1" fill="#4dabf7"/><rect x="1" y="1" width="10" height="1" fill="#173a6e"/><rect x="11" y="1" width="1" height="1" fill="#4dabf7"/><rect x="0" y="2" width="1" height="1" fill="#4dabf7"/><rect x="1" y="2" width="1" height="1" fill="#173a6e"/><rect x="2" y="2" width="1" height="1" fill="#3ddc97"/><rect x="3" y="2" width="8" height="1" fill="#173a6e"/><rect x="11" y="2" width="1" height="1" fill="#4dabf7"/><rect x="0" y="3" width="1" height="1" fill="#4dabf7"/><rect x="1" y="3" width="2" height="1" fill="#173a6e"/><rect x="3" y="3" width="1" height="1" fill="#3ddc97"/><rect x="4" y="3" width="3" height="1" fill="#173a6e"/><rect x="7" y="3" width="2" height="1" fill="#3ddc97"/><rect x="9" y="3" width="2" height="1" fill="#173a6e"/><rect x="11" y="3" width="1" height="1" fill="#4dabf7"/><rect x="0" y="4" width="1" height="1" fill="#4dabf7"/><rect x="1" y="4" width="1" height="1" fill="#173a6e"/><rect x="2" y="4" width="1" height="1" fill="#3ddc97"/><rect x="3" y="4" width="8" height="1" fill="#173a6e"/><rect x="11" y="4" width="1" height="1" fill="#4dabf7"/><rect x="0" y="5" width="1" height="1" fill="#4dabf7"/><rect x="1" y="5" width="10" height="1" fill="#173a6e"/><rect x="11" y="5" width="1" height="1" fill="#4dabf7"/><rect x="0" y="6" width="12" height="1" fill="#4dabf7"/><rect x="5" y="7" width="2" height="1" fill="#4dabf7"/><rect x="5" y="8" width="2" height="1" fill="#4dabf7"/><rect x="3" y="9" width="6" height="1" fill="#4dabf7"/><rect x="3" y="10" width="6" height="1" fill="#4dabf7"/></svg></span><span class="t"><b>კომპიუტერის ვერსია</b><small id="m-desktop-sub">გადმოწერე პროგრამა</small></span><span class="go" aria-hidden="true">›</span></button>
@@ -1626,6 +1709,7 @@ html[data-style="pixel"] .mission .prof,html[data-style="pixel"] .learn-pts li{b
       <span class="chip flame" id="map-streak" title="დღიანი სერია"></span>
       <span class="chip" id="map-xp"></span>
       <span class="chip" id="map-stars"></span>
+      <button class="chip qs-chip hidden" id="map-quests" type="button" aria-label="ქვესთები"></button>
       <button class="btn small" id="map-dict" title="ლექსიკონი">📖<span class="tl"> ლექსიკონი</span></button>
       <button class="btn small" data-go="courses" title="ენები">🌐<span class="tl"> ენები</span></button>
       <button class="btn small" data-go="profile" title="პროფილი">👤<span class="tl"> პროფილი</span></button>
@@ -1646,6 +1730,12 @@ html[data-style="pixel"] .mission .prof,html[data-style="pixel"] .learn-pts li{b
   <section id="scr-studio" class="screen" aria-label="ვიდეოები და პროექტები">
     <div class="topbar"><button class="btn small" data-go="menu">← მენიუ</button><h2>🎬 ვიდეოები და პროექტები</h2><span class="chip sd-pro" id="sd-pro">👑 Pro</span></div>
     <div class="page" id="studio-body"></div>
+  </section>
+
+  <!-- ===== 💻 ჩემი პროექტები (Pro + კომპიუტერის ვერსია) ===== -->
+  <section id="scr-projects" class="screen" aria-label="ჩემი პროექტები">
+    <div class="topbar"><button class="btn small" data-go="menu">← მენიუ</button><h2>ჩემი პროექტები</h2></div>
+    <div class="page pj" id="pj-body"></div>
   </section>
 
   <!-- ===== თამაში ===== -->
@@ -16617,7 +16707,8 @@ function defaultProgress() {
     favs: [], use: {}, langSort: 'used',
     guides: {},    // 👑 ნაბიჯ-ნაბიჯ პროექტები: { id: [გავლილი ნაბიჯების ნომრები] }
     notes: [],     // 👑 ჩანაწერები ვიდეოს რედაქტორიდან: [{ id, lang, vid, title, code, at }]
-    sdDraft: {}    // 👑 რედაქტორის დრაფტი ყოველი ენისთვის: { ენა: კოდი }
+    sdDraft: {},   // 👑 რედაქტორის დრაფტი ყოველი ენისთვის: { ენა: კოდი }
+    quests: { p: {}, c: {}, f: {} }   // 🚩 ქვესთები: მთვლელები, აღებული ჯილდოები, მოვლენები (იხ. Quests)
   };
 }
 function mergeDeep(base, extra) {
@@ -16681,7 +16772,7 @@ const Progress = {
   worldDone(w) { return LEVELS.filter(l => l.world === w).every(l => this.isDone(l.id)); },
   worldStars(w) { return LEVELS.filter(l => l.world === w).reduce((a, l) => a + ((this.P.levels[l.id] || {}).stars || 0), 0); },
   totalStars() { return LEVELS.reduce((a, l) => a + ((this.P.levels[l.id] || {}).stars || 0), 0); },
-  totalXP() { return ALL_LEVELS().reduce((a, l) => a + ((this.P.levels[l.id] || {}).xp || 0), 0) + (this.P.bonusXP || 0) + schoolXP(); },
+  totalXP() { return ALL_LEVELS().reduce((a, l) => a + ((this.P.levels[l.id] || {}).xp || 0), 0) + (this.P.bonusXP || 0) + schoolXP() + Quests.xp(); },
   /* ---- კურსები (ენები) ---- */
   course() { return COURSE_BY_ID[this.P.course] ? this.P.course : 'js'; },
   courseStats(id) {
@@ -16816,6 +16907,168 @@ const Progress = {
 };
 // Pro-ს შემოწმება კონსოლიდან ვერ შეიცვლება
 Object.defineProperty(Progress, 'hasPro', { value: Progress.hasPro, writable: false, configurable: false });
+
+/* ---------- PixelIcon (დიზაინ-სისტემა, 12×12): ახალ ეკრანებზე ემოჯის ნაცვლად. # — კონტური (ink), o — შევსება (accent) ---------- */
+const PX_ICONS = {
+  play: ['............', '..##........', '..#o##......', '..#ooo##....', '..#ooooo##..', '..#ooooooo#.', '..#ooooooo#.', '..#ooooo##..', '..#ooo##....', '..#o##......', '..##........', '............'],
+  check: ['............', '............', '..........##', '.........###', '........###.', '.##....###..', '.###..###...', '..######....', '...####.....', '....##......', '............', '............'],
+  star: ['.....##.....', '.....##.....', '....#oo#....', '####oooo####', '#oooooooooo#', '.#oooooooo#.', '..#oooooo#..', '..#oo##oo#..', '.#oo#..#oo#.', '.#o#....#o#.', '.##......##.', '............'],
+  bolt: ['......####..', '.....#oo#...', '....#oo#....', '...#oo#.....', '..#ooo####..', '..####ooo#..', '.....#oo#...', '....#oo#....', '...#oo#.....', '...#o#......', '...##.......', '............'],
+  flag: ['.#..........', '.##########.', '.#oo##oo###.', '.#oo##oo###.', '.###oo##oo#.', '.###oo##oo#.', '.#oo##oo###.', '.#oo##oo###.', '.##########.', '.#..........', '.#..........', '.##.........'],
+  terminal: ['............', '############', '#oooooooooo#', '#o#oooooooo#', '#oo#ooooooo#', '#ooo#oooooo#', '#oo#ooooooo#', '#o#oo####oo#', '#oooooooooo#', '############', '............', '............'],
+  puzzle: ['....##......', '...#oo#.....', '.###oo###...', '.#oooooo#...', '.#oooooo###.', '.#ooooooooo#', '.#ooooooooo#', '.#oooooo###.', '.#oooooo#...', '.########...', '............', '............'],
+  trophy: ['............', '.##########.', '##oooooooo##', '#.#oooooo#.#', '#.#oooooo#.#', '.##oooooo##.', '...#oooo#...', '....#oo#....', '.....##.....', '....#oo#....', '...######...', '...######...'],
+  shirt: ['............', '..###..###..', '.#ooo##ooo#.', '#oooooooooo#', '#oooooooooo#', '.##oooooo##.', '..#oooooo#..', '..#oooooo#..', '..#oooooo#..', '..#oooooo#..', '..########..', '............'],
+  gift: ['...##..##...', '..#oo##oo#..', '...######...', '############', '#oooo##oooo#', '############', '.#ooo##ooo#.', '.#ooo##ooo#.', '.#ooo##ooo#.', '.#ooo##ooo#.', '.##########.', '............'],
+  book: ['............', '.####..####.', '#oooo##oooo#', '#oooo##oooo#', '#oooo##oooo#', '#oooo##oooo#', '#oooo##oooo#', '#oooo##oooo#', '############', '.....##.....', '............', '............'],
+  laptop: ['............', '.##########.', '.#oooooooo#.', '.#oooooooo#.', '.#oooooooo#.', '.#oooooooo#.', '.##########.', '############', '#oooooooooo#', '############', '............', '............'],
+  bubble: ['............', '.##########.', '#oooooooooo#', '#o####ooooo#', '#oooooooooo#', '#o#######oo#', '#oooooooooo#', '.##o#######.', '..#o#.......', '..##........', '............', '............'],
+  plus: ['............', '............', '.....##.....', '.....##.....', '.....##.....', '..########..', '..########..', '.....##.....', '.....##.....', '.....##.....', '............', '............'],
+  minus: ['............', '............', '............', '............', '............', '..########..', '..########..', '............', '............', '............', '............', '............']
+};
+function pxIcon(name, size, accent, ink, cls) {
+  const map = PX_ICONS[name];
+  if (!map) return '';
+  let r = '';
+  map.forEach((row, y) => {
+    for (let x = 0; x < 12;) {
+      const c = row[x];
+      if (c !== '#' && c !== 'o') { x++; continue; }
+      const s = x;
+      while (row[x] === c) x++;
+      r += '<rect x="' + s + '" y="' + y + '" width="' + (x - s) + '" height="1" style="fill:' + (c === '#' ? ink || 'currentColor' : accent || 'var(--go)') + '"/>';
+    }
+  });
+  return '<svg class="cq-picon' + (cls ? ' ' + cls : '') + '" width="' + (size || 22) + '" height="' + (size || 22) + '" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true" focusable="false">' + r + '</svg>';
+}
+
+/* ---------- 🚩 ქვესთები: დღის (3, ახლდება შუაღამისას — მოთამაშის საათით), კვირის (3 + „ისწავლე ინგლისური“, ორშაბათს 00:00)
+   და სიუჟეტური ჯაჭვი „ახალბედას გზა“ (რიგრიგობით). ყველაფერი პროგრესშია (Progress.P.quests) და სხვა პროგრესივით სინქრონდება
+   (mergeProgress — მთვლელიდან მეტი რჩება): p — მთვლელები { 'id@პერიოდი': n }, c — აღებული ჯილდოები { 'id@პერიოდი': XP },
+   f — ერთხელ მაინც მომხდარი მოვლენები. ჯილდო თავისით არ ირიცხება: შესრულებულზე „აიღე“, გასაღები 'id@პერიოდი' ერთხელ აიღება
+   და XP totalXP-ს ემატება (Quests.xp). დღის/კვირის ქვესთები დეტერმინისტულად ირჩევა (seed = ანგარიში + პერიოდი), ამიტომ ყველა
+   მოწყობილობაზე ერთნაირია. pro — მხოლოდ Pro-ს, desk — მხოლოდ „ჩემი პროექტების“ მქონეს (Pro + კომპიუტერის ვერსია).
+   ev — მოვლენა (Quests.ev), when — პირობა მოვლენის დეტალებზე, done — სიუჟეტისთვის: უკვე შესრულებულიც ითვლება. ---------- */
+const EQ_URL = 'https://www.englishquest.space/?utm_source=codequest&utm_medium=partner&utm_campaign=quests';
+const QUESTS = [
+  { id: 'd-lv3', type: 'd', ic: 'play', t: 'გაიარე 3 ლეველი', ev: 'level_completed', n: 3, xp: 40, when: d => d.first },
+  { id: 'd-lv5', type: 'd', ic: 'play', t: 'გაიარე 5 ლეველი', ev: 'level_completed', n: 5, xp: 60, when: d => d.first },
+  { id: 'd-star3', type: 'd', ic: 'star', t: 'მიიღე 3 ვარსკვლავი ერთ ლეველში', ev: 'level_completed', n: 1, xp: 40, when: d => d.stars === 3 },
+  { id: 'd-nohint', type: 'd', ic: 'bubble', t: 'გაიარე ლეველი მინიშნების გარეშე', ev: 'level_completed', n: 1, xp: 30, when: d => !d.hints },
+  { id: 'd-dict', type: 'd', ic: 'book', t: 'გახსენი ლექსიკონი ან შპარგალკა', ev: 'glossary_viewed', n: 1, xp: 30 },
+  { id: 'd-newlang', type: 'd', ic: 'puzzle', t: 'გაიარე ლეველი ახალ ენაზე', ev: 'level_completed', n: 1, xp: 60, when: d => d.newLang },
+  { id: 'w-lv20', type: 'w', ic: 'play', t: 'გაიარე 20 ლეველი', ev: 'level_completed', n: 20, xp: 300, when: d => d.first },
+  { id: 'w-boss', type: 'w', ic: 'trophy', t: 'დაამარცხე ბოსი', ev: 'level_completed', n: 1, xp: 150, when: d => d.boss && d.first },
+  { id: 'w-daily5', type: 'w', ic: 'trophy', t: 'შეასრულე დღის გამოწვევა 5-ჯერ', ev: 'daily_challenge_done', n: 5, xp: 250 },
+  { id: 'w-sr3', type: 'w', ic: 'bolt', t: 'გაიარე 3 სპიდრანი', ev: 'speedrun_finished', n: 3, xp: 150 },
+  { id: 'w-eq', type: 'w', fixed: true, ic: 'bubble', t: 'ისწავლე ინგლისური — გახსენი English Quest', ev: 'english_quest_opened', n: 1, xp: 50 },
+  { id: 's-skin', type: 's', ic: 'shirt', t: 'ჩაიცვი ბიტს სკინი', xp: 50, done: P => !!P.stats.styled },
+  { id: 's-html', type: 's', ic: 'flag', t: 'გაიარე HTML-ის პირველი კუნძული', xp: 100, done: () => courseChapters('html')[0].levels.every(l => Progress.isDone(l.id)) },
+  { id: 's-class', type: 's', ic: 'book', t: 'შეუერთდი კლასს', xp: 100, pro: true, done: P => !!P.quests.f.class_joined },
+  { id: 's-speed', type: 's', ic: 'bolt', t: 'სცადე სპიდრანი', xp: 100, done: P => Object.keys(P.speedrun || {}).length > 0 },
+  { id: 's-proj', type: 's', ic: 'laptop', t: 'შექმენი პირველი პროექტი', xp: 150, pro: true, desk: true, done: P => !!P.quests.f.project_created }
+];
+const QUEST_BY_ID = {};
+QUESTS.forEach(q => { QUEST_BY_ID[q.id] = q; });
+const QUEST_ALL = { id: 'd-all', ic: 'gift', t: 'შეასრულე დღის სამივე ქვესთი', xp: 50 };   // ბონუსი: დღის სამივე ქვესთზე
+const Quests = {
+  Q() {
+    const P = Progress.P;
+    if (!P.quests || typeof P.quests !== 'object') P.quests = {};
+    ['p', 'c', 'f'].forEach(k => { if (!P.quests[k] || typeof P.quests[k] !== 'object') P.quests[k] = {}; });
+    return P.quests;
+  },
+  week(d = new Date()) { const m = new Date(d); m.setDate(m.getDate() - (m.getDay() + 6) % 7); return 'w' + todayStr(m); },   // კვირა ორშაბათიდან
+  ok(q) { return (!q.pro || Progress.hasPro()) && (!q.desk || Projects.available()); },
+  pick(type, per) {
+    const pool = QUESTS.filter(q => q.type === type && !q.fixed && this.ok(q)), rng = mulberry32(hashStr(((Account.s && Account.s.name) || 'guest').toLowerCase() + '|' + per));
+    for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+    return pool.slice(0, 3).concat(QUESTS.filter(q => q.type === type && q.fixed && this.ok(q)));
+  },
+  row(q, per) {
+    const Q = this.Q(), key = q.id + '@' + per, n = q.done ? 1 : q.n, prog = q.done ? (q.done(Progress.P) ? 1 : 0) : Math.min(n, Q.p[key] || 0);
+    return { q, key, prog, n, done: prog >= n, claimed: Q.c[key] != null };
+  },
+  daily() {
+    const d = todayStr(), rows = this.pick('d', d).map(q => this.row(q, d)), key = 'd-all@' + d, k = rows.filter(r => r.done).length;
+    return rows.concat({ q: QUEST_ALL, key, prog: k, n: rows.length, done: k === rows.length, claimed: this.Q().c[key] != null });
+  },
+  weekly() { const w = this.week(); return this.pick('w', w).map(q => this.row(q, w)); },
+  // სიუჟეტი: შემდეგი ნაბიჯი იხსნება, როცა წინას ჯილდოს აიღებ
+  story() {
+    let open = true;
+    return QUESTS.filter(q => q.type === 's' && this.ok(q)).map(q => { const r = this.row(q, 's'); r.locked = !open; if (!r.claimed) open = false; return r; });
+  },
+  rows() { return this.daily().concat(this.weekly(), this.story()); },
+  ready() { return this.rows().filter(r => r.done && !r.claimed && !r.locked).length; },
+  // shortcut: აღებული ჯილდოები (c) არ იშლება — წელიწადში ~1500 მოკლე ჩანაწერი; თუ პროგრესი გაიზრდება, ძველი პერიოდები ერთ ჯამად შეკუმშე
+  xp() { return Object.values((Progress.P.quests || {}).c || {}).reduce((a, x) => a + (+x || 0), 0); },
+  // მოვლენა თამაშიდან; d — დეტალები ქვესთის პირობისთვის (when)
+  ev(name, d = {}) {
+    const Q = this.Q(), before = this.ready();
+    Q.f[name] = 1;
+    for (const r of this.daily().concat(this.weekly())) if (r.q.ev === name && !r.done && (!r.q.when || r.q.when(d))) Q.p[r.key] = (Q.p[r.key] || 0) + 1;
+    Progress.save();
+    const now = this.ready();
+    if (now > before) { Sound.ach(); UI.toast(pxIcon('flag', 28, 'var(--xp)'), 'ქვესთი შესრულდა!', 'გახსენი „ქვესთები“ და აიღე ჯილდო.'); }
+    this.chips(now);
+  },
+  claim(key) {
+    const r = this.rows().find(x => x.key === key);
+    if (!r || !r.done || r.claimed || r.locked) return;
+    this.Q().c[key] = r.q.xp;
+    Progress.save(); Sound.ach();
+    UI.toast(pxIcon('gift', 28, 'var(--xp)'), '+' + r.q.xp + ' XP', r.q.t);
+    Progress.checkAch();
+    if (UI.cur === 'menu') Menu.render();
+    $('#map-xp').textContent = Progress.totalXP() + ' XP';
+    this.chips();
+  },
+  // ასაღები ჯილდოების რაოდენობა: მენიუს ღილაკზე და რუკის ზედა ზოლში (HUD)
+  chips(n = this.ready()) {
+    $('#m-quests-n').textContent = n;
+    $('#m-quests-n').classList.toggle('hidden', !n);
+    $('#m-quests-sub').textContent = n ? n + ' ჯილდო ასაღებია' : 'დღის, კვირის და სიუჟეტური';
+    const c = $('#map-quests');
+    c.innerHTML = pxIcon('flag', 18, 'var(--on-xp)', 'var(--on-xp)') + n;
+    c.title = n + ' ჯილდო ასაღებია';
+    c.classList.toggle('hidden', !n);
+  },
+  // პერიოდის შეცვლისას წინა პერიოდის ქვესთები ერთხელ მიდის ანონიმურ სტატისტიკაში (მფლობელის გვერდზე — შესრულების %): q-<id>, გავიდა = შესრულდა
+  roll() {
+    const Q = this.Q(), now = { d: todayStr(), w: this.week() }, last = Q.last || {};
+    if (last.d === now.d && last.w === now.w) return;
+    ['d', 'w'].forEach(t => { if (last[t] && last[t] !== now[t]) this.pick(t, last[t]).forEach(q => Stats.level('q-' + q.id, 0, (Q.p[q.id + '@' + last[t]] || 0) >= q.n)); });
+    // ორ კვირაზე ძველი მთვლელები აღარ გვჭირდება (აღებული ჯილდოები — c — რჩება)
+    const old = todayStr(new Date(Date.now() - 14 * 864e5));
+    Object.keys(Q.p).forEach(k => { const per = (k.split('@')[1] || '').replace(/^w/, ''); if (per !== 's' && per < old) delete Q.p[k]; });
+    Q.last = now;
+    Progress.save();
+  },
+  open() {
+    this.roll();
+    const m = Modal.open('<div class="qs" id="qs"></div><div class="modal-actions"><button class="btn primary" data-close>დახურვა</button></div>', { wide: true });
+    this.fill(m.querySelector('#qs'));
+  },
+  fill(el) {
+    const sec = (ic, title, sub, rows) => '<section class="qs-sec"><h3 class="qs-h">' + pxIcon(ic, 22) + '<span>' + title + '</span><small>' + sub + '</small></h3>' + rows.map(r => this.item(r)).join('') + '</section>';
+    el.innerHTML = '<h2 class="qs-title cq-display">' + pxIcon('flag', 28, 'var(--xp)') + '<span>ქვესთები</span></h2>' +
+      '<p class="muted" style="margin:0">შეასრულე და აიღე XP. ჯილდო თავისით არ ირიცხება — დააჭირე „აიღე“.</p>' +
+      sec('flag', 'დღის', 'ახლდება შუაღამისას', this.daily()) + sec('trophy', 'კვირის', 'ახლდება ორშაბათს', this.weekly()) + sec('book', 'ახალბედას გზა', 'ნაბიჯ-ნაბიჯ, ერთხელ', this.story());
+    el.querySelectorAll('[data-claim]').forEach(b => b.addEventListener('click', () => { this.claim(b.dataset.claim); this.fill(el); const f = el.querySelector('[data-claim]'); if (f) f.focus(); }));
+    el.querySelectorAll('[data-eq]').forEach(a => a.addEventListener('click', () => { this.ev('english_quest_opened'); setTimeout(() => this.fill(el), 300); }));
+  },
+  item(r) {
+    const q = r.q, ready = r.done && !r.claimed && !r.locked;
+    const act = r.claimed ? '<span class="cq-tag cq-tag--go">' + pxIcon('check', 14, 'var(--go-text)', 'var(--go-text)') + 'აღებულია</span>'
+      : r.locked ? '<span class="cq-tag">ჯერ წინა ნაბიჯი</span>'
+      : ready ? '<button type="button" class="cq-xp" data-claim="' + esc(r.key) + '">' + pxIcon('gift', 16, 'var(--on-bit)', 'var(--on-xp)') + '+' + q.xp + ' XP <b>აიღე</b></button>'
+      : q.ev === 'english_quest_opened' ? '<a class="cq-btn cq-btn--secondary cq-btn--sm" href="' + esc(EQ_URL) + '" target="_blank" rel="noopener" data-eq>' + pxIcon('bubble', 14, 'var(--bit)') + 'გახსენი</a>'
+      : '<span class="qs-rew" aria-label="ჯილდო">+' + q.xp + ' XP</span>';
+    return '<div class="qs-item' + (ready ? ' ready' : '') + (r.locked ? ' locked' : '') + '">' + pxIcon(q.ic, 22) +
+      '<div class="qs-main"><b>' + esc(q.t) + '</b>' + (r.n > 1 ? '<div class="qs-bar" role="progressbar" aria-label="' + esc(q.t) + '" aria-valuemin="0" aria-valuemax="' + r.n + '" aria-valuenow="' + r.prog + '"><i style="width:' + Math.round(r.prog / r.n * 100) + '%"></i></div><small>' + r.prog + '/' + r.n + '</small>' : '') + '</div>' + act + '</div>';
+  }
+};
 
 /* =====================================================================
    SOUND — ხმები Web Audio API-ით (გარე ფაილების გარეშე)
@@ -17247,6 +17500,7 @@ const UI = {
   // back — „უკან“ ან ჩანაცვლება: მიმდინარე ეკრანი ისტორიაში აღარ ემატება
   show(name, back) {
     if (name === 'course') name = 'map';   // ყველა ენას ერთნაირი რუკა აქვს
+    if (this.cur === 'projects' && name !== 'projects') Projects.flush();   // დრაფტი არ უნდა დაიკარგოს
     if (this.cur !== name) {
       this.prev = this.cur;
       if (!back) { this.hist.push(this.cur); if (this.hist.length > 30) this.hist.shift(); }
@@ -17262,6 +17516,7 @@ const UI = {
     if (name === 'settings') SettingsScreen.render();
     if (name === 'courses') CoursesScreen.render();
     if (name === 'studio') Studio.render();
+    if (name === 'projects') Projects.render();
     if (name === 'class') ClassScreen.render();
     if (name === 'live') Live.render();
     if (name === 'owner') OwnerDash.render();
@@ -17389,6 +17644,11 @@ const Menu = {
     $('#m-studio-sub').textContent = pro ? nVid + ' ვიდეო · ' + STUDIO_GUIDES.length + ' პროექტი' + (nNotes ? ' · 📒 ' + nNotes + ' ჩანაწერი' : '') + (gDone ? ' · ✓ ' + gDone + ' აწყობილი' : '') : 'ვიდეოები, კოდის რედაქტორი ▶ Run-ით და პროექტები';
     $('#m-studio-chip').textContent = pro ? '👑 ✓' : '👑 Pro';
     $('#m-studio-chip').classList.toggle('on', pro);
+    // 🚩 ქვესთები და 💻 ჩემი პროექტები (მხოლოდ Pro + კომპიუტერის ვერსია)
+    $('#m-quests-ic').innerHTML = pxIcon('flag', 34, 'var(--xp)', null, 'px');
+    Quests.chips();
+    $('#m-projects').classList.toggle('hidden', !Projects.available());
+    $('#m-projects-ic').innerHTML = pxIcon('laptop', 34, 'var(--bit)', null, 'px');
     $('#hm-year').textContent = new Date().getFullYear();
   }
 };
@@ -17793,6 +18053,7 @@ const CHEATS = {
 };
 const Cheat = {
   open(lang) {
+    Quests.ev('glossary_viewed');
     const L = LANGS[lang], items = CHEATS[lang] || [];
     const m = Modal.open('<h2>' + langBadge(lang, true) + ' ' + esc(L.name) + ' — შპარგალკა</h2><input class="txt" id="cheat-q" placeholder="🔎 ძებნა..." style="width:100%;margin-bottom:10px" aria-label="შპარგალკაში ძებნა"><div class="dict-list"></div><div class="modal-actions"><button class="btn primary" data-close>დახურვა</button></div>', { wide: true });
     const list = m.querySelector('.dict-list');
@@ -18622,6 +18883,8 @@ const Studio = {
         '<div class="sd-lock-b"><button class="btn" data-a="key">🔑 მაქვს კოდი</button><button class="pro-btn" data-a="buy">👑 Pro' + (PRO.price ? ' · ' + esc(PRO.price) : '') + '</button></div></div>';
     // Pro-ს გარეშე ვიდეოები, ჩანაწერები და პროექტები საერთოდ არ ჩანს — მხოლოდ Pro-ს ბარათი
     if (pro) {
+    // 💻 ჩემი პროექტები მხოლოდ კომპიუტერის ვერსიაშია (ძველ ვერსიაში — განახლება)
+    if (!Projects.available()) html += '<div class="card pj-hint">' + pxIcon('laptop', 28, 'var(--bit)') + '<p>' + (IS_DESKTOP ? 'ჩემი პროექტები — პროგრამის ახალ ვერსიაში' : 'ჩემი პროექტები — მხოლოდ კომპიუტერის ვერსიაში') + '</p><button type="button" class="cq-btn cq-btn--secondary cq-btn--sm" data-a="pjdl">' + pxIcon('laptop', 14, 'var(--bit)') + 'გადმოწერე Windows-ისთვის</button></div>';
     html += '<div class="sd-langs" role="group" aria-label="ენა">' + ids.map(id => {
       const x = COURSE_BY_ID[id];
       return '<button class="sd-lang' + (id === cid ? ' on' : '') + '" data-lang="' + id + '" aria-pressed="' + (id === cid) + '">' + langBadge(x.lang, true) + esc(x.title) + (favs.includes(id) ? ' <span class="sd-star" aria-label="რჩეული">★</span>' : '') + '</button>';
@@ -18662,7 +18925,8 @@ const Studio = {
     $$('[data-ncopy]', body).forEach(b => b.addEventListener('click', () => { const n = this.notes().find(x => x.id === b.dataset.ncopy); if (n) this.copy(n.code); }));
     $$('[data-ndel]', body).forEach(b => b.addEventListener('click', () => this.delNote(b.dataset.ndel)));
     $$('[data-a=lock]', body).forEach(b => b.addEventListener('click', () => this.lock()));
-    const buy = $('[data-a=buy]', body), key = $('[data-a=key]', body);
+    const buy = $('[data-a=buy]', body), key = $('[data-a=key]', body), pjdl = $('[data-a=pjdl]', body);
+    if (pjdl) pjdl.addEventListener('click', () => Desktop.open('win'));
     if (buy) buy.addEventListener('click', () => Paywall.buy());
     if (key) key.addEventListener('click', () => Paywall.keyForm());
   },
@@ -18697,28 +18961,7 @@ const Studio = {
     });
     if (web) this.runCode();
   },
-  mountEditor(el, code, L) {
-    const keys = { 'Ctrl-Enter': () => this.runCode(), 'Cmd-Enter': () => this.runCode(), 'Ctrl-S': () => this.saveNote(), 'Cmd-S': () => this.saveNote() };
-    if (window.CodeMirror) {
-      const cm = this.ed = CodeMirror(el, {
-        value: code, mode: L.cm, theme: 'vsc', lineNumbers: true, matchBrackets: true, autoCloseBrackets: true, indentUnit: L.indent, tabSize: L.indent, viewportMargin: Infinity, spellcheck: false,
-        extraKeys: Object.assign({ Tab: c => (c.somethingSelected() ? c.indentSelection('add') : c.replaceSelection(' '.repeat(L.indent), 'end')), 'Shift-Tab': c => c.indentSelection('subtract') }, keys)
-      });
-      cm.getInputField().setAttribute('aria-label', 'კოდის რედაქტორი');
-      cm.on('change', () => this.draft());
-      cm.on('cursorActivity', () => { const p = cm.getCursor(), s = $('#vsc-pos'); if (s) s.textContent = 'Ln ' + (p.line + 1) + ', Col ' + (p.ch + 1); });
-    } else {
-      const ta = this.ed = document.createElement('textarea');
-      ta.className = 'vsc-ta'; ta.value = code; ta.spellcheck = false; ta.setAttribute('aria-label', 'კოდის რედაქტორი');
-      ta.addEventListener('input', () => this.draft());
-      ta.addEventListener('keydown', e => {
-        if (e.key === 'Tab') { e.preventDefault(); ta.setRangeText(' '.repeat(L.indent), ta.selectionStart, ta.selectionEnd, 'end'); this.draft(); }
-        else if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); this.runCode(); }
-        else if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) { e.preventDefault(); this.saveNote(); }
-      });
-      el.appendChild(ta);
-    }
-  },
+  mountEditor(el, code, L) { this.ed = codeEditor(el, code, L, { run: () => this.runCode(), save: () => this.saveNote(), change: () => this.draft() }); },
   edGet() { return !this.ed ? '' : this.ed.getValue ? this.ed.getValue() : this.ed.value; },
   edSet(v) { if (!this.ed) return; if (this.ed.setValue) this.ed.setValue(v); else { this.ed.value = v; this.draft(); } },
   // დრაფტი ყოველი ენისთვის (ვიდეოს შეცვლისას კოდი არ იკარგება)
@@ -18741,8 +18984,13 @@ const Studio = {
     }
     const out = $('#vsc-out'), btn = $('#vsc-run');
     if (!out) return;
+    return this.runTo(lang, code, out, btn, n => this.markLine(n), STUDIO_FILE[lang] || '');
+  },
+  // კონსოლში გაშვება (ვიდეოს რედაქტორი და „ჩემი პროექტები“): out — შედეგის ველი, mark(ხაზი) — შეცდომის ხაზის მონიშვნა
+  async runTo(lang, code, out, btn, mark, file) {
+    const L = LANGS[COURSE_BY_ID[lang].lang];
     const line = (t, cls) => '<span class="' + (cls || '') + '">' + esc(t) + '</span>';
-    out.innerHTML = line('$ run ' + (STUDIO_FILE[lang] || ''), 'dim') + '\n';
+    out.innerHTML = line('$ run ' + file, 'dim') + '\n';
     btn.disabled = true;
     const t0 = performance.now();
     let js = code, names = null;
@@ -18751,7 +18999,7 @@ const Studio = {
       if (RC_MAIN[lang] && lang !== 'py' && !/\bmain\s*\(/.test(code)) tries.push(RC_MAIN[lang](code, { c: '#include <stdio.h>\n#include <string.h>', cpp: '#include <iostream>\n#include <string>\nusing namespace std;' }[lang] || ''));
       let err = null; js = null;
       for (const t of tries) { const r = L.compile(t, { allowed: [], vars: [], varTypes: {} }); if (!r.error) { js = r.code; names = r.vars; break; } err = err || r.error; }
-      if (js == null) { btn.disabled = false; out.innerHTML += line('✘ ' + (err.line ? 'ხაზი ' + err.line + ': ' : '') + err.message, 'err'); if (err.line) this.markLine(err.line); return; }
+      if (js == null) { btn.disabled = false; out.innerHTML += line('✘ ' + (err.line ? 'ხაზი ' + err.line + ': ' : '') + err.message, 'err'); if (err.line) mark(err.line); return; }
     } else names = extractVarNames(code);
     const res = await CodeRunner.run({ code: js, lang: COURSE_BY_ID[lang].lang, map: parseMap({ grid: ['>'] }), allowed: [], vars: null, wantVars: false, varNames: names });
     btn.disabled = false;
@@ -18761,17 +19009,17 @@ const Studio = {
     if (res.timeout) t = Translator.halt({ kind: 'tired' });
     else if (res.error) t = Translator.translate(res.error, { code: js, allowed: [], declared: names || [], vars: null });
     else if (res.halted) t = Translator.halt(res.halted);
-    if (t) { out.innerHTML += line('✘ ' + t.text, 'err'); if (t.line) this.markLine(t.line); }
+    if (t) { out.innerHTML += line('✘ ' + t.text, 'err'); if (t.line) mark(t.line); }
     else out.innerHTML += line('✔ პროგრამა დასრულდა · ' + Math.round(performance.now() - t0) + ' ms', 'ok');
     out.scrollTop = out.scrollHeight;
   },
-  markLine(n) {
-    if (!this.ed || !this.ed.addLineClass) return;
+  markLine(n, ed = this.ed) {
+    if (!ed || !ed.addLineClass) return;
     const i = n - 1;
-    if (i < 0 || i >= this.ed.lineCount()) return;
-    this.ed.addLineClass(i, 'background', 'vsc-errline');
-    this.ed.scrollIntoView({ line: i, ch: 0 }, 60);
-    setTimeout(() => { if (this.ed && this.ed.removeLineClass) this.ed.removeLineClass(i, 'background', 'vsc-errline'); }, 3000);
+    if (i < 0 || i >= ed.lineCount()) return;
+    ed.addLineClass(i, 'background', 'vsc-errline');
+    ed.scrollIntoView({ line: i, ch: 0 }, 60);
+    setTimeout(() => ed.removeLineClass(i, 'background', 'vsc-errline'), 3000);
   },
   /* ---- 💾 ჩანაწერები ---- */
   saveNote() {
@@ -18837,7 +19085,8 @@ const Studio = {
     let html = '<button class="btn small" data-a="back">← ' + esc(c.title) + '-ის პროექტები</button>' +
       '<div class="card sd-ghead"><div class="sd-gic big" aria-hidden="true">' + g.icon + '</div><div><h2>' + esc(g.title) + '</h2><p>' + esc(g.desc) + '</p>' +
       '<div class="sd-chips"><span class="chip">' + langBadge(c.lang, true) + ' ' + esc(c.title) + '</span><span class="chip">⏱ ' + esc(g.time) + '</span><span class="chip mono">📄 ' + esc(g.file) + '</span></div></div></div>' +
-      '<div class="card sd-run"><b>▶️ სად გავუშვა</b><p>' + esc(g.run) + '</p><a class="btn small" href="' + esc(g.link) + '" target="_blank" rel="noopener noreferrer">გახსნა ↗</a></div>' +
+      '<div class="card sd-run"><b>▶️ სად გავუშვა</b><p>' + esc(g.run) + '</p><a class="btn small" href="' + esc(g.link) + '" target="_blank" rel="noopener noreferrer">გახსნა ↗</a>' +
+      (Projects.available() ? ' <button type="button" class="btn small" data-a="pj">' + pxIcon('laptop', 16, 'var(--bit)') + ' გახსენი ჩემს პროექტებში</button>' : '') + '</div>' +
       '<div class="sd-prog"><div class="progress"><div style="width:' + pct + '%"></div></div><span>' + (done.length === n ? '🎉 პროექტი აწყობილია!' : '✓ ' + done.length + '/' + n + ' ნაბიჯი') + '</span></div>' +
       '<ol class="sd-steps">' + g.steps.map((s, i) => {
         const on = done.includes(i);
@@ -18849,6 +19098,8 @@ const Studio = {
     const body = $('#studio-body');
     body.innerHTML = html;
     $('[data-a=back]', body).addEventListener('click', () => { Sound.click(); this.guide = null; this.render(); window.scrollTo(0, 0); });
+    const pj = $('[data-a=pj]', body);
+    if (pj) pj.addEventListener('click', () => { Sound.click(); Projects.fromGuide(g); });
     $$('[data-copy]', body).forEach(b => b.addEventListener('click', () => this.copy(b.dataset.copy === 'full' ? g.full : g.steps[+b.dataset.copy].code)));
     $$('[data-done]', body).forEach(b => b.addEventListener('click', () => {
       const i = +b.dataset.done, P = Progress.P;
@@ -18873,6 +19124,323 @@ const Studio = {
   }
 };
 /* ===STUDIO:END=== */
+
+// კოდის რედაქტორი (CodeMirror ან, თუ CDN მიუწვდომელია, textarea): on.run — Ctrl+Enter, on.save — Ctrl+S, on.change — ყოველი ცვლილება
+function codeEditor(el, code, L, on) {
+  if (window.CodeMirror) {
+    const keys = { 'Ctrl-Enter': on.run, 'Cmd-Enter': on.run, 'Ctrl-S': on.save, 'Cmd-S': on.save };
+    const cm = CodeMirror(el, {
+      value: code, mode: L.cm, theme: 'vsc', lineNumbers: true, matchBrackets: true, autoCloseBrackets: true, indentUnit: L.indent, tabSize: L.indent, viewportMargin: Infinity, spellcheck: false,
+      extraKeys: Object.assign({ Tab: c => (c.somethingSelected() ? c.indentSelection('add') : c.replaceSelection(' '.repeat(L.indent), 'end')), 'Shift-Tab': c => c.indentSelection('subtract') }, keys)
+    });
+    cm.getInputField().setAttribute('aria-label', 'კოდის რედაქტორი');
+    cm.on('change', on.change);
+    cm.on('cursorActivity', () => { const p = cm.getCursor(), s = $('#vsc-pos'); if (s) s.textContent = 'Ln ' + (p.line + 1) + ', Col ' + (p.ch + 1); });
+    return cm;
+  }
+  const ta = document.createElement('textarea');
+  ta.className = 'vsc-ta'; ta.value = code; ta.spellcheck = false; ta.setAttribute('aria-label', 'კოდის რედაქტორი');
+  ta.addEventListener('input', on.change);
+  ta.addEventListener('keydown', e => {
+    if (e.key === 'Tab') { e.preventDefault(); ta.setRangeText(' '.repeat(L.indent), ta.selectionStart, ta.selectionEnd, 'end'); on.change(); }
+    else if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); on.run(); }
+    else if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) { e.preventDefault(); on.save(); }
+  });
+  el.appendChild(ta);
+  return ta;
+}
+
+/* ---------- 💻 ჩემი პროექტები (Pro + კომპიუტერის ვერსია) ----------
+   პროექტი — რამდენიმე ფაილი (index.html, style.css, script.js…). ყოველი ცვლილება ~2 წამში ინახება პროგრამაში, დრაფტად
+   (desktop/main.js → userData/projects — სერვერის გარეშე), ამიტომ პროგრამის დახურვის ან კომპიუტერის გადატვირთვის შემდეგაც რჩება.
+   „შენახვა“ (Ctrl+S) ფაილებს წერს არჩეულ საქაღალდეში: <საქაღალდე>/<პროექტის სახელი>/…; წარმატების (და გადამოწმების) შემდეგ დრაფტი
+   იშლება და პროექტი კომპიუტერის ფაილებიდან იხსნება. საქაღალდეს მხოლოდ Windows-ის ფანჯარა ირჩევს (main.js) — გვერდი გზას ვერ გადასცემს.
+   ბრაუზერში, ტელეფონზე და პროგრამის ძველ ვერსიაში (window.cqDesktop არ არის) გვერდი არ ჩანს. ---------- */
+const PJ_TYPES = {
+  html: { main: 'index.html', need: [] },
+  css: { main: 'style.css', need: ['index.html'], t: 'CSS-ს სჭირდება HTML — დააყენე ის.', why: 'HTML — გვერდის ჩონჩხი, CSS — მისი იერსახე.' },
+  js: { main: 'script.js', need: ['index.html', 'style.css'], t: 'JavaScript-ს სჭირდება HTML და CSS — დააყენე ისინი.', why: 'HTML — გვერდის ჩონჩხი, CSS — იერსახე, JS — ქცევა.' },
+  ts: { main: 'main.ts', need: ['index.html', 'style.css'], t: 'TypeScript-ს სჭირდება HTML და CSS — დააყენე ისინი.', why: 'HTML — გვერდის ჩონჩხი, CSS — იერსახე, TypeScript — ქცევა ტიპებით.' },
+  react: { main: 'src/App.jsx', need: ['package.json', 'index.html', 'src/main.jsx', 'src/index.css'], t: 'React-ს სჭირდება Node.js, HTML, JS და CSS — დააყენე ისინი.', why: 'package.json — Node.js-ის პროექტი, index.html — გვერდი, main.jsx — აპის ჩართვა, index.css — იერსახე.' },
+  node: { main: 'index.js', need: ['package.json'], t: 'Node.js-ს სჭირდება package.json — დააყენე ის.', why: 'package.json — პროექტის სახელი და გაშვების ბრძანება (npm start).' },
+  py: { main: 'main.py' }, java: { main: 'Main.java' }, c: { main: 'main.c' }, cpp: { main: 'main.cpp' }, cs: { main: 'Program.cs' }, go: { main: 'main.go' }, rs: { main: 'main.rs' },
+  php: { main: 'index.php' }, rb: { main: 'main.rb' }, swift: { main: 'main.swift' }, kt: { main: 'Main.kt' }, lua: { main: 'main.lua' }, dart: { main: 'main.dart' }
+};
+const PJ_WEB = ['html', 'css', 'js', 'react'];   // შედეგი გადახედვის ფანჯარაშია; დანარჩენი ენები მთავარ ფაილს კონსოლში უშვებს
+const PJ_MAX = 20, PJ_FILE_MAX = 1048576;   // იგივე ლიმიტები: desktop/main.js (პროექტი ≤ 5 MB)
+// ფაილის გზა მხოლოდ პროექტის შიგნით: '/'-ით, „..“-ის, დისკის, Windows-ის აკრძალული სიმბოლოებისა და სახელების (CON, NUL…) გარეშე. იგივე წესი: desktop/main.js → okPath
+const PJ_RESERVED = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(\..*)?$/i;
+const pjPathOk = p => typeof p === 'string' && p.length > 0 && p.length <= 200 && !/[\\:*?"<>|\x00-\x1f]/.test(p) && !p.startsWith('/') && p.split('/').every(x => x && x !== '.' && x !== '..' && !PJ_RESERVED.test(x) && !/[. ]$/.test(x));
+const PJ_ERR = {
+  denied: 'ვერ შეინახა: ამ საქაღალდეში ჩაწერა აკრძალულია — აირჩიე სხვა საქაღალდე.',
+  full: 'ვერ შეინახა: დისკზე ადგილი აღარ არის — გაათავისუფლე ადგილი ან აირჩიე სხვა დისკი.',
+  missing: 'ვერ შეინახა: საქაღალდე ვერ მოიძებნა — აირჩიე სხვა საქაღალდე.',
+  io: 'ვერ შეინახა: ფაილები ბოლომდე ვერ ჩაიწერა — სცადე თავიდან ან აირჩიე სხვა საქაღალდე.',
+  limit: 'პროექტი ძალიან დიდია: ფაილი 1 MB-მდე, პროექტი 5 MB-მდე — შეამცირე ფაილები.',
+  too_many: 'მაქსიმუმ 20 პროექტია — ახლისთვის წაშალე ძველი.',
+  bad_path: 'სახელი არ გამოდგება: გამოიყენე ასოები, ციფრები, - _ . და / — შეცვალე სახელი.',
+  gone: 'ვერ გაიხსნა: შენახული ფაილები საქაღალდეში ვერ მოიძებნა — დააბრუნე საქაღალდე ადგილზე ან წაშალე პროექტი სიიდან.'
+};
+// საწყისი ფაილი — უკვე დაკავშირებული: index.html-ში style.css და script.js
+function pjTemplate(type, path, name) {
+  const t = esc(name);
+  if (path === 'index.html') {
+    const head = type === 'css' ? '  <link rel="stylesheet" href="style.css">\n'
+      : type === 'js' ? '  <link rel="stylesheet" href="style.css">\n  <script src="script.js" defer><\/script>\n'
+      : type === 'ts' ? '  <link rel="stylesheet" href="style.css">\n  <script src="main.js" defer><\/script>\n' : '';   // main.js — main.ts-იდან (npx tsc main.ts)
+    const body = type === 'react' ? '  <div id="root"></div>\n  <script type="module" src="/src/main.jsx"><\/script>\n' : '  <h1>' + t + '</h1>\n';
+    return '<!DOCTYPE html>\n<html lang="' + document.documentElement.lang + '">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <title>' + t + '</title>\n' + head + '</head>\n<body>\n' + body + '</body>\n</html>\n';
+  }
+  if (path.endsWith('.css')) return 'body {\n  font-family: system-ui, sans-serif;\n  margin: 24px;\n}\n\nh1 {\n  color: royalblue;\n}\n';
+  if (path === 'package.json') {
+    const name2 = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'my-project';
+    return JSON.stringify(type === 'react'
+      ? { name: name2, private: true, version: '0.1.0', type: 'module', scripts: { dev: 'vite', build: 'vite build' }, dependencies: { react: '^18.3.1', 'react-dom': '^18.3.1' }, devDependencies: { vite: '^5.4.0' } }
+      : { name: name2, version: '1.0.0', main: 'index.js', scripts: { start: 'node index.js' } }, null, 2) + '\n';
+  }
+  if (path === 'src/main.jsx') return 'import React from "react";\nimport { createRoot } from "react-dom/client";\nimport App from "./App.jsx";\nimport "./index.css";\n\ncreateRoot(document.getElementById("root")).render(<App />);\n';
+  if (path === 'src/App.jsx') return 'import React, { useState } from "react";\n\nexport default function App() {\n  const [n, setN] = useState(0);\n  return (\n    <main>\n      <h1>გამარჯობა, React!</h1>\n      <button onClick={() => setN(n + 1)}>დამაჭირე: {n}</button>\n    </main>\n  );\n}\n';
+  if (path === 'script.js') return 'document.querySelector("h1").textContent += " — JavaScript მუშაობს!";\n';
+  return path === PJ_TYPES[type].main ? STUDIO_START[type] || '' : '';
+}
+const Projects = {
+  list: [], cur: null, file: '', ed: null, t: null, err: '', busy: false, pending: false,
+  api: () => window.cqDesktop && window.cqDesktop.projects,
+  available() { return IS_DESKTOP && !!this.api() && Progress.hasPro(); },
+  async render() {
+    if (!this.available()) return UI.show('menu', true);
+    if (this.cur) return this.renderEditor();
+    this.list = await this.api().list();
+    const body = $('#pj-body'), full = this.list.length >= PJ_MAX;
+    body.innerHTML = '<div class="pj-head"><p>შენი პროექტები ამ კომპიუტერზე. ყოველი ცვლილება თავისით ინახება პროგრამაში, „შენახვა“ კი ფაილებს შენს საქაღალდეში წერს.</p>' +
+      '<button type="button" class="cq-btn cq-btn--primary" data-a="new"' + (full ? ' disabled' : '') + '>' + pxIcon('plus', 18, 'var(--go)', 'var(--on-bit)') + 'ახალი პროექტი</button></div>' +
+      (full ? '<p class="muted">' + esc(PJ_ERR.too_many) + '</p>' : '') +
+      (this.list.length ? '<div class="pj-list">' + this.list.map(p => {
+        const c = COURSE_BY_ID[p.type] || COURSE_BY_ID.html;
+        return '<div class="pj-card"><h3>' + langBadge(c.lang, true) + esc(p.name) + '</h3>' + this.status(p.state) +
+          '<small class="muted">' + esc(c.title) + ' · ' + new Date(p.at).toLocaleDateString('ka-GE') + '</small>' +
+          '<div class="pj-acts"><button type="button" class="cq-btn cq-btn--secondary cq-btn--sm" data-open="' + esc(p.id) + '">გახსნა</button>' +
+          '<button type="button" class="cq-btn cq-btn--ghost cq-btn--sm" data-del="' + esc(p.id) + '">' + pxIcon('minus', 14) + 'წაშლა</button></div></div>';
+      }).join('') + '</div>' : '<div class="pj-empty">' + pxIcon('laptop', 28, 'var(--bit)') + '<p>ჯერ პროექტი არ გაქვს. შექმენი პირველი — აირჩიე ენა და დაწერე კოდი.</p></div>');
+    const nb = $('[data-a=new]', body);
+    nb.addEventListener('click', () => this.newForm());
+    $$('[data-open]', body).forEach(b => b.addEventListener('click', () => this.open(b.dataset.open)));
+    $$('[data-del]', body).forEach(b => b.addEventListener('click', () => this.del(this.list.find(p => p.id === b.dataset.del))));
+  },
+  status(st) {
+    return '<span class="pj-st" role="status">' + (st === 'saved' ? pxIcon('laptop', 16, 'var(--bit)') + 'შენახულია კომპიუტერში'
+      : st === 'dirty' ? pxIcon('laptop', 16, 'var(--bit)') + '<i class="pj-dot" aria-hidden="true"></i>შეუნახავი ცვლილებები — დააჭირე „შენახვას“'
+      : pxIcon('terminal', 16) + 'დრაფტი პროგრამაშია — კომპიუტერში ჯერ არ შეგინახავს') + '</span>';
+  },
+  newForm() {
+    const cur = Progress.course();
+    const m = Modal.open('<h2>ახალი პროექტი</h2><label class="muted" for="pj-name">სახელი</label><input class="txt" id="pj-name" style="width:100%" maxlength="60" autocomplete="off" value="ჩემი პროექტი">' +
+      '<p class="muted" style="margin:.8em 0 .4em">ტიპი</p><div class="sd-langs" role="radiogroup" aria-label="ტიპი">' + COURSES.map(c => '<button type="button" class="sd-lang' + (c.id === cur ? ' on' : '') + '" role="radio" aria-checked="' + (c.id === cur) + '" data-type="' + c.id + '">' + langBadge(c.lang, true) + esc(c.title) + '</button>').join('') + '</div>' +
+      '<p class="pj-err hidden" id="pj-nerr" role="alert"></p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="ok">შექმნა</button></div>', { wide: true });
+    let type = COURSE_BY_ID[cur] ? cur : 'html';
+    $$('[data-type]', m).forEach(b => b.addEventListener('click', () => { type = b.dataset.type; $$('[data-type]', m).forEach(x => { x.classList.toggle('on', x === b); x.setAttribute('aria-checked', x === b); }); }));
+    const inp = m.querySelector('#pj-name'), go = () => this.create(inp.value.trim(), type, null, m);
+    setTimeout(() => { inp.focus(); inp.select(); }, 60);
+    m.querySelector('[data-a=ok]').addEventListener('click', go);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  },
+  // სახელი საქაღალდის სახელიც იქნება: <არჩეული საქაღალდე>/<სახელი>
+  nameErr(name, id) {
+    if (!name || name.length > 60 || name.includes('/') || !pjPathOk(name)) return PJ_ERR.bad_path;
+    if (this.list.some(p => p.id !== id && p.name.toLowerCase() === name.toLowerCase())) return 'ეს სახელი უკვე გაქვს — მოიფიქრე სხვა.';
+    return '';
+  },
+  async create(name, type, files, m) {
+    const e = this.nameErr(name);
+    if (e) { const x = m && m.querySelector('#pj-nerr'); if (x) { x.textContent = e; x.classList.remove('hidden'); } return; }
+    const main = PJ_TYPES[type].main, id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    const r = await this.api().put({ id, name, type, files: files || { [main]: pjTemplate(type, main, name) } });
+    if (!r || !r.ok) { const x = m && m.querySelector('#pj-nerr'); if (x) { x.textContent = PJ_ERR[r && r.error] || PJ_ERR.io; x.classList.remove('hidden'); } else UI.toast(pxIcon('laptop', 28), PJ_ERR[r && r.error] || PJ_ERR.io); return; }
+    if (m) Modal.close(m);
+    Quests.ev('project_created');
+    if (UI.cur !== 'projects') UI.show('projects');
+    this.open(id);
+  },
+  // Pro-ს „ნაბიჯ-ნაბიჯ პროექტიდან“: ახალი პროექტი გზამკვლევის საწყისი ფაილით
+  async fromGuide(g) {
+    this.list = await this.api().list();
+    if (this.list.length >= PJ_MAX) return UI.toast(pxIcon('laptop', 28), PJ_ERR.too_many);
+    let name = g.title.replace(/[\\/:*?"<>|]/g, '').trim().slice(0, 50) || 'პროექტი', k = 2;
+    while (this.nameErr(name)) name = g.title.replace(/[\\/:*?"<>|]/g, '').trim().slice(0, 50) + ' ' + k++;
+    this.create(name, g.lang, { [pjPathOk(g.file) ? g.file : PJ_TYPES[g.lang].main]: g.full });
+  },
+  del(p) {
+    if (!p) return;
+    const m = Modal.open('<h2>წავშალო პროექტი?</h2><p>„' + esc(p.name) + '“ წაიშლება პროგრამიდან.' + (p.state === 'draft' ? '' : ' კომპიუტერში შენახული ფაილები ადგილზე დარჩება.') + '</p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn danger" data-a="yes">წაშლა</button></div>');
+    m.querySelector('[data-a=yes]').addEventListener('click', async () => { await this.api().remove(p.id); Modal.close(m); this.render(); });
+  },
+  async open(id) {
+    const r = await this.api().get(id);
+    if (!r || !r.ok) { UI.toast(pxIcon('laptop', 28), PJ_ERR[r && r.error] || PJ_ERR.io); return this.render(); }
+    this.cur = r.project;
+    const main = PJ_TYPES[this.cur.type].main, paths = Object.keys(this.cur.files);
+    this.file = this.cur.files[main] != null ? main : paths[0] || '';
+    this.err = '';
+    this.pending = false;
+    this.renderEditor();
+  },
+  missing() { return (PJ_TYPES[this.cur.type].need || []).filter(f => this.cur.files[f] == null); },
+  L(path) {
+    const ext = (path.split('.').pop() || '').toLowerCase();
+    if (ext === 'json') return Object.assign({}, LANGS.js, { cm: { name: 'javascript', json: true } });
+    return LANGS[{ html: 'html', htm: 'html', css: 'css', js: 'js', mjs: 'js', jsx: 'react', ts: 'ts' }[ext] || COURSE_BY_ID[this.cur.type].lang] || LANGS.js;
+  },
+  renderEditor() {
+    const p = this.cur, T = PJ_TYPES[p.type], c = COURSE_BY_ID[p.type], miss = this.missing(), web = PJ_WEB.includes(p.type);
+    const paths = Object.keys(p.files).sort((a, b) => (b === T.main) - (a === T.main) || a.localeCompare(b));
+    const body = $('#pj-body');
+    body.innerHTML = '<div class="pj-bar"><button type="button" class="cq-btn cq-btn--ghost cq-btn--sm" data-a="back">← პროექტები</button><h2>' + langBadge(c.lang, true) + esc(p.name) + '</h2><span id="pj-st">' + this.status(p.state) + '</span>' +
+      (miss.length ? '<span class="pj-runnote">ჯერ დააყენე: ' + miss.map(esc).join(', ') + '</span>' : '') +
+      '<button type="button" class="cq-btn cq-btn--go cq-btn--sm" id="pj-run" title="გაშვება (Ctrl+Enter)"' + (miss.length ? ' disabled' : '') + '>' + pxIcon('play', 16, 'var(--on-go)', 'var(--on-go)') + 'Run</button>' +
+      '<button type="button" class="cq-btn cq-btn--primary cq-btn--sm" id="pj-save" title="შენახვა (Ctrl+S)">' + pxIcon('laptop', 16, 'var(--bit-deep)', 'var(--on-bit)') + 'შენახვა</button></div>' +
+      '<div id="pj-msg"></div>' +
+      (miss.length ? '<div class="pj-need"><b>' + esc(T.t) + '</b><span>' + esc(T.why) + '</span><ul>' + miss.map(f => '<li><span class="pj-box" aria-hidden="true"></span><code class="cq-ic">' + esc(f) + '</code><button type="button" class="cq-btn cq-btn--secondary cq-btn--sm" data-add="' + esc(f) + '">' + pxIcon('plus', 14) + 'დაამატე</button></li>').join('') + '</ul>' +
+        (miss.length > 1 ? '<button type="button" class="cq-btn cq-btn--secondary cq-btn--sm" data-a="addall">' + pxIcon('plus', 14) + 'დაამატე ყველა</button>' : '') + '</div>' : '') +
+      '<div class="pj-ide"><nav class="pj-files" aria-label="ფაილები"><div class="pj-files-h"><span>ფაილები</span><button type="button" class="pj-ib" data-a="add" title="ფაილის დამატება" aria-label="ფაილის დამატება">' + pxIcon('plus', 14) + '</button></div>' +
+      paths.map(f => '<div class="pj-frow"><button type="button" class="pj-file' + (f === this.file ? ' on" aria-current="true' : '') + '" data-file="' + esc(f) + '">' + esc(f) + '</button>' +
+        '<button type="button" class="pj-ib" data-ren="' + esc(f) + '" title="გადარქმევა" aria-label="გადარქმევა: ' + esc(f) + '">✎</button>' +
+        '<button type="button" class="pj-ib" data-rm="' + esc(f) + '" title="წაშლა" aria-label="წაშლა: ' + esc(f) + '">' + pxIcon('minus', 14) + '</button></div>').join('') + '</nav>' +
+      '<div class="vsc" role="region" aria-label="კოდის რედაქტორი"><div class="vsc-tabs"><span class="vsc-tab">' + esc(this.file) + '</span></div><div class="vsc-ed" id="vsc-ed"></div>' +
+      '<div class="vsc-term"><div class="vsc-term-h">' + (web ? 'გადახედვა' : 'Terminal') + '</div>' + (web ? '<iframe class="vsc-prev" id="pj-prev" title="გადახედვა" sandbox="allow-scripts allow-modals"></iframe>' : '<pre class="vsc-out" id="vsc-out" aria-live="polite"><span class="dim">დააჭირე Run — შედეგი აქ გამოჩნდება.</span></pre>') + '</div>' +
+      '<div class="vsc-status"><span id="vsc-pos">Ln 1, Col 1</span><span>UTF-8</span><span>' + esc(this.L(this.file).name || c.title) + '</span></div></div></div>';
+    this.ed = codeEditor($('#vsc-ed'), p.files[this.file] || '', this.L(this.file), { run: () => this.run(), save: () => this.save(), change: () => this.changed() });
+    this.paintErr();
+    $('[data-a=back]', body).addEventListener('click', async () => { await this.flush(); this.cur = null; this.render(); });
+    $('#pj-run').addEventListener('click', () => this.run());
+    $('#pj-save').addEventListener('click', () => this.save());
+    $('[data-a=add]', body).addEventListener('click', () => this.nameForm('', f => { p.files[f] = pjTemplate(p.type, f, p.name); this.file = f; }));
+    $$('[data-add]', body).forEach(b => b.addEventListener('click', () => this.addFiles([b.dataset.add])));
+    const all = $('[data-a=addall]', body);
+    if (all) all.addEventListener('click', () => this.addFiles(miss));
+    $$('[data-file]', body).forEach(b => b.addEventListener('click', () => { this.file = b.dataset.file; this.renderEditor(); }));
+    $$('[data-ren]', body).forEach(b => b.addEventListener('click', () => this.nameForm(b.dataset.ren, f => { const o = b.dataset.ren; p.files[f] = p.files[o]; delete p.files[o]; if (this.file === o) this.file = f; })));
+    $$('[data-rm]', body).forEach(b => b.addEventListener('click', () => this.rmFile(b.dataset.rm)));
+    if (web && !miss.length) this.run();
+  },
+  addFiles(list) {
+    list.forEach(f => { if (this.cur.files[f] == null) this.cur.files[f] = pjTemplate(this.cur.type, f, this.cur.name); });
+    this.structural();
+  },
+  // ფაილის დამატება (old = '') ან გადარქმევა
+  nameForm(old, apply) {
+    const m = Modal.open('<h2>' + (old ? 'გადარქმევა' : 'ახალი ფაილი') + '</h2><input class="txt" id="pj-fname" style="width:100%;font-family:var(--mono)" maxlength="200" autocomplete="off" spellcheck="false" placeholder="მაგ. about.html ან js/app.js" value="' + esc(old) + '">' +
+      '<p class="pj-err hidden" id="pj-ferr" role="alert"></p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="ok">' + (old ? 'გადარქმევა' : 'დამატება') + '</button></div>');
+    const inp = m.querySelector('#pj-fname'), go = () => {
+      const f = inp.value.trim().replace(/^\.?\//, ''), x = m.querySelector('#pj-ferr');
+      const e = !pjPathOk(f) ? PJ_ERR.bad_path : f !== old && this.cur.files[f] != null ? 'ასეთი ფაილი უკვე არის — მოიფიქრე სხვა სახელი.' : '';
+      if (e) { x.textContent = e; x.classList.remove('hidden'); return; }
+      Modal.close(m);
+      if (f === old) return;
+      apply(f);
+      this.structural();
+    };
+    setTimeout(() => { inp.focus(); inp.select(); }, 60);
+    m.querySelector('[data-a=ok]').addEventListener('click', go);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  },
+  rmFile(f) {
+    if (Object.keys(this.cur.files).length < 2) return UI.toast(pxIcon('laptop', 28), 'ბოლო ფაილს ვერ წაშლი', 'ჯერ დაამატე სხვა ფაილი.');
+    const m = Modal.open('<h2>წავშალო ფაილი?</h2><p><code class="cq-ic">' + esc(f) + '</code> წაიშლება პროექტიდან.</p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn danger" data-a="yes">წაშლა</button></div>');
+    m.querySelector('[data-a=yes]').addEventListener('click', () => {
+      Modal.close(m);
+      delete this.cur.files[f];
+      if (this.file === f) this.file = Object.keys(this.cur.files)[0];
+      this.structural();
+    });
+  },
+  // ფაილების სია შეიცვალა: მაშინვე ინახება და ეკრანი თავიდან იხატება (საჭირო ფაილების გაფრთხილება — ისევ, თუ რამე აკლია)
+  structural() {
+    if (this.cur.state === 'saved') this.cur.state = 'dirty';
+    this.pending = true;
+    this.renderEditor();
+    this.flush();
+  },
+  changed() {
+    const p = this.cur, v = !this.ed ? '' : this.ed.getValue ? this.ed.getValue() : this.ed.value;
+    p.files[this.file] = v;
+    this.pending = true;
+    if (p.state === 'saved') { p.state = 'dirty'; $('#pj-st').innerHTML = this.status(p.state); }
+    clearTimeout(this.t);
+    this.t = setTimeout(() => this.flush(), 2000);
+  },
+  // დრაფტის შენახვა პროგრამაში (autosave) — მხოლოდ თუ რამე შეიცვალა
+  async flush() {
+    clearTimeout(this.t);
+    this.t = null;
+    const p = this.cur;
+    if (!p || !this.pending || !this.api()) return;
+    if (Object.values(p.files).some(v => v.length > PJ_FILE_MAX)) { this.err = 'limit'; return this.paintErr(); }
+    this.pending = false;
+    const r = await this.api().put({ id: p.id, name: p.name, type: p.type, files: p.files });
+    if (r && r.ok) { p.state = r.state; if (this.err === 'limit') { this.err = ''; this.paintErr(); } }
+    else { this.pending = true; this.err = (r && r.error) || 'io'; this.paintErr(); }
+    const st = $('#pj-st');
+    if (st && UI.cur === 'projects') st.innerHTML = this.status(p.state);
+  },
+  paintErr() {
+    const box = $('#pj-msg');
+    if (!box) return;
+    box.innerHTML = this.err ? '<div class="pj-err" role="alert"><p>' + esc(PJ_ERR[this.err] || PJ_ERR.io) + '</p>' +
+      (['denied', 'missing', 'io', 'full'].includes(this.err) ? '<button type="button" class="cq-btn cq-btn--secondary cq-btn--sm" data-a="pick">' + pxIcon('laptop', 14) + 'აირჩიე სხვა საქაღალდე</button>' : '') + '</div>' : '';
+    const b = $('[data-a=pick]', box);
+    if (b) b.addEventListener('click', () => this.save(true));
+  },
+  // „შენახვა“ (Ctrl+S): პირველად — საქაღალდის არჩევა; pick — სხვა საქაღალდე
+  async save(pick) {
+    const p = this.cur;
+    if (!p || this.busy) return;
+    if (!Store.get('codequest.pjWarned', false)) {
+      const m = Modal.open('<h2>შენახვა კომპიუტერში</h2><p>შენახული პროექტი მხოლოდ ამ კომპიუტერზე იქნება.</p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="ok">აირჩიე საქაღალდე</button></div>');
+      m.querySelector('[data-a=ok]').addEventListener('click', () => { Store.set('codequest.pjWarned', true); Modal.close(m); this.save(pick); });
+      return;
+    }
+    this.busy = true;
+    await this.flush();
+    const r = await this.api().save(p.id, !!pick);
+    this.busy = false;
+    if (r && r.canceled) return;
+    if (!r || !r.ok) { this.err = (r && r.error) || 'io'; return this.paintErr(); }
+    this.err = '';
+    this.paintErr();
+    p.state = 'saved';
+    $('#pj-st').innerHTML = this.status(p.state);
+    Sound.click();
+    UI.toast(pxIcon('laptop', 28, 'var(--bit)'), 'შენახულია კომპიუტერში', r.folder || '');
+  },
+  // გადახედვა: index.html + მასში ჩართული CSS და JS ერთ დოკუმენტად (iframe-ს საკუთარი ფაილები არ აქვს); React — App.jsx + CSS
+  doc() {
+    const f = this.cur.files, file = h => f[String(h).replace(/^\.?\//, '')];
+    if (this.cur.type === 'react') {
+      const app = (f['src/App.jsx'] || '').replace(/^\s*import\s[^\n]*$/gm, '').replace(/\bexport\s+default\s+/, '');
+      const css = Object.keys(f).filter(k => k.endsWith('.css')).map(k => f[k]).join('\n').replace(/<\/style/gi, '<\\/style');
+      return ReactRun.doc(app, { mode: 'preview' }).replace('</head>', () => '<style>' + css + '</style></head>');
+    }
+    let tail = '';
+    let html = (f['index.html'] || '').replace(/<link\b[^>]*\bhref=["']([^"']+\.css)["'][^>]*>/gi, (m, h) => file(h) != null ? '<style>' + file(h).replace(/<\/style/gi, '<\\/style') + '</style>' : m);
+    html = html.replace(/<script\b([^>]*)\bsrc=["']([^"']+\.js)["']([^>]*)><\/script>/gi, (m, a, h, b) => {
+      if (file(h) == null) return m;
+      const tag = '<script>' + file(h).replace(/<\/script/gi, '<\\/script') + '<\/script>';
+      if (!/\bdefer\b/i.test(a + b)) return tag;
+      tail += tag;   // defer — გვერდის ბოლოს, როცა HTML უკვე აწყობილია
+      return '';
+    });
+    html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, () => tail + '</body>') : html + tail;
+    return WebPreview.doc({ lang: 'html' }, html);
+  },
+  run() {
+    const p = this.cur;
+    if (!p || this.missing().length) return;
+    Sound.ensure();
+    if (PJ_WEB.includes(p.type)) { const fr = $('#pj-prev'); if (fr) fr.srcdoc = this.doc(); return; }
+    const main = p.files[PJ_TYPES[p.type].main] != null ? PJ_TYPES[p.type].main : this.file;
+    Studio.runTo(p.type, p.files[main] || '', $('#vsc-out'), $('#pj-run'), n => { if (this.file === main) Studio.markLine(n, this.ed); }, main);
+  }
+};
 
 /* ---------- სცენები (დიალოგები) ---------- */
 const Scene = {
@@ -18949,12 +19517,13 @@ const Quiz = {
 /* ---------- ლექსიკონი ---------- */
 const Dict = {
   open() {
+    Quests.ev('glossary_viewed');
     const un = DICTIONARY.filter(e => Progress.isUnlocked(LEVEL_BY_ID[e.u]));
     const locked = DICTIONARY.length - un.length;
     const m = Modal.open('<h2>ლექსიკონი</h2><input class="txt" id="dict-q" placeholder="🔎 ძებნა..." style="width:100%;margin-bottom:10px" aria-label="ლექსიკონში ძებნა"><div class="dict-list"></div>' +
       (locked ? '<p class="muted">🔒 კიდევ ' + locked + ' ცნება გაიხსნება სწავლის პარალელურად.</p>' : '') +
       // პარტნიორი: კოდის ბრძანებები ინგლისური სიტყვებია — English Quest
-      '<a class="pt-ad" href="https://www.englishquest.space/course?utm_source=codequest&amp;utm_medium=partner&amp;utm_campaign=dictionary" target="_blank" rel="noopener"><svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><rect x="2" y="2" width="44" height="44" rx="7" fill="#d62828" stroke="#111" stroke-width="3"/><path d="M24 15c-4-3-9-3.5-14-2v21c5-1.5 10-1 14 2z" fill="#fff" stroke="#111" stroke-width="2.6" stroke-linejoin="round"/><path d="M24 15c4-3 9-3.5 14-2v21c-5-1.5-10-1-14 2z" fill="#fff" stroke="#111" stroke-width="2.6" stroke-linejoin="round"/><path d="M30 12.2V22l2.5-2 2.5 2v-9.6" fill="#d62828" stroke="#111" stroke-width="2" stroke-linejoin="round"/><path d="M14 20h6M14 25h6M28 26h6" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>' +
+      '<a class="pt-ad" href="https://www.englishquest.space/?utm_source=codequest&amp;utm_medium=partner&amp;utm_campaign=dictionary" target="_blank" rel="noopener"><svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true"><rect x="2" y="2" width="44" height="44" rx="7" fill="#d62828" stroke="#111" stroke-width="3"/><path d="M24 15c-4-3-9-3.5-14-2v21c5-1.5 10-1 14 2z" fill="#fff" stroke="#111" stroke-width="2.6" stroke-linejoin="round"/><path d="M24 15c4-3 9-3.5 14-2v21c-5-1.5-10-1-14 2z" fill="#fff" stroke="#111" stroke-width="2.6" stroke-linejoin="round"/><path d="M30 12.2V22l2.5-2 2.5 2v-9.6" fill="#d62828" stroke="#111" stroke-width="2" stroke-linejoin="round"/><path d="M14 20h6M14 25h6M28 26h6" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>' +
       '<span class="pt-t"><small>LEARN ENGLISH</small><b>პროგრამირების ინგლისური</b><em>რას ნიშნავს print, return, sort, keys… — 240 სიტყვა ქართული თარგმანით, უფასოდ</em></span><span class="pt-tag">🤝 პარტნიორი</span></a>' +
       '<div class="modal-actions"><button class="btn primary" data-close>დახურვა</button></div>', { wide: true });
     const list = m.querySelector('.dict-list');
@@ -19103,6 +19672,7 @@ const Wardrobe = {
     if (slot === 'skin') Object.assign(P.skin, this.find(slot, id).set); else P.skin[slot] = id;
     P.skinAt = Date.now(); P.stats.styled = true;
     Progress.save(); Account.soon(); Progress.checkAch();
+    Quests.ev('skin_equipped');
   },
   pick(slot, id) {
     const w = this.find(slot, id);
@@ -19192,6 +19762,7 @@ const ClassScreen = {
       Account.changed();
       Account.push();
       UI.toast('🏫', 'შეუერთდი კლასს „' + r2.name + '“', 'მასწავლებელი: ' + r2.teacher);
+      Quests.ev('class_joined');
       this.view = r2.code;
       this.render();
     });
@@ -19421,6 +19992,7 @@ const OwnerDash = {
     const hard = [];
     COURSES.forEach(c => this.courseRows(c.id).forEach(r => { if (r.n >= 3) hard.push(r); }));
     hard.sort((a, b) => a.d / a.n - b.d / b.n || b.n - a.n);
+    const quests = Object.entries(D.quests || {}).map(([id, x]) => ({ q: QUEST_BY_ID[id.slice(2)], n: x[0], d: x[2] })).filter(r => r.q && r.n).sort((a, b) => b.n - a.n);
     $('#ow-view').innerHTML = '<div class="ow-tiles">' +
       this.tile('ანგარიშები', this.nf(A.total), '+' + this.nf(A.new7) + ' ბოლო 7 დღეში') +
       this.tile('აქტიური (7 დღე)', this.nf(A.active7), this.pct(A.active7, A.total) + '% ანგარიშებიდან') +
@@ -19431,7 +20003,10 @@ const OwnerDash = {
       '<div class="ow-grid2"><div class="card ow-card"><h3>ენების პოპულარობა</h3><p class="muted ow-sub">მოთამაშეები (ანგარიშები), რომლებსაც ამ ენაზე ერთი ლეველი მაინც აქვთ გავლილი</p>' +
       (langs.length ? this.hbars(langs.map(x => ({ label: langBadge(x.c.lang, true) + ' ' + esc(x.c.title), value: x.p.players, text: this.nf(x.p.players) }))) : '<p class="muted">ჯერ მონაცემი არ არის.</p>') + '</div>' +
       '<div class="card ow-card"><h3>სად იჭედებიან ყველაზე ხშირად</h3><p class="muted ow-sub">ყველა ენა · ლეველები, რომლებზეც 3 მცდელობა მაინც დაგროვდა</p>' +
-      (hard.length ? this.table(['#', 'ლეველი', 'მცდელობა', 'გავიდა', 'შეცდ.'], hard.slice(0, 8).map(r => this.levelRow(r, true))) : '<p class="muted">ჯერ საკმარისი მონაცემი არ არის — ლეველს 3 მცდელობა მაინც სჭირდება.</p>') + '</div></div>';
+      (hard.length ? this.table(['#', 'ლეველი', 'მცდელობა', 'გავიდა', 'შეცდ.'], hard.slice(0, 8).map(r => this.levelRow(r, true))) : '<p class="muted">ჯერ საკმარისი მონაცემი არ არის — ლეველს 3 მცდელობა მაინც სჭირდება.</p>') + '</div></div>' +
+      // 🚩 ქვესთები: სტატისტიკა მოდის პერიოდის ბოლოს (Quests.roll) — q-<id>: [მიეცა, —, შესრულდა]
+      '<div class="card ow-card"><h3>ქვესთები</h3><p class="muted ow-sub">დღის და კვირის ქვესთები: რამდენჯერ მიეცა და რამდენი % შესრულდა · ანონიმური, ~25%</p>' +
+      (quests.length ? this.table(['ქვესთი', 'მიეცა', 'შესრულდა'], quests.map(r => '<tr><td class="cl-now">' + esc(r.q.t) + '</td><td class="ow-num">' + this.nf(r.n) + '</td><td class="ow-num">' + this.pct(r.d, r.n) + '%</td></tr>')) : '<p class="muted">ჯერ მონაცემი არ არის — ქვესთი პერიოდის დასრულების შემდეგ ითვლება.</p>') + '</div>';
     this.tips($('#ow-view'), i => { const x = langs[i]; return [[this.nf(x.p.players) + ' მოთამაშე', ''], [x.c.title, '· საშ. ' + (x.p.done / x.p.players).toFixed(1) + ' გავლილი ლეველი']]; });
   },
   /* ---- ენები ---- */
@@ -20348,6 +20923,7 @@ const Paywall = {
     const feats = [['🔓', 'ყველა ფასიანი ლეველი', COURSES.length + ' ენაზე — ყველა რუკა ბოლომდე'],
       ['🎬', Object.values(STUDIO_VIDEOS).reduce((a, l) => a + l.length, 0) + ' ვიდეო საიტზევე', 'კოდის რედაქტორი ▶ Run-ით და 📒 ჩანაწერები'],
       ['🛠️', STUDIO_GUIDES.length + ' ნაბიჯ-ნაბიჯ პროექტი', 'ააწყე ნამდვილი პროგრამები'],
+      [pxIcon('laptop', 22, 'var(--bit)'), 'ჩემი პროექტები — კომპიუტერის ვერსიაში', 'შენი კოდი ფაილებად, შენს საქაღალდეში'],
       ['📚', 'სკოლა „ისწავლე კოდინგი“', 'კურსები: თავები, ქვიზები და სავარჯიშოები'],
       ['👩‍🏫', 'კლასი, ცოცხალი გაკვეთილი, მასწავლებლის რეჟიმი', 'დაფა მოსწავლეებთან ცოცხლად და ყველა ლეველი ერთბაშად'],
       ['💳', 'ერთჯერადი გადახდა', 'გამოწერის გარეშე — სამუდამოდ შენია'],
@@ -20596,7 +21172,7 @@ function mergeProgress(a, b) {
   m.spent = mx(a.spent, b.spent);
   m.owned = [...new Set((b.owned || []).concat(a.owned || []))];
   m.stats = best(a.stats, b.stats) || m.stats;
-  ['quiz', 'learned', 'certs', 'seen', 'worldFails', 'use', 'guides'].forEach(k => { m[k] = best(a[k], b[k]) || {}; });
+  ['quiz', 'learned', 'certs', 'seen', 'worldFails', 'use', 'guides', 'quests'].forEach(k => { m[k] = best(a[k], b[k]) || {}; });
   m.speedrun = {};
   keys(a.speedrun, b.speedrun).forEach(k => { m.speedrun[k] = mn((a.speedrun || {})[k], (b.speedrun || {})[k]); });
   const sa = a.streak || {}, sb = b.streak || {};
@@ -20620,7 +21196,7 @@ function mergeProgress(a, b) {
 }
 const hasProgress = P => !!P && (Object.keys(P.levels || {}).length > 0 || (P.bonusXP || 0) > 0 || (P.owned || []).length > 0 || !!P.pro);
 const progressSummary = P => {
-  const lv = Object.values(P.levels || {}), xp = lv.reduce((a, l) => a + (l.xp || 0), 0) + (P.bonusXP || 0);
+  const lv = Object.values(P.levels || {}), xp = lv.reduce((a, l) => a + (l.xp || 0), 0) + (P.bonusXP || 0) + Object.values((P.quests || {}).c || {}).reduce((a, x) => a + (+x || 0), 0);
   return '<b>' + lv.filter(l => l.done).length + '</b> ლეველი · ⭐ <b>' + lv.reduce((a, l) => a + (l.stars || 0), 0) + '</b> · <b>' + xp + '</b> XP';
 };
 const Account = {
@@ -21707,6 +22283,7 @@ const Game = {
     if (this.mode === 'daily') {
       const first = Progress.dailyDone();
       Progress.checkAch();
+      if (first) Quests.ev('daily_challenge_done');
       this.setProf('დღის გამოწვევა შესრულებულია!' + (first ? ' +100 XP' : ' (დღეს უკვე შესრულებული გქონდა)'), 'good');
       Modal.open('<h2 class="result-title">დღის გამოწვევა შესრულებულია!</h2><div class="stat-grid"><div class="stat"><b>' + (first ? '+100' : '0') + '</b><small>XP</small></div><div class="stat"><b>🔥 ' + Progress.streakNow() + '</b><small>დღიანი სერია</small></div><div class="stat"><b>' + fmtTime(time) + '</b><small>დრო</small></div></div><p class="muted" style="text-align:center">ხვალ ახალი რუკა დაგხვდება!</p><div class="modal-actions"><button class="btn primary" data-close>კარგი!</button></div>');
       return;
@@ -21715,6 +22292,7 @@ const Game = {
       const old = P.speedrun[base.id], rec = !old || time < old;
       if (rec) P.speedrun[base.id] = time;
       Progress.save(); Progress.checkAch(); this.updateXPChip();
+      Quests.ev('speedrun_finished');
       const m = Modal.open('<h2 class="result-title">' + (rec ? 'ახალი რეკორდი!' : 'სპიდრანი დასრულდა') + '</h2><div class="stat-grid"><div class="stat"><b>' + fmtTime(time) + '</b><small>დრო</small></div><div class="stat"><b>' + fmtTime(P.speedrun[base.id]) + '</b><small>საუკეთესო</small></div><div class="stat"><b>' + tries + '</b><small>ცდა</small></div></div><div class="modal-actions"><button class="btn" data-a="map">რუკა</button><button class="btn primary" data-a="again">⟲ კიდევ ერთხელ</button></div>');
       m.querySelector('[data-a=map]').addEventListener('click', () => { Modal.close(m); UI.show('map'); });
       m.querySelector('[data-a=again]').addEventListener('click', () => { Modal.close(m); this.setup(base, 'speedrun'); });
@@ -21727,8 +22305,9 @@ const Game = {
     let star3 = tries <= 3 && this.hintsUsed === 0 && (base.phases || lv.web ? true : lines <= opt);
     if (lv.stars3 === 'guesses7' && results.some(r => r.ev.guesses > 7)) star3 = false;
     if (star3) stars = 3;
-    const xp = Progress.xpFor(base, this.hintsUsed);
+    const xp = Progress.xpFor(base, this.hintsUsed), newLang = !Progress.courseStats(base.course || 'js').done;
     const res = Progress.complete(base, { stars, xp, time, lines, hints: this.hintsUsed });
+    Quests.ev('level_completed', { first: res.first, stars, hints: this.hintsUsed, boss: !!base.boss, newLang: newLang && res.first });
     if (this.mode === 'level') { Stats.level(base.id, this.failsTotal, true); this.statDone = true; }
     delete P.codes[this.codeKey()]; Progress.save();
     Progress.checkAch({ time, fails: this.failsTotal, bossStars3: base.boss && stars === 3 });
@@ -22042,6 +22621,12 @@ function init() {
   $('#menu-logo').addEventListener('click', () => { Sound.ensure(); Sound.click(); UI.show('bit'); });
   $('#m-pro').addEventListener('click', () => { if (!Progress.hasPro()) Paywall.buy(); });
   $('#m-studio').addEventListener('click', () => { Sound.ensure(); Sound.click(); Studio.open(); });
+  $('#m-projects').addEventListener('click', () => { Sound.ensure(); Sound.click(); UI.show('projects'); });
+  $('#m-quests').addEventListener('click', () => { Sound.ensure(); Sound.click(); Quests.open(); });
+  $('#map-quests').addEventListener('click', () => { Sound.click(); Quests.open(); });
+  // ისწავლე ინგლისური: ახალ ჩანართში (პროგრამაში — სისტემურ ბრაუზერში, desktop/main.js); კვირის ქვესთი ითვლის დაჭერას
+  $('#m-english-ic').innerHTML = pxIcon('bubble', 28, 'var(--bit)', null, 'px');
+  $('#m-english').addEventListener('click', () => Quests.ev('english_quest_opened'));
   // კომპიუტერის ვერსიის გადმოწერა: კომპიუტერიდან შემოსულს ვაჩვენებთ (ტელეფონზე და თავად პროგრამაში — არა)
   if (!IS_DESKTOP && !Desktop.mobile()) {
     $('#m-desktop').classList.remove('hidden');
@@ -22081,6 +22666,7 @@ function init() {
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && Modal.top()) { e.preventDefault(); Modal.close(Modal.top()); return; }
     if (UI.cur === 'game' && !Modal.top() && (e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); if (e.shiftKey) Game.step(); else Game.run(); }
+    if (UI.cur === 'projects' && Projects.cur && !Modal.top() && (e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) { e.preventDefault(); Projects.save(); }
   });
   let rt = null;
   addEventListener('resize', () => {
@@ -22094,6 +22680,7 @@ function init() {
   document.addEventListener('visibilitychange', () => { if (document.hidden) Progress.save(); });
   Menu.render();
   Progress.checkAch();
+  Quests.roll();
   if (location.hash === '#test') testAll();
   Account.init();          // ანგარიში: სხვა მოწყობილობაზე შენახული პროგრესის ჩატვირთვა
   // სკოლიდან (/learn/…) მოსული მოთამაშე: შესვლის ფანჯარა, შესვლის შემდეგ კი უკან დაბრუნება. მისამართი მხოლოდ ჩვენი /learn/ გვერდი შეიძლება იყოს

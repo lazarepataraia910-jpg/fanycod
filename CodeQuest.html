@@ -1620,6 +1620,9 @@ button.cq-xp:active{transform:translateY(3px);box-shadow:none}
 .pj-ib{flex:none;display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:var(--radius-sm);background:none;color:var(--ink-muted)}
 .pj-ib:hover{background:var(--surface-sunk);color:var(--ink)}
 .pj-runnote{font-size:.85rem;line-height:1.35;color:var(--ink-muted)}
+.pj-main{display:grid;gap:var(--space-5);min-width:0}
+.pj-main .vsc{margin-top:0}
+.pj-out .vsc-term{border-top:0}
 .pj-hint{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3);margin:var(--space-3) 0}
 .pj-hint p{flex:1;min-width:200px;margin:0;font-weight:700;line-height:1.4}
 @media (max-width:760px){.pj-ide{grid-template-columns:1fr}}
@@ -19305,9 +19308,10 @@ const Projects = {
       paths.map(f => '<div class="pj-frow"><button type="button" class="pj-file' + (f === this.file ? ' on" aria-current="true' : '') + '" data-file="' + esc(f) + '">' + esc(f) + '</button>' +
         '<button type="button" class="pj-ib" data-ren="' + esc(f) + '" title="გადარქმევა" aria-label="გადარქმევა: ' + esc(f) + '">✎</button>' +
         '<button type="button" class="pj-ib" data-rm="' + esc(f) + '" title="წაშლა" aria-label="წაშლა: ' + esc(f) + '">' + pxIcon('minus', 14) + '</button></div>').join('') + '</nav>' +
-      '<div class="vsc" role="region" aria-label="კოდის რედაქტორი"><div class="vsc-tabs"><span class="vsc-tab">' + esc(this.file) + '</span></div><div class="vsc-ed" id="vsc-ed"></div>' +
-      '<div class="vsc-term"><div class="vsc-term-h">' + (web ? 'გადახედვა' : 'Terminal') + '</div>' + (web ? '<iframe class="vsc-prev" id="pj-prev" title="გადახედვა" sandbox="allow-scripts allow-modals"></iframe>' : '<pre class="vsc-out" id="vsc-out" aria-live="polite"><span class="dim">დააჭირე Run — შედეგი აქ გამოჩნდება.</span></pre>') + '</div>' +
-      '<div class="vsc-status"><span id="vsc-pos">Ln 1, Col 1</span><span>UTF-8</span><span>' + esc(this.L(this.file).name || c.title) + '</span></div></div></div>';
+      '<div class="pj-main"><div class="vsc" role="region" aria-label="კოდის რედაქტორი"><div class="vsc-tabs"><span class="vsc-tab">' + esc(this.file) + '</span></div><div class="vsc-ed" id="vsc-ed"></div>' +
+      '<div class="vsc-status"><span id="vsc-pos">Ln 1, Col 1</span><span>UTF-8</span><span>' + esc(this.L(this.file).name || c.title) + '</span></div></div>' +
+      // შედეგი — ცალკე ფანჯარაში, რედაქტორის ქვემოთ
+      '<div class="vsc pj-out"><div class="vsc-term"><div class="vsc-term-h">' + (web ? 'გადახედვა' : 'Terminal') + '</div>' + (web ? '<iframe class="vsc-prev" id="pj-prev" title="გადახედვა" sandbox="allow-scripts allow-modals"></iframe>' : '<pre class="vsc-out" id="vsc-out" aria-live="polite"><span class="dim">დააჭირე Run — შედეგი აქ გამოჩნდება.</span></pre>') + '</div></div></div></div>';
     this.ed = codeEditor($('#vsc-ed'), p.files[this.file] || '', this.L(this.file), { run: () => this.run(), save: () => this.save(), change: () => this.changed() });
     this.paintErr();
     $('[data-a=back]', body).addEventListener('click', async () => { await this.flush(); this.cur = null; this.render(); });

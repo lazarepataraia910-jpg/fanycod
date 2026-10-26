@@ -351,6 +351,18 @@
   [
    "'<!-- ეს კომენტარია -->'",
    "'<!-- this is a comment -->'"
+  ],
+  [
+   "length + ' ფაილი'",
+   "length + ' files'"
+  ],
+  [
+   "'მაქსიმუმ ' + FT_MAX + ' ფაილია'",
+   "'Max ' + FT_MAX + ' files'"
+  ],
+  [
+   "</code> წაიშლება.",
+   "</code> will be deleted."
   ]
  ],
  "„": "“",
@@ -8597,5 +8609,8 @@
  "English Quest — ჩვენი პარტნიორი": "English Quest — our partner",
  ": ერთი პროექტი უფასოა, მეტი — Pro-თი (20-მდე პროექტი). Pro ამასთან ერთად ყველა ფასიან ლეველს, ვიდეოებს და სკოლას ხსნის.": ": one project is free, more with Pro (up to 20 projects). Pro also unlocks all paid levels, videos and the school.",
  "Pro-ს გარეშე 1 პროექტი უფასოა — მეტისთვის საჭიროა Pro.": "Without Pro, 1 project is free — more need Pro.",
- "1 პროექტი უფასოა · მეტი — Pro": "1 project free · more with Pro"
+ "1 პროექტი უფასოა · მეტი — Pro": "1 project free · more with Pro",
+ "ახლისთვის წაშალე ძველი.": "Delete an old one to add a new one.",
+ "მაგ. style.css ან js/app.js": "e.g. style.css or js/app.js",
+ "მასწავლებლის ფაილები ჩემს დაფაზე": "Teacher files to my board"
 }

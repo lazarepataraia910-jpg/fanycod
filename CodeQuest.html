@@ -1621,7 +1621,9 @@ button.cq-xp:active{transform:translateY(3px);box-shadow:none}
 .pj-ib:hover{background:var(--surface-sunk);color:var(--ink)}
 .pj-runnote{font-size:.85rem;line-height:1.35;color:var(--ink-muted)}
 .pj-main{display:grid;gap:var(--space-5);min-width:0}
-.pj-main .vsc{margin-top:0}
+.pj-main .vsc,.pj-ide>.vsc{margin-top:0}
+#scr-studio .pj-ide{margin-top:14px}
+.lv-ide{grid-template-columns:175px minmax(0,1fr);align-items:stretch}
 .pj-out .vsc-term{border-top:0}
 .pj-hint{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3);margin:var(--space-3) 0}
 .pj-hint p{flex:1;min-width:200px;margin:0;font-weight:700;line-height:1.4}
@@ -18859,7 +18861,7 @@ const STUDIO_GUIDES = [
   {"id":"react-stopwatch","lang":"react","icon":"⏱️","title":"წამზომი React-ით","desc":"ააწყე წამზომი დაწყების, პაუზისა და თავიდან დაწყების ღილაკებით. ისწავლი კომპონენტს, useState-ს და useEffect-ს.","time":"30 წუთი","file":"stopwatch.html","run":"შექმენი ფაილი stopwatch.html, ჩასვი კოდი და გახსენი ბრაუზერში. React და Babel ინტერნეტიდან ჩაიტვირთება, ამიტომ ინტერნეტი საჭიროა.","link":"https://react.dev/learn","video":"react stopwatch useState useEffect tutorial","ideas":["დაამატე „წრე“ ღილაკი, რომელიც დროს სიაში ინახავს","აჩვენე მეათედი წამებიც (setInterval 100 მილიწამით)","60 წამის შემდეგ ფერი შეცვალე"],"steps":[{"title":"გვერდი React-ით","text":"React-ს და Babel-ს ინტერნეტიდან ვტვირთავთ. Babel JSX-ს (HTML-ის მსგავს კოდს JavaScript-ში) ბრაუზერისთვის გასაგებად თარგმნის — ამიტომ ჩვენი სკრიპტის ტიპია text/babel. აპი <div id=\"root\">-ში გამოჩნდება.","hl":"html","code":"<!DOCTYPE html>\n<html lang=\"ka\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>წამზომი<\/title>\n  <script src=\"https://unpkg.com/react@18/umd/react.development.js\"><\/script>\n  <script src=\"https://unpkg.com/react-dom@18/umd/react-dom.development.js\"><\/script>\n  <script src=\"https://unpkg.com/@babel/standalone/babel.min.js\"><\/script>\n<\/head>\n<body>\n  <div id=\"root\"><\/div>\n  <script type=\"text/babel\">\n    // აქ დაიწერება React-ის კოდი\n  <\/script>\n<\/body>\n<\/html>"},{"title":"კომპონენტი და მდგომარეობა","text":"კომპონენტი ფუნქციაა, რომელიც JSX-ს აბრუნებს. useState ქმნის მდგომარეობას: seconds — წამები, setSeconds — მისი შეცვლის ფუნქცია. როცა მდგომარეობა იცვლება, React ეკრანს თავად ანახლებს.","hl":"jsx","code":"function Stopwatch() {\n  const [seconds, setSeconds] = React.useState(0);\n  const [running, setRunning] = React.useState(false);\n}"},{"title":"წამების დათვლა: useEffect","text":"useEffect კოდს გამოსახვის შემდეგ უშვებს. როცა running ჩაირთვება, setInterval ყოველ წამს seconds-ს 1-ით ზრდის. დაბრუნებული ფუნქცია (clearInterval) ტაიმერს აჩერებს, როცა running გამოირთვება.","hl":"jsx","code":"  React.useEffect(() => {\n    if (!running) return;\n    const id = setInterval(() => setSeconds(s => s + 1), 1000);\n    return () => clearInterval(id);\n  }, [running]);"},{"title":"წუთები და წამები","text":"წამებს წუთებად და წამებად ვყოფთ. padStart(2, '0') ერთციფრა რიცხვს წინ ნულს უმატებს: 7 → 07.","hl":"jsx","code":"  const min = Math.floor(seconds / 60);\n  const sec = String(seconds % 60).padStart(2, '0');"},{"title":"ღილაკები და გამოსახვა","text":"return-ში JSX-ია. { } ფრჩხილებში JavaScript იწერება. onClick ღილაკზე დაჭერისას სრულდება. ბოლო ხაზი კომპონენტს root-ში ხატავს.","hl":"jsx","code":"  return (\n    <div style={{ fontFamily: 'sans-serif', textAlign: 'center', marginTop: 40 }}>\n      <h1>⏱️ {min}:{sec}<\/h1>\n      <button onClick={() => setRunning(!running)}>{running ? 'პაუზა' : 'დაწყება'}<\/button>\n      <button onClick={() => { setRunning(false); setSeconds(0); }}>თავიდან<\/button>\n    <\/div>\n  );\n\nReactDOM.createRoot(document.getElementById('root')).render(<Stopwatch />);"}],"full":"<!DOCTYPE html>\n<html lang=\"ka\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>წამზომი<\/title>\n  <script src=\"https://unpkg.com/react@18/umd/react.development.js\"><\/script>\n  <script src=\"https://unpkg.com/react-dom@18/umd/react-dom.development.js\"><\/script>\n  <script src=\"https://unpkg.com/@babel/standalone/babel.min.js\"><\/script>\n<\/head>\n<body>\n  <div id=\"root\"><\/div>\n  <script type=\"text/babel\">\n    function Stopwatch() {\n      const [seconds, setSeconds] = React.useState(0);\n      const [running, setRunning] = React.useState(false);\n\n      React.useEffect(() => {\n        if (!running) return;\n        const id = setInterval(() => setSeconds(s => s + 1), 1000);\n        return () => clearInterval(id);\n      }, [running]);\n\n      const min = Math.floor(seconds / 60);\n      const sec = String(seconds % 60).padStart(2, '0');\n\n      return (\n        <div style={{ fontFamily: 'sans-serif', textAlign: 'center', marginTop: 40 }}>\n          <h1>⏱️ {min}:{sec}<\/h1>\n          <button onClick={() => setRunning(!running)}>{running ? 'პაუზა' : 'დაწყება'}<\/button>\n          <button onClick={() => { setRunning(false); setSeconds(0); }}>თავიდან<\/button>\n        <\/div>\n      );\n    }\n\n    ReactDOM.createRoot(document.getElementById('root')).render(<Stopwatch />);\n  <\/script>\n<\/body>\n<\/html>","fullHl":"html"}
 ];
 const Studio = {
-  lang: null, guide: null, video: null, noteId: null, ed: null, saveT: null,
+  lang: null, guide: null, video: null, noteId: null, ed: null, saveT: null, fs: null,
   open(guideId) { this.guide = guideId || null; this.video = null; UI.show('studio'); },
   done(id) { const d = (Progress.P.guides || {})[id]; return Array.isArray(d) ? d : []; },
   notes() { return Array.isArray(Progress.P.notes) ? Progress.P.notes : []; },
@@ -18913,7 +18915,7 @@ const Studio = {
     else if (!ns.length) html += '<p class="muted">ჯერ ცარიელია. გახსენი ვიდეო, ქვემოთ რედაქტორში დაწერე კოდი და დააჭირე 💾 Save.</p>';
     else html += '<div class="sd-notes">' + ns.map(n => {
       const v = this.videos(n.lang).find(x => x.id === n.vid);
-      return '<div class="card sd-nitem"><div class="sd-nt"><b>' + esc(n.title) + '</b><small>' + new Date(n.at).toLocaleDateString('ka-GE') + ' · ' + String(n.code).split('\n').length + ' ხაზი' + (v ? ' · ' + esc(v.t) : '') + '</small></div>' +
+      return '<div class="card sd-nitem"><div class="sd-nt"><b>' + esc(n.title) + '</b><small>' + new Date(n.at).toLocaleDateString('ka-GE') + ' · ' + (n.files && Object.keys(n.files).length > 1 ? Object.keys(n.files).length + ' ფაილი' : String(n.code).split('\n').length + ' ხაზი') + (v ? ' · ' + esc(v.t) : '') + '</small></div>' +
         '<div class="sd-nb"><button class="btn small primary" data-note="' + esc(n.id) + '">📂 გახსნა</button><button class="btn small" data-ncopy="' + esc(n.id) + '" title="კოპირება">📋</button><button class="btn small" data-ndel="' + esc(n.id) + '" title="წაშლა" aria-label="წაშლა">🗑️</button></div></div>';
     }).join('') + '</div>';
     // პროექტები
@@ -18942,57 +18944,67 @@ const Studio = {
   renderWatch() {
     const lang = this.lang, c = COURSE_BY_ID[lang], v = this.videos(lang).find(x => x.id === this.video);
     if (!Progress.hasPro() || !v) { this.video = null; return this.render(); }
-    const L = LANGS[c.lang], web = L.kind === 'web', file = STUDIO_FILE[lang] || 'main.txt', nn = this.notes().length;
+    const L = LANGS[c.lang], web = L.kind === 'web', main = STUDIO_FILE[lang] || 'main.txt', nn = this.notes().length;
+    // ფაილები: დრაფტიდან (ძველი დრაფტი — ერთი ტექსტი) ან საწყისი კოდი
+    const draft = (Progress.P.sdDraft || {})[lang], files = ftClean(draft && draft.files) || { [main]: typeof draft === 'string' ? draft : STUDIO_START[lang] || '' };
+    const s = this.fs = { files, file: files[draft && draft.file] != null ? draft.file : files[main] != null ? main : Object.keys(files)[0], type: lang }, file = s.file;
     const body = $('#studio-body');
     body.innerHTML = '<div class="sd-wbar"><button class="btn small" data-a="back">← ' + esc(c.title) + '-ის ვიდეოები</button><button class="btn small" data-a="notes">📒 ჩანაწერები (' + nn + ')</button></div>' +
       '<div class="sd-player"><iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(v.id) + '?rel=0&modestbranding=1" title="' + esc(v.t) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>' +
       '<div class="sd-winfo"><div><b>' + esc(v.t) + '</b><small>' + esc(v.ch) + ' · ' + esc(v.len || '') + (v.ka ? ' · ქართულად' : '') + '</small></div><a class="btn small" href="https://www.youtube.com/watch?v=' + encodeURIComponent(v.id) + '" target="_blank" rel="noopener noreferrer">YouTube-ზე ↗</a></div>' +
-      '<div class="vsc" role="region" aria-label="კოდის რედაქტორი">' +
-      '<div class="vsc-title"><span class="vsc-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="vsc-name">' + esc(file) + ' — CodeQuest Code</span></div>' +
-      '<div class="vsc-tabs"><span class="vsc-tab">' + langBadge(c.lang, true) + ' ' + esc(file) + (this.noteId ? ' <small>· ჩანაწერი</small>' : '') + '</span></div>' +
+      '<div class="pj-ide"><nav class="pj-files" id="sd-files" aria-label="ფაილები"></nav><div class="vsc" role="region" aria-label="კოდის რედაქტორი">' +
+      '<div class="vsc-title"><span class="vsc-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="vsc-name"><span class="sd-fname">' + esc(file) + '</span> — CodeQuest Code</span></div>' +
+      '<div class="vsc-tabs"><span class="vsc-tab">' + langBadge(c.lang, true) + ' <span class="sd-fname">' + esc(file) + '</span>' + (this.noteId ? ' <small>· ჩანაწერი</small>' : '') + '</span></div>' +
       '<div class="vsc-ed" id="vsc-ed"></div>' +
       '<div class="vsc-acts"><button class="vsc-run" id="vsc-run" title="გაშვება (Ctrl+Enter)">▶ Run</button><button class="vsc-btn" id="vsc-save" title="შენახვა (Ctrl+S)">💾 Save</button><button class="vsc-btn" id="vsc-reset" title="საწყისი კოდი">↺</button></div>' +
       '<div class="vsc-term"><div class="vsc-term-h">' + (web ? 'გადახედვა' : 'Terminal') + '</div>' + (web ? '<iframe class="vsc-prev" id="vsc-prev" title="გადახედვა" sandbox="allow-scripts allow-modals"></iframe>' : '<pre class="vsc-out" id="vsc-out" aria-live="polite"><span class="dim">დააჭირე ▶ Run — შედეგი აქ გამოჩნდება.</span></pre>') + '</div>' +
-      '<div class="vsc-status"><span id="vsc-pos">Ln 1, Col 1</span><span>UTF-8</span><span>' + esc(L.name) + '</span></div></div>' +
+      '<div class="vsc-status"><span id="vsc-pos">Ln 1, Col 1</span><span>UTF-8</span><span id="sd-lname">' + esc(fileL(file, lang, main).name || L.name) + '</span></div></div></div>' +
       '<p class="muted sd-note">' + (lang === 'react' ? 'React-ში დაწერე function App() { ... } — useState, useEffect და სხვა hook-ები პირდაპირ ხელმისაწვდომია, import არ სჭირდება. ' : web ? '' : 'კოდი ბრაუზერშივე ეშვება: ენის ძირითადი ნაწილი მუშაობს (ცვლადები, პირობები, ციკლები, ფუნქციები, სიები), კლავიატურიდან შეყვანა (input) და ბიბლიოთეკები — ჯერ არა. ') + 'Ctrl+Enter — გაშვება, Ctrl+S — შენახვა.</p>';
-    const draft = (Progress.P.sdDraft || {})[lang];
-    const start = this.noteCode != null ? this.noteCode : typeof draft === 'string' ? draft : STUDIO_START[lang] || '';
-    this.noteCode = null;
-    this.mountEditor($('#vsc-ed'), start, L);
+    this.showFile();
+    this.paintFiles = FileTree.mount($('#sd-files'), s, main, false, () => this.showFile(), () => this.draft());
     $('[data-a=back]', body).addEventListener('click', () => { Sound.click(); this.video = null; this.noteId = null; this.render(); window.scrollTo(0, 0); });
     $('[data-a=notes]', body).addEventListener('click', () => { Sound.click(); this.video = null; this.render(); const h = $('#sd-notes'); if (h) h.scrollIntoView({ block: 'start' }); });
     $('#vsc-run').addEventListener('click', () => this.runCode());
     $('#vsc-save').addEventListener('click', () => this.saveNote());
     $('#vsc-reset').addEventListener('click', () => {
       const m = Modal.open('<h2>საწყისი კოდი?</h2><p>რედაქტორში ახლანდელი კოდი წაიშლება (შენახული ჩანაწერები არ იცვლება).</p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="yes">დიახ</button></div>');
-      m.querySelector('[data-a=yes]').addEventListener('click', () => { Modal.close(m); this.noteId = null; this.edSet(STUDIO_START[lang] || ''); });
+      m.querySelector('[data-a=yes]').addEventListener('click', () => { Modal.close(m); this.noteId = null; s.files = { [main]: STUDIO_START[lang] || '' }; s.file = main; this.paintFiles(); this.showFile(); this.draft(); });
     });
     if (web) this.runCode();
   },
-  mountEditor(el, code, L) { this.ed = codeEditor(el, code, L, { run: () => this.runCode(), save: () => this.saveNote(), change: () => this.draft() }); },
+  // გახსნილი ფაილი რედაქტორში (ვიდეო არ იტვირთება თავიდან)
+  showFile() {
+    const s = this.fs, el = $('#vsc-ed'), main = STUDIO_FILE[this.lang], L = fileL(s.file, this.lang, main);
+    if (!el) return;
+    el.innerHTML = '';
+    this.ed = codeEditor(el, s.files[s.file] || '', L, { run: () => this.runCode(), save: () => this.saveNote(), change: () => this.draft() });
+    $$('.sd-fname').forEach(x => { x.textContent = s.file; });
+    $('#sd-lname').textContent = L.name || '';
+  },
   edGet() { return !this.ed ? '' : this.ed.getValue ? this.ed.getValue() : this.ed.value; },
-  edSet(v) { if (!this.ed) return; if (this.ed.setValue) this.ed.setValue(v); else { this.ed.value = v; this.draft(); } },
-  // დრაფტი ყოველი ენისთვის (ვიდეოს შეცვლისას კოდი არ იკარგება)
+  // დრაფტი ყოველი ენისთვის (ვიდეოს შეცვლისას კოდი არ იკარგება): { files, file }
   draft() {
-    const P = Progress.P;
+    const P = Progress.P, s = this.fs;
+    s.files[s.file] = this.edGet();
     if (!P.sdDraft || typeof P.sdDraft !== 'object') P.sdDraft = {};
-    P.sdDraft[this.lang] = this.edGet().slice(0, STUDIO_NOTE_CHARS);
+    P.sdDraft[this.lang] = { files: ftCap(s.files, STUDIO_NOTE_CHARS), file: s.file };
     clearTimeout(this.saveT);
     this.saveT = setTimeout(() => Progress.save(), 800);
   },
   // ▶ Run: სხვა ენა ჯერ JavaScript-ში ითარგმნება, მერე იზოლირებულ Worker-ში ეშვება (ლიმიტებით: 10 000 ნაბიჯი / 3 წამი)
   async runCode() {
     if (!this.ed || !Progress.hasPro()) return;
-    const lang = this.lang, code = this.edGet(), L = LANGS[COURSE_BY_ID[lang].lang];
+    const lang = this.lang, s = this.fs, L = LANGS[COURSE_BY_ID[lang].lang], main = ftMain(s, STUDIO_FILE[lang]);
+    s.files[s.file] = this.edGet();
     Sound.ensure();
     if (L.kind === 'web') {
       const f = $('#vsc-prev');
-      if (f) f.srcdoc = lang === 'react' ? ReactRun.doc(code, { mode: 'preview' }) : WebPreview.doc({ lang: 'html' }, code);
+      if (f) f.srcdoc = pjDoc(lang === 'react' ? 'react' : 'html', s.files, main);
       return;
     }
     const out = $('#vsc-out'), btn = $('#vsc-run');
     if (!out) return;
-    return this.runTo(lang, code, out, btn, n => this.markLine(n), STUDIO_FILE[lang] || '');
+    return this.runTo(lang, s.files[main], out, btn, n => { if (s.file === main) this.markLine(n); }, main);
   },
   // კონსოლში გაშვება (ვიდეოს რედაქტორი და „ჩემი პროექტები“): out — შედეგის ველი, mark(ხაზი) — შეცდომის ხაზის მონიშვნა
   async runTo(lang, code, out, btn, mark, file) {
@@ -19032,8 +19044,11 @@ const Studio = {
   /* ---- 💾 ჩანაწერები ---- */
   saveNote() {
     if (!this.ed || !Progress.hasPro()) return;
-    const code = this.edGet();
-    if (!code.trim()) { UI.toast('📒', 'რედაქტორი ცარიელია', 'ჯერ დაწერე კოდი.'); return; }
+    const s = this.fs;
+    s.files[s.file] = this.edGet();
+    // ჩანაწერი: code — მთავარი ფაილი (კოპირება და ძველი ვერსიები), files — ყველა ფაილი, თუ ერთზე მეტია
+    const all = ftCap(s.files, STUDIO_NOTE_CHARS), multi = Object.keys(all).length > 1, code = all[ftMain(s, STUDIO_FILE[this.lang])];
+    if (!Object.values(all).some(v => v.trim())) { UI.toast('📒', 'რედაქტორი ცარიელია', 'ჯერ დაწერე კოდი.'); return; }
     const P = Progress.P, v = this.videos(this.lang).find(x => x.id === this.video), cur = this.noteId && this.notes().find(n => n.id === this.noteId);
     const def = cur ? cur.title : COURSE_BY_ID[this.lang].title + ' · ' + (v ? v.t.slice(0, 40) : 'კოდი') + ' · ' + new Date().toLocaleDateString('ka-GE');
     const m = Modal.open('<h2>💾 ჩანაწერის შენახვა</h2><p class="muted">ჩანაწერები ამ ბრაუზერში ინახება — „ვიდეოები და პროექტები“ გვერდზე, „📒 ჩემი ჩანაწერები“-ში.</p>' +
@@ -19042,12 +19057,12 @@ const Studio = {
     const inp = m.querySelector('#sd-ntitle');
     setTimeout(() => { inp.focus(); inp.select(); }, 60);
     const go = upd => {
-      const title = inp.value.trim() || def, text = code.slice(0, STUDIO_NOTE_CHARS);
+      const title = inp.value.trim() || def, files = multi ? all : undefined;
       if (!Array.isArray(P.notes)) P.notes = [];
-      if (upd && cur) Object.assign(cur, { title, code: text, at: Date.now() });
+      if (upd && cur) Object.assign(cur, { title, code, files, at: Date.now() });
       else {
         const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-        P.notes.unshift({ id, lang: this.lang, vid: this.video, title, code: text, at: Date.now() });
+        P.notes.unshift({ id, lang: this.lang, vid: this.video, title, code, files, at: Date.now() });
         P.notes = P.notes.slice(0, STUDIO_NOTES_MAX);
         this.noteId = id;
       }
@@ -19065,12 +19080,12 @@ const Studio = {
     if (!n || !Progress.hasPro()) return;
     Sound.click();
     const vs = this.videos(n.lang);
-    this.lang = n.lang; this.noteId = n.id; this.noteCode = n.code;
+    this.lang = n.lang; this.noteId = n.id;
     this.video = vs.some(x => x.id === n.vid) ? n.vid : vs.length ? vs[0].id : null;
-    if (!this.video) { this.noteCode = null; UI.toast('📒', 'ვიდეო ვერ მოიძებნა'); return; }
-    const P = Progress.P;
+    if (!this.video) { UI.toast('📒', 'ვიდეო ვერ მოიძებნა'); return; }
+    const P = Progress.P, main = STUDIO_FILE[n.lang] || 'main.txt';
     if (!P.sdDraft || typeof P.sdDraft !== 'object') P.sdDraft = {};
-    P.sdDraft[n.lang] = n.code;
+    P.sdDraft[n.lang] = { files: ftClean(n.files) || { [main]: String(n.code || '') }, file: main };
     this.render(); window.scrollTo(0, 0);
   },
   delNote(id) {
@@ -19213,6 +19228,92 @@ function pjTemplate(type, path, name) {
   if (path === 'script.js') return 'document.querySelector("h1").textContent += " — JavaScript მუშაობს!";\n';
   return path === PJ_TYPES[type].main ? STUDIO_START[type] || '' : '';
 }
+// რედაქტორის ენა ფაილის გაფართოებით; main — კურსის მთავარი ფაილი (მას კურსის ენა რჩება)
+function fileL(path, type, main) {
+  const ext = (path.split('.').pop() || '').toLowerCase();
+  if (path === main) return LANGS[COURSE_BY_ID[type].lang] || LANGS.js;
+  if (ext === 'json') return Object.assign({}, LANGS.js, { cm: { name: 'javascript', json: true } });
+  return LANGS[{ html: 'html', htm: 'html', css: 'css', js: 'js', mjs: 'js', jsx: 'react', ts: 'ts' }[ext] || COURSE_BY_ID[type].lang] || LANGS.js;
+}
+// გადახედვა: index.html + მასში ჩართული CSS და JS ერთ დოკუმენტად (iframe-ს საკუთარი ფაილები არ აქვს); React — app (App.jsx) + CSS
+function pjDoc(type, f, app) {
+  const file = h => f[String(h).replace(/^\.?\//, '')];
+  if (type === 'react') {
+    const src = (f[app || 'src/App.jsx'] || '').replace(/^\s*import\s[^\n]*$/gm, '').replace(/\bexport\s+default\s+/, '');
+    const css = Object.keys(f).filter(k => k.endsWith('.css')).map(k => f[k]).join('\n').replace(/<\/style/gi, '<\\/style');
+    return ReactRun.doc(src, { mode: 'preview' }).replace('</head>', () => '<style>' + css + '</style></head>');
+  }
+  let tail = '';
+  let html = (f['index.html'] || '').replace(/<link\b[^>]*\bhref=["']([^"']+\.css)["'][^>]*>/gi, (m, h) => file(h) != null ? '<style>' + file(h).replace(/<\/style/gi, '<\\/style') + '</style>' : m);
+  html = html.replace(/<script\b([^>]*)\bsrc=["']([^"']+\.js)["']([^>]*)><\/script>/gi, (m, a, h, b) => {
+    if (file(h) == null) return m;
+    const tag = '<script>' + file(h).replace(/<\/script/gi, '<\\/script') + '<\/script>';
+    if (!/\bdefer\b/i.test(a + b)) return tag;
+    tail += tag;   // defer — გვერდის ბოლოს, როცა HTML უკვე აწყობილია
+    return '';
+  });
+  html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, () => tail + '</body>') : html + tail;
+  return WebPreview.doc({ lang: 'html' }, html);
+}
+/* 📁 ფაილები ვიდეოს რედაქტორსა და ცოცხალ გაკვეთილზე — იგივე პანელი, რაც „ჩემს პროექტებში“.
+   s = { files: { გზა: ტექსტი }, file: გახსნილი ფაილი, type: კურსი }. ფაილები ინახება დრაფტში / ჩანაწერში / გაკვეთილის დაფაზე. */
+const FT_MAX = 20;
+// სინქრონიდან, ჩანაწერიდან ან სერვერიდან მოსული ფაილები: მხოლოდ სწორი გზები და ტექსტი; ცარიელი — null
+function ftClean(f) {
+  if (!f || typeof f !== 'object') return null;
+  const e = Object.entries(f).filter(([k, v]) => typeof v === 'string' && pjPathOk(k)).slice(0, FT_MAX);
+  return e.length ? Object.fromEntries(e) : null;
+}
+// ჯამში max სიმბოლომდე (რაც არ ეტევა, იჭრება) — იგივე ლიმიტი, რაც ერთფაილიან ჩანაწერს ჰქონდა
+function ftCap(f, max) {
+  let left = max;
+  return Object.fromEntries(Object.entries(f).map(([k, v]) => { const t = v.slice(0, Math.max(0, left)); left -= t.length; return [k, t]; }));
+}
+// მთავარი ფაილის გაშვება (თუ წაშლილია — გახსნილის)
+const ftMain = (s, main) => (s.files[main] != null ? main : s.file);
+const FileTree = {
+  // nav — <nav class="pj-files">; ro — მხოლოდ სანახავად; show() — გახსნილი ფაილი შეიცვალა; changed() — ფაილების სია შეიცვალა. აბრუნებს თავიდან დახატვის ფუნქციას
+  mount(nav, s, main, ro, show, changed) {
+    const paint = () => {
+      const paths = Object.keys(s.files).sort((a, b) => (b === main) - (a === main) || a.localeCompare(b));
+      nav.innerHTML = '<div class="pj-files-h"><span>ფაილები</span>' + (ro ? '' : '<button type="button" class="pj-ib" data-ft="add" title="ფაილის დამატება" aria-label="ფაილის დამატება">' + pxIcon('plus', 14) + '</button>') + '</div>' +
+        paths.map(f => '<div class="pj-frow"><button type="button" class="pj-file' + (f === s.file ? ' on" aria-current="true' : '') + '" data-ftf="' + esc(f) + '">' + esc(f) + '</button>' +
+          (ro ? '' : '<button type="button" class="pj-ib" data-ftren="' + esc(f) + '" title="გადარქმევა" aria-label="გადარქმევა: ' + esc(f) + '">✎</button>' +
+            '<button type="button" class="pj-ib" data-ftrm="' + esc(f) + '" title="წაშლა" aria-label="წაშლა: ' + esc(f) + '">' + pxIcon('minus', 14) + '</button>') + '</div>').join('');
+      $$('[data-ftf]', nav).forEach(b => b.addEventListener('click', () => { s.file = b.dataset.ftf; paint(); show(); }));
+      if (ro) return;
+      const done = () => { paint(); show(); changed(); };
+      $('[data-ft=add]', nav).addEventListener('click', () => {
+        if (Object.keys(s.files).length >= FT_MAX) return UI.toast(pxIcon('laptop', 28), 'მაქსიმუმ ' + FT_MAX + ' ფაილია', 'ახლისთვის წაშალე ძველი.');
+        this.name(s, '', f => { s.files[f] = pjTemplate(s.type, f, 'ჩემი გვერდი'); s.file = f; done(); });
+      });
+      $$('[data-ftren]', nav).forEach(b => b.addEventListener('click', () => this.name(s, b.dataset.ftren, f => { const o = b.dataset.ftren; s.files[f] = s.files[o]; delete s.files[o]; if (s.file === o) s.file = f; done(); })));
+      $$('[data-ftrm]', nav).forEach(b => b.addEventListener('click', () => {
+        const f = b.dataset.ftrm;
+        if (Object.keys(s.files).length < 2) return UI.toast(pxIcon('laptop', 28), 'ბოლო ფაილს ვერ წაშლი', 'ჯერ დაამატე სხვა ფაილი.');
+        const m = Modal.open('<h2>წავშალო ფაილი?</h2><p><code class="cq-ic">' + esc(f) + '</code> წაიშლება.</p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn danger" data-a="yes">წაშლა</button></div>');
+        m.querySelector('[data-a=yes]').addEventListener('click', () => { Modal.close(m); delete s.files[f]; if (s.file === f) s.file = Object.keys(s.files)[0]; done(); });
+      }));
+    };
+    paint();
+    return paint;
+  },
+  // ფაილის დამატება (old = '') ან გადარქმევა — იგივე წესები, რაც პროექტებში
+  name(s, old, apply) {
+    const m = Modal.open('<h2>' + (old ? 'გადარქმევა' : 'ახალი ფაილი') + '</h2><input class="txt" id="ft-name" style="width:100%;font-family:var(--mono)" maxlength="200" autocomplete="off" spellcheck="false" placeholder="მაგ. style.css ან js/app.js" value="' + esc(old) + '">' +
+      '<p class="pj-err hidden" id="ft-err" role="alert"></p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="ok">' + (old ? 'გადარქმევა' : 'დამატება') + '</button></div>');
+    const inp = m.querySelector('#ft-name'), go = () => {
+      const f = inp.value.trim().replace(/^\.?\//, ''), x = m.querySelector('#ft-err');
+      const e = !pjPathOk(f) ? PJ_ERR.bad_path : f !== old && s.files[f] != null ? 'ასეთი ფაილი უკვე არის — მოიფიქრე სხვა სახელი.' : '';
+      if (e) { x.textContent = e; x.classList.remove('hidden'); return; }
+      Modal.close(m);
+      if (f !== old) apply(f);
+    };
+    setTimeout(() => { inp.focus(); inp.select(); }, 60);
+    m.querySelector('[data-a=ok]').addEventListener('click', go);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  }
+};
 /* Microsoft Store-ის / დაყენებული აპი (PWA): იგივე API, რაც desktop/projects.js-ს (list/get/put/remove/save), ბრაუზერის საშუალებებით.
    ჩანაწერი: { id, name, type, state, files, dir, at } — dir არჩეული საქაღალდის handle-ია (IndexedDB მას ინახავს), გზას ვერ ვიგებთ.
    ფაილების ასლი შენახვის შემდეგაც რჩება: თუ საქაღალდის ნებართვა აღარ არის, პროექტი მაინც გაიხსნება. */
@@ -19385,11 +19486,7 @@ const Projects = {
     this.renderEditor();
   },
   missing() { return (PJ_TYPES[this.cur.type].need || []).filter(f => this.cur.files[f] == null); },
-  L(path) {
-    const ext = (path.split('.').pop() || '').toLowerCase();
-    if (ext === 'json') return Object.assign({}, LANGS.js, { cm: { name: 'javascript', json: true } });
-    return LANGS[{ html: 'html', htm: 'html', css: 'css', js: 'js', mjs: 'js', jsx: 'react', ts: 'ts' }[ext] || COURSE_BY_ID[this.cur.type].lang] || LANGS.js;
-  },
+  L(path) { return fileL(path, this.cur.type); },
   renderEditor() {
     const p = this.cur, T = PJ_TYPES[p.type], c = COURSE_BY_ID[p.type], miss = this.missing(), web = PJ_WEB.includes(p.type);
     const paths = Object.keys(p.files).sort((a, b) => (b === T.main) - (a === T.main) || a.localeCompare(b));
@@ -19513,26 +19610,7 @@ const Projects = {
     Sound.click();
     UI.toast(pxIcon('laptop', 28, 'var(--bit)'), 'შენახულია კომპიუტერში', r.folder || '');
   },
-  // გადახედვა: index.html + მასში ჩართული CSS და JS ერთ დოკუმენტად (iframe-ს საკუთარი ფაილები არ აქვს); React — App.jsx + CSS
-  doc() {
-    const f = this.cur.files, file = h => f[String(h).replace(/^\.?\//, '')];
-    if (this.cur.type === 'react') {
-      const app = (f['src/App.jsx'] || '').replace(/^\s*import\s[^\n]*$/gm, '').replace(/\bexport\s+default\s+/, '');
-      const css = Object.keys(f).filter(k => k.endsWith('.css')).map(k => f[k]).join('\n').replace(/<\/style/gi, '<\\/style');
-      return ReactRun.doc(app, { mode: 'preview' }).replace('</head>', () => '<style>' + css + '</style></head>');
-    }
-    let tail = '';
-    let html = (f['index.html'] || '').replace(/<link\b[^>]*\bhref=["']([^"']+\.css)["'][^>]*>/gi, (m, h) => file(h) != null ? '<style>' + file(h).replace(/<\/style/gi, '<\\/style') + '</style>' : m);
-    html = html.replace(/<script\b([^>]*)\bsrc=["']([^"']+\.js)["']([^>]*)><\/script>/gi, (m, a, h, b) => {
-      if (file(h) == null) return m;
-      const tag = '<script>' + file(h).replace(/<\/script/gi, '<\\/script') + '<\/script>';
-      if (!/\bdefer\b/i.test(a + b)) return tag;
-      tail += tag;   // defer — გვერდის ბოლოს, როცა HTML უკვე აწყობილია
-      return '';
-    });
-    html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, () => tail + '</body>') : html + tail;
-    return WebPreview.doc({ lang: 'html' }, html);
-  },
+  doc() { return pjDoc(this.cur.type, this.cur.files); },
   run() {
     const p = this.cur;
     if (!p || this.missing().length) return;
@@ -20209,13 +20287,14 @@ const LIVE_KEY = 'codequest.live';   // მასწავლებლის გ
 // კოდის გაშვება და შედეგის ჩვენება მოცემულ ფანჯარაში (view). გაშვებები რიგდება — ერთდროულად ერთი
 const LiveRun = {
   q: Promise.resolve(),
-  show(lang, code, view) { return (this.q = this.q.then(() => this.exec(lang, code, view)).catch(() => { })); },
-  async exec(lang, code, view) {
-    const c = COURSE_BY_ID[lang], L = c && LANGS[c.lang];
+  // s — დაფის ფაილები { files, file }: ვებ-ენა ყველა ფაილს ერთად აჩვენებს, დანარჩენი მთავარ ფაილს უშვებს
+  show(lang, s, view) { return (this.q = this.q.then(() => this.exec(lang, s, view)).catch(() => { })); },
+  async exec(lang, s, view) {
+    const c = COURSE_BY_ID[lang], L = c && LANGS[c.lang], main = ftMain(s, STUDIO_FILE[lang]), code = s.files[main] || '';
     if (!L || !view) return;
     if (L.kind === 'web') {
       view.innerHTML = '<iframe class="lv-frame" sandbox="allow-scripts allow-modals" title="შედეგი"></iframe>';
-      view.firstChild.srcdoc = lang === 'react' ? ReactRun.doc(code, { mode: 'preview' }) : WebPreview.doc({ lang: 'html' }, code);
+      view.firstChild.srcdoc = pjDoc(lang === 'react' ? 'react' : 'html', s.files, main);
       return;
     }
     const line = (t, cls) => '<span class="' + (cls || '') + '">' + esc(t) + '</span>';
@@ -20241,7 +20320,7 @@ const LiveRun = {
   }
 };
 const Live = {
-  o: null, eds: {}, ver: 0, run: 0, seenVer: -1, seenRun: -1, poll: null, pt: null, pushing: false, again: false, fails: 0,
+  o: null, eds: {}, fs: {}, paints: {}, ver: 0, run: 0, seenVer: -1, seenRun: -1, poll: null, pt: null, pushing: false, again: false, fails: 0,
   langOpts(sel) { return COURSES.map(c => '<option value="' + c.id + '"' + (c.id === sel ? ' selected' : '') + '>' + esc(c.title) + '</option>').join(''); },
   // მასწავლებელი: ენის არჩევა და დაწყება
   pickStart(cls, name) {
@@ -20281,8 +20360,17 @@ const Live = {
     this.first = st;
     this.mine = null;
     this.eds = {};
+    this.fs = {};
     UI.show('live');
   },
+  // დაფის ფაილები { files, file, type }; files არ არის — საწყისი კოდი
+  fresh(files) {
+    const main = STUDIO_FILE[this.o.lang] || 'main.txt';
+    files = files || { [main]: STUDIO_START[this.o.lang] || '' };
+    return { files, file: files[main] != null ? main : Object.keys(files)[0], type: this.o.lang };
+  },
+  // სერვერის დაფიდან: files (ძველ გაკვეთილზე — მხოლოდ code)
+  stFiles(st) { return ftClean(st.files) || (st.code != null ? { [STUDIO_FILE[this.o.lang] || 'main.txt']: String(st.code) } : null); },
   stop() { clearTimeout(this.poll); clearTimeout(this.pt); this.poll = this.pt = null; },
   render() {
     const o = this.o, body = $('#live-body');
@@ -20293,11 +20381,9 @@ const Live = {
       this.poll = setTimeout(() => this.tick(), 50);
       return;
     }
-    const keep = o.teacher && this.eds.t ? this.eds.t.get() : null;   // გაკვეთილზე დაბრუნება — კოდი, რაც დაფაზე ეწერა
+    if (o.teacher && !this.fs.t) this.fs.t = this.fresh(this.first && this.stFiles(this.first));   // გაკვეთილზე დაბრუნებისას რჩება ის, რაც დაფაზე ეწერა
     this.build();
     if (o.teacher) {
-      const st = this.first || {};
-      this.eds.t.set(keep != null ? keep : st.code != null ? st.code : STUDIO_START[o.lang] || '');
       if (this.run) this.runBoard('t', true);
       this.status('live');
     } else {
@@ -20308,9 +20394,9 @@ const Live = {
   build() {
     const o = this.o, file = STUDIO_FILE[o.lang] || 'main.txt', c = COURSE_BY_ID[o.lang];
     const board = (k, title, sub, mine) => '<section class="lv-board lv-' + k + '"><div class="lv-bh"><h3>' + title + '</h3><small>' + sub + '</small></div><div class="lv-row">' +
-      '<div class="vsc lv-vsc"><div class="vsc-title"><span class="vsc-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="vsc-name">' + esc(file) + (mine ? '' : ' — მხოლოდ სანახავად') + '</span></div>' +
+      '<div class="pj-ide lv-ide"><nav class="pj-files" id="lv-files-' + k + '" aria-label="ფაილები"></nav><div class="vsc lv-vsc"><div class="vsc-title"><span class="vsc-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="vsc-name"><span id="lv-fname-' + k + '"></span>' + (mine ? '' : ' — მხოლოდ სანახავად') + '</span></div>' +
       '<div class="vsc-ed lv-ed" id="lv-ed-' + k + '"></div>' +
-      (mine ? '<div class="vsc-acts"><button class="vsc-run" id="lv-run-' + k + '" title="გაშვება (Ctrl+Enter)">▶ გაშვება</button>' + (k === 'm' ? '<button class="vsc-btn" id="lv-copy" title="მასწავლებლის კოდი ჩემს დაფაზე">📋 მასწავლებლის კოდი</button>' : '') + '</div>' : '') + '</div>' +
+      (mine ? '<div class="vsc-acts"><button class="vsc-run" id="lv-run-' + k + '" title="გაშვება (Ctrl+Enter)">▶ გაშვება</button>' + (k === 'm' ? '<button class="vsc-btn" id="lv-copy" title="მასწავლებლის ფაილები ჩემს დაფაზე">📋 მასწავლებლის კოდი</button>' : '') + '</div>' : '') + '</div></div>' +
       '<div class="lv-browser"><div class="lv-bar"><span class="vsc-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="lv-url">🔒 codequest.run/' + (k === 't' ? 'teacher' : 'me') + '/' + esc(file) + '</span></div>' +
       '<div class="lv-view" id="lv-view-' + k + '"><p class="lv-hint">' + (mine ? 'დააჭირე ▶ გაშვებას — შედეგი აქ გამოჩნდება' : 'როცა მასწავლებელი კოდს გაუშვებს, შედეგი აქ გამოჩნდება') + '</p></div></div></div></section>';
     $('#live-body').innerHTML = '<div class="lv-head card"><span class="lv-dot" aria-hidden="true"></span><div class="lv-ht"><b>ცოცხალი გაკვეთილი · ' + esc(o.name) + '</b><small>' +
@@ -20321,18 +20407,26 @@ const Live = {
       (o.teacher ? board('t', '👩‍🏫 ჩემი დაფა', 'მოსწავლეები ამას ხედავენ', true)
         : board('t', '👩‍🏫 მასწავლებლის დაფა', 'ცოცხლად', false) + board('m', '🧑‍💻 ჩემი დაფა', 'აქ შენ წერ და უშვებ', true));
     this.eds = {};
-    this.mountEd('t', !o.teacher);
+    if (!o.teacher) {   // მოსწავლე: მასწავლებლის დაფა ივსება tick-ში; ჩემი დაფა რჩება, სანამ ენა არ შეიცვლება
+      this.fs.t = this.fresh({ [file]: '' });
+      this.fs.m = this.mine = this.mine || this.fresh();
+    }
+    this.mountBoard('t', !o.teacher);
     if (!o.teacher) {
-      this.mountEd('m', false);
-      this.eds.m.set(this.mine != null ? this.mine : STUDIO_START[o.lang] || '');
+      this.mountBoard('m', false);
       $('#lv-run-m').addEventListener('click', () => this.runBoard('m'));
-      $('#lv-copy').addEventListener('click', () => { this.eds.m.set(this.eds.t.get()); this.mine = this.eds.m.get(); UI.toast('📋', 'მასწავლებლის კოდი შენს დაფაზეა', 'შეცვალე და გაუშვი!'); });
+      $('#lv-copy').addEventListener('click', () => {
+        const t = this.fs.t;
+        this.fs.m = this.mine = { files: Object.assign({}, t.files), file: t.file, type: t.type };
+        this.mountBoard('m', false);
+        UI.toast('📋', 'მასწავლებლის კოდი შენს დაფაზეა', 'შეცვალე და გაუშვი!');
+      });
     } else {
       $('#lv-run-t').addEventListener('click', () => this.runBoard('t'));
       $('#lv-lang').addEventListener('change', e => {
         this.o.lang = e.target.value;
+        this.fs.t = this.fresh();
         this.build();
-        this.eds.t.set(STUDIO_START[this.o.lang] || '');
         this.changed();
       });
       $('#lv-end').addEventListener('click', () => ClassScreen.confirm('დავასრულო გაკვეთილი?', 'მოსწავლეებს დაფა აღარ განუახლდებათ; მათი კოდი მათ დაფაზე დარჩება.', 'დასრულება', async () => {
@@ -20348,32 +20442,48 @@ const Live = {
       }));
     }
   },
+  // დაფა k: ფაილების პანელი (როგორც „ჩემს პროექტებში“) და გახსნილი ფაილის რედაქტორი
+  mountBoard(k, ro) {
+    this.paints[k] = FileTree.mount($('#lv-files-' + k), this.fs[k], STUDIO_FILE[this.o.lang], ro, () => this.mountEd(k, ro), () => this.edited(k));
+    this.mountEd(k, ro);
+  },
   mountEd(k, ro) {
-    const el = $('#lv-ed-' + k), L = LANGS[COURSE_BY_ID[this.o.lang].lang];
+    const s = this.fs[k], el = $('#lv-ed-' + k), L = fileL(s.file, this.o.lang, STUDIO_FILE[this.o.lang]);
     const run = () => this.runBoard(k);
+    el.innerHTML = '';
+    $('#lv-fname-' + k).textContent = s.file;
     if (window.CodeMirror) {
       const cm = CodeMirror(el, {
-        value: '', mode: L.cm, theme: 'vsc', lineNumbers: true, matchBrackets: true, autoCloseBrackets: !ro, indentUnit: L.indent, tabSize: L.indent, readOnly: ro ? 'nocursor' : false, spellcheck: false,
+        value: s.files[s.file] || '', mode: L.cm, theme: 'vsc', lineNumbers: true, matchBrackets: true, autoCloseBrackets: !ro, indentUnit: L.indent, tabSize: L.indent, readOnly: ro ? 'nocursor' : false, spellcheck: false,
         extraKeys: ro ? {} : { 'Ctrl-Enter': run, 'Cmd-Enter': run, Tab: c => (c.somethingSelected() ? c.indentSelection('add') : c.replaceSelection(' '.repeat(L.indent), 'end')), 'Shift-Tab': c => c.indentSelection('subtract') }
       });
       cm.getInputField().setAttribute('aria-label', ro ? 'მასწავლებლის კოდი' : 'კოდის რედაქტორი');
       this.eds[k] = { get: () => cm.getValue(), set: v => { if (cm.getValue() === v) return; const s = cm.getScrollInfo(); cm.setValue(v); cm.scrollTo(s.left, s.top); } };
-      if (!ro) cm.on('change', (c, ch) => { if (ch.origin !== 'setValue') this.edited(k); });
+      if (!ro) cm.on('change', (c, ch) => { if (ch.origin !== 'setValue') { s.files[s.file] = cm.getValue(); this.edited(k); } });
     } else {
       const ta = document.createElement('textarea');
       ta.className = 'vsc-ta';
       ta.spellcheck = false;
       ta.readOnly = ro;
+      ta.value = s.files[s.file] || '';
       el.appendChild(ta);
       this.eds[k] = { get: () => ta.value, set: v => { ta.value = v; } };
-      if (!ro) ta.addEventListener('input', () => this.edited(k));
+      if (!ro) ta.addEventListener('input', () => { s.files[s.file] = ta.value; this.edited(k); });
     }
   },
-  edited(k) { if (k === 'm') this.mine = this.eds.m.get(); else if (this.o.teacher) this.changed(); },
+  edited(k) { if (k === 't' && this.o.teacher) this.changed(); },
+  // მოსწავლე: მასწავლებლის ახალი ფაილები — გახსნილი ფაილი რჩება, თუ ჯერ კიდევ არის
+  setT(files) {
+    const s = this.fs.t, main = STUDIO_FILE[this.o.lang], same = Object.keys(files).join('\n') === Object.keys(s.files).join('\n');
+    s.files = files;
+    if (files[s.file] == null) s.file = files[main] != null ? main : Object.keys(files)[0];
+    if (same) this.eds.t.set(files[s.file]);
+    else { this.paints.t(); this.mountEd('t', true); }
+  },
   async runBoard(k, auto) {
-    if (!this.o || !this.eds[k]) return;
+    if (!this.o || !this.fs[k]) return;
     if (k === 't' && this.o.teacher && !auto) { this.run++; this.changed(true); }
-    await LiveRun.show(this.o.lang, this.eds[k].get(), $('#lv-view-' + k));
+    await LiveRun.show(this.o.lang, this.fs[k], $('#lv-view-' + k));
   },
   // მასწავლებელი: ცვლილება — 0.4 წამში (▶-ზე მაშინვე) მოსწავლეებთან
   changed(now) {
@@ -20387,8 +20497,9 @@ const Live = {
     if (this.pushing) { this.again = true; return; }
     this.pushing = true;
     this.again = false;
-    const o = this.o;
-    const r = await Account.api('liveSet', { id: o.id, key: o.key, lang: o.lang, src: this.eds.t.get(), ver: this.ver, run: this.run, cls: o.name, teacher: o.teacherName });
+    const o = this.o, s = this.fs.t;
+    // src — მთავარი ფაილი (ძველი ვერსიის მოსწავლეებისთვის), files — ყველა ფაილი
+    const r = await Account.api('liveSet', { id: o.id, key: o.key, lang: o.lang, src: s.files[ftMain(s, STUDIO_FILE[o.lang])] || '', files: s.files, ver: this.ver, run: this.run, cls: o.name, teacher: o.teacherName });
     this.pushing = false;
     if (this.o !== o) return;
     if (r.ok) this.status('live');
@@ -20406,7 +20517,7 @@ const Live = {
     else {
       this.fails = 0;
       if (st.lang && st.lang !== o.lang) { o.lang = st.lang; this.mine = null; this.seenVer = this.seenRun = -1; this.build(); }
-      if (st.ver !== this.seenVer) { this.seenVer = st.ver; this.eds.t.set(st.code || ''); }
+      if (st.ver !== this.seenVer) { this.seenVer = st.ver; this.setT(this.stFiles(st) || { [STUDIO_FILE[o.lang] || 'main.txt']: '' }); }
       if (st.run !== this.seenRun) { this.seenRun = st.run; if (st.run > 0) this.runBoard('t', true); }
       if (st.end) { this.status('end'); return this.stop(); }
       this.status('live');

@@ -1617,13 +1617,17 @@ button.cq-xp:active{transform:translateY(3px);box-shadow:none}
 .pj-file{flex:1;min-width:0;text-align:left;padding:6px 8px;border:0;border-radius:var(--radius-sm);background:none;color:var(--ink);font-family:var(--font-mono);font-size:.82rem;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pj-file:hover{background:var(--surface-sunk)}
 .pj-file.on{background:var(--bit-soft);color:var(--bit-text);font-weight:700}
+.pj-dir{font-weight:700}
+.pj-chev{display:inline-block;width:12px;color:var(--ink-muted)}
+.pj-files-h>span:last-child{display:flex;gap:2px}
+@media (hover:hover){.pj-frow .pj-ib{display:none}.pj-frow:hover .pj-ib,.pj-frow:focus-within .pj-ib{display:grid}}
 .pj-ib{flex:none;display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:var(--radius-sm);background:none;color:var(--ink-muted)}
 .pj-ib:hover{background:var(--surface-sunk);color:var(--ink)}
 .pj-runnote{font-size:.85rem;line-height:1.35;color:var(--ink-muted)}
 .pj-main{display:grid;gap:var(--space-5);min-width:0}
 .pj-main .vsc,.pj-ide>.vsc{margin-top:0}
 #scr-studio .pj-ide{margin-top:14px}
-.lv-ide{grid-template-columns:175px minmax(0,1fr);align-items:stretch}
+.lv-ide{grid-template-columns:210px minmax(0,1fr);align-items:stretch}
 .pj-out .vsc-term{border-top:0}
 .pj-hint{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3);margin:var(--space-3) 0}
 .pj-hint p{flex:1;min-width:200px;margin:0;font-weight:700;line-height:1.4}
@@ -18947,7 +18951,7 @@ const Studio = {
     const L = LANGS[c.lang], web = L.kind === 'web', main = STUDIO_FILE[lang] || 'main.txt', nn = this.notes().length;
     // ფაილები: დრაფტიდან (ძველი დრაფტი — ერთი ტექსტი) ან საწყისი კოდი
     const draft = (Progress.P.sdDraft || {})[lang], files = ftClean(draft && draft.files) || { [main]: typeof draft === 'string' ? draft : STUDIO_START[lang] || '' };
-    const s = this.fs = { files, file: files[draft && draft.file] != null ? draft.file : files[main] != null ? main : Object.keys(files)[0], type: lang }, file = s.file;
+    const s = this.fs = { files, dirs: ftDirs(draft && draft.dirs), file: files[draft && draft.file] != null ? draft.file : files[main] != null ? main : Object.keys(files)[0], type: lang }, file = s.file;
     const body = $('#studio-body');
     body.innerHTML = '<div class="sd-wbar"><button class="btn small" data-a="back">← ' + esc(c.title) + '-ის ვიდეოები</button><button class="btn small" data-a="notes">📒 ჩანაწერები (' + nn + ')</button></div>' +
       '<div class="sd-player"><iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(v.id) + '?rel=0&modestbranding=1" title="' + esc(v.t) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>' +
@@ -18968,7 +18972,7 @@ const Studio = {
     $('#vsc-save').addEventListener('click', () => this.saveNote());
     $('#vsc-reset').addEventListener('click', () => {
       const m = Modal.open('<h2>საწყისი კოდი?</h2><p>რედაქტორში ახლანდელი კოდი წაიშლება (შენახული ჩანაწერები არ იცვლება).</p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="yes">დიახ</button></div>');
-      m.querySelector('[data-a=yes]').addEventListener('click', () => { Modal.close(m); this.noteId = null; s.files = { [main]: STUDIO_START[lang] || '' }; s.file = main; this.paintFiles(); this.showFile(); this.draft(); });
+      m.querySelector('[data-a=yes]').addEventListener('click', () => { Modal.close(m); this.noteId = null; s.files = { [main]: STUDIO_START[lang] || '' }; s.dirs = []; s.file = main; this.paintFiles(); this.showFile(); this.draft(); });
     });
     if (web) this.runCode();
   },
@@ -18987,7 +18991,7 @@ const Studio = {
     const P = Progress.P, s = this.fs;
     s.files[s.file] = this.edGet();
     if (!P.sdDraft || typeof P.sdDraft !== 'object') P.sdDraft = {};
-    P.sdDraft[this.lang] = { files: ftCap(s.files, STUDIO_NOTE_CHARS), file: s.file };
+    P.sdDraft[this.lang] = { files: ftCap(s.files, STUDIO_NOTE_CHARS), dirs: s.dirs, file: s.file };
     clearTimeout(this.saveT);
     this.saveT = setTimeout(() => Progress.save(), 800);
   },
@@ -19271,46 +19275,231 @@ function ftCap(f, max) {
 }
 // მთავარი ფაილის გაშვება (თუ წაშლილია — გახსნილის)
 const ftMain = (s, main) => (s.files[main] != null ? main : s.file);
+// ცარიელი საქაღალდეები (ფაილიანი საქაღალდე ფაილების გზებიდანაც ჩანს): მხოლოდ სწორი გზები, FT_MAX-მდე
+function ftDirs(d) { return Array.isArray(d) ? [...new Set(d.filter(x => typeof x === 'string' && pjPathOk(x)))].slice(0, FT_MAX) : []; }
+// გზის საქაღალდეები: 'a/b/c.js' → ['a', 'a/b']
+const ftUp = p => p.split('/').slice(0, -1).map((x, i, a) => a.slice(0, i + 1).join('/'));
+// ყველა საქაღალდე: ცარიელები + ფაილების გზებიდან
+function ftAllDirs(s) {
+  const d = new Set(s.dirs);
+  Object.keys(s.files).forEach(f => ftUp(f).forEach(x => d.add(x)));
+  return d;
+}
 const FileTree = {
-  // nav — <nav class="pj-files">; ro — მხოლოდ სანახავად; show() — გახსნილი ფაილი შეიცვალა; changed() — ფაილების სია შეიცვალა. აბრუნებს თავიდან დახატვის ფუნქციას
-  mount(nav, s, main, ro, show, changed) {
+  // nav — <nav class="pj-files">; ro — მხოლოდ სანახავად; show() — გახსნილი ფაილი შეიცვალა; changed() — ფაილების სია შეიცვალა; git — GitHub-იდან ჩატვირთვის ლიმიტი (სიმბოლო), 0 — ღილაკი არ ჩანს.
+  // საქაღალდეები იკეცება (s.shut — ამ მოწყობილობაზე დაკეცილები), ამიტომ მოსწავლე მასწავლებლის ნებისმიერ საქაღალდეს თავად ხსნის. აბრუნებს თავიდან დახატვის ფუნქციას
+  mount(nav, s, main, ro, show, changed, git) {
+    s.dirs = ftDirs(s.dirs);
+    s.shut = s.shut || new Set();
+    const ib = (a, v, title, icon) => '<button type="button" class="pj-ib" ' + a + '="' + esc(v) + '" title="' + title + '" aria-label="' + title + (a === 'data-ft' ? '' : ': ' + esc(v)) + '">' + icon + '</button>';
+    const pad = p => ' style="padding-left:' + (8 + 14 * (p.split('/').length - 1)) + 'px"';
     const paint = () => {
-      const paths = Object.keys(s.files).sort((a, b) => (b === main) - (a === main) || a.localeCompare(b));
-      nav.innerHTML = '<div class="pj-files-h"><span>ფაილები</span>' + (ro ? '' : '<button type="button" class="pj-ib" data-ft="add" title="ფაილის დამატება" aria-label="ფაილის დამატება">' + pxIcon('plus', 14) + '</button>') + '</div>' +
-        paths.map(f => '<div class="pj-frow"><button type="button" class="pj-file' + (f === s.file ? ' on" aria-current="true' : '') + '" data-ftf="' + esc(f) + '">' + esc(f) + '</button>' +
-          (ro ? '' : '<button type="button" class="pj-ib" data-ftren="' + esc(f) + '" title="გადარქმევა" aria-label="გადარქმევა: ' + esc(f) + '">✎</button>' +
-            '<button type="button" class="pj-ib" data-ftrm="' + esc(f) + '" title="წაშლა" aria-label="წაშლა: ' + esc(f) + '">' + pxIcon('minus', 14) + '</button>') + '</div>').join('');
+      const files = Object.keys(s.files);
+      s.dirs = s.dirs.filter(d => !files.some(f => f.startsWith(d + '/')));   // საქაღალდე, რომელშიც ფაილი გაჩნდა, უკვე ცარიელი აღარ არის
+      const dirs = ftAllDirs(s);
+      const kids = p => {
+        const pre = p ? p + '/' : '', here = x => x.startsWith(pre) && !x.slice(pre.length).includes('/');
+        return [...dirs].filter(here).sort((a, b) => a.localeCompare(b)).map(d => {
+          const open = !s.shut.has(d);
+          return '<div class="pj-frow"><button type="button" class="pj-file pj-dir" data-ftd="' + esc(d) + '" aria-expanded="' + open + '" title="' + esc(d) + '"' + pad(d) + '><span class="pj-chev" aria-hidden="true">' + (open ? '▾' : '▸') + '</span>📁 ' + esc(d.slice(pre.length)) + '</button>' +
+            (ro ? '' : ib('data-ftadd', d, 'ფაილი საქაღალდეში', pxIcon('plus', 14)) + ib('data-ftdren', d, 'გადარქმევა', '✎') + ib('data-ftdrm', d, 'წაშლა', pxIcon('minus', 14))) + '</div>' + (open ? kids(d) : '');
+        }).join('') + files.filter(here).sort((a, b) => (b === main) - (a === main) || a.localeCompare(b)).map(f =>
+          '<div class="pj-frow"><button type="button" class="pj-file' + (f === s.file ? ' on" aria-current="true' : '') + '" data-ftf="' + esc(f) + '" title="' + esc(f) + '"' + pad(f) + '>' + esc(f.slice(pre.length)) + '</button>' +
+          (ro ? '' : ib('data-ftren', f, 'გადარქმევა', '✎') + ib('data-ftrm', f, 'წაშლა', pxIcon('minus', 14))) + '</div>').join('');
+      };
+      nav.innerHTML = '<div class="pj-files-h"><span>ფაილები</span>' + (ro ? '' : '<span>' + (git ? ib('data-ft', 'git', 'GitHub-იდან ჩატვირთვა', 'GH') + ib('data-ft', 'push', 'GitHub-ზე ატვირთვა (push)', '⬆') : '') + ib('data-ft', 'dir', 'ახალი საქაღალდე', '📁') + ib('data-ft', 'add', 'ფაილის დამატება', pxIcon('plus', 14)) + '</span>') + '</div>' + kids('');
       $$('[data-ftf]', nav).forEach(b => b.addEventListener('click', () => { s.file = b.dataset.ftf; paint(); show(); }));
+      $$('[data-ftd]', nav).forEach(b => b.addEventListener('click', () => { const d = b.dataset.ftd; if (s.shut.has(d)) s.shut.delete(d); else s.shut.add(d); paint(); }));
       if (ro) return;
       const done = () => { paint(); show(); changed(); };
-      $('[data-ft=add]', nav).addEventListener('click', () => {
+      const addFile = pre => {
         if (Object.keys(s.files).length >= FT_MAX) return UI.toast(pxIcon('laptop', 28), 'მაქსიმუმ ' + FT_MAX + ' ფაილია', 'ახლისთვის წაშალე ძველი.');
-        this.name(s, '', f => { s.files[f] = pjTemplate(s.type, f, 'ჩემი გვერდი'); s.file = f; done(); });
+        this.name(s, '', f => { s.files[f] = pjTemplate(s.type, f, 'ჩემი გვერდი'); s.file = f; ftUp(f).forEach(d => s.shut.delete(d)); done(); }, pre);
+      };
+      $('[data-ft=add]', nav).addEventListener('click', () => addFile(''));
+      $$('[data-ftadd]', nav).forEach(b => b.addEventListener('click', () => addFile(b.dataset.ftadd + '/')));
+      $('[data-ft=dir]', nav).addEventListener('click', () => {
+        if (s.dirs.length >= FT_MAX) return UI.toast('📁', 'მაქსიმუმ ' + FT_MAX + ' ცარიელი საქაღალდეა', 'ჯერ ძველებში ჩაამატე ფაილები.');
+        this.name(s, '', d => { s.dirs.push(d); ftUp(d).concat(d).forEach(x => s.shut.delete(x)); done(); }, '', true);
       });
+      if (git) $('[data-ft=push]', nav).addEventListener('click', () => GitImport.pushAsk(s.files));
+      if (git) $('[data-ft=git]', nav).addEventListener('click', () => GitImport.ask(git, (files, dirs) => {
+        s.files = files;
+        s.dirs = dirs;
+        s.shut.clear();
+        s.file = files[main] != null ? main : Object.keys(files)[0];
+        done();
+      }));
       $$('[data-ftren]', nav).forEach(b => b.addEventListener('click', () => this.name(s, b.dataset.ftren, f => { const o = b.dataset.ftren; s.files[f] = s.files[o]; delete s.files[o]; if (s.file === o) s.file = f; done(); })));
+      // საქაღალდის გადარქმევა: შიგნით ყველა ფაილი და საქაღალდე გადადის
+      $$('[data-ftdren]', nav).forEach(b => b.addEventListener('click', () => this.name(s, b.dataset.ftdren, d => {
+        const o = b.dataset.ftdren, mv = x => (x === o || x.startsWith(o + '/') ? d + x.slice(o.length) : x);
+        s.files = Object.fromEntries(Object.entries(s.files).map(([k, v]) => [mv(k), v]));
+        s.dirs = s.dirs.map(mv);
+        s.shut = new Set([...s.shut].map(mv));
+        s.file = mv(s.file);
+        done();
+      }, '', true)));
       $$('[data-ftrm]', nav).forEach(b => b.addEventListener('click', () => {
         const f = b.dataset.ftrm;
         if (Object.keys(s.files).length < 2) return UI.toast(pxIcon('laptop', 28), 'ბოლო ფაილს ვერ წაშლი', 'ჯერ დაამატე სხვა ფაილი.');
         const m = Modal.open('<h2>წავშალო ფაილი?</h2><p><code class="cq-ic">' + esc(f) + '</code> წაიშლება.</p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn danger" data-a="yes">წაშლა</button></div>');
-        m.querySelector('[data-a=yes]').addEventListener('click', () => { Modal.close(m); delete s.files[f]; if (s.file === f) s.file = Object.keys(s.files)[0]; done(); });
+        m.querySelector('[data-a=yes]').addEventListener('click', () => {
+          Modal.close(m);
+          delete s.files[f];
+          ftUp(f).slice(-1).forEach(d => { if (!ftAllDirs(s).has(d)) s.dirs.push(d); });   // ბოლო ფაილის შემდეგ საქაღალდე ცარიელი რჩება
+          if (s.file === f) s.file = Object.keys(s.files)[0];
+          done();
+        });
+      }));
+      $$('[data-ftdrm]', nav).forEach(b => b.addEventListener('click', () => {
+        const d = b.dataset.ftdrm, inn = x => x === d || x.startsWith(d + '/'), n = Object.keys(s.files).filter(inn).length;
+        if (n === Object.keys(s.files).length) return UI.toast('📁', 'ყველა ფაილს ვერ წაშლი', 'საქაღალდის გარეთ ჯერ დაამატე სხვა ფაილი.');
+        const m = Modal.open('<h2>წავშალო საქაღალდე?</h2><p><code class="cq-ic">' + esc(d) + '/</code> და მასში ' + n + ' ფაილი წაიშლება.</p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn danger" data-a="yes">წაშლა</button></div>');
+        m.querySelector('[data-a=yes]').addEventListener('click', () => {
+          Modal.close(m);
+          Object.keys(s.files).filter(inn).forEach(k => delete s.files[k]);
+          s.dirs = s.dirs.filter(x => !inn(x));
+          if (s.files[s.file] == null) s.file = Object.keys(s.files)[0];
+          done();
+        });
       }));
     };
     paint();
     return paint;
   },
-  // ფაილის დამატება (old = '') ან გადარქმევა — იგივე წესები, რაც პროექტებში
-  name(s, old, apply) {
-    const m = Modal.open('<h2>' + (old ? 'გადარქმევა' : 'ახალი ფაილი') + '</h2><input class="txt" id="ft-name" style="width:100%;font-family:var(--mono)" maxlength="200" autocomplete="off" spellcheck="false" placeholder="მაგ. style.css ან js/app.js" value="' + esc(old) + '">' +
+  // ფაილის / საქაღალდის (dir) დამატება (old = '', pre — საქაღალდე, სადაც იქმნება) ან გადარქმევა — იგივე წესები, რაც პროექტებში
+  name(s, old, apply, pre, dir) {
+    const m = Modal.open('<h2>' + (old ? 'გადარქმევა' : dir ? 'ახალი საქაღალდე' : 'ახალი ფაილი') + '</h2><input class="txt" id="ft-name" style="width:100%;font-family:var(--mono)" maxlength="200" autocomplete="off" spellcheck="false" placeholder="' + (dir ? 'მაგ. lec5 ან src/components' : 'მაგ. style.css ან js/app.js') + '" value="' + esc(old || pre || '') + '">' +
       '<p class="pj-err hidden" id="ft-err" role="alert"></p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="ok">' + (old ? 'გადარქმევა' : 'დამატება') + '</button></div>');
     const inp = m.querySelector('#ft-name'), go = () => {
-      const f = inp.value.trim().replace(/^\.?\//, ''), x = m.querySelector('#ft-err');
-      const e = !pjPathOk(f) ? PJ_ERR.bad_path : f !== old && s.files[f] != null ? 'ასეთი ფაილი უკვე არის — მოიფიქრე სხვა სახელი.' : '';
+      const f = inp.value.trim().replace(/^\.?\//, '').replace(/\/+$/, ''), x = m.querySelector('#ft-err'), dirs = ftAllDirs(s);
+      const e = !pjPathOk(f) ? PJ_ERR.bad_path
+        : f !== old && (s.files[f] != null || dirs.has(f)) ? 'ასეთი ფაილი ან საქაღალდე უკვე არის — მოიფიქრე სხვა სახელი.'
+        : ftUp(f).some(d => s.files[d] != null) ? 'გზაში ფაილის სახელია საქაღალდის ნაცვლად — შეცვალე სახელი.'
+        : dir && old && f.startsWith(old + '/') ? 'საქაღალდეს საკუთარ თავში ვერ გადაიტან.' : '';
       if (e) { x.textContent = e; x.classList.remove('hidden'); return; }
       Modal.close(m);
       if (f !== old) apply(f);
     };
-    setTimeout(() => { inp.focus(); inp.select(); }, 60);
+    setTimeout(() => { inp.focus(); if (old || !pre) inp.select(); }, 60);
     m.querySelector('[data-a=ok]').addEventListener('click', go);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  }
+};
+/* GitHub-იდან ჩატვირთვა და push (არჩევითი): საჯარო რეპოს ტექსტური ფაილები api.github.com-ით, შესვლის გარეშე.
+   node_modules, .git, build/dist და .env (საიდუმლოები) გამოიტოვება, ბინარული ფაილებიც. FT_MAX ფაილამდე, ჯამში cap სიმბოლომდე */
+const GitImport = {
+  // owner/repo, github.com/owner/repo ან .../tree/<ბრენჩი>/<საქაღალდე>
+  parse(u) {
+    const m = String(u || '').trim().replace(/[?#].*$/, '').replace(/\.git$/, '').match(/^(?:https?:\/\/)?(?:www\.)?(?:github\.com\/)?([\w.-]+)\/([\w.-]+)(?:\/tree\/([^/]+)(?:\/(.*?))?)?\/?$/i);
+    return m && { owner: m[1], repo: m[2], ref: m[3] || '', dir: (m[4] || '').replace(/\/+$/, '') };
+  },
+  SKIP: /(^|\/)(node_modules|\.git|dist|build|vendor|__pycache__|\.next|\.venv|venv)(\/|$)|(^|\/)\.env(\.(?!example$)[^/]*)?$/i,
+  TEXT: /\.(html?|css|s[ac]ss|m?js|cjs|jsx|tsx?|json|md|txt|py|java|c|h|cpp|hpp|cs|go|rs|php|rb|swift|kts?|lua|dart|sql|ya?ml|toml|xml|svg|sh|bat|ini|csv|example)$|(^|\/)(\.gitignore|\.editorconfig|\.prettierrc|Dockerfile|Makefile|LICENSE|README)$/i,
+  async load(u, cap) {
+    const p = this.parse(u);
+    if (!p) throw 'bad';
+    const api = 'https://api.github.com/repos/' + encodeURIComponent(p.owner) + '/' + encodeURIComponent(p.repo);
+    const get = async url => { const r = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } }); if (!r.ok) throw r.status; return r.json(); };
+    const ref = p.ref || (await get(api)).default_branch;
+    const tree = await get(api + '/git/trees/' + encodeURIComponent(ref) + '?recursive=1');
+    const pre = p.dir ? p.dir + '/' : '', files = {}, dirs = [];
+    let left = cap, skipped = tree.truncated ? 1 : 0;
+    for (const x of tree.tree || []) {
+      if (!x.path.startsWith(pre)) continue;
+      const path = x.path.slice(pre.length);
+      if (this.SKIP.test(path) || !pjPathOk(path)) {
+        if (x.type === 'tree' && !path.includes('/') && pjPathOk(path)) dirs.push(path);   // node_modules და მსგავსი — ცარიელ საქაღალდედ, როგორც VS Code-ში
+        else if (x.type === 'blob') skipped++;
+        continue;
+      }
+      if (x.type !== 'blob') continue;
+      if (!this.TEXT.test(path) || x.size > left || Object.keys(files).length >= FT_MAX) { skipped++; continue; }
+      const b = await get(api + '/git/blobs/' + x.sha);
+      const t = new TextDecoder().decode(Uint8Array.from(atob(String(b.content || '').replace(/\s/g, '')), c => c.charCodeAt(0)));
+      if (t.includes('\0') || t.length > left) { skipped++; continue; }
+      files[path] = t;
+      left -= t.length;
+    }
+    if (!Object.keys(files).length) throw 'empty';
+    return { files, dirs: ftDirs(dirs.filter(d => !Object.keys(files).some(f => f.startsWith(d + '/')))), skipped };
+  },
+  // ⬆ Push: ფაილები რეპოს ბრენჩზე ერთ commit-ად (Git Data API). ტოკენი მხოლოდ ამ გვერდის მეხსიერებაშია — არსად ინახება და api.github.com-ის გარდა არსად იგზავნება
+  tok: '',
+  async push(u, tok, files, msg) {
+    const p = this.parse(u);
+    if (!p) throw 'bad';
+    const api = 'https://api.github.com/repos/' + encodeURIComponent(p.owner) + '/' + encodeURIComponent(p.repo);
+    const call = async (path, body, method) => {
+      const r = await fetch(api + path, { method: method || (body ? 'POST' : 'GET'), headers: { Accept: 'application/vnd.github+json', Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+      if (!r.ok) throw r.status;
+      return r.json();
+    };
+    const ref = p.ref || (await call('')).default_branch;
+    const head = await call('/git/ref/heads/' + encodeURIComponent(ref));
+    const base = await call('/git/commits/' + head.object.sha);
+    const pre = p.dir ? p.dir + '/' : '';
+    const tree = await call('/git/trees', { base_tree: base.tree.sha, tree: Object.entries(files).map(([k, v]) => ({ path: pre + k, mode: '100644', type: 'blob', content: v })) });
+    const c = await call('/git/commits', { message: msg, tree: tree.sha, parents: [head.object.sha] });
+    await call('/git/refs/heads/' + encodeURIComponent(ref), { sha: c.sha }, 'PATCH');
+    return { url: 'https://github.com/' + p.owner + '/' + p.repo + '/commit/' + c.sha, ref };
+  },
+  pushAsk(files) {
+    const m = Modal.open('<h2>GitHub-ზე ატვირთვა (push)</h2><p class="muted">ყველა ფაილი შენს რეპოში ერთ commit-ად აიტვირთება. ბმული — <code class="cq-ic">github.com/user/repo</code> ან ბრენჩი და საქაღალდე: <code class="cq-ic">github.com/user/repo/tree/main/lec5</code>. ცარიელი საქაღალდეები Git-ში არ ინახება.</p>' +
+      '<input class="txt" id="gp-url" style="width:100%;font-family:var(--mono)" maxlength="300" autocomplete="off" spellcheck="false" placeholder="github.com/user/repo" aria-label="GitHub-ის რეპო" value="' + esc(this.last || '') + '">' +
+      '<input class="txt" id="gp-tok" type="password" style="width:100%;margin-top:8px;font-family:var(--mono)" autocomplete="off" spellcheck="false" placeholder="GitHub token (Contents: Read and write)" aria-label="GitHub token" value="' + esc(this.tok) + '">' +
+      '<p class="muted" style="font-size:.85rem">ტოკენი შექმენი: GitHub → Settings → Developer settings → Fine-grained tokens, მხოლოდ ამ რეპოზე, „Contents: Read and write“. ის მხოლოდ ამ გვერდზე, გახსნილ ჩანართში ინახება.</p>' +
+      '<input class="txt" id="gp-msg" style="width:100%" maxlength="120" aria-label="commit-ის აღწერა" value="CodeQuest: ცოცხალი გაკვეთილის ფაილები">' +
+      '<p class="pj-err hidden" id="gp-err" role="alert"></p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="ok">⬆ Push</button></div>');
+    const $m = q => m.querySelector(q), ok = $m('[data-a=ok]'), x = $m('#gp-err');
+    const go = async () => {
+      if (ok.disabled) return;
+      const tok = $m('#gp-tok').value.trim(), u = $m('#gp-url').value;
+      if (!tok) { x.textContent = 'ჩაწერე GitHub token — მის გარეშე GitHub ჩაწერის უფლებას არ იძლევა.'; x.classList.remove('hidden'); return; }
+      ok.disabled = true;
+      ok.textContent = 'იტვირთება…';
+      x.classList.add('hidden');
+      try {
+        const r = await this.push(u, tok, files, $m('#gp-msg').value.trim() || 'CodeQuest');
+        this.tok = tok;
+        this.last = u;
+        Modal.close(m);
+        UI.toast('⬆', 'აიტვირთა GitHub-ზე (' + r.ref + ')', Object.keys(files).length + ' ფაილი — ერთი commit.');
+      } catch (e) {
+        x.textContent = e === 'bad' ? 'ბმული ვერ გავიგე — ჩაწერე ასე: github.com/user/repo' : e === 401 ? 'ტოკენი არასწორია ან ვადა გაუვიდა.' : e === 403 ? 'ტოკენს ამ რეპოში ჩაწერის უფლება არ აქვს (Contents: Read and write).' : e === 404 ? 'რეპო ან ბრენჩი ვერ მოიძებნა (ან ტოკენს მასზე წვდომა არ აქვს).' : e === 409 ? 'რეპო ცარიელია — ჯერ GitHub-ზე ერთი ფაილი (მაგ. README) დაამატე.' : e === 422 ? 'GitHub-მა ცვლილება არ მიიღო — ბრენჩი შეიძლება დაცულია.' : 'GitHub-თან კავშირი ვერ დამყარდა — სცადე თავიდან.';
+        x.classList.remove('hidden');
+        ok.disabled = false;
+        ok.textContent = '⬆ Push';
+      }
+    };
+    setTimeout(() => $m(this.last ? '#gp-tok' : '#gp-url').focus(), 60);
+    ok.addEventListener('click', go);
+  },
+  ask(cap, apply) {
+    const m = Modal.open('<h2>GitHub-იდან ჩატვირთვა</h2><p class="muted">საჯარო რეპოს ბმული — მაგ. <code class="cq-ic">github.com/user/repo</code> ან ერთი საქაღალდე: <code class="cq-ic">github.com/user/repo/tree/main/lec5</code>. დაფაზე ახლანდელი ფაილები ჩანაცვლდება.</p>' +
+      '<input class="txt" id="gh-url" style="width:100%;font-family:var(--mono)" maxlength="300" autocomplete="off" spellcheck="false" placeholder="github.com/user/repo" aria-label="GitHub-ის რეპო">' +
+      '<p class="pj-err hidden" id="gh-err" role="alert"></p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="ok">ჩატვირთვა</button></div>');
+    const inp = m.querySelector('#gh-url'), ok = m.querySelector('[data-a=ok]'), x = m.querySelector('#gh-err');
+    const go = async () => {
+      if (ok.disabled) return;
+      ok.disabled = true;
+      ok.textContent = 'იტვირთება…';
+      x.classList.add('hidden');
+      try {
+        const r = await this.load(inp.value, cap);
+        Modal.close(m);
+        apply(r.files, r.dirs);
+        UI.toast('📁', 'ჩაიტვირთა ' + Object.keys(r.files).length + ' ფაილი', r.skipped ? 'გამოტოვდა ' + r.skipped + ' (ბინარული, დიდი, node_modules / .env ან ლიმიტს მიღმა).' : '');
+      } catch (e) {
+        x.textContent = e === 'bad' ? 'ბმული ვერ გავიგე — ჩაწერე ასე: github.com/user/repo' : e === 'empty' ? 'ამ რეპოში (საქაღალდეში) ტექსტური ფაილი ვერ ვიპოვე.' : e === 404 ? 'რეპო ან ბრენჩი ვერ მოიძებნა — ის საჯარო უნდა იყოს.' : e === 403 || e === 429 ? 'GitHub-მა მოთხოვნების ლიმიტი ამოწურა — სცადე ცოტა ხანში.' : 'GitHub-თან კავშირი ვერ დამყარდა — სცადე თავიდან.';
+        x.classList.remove('hidden');
+        ok.disabled = false;
+        ok.textContent = 'ჩატვირთვა';
+      }
+    };
+    setTimeout(() => inp.focus(), 60);
+    ok.addEventListener('click', go);
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
   }
 };
@@ -20283,6 +20472,7 @@ const Install = {
    მასწავლებელი ირჩევს ენას, წერს და უშვებს კოდს. მოსწავლეები ხედავენ მის დაფას (კოდი და შედეგი) და გვერდით აქვთ საკუთარი.
    მასწავლებლის დაფა ცვლილებიდან ~0.4 წამში იგზავნება (liveSet), მოსწავლეები კითხულობენ წამში ერთხელ (GET ?live=ID).
    ▶ გაშვების შედეგი ჩნდება გვერდით, ბრაუზერის ფანჯარაში: ვებ-ენებისთვის — გვერდი, დანარჩენისთვის — პროგრამის გამოტანა. */
+const LIVE_CHARS = 20000;   // დაფის ფაილები ჯამში (api/account.js → LIVE_MAX)
 const LIVE_KEY = 'codequest.live';   // მასწავლებლის გაკვეთილი ამ მოწყობილობაზე: { id, key, cls }
 // კოდის გაშვება და შედეგის ჩვენება მოცემულ ფანჯარაში (view). გაშვებები რიგდება — ერთდროულად ერთი
 const LiveRun = {
@@ -20363,11 +20553,11 @@ const Live = {
     this.fs = {};
     UI.show('live');
   },
-  // დაფის ფაილები { files, file, type }; files არ არის — საწყისი კოდი
-  fresh(files) {
+  // დაფის ფაილები { files, dirs, file, type }; files არ არის — საწყისი კოდი. dirs — ცარიელი საქაღალდეები
+  fresh(files, dirs) {
     const main = STUDIO_FILE[this.o.lang] || 'main.txt';
     files = files || { [main]: STUDIO_START[this.o.lang] || '' };
-    return { files, file: files[main] != null ? main : Object.keys(files)[0], type: this.o.lang };
+    return { files, dirs: ftDirs(dirs), file: files[main] != null ? main : Object.keys(files)[0], type: this.o.lang };
   },
   // სერვერის დაფიდან: files (ძველ გაკვეთილზე — მხოლოდ code)
   stFiles(st) { return ftClean(st.files) || (st.code != null ? { [STUDIO_FILE[this.o.lang] || 'main.txt']: String(st.code) } : null); },
@@ -20381,7 +20571,7 @@ const Live = {
       this.poll = setTimeout(() => this.tick(), 50);
       return;
     }
-    if (o.teacher && !this.fs.t) this.fs.t = this.fresh(this.first && this.stFiles(this.first));   // გაკვეთილზე დაბრუნებისას რჩება ის, რაც დაფაზე ეწერა
+    if (o.teacher && !this.fs.t) this.fs.t = this.fresh(this.first && this.stFiles(this.first), this.first && this.first.dirs);   // გაკვეთილზე დაბრუნებისას რჩება ის, რაც დაფაზე ეწერა
     this.build();
     if (o.teacher) {
       if (this.run) this.runBoard('t', true);
@@ -20417,7 +20607,7 @@ const Live = {
       $('#lv-run-m').addEventListener('click', () => this.runBoard('m'));
       $('#lv-copy').addEventListener('click', () => {
         const t = this.fs.t;
-        this.fs.m = this.mine = { files: Object.assign({}, t.files), file: t.file, type: t.type };
+        this.fs.m = this.mine = { files: Object.assign({}, t.files), dirs: t.dirs.slice(), file: t.file, type: t.type };
         this.mountBoard('m', false);
         UI.toast('📋', 'მასწავლებლის კოდი შენს დაფაზეა', 'შეცვალე და გაუშვი!');
       });
@@ -20444,7 +20634,7 @@ const Live = {
   },
   // დაფა k: ფაილების პანელი (როგორც „ჩემს პროექტებში“) და გახსნილი ფაილის რედაქტორი
   mountBoard(k, ro) {
-    this.paints[k] = FileTree.mount($('#lv-files-' + k), this.fs[k], STUDIO_FILE[this.o.lang], ro, () => this.mountEd(k, ro), () => this.edited(k));
+    this.paints[k] = FileTree.mount($('#lv-files-' + k), this.fs[k], STUDIO_FILE[this.o.lang], ro, () => this.mountEd(k, ro), () => this.edited(k), LIVE_CHARS);
     this.mountEd(k, ro);
   },
   mountEd(k, ro) {
@@ -20473,9 +20663,10 @@ const Live = {
   },
   edited(k) { if (k === 't' && this.o.teacher) this.changed(); },
   // მოსწავლე: მასწავლებლის ახალი ფაილები — გახსნილი ფაილი რჩება, თუ ჯერ კიდევ არის
-  setT(files) {
-    const s = this.fs.t, main = STUDIO_FILE[this.o.lang], same = Object.keys(files).join('\n') === Object.keys(s.files).join('\n');
+  setT(files, dirs) {
+    const s = this.fs.t, main = STUDIO_FILE[this.o.lang], same = Object.keys(files).join('\n') === Object.keys(s.files).join('\n') && dirs.join('\n') === s.dirs.join('\n');
     s.files = files;
+    s.dirs = dirs;
     if (files[s.file] == null) s.file = files[main] != null ? main : Object.keys(files)[0];
     if (same) this.eds.t.set(files[s.file]);
     else { this.paints.t(); this.mountEd('t', true); }
@@ -20499,7 +20690,7 @@ const Live = {
     this.again = false;
     const o = this.o, s = this.fs.t;
     // src — მთავარი ფაილი (ძველი ვერსიის მოსწავლეებისთვის), files — ყველა ფაილი
-    const r = await Account.api('liveSet', { id: o.id, key: o.key, lang: o.lang, src: s.files[ftMain(s, STUDIO_FILE[o.lang])] || '', files: s.files, ver: this.ver, run: this.run, cls: o.name, teacher: o.teacherName });
+    const r = await Account.api('liveSet', { id: o.id, key: o.key, lang: o.lang, src: s.files[ftMain(s, STUDIO_FILE[o.lang])] || '', files: s.files, dirs: s.dirs, ver: this.ver, run: this.run, cls: o.name, teacher: o.teacherName });
     this.pushing = false;
     if (this.o !== o) return;
     if (r.ok) this.status('live');
@@ -20517,7 +20708,7 @@ const Live = {
     else {
       this.fails = 0;
       if (st.lang && st.lang !== o.lang) { o.lang = st.lang; this.mine = null; this.seenVer = this.seenRun = -1; this.build(); }
-      if (st.ver !== this.seenVer) { this.seenVer = st.ver; this.setT(this.stFiles(st) || { [STUDIO_FILE[o.lang] || 'main.txt']: '' }); }
+      if (st.ver !== this.seenVer) { this.seenVer = st.ver; this.setT(this.stFiles(st) || { [STUDIO_FILE[o.lang] || 'main.txt']: '' }, ftDirs(st.dirs)); }
       if (st.run !== this.seenRun) { this.seenRun = st.run; if (st.run > 0) this.runBoard('t', true); }
       if (st.end) { this.status('end'); return this.stop(); }
       this.status('live');

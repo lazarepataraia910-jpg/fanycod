@@ -21,7 +21,7 @@
 //   sum:<სახელი>                 → მოკლე შეჯამება მასწავლებლისა და რეიტინგისთვის { name, xp, done, stars, course, next, courses, wk, wkBase, at }
 //   cls:<კოდი> → { name, owner, ownerName, at }; clsm:<კოდი> — მოსწავლეები (set); uown:/uin:<სახელი> — ჩემი / ნაწევრები კლასები (set)
 //   stat:lv                      → ანონიმური სტატისტიკა (hash): <ლეველი>|n — მცდელობა, |f — შეცდომები, |d — გავლა; q-<ქვესთი>|n — მიეცა, |d — შესრულდა
-//   live:<ID> / livekey:<ID>     → ცოცხალი გაკვეთილი { lang, code, files, ver, run, end, cls, teacher } და მასწავლებლის გასაღების ჰეში (4 სთ)
+//   live:<ID> / livekey:<ID>     → ცოცხალი გაკვეთილი { lang, code, files, dirs, ver, run, end, cls, teacher } და მასწავლებლის გასაღების ჰეში (4 სთ)
 //
 // ცოცხალი გაკვეთილი: მასწავლებელი თავის დაფას liveSet-ით აგზავნის, მოსწავლეები კი წამში ერთხელ კითხულობენ GET /api/account?live=ID&t=<წამი>.
 // პასუხი Vercel-ის CDN-ში 1 წამით ინახება, ამიტომ 30 მოსწავლე ბაზას წამში მხოლოდ ერთხელ მიმართავს.
@@ -154,7 +154,7 @@ const normLive = s => (/^[A-HJ-NP-Z2-9]{10}$/.test(String(s || '')) ? String(s) 
 // დაფის მდგომარეობა: ენა, კოდი, ფაილები, ვერსია (ver — ყოველ ცვლილებაზე), გაშვება (run — ყოველ ▶-ზე)
 function liveState(id, b, base) {
   return { id, lang: /^[a-z]{1,10}$/.test(b.lang) ? b.lang : base.lang || 'js', code: String(b.src == null ? base.code || '' : b.src).slice(0, LIVE_MAX),
-    files: liveFiles(b.files), ver: int(b.ver, 1e9), run: int(b.run, 1e9), end: !!b.end, cls: base.cls || '', teacher: base.teacher || '', at: Date.now() };
+    files: liveFiles(b.files), dirs: liveDirs(b.dirs), ver: int(b.ver, 1e9), run: int(b.run, 1e9), end: !!b.end, cls: base.cls || '', teacher: base.teacher || '', at: Date.now() };
 }
 // დაფის ფაილები { გზა: ტექსტი }: 20-მდე, გზა 200 სიმბოლომდე, ჯამში LIVE_MAX-მდე (რაც არ ეტევა, არ ინახება). code — მთავარი ფაილი ძველი ვერსიებისთვის
 function liveFiles(f) {
@@ -167,6 +167,10 @@ function liveFiles(f) {
     out.push([k, v]);
   }
   return out.length ? Object.fromEntries(out) : null;
+}
+// ცარიელი საქაღალდეები: 20-მდე გზა, თითო 200 სიმბოლომდე
+function liveDirs(d) {
+  return Array.isArray(d) ? [...new Set(d.filter(x => typeof x === 'string' && x && x.length <= 200))].slice(0, 20) : [];
 }
 // კლასის ხედი: full — მასწავლებლის / მფლობელის დეტალები, თორემ მხოლოდ სახელი და XP (მოსწავლის რეიტინგი)
 async function classDetail(code, c, full, u) {

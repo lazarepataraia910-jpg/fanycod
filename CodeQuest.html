@@ -876,7 +876,47 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 @media (max-width:900px){.lv-row{grid-template-columns:1fr}}
 .lv-vsc{display:flex;flex-direction:column;margin-top:0}
 .lv-ed{flex:1}
+.lv-ed{position:relative}
 .lv-ed .CodeMirror{height:300px}
+.lv-row.solo{grid-template-columns:minmax(0,1fr)}
+.lv-row.solo .lv-browser{display:none}
+.lv-row.solo .lv-ed .CodeMirror{height:440px}
+.lv-tools{display:flex;gap:2px;margin-left:auto}
+.lv-tools button,.lv-hide{padding:2px 7px;border:0;border-radius:6px;background:none;color:#cccccc;font-size:13px;line-height:1.4;cursor:pointer}
+.lv-tools button:hover{background:#45494e}
+.lv-hide{margin-left:auto;color:#5f6368;font-size:16px}
+.lv-hide:hover{background:#c8cbd0}
+.lv-tabs{display:flex;overflow-x:auto;background:#252526;scrollbar-width:thin}
+.lv-tab{display:inline-flex;align-items:center;flex:none;border-right:1px solid #1e1e1e;background:#2d2d2d;color:#969696;font:13px var(--mono)}
+.lv-tab.on{background:#1e1e1e;color:#fff;box-shadow:inset 0 2px #0078d4}
+.lv-tab button{padding:7px 4px 7px 12px;border:0;background:none;color:inherit;font:inherit;cursor:pointer}
+.lv-tab .lv-tabx{padding:2px 8px 2px 4px;font-size:15px;opacity:.6}
+.lv-tab .lv-tabx:hover{opacity:1}
+.lv-find{position:absolute;top:4px;right:14px;z-index:5;display:grid;gap:4px;padding:6px;background:#252526;border:1px solid #454545;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,.45)}
+.lv-find>div{display:flex;align-items:center;gap:4px}
+.lv-find input{width:170px;padding:4px 6px;border:1px solid #3c3c3c;border-radius:3px;background:#3c3c3c;color:#ccc;font:12px var(--mono);outline:none}
+.lv-find input:focus{border-color:#0078d4}
+.lv-find span{min-width:52px;color:#ccc;font:12px system-ui,sans-serif}
+.lv-find button{padding:2px 6px;border:0;border-radius:3px;background:none;color:#ccc;font-size:12px;cursor:pointer}
+.lv-find button:hover{background:#45494e}
+.cm-s-vsc .lv-hit{background:rgba(234,92,0,.33);outline:1px solid rgba(234,92,0,.6)}
+.lv-term{display:flex;flex-direction:column;border-top:1px solid #2b2b2b;background:#181818}
+.lv-term-h{display:flex;align-items:center;gap:14px;padding:4px 12px;color:#e7e7e7;font:11px/1.6 system-ui,sans-serif;letter-spacing:.04em}
+.lv-term-h span+span{color:#9d9d9d}
+.lv-termx{margin-left:auto;border:0;background:none;color:#ccc;font-size:15px;cursor:pointer}
+.lv-tout{max-height:170px;min-height:60px;overflow:auto;margin:0;padding:2px 12px;color:#cccccc;font:13px/1.5 var(--mono);white-space:pre-wrap;word-break:break-word}
+.lv-tout .err{color:#f48771}.lv-tout .ok{color:#89d185}.lv-tout .dim{color:#8b8b8b}
+.lv-tp{color:#89d185}.lv-td{color:#4fc1ff}
+.lv-tin{display:flex;align-items:center;padding:2px 12px 8px;color:#ccc;font:13px var(--mono)}
+.lv-ps{flex:none;white-space:pre}
+.lv-tin input{flex:1;min-width:0;border:0;background:none;color:#fff;font:inherit;outline:none}
+.lv-status{display:flex;flex-wrap:wrap;gap:4px 16px;padding:3px 12px;background:#007acc;color:#fff;font:12px/1.5 system-ui,sans-serif}
+.lv-status .lv-keys{margin-left:auto;cursor:help}
+.qo-list{display:grid;gap:2px;max-height:320px;overflow:auto;margin-top:8px}
+.qo-it{display:flex;gap:8px;align-items:baseline;padding:7px 10px;border:0;border-radius:8px;background:none;color:var(--ink);text-align:left;font:13px var(--font-mono);cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.qo-it small{color:var(--ink-muted)}
+.qo-it:hover,.qo-it.on{background:var(--bit-soft)}
+.gh-acct{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 8px}
 .lv-browser{display:flex;flex-direction:column;min-height:300px;overflow:hidden;border:1px solid #c4c7c5;border-radius:12px;background:#fff;box-shadow:0 8px 26px rgba(0,0,0,.12)}
 .lv-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#dee1e6}
 .lv-url{flex:1;overflow:hidden;padding:4px 12px;border-radius:99px;background:#fff;color:#3c4043;font:12px/1.5 system-ui,sans-serif;text-overflow:ellipsis;white-space:nowrap}
@@ -1907,6 +1947,8 @@ button.cq-xp:active{transform:translateY(3px);box-shadow:none}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/javascript/javascript.min.js" integrity="sha512-Cbz+kvn+l5pi5HfXsEB/FYgZVKjGIhOgYNBwj4W2IHP2y8r3AdyDCQRnEUqIQ+6aJjygKPTyaNT2eIihaykJlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/matchbrackets.min.js" integrity="sha512-GSYCbN/le5gNmfAWVEjg1tKnOH7ilK6xCLgA7c48IReoIR2g2vldxTM6kZlN6o3VtWIe6fHu/qhwxIt11J8EBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/closebrackets.min.js" integrity="sha512-tsjcYO5hFvViRssxiM7Jhd8601epWOx1He3Hl4yuI5dKKPxr43KxkOhc9GZeeqzlYJm9ABb7UPA9697NiqZZ7Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/comment/comment.min.js" integrity="sha512-UaJ8Lcadz5cc5mkWmdU8cJr0wMn7d8AZX5A24IqVGUd1MZzPJTq9dLLW6I102iljTcdB39YvVcCgBhM0raGAZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/selection/active-line.min.js" integrity="sha512-0sDhEPgX5DsfNcL5ty4kP6tR8H2vPkn40GwA0RYTshkbksURAlsRVnG4ECPPBQh7ZYU6S3rGvp5uhlGQUNrcmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/python/python.min.js" integrity="sha512-Vs2GKxnxnTQBRW7o2xXZ9A28njjmu5RToS42efiKNEWmikov0inZY522EtGVK5CcVo0M/FQwmXsTfl9skgRnvw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/clike/clike.min.js" integrity="sha512-jcF10R6LSoLddMx32eEitiBfJ8icHBobh0Z7fwVewrKmNBBGM0B09oG3yxxnkIYwilUsXBbIcRN5jfmc6vSt9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/xml/xml.min.js" integrity="sha512-LarNmzVokUmcA7aUDtqZ6oTS+YXmUKzpGdm8DxC46A6AHu+PQiYCUlwEGWidjVYMo/QXZMFMIadZtrkfApYp/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -19387,9 +19429,17 @@ const FileTree = {
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
   }
 };
-/* GitHub-იდან ჩატვირთვა და push (არჩევითი): საჯარო რეპოს ტექსტური ფაილები api.github.com-ით, შესვლის გარეშე.
-   node_modules, .git, build/dist და .env (საიდუმლოები) გამოიტოვება, ბინარული ფაილებიც. FT_MAX ფაილამდე, ჯამში cap სიმბოლომდე */
+/* GitHub (არჩევითი): ჩატვირთვა (საჯარო რეპო — შესვლის გარეშე), push და შესვლა. შესვლის შემდეგ რეპო სიიდან აირჩევა (პრივატულიც) — ბმული აღარ სჭირდება.
+   ტოკენი ინახება მხოლოდ ამ ჩანართში (sessionStorage — დახურვისას იშლება) და იგზავნება მხოლოდ api.github.com-ზე.
+   node_modules, .git, build/dist და .env (საიდუმლოები) არ იტვირთება, ბინარული ფაილებიც. FT_MAX ფაილამდე, ჯამში cap სიმბოლომდე */
 const GitImport = {
+  tok: (() => { try { return sessionStorage.getItem('codequest.gh') || ''; } catch (e) { return ''; } })(),
+  user: '', list: null, last: '',
+  hdr(tok) {
+    const h = { Accept: 'application/vnd.github+json' };
+    if (tok || this.tok) h.Authorization = 'Bearer ' + (tok || this.tok);
+    return h;
+  },
   // owner/repo, github.com/owner/repo ან .../tree/<ბრენჩი>/<საქაღალდე>
   parse(u) {
     const m = String(u || '').trim().replace(/[?#].*$/, '').replace(/\.git$/, '').match(/^(?:https?:\/\/)?(?:www\.)?(?:github\.com\/)?([\w.-]+)\/([\w.-]+)(?:\/tree\/([^/]+)(?:\/(.*?))?)?\/?$/i);
@@ -19401,7 +19451,7 @@ const GitImport = {
     const p = this.parse(u);
     if (!p) throw 'bad';
     const api = 'https://api.github.com/repos/' + encodeURIComponent(p.owner) + '/' + encodeURIComponent(p.repo);
-    const get = async url => { const r = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } }); if (!r.ok) throw r.status; return r.json(); };
+    const get = async url => { const r = await fetch(url, { headers: this.hdr() }); if (!r.ok) throw r.status; return r.json(); };
     const ref = p.ref || (await get(api)).default_branch;
     const tree = await get(api + '/git/trees/' + encodeURIComponent(ref) + '?recursive=1');
     const pre = p.dir ? p.dir + '/' : '', files = {}, dirs = [];
@@ -19425,14 +19475,13 @@ const GitImport = {
     if (!Object.keys(files).length) throw 'empty';
     return { files, dirs: ftDirs(dirs.filter(d => !Object.keys(files).some(f => f.startsWith(d + '/')))), skipped };
   },
-  // ⬆ Push: ფაილები რეპოს ბრენჩზე ერთ commit-ად (Git Data API). ტოკენი მხოლოდ ამ გვერდის მეხსიერებაშია — არსად ინახება და api.github.com-ის გარდა არსად იგზავნება
-  tok: '',
+  // ⬆ Push: ფაილები რეპოს ბრენჩზე ერთ commit-ად (Git Data API)
   async push(u, tok, files, msg) {
     const p = this.parse(u);
     if (!p) throw 'bad';
     const api = 'https://api.github.com/repos/' + encodeURIComponent(p.owner) + '/' + encodeURIComponent(p.repo);
     const call = async (path, body, method) => {
-      const r = await fetch(api + path, { method: method || (body ? 'POST' : 'GET'), headers: { Accept: 'application/vnd.github+json', Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+      const r = await fetch(api + path, { method: method || (body ? 'POST' : 'GET'), headers: Object.assign(this.hdr(tok), { 'Content-Type': 'application/json' }), body: body ? JSON.stringify(body) : undefined });
       if (!r.ok) throw r.status;
       return r.json();
     };
@@ -19445,62 +19494,126 @@ const GitImport = {
     await call('/git/refs/heads/' + encodeURIComponent(ref), { sha: c.sha }, 'PATCH');
     return { url: 'https://github.com/' + p.owner + '/' + p.repo + '/commit/' + c.sha, ref };
   },
-  pushAsk(files) {
-    const m = Modal.open('<h2>GitHub-ზე ატვირთვა (push)</h2><p class="muted">ყველა ფაილი შენს რეპოში ერთ commit-ად აიტვირთება. ბმული — <code class="cq-ic">github.com/user/repo</code> ან ბრენჩი და საქაღალდე: <code class="cq-ic">github.com/user/repo/tree/main/lec5</code>. ცარიელი საქაღალდეები Git-ში არ ინახება.</p>' +
-      '<input class="txt" id="gp-url" style="width:100%;font-family:var(--mono)" maxlength="300" autocomplete="off" spellcheck="false" placeholder="github.com/user/repo" aria-label="GitHub-ის რეპო" value="' + esc(this.last || '') + '">' +
-      '<input class="txt" id="gp-tok" type="password" style="width:100%;margin-top:8px;font-family:var(--mono)" autocomplete="off" spellcheck="false" placeholder="GitHub token (Contents: Read and write)" aria-label="GitHub token" value="' + esc(this.tok) + '">' +
-      '<p class="muted" style="font-size:.85rem">ტოკენი შექმენი: GitHub → Settings → Developer settings → Fine-grained tokens, მხოლოდ ამ რეპოზე, „Contents: Read and write“. ის მხოლოდ ამ გვერდზე, გახსნილ ჩანართში ინახება.</p>' +
-      '<input class="txt" id="gp-msg" style="width:100%" maxlength="120" aria-label="commit-ის აღწერა" value="CodeQuest: ცოცხალი გაკვეთილის ფაილები">' +
-      '<p class="pj-err hidden" id="gp-err" role="alert"></p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="ok">⬆ Push</button></div>');
-    const $m = q => m.querySelector(q), ok = $m('[data-a=ok]'), x = $m('#gp-err');
+  // 🔑 შესვლა ტოკენით (ერთხელ, ამ ჩანართისთვის); after() — შემდეგ გასახსნელი ფანჯარა
+  login(after) {
+    const m = Modal.open('<h2>🔑 GitHub-ში შესვლა</h2><p class="muted">შესვლის შემდეგ რეპოს ბმული აღარ დაგჭირდება — სიიდან აირჩევ, პრივატულსაც. შექმენი ტოკენი: <b>Fine-grained</b> → Repository access — შენი რეპოები → Permissions → <b>Contents: Read and write</b>. ტოკენი მხოლოდ ამ ჩანართშია და დახურვისას იშლება.</p>' +
+      '<p><a class="btn small" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">ტოკენის შექმნა GitHub-ზე ↗</a></p>' +
+      '<input class="txt" id="gl-tok" type="password" style="width:100%;font-family:var(--mono)" autocomplete="off" spellcheck="false" placeholder="github_pat_…" aria-label="GitHub token">' +
+      '<p class="pj-err hidden" id="gl-err" role="alert"></p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="ok">შესვლა</button></div>');
+    const inp = m.querySelector('#gl-tok'), ok = m.querySelector('[data-a=ok]'), x = m.querySelector('#gl-err');
     const go = async () => {
-      if (ok.disabled) return;
-      const tok = $m('#gp-tok').value.trim(), u = $m('#gp-url').value;
-      if (!tok) { x.textContent = 'ჩაწერე GitHub token — მის გარეშე GitHub ჩაწერის უფლებას არ იძლევა.'; x.classList.remove('hidden'); return; }
+      const tok = inp.value.trim();
+      if (!tok || ok.disabled) return;
       ok.disabled = true;
-      ok.textContent = 'იტვირთება…';
-      x.classList.add('hidden');
-      try {
-        const r = await this.push(u, tok, files, $m('#gp-msg').value.trim() || 'CodeQuest');
-        this.tok = tok;
-        this.last = u;
-        Modal.close(m);
-        UI.toast('⬆', 'აიტვირთა GitHub-ზე (' + r.ref + ')', Object.keys(files).length + ' ფაილი — ერთი commit.');
-      } catch (e) {
-        x.textContent = e === 'bad' ? 'ბმული ვერ გავიგე — ჩაწერე ასე: github.com/user/repo' : e === 401 ? 'ტოკენი არასწორია ან ვადა გაუვიდა.' : e === 403 ? 'ტოკენს ამ რეპოში ჩაწერის უფლება არ აქვს (Contents: Read and write).' : e === 404 ? 'რეპო ან ბრენჩი ვერ მოიძებნა (ან ტოკენს მასზე წვდომა არ აქვს).' : e === 409 ? 'რეპო ცარიელია — ჯერ GitHub-ზე ერთი ფაილი (მაგ. README) დაამატე.' : e === 422 ? 'GitHub-მა ცვლილება არ მიიღო — ბრენჩი შეიძლება დაცულია.' : 'GitHub-თან კავშირი ვერ დამყარდა — სცადე თავიდან.';
-        x.classList.remove('hidden');
-        ok.disabled = false;
-        ok.textContent = '⬆ Push';
-      }
+      const r = await fetch('https://api.github.com/user', { headers: this.hdr(tok) }).catch(() => null);
+      ok.disabled = false;
+      if (!r || !r.ok) { x.textContent = !r ? 'GitHub-თან კავშირი ვერ დამყარდა.' : 'ტოკენი არასწორია ან ვადა გაუვიდა.'; x.classList.remove('hidden'); return; }
+      this.tok = tok;
+      this.user = (await r.json()).login || '';
+      this.list = null;
+      try { sessionStorage.setItem('codequest.gh', tok); } catch (e) { }
+      Modal.close(m);
+      UI.toast('🔑', 'შეხვედი GitHub-ში', this.user);
+      if (after) after();
     };
-    setTimeout(() => $m(this.last ? '#gp-tok' : '#gp-url').focus(), 60);
     ok.addEventListener('click', go);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+    setTimeout(() => inp.focus(), 60);
   },
+  logout() {
+    this.tok = this.user = '';
+    this.list = null;
+    try { sessionStorage.removeItem('codequest.gh'); } catch (e) { }
+  },
+  // შესულის რეპოები: { name, branch, priv, push }
+  async repos() {
+    if (this.list) return this.list;
+    if (!this.user) { const u = await fetch('https://api.github.com/user', { headers: this.hdr() }); if (!u.ok) { this.logout(); throw u.status; } this.user = (await u.json()).login || ''; }
+    const r = await fetch('https://api.github.com/user/repos?per_page=100&sort=updated', { headers: this.hdr() });
+    if (!r.ok) throw r.status;
+    return (this.list = (await r.json()).map(x => ({ name: x.full_name, branch: x.default_branch, priv: x.private, push: !x.permissions || x.permissions.push })));
+  },
+  // ფანჯრის რეპოს ნაწილი: შესულს — სია + საქაღალდე (არასავალდებულო), თორემ — ბმული და შესვლის ღილაკი. აბრუნებს ბმულის ამოსაღებ ფუნქციას
+  repoUI(m, again, push) {
+    const box = m.querySelector('.gh-repo');
+    const ph = push ? 'github.com/user/repo' : 'github.com/user/repo ან .../tree/main/lec5';
+    if (!this.tok) {
+      box.innerHTML = '<div class="gh-acct"><button type="button" class="btn small primary" data-gh="in">🔑 GitHub-ში შესვლა</button><span class="muted">— და რეპოს სიიდან აირჩევ. ან ჩაწერე ბმული:</span></div>' +
+        '<input class="txt" id="gh-url" style="width:100%;font-family:var(--mono)" maxlength="300" autocomplete="off" spellcheck="false" placeholder="' + ph + '" aria-label="GitHub-ის რეპოს ბმული" value="' + esc(this.last) + '">';
+      box.querySelector('[data-gh=in]').addEventListener('click', () => { Modal.close(m); this.login(again); });
+      return () => box.querySelector('#gh-url').value;
+    }
+    box.innerHTML = '<div class="gh-acct">👤 <b id="gh-user">' + esc(this.user || 'GitHub') + '</b><button type="button" class="btn small" data-gh="out">გამოსვლა</button></div>' +
+      '<select class="txt" id="gh-pick" style="width:100%" aria-label="რეპო"><option value="">იტვირთება…</option></select>' +
+      '<input class="txt" id="gh-dir" style="width:100%;margin-top:8px;font-family:var(--mono)" maxlength="200" autocomplete="off" spellcheck="false" placeholder="საქაღალდე რეპოში (არასავალდებულო), მაგ. lec5" aria-label="საქაღალდე რეპოში">';
+    box.querySelector('[data-gh=out]').addEventListener('click', () => { this.logout(); Modal.close(m); again(); });
+    const sel = box.querySelector('#gh-pick');
+    this.repos().then(list => {
+      const mine = push ? list.filter(r => r.push) : list, cur = this.parse(this.last);
+      box.querySelector('#gh-user').textContent = this.user;
+      sel.innerHTML = mine.map(r => '<option value="' + esc(r.name) + '" data-b="' + esc(r.branch) + '"' + (cur && cur.owner + '/' + cur.repo === r.name ? ' selected' : '') + '>' + esc(r.name) + (r.priv ? ' 🔒' : '') + '</option>').join('') || '<option value="">რეპო ვერ ვიპოვე</option>';
+      if (cur && cur.dir) box.querySelector('#gh-dir').value = cur.dir;
+    }).catch(() => { sel.innerHTML = '<option value="">სია ვერ ჩაიტვირთა — შედი თავიდან</option>'; });
+    return () => {
+      const o = sel.selectedOptions[0], d = box.querySelector('#gh-dir').value.trim().replace(/^\/+|\/+$/g, '');
+      return !o || !o.value ? '' : 'github.com/' + o.value + (d ? '/tree/' + o.dataset.b + '/' + d : '');
+    };
+  },
+  // ⬇ ჩატვირთვა ფანჯრიდან
   ask(cap, apply) {
-    const m = Modal.open('<h2>GitHub-იდან ჩატვირთვა</h2><p class="muted">საჯარო რეპოს ბმული — მაგ. <code class="cq-ic">github.com/user/repo</code> ან ერთი საქაღალდე: <code class="cq-ic">github.com/user/repo/tree/main/lec5</code>. დაფაზე ახლანდელი ფაილები ჩანაცვლდება.</p>' +
-      '<input class="txt" id="gh-url" style="width:100%;font-family:var(--mono)" maxlength="300" autocomplete="off" spellcheck="false" placeholder="github.com/user/repo" aria-label="GitHub-ის რეპო">' +
+    const m = Modal.open('<h2>GitHub-იდან ჩატვირთვა</h2><p class="muted">დაფაზე ახლანდელი ფაილები ჩანაცვლდება.</p><div class="gh-repo"></div>' +
       '<p class="pj-err hidden" id="gh-err" role="alert"></p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="ok">ჩატვირთვა</button></div>');
-    const inp = m.querySelector('#gh-url'), ok = m.querySelector('[data-a=ok]'), x = m.querySelector('#gh-err');
+    const url = this.repoUI(m, () => this.ask(cap, apply)), ok = m.querySelector('[data-a=ok]'), x = m.querySelector('#gh-err');
     const go = async () => {
       if (ok.disabled) return;
       ok.disabled = true;
       ok.textContent = 'იტვირთება…';
       x.classList.add('hidden');
       try {
-        const r = await this.load(inp.value, cap);
+        const u = url(), r = await this.load(u, cap);
+        this.last = u;
         Modal.close(m);
         apply(r.files, r.dirs);
         UI.toast('📁', 'ჩაიტვირთა ' + Object.keys(r.files).length + ' ფაილი', r.skipped ? 'გამოტოვდა ' + r.skipped + ' (ბინარული, დიდი, node_modules / .env ან ლიმიტს მიღმა).' : '');
       } catch (e) {
-        x.textContent = e === 'bad' ? 'ბმული ვერ გავიგე — ჩაწერე ასე: github.com/user/repo' : e === 'empty' ? 'ამ რეპოში (საქაღალდეში) ტექსტური ფაილი ვერ ვიპოვე.' : e === 404 ? 'რეპო ან ბრენჩი ვერ მოიძებნა — ის საჯარო უნდა იყოს.' : e === 403 || e === 429 ? 'GitHub-მა მოთხოვნების ლიმიტი ამოწურა — სცადე ცოტა ხანში.' : 'GitHub-თან კავშირი ვერ დამყარდა — სცადე თავიდან.';
+        x.textContent = this.msg(e);
         x.classList.remove('hidden');
         ok.disabled = false;
         ok.textContent = 'ჩატვირთვა';
       }
     };
-    setTimeout(() => inp.focus(), 60);
     ok.addEventListener('click', go);
-    inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+    m.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') go(); });
+  },
+  msg(e) {
+    return e === 'bad' ? 'აირჩიე რეპო ან ჩაწერე ბმული ასე: github.com/user/repo' : e === 'empty' ? 'ამ რეპოში (საქაღალდეში) ტექსტური ფაილი ვერ ვიპოვე.' : e === 401 ? 'GitHub-ის შესვლას ვადა გაუვიდა — შედი თავიდან.'
+      : e === 404 ? 'რეპო ან ბრენჩი ვერ მოიძებნა' + (this.tok ? '.' : ' — პრივატულისთვის შედი GitHub-ში.') : e === 403 || e === 429 ? 'GitHub-მა მოთხოვნების ლიმიტი ამოწურა ან უფლება არ არის — სცადე ცოტა ხანში.' : 'GitHub-თან კავშირი ვერ დამყარდა — სცადე თავიდან.';
+  },
+  // ⬆ Push ფანჯრიდან: შესულს — რეპო სიიდან; თორემ — ბმული და ტოკენი
+  pushAsk(files) {
+    const m = Modal.open('<h2>GitHub-ზე ატვირთვა (push)</h2><p class="muted">ყველა ფაილი რეპოში ერთ commit-ად აიტვირთება. ცარიელი საქაღალდეები Git-ში არ ინახება.</p><div class="gh-repo"></div>' +
+      '<input class="txt" id="gp-msg" style="width:100%;margin-top:8px" maxlength="120" aria-label="commit-ის აღწერა" value="CodeQuest: ცოცხალი გაკვეთილის ფაილები">' +
+      '<p class="pj-err hidden" id="gp-err" role="alert"></p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="ok">⬆ Push</button></div>');
+    const url = this.repoUI(m, () => this.pushAsk(files), true), ok = m.querySelector('[data-a=ok]'), x = m.querySelector('#gp-err');
+    const go = async () => {
+      if (ok.disabled) return;
+      if (!this.tok) { x.textContent = 'ასატვირთად ჯერ შედი GitHub-ში — მის გარეშე GitHub ჩაწერის უფლებას არ იძლევა.'; x.classList.remove('hidden'); return; }
+      ok.disabled = true;
+      ok.textContent = 'იტვირთება…';
+      x.classList.add('hidden');
+      try {
+        const u = url(), r = await this.push(u, '', files, m.querySelector('#gp-msg').value.trim() || 'CodeQuest');
+        this.last = u;
+        Modal.close(m);
+        UI.toast('⬆', 'აიტვირთა GitHub-ზე (' + r.ref + ')', Object.keys(files).length + ' ფაილი — ერთი commit.');
+      } catch (e) {
+        x.textContent = e === 403 ? 'ტოკენს ამ რეპოში ჩაწერის უფლება არ აქვს (Contents: Read and write).' : e === 409 ? 'რეპო ცარიელია — ჯერ GitHub-ზე ერთი ფაილი (მაგ. README) დაამატე.' : e === 422 ? 'GitHub-მა ცვლილება არ მიიღო — ბრენჩი შეიძლება დაცულია.' : this.msg(e);
+        x.classList.remove('hidden');
+        ok.disabled = false;
+        ok.textContent = '⬆ Push';
+      }
+    };
+    ok.addEventListener('click', go);
   }
 };
 /* Microsoft Store-ის / დაყენებული აპი (PWA): იგივე API, რაც desktop/projects.js-ს (list/get/put/remove/save), ბრაუზერის საშუალებებით.
@@ -20475,6 +20588,382 @@ const Install = {
 const LIVE_CHARS = 20000;   // დაფის ფაილები ჯამში (api/account.js → LIVE_MAX)
 const LIVE_KEY = 'codequest.live';   // მასწავლებლის გაკვეთილი ამ მოწყობილობაზე: { id, key, cls }
 // კოდის გაშვება და შედეგის ჩვენება მოცემულ ფანჯარაში (view). გაშვებები რიგდება — ერთდროულად ერთი
+/* 🧑‍💻 VS Code-ის ფუნქციები ცოცხალი გაკვეთილის დაფაზე: ჩანართები, ძებნა / ჩანაცვლება (Ctrl+F / Ctrl+H), ფაილის სწრაფი გახსნა (Ctrl+P),
+   ძებნა ყველა ფაილში (Ctrl+Shift+F), ხაზზე გადასვლა (Ctrl+G), ხაზის გადატანა (Alt+↑/↓) და დუბლირება (Shift+Alt+↓), შემდეგი იგივე სიტყვა (Ctrl+D),
+   კომენტარი (Ctrl+/), სტატუს-ზოლი და ტერმინალი (Ctrl+`). მხოლოდ სანახავ დაფაზე (მოსწავლე → მასწავლებლის დაფა) ცვლილების ფუნქციები არ არის */
+// ფაილის ენა ტერმინალში გასაშვებად (node / python / run): გაფართოებით
+const IDE_RUN = { js: 'js', mjs: 'js', cjs: 'js', ts: 'ts', py: 'py', java: 'java', c: 'c', cpp: 'cpp', cc: 'cpp', cs: 'cs', go: 'go', rs: 'rs', php: 'php', rb: 'rb', swift: 'swift', kt: 'kt', lua: 'lua', dart: 'dart' };
+const IDE = {
+  // ჩანართები: s.tabs — გახსნილი ფაილები (ამ მოწყობილობაზე); open(f) — გადართვა
+  tabs(el, s, open) {
+    s.tabs = (s.tabs || []).filter(f => s.files[f] != null);
+    if (s.files[s.file] != null && !s.tabs.includes(s.file)) s.tabs.push(s.file);
+    el.innerHTML = s.tabs.map(f => '<span class="lv-tab' + (f === s.file ? ' on' : '') + '"><button type="button" data-tab="' + esc(f) + '" title="' + esc(f) + '">' + esc(f.split('/').pop()) + '</button>' +
+      (s.tabs.length > 1 ? '<button type="button" class="lv-tabx" data-tabx="' + esc(f) + '" title="დახურვა" aria-label="დახურვა: ' + esc(f) + '">×</button>' : '') + '</span>').join('');
+    $$('[data-tab]', el).forEach(b => b.addEventListener('click', () => { if (b.dataset.tab !== s.file) open(b.dataset.tab); }));
+    $$('[data-tabx]', el).forEach(b => b.addEventListener('click', () => {
+      const f = b.dataset.tabx, i = s.tabs.indexOf(f);
+      s.tabs.splice(i, 1);
+      if (f === s.file) open(s.tabs[Math.min(i, s.tabs.length - 1)]);
+      else this.tabs(el, s, open);
+    }));
+  },
+  // Ctrl+P: ფაილის სწრაფი გახსნა (ასოები თანმიმდევრობით, მაგ. „lmj“ → lec5/main.js)
+  pick(s, open) {
+    const m = Modal.open('<h2>ფაილის გახსნა</h2><input class="txt" id="qo-q" style="width:100%;font-family:var(--mono)" autocomplete="off" spellcheck="false" placeholder="ჩაწერე ფაილის სახელი…" aria-label="ფაილის სახელი"><div class="qo-list" id="qo-list"></div>');
+    const q = m.querySelector('#qo-q'), list = m.querySelector('#qo-list');
+    let hits = [], sel = 0;
+    const fits = (f, t) => { let i = 0; for (const ch of f) if (ch === t[i]) i++; return i === t.length; };
+    const go = i => { if (!hits[i]) return; Modal.close(m); open(hits[i]); };
+    const paint = () => {
+      const t = q.value.trim().toLowerCase();
+      hits = Object.keys(s.files).filter(f => fits(f.toLowerCase(), t)).sort((a, b) => a.split('/').pop().toLowerCase().includes(t) ? -1 : b.split('/').pop().toLowerCase().includes(t) ? 1 : a.localeCompare(b)).slice(0, 20);
+      sel = Math.max(0, Math.min(sel, hits.length - 1));
+      list.innerHTML = hits.map((f, i) => '<button type="button" class="qo-it' + (i === sel ? ' on' : '') + '" data-i="' + i + '"><b>' + esc(f.split('/').pop()) + '</b> <small>' + esc(f.split('/').slice(0, -1).join('/')) + '</small></button>').join('') || '<p class="muted">ვერ მოიძებნა</p>';
+      $$('[data-i]', list).forEach(b => b.addEventListener('click', () => go(+b.dataset.i)));
+    };
+    q.addEventListener('input', () => { sel = 0; paint(); });
+    q.addEventListener('keydown', e => {
+      if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && hits.length) { e.preventDefault(); sel = (sel + (e.key === 'ArrowDown' ? 1 : -1) + hits.length) % hits.length; paint(); }
+      else if (e.key === 'Enter') go(sel);
+    });
+    paint();
+    setTimeout(() => q.focus(), 60);
+  },
+  // Ctrl+Shift+F: ძებნა ყველა ფაილში; ro-ს გარეშე — ყველგან ჩანაცვლებაც. open(f, ხაზი)
+  search(s, ro, open, changed) {
+    const m = Modal.open('<h2>ძებნა ყველა ფაილში</h2><input class="txt" id="sa-q" style="width:100%;font-family:var(--mono)" autocomplete="off" spellcheck="false" placeholder="ძებნა" aria-label="ძებნა">' +
+      (ro ? '' : '<div style="display:flex;gap:8px;margin-top:8px"><input class="txt" id="sa-r" style="flex:1;font-family:var(--mono)" autocomplete="off" spellcheck="false" placeholder="ჩანაცვლება" aria-label="ჩანაცვლება"><button class="btn small" data-a="all">ყველგან ჩანაცვლება</button></div>') +
+      '<p class="muted" id="sa-n" style="margin:8px 0 4px"></p><div class="qo-list" id="sa-list"></div>');
+    const q = m.querySelector('#sa-q'), list = m.querySelector('#sa-list');
+    const paint = () => {
+      const t = q.value, hits = [];
+      if (t) Object.keys(s.files).sort().forEach(f => s.files[f].split('\n').forEach((x, i) => { if (hits.length < 200 && x.toLowerCase().includes(t.toLowerCase())) hits.push([f, i, x]); }));
+      m.querySelector('#sa-n').textContent = t ? hits.length + (hits.length >= 200 ? '+' : '') + ' დამთხვევა' : '';
+      list.innerHTML = hits.map(([f, i, x], n) => '<button type="button" class="qo-it" data-n="' + n + '"><small>' + esc(f) + ':' + (i + 1) + '</small> <code>' + esc(x.trim().slice(0, 120)) + '</code></button>').join('');
+      $$('[data-n]', list).forEach(b => b.addEventListener('click', () => { const h = hits[+b.dataset.n]; Modal.close(m); open(h[0], h[1]); }));
+    };
+    q.addEventListener('input', paint);
+    if (!ro) m.querySelector('[data-a=all]').addEventListener('click', () => {
+      const t = q.value, r = m.querySelector('#sa-r').value;
+      if (!t) return;
+      let n = 0;
+      const re = new RegExp(t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      Object.keys(s.files).forEach(f => { s.files[f] = s.files[f].replace(re, () => { n++; return r; }); });
+      Modal.close(m);
+      changed();
+      UI.toast('🔎', 'ჩანაცვლდა: ' + n, '„' + t + '“ → „' + r + '“');
+    });
+    setTimeout(() => q.focus(), 60);
+  },
+  // Ctrl+F / Ctrl+H: ძებნის ფანჯარა რედაქტორის კუთხეში, როგორც VS Code-ში
+  find(cm, host, ro, rep) {
+    let box = host.querySelector('.lv-find'), marks = [], hits = [];
+    const q = () => box.querySelector('[data-f=q]').value;
+    const scan = () => {
+      marks.forEach(x => x.clear());
+      marks = [];
+      hits = [];
+      const t = q().toLowerCase(), doc = cm.getValue().toLowerCase();
+      for (let i = t ? doc.indexOf(t) : -1; i >= 0 && hits.length < 1000; i = doc.indexOf(t, i + t.length)) hits.push([cm.posFromIndex(i), cm.posFromIndex(i + t.length)]);
+      hits.forEach(h => marks.push(cm.markText(h[0], h[1], { className: 'lv-hit' })));
+      count();
+    };
+    const at = () => { const c = cm.indexFromPos(cm.getCursor('from')); return hits.findIndex(h => cm.indexFromPos(h[0]) === c); };
+    const count = () => { box.querySelector('[data-f=n]').textContent = hits.length ? (at() + 1 || '?') + '/' + hits.length : q() ? 'არ არის' : ''; };
+    const step = d => {
+      if (!hits.length) return;
+      const c = cm.indexFromPos(cm.getCursor(d > 0 ? 'to' : 'from'));
+      let i = d > 0 ? hits.findIndex(h => cm.indexFromPos(h[0]) >= c) : hits.map(h => cm.indexFromPos(h[1]) <= c).lastIndexOf(true);
+      if (i < 0) i = d > 0 ? 0 : hits.length - 1;
+      cm.setSelection(hits[i][0], hits[i][1]);
+      cm.scrollIntoView({ from: hits[i][0], to: hits[i][1] }, 60);
+      count();
+    };
+    const close = () => { marks.forEach(x => x.clear()); box.remove(); cm.focus(); };
+    if (!box) {
+      box = document.createElement('div');
+      box.className = 'lv-find';
+      box.innerHTML = '<div><input data-f="q" placeholder="ძებნა" aria-label="ძებნა" spellcheck="false"><span data-f="n"></span><button type="button" data-f="prev" title="წინა (Shift+Enter)">↑</button><button type="button" data-f="next" title="შემდეგი (Enter)">↓</button><button type="button" data-f="x" title="დახურვა (Esc)">×</button></div>' +
+        (ro ? '' : '<div data-f="rrow" class="hidden"><input data-f="r" placeholder="ჩანაცვლება" aria-label="ჩანაცვლება" spellcheck="false"><button type="button" data-f="one" title="ჩანაცვლება (Enter)">⇄</button><button type="button" data-f="all" title="ყველას ჩანაცვლება">ყველა</button></div>');
+      host.appendChild(box);
+      const inp = box.querySelector('[data-f=q]');
+      inp.addEventListener('input', () => { scan(); step(1); });
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); step(e.shiftKey ? -1 : 1); } else if (e.key === 'Escape') close(); });
+      box.querySelector('[data-f=prev]').addEventListener('click', () => step(-1));
+      box.querySelector('[data-f=next]').addEventListener('click', () => step(1));
+      box.querySelector('[data-f=x]').addEventListener('click', close);
+      if (!ro) {
+        const r = box.querySelector('[data-f=r]'), one = () => { if (at() >= 0) cm.replaceSelection(r.value); scan(); step(1); };
+        r.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); one(); } else if (e.key === 'Escape') close(); });
+        box.querySelector('[data-f=one]').addEventListener('click', one);
+        box.querySelector('[data-f=all]').addEventListener('click', () => { cm.operation(() => hits.slice().reverse().forEach(h => cm.replaceRange(r.value, h[0], h[1]))); scan(); });
+      }
+      cm.on('change', () => { if (box.isConnected) scan(); });
+      box.close = close;
+    }
+    if (!ro && rep) box.querySelector('[data-f=rrow]').classList.remove('hidden');
+    const inp = box.querySelector('[data-f=q]');
+    if (cm.somethingSelected() && !cm.getSelection().includes('\n')) inp.value = cm.getSelection();
+    scan();
+    inp.focus();
+    inp.select();
+  },
+  // Ctrl+G: ხაზზე გადასვლა
+  goto(cm) {
+    const m = Modal.open('<h2>ხაზზე გადასვლა</h2><input class="txt" id="gl-n" type="number" min="1" max="' + cm.lineCount() + '" style="width:100%" aria-label="ხაზის ნომერი" placeholder="1–' + cm.lineCount() + '">');
+    const inp = m.querySelector('#gl-n');
+    inp.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      const n = Math.max(1, Math.min(cm.lineCount(), parseInt(inp.value, 10) || 1)) - 1;
+      Modal.close(m);
+      cm.setCursor({ line: n, ch: 0 });
+      cm.scrollIntoView(null, 80);
+      cm.focus();
+    });
+    setTimeout(() => inp.focus(), 60);
+  },
+  // Alt+↑/↓: მონიშნული ხაზების გადატანა
+  move(cm, d) {
+    const a = cm.getCursor('from').line, b = cm.getCursor('to').line, an = cm.getCursor('anchor'), hd = cm.getCursor('head');
+    if (d < 0 ? a === 0 : b === cm.lineCount() - 1) return;
+    cm.operation(() => {
+      if (d < 0) { const t = cm.getLine(a - 1); cm.replaceRange('', { line: a - 1, ch: 0 }, { line: a, ch: 0 }); cm.replaceRange('\n' + t, { line: b - 1, ch: cm.getLine(b - 1).length }); }
+      else { const t = cm.getLine(b + 1); cm.replaceRange('', { line: b, ch: cm.getLine(b).length }, { line: b + 1, ch: t.length }); cm.replaceRange(t + '\n', { line: a, ch: 0 }); }
+      cm.setSelection({ line: an.line + d, ch: an.ch }, { line: hd.line + d, ch: hd.ch });
+    });
+  },
+  // Shift+Alt+↓: ხაზის დუბლირება
+  dup(cm) {
+    const b = cm.getCursor('to').line, a = cm.getCursor('from').line, t = cm.getRange({ line: a, ch: 0 }, { line: b, ch: cm.getLine(b).length });
+    cm.replaceRange('\n' + t, { line: b, ch: cm.getLine(b).length });
+    cm.setCursor({ line: b + 1 + (b - a), ch: cm.getCursor().ch });
+  },
+  // Ctrl+D: სიტყვის მონიშვნა, შემდეგ — მისი შემდეგი დამთხვევა (რამდენიმე კურსორით)
+  next(cm) {
+    if (!cm.somethingSelected()) { const w = cm.findWordAt(cm.getCursor()); cm.setSelection(w.anchor, w.head); return; }
+    const t = cm.getSelection(), all = cm.listSelections(), last = all[all.length - 1], doc = cm.getValue();
+    const from = cm.indexFromPos(cm.indexFromPos(last.anchor) > cm.indexFromPos(last.head) ? last.anchor : last.head);
+    let i = doc.indexOf(t, from);
+    if (i < 0) i = doc.indexOf(t);
+    if (i < 0 || all.some(r => cm.indexFromPos(r.from()) === i)) return;
+    cm.addSelection(cm.posFromIndex(i), cm.posFromIndex(i + t.length));
+    cm.scrollIntoView(cm.posFromIndex(i), 60);
+  },
+  // რედაქტორის კლავიშები: o = { ro, run, pick, search, term, host, L }
+  keys(o) {
+    const k = { 'Ctrl-F': c => this.find(c, o.host, o.ro), 'Cmd-F': c => this.find(c, o.host, o.ro), 'Ctrl-G': c => this.goto(c), 'Ctrl-P': o.pick, 'Cmd-P': o.pick, 'Shift-Ctrl-F': o.search, 'Shift-Cmd-F': o.search, 'Ctrl-`': o.term,
+      Esc: c => { const b = o.host.querySelector('.lv-find'); if (b) b.close(); else return CodeMirror.Pass; } };
+    if (o.ro) return k;
+    const run = o.run;
+    return Object.assign(k, {
+      'Ctrl-Enter': run, 'Cmd-Enter': run, 'Ctrl-H': c => this.find(c, o.host, false, true), 'Alt-Up': c => this.move(c, -1), 'Alt-Down': c => this.move(c, 1), 'Shift-Alt-Down': c => this.dup(c), 'Ctrl-D': c => this.next(c), 'Cmd-D': c => this.next(c),
+      'Ctrl-/': c => (c.toggleComment ? c.toggleComment() : CodeMirror.Pass), 'Cmd-/': c => (c.toggleComment ? c.toggleComment() : CodeMirror.Pass),
+      Tab: c => (c.somethingSelected() ? c.indentSelection('add') : c.replaceSelection(' '.repeat(o.L.indent), 'end')), 'Shift-Tab': c => c.indentSelection('subtract')
+    });
+  },
+  // სტატუს-ზოლი: ხაზი, სვეტი, მონიშნული, ენა
+  status(el, cm, L, ro) {
+    const p = cm.getCursor(), n = cm.getSelections().join('').length;
+    el.innerHTML = '<span>Ln ' + (p.line + 1) + ', Col ' + (p.ch + 1) + (n ? ' (' + n + ' მონიშნულია)' : '') + '</span><span>Spaces: ' + L.indent + '</span><span>UTF-8</span><span>' + esc(L.name || '') + '</span>' + (ro ? '<span>🔒 მხოლოდ სანახავად</span>' : '') +
+      '<span class="lv-keys" title="Ctrl+P — ფაილი · Ctrl+F — ძებნა · Ctrl+H — ჩანაცვლება · Ctrl+Shift+F — ყველა ფაილში · Ctrl+G — ხაზი · Alt+↑/↓ — ხაზის გადატანა · Ctrl+D — შემდეგი დამთხვევა · Ctrl+/ — კომენტარი · Ctrl+` — ტერმინალი">⌨ კლავიშები</span>';
+  }
+};
+/* ⌨ ტერმინალი: ბრძანებები დაფის ფაილებზე (ls, cd, cat, tree, mkdir, touch, rm, mv, cp, echo > ფაილი, grep, code), გაშვება (node / python / run / npm start)
+   და git (clone, push). ნამდვილი shell არ არის — ყველაფერი ბრაუზერშია; npm install და სხვა პროგრამები აქ ვერ ეშვება.
+   s.term = { cwd, hist, out, shut } — ტერმინალის მდგომარეობა ფაილებთან ერთად; o = { ro, run(f) → Promise<HTML>, changed(), open(f), clone(files, dirs) } */
+const Term = {
+  mount(el, s, o) {
+    const t = s.term = s.term || { cwd: '', hist: [], out: '', shut: false };
+    el.innerHTML = '<div class="lv-term-h"><span>TERMINAL</span><span>bash</span><button type="button" class="lv-termx" title="ტერმინალის დამალვა (Ctrl+`)" aria-label="ტერმინალის დამალვა">×</button></div><pre class="lv-tout" aria-live="polite"></pre>' +
+      '<div class="lv-tin"><span class="lv-ps"></span><input type="text" spellcheck="false" autocomplete="off" aria-label="ტერმინალის ბრძანება"></div>';
+    const pre = el.querySelector('.lv-tout'), inp = el.querySelector('input'), ps = el.querySelector('.lv-ps');
+    const prompt = () => '<span class="lv-tp">codequest</span>:<span class="lv-td">~' + (t.cwd ? '/' + esc(t.cwd) : '') + '</span>$ ';
+    const print = h => { t.out = (t.out + h + '\n').slice(-20000); pre.innerHTML = t.out; pre.scrollTop = pre.scrollHeight; };
+    const show = () => { el.classList.toggle('hidden', t.shut); ps.innerHTML = prompt(); pre.innerHTML = t.out || '<span class="dim">ჩაწერე <b>help</b> — ბრძანებების სია.</span>\n'; pre.scrollTop = pre.scrollHeight; };
+    let hi = t.hist.length, busy = false;
+    el.querySelector('.lv-termx').addEventListener('click', () => { t.shut = true; show(); });
+    pre.addEventListener('click', () => { if (!getSelection().toString()) inp.focus(); });
+    inp.addEventListener('keydown', async e => {
+      if (e.key === 'Enter') {
+        const line = inp.value;
+        inp.value = '';
+        if (busy) return;
+        print(prompt() + esc(line));
+        if (line.trim()) { t.hist.push(line); if (t.hist.length > 50) t.hist.shift(); }
+        hi = t.hist.length;
+        busy = true;
+        try { const r = await this.exec(line.trim(), s, o); if (r === 'clear') t.out = ''; else if (r) print(r); } catch (x) { print('<span class="err">შეცდომა: ' + esc(String(x && x.message || x)) + '</span>'); }
+        busy = false;
+        show();
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        hi = Math.max(0, Math.min(t.hist.length, hi + (e.key === 'ArrowUp' ? -1 : 1)));
+        inp.value = t.hist[hi] || '';
+      } else if (e.key === 'Tab') {
+        e.preventDefault();
+        const w = inp.value.split(' '), last = w.pop(), all = Object.keys(s.files).concat([...ftAllDirs(s)].map(d => d + '/'));
+        const base = this.path(t.cwd, last.includes('/') ? last.replace(/[^/]*$/, '') : ''), pre2 = base ? base + '/' : '';
+        const opts = [...new Set(all.filter(p => p.startsWith(pre2)).map(p => p.slice(pre2.length).replace(/\/.*$/, '/')))].filter(p => p.startsWith(last.replace(/^.*\//, '')));
+        if (opts.length === 1) inp.value = w.concat(last.replace(/[^/]*$/, '') + opts[0]).join(' ');
+        else if (opts.length > 1) { print(prompt() + esc(inp.value) + '\n' + opts.map(esc).join('  ')); show(); }
+      } else if (e.ctrlKey && (e.key === 'l' || e.key === 'L')) { e.preventDefault(); t.out = ''; show(); }
+      else if (e.ctrlKey && (e.key === 'c' || e.key === 'C') && !inp.selectionEnd) { print(prompt() + esc(inp.value) + '^C'); inp.value = ''; show(); }
+    });
+    show();
+    return { toggle() { t.shut = !t.shut; show(); if (!t.shut) inp.focus(); }, print(h) { t.shut = false; print(h); show(); } };
+  },
+  // გზა cwd-დან: '..', '.', '~' და '/'-ით დაწყებული (დაფის ფესვიდან)
+  path(cwd, p) {
+    const out = /^[~/]/.test(p || '') ? [] : cwd ? cwd.split('/') : [];
+    String(p || '').replace(/^~\/?/, '').split('/').forEach(x => { if (x === '..') out.pop(); else if (x && x !== '.') out.push(x); });
+    return out.join('/');
+  },
+  help: [['ls [-a] [საქაღალდე]', 'ფაილების სია'], ['cd <საქაღალდე>', 'საქაღალდეში გადასვლა (cd .. — უკან)'], ['pwd', 'სად ვარ'], ['tree', 'ყველა საქაღალდე და ფაილი'], ['cat <ფაილი>', 'ფაილის ტექსტი'],
+    ['grep <ტექსტი>', 'ძებნა ყველა ფაილში'], ['code <ფაილი>', 'რედაქტორში გახსნა'], ['node | python | run <ფაილი>', 'პროგრამის გაშვება'], ['npm start', 'მთავარი ფაილის გაშვება'],
+    ['touch <ფაილი>', 'ახალი ფაილი'], ['mkdir <საქაღალდე>', 'ახალი საქაღალდე'], ['rm [-r] <გზა>', 'წაშლა'], ['mv <ძველი> <ახალი>', 'გადატანა / გადარქმევა'], ['cp <ფაილი> <ახალი>', 'ასლი'],
+    ['echo <ტექსტი> > <ფაილი>', 'ფაილში ჩაწერა (>> — ბოლოში დამატება)'], ['git login', 'GitHub-ში შესვლა (რეპო სიიდან აირჩევა)'], ['git clone [რეპო]', 'რეპოს ჩატვირთვა GitHub-იდან'], ['git push', 'ფაილების ატვირთვა GitHub-ზე'], ['clear', 'გასუფთავება (Ctrl+L)'], ['history', 'წინა ბრძანებები (↑ / ↓)']],
+  async exec(line, s, o) {
+    if (!line) return '';
+    const t = s.term, args = (line.match(/"[^"]*"|'[^']*'|\S+/g) || []).map(a => a.replace(/^(["'])(.*)\1$/, '$2')), cmd = args.shift(), P = p => this.path(t.cwd, p);
+    const dirs = () => ftAllDirs(s), isDir = p => p === '' || dirs().has(p), isFile = p => s.files[p] != null;
+    const err = m => '<span class="err">' + esc(cmd + ': ' + m) + '</span>';
+    const ro = () => err('მასწავლებლის დაფა მხოლოდ სანახავადაა — შეცვლა შენს დაფაზე შეგიძლია.');
+    const okNew = p => (!pjPathOk(p) ? 'სახელი არ გამოდგება' : isFile(p) || dirs().has(p) ? p + ' უკვე არის' : ftUp(p).some(isFile) ? 'გზაში ფაილია' : '');
+    const kids = d => { const pre = d ? d + '/' : '', here = x => x.startsWith(pre) && !x.slice(pre.length).includes('/'); return { d: [...dirs()].filter(here).sort(), f: Object.keys(s.files).filter(here).sort() }; };
+    const name = x => x.split('/').pop();
+    switch (cmd) {
+      case 'help': return this.help.map(([a, b]) => '<span class="ok">' + esc(a.padEnd(30)) + '</span>' + esc(b)).join('\n');
+      case 'clear': case 'cls': return 'clear';
+      case 'pwd': return esc('/home/codequest' + (t.cwd ? '/' + t.cwd : ''));
+      case 'history': return t.hist.map((h, i) => String(i + 1).padStart(4) + '  ' + esc(h)).join('\n');
+      case 'whoami': return 'codequest';
+      case 'echo': {
+        const i = args.findIndex(a => a === '>' || a === '>>'), text = (i < 0 ? args : args.slice(0, i)).join(' ');
+        if (i < 0) return esc(text);
+        if (o.ro) return ro();
+        const f = P(args[i + 1] || ''), e = isFile(f) ? '' : okNew(f);
+        if (!args[i + 1] || e) return err(e || 'ფაილის სახელი აკლია');
+        if (!isFile(f) && Object.keys(s.files).length >= FT_MAX) return err('მაქსიმუმ ' + FT_MAX + ' ფაილია');
+        s.files[f] = args[i] === '>>' && isFile(f) ? s.files[f] + (s.files[f] && !s.files[f].endsWith('\n') ? '\n' : '') + text + '\n' : text + '\n';
+        o.changed();
+        return '';
+      }
+      case 'ls': case 'dir': {
+        const all = args.includes('-a') || args.includes('-la'), p = P(args.find(a => !a.startsWith('-')) || '');
+        if (isFile(p)) return esc(name(p));
+        if (!isDir(p)) return err(p + ': ასეთი საქაღალდე არ არის');
+        const k = kids(p), vis = x => all || !name(x).startsWith('.');
+        return k.d.filter(vis).map(d => '<span class="lv-td">' + esc(name(d)) + '/</span>').concat(k.f.filter(vis).map(f => esc(name(f)))).join('  ') || '<span class="dim">(ცარიელია)</span>';
+      }
+      case 'cd': {
+        const p = P(args[0] || '~');
+        if (!isDir(p)) return err((args[0] || '') + ': ასეთი საქაღალდე არ არის');
+        t.cwd = p;
+        return '';
+      }
+      case 'tree': {
+        const p = P(args[0] || ''), lines = [esc(p || '.')];
+        if (!isDir(p)) return err(p + ': ასეთი საქაღალდე არ არის');
+        const walk = (d, pad) => { const k = kids(d), list = k.d.map(x => [x, 1]).concat(k.f.map(x => [x, 0])); list.forEach(([x, isD], i) => { const end = i === list.length - 1; lines.push(pad + (end ? '└── ' : '├── ') + (isD ? '<span class="lv-td">' + esc(name(x)) + '/</span>' : esc(name(x)))); if (isD) walk(x, pad + (end ? '    ' : '│   ')); }); };
+        walk(p, '');
+        return lines.join('\n');
+      }
+      case 'cat': case 'type': {
+        if (!args.length) return err('ფაილის სახელი აკლია');
+        return args.map(a => { const f = P(a); return isFile(f) ? esc(s.files[f].replace(/\n$/, '')) : err(a + (isDir(f) ? ': ეს საქაღალდეა' : ': ასეთი ფაილი არ არის')); }).join('\n');
+      }
+      case 'grep': {
+        const q = args.filter(a => !a.startsWith('-'))[0];
+        if (!q) return err('რა მოვძებნო? მაგ. grep console');
+        const out = [];
+        Object.keys(s.files).sort().forEach(f => s.files[f].split('\n').forEach((x, i) => { if (out.length < 100 && x.toLowerCase().includes(q.toLowerCase())) out.push('<span class="lv-td">' + esc(f) + '</span>:' + (i + 1) + ': ' + esc(x.trim())); }));
+        return out.join('\n') || '<span class="dim">ვერ მოიძებნა</span>';
+      }
+      case 'code': case 'open': {
+        const f = P(args[0] || '');
+        if (!isFile(f)) return err((args[0] || '') + ': ასეთი ფაილი არ არის');
+        o.open(f);
+        return '';
+      }
+      case 'touch': case 'mkdir': case 'rm': case 'mv': case 'cp': case 'rmdir': {
+        if (o.ro) return ro();
+        const ps = args.filter(a => !a.startsWith('-')).map(P), r = args.some(a => /^-[a-z]*r/i.test(a));
+        if (!ps.length) return err('გზა აკლია');
+        if (cmd === 'touch') {
+          for (const f of ps) { if (isFile(f)) continue; const e = okNew(f); if (e) return err(e); if (Object.keys(s.files).length >= FT_MAX) return err('მაქსიმუმ ' + FT_MAX + ' ფაილია'); s.files[f] = ''; }
+        } else if (cmd === 'mkdir') {
+          for (const d of ps) { if (isDir(d) && args.includes('-p')) continue; const e = okNew(d); if (e) return err(e); if (s.dirs.length >= FT_MAX) return err('მაქსიმუმ ' + FT_MAX + ' ცარიელი საქაღალდეა'); s.dirs.push(d); }
+        } else if (cmd === 'rm' || cmd === 'rmdir') {
+          for (const p of ps) {
+            const inn = x => x === p || x.startsWith(p + '/');
+            if (isFile(p)) { if (Object.keys(s.files).length < 2) return err('ბოლო ფაილს ვერ წაშლი'); delete s.files[p]; ftUp(p).slice(-1).forEach(d => { if (!dirs().has(d)) s.dirs.push(d); }); }
+            else if (p && dirs().has(p)) {
+              const n = Object.keys(s.files).filter(inn).length;
+              if (n && !r) return err(p + ': საქაღალდეა — წასაშლელად: rm -r ' + p);
+              if (n === Object.keys(s.files).length) return err('ყველა ფაილს ვერ წაშლი');
+              Object.keys(s.files).filter(inn).forEach(k => delete s.files[k]);
+              s.dirs = s.dirs.filter(x => !inn(x));
+              if (inn(t.cwd)) t.cwd = ftUp(p + '/x').slice(-2, -1)[0] || '';
+            } else return err(p + ': ასეთი ფაილი ან საქაღალდე არ არის');
+          }
+          if (s.files[s.file] == null) s.file = Object.keys(s.files)[0];
+        } else {
+          let [a, b] = ps;
+          if (b == null) return err('სად? მაგ. ' + cmd + ' a.js b.js');
+          if (isDir(b) && !isFile(a + '/x') && b !== a) b = (b ? b + '/' : '') + name(a);
+          if (isFile(a)) {
+            const e = okNew(b);
+            if (e) return err(e);
+            if (cmd === 'cp' && Object.keys(s.files).length >= FT_MAX) return err('მაქსიმუმ ' + FT_MAX + ' ფაილია');
+            s.files[b] = s.files[a];
+            if (cmd === 'mv') { delete s.files[a]; if (s.file === a) s.file = b; }
+          } else if (cmd === 'mv' && a && dirs().has(a)) {
+            const e = okNew(b);
+            if (e || b.startsWith(a + '/')) return err(e || 'საქაღალდეს საკუთარ თავში ვერ გადაიტან');
+            const mv = x => (x === a || x.startsWith(a + '/') ? b + x.slice(a.length) : x);
+            s.files = Object.fromEntries(Object.entries(s.files).map(([k, v]) => [mv(k), v]));
+            s.dirs = s.dirs.map(mv);
+            s.file = mv(s.file);
+            t.cwd = mv(t.cwd);
+          } else return err(a + ': ასეთი ფაილი არ არის' + (cmd === 'cp' && dirs().has(a) ? ' (საქაღალდის ასლი ჯერ არ შეიძლება)' : ''));
+        }
+        o.changed();
+        return '';
+      }
+      case 'node': case 'python': case 'python3': case 'py': case 'run': case 'php': case 'ruby': case 'go': case 'java': case 'lua': case 'dart': case 'deno': case 'ts-node': case 'cargo': {
+        let f = args.filter(a => !a.startsWith('-') && a !== 'run')[0];
+        f = f ? P(f) : o.main();
+        if (!isFile(f) && isFile(f + '.js')) f += '.js';
+        if (!isFile(f)) return err((f || '') + ': ასეთი ფაილი არ არის');
+        return o.run(f);
+      }
+      case 'npm': case 'yarn': case 'pnpm': {
+        if (/^(start|run|dev|test)$/.test(args[0] || '')) return o.run(o.main());
+        if (/^(i|install|add|ci|update)$/.test(args[0] || '')) return '<span class="dim">📦 ბრაუზერში პაკეტები არ ყენდება — აქ ენის ძირითადი ნაწილი ეშვება (require / import და npm პაკეტები — ჯერ არა).</span>';
+        return '<span class="dim">ხელმისაწვდომია: npm start, npm run dev</span>';
+      }
+      case 'git': {
+        if (args[0] === 'clone') {
+          if (o.ro) return ro();
+          if (!args[1]) { GitImport.ask(LIVE_CHARS, o.clone); return '<span class="dim">GitHub-ის ფანჯარა გაიხსნა…</span>'; }
+          if (!args[1].includes('/') && GitImport.user) args[1] = GitImport.user + '/' + args[1];   // შესულს: git clone <რეპო>
+          const r = await GitImport.load(args[1], LIVE_CHARS).catch(e => ({ e }));
+          if (r.e) return err(r.e === 'bad' ? 'ბმული ვერ გავიგე' : r.e === 404 ? 'რეპო ვერ მოიძებნა (საჯარო უნდა იყოს)' : r.e === 'empty' ? 'ტექსტური ფაილი ვერ ვიპოვე' : r.e === 403 || r.e === 429 ? 'GitHub-ის ლიმიტი ამოიწურა' : 'კავშირი ვერ დამყარდა');
+          o.clone(r.files, r.dirs);
+          t.cwd = '';
+          return '<span class="ok">✔ ჩაიტვირთა ' + Object.keys(r.files).length + ' ფაილი</span>' + (r.skipped ? '<span class="dim"> (გამოტოვდა ' + r.skipped + ')</span>' : '');
+        }
+        if (args[0] === 'push') { if (o.ro) return ro(); GitImport.pushAsk(s.files); return '<span class="dim">GitHub-ის ფანჯარა გაიხსნა…</span>'; }
+        if (args[0] === 'login') { GitImport.login(); return '<span class="dim">GitHub-ში შესვლის ფანჯარა გაიხსნა…</span>'; }
+        if (args[0] === 'logout') { GitImport.logout(); return 'გამოხვედი GitHub-იდან.'; }
+        if (args[0] === 'status') return Object.keys(s.files).sort().map(f => '<span class="ok">\tnew file:   ' + esc(f) + '</span>').join('\n');
+        return '<span class="dim">ხელმისაწვდომია: git login, git clone [რეპო], git push, git status, git logout</span>';
+      }
+      default: return err('ბრძანება ვერ მოიძებნა — ჩაწერე help');
+    }
+  }
+};
 const LiveRun = {
   q: Promise.resolve(),
   // s — დაფის ფაილები { files, file }: ვებ-ენა ყველა ფაილს ერთად აჩვენებს, დანარჩენი მთავარ ფაილს უშვებს
@@ -20487,9 +20976,14 @@ const LiveRun = {
       view.firstChild.srcdoc = pjDoc(lang === 'react' ? 'react' : 'html', s.files, main);
       return;
     }
+    view.innerHTML = '<pre class="lv-out"><span class="dim">⏳ ეშვება…</span></pre>';
+    view.firstChild.innerHTML = await this.out(lang, code);
+  },
+  // ტერმინალი: იგივე გაშვება იმავე რიგში, შედეგი HTML-ად
+  text(lang, code) { const p = this.q.then(() => this.out(lang, code)); this.q = p.catch(() => { }); return p; },
+  async out(lang, code) {
+    const c = COURSE_BY_ID[lang], L = LANGS[c.lang], t0 = performance.now();
     const line = (t, cls) => '<span class="' + (cls || '') + '">' + esc(t) + '</span>';
-    view.innerHTML = '<pre class="lv-out">' + line('⏳ ეშვება…', 'dim') + '</pre>';
-    const out = view.firstChild, t0 = performance.now();
     let js = code, names = null;
     if (L.compile) {
       const tries = [code];
@@ -20497,7 +20991,7 @@ const LiveRun = {
       let err = null;
       js = null;
       for (const t of tries) { const r = L.compile(t, { allowed: [], vars: [], varTypes: {} }); if (!r.error) { js = r.code; names = r.vars; break; } err = err || r.error; }
-      if (js == null) { out.innerHTML = line('✘ ' + (err.line ? 'ხაზი ' + err.line + ': ' : '') + err.message, 'err'); return; }
+      if (js == null) return line('✘ ' + (err.line ? 'ხაზი ' + err.line + ': ' : '') + err.message, 'err');
     } else names = extractVarNames(code);
     const res = await CodeRunner.run({ code: js, lang: c.lang, map: parseMap({ grid: ['>'] }), allowed: [], vars: null, wantVars: false, varNames: names });
     const logs = (res.events || []).filter(e => e.t === 'log').map(e => e.text);
@@ -20505,12 +20999,12 @@ const LiveRun = {
     if (res.timeout) t = Translator.halt({ kind: 'tired' });
     else if (res.error) t = Translator.translate(res.error, { code: js, allowed: [], declared: names || [], vars: null });
     else if (res.halted) t = Translator.halt(res.halted);
-    out.innerHTML = logs.map(x => line(x)).join('\n') + (logs.length ? '\n' : '') +
+    return logs.map(x => line(x)).join('\n') + (logs.length ? '\n' : '') +
       (t ? line('✘ ' + (t.line ? 'ხაზი ' + t.line + ': ' : '') + t.text, 'err') : line('✔ პროგრამა დასრულდა · ' + Math.round(performance.now() - t0) + ' ms', 'ok'));
   }
 };
 const Live = {
-  o: null, eds: {}, fs: {}, paints: {}, ver: 0, run: 0, seenVer: -1, seenRun: -1, poll: null, pt: null, pushing: false, again: false, fails: 0,
+  o: null, eds: {}, fs: {}, paints: {}, terms: {}, ver: 0, run: 0, seenVer: -1, seenRun: -1, poll: null, pt: null, pushing: false, again: false, fails: 0,
   langOpts(sel) { return COURSES.map(c => '<option value="' + c.id + '"' + (c.id === sel ? ' selected' : '') + '>' + esc(c.title) + '</option>').join(''); },
   // მასწავლებელი: ენის არჩევა და დაწყება
   pickStart(cls, name) {
@@ -20583,11 +21077,12 @@ const Live = {
   },
   build() {
     const o = this.o, file = STUDIO_FILE[o.lang] || 'main.txt', c = COURSE_BY_ID[o.lang];
-    const board = (k, title, sub, mine) => '<section class="lv-board lv-' + k + '"><div class="lv-bh"><h3>' + title + '</h3><small>' + sub + '</small></div><div class="lv-row">' +
-      '<div class="pj-ide lv-ide"><nav class="pj-files" id="lv-files-' + k + '" aria-label="ფაილები"></nav><div class="vsc lv-vsc"><div class="vsc-title"><span class="vsc-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="vsc-name"><span id="lv-fname-' + k + '"></span>' + (mine ? '' : ' — მხოლოდ სანახავად') + '</span></div>' +
-      '<div class="vsc-ed lv-ed" id="lv-ed-' + k + '"></div>' +
+    const board = (k, title, sub, mine) => '<section class="lv-board lv-' + k + '"><div class="lv-bh"><h3>' + title + '</h3><small>' + sub + '</small></div><div class="lv-row" id="lv-row-' + k + '">' +
+      '<div class="pj-ide lv-ide"><nav class="pj-files" id="lv-files-' + k + '" aria-label="ფაილები"></nav><div class="vsc lv-vsc"><div class="vsc-title"><span class="vsc-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="vsc-name"><span id="lv-fname-' + k + '"></span>' + (mine ? '' : ' — მხოლოდ სანახავად') + '</span>' +
+      '<span class="lv-tools"><button type="button" data-lv="pick" title="ფაილის გახსნა (Ctrl+P)">📄</button><button type="button" data-lv="search" title="ძებნა ყველა ფაილში (Ctrl+Shift+F)">🔎</button><button type="button" data-lv="term" title="ტერმინალი (Ctrl+`)">⌨</button><button type="button" data-lv="side" title="შედეგის ფანჯარა — დამალვა / ჩვენება">◨</button></span></div>' +
+      '<div class="lv-tabs" id="lv-tabs-' + k + '"></div><div class="vsc-ed lv-ed" id="lv-ed-' + k + '"></div><div class="lv-term" id="lv-term-' + k + '"></div><div class="lv-status" id="lv-stat-' + k + '"></div>' +
       (mine ? '<div class="vsc-acts"><button class="vsc-run" id="lv-run-' + k + '" title="გაშვება (Ctrl+Enter)">▶ გაშვება</button>' + (k === 'm' ? '<button class="vsc-btn" id="lv-copy" title="მასწავლებლის ფაილები ჩემს დაფაზე">📋 მასწავლებლის კოდი</button>' : '') + '</div>' : '') + '</div></div>' +
-      '<div class="lv-browser"><div class="lv-bar"><span class="vsc-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="lv-url">🔒 codequest.run/' + (k === 't' ? 'teacher' : 'me') + '/' + esc(file) + '</span></div>' +
+      '<div class="lv-browser"><div class="lv-bar"><span class="vsc-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="lv-url">🔒 codequest.run/' + (k === 't' ? 'teacher' : 'me') + '/' + esc(file) + '</span><button type="button" class="lv-hide" data-lv="side2" title="დამალვა — კოდს მეტი ადგილი">×</button></div>' +
       '<div class="lv-view" id="lv-view-' + k + '"><p class="lv-hint">' + (mine ? 'დააჭირე ▶ გაშვებას — შედეგი აქ გამოჩნდება' : 'როცა მასწავლებელი კოდს გაუშვებს, შედეგი აქ გამოჩნდება') + '</p></div></div></div></section>';
     $('#live-body').innerHTML = '<div class="lv-head card"><span class="lv-dot" aria-hidden="true"></span><div class="lv-ht"><b>ცოცხალი გაკვეთილი · ' + esc(o.name) + '</b><small>' +
       (o.teacher ? 'მოსწავლეები ცოცხლად ხედავენ ყველაფერს, რასაც აქ წერ და უშვებ' : 'მასწავლებელი: ' + esc(o.teacherName || '')) + '</small></div>' +
@@ -20632,24 +21127,57 @@ const Live = {
       }));
     }
   },
-  // დაფა k: ფაილების პანელი (როგორც „ჩემს პროექტებში“) და გახსნილი ფაილის რედაქტორი
+  // დაფა k: ფაილების პანელი, ჩანართები, რედაქტორი, ტერმინალი და შედეგის ფანჯარა (ვებ-ენებზე ჩანს, დანარჩენზე — დამალულია, შედეგი ტერმინალშია)
   mountBoard(k, ro) {
-    this.paints[k] = FileTree.mount($('#lv-files-' + k), this.fs[k], STUDIO_FILE[this.o.lang], ro, () => this.mountEd(k, ro), () => this.edited(k), LIVE_CHARS);
+    const s = this.fs[k], main = STUDIO_FILE[this.o.lang], row = $('#lv-row-' + k);
+    this.paints[k] = FileTree.mount($('#lv-files-' + k), s, main, ro, () => this.mountEd(k, ro), () => this.edited(k), LIVE_CHARS);
+    this.terms[k] = Term.mount($('#lv-term-' + k), s, {
+      ro, main: () => ftMain(s, main), run: f => this.termRun(k, f), open: f => this.openFile(k, f), changed: () => this.refresh(k),
+      clone: (files, dirs) => { s.files = files; s.dirs = dirs; s.file = files[main] != null ? main : Object.keys(files)[0]; this.refresh(k); }
+    });
+    if (s.side == null) s.side = LANGS[COURSE_BY_ID[this.o.lang].lang].kind === 'web';
+    this.side(k, s.side);
+    const on = (a, f) => { row.querySelector('[data-lv=' + a + ']').onclick = f; };
+    on('pick', () => IDE.pick(s, f => this.openFile(k, f)));
+    on('search', () => IDE.search(s, ro, (f, l) => this.openFile(k, f, l), () => this.refresh(k)));
+    on('term', () => this.terms[k].toggle());
+    on('side', () => this.side(k, !s.side));
+    on('side2', () => this.side(k, false));
     this.mountEd(k, ro);
   },
+  // შედეგის ფანჯრის ჩვენება / დამალვა — დამალულზე რედაქტორი მთელ სიგანეს იკავებს
+  side(k, v) {
+    const s = this.fs[k], e = this.eds[k];
+    s.side = v;
+    $('#lv-row-' + k).classList.toggle('solo', !v);
+    if (e && e.cm) e.cm.refresh();
+  },
+  ro(k) { return k === 't' && !this.o.teacher; },
+  openFile(k, f, line) {
+    this.fs[k].file = f;
+    this.paints[k]();
+    this.mountEd(k, this.ro(k));
+    const cm = this.eds[k].cm;
+    if (cm && line != null) { cm.setCursor({ line, ch: 0 }); cm.scrollIntoView(null, 80); cm.focus(); }
+  },
+  // ფაილები შეიცვალა (ტერმინალი, ყველგან ჩანაცვლება)
+  refresh(k) { this.paints[k](); this.mountEd(k, this.ro(k)); this.edited(k); },
   mountEd(k, ro) {
-    const s = this.fs[k], el = $('#lv-ed-' + k), L = fileL(s.file, this.o.lang, STUDIO_FILE[this.o.lang]);
+    const s = this.fs[k], el = $('#lv-ed-' + k), L = fileL(s.file, this.o.lang, STUDIO_FILE[this.o.lang]), stat = $('#lv-stat-' + k);
     const run = () => this.runBoard(k);
     el.innerHTML = '';
     $('#lv-fname-' + k).textContent = s.file;
+    IDE.tabs($('#lv-tabs-' + k), s, f => this.openFile(k, f));
     if (window.CodeMirror) {
       const cm = CodeMirror(el, {
-        value: s.files[s.file] || '', mode: L.cm, theme: 'vsc', lineNumbers: true, matchBrackets: true, autoCloseBrackets: !ro, indentUnit: L.indent, tabSize: L.indent, readOnly: ro ? 'nocursor' : false, spellcheck: false,
-        extraKeys: ro ? {} : { 'Ctrl-Enter': run, 'Cmd-Enter': run, Tab: c => (c.somethingSelected() ? c.indentSelection('add') : c.replaceSelection(' '.repeat(L.indent), 'end')), 'Shift-Tab': c => c.indentSelection('subtract') }
+        value: s.files[s.file] || '', mode: L.cm, theme: 'vsc', lineNumbers: true, matchBrackets: true, autoCloseBrackets: !ro, indentUnit: L.indent, tabSize: L.indent, readOnly: ro, styleActiveLine: true, spellcheck: false,
+        extraKeys: IDE.keys({ ro, run, L, host: el, pick: () => IDE.pick(s, f => this.openFile(k, f)), search: () => IDE.search(s, ro, (f, l) => this.openFile(k, f, l), () => this.refresh(k)), term: () => this.terms[k].toggle() })
       });
       cm.getInputField().setAttribute('aria-label', ro ? 'მასწავლებლის კოდი' : 'კოდის რედაქტორი');
-      this.eds[k] = { get: () => cm.getValue(), set: v => { if (cm.getValue() === v) return; const s = cm.getScrollInfo(); cm.setValue(v); cm.scrollTo(s.left, s.top); } };
+      this.eds[k] = { cm, get: () => cm.getValue(), set: v => { if (cm.getValue() === v) return; const s = cm.getScrollInfo(); cm.setValue(v); cm.scrollTo(s.left, s.top); } };
       if (!ro) cm.on('change', (c, ch) => { if (ch.origin !== 'setValue') { s.files[s.file] = cm.getValue(); this.edited(k); } });
+      cm.on('cursorActivity', () => IDE.status(stat, cm, L, ro));
+      IDE.status(stat, cm, L, ro);
     } else {
       const ta = document.createElement('textarea');
       ta.className = 'vsc-ta';
@@ -20659,7 +21187,21 @@ const Live = {
       el.appendChild(ta);
       this.eds[k] = { get: () => ta.value, set: v => { ta.value = v; } };
       if (!ro) ta.addEventListener('input', () => { s.files[s.file] = ta.value; this.edited(k); });
+      stat.textContent = L.name || '';
     }
+  },
+  // ფაილის გაშვება (ტერმინალი ან ▶): ვებ-ფაილი — გადახედვის ფანჯარაში, დანარჩენი — ტექსტად; შედეგის ფანჯარაშიც, თუ ის ჩანს
+  async termRun(k, f) {
+    const s = this.fs[k], ext = f.split('.').pop().toLowerCase(), web = LANGS[COURSE_BY_ID[this.o.lang].lang].kind === 'web';
+    if (web || /^(html?|css|jsx)$/.test(ext)) {
+      this.side(k, true);
+      LiveRun.show(this.o.lang, s, $('#lv-view-' + k));
+      return '<span class="dim">🌐 შედეგი გადახედვის ფანჯარაშია →</span>';
+    }
+    const lang = f === STUDIO_FILE[this.o.lang] || (ext === 'js' && this.o.lang === 'node') ? this.o.lang : COURSE_BY_ID[IDE_RUN[ext]] ? IDE_RUN[ext] : this.o.lang;
+    const h = await LiveRun.text(lang, s.files[f] || ''), v = $('#lv-view-' + k);
+    if (v && this.fs[k] === s) v.innerHTML = '<pre class="lv-out">' + h + '</pre>';
+    return h;
   },
   edited(k) { if (k === 't' && this.o.teacher) this.changed(); },
   // მოსწავლე: მასწავლებლის ახალი ფაილები — გახსნილი ფაილი რჩება, თუ ჯერ კიდევ არის
@@ -20674,7 +21216,8 @@ const Live = {
   async runBoard(k, auto) {
     if (!this.o || !this.fs[k]) return;
     if (k === 't' && this.o.teacher && !auto) { this.run++; this.changed(true); }
-    await LiveRun.show(this.o.lang, this.fs[k], $('#lv-view-' + k));
+    const s = this.fs[k], f = ftMain(s, STUDIO_FILE[this.o.lang]), h = await this.termRun(k, f);
+    if (this.fs[k] === s && this.terms[k]) this.terms[k].print('<span class="dim">▶ ' + esc(f) + '</span>\n' + h);
   },
   // მასწავლებელი: ცვლილება — 0.4 წამში (▶-ზე მაშინვე) მოსწავლეებთან
   changed(now) {

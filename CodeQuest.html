@@ -924,6 +924,10 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .gh-btn:hover:not(:disabled){background:#f6f8fa}
 .gh-btn:disabled{opacity:.6;cursor:progress}
 .gh-tokd{margin-top:12px}
+.gh-dev{display:grid;gap:6px;justify-items:start}
+.gh-dev p{margin:4px 0 0}
+.gh-code{display:flex;align-items:center;gap:12px}
+.gh-code b{padding:8px 14px;border:1px dashed var(--border);border-radius:10px;font:700 1.6rem var(--font-mono);letter-spacing:.12em}
 .gh-tokd summary{cursor:pointer;color:var(--ink-muted);font-size:.9rem}
 .lv-browser{display:flex;flex-direction:column;min-height:300px;overflow:hidden;border:1px solid #c4c7c5;border-radius:12px;background:#fff;box-shadow:0 8px 26px rgba(0,0,0,.12)}
 .lv-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#dee1e6}
@@ -17561,6 +17565,7 @@ const UI = {
   show(name, back) {
     if (name === 'course') name = 'map';   // ყველა ენას ერთნაირი რუკა აქვს
     if (this.cur === 'projects' && name !== 'projects') Projects.flush();   // დრაფტი არ უნდა დაიკარგოს
+    if (this.cur === 'live' && name !== 'live') Store.del(LIVE_ON);   // გაკვეთილიდან გავიდა — განახლებისას აღარ დავაბრუნოთ
     if (this.cur !== name) {
       this.prev = this.cur;
       if (!back) { this.hist.push(this.cur); if (this.hist.length > 30) this.hist.shift(); }
@@ -19516,7 +19521,7 @@ const GitImport = {
   login(after) {
     const m = Modal.open('<h2>GitHub-ში შესვლა</h2><p class="muted">შესვლის შემდეგ რეპოს ბმული აღარ დაგჭირდება — სიიდან აირჩევ, პრივატულსაც. შესვლა მხოლოდ ამ ჩანართშია და დახურვისას იშლება.</p>' +
       '<button type="button" class="gh-btn" data-a="oauth"><svg viewBox="0 0 16 16" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Continue with GitHub</button>' +
-      '<p class="pj-err hidden" id="gl-err" role="alert"></p>' +
+      '<div class="gh-dev hidden" id="gh-dev" aria-live="polite"></div><p class="pj-err hidden" id="gl-err" role="alert"></p>' +
       '<details class="gh-tokd"><summary>ან შედი ტოკენით</summary><p class="muted" style="font-size:.88rem">შექმენი <b>Fine-grained</b> ტოკენი → Repository access — შენი რეპოები → Permissions → <b>Contents: Read and write</b>. <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">ტოკენის შექმნა ↗</a></p>' +
       '<div style="display:flex;gap:8px"><input class="txt" id="gl-tok" type="password" style="flex:1;font-family:var(--mono)" autocomplete="off" spellcheck="false" placeholder="github_pat_…" aria-label="GitHub token"><button class="btn primary" data-a="ok">შესვლა</button></div></details>' +
       '<div class="modal-actions"><button class="btn" data-close>გაუქმება</button></div>');
@@ -19539,17 +19544,51 @@ const GitImport = {
       else fail(e.data.ghError === 'no_oauth' ? '„Continue with GitHub“ ჯერ არ არის ჩართული საიტზე (საჭიროა GitHub OAuth App) — შედი ტოკენით ქვემოთ.' : e.data.ghError === 'denied' ? 'GitHub-მა შესვლა არ დაადასტურა — სცადე თავიდან.' : 'შესვლა ვერ მოხერხდა — სცადე თავიდან.');
     };
     window.addEventListener('message', onMsg);
-    oa.addEventListener('click', () => {
+    const gh = (a, body) => fetch('/api/account?gh=' + a, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body || {}) }).then(r => r.json()).catch(() => ({ ok: false, error: 'offline' }));
+    let polling = false;
+    // Device Flow: GitHub-ის კოდი ჩანს აქ, მომხმარებელი მას github.com/login/device-ზე ადასტურებს, ჩვენ კი ტოკენს ველოდებით
+    const device = async d => {
+      const box = m.querySelector('#gh-dev');
+      box.innerHTML = '<p>1. დააკოპირე კოდი:</p><div class="gh-code"><b>' + esc(d.user_code) + '</b><button type="button" class="btn small" data-a="cp">კოპირება</button></div>' +
+        '<p>2. გახსენი GitHub და ჩასვი კოდი:</p><a class="btn primary" href="' + esc(d.verification_uri) + '" target="_blank" rel="noopener noreferrer">github.com/login/device ↗</a><p class="muted" id="gh-wait">⏳ ველოდები დადასტურებას…</p>';
+      box.classList.remove('hidden');
+      oa.classList.add('hidden');
+      box.querySelector('[data-a=cp]').addEventListener('click', () => { navigator.clipboard && navigator.clipboard.writeText(d.user_code).catch(() => { }); UI.toast('📋', 'კოდი დაკოპირდა', d.user_code); });
+      let wait = Math.max(5, d.interval) * 1000;
+      const end = Date.now() + d.expires_in * 1000;
+      polling = true;
+      while (polling && m.isConnected && Date.now() < end) {
+        await new Promise(r => setTimeout(r, wait));
+        if (!polling || !m.isConnected) return;
+        const r = await gh('poll', { device_code: d.device_code });
+        if (r.token) { polling = false; return done(r.token); }
+        if (r.wait) { if (r.interval) wait = r.interval * 1000; continue; }
+        if (r.error === 'offline') continue;
+        polling = false;
+        box.classList.add('hidden');
+        oa.classList.remove('hidden');
+        oa.disabled = false;
+        return fail(r.error === 'access_denied' ? 'GitHub-ზე შესვლა გაუქმდა — სცადე თავიდან.' : r.error === 'expired_token' ? 'კოდს ვადა გაუვიდა — სცადე თავიდან.' : 'შესვლა ვერ მოხერხდა — სცადე თავიდან.');
+      }
+    };
+    oa.addEventListener('click', async () => {
       x.classList.add('hidden');
-      pop = window.open('/api/account?gh=start', 'cq-github', 'width=620,height=760');
-      if (!pop) return fail('ბრაუზერმა ფანჯარა დაბლოკა — დაუშვი pop-up ამ საიტისთვის.');
       oa.disabled = true;
-      const t = setInterval(() => { if (pop.closed) { clearInterval(t); oa.disabled = false; } }, 700);
+      const d = await gh('device');
+      if (d.mode === 'web') {   // სერვერზე GitHub-ის საიდუმლოც არის — pop-up ფანჯარა
+        pop = window.open('/api/account?gh=start', 'cq-github', 'width=620,height=760');
+        if (!pop) { oa.disabled = false; return fail('ბრაუზერმა ფანჯარა დაბლოკა — დაუშვი pop-up ამ საიტისთვის.'); }
+        const t = setInterval(() => { if (pop.closed) { clearInterval(t); oa.disabled = false; } }, 700);
+        return;
+      }
+      if (d.user_code) return device(d);
+      oa.disabled = false;
+      fail(d.error === 'no_oauth' ? '„Continue with GitHub“ ჯერ არ არის ჩართული საიტზე — შედი ტოკენით ქვემოთ.' : d.error === 'offline' ? 'სერვერთან კავშირი ვერ დამყარდა.' : 'GitHub-მა უარი თქვა — სცადე ცოტა ხანში.');
     });
     const go = async () => { const tok = inp.value.trim(); if (!tok || ok.disabled) return; ok.disabled = true; await done(tok); ok.disabled = false; };
     ok.addEventListener('click', go);
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
-    m.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => window.removeEventListener('message', onMsg)));
+    m.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => { polling = false; window.removeEventListener('message', onMsg); }));
   },
   logout() {
     this.tok = this.user = '';
@@ -20618,6 +20657,8 @@ const Install = {
    ▶ გაშვების შედეგი ჩნდება გვერდით, ბრაუზერის ფანჯარაში: ვებ-ენებისთვის — გვერდი, დანარჩენისთვის — პროგრამის გამოტანა. */
 const LIVE_CHARS = 20000;   // დაფის ფაილები ჯამში (api/account.js → LIVE_MAX)
 const LIVE_KEY = 'codequest.live';   // მასწავლებლის გაკვეთილი ამ მოწყობილობაზე: { id, key, cls }
+const LIVE_ON = 'codequest.liveOn';   // გახსნილი გაკვეთილი (გვერდის განახლებისას იქვე ვბრუნდებით): { teacher, id, cls, name, teacherName }
+const LIVE_MINE = 'codequest.liveMine';   // მოსწავლის საკუთარი დაფა: { id, lang, files, dirs, file }
 // კოდის გაშვება და შედეგის ჩვენება მოცემულ ფანჯარაში (view). გაშვებები რიგდება — ერთდროულად ერთი
 /* 🧑‍💻 VS Code-ის ფუნქციები ცოცხალი გაკვეთილის დაფაზე: ჩანართები, ძებნა / ჩანაცვლება (Ctrl+F / Ctrl+H), ფაილის სწრაფი გახსნა (Ctrl+P),
    ძებნა ყველა ფაილში (Ctrl+Shift+F), ხაზზე გადასვლა (Ctrl+G), ხაზის გადატანა (Alt+↑/↓) და დუბლირება (Shift+Alt+↓), შემდეგი იგივე სიტყვა (Ctrl+D),
@@ -21076,7 +21117,29 @@ const Live = {
     this.mine = null;
     this.eds = {};
     this.fs = {};
+    Store.set(LIVE_ON, { teacher: o.teacher, id: o.id, cls: o.cls, name: o.name, teacherName: o.teacherName || '' });
     UI.show('live');
+  },
+  // გვერდის განახლების შემდეგ: გაკვეთილი ისევ იხსნება, თუ ჯერ არ დასრულებულა (მასწავლებელს — თუ გასაღები ამ მოწყობილობაზეა)
+  async restore() {
+    const r = Store.get(LIVE_ON, null);
+    if (!r || !/^[A-HJ-NP-Z2-9]{10}$/.test(String(r.id))) return;
+    const k = Store.get(LIVE_KEY, null);
+    if (r.teacher && (!k || k.id !== r.id || !Account.s)) return Store.del(LIVE_ON);
+    const st = await this.fetchState(r.id);
+    if (!st || st.end) { Store.del(LIVE_ON); Store.del(LIVE_MINE); return; }
+    if (UI.cur !== 'menu') return;   // სანამ ვამოწმებდით, სხვაგან წავიდა
+    if (r.teacher) this.open({ teacher: true, id: r.id, key: k.key, cls: r.cls, name: r.name, teacherName: Account.s.name }, st);
+    else this.open({ teacher: false, id: r.id, cls: r.cls, name: r.name, teacherName: r.teacherName }, null);
+  },
+  // მოსწავლის დაფა: ამ გაკვეთილისა და ენისთვის შენახული
+  savedMine() {
+    const m = Store.get(LIVE_MINE, null), files = m && m.id === this.o.id && m.lang === this.o.lang && ftClean(m.files);
+    return files ? { files, dirs: ftDirs(m.dirs), file: files[m.file] != null ? m.file : Object.keys(files)[0], type: this.o.lang } : null;
+  },
+  saveMine() {
+    clearTimeout(this.mt);
+    this.mt = setTimeout(() => { const m = this.fs.m; if (this.o && m) Store.set(LIVE_MINE, { id: this.o.id, lang: this.o.lang, files: ftCap(m.files, LIVE_CHARS), dirs: m.dirs, file: m.file }); }, 500);
   },
   // დაფის ფაილები { files, dirs, file, type }; files არ არის — საწყისი კოდი. dirs — ცარიელი საქაღალდეები
   fresh(files, dirs) {
@@ -21127,7 +21190,7 @@ const Live = {
     this.eds = {};
     if (!o.teacher) {   // მოსწავლე: მასწავლებლის დაფა ივსება tick-ში; ჩემი დაფა რჩება, სანამ ენა არ შეიცვლება
       this.fs.t = this.fresh({ [file]: '' });
-      this.fs.m = this.mine = this.mine || this.fresh();
+      this.fs.m = this.mine = this.mine || this.savedMine() || this.fresh();
     }
     this.mountBoard('t', !o.teacher);
     if (!o.teacher) {
@@ -21137,6 +21200,7 @@ const Live = {
         const t = this.fs.t;
         this.fs.m = this.mine = { files: Object.assign({}, t.files), dirs: t.dirs.slice(), file: t.file, type: t.type };
         this.mountBoard('m', false);
+        this.saveMine();
         UI.toast('📋', 'მასწავლებლის კოდი შენს დაფაზეა', 'შეცვალე და გაუშვი!');
       });
     } else {
@@ -21236,7 +21300,7 @@ const Live = {
     if (v && this.fs[k] === s) v.innerHTML = '<pre class="lv-out">' + h + '</pre>';
     return h;
   },
-  edited(k) { if (k === 't' && this.o.teacher) this.changed(); },
+  edited(k) { if (k === 't' && this.o.teacher) this.changed(); else if (k === 'm') this.saveMine(); },
   // მოსწავლე: მასწავლებლის ახალი ფაილები — გახსნილი ფაილი რჩება, თუ ჯერ კიდევ არის
   setT(files, dirs) {
     const s = this.fs.t, main = STUDIO_FILE[this.o.lang], same = Object.keys(files).join('\n') === Object.keys(s.files).join('\n') && dirs.join('\n') === s.dirs.join('\n');
@@ -23689,6 +23753,7 @@ function init() {
   Paywall.checkReturn();   // Dodo Payments-ის გადახდიდან დაბრუნება (კოდის ჩასმას ანგარიში სჭირდება)
   Paywall.restore();       // Pro: ანგარიშზე მიბმული ხელმოწერილი ნიშანი
   Install.init();          // ტელეფონზე დაყენება (PWA)
+  Live.restore();          // გვერდი განახლდა გაკვეთილზე — ისევ იქ
   if (location.hash === '#download' && !IS_DESKTOP) Desktop.open();   // პირდაპირი ბმული: .../CodeQuest.html#download
   if (location.hash === '#testgen') testGenerated();
 }

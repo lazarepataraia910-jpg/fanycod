@@ -240,7 +240,11 @@ Pro ხსნის **🎬 ვიდეოებისა და პროექ
 
 ## 🐙 „Continue with GitHub“ (ცოცხალი გაკვეთილი)
 
-ცოცხალ გაკვეთილზე GitHub-ში შესვლის შემდეგ რეპო სიიდან აირჩევა (ჩატვირთვა, ⬆ Push, ტერმინალში `git clone`) — ბმული აღარ სჭირდება. ღილაკის ჩასართავად:
+ცოცხალ გაკვეთილზე GitHub-ში შესვლის შემდეგ რეპო სიიდან აირჩევა (ჩატვირთვა, ⬆ Push, ტერმინალში `git clone`) — ბმული აღარ სჭირდება.
+
+**უკვე მუშაობს, Vercel-ის ცვლადების გარეშე:** OAuth App „CodeQuest“ (Client ID `Ov23litXELhInnYVvBBX`, `api/account.js` → `GH_CLIENT_ID`) Device Flow-ით — ღილაკი აჩვენებს კოდს (მაგ. `B374-88C4`), მომხმარებელი მას github.com/login/device-ზე ადასტურებს, გვერდი კი თავად შედის. Client ID საჯაროა, საიდუმლო არ სჭირდება.
+
+**არჩევითი — ერთი დაჭერით (pop-up), კოდის გარეშე:**
 
 1. GitHub → **Settings → Developer settings → OAuth Apps → New OAuth App**:
    - Homepage URL: `https://codequest.space`

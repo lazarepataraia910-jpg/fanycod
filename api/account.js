@@ -768,8 +768,42 @@ function ghPage(res, msg) {
   return res.status(200).send('<!doctype html><meta charset="utf-8"><title>GitHub</title><body style="font:16px system-ui;padding:24px">' + (msg.ghToken ? 'შესვლა შედგა — ფანჯარა იხურება…' : 'GitHub-ში შესვლა ვერ მოხერხდა. დახურე ეს ფანჯარა და სცადე თავიდან.') +
     '<script>try{window.opener&&window.opener.postMessage(' + data + ',location.origin)}catch(e){}setTimeout(function(){window.close()},' + (msg.ghToken ? 300 : 4000) + ')</script>');
 }
+// OAuth App-ის Client ID საჯაროა (საიდუმლო არ არის): მისით მუშაობს „Device Flow“ — საიდუმლო გასაღებისა და Vercel-ის ცვლადების გარეშე.
+// GITHUB_CLIENT_SECRET-იც თუ არის, ღილაკი pop-up ფანჯრით შედის (?gh=start), თორემ — კოდით github.com/login/device-ზე
+const GH_CLIENT_ID = process.env.GITHUB_CLIENT_ID || 'Ov23litXELhInnYVvBBX';   // OAuth App „CodeQuest“ (lazarepataraia910-jpg), Device Flow ჩართულია
+/* POST ?gh=device → { mode: 'web' } ან { user_code, verification_uri, interval, expires_in, device_code };
+   POST ?gh=poll { device_code } → { token } ან { wait: true, interval } ან { error }. GitHub-ის ეს მისამართები ბრაუზერიდან (CORS) არ იხსნება, ამიტომ აქედან გადის */
+async function ghDevice(req, res) {
+  const gh = new URL(req.url || '/', 'http://x').searchParams.get('gh');
+  let b = req.body;
+  if (typeof b === 'string') { try { b = JSON.parse(b); } catch (e) { b = null; } }
+  if (!GH_CLIENT_ID) return res.status(503).json({ ok: false, error: 'no_oauth' });
+  const post = async (url, body) => {
+    const r = await fetch(url, { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(10000) });
+    return r.json();
+  };
+  try {
+    if (gh === 'device') {
+      if (process.env.GITHUB_CLIENT_SECRET) return res.status(200).json({ ok: true, mode: 'web' });
+      const j = await post('https://github.com/login/device/code', { client_id: GH_CLIENT_ID, scope: 'repo' });
+      if (!j.device_code) return res.status(502).json({ ok: false, error: j.error || 'github' });
+      return res.status(200).json({ ok: true, device_code: j.device_code, user_code: j.user_code, verification_uri: j.verification_uri, interval: j.interval || 5, expires_in: j.expires_in || 900 });
+    }
+    if (gh === 'poll') {
+      const dc = b && typeof b.device_code === 'string' && /^[\w-]{10,100}$/.test(b.device_code) ? b.device_code : '';
+      if (!dc) return res.status(400).json({ ok: false, error: 'bad_request' });
+      const j = await post('https://github.com/login/oauth/access_token', { client_id: GH_CLIENT_ID, device_code: dc, grant_type: 'urn:ietf:params:oauth:grant-type:device_code' });
+      if (j.access_token) return res.status(200).json({ ok: true, token: j.access_token });
+      if (j.error === 'authorization_pending' || j.error === 'slow_down') return res.status(200).json({ ok: true, wait: true, interval: j.interval || 0 });
+      return res.status(200).json({ ok: false, error: j.error || 'github' });
+    }
+  } catch (e) {
+    return res.status(502).json({ ok: false, error: 'github' });
+  }
+  return res.status(400).json({ ok: false, error: 'bad_request' });
+}
 async function ghOauth(req, res) {
-  const id = process.env.GITHUB_CLIENT_ID, secret = process.env.GITHUB_CLIENT_SECRET;
+  const id = GH_CLIENT_ID, secret = process.env.GITHUB_CLIENT_SECRET;
   if (!id || !secret) return ghPage(res, { ghError: 'no_oauth' });
   const q = new URL(req.url || '/', 'http://x').searchParams, host = String(req.headers['x-forwarded-host'] || req.headers.host || '');
   const proto = /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host) ? 'http' : 'https', back = proto + '://' + host + '/api/account?gh=cb';
@@ -799,6 +833,7 @@ module.exports = async (req, res) => {
   if (origin && !originOk(origin) && !sameHost(req, origin)) return res.status(403).json({ ok: false, error: 'bad_origin' });
   if (burst(clientIp(req))) return res.status(429).json({ ok: false, error: 'rate_limited' });
   if (req.method === 'GET' && /[?&]gh=/.test(req.url || '')) return ghOauth(req, res);
+  if (req.method === 'POST' && /[?&]gh=/.test(req.url || '')) return ghDevice(req, res);
   // მოსწავლის დაფა: GET ?live=ID — ყველასთვის ერთნაირი პასუხი, CDN-ში 1 წამით (ბაზას წამში ერთხელ მიმართავს)
   if (req.method === 'GET') {
     const id = normLive(new URL(req.url || '/', 'http://x').searchParams.get('live'));

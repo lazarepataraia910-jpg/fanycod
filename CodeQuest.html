@@ -855,7 +855,10 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .menu-foot a{color:inherit}
 /* ცოცხალი გაკვეთილი */
 .lv-page{max-width:1280px}
-.lv-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-bottom:16px}
+.lv-topbar h2{display:flex;align-items:center;gap:10px;min-width:200px}
+.lv-topbar .lv-ht small{display:block;font-size:.78rem;font-weight:400}
+@media (max-width:720px){.lv-topbar .lv-ht small{display:none}.lv-topbar{gap:6px 10px;padding:8px 12px}}
+.lv-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
 .lv-ht{flex:1;min-width:200px}
 .lv-ht b{display:block}
 .lv-ht small{color:var(--muted)}
@@ -917,6 +920,11 @@ pre.example{margin:.4em 0 0;background:var(--code-bg);border:1px solid var(--bor
 .qo-it small{color:var(--ink-muted)}
 .qo-it:hover,.qo-it.on{background:var(--bit-soft)}
 .gh-acct{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 8px}
+.gh-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px 16px;border:1px solid #d0d7de;border-radius:12px;background:#fff;color:#1f2328;font:600 1rem system-ui,sans-serif;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.gh-btn:hover:not(:disabled){background:#f6f8fa}
+.gh-btn:disabled{opacity:.6;cursor:progress}
+.gh-tokd{margin-top:12px}
+.gh-tokd summary{cursor:pointer;color:var(--ink-muted);font-size:.9rem}
 .lv-browser{display:flex;flex-direction:column;min-height:300px;overflow:hidden;border:1px solid #c4c7c5;border-radius:12px;background:#fff;box-shadow:0 8px 26px rgba(0,0,0,.12)}
 .lv-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#dee1e6}
 .lv-url{flex:1;overflow:hidden;padding:4px 12px;border-radius:99px;background:#fff;color:#3c4043;font:12px/1.5 system-ui,sans-serif;text-overflow:ellipsis;white-space:nowrap}
@@ -1925,7 +1933,7 @@ button.cq-xp:active{transform:translateY(3px);box-shadow:none}
   </section>
 
   <section id="scr-live" class="screen" aria-label="ცოცხალი გაკვეთილი">
-    <div class="topbar"><button class="btn small" data-go="back">← უკან</button><h2>🔴 ცოცხალი გაკვეთილი</h2></div>
+    <div class="topbar lv-topbar"><button class="btn small" data-go="back">← უკან</button><h2 id="live-title">🔴 ცოცხალი გაკვეთილი</h2><div class="lv-top" id="live-top"></div></div>
     <div class="page lv-page" id="live-body"></div>
   </section>
 
@@ -19494,31 +19502,54 @@ const GitImport = {
     await call('/git/refs/heads/' + encodeURIComponent(ref), { sha: c.sha }, 'PATCH');
     return { url: 'https://github.com/' + p.owner + '/' + p.repo + '/commit/' + c.sha, ref };
   },
-  // 🔑 შესვლა ტოკენით (ერთხელ, ამ ჩანართისთვის); after() — შემდეგ გასახსნელი ფანჯარა
+  // ტოკენის მიღება (OAuth ან ხელით): მომხმარებლის შემოწმება და შენახვა ამ ჩანართში
+  async useTok(tok) {
+    const r = await fetch('https://api.github.com/user', { headers: this.hdr(tok) }).catch(() => null);
+    if (!r || !r.ok) return r ? 'bad' : 'net';
+    this.tok = tok;
+    this.user = (await r.json()).login || '';
+    this.list = null;
+    try { sessionStorage.setItem('codequest.gh', tok); } catch (e) { }
+    return '';
+  },
+  // 🔑 შესვლა: „Continue with GitHub“ (OAuth, api/account.js → ?gh=start) ან ტოკენით; after() — შემდეგ გასახსნელი ფანჯარა
   login(after) {
-    const m = Modal.open('<h2>🔑 GitHub-ში შესვლა</h2><p class="muted">შესვლის შემდეგ რეპოს ბმული აღარ დაგჭირდება — სიიდან აირჩევ, პრივატულსაც. შექმენი ტოკენი: <b>Fine-grained</b> → Repository access — შენი რეპოები → Permissions → <b>Contents: Read and write</b>. ტოკენი მხოლოდ ამ ჩანართშია და დახურვისას იშლება.</p>' +
-      '<p><a class="btn small" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">ტოკენის შექმნა GitHub-ზე ↗</a></p>' +
-      '<input class="txt" id="gl-tok" type="password" style="width:100%;font-family:var(--mono)" autocomplete="off" spellcheck="false" placeholder="github_pat_…" aria-label="GitHub token">' +
-      '<p class="pj-err hidden" id="gl-err" role="alert"></p><div class="modal-actions"><button class="btn" data-close>გაუქმება</button><button class="btn primary" data-a="ok">შესვლა</button></div>');
-    const inp = m.querySelector('#gl-tok'), ok = m.querySelector('[data-a=ok]'), x = m.querySelector('#gl-err');
-    const go = async () => {
-      const tok = inp.value.trim();
-      if (!tok || ok.disabled) return;
-      ok.disabled = true;
-      const r = await fetch('https://api.github.com/user', { headers: this.hdr(tok) }).catch(() => null);
-      ok.disabled = false;
-      if (!r || !r.ok) { x.textContent = !r ? 'GitHub-თან კავშირი ვერ დამყარდა.' : 'ტოკენი არასწორია ან ვადა გაუვიდა.'; x.classList.remove('hidden'); return; }
-      this.tok = tok;
-      this.user = (await r.json()).login || '';
-      this.list = null;
-      try { sessionStorage.setItem('codequest.gh', tok); } catch (e) { }
+    const m = Modal.open('<h2>GitHub-ში შესვლა</h2><p class="muted">შესვლის შემდეგ რეპოს ბმული აღარ დაგჭირდება — სიიდან აირჩევ, პრივატულსაც. შესვლა მხოლოდ ამ ჩანართშია და დახურვისას იშლება.</p>' +
+      '<button type="button" class="gh-btn" data-a="oauth"><svg viewBox="0 0 16 16" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Continue with GitHub</button>' +
+      '<p class="pj-err hidden" id="gl-err" role="alert"></p>' +
+      '<details class="gh-tokd"><summary>ან შედი ტოკენით</summary><p class="muted" style="font-size:.88rem">შექმენი <b>Fine-grained</b> ტოკენი → Repository access — შენი რეპოები → Permissions → <b>Contents: Read and write</b>. <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">ტოკენის შექმნა ↗</a></p>' +
+      '<div style="display:flex;gap:8px"><input class="txt" id="gl-tok" type="password" style="flex:1;font-family:var(--mono)" autocomplete="off" spellcheck="false" placeholder="github_pat_…" aria-label="GitHub token"><button class="btn primary" data-a="ok">შესვლა</button></div></details>' +
+      '<div class="modal-actions"><button class="btn" data-close>გაუქმება</button></div>');
+    const inp = m.querySelector('#gl-tok'), ok = m.querySelector('[data-a=ok]'), x = m.querySelector('#gl-err'), oa = m.querySelector('[data-a=oauth]');
+    const fail = t => { x.textContent = t; x.classList.remove('hidden'); };
+    const done = async tok => {
+      const e = await this.useTok(tok);
+      if (e) return fail(e === 'net' ? 'GitHub-თან კავშირი ვერ დამყარდა.' : 'ტოკენი არასწორია ან ვადა გაუვიდა.');
+      window.removeEventListener('message', onMsg);
       Modal.close(m);
       UI.toast('🔑', 'შეხვედი GitHub-ში', this.user);
       if (after) after();
     };
+    // OAuth-ის ფანჯარა ტოკენს მხოლოდ ამავე საიტიდან გადმოგვცემს (e.origin და e.source შემოწმდება)
+    let pop = null;
+    const onMsg = e => {
+      if (e.origin !== location.origin || !pop || e.source !== pop || !e.data || typeof e.data !== 'object') return;
+      oa.disabled = false;
+      if (typeof e.data.ghToken === 'string' && e.data.ghToken) done(e.data.ghToken);
+      else fail(e.data.ghError === 'no_oauth' ? '„Continue with GitHub“ ჯერ არ არის ჩართული საიტზე (საჭიროა GitHub OAuth App) — შედი ტოკენით ქვემოთ.' : e.data.ghError === 'denied' ? 'GitHub-მა შესვლა არ დაადასტურა — სცადე თავიდან.' : 'შესვლა ვერ მოხერხდა — სცადე თავიდან.');
+    };
+    window.addEventListener('message', onMsg);
+    oa.addEventListener('click', () => {
+      x.classList.add('hidden');
+      pop = window.open('/api/account?gh=start', 'cq-github', 'width=620,height=760');
+      if (!pop) return fail('ბრაუზერმა ფანჯარა დაბლოკა — დაუშვი pop-up ამ საიტისთვის.');
+      oa.disabled = true;
+      const t = setInterval(() => { if (pop.closed) { clearInterval(t); oa.disabled = false; } }, 700);
+    });
+    const go = async () => { const tok = inp.value.trim(); if (!tok || ok.disabled) return; ok.disabled = true; await done(tok); ok.disabled = false; };
     ok.addEventListener('click', go);
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
-    setTimeout(() => inp.focus(), 60);
+    m.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => window.removeEventListener('message', onMsg)));
   },
   logout() {
     this.tok = this.user = '';
@@ -19538,7 +19569,7 @@ const GitImport = {
     const box = m.querySelector('.gh-repo');
     const ph = push ? 'github.com/user/repo' : 'github.com/user/repo ან .../tree/main/lec5';
     if (!this.tok) {
-      box.innerHTML = '<div class="gh-acct"><button type="button" class="btn small primary" data-gh="in">🔑 GitHub-ში შესვლა</button><span class="muted">— და რეპოს სიიდან აირჩევ. ან ჩაწერე ბმული:</span></div>' +
+      box.innerHTML = '<div class="gh-acct"><button type="button" class="btn small primary" data-gh="in">Continue with GitHub</button><span class="muted">— და რეპოს სიიდან აირჩევ. ან ჩაწერე ბმული:</span></div>' +
         '<input class="txt" id="gh-url" style="width:100%;font-family:var(--mono)" maxlength="300" autocomplete="off" spellcheck="false" placeholder="' + ph + '" aria-label="GitHub-ის რეპოს ბმული" value="' + esc(this.last) + '">';
       box.querySelector('[data-gh=in]').addEventListener('click', () => { Modal.close(m); this.login(again); });
       return () => box.querySelector('#gh-url').value;
@@ -21059,6 +21090,8 @@ const Live = {
   render() {
     const o = this.o, body = $('#live-body');
     clearTimeout(this.poll);
+    $('#live-title').textContent = '🔴 ცოცხალი გაკვეთილი';
+    $('#live-top').innerHTML = '';
     if (!o) { body.innerHTML = '<p class="muted cl-wait">გაკვეთილი არ არის.</p>'; return; }
     if (!o.lang) {   // მოსწავლე: ჯერ დაფის მდგომარეობა
       body.innerHTML = '<p class="muted cl-wait">⏳ ვუერთდები გაკვეთილს…</p>';
@@ -21084,12 +21117,12 @@ const Live = {
       (mine ? '<div class="vsc-acts"><button class="vsc-run" id="lv-run-' + k + '" title="გაშვება (Ctrl+Enter)">▶ გაშვება</button>' + (k === 'm' ? '<button class="vsc-btn" id="lv-copy" title="მასწავლებლის ფაილები ჩემს დაფაზე">📋 მასწავლებლის კოდი</button>' : '') + '</div>' : '') + '</div></div>' +
       '<div class="lv-browser"><div class="lv-bar"><span class="vsc-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="lv-url">🔒 codequest.run/' + (k === 't' ? 'teacher' : 'me') + '/' + esc(file) + '</span><button type="button" class="lv-hide" data-lv="side2" title="დამალვა — კოდს მეტი ადგილი">×</button></div>' +
       '<div class="lv-view" id="lv-view-' + k + '"><p class="lv-hint">' + (mine ? 'დააჭირე ▶ გაშვებას — შედეგი აქ გამოჩნდება' : 'როცა მასწავლებელი კოდს გაუშვებს, შედეგი აქ გამოჩნდება') + '</p></div></div></div></section>';
-    $('#live-body').innerHTML = '<div class="lv-head card"><span class="lv-dot" aria-hidden="true"></span><div class="lv-ht"><b>ცოცხალი გაკვეთილი · ' + esc(o.name) + '</b><small>' +
-      (o.teacher ? 'მოსწავლეები ცოცხლად ხედავენ ყველაფერს, რასაც აქ წერ და უშვებ' : 'მასწავლებელი: ' + esc(o.teacherName || '')) + '</small></div>' +
-      (o.teacher ? '<label class="lv-lang">ენა <select id="lv-lang">' + this.langOpts(o.lang) + '</select></label><button class="btn small danger" id="lv-end">⏹ დასრულება</button>'
+    $('#live-title').innerHTML = '<span class="lv-dot" aria-hidden="true"></span><span class="lv-ht"><b>ცოცხალი გაკვეთილი · ' + esc(o.name) + '</b><small>' +
+      (o.teacher ? 'მოსწავლეები ცოცხლად ხედავენ ყველაფერს, რასაც აქ წერ და უშვებ' : 'მასწავლებელი: ' + esc(o.teacherName || '')) + '</small></span>';
+    $('#live-top').innerHTML = (o.teacher ? '<label class="lv-lang">ენა <select id="lv-lang">' + this.langOpts(o.lang) + '</select></label><button class="btn small danger" id="lv-end">⏹ დასრულება</button>'
         : '<span class="lv-langbadge">' + (c ? langBadge(c.lang, true) + ' ' + esc(c.title) : '') + '</span>') +
-      '<span class="lv-st" id="lv-st"></span></div>' +
-      (o.teacher ? board('t', '👩‍🏫 ჩემი დაფა', 'მოსწავლეები ამას ხედავენ', true)
+      '<span class="lv-st" id="lv-st"></span>';
+    $('#live-body').innerHTML = (o.teacher ? board('t', '👩‍🏫 ჩემი დაფა', 'მოსწავლეები ამას ხედავენ', true)
         : board('t', '👩‍🏫 მასწავლებლის დაფა', 'ცოცხლად', false) + board('m', '🧑‍💻 ჩემი დაფა', 'აქ შენ წერ და უშვებ', true));
     this.eds = {};
     if (!o.teacher) {   // მოსწავლე: მასწავლებლის დაფა ივსება tick-ში; ჩემი დაფა რჩება, სანამ ენა არ შეიცვლება

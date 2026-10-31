@@ -754,11 +754,51 @@ const actions = {
   }
 };
 
+/* ---------- „Continue with GitHub“ (ცოცხალი გაკვეთილის GitHub: რეპოების სია, ჩატვირთვა, push) ----------
+   GitHub → Settings → Developer settings → OAuth Apps → New: Authorization callback URL = https://<საიტი>/api/account
+   Vercel-ში: GITHUB_CLIENT_ID და GITHUB_CLIENT_SECRET. ბაზა არ სჭირდება.
+   GET ?gh=start — GitHub-ის ნებართვის გვერდზე გადამისამართება (state — HttpOnly cookie-ში, 10 წთ);
+   GET ?gh=cb — code → ტოკენი; პასუხი პატარა გვერდია, რომელიც ტოკენს მხოლოდ იმავე საიტის გამხსნელ ფანჯარას (window.opener) გადასცემს და იხურება.
+   ტოკენი სერვერზე არ ინახება. */
+function ghPage(res, msg) {
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-store');
+  res.setHeader('Referrer-Policy', 'no-referrer');
+  const data = JSON.stringify(msg).replace(/</g, '\\u003c');
+  return res.status(200).send('<!doctype html><meta charset="utf-8"><title>GitHub</title><body style="font:16px system-ui;padding:24px">' + (msg.ghToken ? 'შესვლა შედგა — ფანჯარა იხურება…' : 'GitHub-ში შესვლა ვერ მოხერხდა. დახურე ეს ფანჯარა და სცადე თავიდან.') +
+    '<script>try{window.opener&&window.opener.postMessage(' + data + ',location.origin)}catch(e){}setTimeout(function(){window.close()},' + (msg.ghToken ? 300 : 4000) + ')</script>');
+}
+async function ghOauth(req, res) {
+  const id = process.env.GITHUB_CLIENT_ID, secret = process.env.GITHUB_CLIENT_SECRET;
+  if (!id || !secret) return ghPage(res, { ghError: 'no_oauth' });
+  const q = new URL(req.url || '/', 'http://x').searchParams, host = String(req.headers['x-forwarded-host'] || req.headers.host || '');
+  const proto = /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host) ? 'http' : 'https', back = proto + '://' + host + '/api/account?gh=cb';
+  const cookie = String(req.headers.cookie || '').split(/;\s*/).find(c => c.startsWith('cq_ghs='));
+  if (q.get('gh') === 'start') {
+    const state = crypto.randomBytes(16).toString('hex');
+    res.setHeader('Set-Cookie', 'cq_ghs=' + state + '; Path=/api; Max-Age=600; HttpOnly; SameSite=Lax' + (proto === 'https' ? '; Secure' : ''));
+    res.setHeader('Location', 'https://github.com/login/oauth/authorize?' + new URLSearchParams({ client_id: id, redirect_uri: back, scope: 'repo', state, allow_signup: 'true' }));
+    return res.status(302).end();
+  }
+  const state = cookie ? cookie.slice(7) : '', got = String(q.get('state') || '');
+  res.setHeader('Set-Cookie', 'cq_ghs=; Path=/api; Max-Age=0; HttpOnly; SameSite=Lax');
+  if (!state || state.length !== got.length || !crypto.timingSafeEqual(Buffer.from(state), Buffer.from(got)) || !q.get('code')) return ghPage(res, { ghError: 'state' });
+  try {
+    const r = await fetch('https://github.com/login/oauth/access_token', { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ client_id: id, client_secret: secret, code: q.get('code'), redirect_uri: back }), signal: AbortSignal.timeout(10000) });
+    const j = await r.json();
+    return ghPage(res, j.access_token ? { ghToken: j.access_token } : { ghError: 'denied' });
+  } catch (e) {
+    return ghPage(res, { ghError: 'server' });
+  }
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   const origin = String(req.headers.origin || '');
   if (origin && !originOk(origin) && !sameHost(req, origin)) return res.status(403).json({ ok: false, error: 'bad_origin' });
   if (burst(clientIp(req))) return res.status(429).json({ ok: false, error: 'rate_limited' });
+  if (req.method === 'GET' && /[?&]gh=/.test(req.url || '')) return ghOauth(req, res);
   // მოსწავლის დაფა: GET ?live=ID — ყველასთვის ერთნაირი პასუხი, CDN-ში 1 წამით (ბაზას წამში ერთხელ მიმართავს)
   if (req.method === 'GET') {
     const id = normLive(new URL(req.url || '/', 'http://x').searchParams.get('live'));

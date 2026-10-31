@@ -238,6 +238,18 @@ Pro ხსნის **🎬 ვიდეოებისა და პროექ
 
 > **შენიშვნა:** თამაში მთლიანად ბრაუზერში მუშაობს და მისი კოდი საჯაროა, ამიტომ ადამიანი, რომელიც ფაილს თავად ჩამოტვირთავს და შეცვლის, დაცვას მაინც აუვლის გვერდს. სრული დაცვისთვის ფასიანი შინაარსი სერვერიდან უნდა მიეწოდებოდეს, მომხმარებლის ანგარიშებით. კოდის შემოწმება მხოლოდ Vercel-ზე მუშაობს (GitHub Pages-სა და ლოკალურ ფაილზე ფუნქცია არ არის).
 
+## 🐙 „Continue with GitHub“ (ცოცხალი გაკვეთილი)
+
+ცოცხალ გაკვეთილზე GitHub-ში შესვლის შემდეგ რეპო სიიდან აირჩევა (ჩატვირთვა, ⬆ Push, ტერმინალში `git clone`) — ბმული აღარ სჭირდება. ღილაკის ჩასართავად:
+
+1. GitHub → **Settings → Developer settings → OAuth Apps → New OAuth App**:
+   - Homepage URL: `https://codequest.space`
+   - **Authorization callback URL:** `https://codequest.space/api/account` (ზუსტად ის დომენი, საიდანაც საიტს ხსნი)
+2. **Generate a new client secret**.
+3. Vercel → Project → **Settings → Environment Variables**: `GITHUB_CLIENT_ID` და `GITHUB_CLIENT_SECRET` → **Redeploy**.
+
+ტოკენი სერვერზე არ ინახება: `api/account.js` (`?gh=start` → GitHub → `?gh=cb`) მას მხოლოდ იმავე საიტის გამხსნელ ფანჯარას გადასცემს (`postMessage`), გვერდი კი ინახავს ამ ჩანართში (`sessionStorage`, დახურვისას იშლება). ნებართვა — `repo` (პრივატული რეპოებისთვისაც). სანამ ცვლადები არ არის, ღილაკი ამას იტყობინება და შესვლა ტოკენითაც შეიძლება.
+
 ## 💻 კომპიუტერის ვერსია (Windows, macOS, Linux)
 
 CodeQuest ცალკე პროგრამადაც არსებობს: საკუთარი ფანჯარა და ხატულა სამუშაო მაგიდაზე, ბრაუზერი არ სჭირდება. გადმოსაწერად საიტის მთავარ მენიუში დააჭირე **💻 კომპიუტერის ვერსია**, ან გახსენი [CodeQuest.html#download](https://codequest-lazare.vercel.app/CodeQuest.html#download). საიტი შენს სისტემას თავად ამოიცნობს.

@@ -758,7 +758,7 @@ const actions = {
    GitHub → Settings → Developer settings → OAuth Apps → New: Authorization callback URL = https://<საიტი>/api/account
    Vercel-ში: GITHUB_CLIENT_ID და GITHUB_CLIENT_SECRET. ბაზა არ სჭირდება.
    GET ?gh=start — GitHub-ის ნებართვის გვერდზე გადამისამართება (state — HttpOnly cookie-ში, 10 წთ);
-   GET ?gh=cb — code → ტოკენი; პასუხი პატარა გვერდია, რომელიც ტოკენს მხოლოდ იმავე საიტის გამხსნელ ფანჯარას (window.opener) გადასცემს და იხურება.
+   GET ?code=…&state=… (GitHub-იდან დაბრუნება) — code → ტოკენი; პასუხი პატარა გვერდია, რომელიც ტოკენს მხოლოდ იმავე საიტის გამხსნელ ფანჯარას (window.opener) გადასცემს და იხურება.
    ტოკენი სერვერზე არ ინახება. */
 function ghPage(res, msg) {
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -806,7 +806,7 @@ async function ghOauth(req, res) {
   const id = GH_CLIENT_ID, secret = process.env.GITHUB_CLIENT_SECRET;
   if (!id || !secret) return ghPage(res, { ghError: 'no_oauth' });
   const q = new URL(req.url || '/', 'http://x').searchParams, host = String(req.headers['x-forwarded-host'] || req.headers.host || '');
-  const proto = /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host) ? 'http' : 'https', back = proto + '://' + host + '/api/account?gh=cb';
+  const proto = /^(localhost|127\.0\.0\.1)(:\d+)?$/.test(host) ? 'http' : 'https', back = proto + '://' + host + '/api/account';   // ზუსტად ისე, როგორც OAuth App-ში
   const cookie = String(req.headers.cookie || '').split(/;\s*/).find(c => c.startsWith('cq_ghs='));
   if (q.get('gh') === 'start') {
     const state = crypto.randomBytes(16).toString('hex');
@@ -832,7 +832,8 @@ module.exports = async (req, res) => {
   const origin = String(req.headers.origin || '');
   if (origin && !originOk(origin) && !sameHost(req, origin)) return res.status(403).json({ ok: false, error: 'bad_origin' });
   if (burst(clientIp(req))) return res.status(429).json({ ok: false, error: 'rate_limited' });
-  if (req.method === 'GET' && /[?&]gh=/.test(req.url || '')) return ghOauth(req, res);
+  // GitHub აბრუნებს ზუსტად რეგისტრირებულ მისამართზე (/api/account, query-ის გარეშე): ?code=…&state=… ან ?error=…&state=…
+  if (req.method === 'GET' && /[?&](gh|state)=/.test(req.url || '')) return ghOauth(req, res);
   if (req.method === 'POST' && /[?&]gh=/.test(req.url || '')) return ghDevice(req, res);
   // მოსწავლის დაფა: GET ?live=ID — ყველასთვის ერთნაირი პასუხი, CDN-ში 1 წამით (ბაზას წამში ერთხელ მიმართავს)
   if (req.method === 'GET') {

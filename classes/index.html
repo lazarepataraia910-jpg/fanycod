@@ -23,7 +23,7 @@
 <header><div class="bar"><a class="brand" href="/">CodeQuest</a><nav aria-label="გვერდები"><a href="/videos/">ვიდეოები</a><a href="/projects/">პროექტები</a><a href="/classes/" aria-current="page">კლასები</a><a href="/learn/">სკოლა</a><a href="/CodeQuest.html">თამაში</a></nav></div></header>
 <main>
   <section class="hero">
-    <div class="art"><div class="board"><video controls playsinline preload="none" width="1280" height="720" poster="/classes/how.jpg" src="/classes/how.mp4" title="როგორ გამოვიყენო: კლასები"></video></div><div class="desks" aria-hidden="true"><i>🧑‍💻</i><i>👩‍💻</i><i>🧑‍💻</i><i>👨‍💻</i><i>👩‍💻</i></div></div>
+    <div class="art"><div class="board"><video controls playsinline autoplay muted loop preload="auto" width="1280" height="720" poster="/classes/how.jpg" src="/classes/how.mp4" title="როგორ გამოვიყენო: კლასები"></video><button class="snd" type="button">🔊 მუსიკის ჩართვა</button></div><div class="desks" aria-hidden="true"><i>🧑‍💻</i><i>👩‍💻</i><i>🧑‍💻</i><i>👨‍💻</i><i>👩‍💻</i></div></div>
     <span class="kicker">👩‍🏫 კლასები</span>
     <h1>ასწავლე პროგრამირება მთელ კლასს</h1>
     <p class="lead">შექმენი კლასი, მოსწავლეებს უთხარი კოდი და ნახე, ვინ რამდენი გაიარა და სად შეჩერდა. ცოცხალ გაკვეთილზე მოსწავლეები შენს დაფას რეალურ დროში ხედავენ.</p>
@@ -45,6 +45,10 @@
   <h2>ასევე CodeQuest-ში</h2>
   <div class="more"><a href="/videos/"><b>📺 ვიდეოები და პროექტები</b><small>უყურე ვიდეოს და იქვე დაწერე კოდი</small></a><a href="/projects/"><b>💻 ჩემი პროექტები</b><small>შენი პროექტები — შენს კომპიუტერში</small></a><a href="/learn/"><b>🎓 სკოლა</b><small>კურსები, თავები და ქვიზები</small></a></div>
 </main>
+<script>(() => { const v = document.querySelector('.art video'), b = document.querySelector('.art .snd');
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { v.autoplay = false; v.pause(); }
+  b.onclick = () => { v.muted = false; v.volume = 0.7; v.play(); };
+  v.addEventListener('volumechange', () => b.classList.toggle('hidden', !v.muted)); })();</script>
 <footer>CodeQuest © 2026 · <a href="/">მთავარი</a> · <a href="/privacy.html">კონფიდენციალურობა</a> · <a href="/terms.html">წესები</a></footer>
 </body>
 </html>

@@ -92,3 +92,11 @@ footer a{color:inherit}
 .vframe{border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px #33334a,0 14px 40px -12px rgba(255,59,71,.55)}
 .ide video{border-radius:0}
 .board video{border-radius:4px}
+/* ვიდეო თავისით იწყება უხმოდ (ბრაუზერის წესი) — ღილაკი მუსიკას რთავს */
+.vframe,.ide,.board{position:relative}
+.snd{position:absolute;top:12px;right:12px;z-index:1;padding:8px 14px;border:0;border-radius:999px;background:rgba(19,22,58,.88);color:#fff;font:700 .9rem "Noto Sans Georgian",system-ui,sans-serif;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.35);animation:snd-pulse 2s ease-in-out infinite}
+.ide .snd{top:46px}
+.snd.hidden{display:none}
+.snd:focus-visible{outline:3px solid #ffd43b;outline-offset:2px}
+@keyframes snd-pulse{50%{transform:scale(1.06)}}
+@media (prefers-reduced-motion:reduce){.snd{animation:none}}

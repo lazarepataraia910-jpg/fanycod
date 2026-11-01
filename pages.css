@@ -42,9 +42,7 @@ footer a{color:inherit}
 
 /* ===== თითო გვერდს თავისი სტილი: ვიდეოები — კინო, პროექტები — კოდის რედაქტორი, კლასები — საკლასო ოთახი ===== */
 .hero{grid-template-columns:minmax(0,1fr);align-items:center}
-.art{order:-1}
-@media (min-width:860px){.hero{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);column-gap:32px}.hero>:not(.art){grid-column:1}.art{order:0;grid-column:2;grid-row:1/span 4}}
-.art{min-width:0}
+.art{min-width:0;margin-top:28px}
 
 /* 📺 ვიდეოები — კინოს დარბაზი */
 .pg-videos{--bg:#0e0e13;--panel:#191921;--text:#f5f5f7;--muted:#a7a7b5;--border:#2c2c38;--accent:#ff3b47}

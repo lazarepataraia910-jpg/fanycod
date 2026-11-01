@@ -34,3 +34,66 @@ details{padding:10px 0;border-bottom:1px solid var(--border)}
 summary{font-weight:700;cursor:pointer}
 footer{padding:0 16px 32px;text-align:center;color:var(--muted);font-size:.9rem}
 footer a{color:inherit}
+
+/* ===== თითო გვერდს თავისი სტილი: ვიდეოები — კინო, პროექტები — კოდის რედაქტორი, კლასები — საკლასო ოთახი ===== */
+.hero{grid-template-columns:minmax(0,1fr);align-items:center}
+.art{order:-1}
+@media (min-width:860px){.hero{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);column-gap:32px}.hero>:not(.art){grid-column:1}.art{order:0;grid-column:2;grid-row:1/span 4}}
+.art{min-width:0}
+
+/* 📺 ვიდეოები — კინოს დარბაზი */
+.pg-videos{--bg:#0e0e13;--panel:#191921;--text:#f5f5f7;--muted:#a7a7b5;--border:#2c2c38;--accent:#ff3b47}
+.pg-videos .hero{border:0;box-shadow:0 30px 80px -30px rgba(255,59,71,.55);background:radial-gradient(120% 90% at 85% 10%,rgba(255,59,71,.28),transparent 60%),#17171f}
+.pg-videos .btn{border-color:#ff3b47;box-shadow:0 4px 0 0 #8f1520;background:#202029;color:#fff}
+.pg-videos .btn.primary{background:#ff3b47}
+.pg-videos .card{border:0;border-top:3px solid #ff3b47;background:#191921}
+.pg-videos h2::before{content:'▶ ';color:#ff3b47}
+.player{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#2a2a40,#0b0b10 60%),#000;box-shadow:0 0 0 1px #33334a}
+.player .play{position:absolute;inset:0;margin:auto;width:72px;height:52px;display:grid;place-items:center;border-radius:14px;background:#ff3b47;color:#fff;font-size:1.5rem;box-shadow:0 10px 30px rgba(255,59,71,.6)}
+.player .live{position:absolute;top:12px;left:12px;padding:2px 8px;border-radius:6px;background:rgba(0,0,0,.6);color:#fff;font-size:.75rem;font-weight:800}
+.player .prog{position:absolute;left:12px;right:12px;bottom:30px;height:4px;border-radius:4px;background:rgba(255,255,255,.25)}
+.player .prog i{display:block;width:51%;height:100%;border-radius:4px;background:#ff3b47}
+.player .time{position:absolute;left:12px;bottom:8px;color:#ddd;font-size:.75rem}
+.thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
+.thumbs i{padding:14px 4px 6px;border-radius:10px;background:linear-gradient(160deg,#2c2c44,#15151d);color:#ccc;font:700 .7rem/1 system-ui,sans-serif;font-style:normal;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* 💻 პროექტები — კოდის რედაქტორი */
+.pg-projects{--bg:#1e1e1e;--panel:#252526;--text:#d4d4d4;--muted:#9d9d9d;--border:#3c3c3c;--accent:#4fc1ff}
+.pg-projects h1,.pg-projects h2,.pg-projects .kicker{font-family:"JetBrains Mono","Noto Sans Georgian",ui-monospace,Consolas,monospace}
+.pg-projects h1{color:#fff}
+.pg-projects h2::before{content:'// ';color:#6a9955}
+.pg-projects .hero{border:1px solid #3c3c3c;border-top:3px solid #007acc;border-radius:10px;box-shadow:none;background:#252526}
+.pg-projects .btn{border-radius:6px;border-color:#3c3c3c;box-shadow:none;background:#333;color:#fff}
+.pg-projects .btn.primary{background:#007acc;border-color:#007acc}
+.pg-projects .card{border-radius:6px;border-left:3px solid #3ddc97}
+.pg-projects .card b{color:#4fc1ff}
+.pg-projects .more a{border-radius:6px}
+.ide{border-radius:10px;overflow:hidden;background:#1e1e1e;box-shadow:0 0 0 1px #3c3c3c,0 20px 50px -20px #000}
+.ide .tabs{display:flex;background:#2d2d2d;font:.78rem "JetBrains Mono",Consolas,monospace}
+.ide .tabs>*{padding:8px 12px;color:#9d9d9d;font-weight:400}
+.ide .tabs b{background:#1e1e1e;color:#fff;border-top:2px solid #007acc}
+.ide pre{margin:0;padding:14px 16px;overflow:auto;color:#d4d4d4;font:.85rem/1.6 "JetBrains Mono",Consolas,monospace}
+.ide .k{color:#569cd6}.ide .v{color:#9cdcfe}.ide .f{color:#dcdcaa}.ide .s{color:#ce9178}
+.ide .cur{display:inline-block;width:2px;height:1.1em;margin-left:2px;vertical-align:-2px;background:#fff;animation:pg-blink 1s steps(1) infinite}
+.ide .term{padding:8px 16px;border-top:1px solid #3c3c3c;background:#181818;color:#ccc;font:.8rem "JetBrains Mono",Consolas,monospace}
+.ide .term .s{color:#3ddc97}
+@keyframes pg-blink{50%{opacity:0}}
+
+/* 👩‍🏫 კლასები — საკლასო ოთახი: რვეულის ფურცელი, დაფა და სტიკერები */
+.pg-classes{--bg:#fffdf6;--panel:#ffffff;--text:#2b2118;--muted:#6e6050;--border:#e8dcc4;--accent:#e8590c;
+  background:linear-gradient(90deg,transparent 46px,#f3a6a6 46px,#f3a6a6 48px,transparent 48px),repeating-linear-gradient(transparent 0 31px,#d6e4f5 31px 32px),#fffdf6}
+.pg-classes .hero{border:3px solid #2b2118;box-shadow:6px 6px 0 #e8590c;background:#fff}
+.pg-classes .btn{border-color:#2b2118;box-shadow:0 4px 0 #2b2118}
+.pg-classes .btn.primary{background:#e8590c}
+.pg-classes .card{border:0;border-radius:2px;background:#fff3bf;box-shadow:0 8px 16px -10px rgba(0,0,0,.35);transform:rotate(-1deg)}
+.pg-classes .card:nth-child(2n){background:#d3f9d8;transform:rotate(1deg)}
+.pg-classes .card:nth-child(3n){background:#d0ebff}
+.pg-classes h2{display:inline-block;padding:0 8px;background:linear-gradient(transparent 55%,#ffd8a8 55%)}
+.board{position:relative;padding:22px 22px 30px;border:12px solid #a0703c;border-radius:10px;background:#2f5340;color:#f1f3e8;font:1rem/1.7 "Noto Sans Georgian",system-ui,sans-serif;box-shadow:inset 0 0 40px rgba(0,0,0,.35),0 14px 30px -14px rgba(0,0,0,.5)}
+.board p{margin:0;white-space:pre;overflow:hidden;text-overflow:ellipsis}
+.board p:first-child{margin-bottom:8px;text-decoration:underline wavy rgba(241,243,232,.5)}
+.board p:not(:first-child){font-family:"JetBrains Mono",Consolas,monospace;color:#ffe066}
+.board .chalk{position:absolute;right:16px;bottom:-10px;width:44px;height:8px;border-radius:3px;background:#fff}
+.desks{display:flex;justify-content:space-around;margin-top:10px;font-size:1.6rem}
+.desks i{font-style:normal}
+@media (prefers-reduced-motion:reduce){.ide .cur{animation:none}}

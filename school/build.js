@@ -356,7 +356,7 @@ fs.copyFileSync(path.join(ROOT, 'icons', 'icon-192.png'), path.join(OUT, 'logo.p
   fs.writeFileSync(path.join(OUT, 'data.json'), JSON.stringify({ xp: XP, courses: courses.map(c => ({ s: c.slug, t: c.title, i: c.icon || '📘', l: LOGO[c.slug] || '', c: c.color || '#3ddc97', p: c.planned, full: c.full, items: c.items.map(it => [it.id, it.title, it.kind[0]]) })) }));
   // shortcut: ძებნის ინდექსი ერთი JSON-ია (სათაური, ტეგები, აღწერა, ტექსტის პირველი 1500 სიმბოლო) — 10 000 თავზე ~2–3 MB; სრულ ტექსტზე ძებნა თუ დაგჭირდა, გადადი Pagefind-ზე
   fs.writeFileSync(path.join(OUT, 'search.json'), JSON.stringify(courses.flatMap(c => [{ u: url(c.slug), t: c.title, c: 'კურსი', d: c.description || '', g: c.topic || '', x: '' }].concat(c.items.map(it => ({ u: url(it.id), t: it.title, c: c.title, d: it.doc.meta.description || it.description || '', g: (Array.isArray(it.doc.meta.tags) ? it.doc.meta.tags : []).join(' '), x: it.doc.text.slice(0, 1500) }))))));
-  const sm = ['/', '/CodeQuest.html', '/privacy.html', '/terms.html'].concat(pages.filter(p => !p.noindex).map(p => url(p.path)));
+  const sm = ['/', '/CodeQuest.html', '/videos/', '/projects/', '/classes/', '/privacy.html', '/terms.html'].concat(pages.filter(p => !p.noindex).map(p => url(p.path)));
   fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + sm.map(u => '  <url><loc>' + SITE + u + '</loc></url>').join('\n') + '\n</urlset>\n');
   return { pages: pages.length, total };
 }

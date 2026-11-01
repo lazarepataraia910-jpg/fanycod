@@ -102,3 +102,9 @@ footer a{color:inherit}
 .desks{display:flex;justify-content:space-around;margin-top:10px;font-size:1.6rem}
 .desks i{font-style:normal}
 @media (prefers-reduced-motion:reduce){.ide .cur{animation:none}}
+
+/* „როგორ გამოვიყენო“ — ვიდეოინსტრუქცია */
+.how video{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:16px;background:#000;box-shadow:0 18px 40px -20px rgba(0,0,0,.5)}
+.pg-videos .how video{box-shadow:0 0 0 1px #33334a,0 20px 60px -20px rgba(255,59,71,.6)}
+.pg-projects .how video{border-radius:10px;box-shadow:0 0 0 1px #3c3c3c}
+.pg-classes .how video{border:10px solid #a0703c;border-radius:12px}

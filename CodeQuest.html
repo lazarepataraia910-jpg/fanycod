@@ -1401,7 +1401,7 @@ html[data-theme="light"] .modal,html[data-theme="light"] .toast{background:#fff;
 .gm-mode small{color:var(--muted);font-size:.76rem;line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .gm-mode .go,.gm-mini .go{flex:none;color:var(--muted);font-size:1.4rem;line-height:1;transition:transform .15s,color .15s}
 .gm-mode:hover .go{transform:translateX(3px);color:var(--c1)}
-.gm-mode .pro-chip{margin-left:4px;vertical-align:1px}
+.gm-mode .pro-chip{display:inline-flex;align-items:center;gap:4px;margin-left:4px;vertical-align:1px;line-height:1.5}
 .gm-mode.done .gm-em::after{content:'✓';position:absolute;right:-6px;top:-6px;width:22px;height:22px;display:grid;place-items:center;border-radius:50%;background:#3ddc97;color:#0b2e20;font-size:.8rem;font-weight:900;box-shadow:0 0 0 2px #0f1548}
 .gm-card{min-height:132px;border:1px solid var(--border);border-radius:20px;background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .gm-langcard{display:flex;align-items:center;gap:14px;width:100%;padding:16px;color:var(--text);text-align:left;transition:transform .18s,border-color .18s}
@@ -17690,7 +17690,7 @@ const Menu = {
     $('#hm-levels').parentNode.title = c.title + ' — შენი პროგრესი';
     const pb = $('#m-pro'), pro = Progress.hasPro();
     pb.classList.toggle('on', pro);
-    pb.innerHTML = pro ? '👑 Pro ✓' : '👑 Pro<span class="pro-pr"> · ' + PRO.price + '</span><span class="pro-more"> — ყველა ლეველი</span>';
+    pb.innerHTML = pxIcon('crown', 14, 'var(--xp)') + (pro ? ' Pro ✓' : ' Pro<span class="pro-pr"> · ' + PRO.price + '</span><span class="pro-more"> — ყველა ლეველი</span>');
     pb.title = pro ? 'Pro ჩართულია' : 'Pro-ს ყიდვა';
     $('#menu-streak').innerHTML = Streak.card();
     // გაგრძელება და ენა
@@ -17714,7 +17714,7 @@ const Menu = {
     const gDone = STUDIO_GUIDES.filter(g => Studio.done(g.id).length === g.steps.length).length;
     const nVid = Object.values(STUDIO_VIDEOS).reduce((a, l) => a + l.length, 0), nNotes = Studio.notes().length;
     $('#m-studio-sub').textContent = pro ? nVid + ' ვიდეო · ' + STUDIO_GUIDES.length + ' პროექტი' + (nNotes ? ' · 📒 ' + nNotes + ' ჩანაწერი' : '') + (gDone ? ' · ✓ ' + gDone + ' აწყობილი' : '') : 'ვიდეოები, კოდის რედაქტორი ▶ Run-ით და პროექტები';
-    $('#m-studio-chip').textContent = pro ? '👑 ✓' : '👑 Pro';
+    $('#m-studio-chip').innerHTML = pxIcon('crown', 12, 'var(--xp)') + (pro ? pxIcon('check', 12) : 'Pro');
     $('#m-studio-chip').classList.toggle('on', pro);
     // 🚩 ქვესთები და 💻 ჩემი პროექტები (მხოლოდ Pro + კომპიუტერის ვერსია)
     $('#m-quests-ic').innerHTML = pxIcon('flag', 34, 'var(--xp)', null, 'px');
@@ -17723,6 +17723,7 @@ const Menu = {
     $('#m-projects-ic').innerHTML = pxIcon('laptop', 34, 'var(--bit)', null, 'px');
     $('#m-projects-sub').textContent = !Projects.api() ? 'Windows-ის პროგრამაში · 1 უფასოა' : pro ? 'შენი კოდი — შენს კომპიუტერში' : '1 პროექტი უფასოა · მეტი — Pro';
     $('#m-projects-chip').innerHTML = pxIcon('crown', 12, 'var(--xp)') + (pro ? pxIcon('check', 12) : 'Pro');
+    $('#m-projects-chip').classList.toggle('on', pro);
     $('#m-projects-chip').classList.toggle('on', pro);
     $('#hm-year').textContent = new Date().getFullYear();
   }
@@ -22461,8 +22462,8 @@ const Account = {
     $('#m-account-sub').textContent = this.s ? this.statusShort() : 'ან რეგისტრაცია';
     b.title = this.s ? this.s.name + ' — ' + this.statusText() : (IS_DESKTOP ? 'შესვლა ან რეგისტრაცია — Pro-სთვის და კლასისთვის' : 'შესვლა ან რეგისტრაცია — შეინახე პროგრესი ყველა მოწყობილობაზე');
     $('#mn-hi').textContent = this.s ? '👋 გამარჯობა, ' + this.s.name + '!' : '🎮 ბიტის თავგადასავალი';
-    $('#m-class-sub').textContent = !this.s ? 'მასწავლებლისა და მოსწავლისთვის' : Progress.hasPro() ? 'შეუერთდი კლასს ან შექმენი შენი' : '👑 Pro · კლასი და ცოცხალი გაკვეთილი';
-    $('#m-school-sub').textContent = (Progress.hasPro() ? '' : '👑 Pro · ') + 'თავები, ქვიზები, სავარჯიშოები';
+    $('#m-class-sub').innerHTML = !this.s ? 'მასწავლებლისა და მოსწავლისთვის' : Progress.hasPro() ? 'შეუერთდი კლასს ან შექმენი შენი' : pxIcon('crown', 11, 'var(--xp)') + ' Pro · კლასი და ცოცხალი გაკვეთილი';
+    $('#m-school-sub').innerHTML = (Progress.hasPro() ? '' : pxIcon('crown', 11, 'var(--xp)') + ' Pro · ') + 'თავები, ქვიზები, სავარჯიშოები';
   },
   /* ---- შესვლა და რეგისტრაცია ---- */
   // შესვლის შემდეგ: ანგარიშის და ამ მოწყობილობის პროგრესი. ორივეს თუ აქვს, ვეკითხებით (ნაგულისხმევად — გაერთიანება)
